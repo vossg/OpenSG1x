@@ -156,8 +156,10 @@ void ConnectionFactory::subPointType(ConnectionType *type)
     TypeMap::iterator i=_pointMap.find(type->getName());
     if(i != _pointMap.end() && i->second == type)
         _pointMap.erase(i);
-    SINFO << "Point connection type " << type->getName() 
-          << " removed" << std::endl;
+    // At this point, the Log is already destroyed
+    //SINFO << "Point connection type " << type->getName() 
+    //      << " removed" << std::endl;
+
 }
 
 /*! remove group type
@@ -167,8 +169,9 @@ void ConnectionFactory::subGroupType(ConnectionType *type)
     TypeMap::iterator i=_groupMap.find(type->getName());
     if(i != _groupMap.end() && i->second == type)
         _groupMap.erase(i);
-    SINFO << "Group connection type " << type->getName() 
-          << " removed" << std::endl;
+    // At this point, the Log is already destroyed
+    //SINFO << "Group connection type " << type->getName() 
+    //      << " removed" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/

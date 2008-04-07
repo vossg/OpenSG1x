@@ -412,20 +412,17 @@ Log::~Log(void)
 
 bool Log::initLock(void)
 {
-    fprintf(stderr, "Log::initLock: creating log lock.\n");
-
     _pLogLock = Lock::get("OSG::Log::_pLogLock");
-    
-    if(_pLogLock == NULL)
-    {
-        fprintf(stderr, "Log::initLock: creating log lock failed.\n");
-    }
-    else
-    {
-        fprintf(stderr, "Log::initLock: creating log lock succeeded.\n");
-    }
-    
+    addRefP(_pLogLock);
+
+    addSystemExitFunction(&Log::finalizeLock);
+
     return true;
+}
+
+bool Log::finalizeLock(void)
+{
+    clearRefP(_pLogLock);
 }
 
 /*------------------------------ access -----------------------------------*/
@@ -936,6 +933,7 @@ void Log::terminate(void)
 #endif
 
     delete osgLogP;
+    osgLogP = NULL;
 
     delete [] Log::_buffer;
 
@@ -969,6 +967,10 @@ OSG_END_NAMESPACE
 
 void OSG::doInitLog(void)
 {
+    // Make sure no one reanimates the Log from the dead
+    if (GlobalSystemState == Shutdown)
+        abort();
+
 #ifdef OSG_HAS_NILBUF
     if(Log::_nilbufP == NULL)
         Log::_nilbufP = new Log::nilbuf();

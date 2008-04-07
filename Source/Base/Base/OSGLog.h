@@ -251,7 +251,9 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
     /*! \{                                                                 */
 
     static bool initLock(void);
-    
+
+    static bool finalizeLock(void);
+
            void lock    (void);
            void unlock  (void);
 

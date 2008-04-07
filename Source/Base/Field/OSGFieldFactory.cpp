@@ -59,7 +59,8 @@ std::map<UInt32, FieldType *> *FieldFactory::_fieldTypeM  = NULL;
 
 FieldFactory::~FieldFactory(void)
 {
-    SINFO << "INFO: Destroy Singleton FieldFactory" << std::endl;
+    // At this point, the Log is already destroyed
+    //SINFO << "INFO: Destroy Singleton FieldFactory" << std::endl;
 }
 
 /*-------------------------------------------------------------------------*/
