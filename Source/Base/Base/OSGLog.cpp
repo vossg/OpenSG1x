@@ -423,6 +423,7 @@ bool Log::initLock(void)
 bool Log::finalizeLock(void)
 {
     clearRefP(_pLogLock);
+    return true;
 }
 
 /*------------------------------ access -----------------------------------*/
