@@ -233,6 +233,20 @@ std::ostream &Log::doHeader(      LogLevel  level,
     return sout;
 }
 
+inline LogLock::LogLock(std::ostream &os): _os(os)
+{
+}
+
+inline LogLock::~LogLock()
+{
+    osgLogP->unlock();
+}
+
+inline LogLock::operator std::ostream &()
+{
+    return _os;
+}
+
 inline 
 void initLog(void) 
 {
@@ -270,13 +284,10 @@ std::ostream &osgStartLog(      bool      logHeader,
         return osgLogP->nilstream();
 }
 
+// This function is deprecated, use the std::endl instead!
 inline  
 std::ostream &endLog(std::ostream &strm)
 {
-    initLog();
-
-    osgLogP->unlock();
-    
     strm << std::endl;
     return strm;
 }
