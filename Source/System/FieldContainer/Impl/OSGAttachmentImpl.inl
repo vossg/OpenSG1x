@@ -491,6 +491,10 @@ DynFieldAttachment<AttachmentDescT>::DynFieldAttachment(
 template <class AttachmentDescT> inline
 DynFieldAttachment<AttachmentDescT>::~DynFieldAttachment(void)
 {
+    for(UInt32 i = _dynFieldsV.size(); i > 0; --i)
+    {
+        this->subField(Inherited::NextFieldId + i - 1);
+    }
 }
 
 OSG_END_NAMESPACE

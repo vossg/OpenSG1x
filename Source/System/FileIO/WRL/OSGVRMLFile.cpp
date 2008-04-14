@@ -150,12 +150,11 @@ VRMLFile::VRMLFile(void) :
 
 VRMLFile::~VRMLFile(void)
 {
-    // deleting (*it).first on linux leads to a crash why????
     // delete the factory.
     for(NodeNameDescHash::iterator it=_mNodeDescHash.begin();it!=_mNodeDescHash.end();++it)
     {
-        //delete [] (*it).first;
-        delete (*it).second;
+        delete [] (*it).first;
+        delete    (*it).second;
     }
 
     _mNodeDescHash.clear();

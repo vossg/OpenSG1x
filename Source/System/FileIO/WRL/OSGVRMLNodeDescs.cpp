@@ -567,6 +567,7 @@ void VRMLNodeDesc::dump(const Char8 *szNodeName)
     fprintf(stderr, "\t\tGenAtt        %p\n", &(*_pGenAtt));
     fprintf(stderr, "\t\tNodeProto     %p\n", &(*_pNodeProto));
     fprintf(stderr, "\t\tNodeCoreProto %p\n", &(*_pNodeCoreProto));
+    fprintf(stderr, "\t\t{\n");
 
     std::string stringVal;
 
@@ -593,6 +594,7 @@ void VRMLNodeDesc::dump(const Char8 *szNodeName)
                     stringVal.c_str());
         }
     }
+    fprintf(stderr, "\t\t}\n");
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1379,7 +1381,7 @@ void VRMLGeometryDesc::endNode(FieldContainerPtr pFC)
                 createConvexPrimitives( pGeo );
 
             // TODO: Need some option _uiOptions param
-						createSharedIndex( pGeo);
+            createSharedIndex( pGeo);
 
             //if((0 != (_uiOptions & VRMLFile::CreateNormals) )    &&
             //   (pGeo->getNormals() == NullFC))
@@ -1495,8 +1497,9 @@ void VRMLGeometryDesc::addFieldValue(      Field *pField,
 /*-------------------------------------------------------------------------*/
 /*                                Dump                                     */
 
-void VRMLGeometryDesc::dump(const Char8 *)
+void VRMLGeometryDesc::dump(const Char8 *szNodeName)
 {
+    Inherited::dump(szNodeName);
 }
 
 
@@ -2055,6 +2058,9 @@ VRMLGeometryPartDesc::VRMLGeometryPartDesc(Char8 *szVRMLPartname,
 
 VRMLGeometryPartDesc::~VRMLGeometryPartDesc(void)
 {
+    delete [] _szVRMLPartname;
+    delete [] _szOSGPartname;
+    delete [] _szOSGProtoname;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -2232,6 +2238,7 @@ VRMLGeometryObjectDesc::VRMLGeometryObjectDesc(Char8 *szVRMLObjectname) :
 
 VRMLGeometryObjectDesc::~VRMLGeometryObjectDesc(void)
 {
+    delete [] _szVRMLObjectname;
 }
 
 /*-------------------------------------------------------------------------*/
