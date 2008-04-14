@@ -194,6 +194,13 @@ SFBool *ShadowViewportBase::getSFAutoExcludeTransparentNodes(void)
     return &_sfAutoExcludeTransparentNodes;
 }
 
+//! Get the ShadowViewport::_sfDisableOccludedLights field.
+inline
+SFBool *ShadowViewportBase::getSFDisableOccludedLights(void)
+{
+    return &_sfDisableOccludedLights;
+}
+
 //! Get the ShadowViewport::_sfRed field.
 inline
 SFBool *ShadowViewportBase::getSFRed(void)
@@ -475,6 +482,27 @@ void ShadowViewportBase::setAutoExcludeTransparentNodes(const bool &value)
     _sfAutoExcludeTransparentNodes.setValue(value);
 }
 
+//! Get the value of the ShadowViewport::_sfDisableOccludedLights field.
+inline
+bool &ShadowViewportBase::getDisableOccludedLights(void)
+{
+    return _sfDisableOccludedLights.getValue();
+}
+
+//! Get the value of the ShadowViewport::_sfDisableOccludedLights field.
+inline
+const bool &ShadowViewportBase::getDisableOccludedLights(void) const
+{
+    return _sfDisableOccludedLights.getValue();
+}
+
+//! Set the value of the ShadowViewport::_sfDisableOccludedLights field.
+inline
+void ShadowViewportBase::setDisableOccludedLights(const bool &value)
+{
+    _sfDisableOccludedLights.setValue(value);
+}
+
 //! Get the value of the ShadowViewport::_sfRed field.
 inline
 bool &ShadowViewportBase::getRed(void)
@@ -604,5 +632,5 @@ const MFNodePtr &ShadowViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.12 2006/12/01 18:12:43 a-m-z Exp $"
+#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.13 2008/04/14 11:30:41 yjung Exp $"
 

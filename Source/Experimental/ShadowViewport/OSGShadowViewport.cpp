@@ -1390,9 +1390,14 @@ NodePtr ShadowViewport::getLightRoot(UInt32 index)
 
 void ShadowViewport::checkLightsOcclusion(RenderActionBase *action)
 {
+    if ( !getDisableOccludedLights() )
+    {
+        return;
+    }
+    
     RenderAction *ract = dynamic_cast<RenderAction *>(action);
 
-    if(ract == NULL)
+    if (ract == NULL)
         return;
 
     for(UInt32 i = 0;i < _lights.size();i++)
@@ -1504,7 +1509,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.31 2007/06/13 16:51:56 yjung Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.32 2008/04/14 11:30:41 yjung Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

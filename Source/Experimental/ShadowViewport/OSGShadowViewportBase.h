@@ -81,6 +81,7 @@
 #include <OSGReal32Fields.h> // GlobalShadowIntensity type
 #include <OSGBoolFields.h> // FboOn type
 #include <OSGBoolFields.h> // AutoExcludeTransparentNodes type
+#include <OSGBoolFields.h> // DisableOccludedLights type
 #include <OSGBoolFields.h> // Red type
 #include <OSGBoolFields.h> // Blue type
 #include <OSGBoolFields.h> // Green type
@@ -122,7 +123,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
         GlobalShadowIntensityFieldId       = AutoSearchForLightsFieldId         + 1,
         FboOnFieldId                       = GlobalShadowIntensityFieldId       + 1,
         AutoExcludeTransparentNodesFieldId = FboOnFieldId                       + 1,
-        RedFieldId                         = AutoExcludeTransparentNodesFieldId + 1,
+        DisableOccludedLightsFieldId       = AutoExcludeTransparentNodesFieldId + 1,
+        RedFieldId                         = DisableOccludedLightsFieldId       + 1,
         BlueFieldId                        = RedFieldId                         + 1,
         GreenFieldId                       = BlueFieldId                        + 1,
         AlphaFieldId                       = GreenFieldId                       + 1,
@@ -143,6 +145,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     static const OSG::BitVector GlobalShadowIntensityFieldMask;
     static const OSG::BitVector FboOnFieldMask;
     static const OSG::BitVector AutoExcludeTransparentNodesFieldMask;
+    static const OSG::BitVector DisableOccludedLightsFieldMask;
     static const OSG::BitVector RedFieldMask;
     static const OSG::BitVector BlueFieldMask;
     static const OSG::BitVector GreenFieldMask;
@@ -187,6 +190,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
            SFReal32            *getSFGlobalShadowIntensity(void);
            SFBool              *getSFFboOn          (void);
            SFBool              *getSFAutoExcludeTransparentNodes(void);
+           SFBool              *getSFDisableOccludedLights(void);
            SFBool              *getSFRed            (void);
            SFBool              *getSFBlue           (void);
            SFBool              *getSFGreen          (void);
@@ -216,6 +220,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
      const bool                &getFboOn          (void) const;
            bool                &getAutoExcludeTransparentNodes(void);
      const bool                &getAutoExcludeTransparentNodes(void) const;
+           bool                &getDisableOccludedLights(void);
+     const bool                &getDisableOccludedLights(void) const;
            bool                &getRed            (void);
      const bool                &getRed            (void) const;
            bool                &getBlue           (void);
@@ -248,6 +254,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
      void setGlobalShadowIntensity( const Real32 &value );
      void setFboOn          ( const bool &value );
      void setAutoExcludeTransparentNodes( const bool &value );
+     void setDisableOccludedLights( const bool &value );
      void setRed            ( const bool &value );
      void setBlue           ( const bool &value );
      void setGreen          ( const bool &value );
@@ -308,6 +315,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     SFReal32            _sfGlobalShadowIntensity;
     SFBool              _sfFboOn;
     SFBool              _sfAutoExcludeTransparentNodes;
+    SFBool              _sfDisableOccludedLights;
     SFBool              _sfRed;
     SFBool              _sfBlue;
     SFBool              _sfGreen;
@@ -389,6 +397,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.12 2006/12/01 18:12:43 a-m-z Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.13 2008/04/14 11:30:41 yjung Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */
