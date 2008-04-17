@@ -20,8 +20,8 @@ II_FILESDIR          :=
 
 ### Defines #######################################################
 
-COMPILERVERSION := $(shell $(CC) 2>&1 | head -1 | cut -d' ' -f 8)
-COMPILERMAJORVERSION := $(shell $(CC) 2>&1 | head -1 | cut -d' ' -f 8 | sed -e 's/\..*//')
+COMPILERVERSION := $(shell $(CC) 2>&1 | sed -e '1!d' -e 's/.* \([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*\) .*/\1/')
+COMPILERMAJORVERSION := $(shell $(CC) 2>&1 | sed -e '1!d' -e 's/.* \([0-9]*\)\.[0-9]*\.[0-9]*\.[0-9]* .*/\1/')
 
 ifeq ($(CONFIGURED_GVBETA),1)
 DEF_GVBETA := -DOSG_GV_BETA
@@ -87,7 +87,7 @@ LANG_FLAGS          =
 #-GX
 ifeq ($(COMPILERMAJORVERSION), 14)
 # Cl.net 2005 options
-COMPILER    		=  -EHsc -FD -GR -Zm1200
+COMPILER    		= -nologo -EHsc -FD -GR -Zm1200
 
 # Need to have the Framework SDK
 # Yes, this is a hack
