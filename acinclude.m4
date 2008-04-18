@@ -391,6 +391,18 @@ AC_DEFUN(AC_GDZ_GUESS_COMPILER_DIR_AND_EXE,
             ;;
 
 
+            cl.net2008*|cl9*)
+            AC_GDZ_SETUP_MSVCNET8("Microsoft Visual Studio 9.0")
+        
+            if test "$enable_stlport" = yes; then
+                ac_gdz_stl_suffix=.stlport
+            else
+                ac_gdz_stl_suffix=.ms_stl
+            fi
+
+            ;;
+
+
             cl.net*)
             AC_GDZ_SETUP_MSVCNET("Microsoft Visual Studio.NET" "Microsoft Visual Studio .NET")
         

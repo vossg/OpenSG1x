@@ -85,18 +85,23 @@ LANG_FLAGS          =
 
 #-Qvc6 -Qansi
 #-GX
-ifeq ($(COMPILERMAJORVERSION), 14)
-# Cl.net 2005 options
-COMPILER    		= -nologo -EHsc -FD -GR -Zm1200
-
-# Need to have the Framework SDK
-# Yes, this is a hack
-LIBPATHS_$(OS_BASE) := $(LIBPATH_OPTION)"C:\Program Files\Microsoft Platform SDK\Lib"   $(LIBPATHS_$(OS_BASE))
-INCL_$(OS_BASE) := $(INC_OPTION)"C:\Program Files\Microsoft Platform SDK\Include"   $(INCL_$(OS_BASE))
-
+ifeq ($(COMPILERMAJORVERSION), 15)
+  # Cl.net 2008 options
+  COMPILER = -nologo -EHsc -FD -GR -Zm1200
 else
-# other cl.net options
-COMPILER    		=  -GX -FD -GR -Zm1200
+  ifeq ($(COMPILERMAJORVERSION), 14)
+    # Cl.net 2005 options
+    COMPILER = -nologo -EHsc -FD -GR -Zm1200
+
+    # Need to have the Framework SDK
+    # Yes, this is a hack
+    LIBPATHS_$(OS_BASE) := $(LIBPATH_OPTION)"C:\Program Files\Microsoft Platform SDK\Lib"   $(LIBPATHS_$(OS_BASE))
+    INCL_$(OS_BASE) := $(INC_OPTION)"C:\Program Files\Microsoft Platform SDK\Include"   $(INCL_$(OS_BASE))
+
+  else
+    # other cl.net options
+    COMPILER = -GX -FD -GR -Zm1200
+  endif
 endif
 
 ifeq ($(LNK),lnk)
@@ -108,12 +113,17 @@ COMPILER_RUNTIME_OPT    = -MD
 endif
 
 CCFLAGS_EXT_OPT  := -O2 -Ob1 -MD
-ifeq ($(COMPILERMAJORVERSION), 14)
-# Cl.net 2005 options
-CCFLAGS_EXT_DBG  := -ZI -Od -RTC1 -D_DEBUG -DOSG_DEBUG -MDd
+ifeq ($(COMPILERMAJORVERSION), 15)
+    # Cl.net 2008 options
+    CCFLAGS_EXT_DBG := -ZI -Od -RTC1 -D_DEBUG -DOSG_DEBUG -MDd
 else
-# other cl.net options
-CCFLAGS_EXT_DBG  := -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd
+  ifeq ($(COMPILERMAJORVERSION), 14)
+    # Cl.net 2005 options
+    CCFLAGS_EXT_DBG := -ZI -Od -RTC1 -D_DEBUG -DOSG_DEBUG -MDd
+  else
+    # other cl.net options
+    CCFLAGS_EXT_DBG := -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG -MDd
+  endif
 endif
 
 ### Optimize / Debug ###############################################
@@ -127,15 +137,20 @@ ifeq ($(DEBUG_VERSION), 0)
 	COMP_DEBUG       = 
         COMPILER_RUNTIME = $(COMPILER_RUNTIME_OPT)
 else
-	COMP_OPTIMIZE    =
-ifeq ($(COMPILERMAJORVERSION), 14)
-# Cl.net 2005 options
-	COMP_DEBUG       =  -ZI -Od -D_DEBUG -DOSG_DEBUG
-else
-# other cl.net options
-	COMP_DEBUG       =  -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG
-endif
-        COMPILER_RUNTIME = $(COMPILER_RUNTIME_DBG)
+  COMP_OPTIMIZE    =
+  ifeq ($(COMPILERMAJORVERSION), 15)
+    # Cl.net 2008 options
+    COMP_DEBUG = -ZI -Od -D_DEBUG -DOSG_DEBUG
+  else
+    ifeq ($(COMPILERMAJORVERSION), 14)
+      # Cl.net 2005 options
+      COMP_DEBUG = -ZI -Od -D_DEBUG -DOSG_DEBUG
+    else
+      # other cl.net options
+      COMP_DEBUG = -ZI -Od -GZ -D_DEBUG -DOSG_DEBUG
+    endif
+  endif
+  COMPILER_RUNTIME = $(COMPILER_RUNTIME_DBG)
 endif
 
 ### Compiler Flags ################################################
