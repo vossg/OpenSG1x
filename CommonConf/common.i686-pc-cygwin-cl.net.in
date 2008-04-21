@@ -87,11 +87,11 @@ LANG_FLAGS          =
 #-GX
 ifeq ($(COMPILERMAJORVERSION), 15)
   # Cl.net 2008 options
-  COMPILER = -nologo -EHsc -FD -GR -Zm1200
+  COMPILER = -EHsc -FD -GR -Zm1200
 else
   ifeq ($(COMPILERMAJORVERSION), 14)
     # Cl.net 2005 options
-    COMPILER = -nologo -EHsc -FD -GR -Zm1200
+    COMPILER = -EHsc -FD -GR -Zm1200
 
     # Need to have the Framework SDK
     # Yes, this is a hack
