@@ -131,17 +131,8 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
                             getEyeSeparation(),
                             getLeftEye() ? 0.f : 1.f,
                             getOverlap());
+    result.mult(trans);
 }
-
-void ShearedStereoCameraDecorator::getProjectionTranslation(Matrix &result,
-                                                            UInt32 width,
-                                                            UInt32 height)
-{
-    result.setIdentity();
-    Real32 rEye = getEyeSeparation() * ((getLeftEye() ? 0.5f : -0.5f));
-    result[3][0] = rEye;
-}
-
 
 void ShearedStereoCameraDecorator::getDecoration(Matrix &result, 
                                                  UInt32 width, UInt32 height)
