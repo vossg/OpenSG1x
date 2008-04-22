@@ -1145,6 +1145,9 @@ class win32_msvc80x64(win32_msvc_base):
         win32_msvc_base.__init__(self, 'win32-msvc80x64')
         env = self.get_env()
 
+        if _po.getOption('exr'):
+            env['OSG_SYSTEM_LIBS'] += ['openexr']
+
         env.Append(CPPDEFINES =['WIN64'])
         # disables extra checks in the STL.
         if _po.getOption('no_secure_stl'):
