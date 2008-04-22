@@ -112,9 +112,9 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
         result.setIdentity();
         return;
     }
-       
+
     PerspectiveCameraPtr cam = PerspectiveCameraPtr::dcast(getDecoratee());
-    
+
     if(cam == NullFC)
     {
         FFATAL(("ShearedStereoCameraDecorator::getProjection: can only"
@@ -122,7 +122,7 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
         result.setIdentity();
         return;
     }
-    
+
     Matrix trans;
     MatrixStereoPerspective(result, trans, cam->getFov(), 
                             width / (Real32) height * cam->getAspect(), 
@@ -131,12 +131,20 @@ void ShearedStereoCameraDecorator::getProjection( Matrix &result,
                             getEyeSeparation(),
                             getLeftEye() ? 0.f : 1.f,
                             getOverlap());
-    
-    result.mult(trans);
-}                                       
+}
 
-void ShearedStereoCameraDecorator::getDecoration(Matrix        &result, 
-												 UInt32 width, UInt32 height)
+void ShearedStereoCameraDecorator::getProjectionTranslation(Matrix &result,
+                                                            UInt32 width,
+                                                            UInt32 height)
+{
+    result.setIdentity();
+    Real32 rEye = getEyeSeparation() * ((getLeftEye() ? 0.5f : -0.5f));
+    result[3][0] = rEye;
+}
+
+
+void ShearedStereoCameraDecorator::getDecoration(Matrix &result, 
+                                                 UInt32 width, UInt32 height)
 {
     if(width == 0 || height == 0)
     {
