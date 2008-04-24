@@ -1250,6 +1250,41 @@ dnl ############# typed fcptr Settings #################
 AC_ARG_ENABLE(pthread_elf_tls,     [  --enable-pthread-elf-tls            enable elf tls if pthreads are used, tested on redhat 9 only ],
 			,enable_pthread_elf_tls=no) 
 
+dnl ############# Mac OS X Sys Root Settings #####################
+
+AC_ARG_WITH(macosx_sysroot,     [  --with-macosx-sysroot=DIR           use the SDK under the specified path (Mac OS X only)],
+			,with_macosx_sysroot=) 
+
+if test "X$with_macosx_sysroot" = X; then
+	ac_gdz_macosx_sysroot_compiler=
+	ac_gdz_macosx_sysroot_linker=
+else
+	ac_gdz_macosx_sysroot_compiler=-isysroot $with_macosx_sysroot
+	ac_gdz_macosx_sysroot_linker=-Wl,-syslibroot,$with_macosx_sysroot
+fi
+
+dnl ############# Mac OS X Minimum Version Settings #####################
+
+AC_ARG_WITH(macosx_version_min,     [  --with-macosx-version-min=VER       compile for the specified version of Mac OS X (Mac OS X only)],
+			,with_macosx_version_min=) 
+
+if test "X$with_macosx_version_min" = X; then
+	ac_gdz_macosx_version_min=
+else
+	ac_gdz_macosx_version_min=-mmacosx-version-min=$with_macosx_version_min
+fi
+
+dnl ############# Mac OS X Architecture Settings #####################
+
+AC_ARG_WITH(macosx_archs,     [  --with-macosx-archs=ARCHS           compile for the specified architecture(s) (ppc, i386) (Mac OS X only)],
+			,with_macosx_archs=) 
+
+ac_gdz_macosx_archs=
+for arch in $with_macosx_archs
+do
+	ac_gdz_macosx_archs=$ac_gdz_macosx_archs -arch $arch
+done
+
 dnl ############# Add Path Settings #####################
 
 AC_ARG_WITH(add-incdir,   [  --with-add-incdir=DIR{:DIR}*        use additional include directories (no spaces allowed) ],
@@ -1825,6 +1860,11 @@ AC_SUBST(ac_gdz_compiler_logo_e1)
 AC_SUBST(ac_gdz_bison_exe_flags_e1)
 
 AC_SUBST(ac_gdz_libarch)
+
+AC_SUBST(ac_gdz_macosx_sysroot_compiler)
+AC_SUBST(ac_gdz_macosx_sysroot_linker)
+AC_SUBST(ac_gdz_macosx_version_min)
+AC_SUBST(ac_gdz_macosx_archs)
 
 AC_SUBST_FILE(ac_gdz_common_patterns)
 AC_SUBST_FILE(ac_gdz_common_system)

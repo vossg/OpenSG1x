@@ -55,6 +55,11 @@ OS_BUILD_BASE        := @ac_gdz_os_buildbase@
 OS_CMPLR             := @ac_gdz_compiler_base@
 OS_CMPLR_DEF         := @ac_gdz_compiler_base_def@
 
+MACOSX_SYSROOT_COMPILER := @ac_gdz_macosx_sysroot_compiler@
+MACOSX_SYSROOT_LINKER   := @ac_gdz_macosx_sysroot_linker@
+MACOSX_VERSION_MIN      := @ac_gdz_macosx_version_min@
+MACOSX_ARCHS            := @ac_gdz_macosx_archs@
+
 @ac_gdz_common_patterns@
 
 CONFIGURED_QT           :=@ac_gdz_conf_package_qt_e1@

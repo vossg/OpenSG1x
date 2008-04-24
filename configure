@@ -188,6 +188,12 @@ ac_help="$ac_help
 ac_help="$ac_help
   --enable-pthread-elf-tls            enable elf tls if pthreads are used, tested on redhat 9 only "
 ac_help="$ac_help
+  --with-macosx-sysroot=DIR           use the SDK under the specified path (Mac OS X only)"
+ac_help="$ac_help
+  --with-macosx-version-min=VER       compile for the specified version of Mac OS X (Mac OS X only)"
+ac_help="$ac_help
+  --with-macosx-archs=ARCHS           compile for the specified architecture(s) (ppc, i386) (Mac OS X only)"
+ac_help="$ac_help
   --with-add-incdir=DIR{:DIR}*        use additional include directories (no spaces allowed) "
 ac_help="$ac_help
   --with-add-libdir=DIR{:DIR}*        use additional library directories (no spaces allowed) "
@@ -2418,6 +2424,55 @@ else
   enable_pthread_elf_tls=no
 fi
  
+
+# Check whether --with-macosx-sysroot or --without-macosx-sysroot was given.
+if test "${with_macosx_sysroot+set}" = set; then
+  withval="$with_macosx_sysroot"
+  :
+else
+  with_macosx_sysroot=
+fi
+ 
+
+if test "X$with_macosx_sysroot" = X; then
+	ac_gdz_macosx_sysroot_compiler=
+	ac_gdz_macosx_sysroot_linker=
+else
+	ac_gdz_macosx_sysroot_compiler="-isysroot $with_macosx_sysroot"
+	ac_gdz_macosx_sysroot_linker="-Wl,-syslibroot,$with_macosx_sysroot"
+fi
+
+
+# Check whether --with-macosx-version-min or --without-macosx-version-min was given.
+if test "${with_macosx_version_min+set}" = set; then
+  withval="$with_macosx_version_min"
+  :
+else
+  with_macosx_version_min=
+fi
+ 
+
+if test "X$with_macosx_version_min" = X; then
+	ac_gdz_macosx_version_min=
+else
+	ac_gdz_macosx_version_min="-mmacosx-version-min=$with_macosx_version_min"
+fi
+
+
+# Check whether --with-macosx-archs or --without-macosx-archs was given.
+if test "${with_macosx_archs+set}" = set; then
+  withval="$with_macosx_archs"
+  :
+else
+  with_macosx_archs=
+fi
+ 
+
+ac_gdz_macosx_archs=
+for arch in $with_macosx_archs
+do
+	ac_gdz_macosx_archs="$ac_gdz_macosx_archs -arch $arch"
+done
 
 
 # Check whether --with-add-incdir or --without-add-incdir was given.
@@ -4741,6 +4796,10 @@ s%@ac_gdz_mpatrol_libs_e1@%$ac_gdz_mpatrol_libs_e1%g
 s%@ac_gdz_compiler_logo_e1@%$ac_gdz_compiler_logo_e1%g
 s%@ac_gdz_bison_exe_flags_e1@%$ac_gdz_bison_exe_flags_e1%g
 s%@ac_gdz_libarch@%$ac_gdz_libarch%g
+s%@ac_gdz_macosx_sysroot_compiler@%$ac_gdz_macosx_sysroot_compiler%g
+s%@ac_gdz_macosx_sysroot_linker@%$ac_gdz_macosx_sysroot_linker%g
+s%@ac_gdz_macosx_version_min@%$ac_gdz_macosx_version_min%g
+s%@ac_gdz_macosx_archs@%$ac_gdz_macosx_archs%g
 /@ac_gdz_common_patterns@/r $ac_gdz_common_patterns
 s%@ac_gdz_common_patterns@%%g
 /@ac_gdz_common_system@/r $ac_gdz_common_system
@@ -13522,6 +13581,8 @@ chmod +x $CONFIG_STATUS
 rm -fr confdefs* $ac_clean_files
 test "$no_create" = yes || ${CONFIG_SHELL-/bin/sh} $CONFIG_STATUS || exit 1
 
+    else
+        cp /usr/include/FlexLexer.h $ac_gdz_flexlexer_fix_out_e21
     fi
 
     ;;

@@ -2693,6 +2693,8 @@ dnl    ac_gdz__fix_out_e16=$ac_gdz_package_sub_dir_out/Base/
 
     if ((${build_os_version}<9)); then
         AC_OUTPUT($ac_gdz_flexlexer_fix_out_e21:$ac_gdz_flexlexer_fix_in_e21)
+    else
+        cp /usr/include/FlexLexer.h $ac_gdz_flexlexer_fix_out_e21
     fi
 ])
 
