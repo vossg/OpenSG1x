@@ -181,19 +181,37 @@ Surface::~Surface(void)
 
 void Surface::initMethod (void)
 {
-    DrawAction::registerEnterDefault( getClassType(),
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          MaterialDrawablePtr,
-                                          CNodePtr,
-                                          Action *>
-                                          (&MaterialDrawable::drawActionHandler));
-  
-    RenderAction::registerEnterDefault( getClassType(),
-        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          SurfacePtr,
-                                          CNodePtr,
-                                          Action *>
-                                          (&Geometry::renderActionHandler));
+    DrawAction::registerEnterDefault(
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialDrawablePtr,
+            CNodePtr,
+            Action *            >(&MaterialDrawable::drawActionEnterHandler));
+            
+    DrawAction::registerLeaveDefault(
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialDrawablePtr,
+            CNodePtr,
+            Action *            >(&MaterialDrawable::drawActionLeaveHandler));
+            
+    RenderAction::registerEnterDefault(
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            SurfacePtr,
+            CNodePtr,
+            Action *            >(&Geometry::renderActionEnterHandler));
+            
+    RenderAction::registerLeaveDefault(
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            SurfacePtr,
+            CNodePtr,
+            Action *            >(&Geometry::renderActionLeaveHandler));
    
     IntersectAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,

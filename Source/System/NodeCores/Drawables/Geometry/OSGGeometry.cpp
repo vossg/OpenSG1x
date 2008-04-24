@@ -139,10 +139,16 @@ const char *Geometry::mapType(UInt8 type)
 
 void Geometry::initMethod(void)
 {
+    // DrawAction
     DrawAction::registerEnterDefault(getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
-              CNodePtr, Action *>(&MaterialDrawable::drawActionHandler));
+              CNodePtr, Action *>(&MaterialDrawable::drawActionEnterHandler));
+    
+    DrawAction::registerLeaveDefault(getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
+              CNodePtr, Action *>(&MaterialDrawable::drawActionLeaveHandler));
 
+    // IntersectAction
     IntersectAction::registerEnterDefault(getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, GeometryPtr,
               CNodePtr, Action *>(&Geometry::intersect));
@@ -155,9 +161,14 @@ void Geometry::initMethod(void)
             ActorBase::FunctorArgumentType &>(&Geometry::intersectActor),
         getClassType());
 
+    // RenderAction
     RenderAction::registerEnterDefault(getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
-              CNodePtr, Action *>(&MaterialDrawable::renderActionHandler));
+              CNodePtr, Action *>(&MaterialDrawable::renderActionEnterHandler));
+    
+    RenderAction::registerLeaveDefault(getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
+              CNodePtr, Action *>(&MaterialDrawable::renderActionLeaveHandler));
 }
 
 
@@ -420,7 +431,6 @@ void Geometry::adjustVolume(Volume & volume)
     {
         // use cached volume.
         volume.setValid();
-        volume.setEmpty();
         volume.extendBy(_volume);
         return;
     }
@@ -429,7 +439,6 @@ void Geometry::adjustVolume(Volume & volume)
     GeoPositionsPtr pos = getPositions();
 
     volume.setValid();
-    volume.setEmpty();
 
     if(pos == NullFC)
     {

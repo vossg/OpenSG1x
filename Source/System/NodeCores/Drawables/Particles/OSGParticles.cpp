@@ -90,14 +90,28 @@ void Particles::initMethod (void)
                                           ParticlesPtr  ,
                                           CNodePtr      ,
                                           Action       *>
-                                       (&MaterialDrawable::drawActionHandler));
+                                       (&MaterialDrawable::drawActionEnterHandler));
+                                       
+    DrawAction::registerLeaveDefault( getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          ParticlesPtr  ,
+                                          CNodePtr      ,
+                                          Action       *>
+                                       (&MaterialDrawable::drawActionLeaveHandler));
 
     RenderAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
                                           ParticlesPtr  ,
                                           CNodePtr      ,
                                           Action       *>
-                                       (&MaterialDrawable::renderActionHandler));
+                                       (&MaterialDrawable::renderActionEnterHandler));
+    
+    RenderAction::registerLeaveDefault( getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+                                          ParticlesPtr  ,
+                                          CNodePtr      ,
+                                          Action       *>
+                                       (&MaterialDrawable::renderActionLeaveHandler));
 }
 
 /***************************************************************************\

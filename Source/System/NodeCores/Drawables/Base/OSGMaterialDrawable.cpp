@@ -91,15 +91,15 @@ Action::ResultE MaterialDrawable::drawPrimitives (DrawActionBase *)
   return Action::Continue;
 }
 
-Action::ResultE MaterialDrawable::renderActionHandler(Action *action)
+Action::ResultE MaterialDrawable::renderActionEnterHandler(Action *action)
 {
-    RenderAction *a = dynamic_cast<RenderAction *>(action);
-
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+        
     Material::DrawFunctor func;
     func = osgTypedMethodFunctor1ObjPtr(this, 
                                         &MaterialDrawable::drawPrimitives);
 
-    Material* m = a->getMaterial();
+    Material* m = ra->getMaterial();
 
     if(m == NULL)
     {
@@ -114,16 +114,34 @@ Action::ResultE MaterialDrawable::renderActionHandler(Action *action)
         }
     }
 
-    a->dropFunctor(func, m);
+    ra->dropFunctor(func, m);
+    
+    if(ra->pushVisibility())
+    {
+        if(ra->selectVisibles() == 0)
+        {
+            ra->popVisibility();
+            return Action::Skip;
+        }
+    }
 
     return Action::Continue;
 }
 
-Action::ResultE MaterialDrawable::drawActionHandler(Action * action )
+Action::ResultE MaterialDrawable::renderActionLeaveHandler(Action *action)
+{
+    RenderAction *ra = dynamic_cast<RenderAction *>(action);
+
+    ra->popVisibility();
+    
+    return Action::Continue;
+}
+
+Action::ResultE MaterialDrawable::drawActionEnterHandler(Action *action)
 {
     DrawAction *a = dynamic_cast<DrawAction*>(action);
     Material::DrawFunctor func;
-
+        
     func=osgTypedMethodFunctor1ObjPtr(&(*this), 
                                       &MaterialDrawable::drawPrimitives);
 
@@ -140,9 +158,17 @@ Action::ResultE MaterialDrawable::drawActionHandler(Action * action )
         getDefaultMaterial()->draw( func, a );
         FWARNING(("MaterialDrawable::draw:: no material!\n"));;
     }
+    
+    if(a->selectVisibles() == 0)
+        return Action::Skip;
+    
     return Action::Continue;
 }
     
+Action::ResultE MaterialDrawable::drawActionLeaveHandler(Action *action)
+{
+    return Action::Continue;
+}
 
 void MaterialDrawable::initMethod (void)
 {
@@ -177,7 +203,7 @@ void MaterialDrawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.7 2003/11/01 01:57:26 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.8 2008/04/24 00:56:29 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 

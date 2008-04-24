@@ -107,17 +107,36 @@ Slices::~Slices(void)
 
 void Slices::initMethod (void)
 {
-    DrawAction::registerEnterDefault( getClassType(),
-                                    osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                          MaterialDrawablePtr  ,
-                                    CNodePtr      ,
-                                    Action       *>(&MaterialDrawable::drawActionHandler));
+    DrawAction::registerEnterDefault(
+         getClassType(),
+         osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialDrawablePtr,
+            CNodePtr,
+            Action *            >(&MaterialDrawable::drawActionEnterHandler));
+    DrawAction::registerLeaveDefault(
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialDrawablePtr,
+            CNodePtr,
+            Action *            >(&MaterialDrawable::drawActionLeaveHandler));
   
-    RenderAction::registerEnterDefault( getClassType(),
-                                      osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
-                                      MaterialDrawablePtr  ,
-                                      CNodePtr      ,
-                                      Action       *>(&MaterialDrawable::renderActionHandler));
+    RenderAction::registerEnterDefault(
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialDrawablePtr,
+            CNodePtr,
+            Action *            >(&MaterialDrawable::renderActionEnterHandler));
+            
+    RenderAction::registerLeaveDefault(
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<
+            Action::ResultE,
+            MaterialDrawablePtr,
+            CNodePtr,
+            Action *            >(&MaterialDrawable::renderActionLeaveHandler));
   
     IntersectAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,

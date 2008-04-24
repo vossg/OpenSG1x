@@ -68,9 +68,11 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialDrawable : public MaterialDrawableBase
     /*! \{                                                                 */
 
     // draw the OpenGL primitives
-    virtual Action::ResultE drawPrimitives (DrawActionBase *action);
-    Action::ResultE drawActionHandler      (Action * action );
-    Action::ResultE renderActionHandler    (Action * action );
+    virtual Action::ResultE drawPrimitives  (DrawActionBase *action );
+    Action::ResultE drawActionEnterHandler  (Action         *action );
+    Action::ResultE drawActionLeaveHandler  (Action         *action );
+    Action::ResultE renderActionEnterHandler(Action         *action );
+    Action::ResultE renderActionLeaveHandler(Action         *action );
 
     //Action::ResultE intersect            (Action * action );
 
@@ -138,6 +140,6 @@ OSG_END_NAMESPACE
 #include <OSGMaterialDrawableBase.inl>
 #include <OSGMaterialDrawable.inl>
 
-#define OSGMATERIALDRAWABLE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawable.h,v 1.4 2005/06/30 17:17:47 a-m-z Exp $"
+#define OSGMATERIALDRAWABLE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawable.h,v 1.5 2008/04/24 00:56:29 neumannc Exp $"
 
 #endif /* _OSGMATERIALDRAWABLE_H_ */
