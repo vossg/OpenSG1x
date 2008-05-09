@@ -138,64 +138,60 @@ DistanceLOD::~DistanceLOD(void)
 
 Action::ResultE DistanceLOD::draw(Action *action)
 {
-    DrawActionBase *da        = dynamic_cast<DrawActionBase *>(action);
-    RenderAction   *ra        = dynamic_cast<RenderAction   *>(action);
+    action->useNodeList();
 
-    UInt32          numLevels = action->getNNodes();
-    UInt32          numRanges = getMFRange()->size();
+    UInt32 numLevels = action->getNNodes();
+    if (numLevels == 0)
+        return Action::Continue;
 
-    UInt32          limit     = osgMin(numLevels, numRanges); 
-    
-    Int32           index     = -1;
+    DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
+    Int32 index;
 
-    Pnt3f            eyepos(0.f, 0.f, 0.f);
-    Pnt3f            objpos;
-
-    da->getCameraToWorld().mult(eyepos);
-
-    if(ra != NULL)
+    const MFReal32 &range = getRange();
+    UInt32 numRanges = range.size();
+    if (numRanges == 0)
     {
-        ra->top_matrix()              .mult(getCenter(), objpos);
+        index = 0;
     }
     else
     {
-        da->getActNode()->getToWorld().mult(getCenter(), objpos);
-    }
-        
-    Real32 dist = osgsqrt((eyepos[0] - objpos[0])*(eyepos[0] - objpos[0]) +
-                          (eyepos[1] - objpos[1])*(eyepos[1] - objpos[1]) +
-                          (eyepos[2] - objpos[2])*(eyepos[2] - objpos[2]));
-    
-    da->useNodeList();
-    
-    if(numRanges != 0 && numLevels!=0 )
-    {
-        if(dist < (*(getMFRange()))[0])
+        Pnt3f eyepos;
+        da->getCameraToWorld().mult(eyepos);
+
+        Pnt3f objpos;
+        RenderAction *ra = dynamic_cast<RenderAction *>(action);
+        if(ra != NULL)
         {
-            index = 0;
-        } 
-        else if(dist >= (*(getMFRange()))[numRanges-1])
-        {
-	    index = (numLevels > numRanges) ? numRanges : (limit-1); 
+            ra->top_matrix().mult(getCenter(), objpos);
         }
         else
         {
-            UInt32 i = 1;
-
-            while( (i < numRanges) && 
-                  !( ((*(getMFRange()))[i-1] <= dist) && 
-                     (dist < (*(getMFRange()))[i]   )   ) )
-            {
-                i++;
-            }
-            
-            index = osgMin(i, limit-1);
-        } 
-        
-        if(da->isVisible(action->getNode(index).getCPtr()))
-        {
-            da->addNode(action->getNode(index));
+            da->getActNode()->getToWorld().mult(getCenter(), objpos);
         }
+
+        Real32 dist = eyepos.dist(objpos);
+
+        if (numRanges >= numLevels)
+            numRanges = numLevels - 1;
+
+        if (dist >= range[numRanges - 1])
+        {
+            index = numRanges;
+        }
+        else
+        {
+            for (index = 0; index < numRanges; ++index)
+            {
+                if (dist < range[index])
+                    break;
+            }
+        }
+    }
+
+    const NodePtr nodePtr = action->getNode(index);
+    if(da->isVisible(nodePtr.getCPtr()))
+    {
+        da->addNode(nodePtr);
     }
 
     return Action::Continue;
