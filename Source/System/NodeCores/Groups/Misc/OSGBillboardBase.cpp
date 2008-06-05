@@ -110,27 +110,27 @@ FieldDescription *BillboardBase::_desc[] =
                      "axisOfRotation", 
                      AxisOfRotationFieldId, AxisOfRotationFieldMask,
                      false,
-                     (FieldAccessMethod) &BillboardBase::getSFAxisOfRotation),
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFAxisOfRotation)),
     new FieldDescription(SFBool::getClassType(), 
                      "focusOnCamera", 
                      FocusOnCameraFieldId, FocusOnCameraFieldMask,
                      false,
-                     (FieldAccessMethod) &BillboardBase::getSFFocusOnCamera),
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFFocusOnCamera)),
     new FieldDescription(SFBool::getClassType(), 
                      "alignToScreen", 
                      AlignToScreenFieldId, AlignToScreenFieldMask,
                      false,
-                     (FieldAccessMethod) &BillboardBase::getSFAlignToScreen),
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFAlignToScreen)),
     new FieldDescription(SFReal32::getClassType(), 
                      "minAngle", 
                      MinAngleFieldId, MinAngleFieldMask,
                      false,
-                     (FieldAccessMethod) &BillboardBase::getSFMinAngle),
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFMinAngle)),
     new FieldDescription(SFReal32::getClassType(), 
                      "maxAngle", 
                      MaxAngleFieldId, MaxAngleFieldMask,
                      false,
-                     (FieldAccessMethod) &BillboardBase::getSFMaxAngle)
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFMaxAngle))
 };
 
 
@@ -138,7 +138,7 @@ FieldContainerType BillboardBase::_type(
     "Billboard",
     "Group",
     NULL,
-    (PrototypeCreateF) &BillboardBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&BillboardBase::createEmpty),
     Billboard::initMethod,
     _desc,
     sizeof(_desc));
@@ -177,7 +177,8 @@ UInt32 BillboardBase::getContainerSize(void) const
 void BillboardBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((BillboardBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<BillboardBase *>(&other),
+                          whichField);
 }
 #else
 void BillboardBase::executeSync(      FieldContainer &other,

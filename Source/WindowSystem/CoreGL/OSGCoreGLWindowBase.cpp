@@ -86,7 +86,7 @@ FieldDescription *CoreGLWindowBase::_desc[] =
                      "context", 
                      ContextFieldId, ContextFieldMask,
                      true,
-                     (FieldAccessMethod) &CoreGLWindowBase::getSFContext)
+                     reinterpret_cast<FieldAccessMethod>(&CoreGLWindowBase::getSFContext))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType CoreGLWindowBase::_type(
     "CoreGLWindow",
     "Window",
     NULL,
-    (PrototypeCreateF) &CoreGLWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CoreGLWindowBase::createEmpty),
     CoreGLWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 CoreGLWindowBase::getContainerSize(void) const
 void CoreGLWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CoreGLWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CoreGLWindowBase *>(&other),
+                          whichField);
 }
 #else
 void CoreGLWindowBase::executeSync(      FieldContainer &other,
@@ -290,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CoreGLWindowPtr, OSG_WINDOWCOREGLLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCoreGLWindowBase.cpp,v 1.1 2006/09/08 10:09:06 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCoreGLWindowBase.cpp,v 1.2 2008/06/05 05:02:33 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOREGLWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOREGLWINDOWBASE_INLINE_CVSID;
 

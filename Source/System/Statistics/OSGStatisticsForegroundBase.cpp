@@ -62,7 +62,7 @@
 #include "OSGStatisticsForeground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  StatisticsForegroundBase::ElementIDsFieldMask = 
     (TypeTraits<BitVector>::One << StatisticsForegroundBase::ElementIDsFieldId);
@@ -92,12 +92,12 @@ FieldDescription *StatisticsForegroundBase::_desc[] =
                      "elementIDs", 
                      ElementIDsFieldId, ElementIDsFieldMask,
                      false,
-                     (FieldAccessMethod) &StatisticsForegroundBase::getMFElementIDs),
+                     reinterpret_cast<FieldAccessMethod>(&StatisticsForegroundBase::getMFElementIDs)),
     new FieldDescription(SFStatCollector::getClassType(), 
                      "collector", 
                      CollectorFieldId, CollectorFieldMask,
                      false,
-                     (FieldAccessMethod) &StatisticsForegroundBase::getSFCollector)
+                     reinterpret_cast<FieldAccessMethod>(&StatisticsForegroundBase::getSFCollector))
 };
 
 
@@ -135,7 +135,8 @@ UInt32 StatisticsForegroundBase::getContainerSize(void) const
 void StatisticsForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((StatisticsForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<StatisticsForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void StatisticsForegroundBase::executeSync(      FieldContainer &other,
@@ -291,6 +292,8 @@ void StatisticsForegroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -302,8 +305,6 @@ DataType FieldDataTraits<StatisticsForegroundPtr>::_type("StatisticsForegroundPt
 
 OSG_DLLEXPORT_SFIELD_DEF1(StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -319,10 +320,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

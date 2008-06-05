@@ -63,7 +63,7 @@
 
 #include <OSGTextureManager.h>            // BrickingMode default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DVRVolumeBase::AppearanceFieldMask = 
     (TypeTraits<BitVector>::One << DVRVolumeBase::AppearanceFieldId);
@@ -195,97 +195,97 @@ FieldDescription *DVRVolumeBase::_desc[] =
                      "appearance", 
                      AppearanceFieldId, AppearanceFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFAppearance),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFAppearance)),
     new FieldDescription(SFDVRGeometryPtr::getClassType(), 
                      "geometry", 
                      GeometryFieldId, GeometryFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFGeometry),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFGeometry)),
     new FieldDescription(SFDVRShaderPtr::getClassType(), 
                      "shader", 
                      ShaderFieldId, ShaderFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFShader),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFShader)),
     new FieldDescription(SFString::getClassType(), 
                      "fileName", 
                      FileNameFieldId, FileNameFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFFileName),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFFileName)),
     new FieldDescription(SFReal32::getClassType(), 
                      "sampling", 
                      SamplingFieldId, SamplingFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFSampling),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFSampling)),
     new FieldDescription(SFReal32::getClassType(), 
                      "samplingInteractive", 
                      SamplingInteractiveFieldId, SamplingInteractiveFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFSamplingInteractive),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFSamplingInteractive)),
     new FieldDescription(SFReal32::getClassType(), 
                      "baseAlpha", 
                      BaseAlphaFieldId, BaseAlphaFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFBaseAlpha),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFBaseAlpha)),
     new FieldDescription(SFBool::getClassType(), 
                      "doTextures", 
                      DoTexturesFieldId, DoTexturesFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFDoTextures),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFDoTextures)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "brickOverlap", 
                      BrickOverlapFieldId, BrickOverlapFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFBrickOverlap),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFBrickOverlap)),
     new FieldDescription(SFQBit::getClassType(), 
                      "textures2D", 
                      Textures2DFieldId, Textures2DFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFTextures2D),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFTextures2D)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "brickStaticMemoryMB", 
                      BrickStaticMemoryMBFieldId, BrickStaticMemoryMBFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFBrickStaticMemoryMB),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFBrickStaticMemoryMB)),
     new FieldDescription(SFMaterialPtr::getClassType(), 
                      "renderMaterial", 
                      RenderMaterialFieldId, RenderMaterialFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFRenderMaterial),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFRenderMaterial)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "brickingMode", 
                      BrickingModeFieldId, BrickingModeFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFBrickingMode),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFBrickingMode)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "brickStaticSubdivision", 
                      BrickStaticSubdivisionFieldId, BrickStaticSubdivisionFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFBrickStaticSubdivision),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFBrickStaticSubdivision)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "brickMaxSize", 
                      BrickMaxSizeFieldId, BrickMaxSizeFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFBrickMaxSize),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFBrickMaxSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "showBricks", 
                      ShowBricksFieldId, ShowBricksFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFShowBricks),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFShowBricks)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "drawStyle", 
                      DrawStyleFieldId, DrawStyleFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFDrawStyle),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFDrawStyle)),
     new FieldDescription(MFString::getClassType(), 
                      "drawStyleNames", 
                      DrawStyleNamesFieldId, DrawStyleNamesFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getMFDrawStyleNames),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getMFDrawStyleNames)),
     new FieldDescription(SFChunkMaterialPtr::getClassType(), 
                      "textureStorage", 
                      TextureStorageFieldId, TextureStorageFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeBase::getSFTextureStorage)
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeBase::getSFTextureStorage))
 };
 
 
@@ -293,7 +293,7 @@ FieldContainerType DVRVolumeBase::_type(
     "DVRVolume",
     "NodeCore",
     NULL,
-    (PrototypeCreateF) &DVRVolumeBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRVolumeBase::createEmpty),
     DVRVolume::initMethod,
     _desc,
     sizeof(_desc));
@@ -332,7 +332,8 @@ UInt32 DVRVolumeBase::getContainerSize(void) const
 void DVRVolumeBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRVolumeBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRVolumeBase *>(&other),
+                          whichField);
 }
 #else
 void DVRVolumeBase::executeSync(      FieldContainer &other,
@@ -879,14 +880,10 @@ void DVRVolumeBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DVRVolumePtr>::_type("DVRVolumePtr", "NodeCorePtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -902,10 +899,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRVOLUMEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRVOLUMEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRVOLUMEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

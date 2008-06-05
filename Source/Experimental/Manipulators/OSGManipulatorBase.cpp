@@ -62,7 +62,7 @@
 #include "OSGManipulator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ManipulatorBase::TargetFieldMask = 
     (TypeTraits<BitVector>::One << ManipulatorBase::TargetFieldId);
@@ -176,82 +176,82 @@ FieldDescription *ManipulatorBase::_desc[] =
                      "target", 
                      TargetFieldId, TargetFieldMask,
                      false,
-                     (FieldAccessMethod) &ManipulatorBase::getSFTarget),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFTarget)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "activeSubHandle", 
                      ActiveSubHandleFieldId, ActiveSubHandleFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFActiveSubHandle),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFActiveSubHandle)),
     new FieldDescription(SFPnt2f::getClassType(), 
                      "lastMousePos", 
                      LastMousePosFieldId, LastMousePosFieldMask,
                      false,
-                     (FieldAccessMethod) &ManipulatorBase::getSFLastMousePos),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFLastMousePos)),
     new FieldDescription(SFViewportPtr::getClassType(), 
                      "viewport", 
                      ViewportFieldId, ViewportFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFViewport),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFViewport)),
     new FieldDescription(SFBool::getClassType(), 
                      "active", 
                      ActiveFieldId, ActiveFieldMask,
                      false,
-                     (FieldAccessMethod) &ManipulatorBase::getSFActive),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFActive)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "length", 
                      LengthFieldId, LengthFieldMask,
                      false,
-                     (FieldAccessMethod) &ManipulatorBase::getSFLength),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFLength)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "handleXNode", 
                      HandleXNodeFieldId, HandleXNodeFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFHandleXNode),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFHandleXNode)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "handleYNode", 
                      HandleYNodeFieldId, HandleYNodeFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFHandleYNode),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFHandleYNode)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "handleZNode", 
                      HandleZNodeFieldId, HandleZNodeFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFHandleZNode),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFHandleZNode)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "transXNode", 
                      TransXNodeFieldId, TransXNodeFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFTransXNode),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFTransXNode)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "transYNode", 
                      TransYNodeFieldId, TransYNodeFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFTransYNode),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFTransYNode)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "transZNode", 
                      TransZNodeFieldId, TransZNodeFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFTransZNode),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFTransZNode)),
     new FieldDescription(SFMaterialPtr::getClassType(), 
                      "materialX", 
                      MaterialXFieldId, MaterialXFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFMaterialX),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFMaterialX)),
     new FieldDescription(SFMaterialPtr::getClassType(), 
                      "materialY", 
                      MaterialYFieldId, MaterialYFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFMaterialY),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFMaterialY)),
     new FieldDescription(SFMaterialPtr::getClassType(), 
                      "materialZ", 
                      MaterialZFieldId, MaterialZFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFMaterialZ),
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFMaterialZ)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "axisLinesN", 
                      AxisLinesNFieldId, AxisLinesNFieldMask,
                      true,
-                     (FieldAccessMethod) &ManipulatorBase::getSFAxisLinesN)
+                     reinterpret_cast<FieldAccessMethod>(&ManipulatorBase::getSFAxisLinesN))
 };
 
 
@@ -289,7 +289,8 @@ UInt32 ManipulatorBase::getContainerSize(void) const
 void ManipulatorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ManipulatorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ManipulatorBase *>(&other),
+                          whichField);
 }
 #else
 void ManipulatorBase::executeSync(      FieldContainer &other,
@@ -763,6 +764,8 @@ void ManipulatorBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -774,8 +777,6 @@ DataType FieldDataTraits<ManipulatorPtr>::_type("ManipulatorPtr", "TransformPtr"
 
 OSG_DLLEXPORT_SFIELD_DEF1(ManipulatorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ManipulatorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -791,10 +792,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulatorBase.cpp,v 1.5 2006/02/20 17:04:35 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulatorBase.cpp,v 1.6 2008/06/05 05:02:18 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMANIPULATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMANIPULATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

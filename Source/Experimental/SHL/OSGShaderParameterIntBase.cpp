@@ -62,7 +62,7 @@
 #include "OSGShaderParameterInt.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShaderParameterIntBase::ValueFieldMask = 
     (TypeTraits<BitVector>::One << ShaderParameterIntBase::ValueFieldId);
@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterIntBase::_desc[] =
                      "value", 
                      ValueFieldId, ValueFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderParameterIntBase::getSFValue)
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterIntBase::getSFValue))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType ShaderParameterIntBase::_type(
     "ShaderParameterInt",
     "ShaderParameter",
     NULL,
-    (PrototypeCreateF) &ShaderParameterIntBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ShaderParameterIntBase::createEmpty),
     ShaderParameterInt::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 ShaderParameterIntBase::getContainerSize(void) const
 void ShaderParameterIntBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShaderParameterIntBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShaderParameterIntBase *>(&other),
+                          whichField);
 }
 #else
 void ShaderParameterIntBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void ShaderParameterIntBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<ShaderParameterIntPtr>::_type("ShaderParameterIntPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShaderParameterIntPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterIntPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterIntBase.cpp,v 1.6 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterIntBase.cpp,v 1.7 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERINTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERINTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGPhysicsRayGeom.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsRayGeomBase::LenghtFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsRayGeomBase::LenghtFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsRayGeomBase::_desc[] =
                      "lenght", 
                      LenghtFieldId, LenghtFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsRayGeomBase::getSFLenght)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsRayGeomBase::getSFLenght))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsRayGeomBase::_type(
     "PhysicsRayGeom",
     "PhysicsGeom",
     NULL,
-    (PrototypeCreateF) &PhysicsRayGeomBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsRayGeomBase::createEmpty),
     PhysicsRayGeom::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsRayGeomBase::getContainerSize(void) const
 void PhysicsRayGeomBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsRayGeomBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsRayGeomBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsRayGeomBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsRayGeomBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsRayGeomPtr>::_type("PhysicsRayGeomPtr", "Physics
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsRayGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsRayGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsRayGeomBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsRayGeomBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSRAYGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSRAYGEOMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSRAYGEOMFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

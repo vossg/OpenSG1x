@@ -86,7 +86,7 @@ FieldDescription *ResolutionDisplayFilterBase::_desc[] =
                      "downScale", 
                      DownScaleFieldId, DownScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &ResolutionDisplayFilterBase::getSFDownScale)
+                     reinterpret_cast<FieldAccessMethod>(&ResolutionDisplayFilterBase::getSFDownScale))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType ResolutionDisplayFilterBase::_type(
     "ResolutionDisplayFilter",
     "DisplayFilter",
     NULL,
-    (PrototypeCreateF) &ResolutionDisplayFilterBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ResolutionDisplayFilterBase::createEmpty),
     ResolutionDisplayFilter::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 ResolutionDisplayFilterBase::getContainerSize(void) const
 void ResolutionDisplayFilterBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ResolutionDisplayFilterBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ResolutionDisplayFilterBase *>(&other),
+                          whichField);
 }
 #else
 void ResolutionDisplayFilterBase::executeSync(      FieldContainer &other,
@@ -290,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ResolutionDisplayFilterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPI
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.46 2006/03/16 17:01:53 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGRESOLUTIONDISPLAYFILTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRESOLUTIONDISPLAYFILTERBASE_INLINE_CVSID;
 

@@ -62,7 +62,7 @@
 #include "OSGPhysicsBallJoint.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsBallJointBase::AnchorFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsBallJointBase::AnchorFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsBallJointBase::_desc[] =
                      "anchor", 
                      AnchorFieldId, AnchorFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsBallJointBase::getSFAnchor)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsBallJointBase::getSFAnchor))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsBallJointBase::_type(
     "PhysicsBallJoint",
     "PhysicsJoint",
     NULL,
-    (PrototypeCreateF) &PhysicsBallJointBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsBallJointBase::createEmpty),
     PhysicsBallJoint::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsBallJointBase::getContainerSize(void) const
 void PhysicsBallJointBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsBallJointBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsBallJointBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsBallJointBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsBallJointBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsBallJointPtr>::_type("PhysicsBallJointPtr", "Phy
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsBallJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsBallJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBallJointBase.cpp,v 1.2 2006/02/20 17:04:20 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBallJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSBALLJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSBALLJOINTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSBALLJOINTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

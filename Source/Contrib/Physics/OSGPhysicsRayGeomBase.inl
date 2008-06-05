@@ -128,5 +128,5 @@ void PhysicsRayGeomBase::setLenght(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSRAYGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsRayGeomBase.inl,v 1.2 2006/02/20 17:04:21 dirk Exp $"
+#define OSGPHYSICSRAYGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsRayGeomBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 

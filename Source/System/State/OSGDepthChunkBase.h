@@ -285,6 +285,6 @@ typedef RefPtr<DepthChunkPtr> DepthChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.7 2006/02/20 16:54:19 dirk Exp $"
+#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.8 2008/06/05 05:02:28 vossg Exp $"
 
 #endif /* _OSGDEPTHCHUNKBASE_H_ */

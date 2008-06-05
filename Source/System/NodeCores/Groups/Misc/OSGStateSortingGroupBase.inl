@@ -128,5 +128,5 @@ void StateSortingGroupBase::setSorting(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATESORTINGGROUPBASE_INLINE_CVSID "@(#)$Id: OSGStateSortingGroupBase.inl,v 1.5 2006/02/20 16:54:23 dirk Exp $"
+#define OSGSTATESORTINGGROUPBASE_INLINE_CVSID "@(#)$Id: OSGStateSortingGroupBase.inl,v 1.6 2008/06/05 05:02:28 vossg Exp $"
 

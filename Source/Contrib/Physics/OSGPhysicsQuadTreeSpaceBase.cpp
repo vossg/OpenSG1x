@@ -62,7 +62,7 @@
 #include "OSGPhysicsQuadTreeSpace.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector PhysicsQuadTreeSpaceBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType PhysicsQuadTreeSpaceBase::_type(
     "PhysicsQuadTreeSpace",
     "PhysicsSpace",
     NULL,
-    (PrototypeCreateF) &PhysicsQuadTreeSpaceBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsQuadTreeSpaceBase::createEmpty),
     PhysicsQuadTreeSpace::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 PhysicsQuadTreeSpaceBase::getContainerSize(void) const
 void PhysicsQuadTreeSpaceBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsQuadTreeSpaceBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsQuadTreeSpaceBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsQuadTreeSpaceBase::executeSync(      FieldContainer &other,
@@ -219,6 +220,8 @@ void PhysicsQuadTreeSpaceBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -230,8 +233,6 @@ DataType FieldDataTraits<PhysicsQuadTreeSpacePtr>::_type("PhysicsQuadTreeSpacePt
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsQuadTreeSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsQuadTreeSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -247,10 +248,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsQuadTreeSpaceBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsQuadTreeSpaceBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSQUADTREESPACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSQUADTREESPACEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSQUADTREESPACEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

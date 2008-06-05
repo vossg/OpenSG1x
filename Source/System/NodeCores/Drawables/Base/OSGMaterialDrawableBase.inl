@@ -102,5 +102,5 @@ void MaterialDrawableBase::setMaterial(const MaterialPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawableBase.inl,v 1.9 2006/02/20 16:54:27 dirk Exp $"
+#define OSGMATERIALDRAWABLEBASE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawableBase.inl,v 1.10 2008/06/05 05:02:26 vossg Exp $"
 

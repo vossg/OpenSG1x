@@ -65,7 +65,7 @@
 #include <OSGGL.h>                        // MagFilter default header
 #include <OSGGL.h>                        // EnvMode default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SimpleTexturedMaterialBase::ImageFieldMask = 
     (TypeTraits<BitVector>::One << SimpleTexturedMaterialBase::ImageFieldId);
@@ -113,27 +113,27 @@ FieldDescription *SimpleTexturedMaterialBase::_desc[] =
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFImage),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFImage)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "minFilter", 
                      MinFilterFieldId, MinFilterFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFMinFilter),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFMinFilter)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "magFilter", 
                      MagFilterFieldId, MagFilterFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFMagFilter),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFMagFilter)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "envMode", 
                      EnvModeFieldId, EnvModeFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFEnvMode),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFEnvMode)),
     new FieldDescription(SFBool::getClassType(), 
                      "envMap", 
                      EnvMapFieldId, EnvMapFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleTexturedMaterialBase::getSFEnvMap)
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFEnvMap))
 };
 
 
@@ -141,7 +141,7 @@ FieldContainerType SimpleTexturedMaterialBase::_type(
     "SimpleTexturedMaterial",
     "SimpleMaterial",
     NULL,
-    (PrototypeCreateF) &SimpleTexturedMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SimpleTexturedMaterialBase::createEmpty),
     SimpleTexturedMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -180,7 +180,8 @@ UInt32 SimpleTexturedMaterialBase::getContainerSize(void) const
 void SimpleTexturedMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SimpleTexturedMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SimpleTexturedMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void SimpleTexturedMaterialBase::executeSync(      FieldContainer &other,
@@ -401,6 +402,8 @@ void SimpleTexturedMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -412,8 +415,6 @@ DataType FieldDataTraits<SimpleTexturedMaterialPtr>::_type("SimpleTexturedMateri
 
 OSG_DLLEXPORT_SFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -429,10 +430,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSIMPLETEXTUREDMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

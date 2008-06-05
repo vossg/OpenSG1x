@@ -62,7 +62,7 @@
 #include "OSGSortLastWindow.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SortLastWindowBase::GroupNodesFieldMask = 
     (TypeTraits<BitVector>::One << SortLastWindowBase::GroupNodesFieldId);
@@ -98,17 +98,17 @@ FieldDescription *SortLastWindowBase::_desc[] =
                      "groupNodes", 
                      GroupNodesFieldId, GroupNodesFieldMask,
                      false,
-                     (FieldAccessMethod) &SortLastWindowBase::getMFGroupNodes),
+                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::getMFGroupNodes)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "groupLengths", 
                      GroupLengthsFieldId, GroupLengthsFieldMask,
                      false,
-                     (FieldAccessMethod) &SortLastWindowBase::getMFGroupLengths),
+                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::getMFGroupLengths)),
     new FieldDescription(SFBool::getClassType(), 
                      "groupsChanged", 
                      GroupsChangedFieldId, GroupsChangedFieldMask,
                      true,
-                     (FieldAccessMethod) &SortLastWindowBase::getSFGroupsChanged)
+                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::getSFGroupsChanged))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType SortLastWindowBase::_type(
     "SortLastWindow",
     "ClusterWindow",
     NULL,
-    (PrototypeCreateF) &SortLastWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SortLastWindowBase::createEmpty),
     SortLastWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 SortLastWindowBase::getContainerSize(void) const
 void SortLastWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SortLastWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SortLastWindowBase *>(&other),
+                          whichField);
 }
 #else
 void SortLastWindowBase::executeSync(      FieldContainer &other,
@@ -338,14 +339,10 @@ void SortLastWindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SortLastWindowPtr>::_type("SortLastWindowPtr", "ClusterWindowPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -361,10 +358,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSORTLASTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSORTLASTWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSORTLASTWINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

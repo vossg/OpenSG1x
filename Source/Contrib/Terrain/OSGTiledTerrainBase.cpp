@@ -62,7 +62,7 @@
 #include "OSGTiledTerrain.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TiledTerrainBase::HeightTilesFieldMask = 
     (TypeTraits<BitVector>::One << TiledTerrainBase::HeightTilesFieldId);
@@ -164,72 +164,72 @@ FieldDescription *TiledTerrainBase::_desc[] =
                      "heightTiles", 
                      HeightTilesFieldId, HeightTilesFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getMFHeightTiles),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getMFHeightTiles)),
     new FieldDescription(MFMaterialPtr::getClassType(), 
                      "heightTextures", 
                      HeightTexturesFieldId, HeightTexturesFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getMFHeightTextures),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getMFHeightTextures)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "sizeX", 
                      SizeXFieldId, SizeXFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFSizeX),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFSizeX)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "sizeY", 
                      SizeYFieldId, SizeYFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFSizeY),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFSizeY)),
     new FieldDescription(SFReal32::getClassType(), 
                      "heightScale", 
                      HeightScaleFieldId, HeightScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFHeightScale),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFHeightScale)),
     new FieldDescription(SFReal32::getClassType(), 
                      "vertexSpacing", 
                      VertexSpacingFieldId, VertexSpacingFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFVertexSpacing),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFVertexSpacing)),
     new FieldDescription(SFBool::getClassType(), 
                      "geoMorphing", 
                      GeoMorphingFieldId, GeoMorphingFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFGeoMorphing),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFGeoMorphing)),
     new FieldDescription(SFReal32::getClassType(), 
                      "detail", 
                      DetailFieldId, DetailFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFDetail),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFDetail)),
     new FieldDescription(SFInt32::getClassType(), 
                      "currentX", 
                      CurrentXFieldId, CurrentXFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFCurrentX),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFCurrentX)),
     new FieldDescription(SFInt32::getClassType(), 
                      "currentY", 
                      CurrentYFieldId, CurrentYFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFCurrentY),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFCurrentY)),
     new FieldDescription(SFInt32::getClassType(), 
                      "sizeROI", 
                      SizeROIFieldId, SizeROIFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFSizeROI),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFSizeROI)),
     new FieldDescription(SFBool::getClassType(), 
                      "update", 
                      UpdateFieldId, UpdateFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFUpdate),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFUpdate)),
     new FieldDescription(SFBool::getClassType(), 
                      "updateTerrain", 
                      UpdateTerrainFieldId, UpdateTerrainFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFUpdateTerrain),
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFUpdateTerrain)),
     new FieldDescription(SFBool::getClassType(), 
                      "perPixelLighting", 
                      PerPixelLightingFieldId, PerPixelLightingFieldMask,
                      false,
-                     (FieldAccessMethod) &TiledTerrainBase::getSFPerPixelLighting)
+                     reinterpret_cast<FieldAccessMethod>(&TiledTerrainBase::getSFPerPixelLighting))
 };
 
 
@@ -237,7 +237,7 @@ FieldContainerType TiledTerrainBase::_type(
     "TiledTerrain",
     "MaterialGroup",
     NULL,
-    (PrototypeCreateF) &TiledTerrainBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TiledTerrainBase::createEmpty),
     TiledTerrain::initMethod,
     _desc,
     sizeof(_desc));
@@ -276,7 +276,8 @@ UInt32 TiledTerrainBase::getContainerSize(void) const
 void TiledTerrainBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TiledTerrainBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TiledTerrainBase *>(&other),
+                          whichField);
 }
 #else
 void TiledTerrainBase::executeSync(      FieldContainer &other,
@@ -712,6 +713,8 @@ void TiledTerrainBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -723,8 +726,6 @@ DataType FieldDataTraits<TiledTerrainPtr>::_type("TiledTerrainPtr", "MaterialGro
 
 OSG_DLLEXPORT_SFIELD_DEF1(TiledTerrainPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TiledTerrainPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -740,10 +741,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.7 2006/02/20 17:04:33 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.8 2008/06/05 05:02:18 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTILEDTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILEDTERRAINBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTILEDTERRAINFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

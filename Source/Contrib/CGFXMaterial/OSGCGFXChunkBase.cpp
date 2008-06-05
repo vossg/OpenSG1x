@@ -62,7 +62,7 @@
 #include "OSGCGFXChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CGFXChunkBase::GLIdFieldMask = 
     (TypeTraits<BitVector>::One << CGFXChunkBase::GLIdFieldId);
@@ -86,7 +86,7 @@ FieldDescription *CGFXChunkBase::_desc[] =
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &CGFXChunkBase::getSFGLId)
+                     reinterpret_cast<FieldAccessMethod>(&CGFXChunkBase::getSFGLId))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType CGFXChunkBase::_type(
     "CGFXChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &CGFXChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CGFXChunkBase::createEmpty),
     CGFXChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 CGFXChunkBase::getContainerSize(void) const
 void CGFXChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGFXChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CGFXChunkBase *>(&other),
+                          whichField);
 }
 #else
 void CGFXChunkBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void CGFXChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<CGFXChunkPtr>::_type("CGFXChunkPtr", "StateChunkPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(CGFXChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CGFXChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunkBase.cpp,v 1.4 2006/02/20 17:04:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunkBase.cpp,v 1.5 2008/06/05 05:02:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCGFXCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

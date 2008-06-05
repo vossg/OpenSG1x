@@ -62,7 +62,7 @@
 #include "OSGGrabForeground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  GrabForegroundBase::ImageFieldMask = 
     (TypeTraits<BitVector>::One << GrabForegroundBase::ImageFieldId);
@@ -92,12 +92,12 @@ FieldDescription *GrabForegroundBase::_desc[] =
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     (FieldAccessMethod) &GrabForegroundBase::getSFImage),
+                     reinterpret_cast<FieldAccessMethod>(&GrabForegroundBase::getSFImage)),
     new FieldDescription(SFBool::getClassType(), 
                      "autoResize", 
                      AutoResizeFieldId, AutoResizeFieldMask,
                      false,
-                     (FieldAccessMethod) &GrabForegroundBase::getSFAutoResize)
+                     reinterpret_cast<FieldAccessMethod>(&GrabForegroundBase::getSFAutoResize))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType GrabForegroundBase::_type(
     "GrabForeground",
     "Foreground",
     NULL,
-    (PrototypeCreateF) &GrabForegroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&GrabForegroundBase::createEmpty),
     GrabForeground::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 GrabForegroundBase::getContainerSize(void) const
 void GrabForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((GrabForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<GrabForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void GrabForegroundBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void GrabForegroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<GrabForegroundPtr>::_type("GrabForegroundPtr", "Foregro
 
 OSG_DLLEXPORT_SFIELD_DEF1(GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRABFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGRABFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

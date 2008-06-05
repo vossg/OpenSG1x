@@ -62,7 +62,7 @@
 #include "OSGCGParameterChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CGParameterChunkBase::CGChunkFieldMask = 
     (TypeTraits<BitVector>::One << CGParameterChunkBase::CGChunkFieldId);
@@ -86,7 +86,7 @@ FieldDescription *CGParameterChunkBase::_desc[] =
                      "CGChunk", 
                      CGChunkFieldId, CGChunkFieldMask,
                      false,
-                     (FieldAccessMethod) &CGParameterChunkBase::getSFCGChunk)
+                     reinterpret_cast<FieldAccessMethod>(&CGParameterChunkBase::getSFCGChunk))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType CGParameterChunkBase::_type(
     "CGParameterChunk",
     "ShaderParameterChunk",
     NULL,
-    (PrototypeCreateF) &CGParameterChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CGParameterChunkBase::createEmpty),
     CGParameterChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 CGParameterChunkBase::getContainerSize(void) const
 void CGParameterChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGParameterChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CGParameterChunkBase *>(&other),
+                          whichField);
 }
 #else
 void CGParameterChunkBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void CGParameterChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<CGParameterChunkPtr>::_type("CGParameterChunkPtr", "Sha
 
 OSG_DLLEXPORT_SFIELD_DEF1(CGParameterChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CGParameterChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunkBase.cpp,v 1.6 2006/02/20 17:04:09 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunkBase.cpp,v 1.7 2008/06/05 05:02:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGPARAMETERCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCGPARAMETERCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

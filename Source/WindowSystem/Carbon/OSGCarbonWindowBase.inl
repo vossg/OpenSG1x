@@ -128,5 +128,5 @@ void CarbonWindowBase::setContext(const AGLContext &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCARBONWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCarbonWindowBase.inl,v 1.1 2006/08/04 09:18:19 pdaehne Exp $"
+#define OSGCARBONWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCarbonWindowBase.inl,v 1.2 2008/06/05 05:02:32 vossg Exp $"
 

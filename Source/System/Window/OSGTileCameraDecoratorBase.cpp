@@ -62,7 +62,7 @@
 #include "OSGTileCameraDecorator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TileCameraDecoratorBase::LeftFieldMask = 
     (TypeTraits<BitVector>::One << TileCameraDecoratorBase::LeftFieldId);
@@ -116,32 +116,32 @@ FieldDescription *TileCameraDecoratorBase::_desc[] =
                      "left", 
                      LeftFieldId, LeftFieldMask,
                      false,
-                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFLeft),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFLeft)),
     new FieldDescription(SFReal32::getClassType(), 
                      "right", 
                      RightFieldId, RightFieldMask,
                      false,
-                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFRight),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFRight)),
     new FieldDescription(SFReal32::getClassType(), 
                      "bottom", 
                      BottomFieldId, BottomFieldMask,
                      false,
-                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFBottom),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFBottom)),
     new FieldDescription(SFReal32::getClassType(), 
                      "top", 
                      TopFieldId, TopFieldMask,
                      true,
-                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFTop),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFTop)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fullWidth", 
                      FullWidthFieldId, FullWidthFieldMask,
                      false,
-                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFFullWidth),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFFullWidth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fullHeight", 
                      FullHeightFieldId, FullHeightFieldMask,
                      true,
-                     (FieldAccessMethod) &TileCameraDecoratorBase::getSFFullHeight)
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFFullHeight))
 };
 
 
@@ -149,7 +149,7 @@ FieldContainerType TileCameraDecoratorBase::_type(
     "TileCameraDecorator",
     "CameraDecorator",
     NULL,
-    (PrototypeCreateF) &TileCameraDecoratorBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TileCameraDecoratorBase::createEmpty),
     TileCameraDecorator::initMethod,
     _desc,
     sizeof(_desc));
@@ -188,7 +188,8 @@ UInt32 TileCameraDecoratorBase::getContainerSize(void) const
 void TileCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TileCameraDecoratorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TileCameraDecoratorBase *>(&other),
+                          whichField);
 }
 #else
 void TileCameraDecoratorBase::executeSync(      FieldContainer &other,
@@ -432,6 +433,8 @@ void TileCameraDecoratorBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -443,8 +446,6 @@ DataType FieldDataTraits<TileCameraDecoratorPtr>::_type("TileCameraDecoratorPtr"
 
 OSG_DLLEXPORT_SFIELD_DEF1(TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -460,10 +461,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTILECAMERADECORATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

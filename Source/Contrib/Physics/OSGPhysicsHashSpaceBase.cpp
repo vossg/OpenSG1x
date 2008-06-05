@@ -62,7 +62,7 @@
 #include "OSGPhysicsHashSpace.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsHashSpaceBase::LevelsFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsHashSpaceBase::LevelsFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsHashSpaceBase::_desc[] =
                      "levels", 
                      LevelsFieldId, LevelsFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsHashSpaceBase::getSFLevels)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHashSpaceBase::getSFLevels))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsHashSpaceBase::_type(
     "PhysicsHashSpace",
     "PhysicsSpace",
     NULL,
-    (PrototypeCreateF) &PhysicsHashSpaceBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsHashSpaceBase::createEmpty),
     PhysicsHashSpace::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsHashSpaceBase::getContainerSize(void) const
 void PhysicsHashSpaceBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsHashSpaceBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsHashSpaceBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsHashSpaceBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsHashSpaceBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsHashSpacePtr>::_type("PhysicsHashSpacePtr", "Phy
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsHashSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsHashSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHashSpaceBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHashSpaceBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHASHSPACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHASHSPACEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSHASHSPACEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

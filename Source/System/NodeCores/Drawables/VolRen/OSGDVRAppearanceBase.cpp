@@ -62,7 +62,7 @@
 #include "OSGDVRAppearance.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector DVRAppearanceBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType DVRAppearanceBase::_type(
     "DVRAppearance",
     "ChunkMaterial",
     NULL,
-    (PrototypeCreateF) &DVRAppearanceBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRAppearanceBase::createEmpty),
     DVRAppearance::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 DVRAppearanceBase::getContainerSize(void) const
 void DVRAppearanceBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRAppearanceBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRAppearanceBase *>(&other),
+                          whichField);
 }
 #else
 void DVRAppearanceBase::executeSync(      FieldContainer &other,
@@ -219,6 +220,8 @@ void DVRAppearanceBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -228,8 +231,6 @@ DataType FieldDataTraits<DVRAppearancePtr>::_type("DVRAppearancePtr", "ChunkMate
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(DVRAppearancePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -245,10 +246,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRAPPEARANCEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRAPPEARANCEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRAPPEARANCEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

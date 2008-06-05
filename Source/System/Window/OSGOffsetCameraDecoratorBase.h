@@ -277,6 +277,6 @@ typedef RefPtr<OffsetCameraDecoratorPtr> OffsetCameraDecoratorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGOFFSETCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGOffsetCameraDecoratorBase.h,v 1.1 2007/09/26 14:18:52 a-m-z Exp $"
+#define OSGOFFSETCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGOffsetCameraDecoratorBase.h,v 1.2 2008/06/05 05:02:30 vossg Exp $"
 
 #endif /* _OSGOFFSETCAMERADECORATORBASE_H_ */

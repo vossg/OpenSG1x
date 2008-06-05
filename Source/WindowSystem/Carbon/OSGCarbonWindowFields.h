@@ -84,7 +84,7 @@ template <>
 struct FieldDataTraits<CarbonWindowPtr> : 
     public FieldTraitsRecurseMapper<CarbonWindowPtr, true>
 {
-    static DataType             _type;
+    static DataType             _type;                       
 
     enum                        { StringConvertable = 0x00 };
     enum                        { bHasParent        = 0x01 };
@@ -126,6 +126,6 @@ OSG_DLLEXPORT_DECL1(MField, CarbonWindowPtr, OSG_WINDOWCARBONLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#define OSGCARBONWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGCarbonWindowFields.h,v 1.1 2006/08/04 09:18:19 pdaehne Exp $"
+#define OSGCARBONWINDOWFIELDS_HEADER_CVSID "@(#)$Id: OSGCarbonWindowFields.h,v 1.2 2008/06/05 05:02:32 vossg Exp $"
 
 #endif /* _OSGCARBONWINDOWFIELDS_H_ */

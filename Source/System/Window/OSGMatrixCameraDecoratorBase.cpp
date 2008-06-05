@@ -62,7 +62,7 @@
 #include "OSGMatrixCameraDecorator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MatrixCameraDecoratorBase::PreViewingFieldMask = 
     (TypeTraits<BitVector>::One << MatrixCameraDecoratorBase::PreViewingFieldId);
@@ -116,32 +116,32 @@ FieldDescription *MatrixCameraDecoratorBase::_desc[] =
                      "preViewing", 
                      PreViewingFieldId, PreViewingFieldMask,
                      false,
-                     (FieldAccessMethod) &MatrixCameraDecoratorBase::getSFPreViewing),
+                     reinterpret_cast<FieldAccessMethod>(&MatrixCameraDecoratorBase::getSFPreViewing)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "postViewing", 
                      PostViewingFieldId, PostViewingFieldMask,
                      false,
-                     (FieldAccessMethod) &MatrixCameraDecoratorBase::getSFPostViewing),
+                     reinterpret_cast<FieldAccessMethod>(&MatrixCameraDecoratorBase::getSFPostViewing)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "preProjectionTranslation", 
                      PreProjectionTranslationFieldId, PreProjectionTranslationFieldMask,
                      false,
-                     (FieldAccessMethod) &MatrixCameraDecoratorBase::getSFPreProjectionTranslation),
+                     reinterpret_cast<FieldAccessMethod>(&MatrixCameraDecoratorBase::getSFPreProjectionTranslation)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "postProjectionTranslation", 
                      PostProjectionTranslationFieldId, PostProjectionTranslationFieldMask,
                      false,
-                     (FieldAccessMethod) &MatrixCameraDecoratorBase::getSFPostProjectionTranslation),
+                     reinterpret_cast<FieldAccessMethod>(&MatrixCameraDecoratorBase::getSFPostProjectionTranslation)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "preProjection", 
                      PreProjectionFieldId, PreProjectionFieldMask,
                      false,
-                     (FieldAccessMethod) &MatrixCameraDecoratorBase::getSFPreProjection),
+                     reinterpret_cast<FieldAccessMethod>(&MatrixCameraDecoratorBase::getSFPreProjection)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "postProjection", 
                      PostProjectionFieldId, PostProjectionFieldMask,
                      false,
-                     (FieldAccessMethod) &MatrixCameraDecoratorBase::getSFPostProjection)
+                     reinterpret_cast<FieldAccessMethod>(&MatrixCameraDecoratorBase::getSFPostProjection))
 };
 
 
@@ -149,7 +149,7 @@ FieldContainerType MatrixCameraDecoratorBase::_type(
     "MatrixCameraDecorator",
     "CameraDecorator",
     NULL,
-    (PrototypeCreateF) &MatrixCameraDecoratorBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&MatrixCameraDecoratorBase::createEmpty),
     MatrixCameraDecorator::initMethod,
     _desc,
     sizeof(_desc));
@@ -188,7 +188,8 @@ UInt32 MatrixCameraDecoratorBase::getContainerSize(void) const
 void MatrixCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MatrixCameraDecoratorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MatrixCameraDecoratorBase *>(&other),
+                          whichField);
 }
 #else
 void MatrixCameraDecoratorBase::executeSync(      FieldContainer &other,
@@ -432,6 +433,8 @@ void MatrixCameraDecoratorBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -443,8 +446,6 @@ DataType FieldDataTraits<MatrixCameraDecoratorPtr>::_type("MatrixCameraDecorator
 
 OSG_DLLEXPORT_SFIELD_DEF1(MatrixCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MatrixCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -460,10 +461,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGMATRIXCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATRIXCAMERADECORATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMATRIXCAMERADECORATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

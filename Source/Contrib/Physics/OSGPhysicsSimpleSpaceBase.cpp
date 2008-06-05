@@ -62,7 +62,7 @@
 #include "OSGPhysicsSimpleSpace.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector PhysicsSimpleSpaceBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType PhysicsSimpleSpaceBase::_type(
     "PhysicsSimpleSpace",
     "PhysicsSpace",
     NULL,
-    (PrototypeCreateF) &PhysicsSimpleSpaceBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsSimpleSpaceBase::createEmpty),
     PhysicsSimpleSpace::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 PhysicsSimpleSpaceBase::getContainerSize(void) const
 void PhysicsSimpleSpaceBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsSimpleSpaceBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsSimpleSpaceBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsSimpleSpaceBase::executeSync(      FieldContainer &other,
@@ -219,6 +220,8 @@ void PhysicsSimpleSpaceBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -230,8 +233,6 @@ DataType FieldDataTraits<PhysicsSimpleSpacePtr>::_type("PhysicsSimpleSpacePtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsSimpleSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsSimpleSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -247,10 +248,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSimpleSpaceBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSimpleSpaceBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSSIMPLESPACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSSIMPLESPACEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSSIMPLESPACEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

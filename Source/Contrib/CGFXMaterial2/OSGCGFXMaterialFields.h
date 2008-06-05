@@ -102,6 +102,6 @@ struct FieldDataTraits<CGFXMaterialPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialFields.h,v 1.2 2006/06/25 09:43:04 a-m-z Exp $"
+#define OSGCGFXMATERIALFIELDS_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialFields.h,v 1.3 2008/06/05 05:02:15 vossg Exp $"
 
 #endif /* _OSGCGFXMATERIALFIELDS_H_ */

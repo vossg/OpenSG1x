@@ -62,7 +62,7 @@
 #include "OSGSkinDeformer.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SkinDeformerBase::InfluencesFieldMask = 
     (TypeTraits<BitVector>::One << SkinDeformerBase::InfluencesFieldId);
@@ -128,42 +128,42 @@ FieldDescription *SkinDeformerBase::_desc[] =
                      "influences", 
                      InfluencesFieldId, InfluencesFieldMask,
                      false,
-                     (FieldAccessMethod) &SkinDeformerBase::getMFInfluences),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFInfluences)),
     new FieldDescription(MFMatrix::getClassType(), 
                      "baseMatrices", 
                      BaseMatricesFieldId, BaseMatricesFieldMask,
                      false,
-                     (FieldAccessMethod) &SkinDeformerBase::getMFBaseMatrices),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFBaseMatrices)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "vertexIndices", 
                      VertexIndicesFieldId, VertexIndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &SkinDeformerBase::getMFVertexIndices),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFVertexIndices)),
     new FieldDescription(MFUInt16::getClassType(), 
                      "influenceIndices", 
                      InfluenceIndicesFieldId, InfluenceIndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &SkinDeformerBase::getMFInfluenceIndices),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFInfluenceIndices)),
     new FieldDescription(MFReal32::getClassType(), 
                      "influenceWeights", 
                      InfluenceWeightsFieldId, InfluenceWeightsFieldMask,
                      false,
-                     (FieldAccessMethod) &SkinDeformerBase::getMFInfluenceWeights),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFInfluenceWeights)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "normalIndices", 
                      NormalIndicesFieldId, NormalIndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &SkinDeformerBase::getMFNormalIndices),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFNormalIndices)),
     new FieldDescription(MFUInt16::getClassType(), 
                      "normalInfluenceIndices", 
                      NormalInfluenceIndicesFieldId, NormalInfluenceIndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &SkinDeformerBase::getMFNormalInfluenceIndices),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFNormalInfluenceIndices)),
     new FieldDescription(MFReal32::getClassType(), 
                      "normalInfluenceWeights", 
                      NormalInfluenceWeightsFieldId, NormalInfluenceWeightsFieldMask,
                      false,
-                     (FieldAccessMethod) &SkinDeformerBase::getMFNormalInfluenceWeights)
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFNormalInfluenceWeights))
 };
 
 
@@ -171,7 +171,7 @@ FieldContainerType SkinDeformerBase::_type(
     "SkinDeformer",
     "Deformer",
     NULL,
-    (PrototypeCreateF) &SkinDeformerBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SkinDeformerBase::createEmpty),
     SkinDeformer::initMethod,
     _desc,
     sizeof(_desc));
@@ -210,7 +210,8 @@ UInt32 SkinDeformerBase::getContainerSize(void) const
 void SkinDeformerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SkinDeformerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SkinDeformerBase *>(&other),
+                          whichField);
 }
 #else
 void SkinDeformerBase::executeSync(      FieldContainer &other,
@@ -532,6 +533,8 @@ void SkinDeformerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -543,8 +546,6 @@ DataType FieldDataTraits<SkinDeformerPtr>::_type("SkinDeformerPtr", "DeformerPtr
 
 OSG_DLLEXPORT_SFIELD_DEF1(SkinDeformerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SkinDeformerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -560,10 +561,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSKINDEFORMERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKINDEFORMERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSKINDEFORMERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

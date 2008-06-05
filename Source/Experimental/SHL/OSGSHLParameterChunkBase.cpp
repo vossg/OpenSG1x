@@ -62,7 +62,7 @@
 #include "OSGSHLParameterChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SHLParameterChunkBase::SHLChunkFieldMask = 
     (TypeTraits<BitVector>::One << SHLParameterChunkBase::SHLChunkFieldId);
@@ -86,7 +86,7 @@ FieldDescription *SHLParameterChunkBase::_desc[] =
                      "SHLChunk", 
                      SHLChunkFieldId, SHLChunkFieldMask,
                      false,
-                     (FieldAccessMethod) &SHLParameterChunkBase::getSFSHLChunk)
+                     reinterpret_cast<FieldAccessMethod>(&SHLParameterChunkBase::getSFSHLChunk))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType SHLParameterChunkBase::_type(
     "SHLParameterChunk",
     "ShaderParameterChunk",
     NULL,
-    (PrototypeCreateF) &SHLParameterChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SHLParameterChunkBase::createEmpty),
     SHLParameterChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 SHLParameterChunkBase::getContainerSize(void) const
 void SHLParameterChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SHLParameterChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SHLParameterChunkBase *>(&other),
+                          whichField);
 }
 #else
 void SHLParameterChunkBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void SHLParameterChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<SHLParameterChunkPtr>::_type("SHLParameterChunkPtr", "S
 
 OSG_DLLEXPORT_SFIELD_DEF1(SHLParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SHLParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.7 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.8 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHLPARAMETERCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGFatBorderChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector FatBorderChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType FatBorderChunkBase::_type(
     "FatBorderChunk",
     "VertexProgramChunk",
     NULL,
-    (PrototypeCreateF) &FatBorderChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&FatBorderChunkBase::createEmpty),
     FatBorderChunk::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 FatBorderChunkBase::getContainerSize(void) const
 void FatBorderChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((FatBorderChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<FatBorderChunkBase *>(&other),
+                          whichField);
 }
 #else
 void FatBorderChunkBase::executeSync(      FieldContainer &other,
@@ -219,6 +220,8 @@ void FatBorderChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -230,8 +233,6 @@ DataType FieldDataTraits<FatBorderChunkPtr>::_type("FatBorderChunkPtr", "VertexP
 
 OSG_DLLEXPORT_SFIELD_DEF1(FatBorderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(FatBorderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -247,10 +248,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGFATBORDERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFATBORDERCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFATBORDERCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

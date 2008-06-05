@@ -253,6 +253,6 @@ typedef RefPtr<CGFXChunkPtr> CGFXChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGFXChunkBase.h,v 1.4 2006/02/20 17:04:10 dirk Exp $"
+#define OSGCGFXCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGFXChunkBase.h,v 1.5 2008/06/05 05:02:14 vossg Exp $"
 
 #endif /* _OSGCGFXCHUNKBASE_H_ */

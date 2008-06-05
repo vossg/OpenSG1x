@@ -86,7 +86,7 @@ FieldDescription *CGFXAnnotationBase::_desc[] =
                      "parameters", 
                      ParametersFieldId, ParametersFieldMask,
                      true,
-                     (FieldAccessMethod) &CGFXAnnotationBase::getMFParameters)
+                     reinterpret_cast<FieldAccessMethod>(&CGFXAnnotationBase::getMFParameters))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType CGFXAnnotationBase::_type(
     "CGFXAnnotation",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &CGFXAnnotationBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CGFXAnnotationBase::createEmpty),
     CGFXAnnotation::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 CGFXAnnotationBase::getContainerSize(void) const
 void CGFXAnnotationBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGFXAnnotationBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CGFXAnnotationBase *>(&other),
+                          whichField);
 }
 #else
 void CGFXAnnotationBase::executeSync(      FieldContainer &other,
@@ -285,7 +286,7 @@ DataType FieldDataTraits<CGFXAnnotationPtr>::_type("CGFXAnnotationPtr", "Attachm
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.1 2006/04/05 16:10:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.2 2008/06/05 05:02:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXANNOTATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXANNOTATIONBASE_INLINE_CVSID;
 

@@ -68,7 +68,7 @@
 #include <OSGGL.h>                        // AlphaSrcFactor default header
 #include <OSGGL.h>                        // AlphaDestFactor default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  BlendChunkBase::SrcFactorFieldMask = 
     (TypeTraits<BitVector>::One << BlendChunkBase::SrcFactorFieldId);
@@ -134,42 +134,42 @@ FieldDescription *BlendChunkBase::_desc[] =
                      "srcFactor", 
                      SrcFactorFieldId, SrcFactorFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFSrcFactor),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFSrcFactor)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "destFactor", 
                      DestFactorFieldId, DestFactorFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFDestFactor),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFDestFactor)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "equation", 
                      EquationFieldId, EquationFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFEquation),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFEquation)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFColor),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFColor)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "alphaFunc", 
                      AlphaFuncFieldId, AlphaFuncFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaFunc),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFAlphaFunc)),
     new FieldDescription(SFReal32::getClassType(), 
                      "alphaValue", 
                      AlphaValueFieldId, AlphaValueFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaValue),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFAlphaValue)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "alphaSrcFactor", 
                      AlphaSrcFactorFieldId, AlphaSrcFactorFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaSrcFactor),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFAlphaSrcFactor)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "alphaDestFactor", 
                      AlphaDestFactorFieldId, AlphaDestFactorFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendChunkBase::getSFAlphaDestFactor)
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFAlphaDestFactor))
 };
 
 
@@ -177,7 +177,7 @@ FieldContainerType BlendChunkBase::_type(
     "BlendChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &BlendChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&BlendChunkBase::createEmpty),
     BlendChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -216,7 +216,8 @@ UInt32 BlendChunkBase::getContainerSize(void) const
 void BlendChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((BlendChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<BlendChunkBase *>(&other),
+                          whichField);
 }
 #else
 void BlendChunkBase::executeSync(      FieldContainer &other,
@@ -506,6 +507,8 @@ void BlendChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -517,8 +520,6 @@ DataType FieldDataTraits<BlendChunkPtr>::_type("BlendChunkPtr", "StateChunkPtr")
 
 OSG_DLLEXPORT_SFIELD_DEF1(BlendChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BlendChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -534,10 +535,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGBLENDCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

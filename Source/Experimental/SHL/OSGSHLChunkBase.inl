@@ -296,5 +296,5 @@ const MFUInt32 &SHLChunkBase::getProgramParameterValues(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.14 2007/10/10 16:00:12 neumannc Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.15 2008/06/05 05:02:21 vossg Exp $"
 

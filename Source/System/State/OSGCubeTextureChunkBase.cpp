@@ -110,27 +110,27 @@ FieldDescription *CubeTextureChunkBase::_desc[] =
                      "posZImage", 
                      PosZImageFieldId, PosZImageFieldMask,
                      false,
-                     (FieldAccessMethod) &CubeTextureChunkBase::getSFPosZImage),
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFPosZImage)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "posXImage", 
                      PosXImageFieldId, PosXImageFieldMask,
                      false,
-                     (FieldAccessMethod) &CubeTextureChunkBase::getSFPosXImage),
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFPosXImage)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "negXImage", 
                      NegXImageFieldId, NegXImageFieldMask,
                      false,
-                     (FieldAccessMethod) &CubeTextureChunkBase::getSFNegXImage),
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFNegXImage)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "posYImage", 
                      PosYImageFieldId, PosYImageFieldMask,
                      false,
-                     (FieldAccessMethod) &CubeTextureChunkBase::getSFPosYImage),
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFPosYImage)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "negYImage", 
                      NegYImageFieldId, NegYImageFieldMask,
                      false,
-                     (FieldAccessMethod) &CubeTextureChunkBase::getSFNegYImage)
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFNegYImage))
 };
 
 
@@ -138,7 +138,7 @@ FieldContainerType CubeTextureChunkBase::_type(
     "CubeTextureChunk",
     "TextureChunk",
     NULL,
-    (PrototypeCreateF) &CubeTextureChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CubeTextureChunkBase::createEmpty),
     CubeTextureChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -177,7 +177,8 @@ UInt32 CubeTextureChunkBase::getContainerSize(void) const
 void CubeTextureChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CubeTextureChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CubeTextureChunkBase *>(&other),
+                          whichField);
 }
 #else
 void CubeTextureChunkBase::executeSync(      FieldContainer &other,

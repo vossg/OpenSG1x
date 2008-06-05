@@ -128,5 +128,5 @@ const MFMaterialPtr &MaterialPoolBase::getMaterials(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALPOOLBASE_INLINE_CVSID "@(#)$Id: OSGMaterialPoolBase.inl,v 1.5 2006/02/20 16:54:24 dirk Exp $"
+#define OSGMATERIALPOOLBASE_INLINE_CVSID "@(#)$Id: OSGMaterialPoolBase.inl,v 1.6 2008/06/05 05:02:28 vossg Exp $"
 

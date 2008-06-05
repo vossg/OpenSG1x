@@ -62,7 +62,7 @@
 #include "OSGFileGrabForeground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  FileGrabForegroundBase::NameFieldMask = 
     (TypeTraits<BitVector>::One << FileGrabForegroundBase::NameFieldId);
@@ -98,17 +98,17 @@ FieldDescription *FileGrabForegroundBase::_desc[] =
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     (FieldAccessMethod) &FileGrabForegroundBase::getSFName),
+                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::getSFName)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "frame", 
                      FrameFieldId, FrameFieldMask,
                      false,
-                     (FieldAccessMethod) &FileGrabForegroundBase::getSFFrame),
+                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::getSFFrame)),
     new FieldDescription(SFBool::getClassType(), 
                      "increment", 
                      IncrementFieldId, IncrementFieldMask,
                      false,
-                     (FieldAccessMethod) &FileGrabForegroundBase::getSFIncrement)
+                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::getSFIncrement))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType FileGrabForegroundBase::_type(
     "FileGrabForeground",
     "GrabForeground",
     NULL,
-    (PrototypeCreateF) &FileGrabForegroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&FileGrabForegroundBase::createEmpty),
     FileGrabForeground::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 FileGrabForegroundBase::getContainerSize(void) const
 void FileGrabForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((FileGrabForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<FileGrabForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void FileGrabForegroundBase::executeSync(      FieldContainer &other,
@@ -330,6 +331,8 @@ void FileGrabForegroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -341,8 +344,6 @@ DataType FieldDataTraits<FileGrabForegroundPtr>::_type("FileGrabForegroundPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -358,10 +359,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFILEGRABFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

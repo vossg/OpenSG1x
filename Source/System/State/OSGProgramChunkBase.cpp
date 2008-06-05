@@ -62,7 +62,7 @@
 #include "OSGProgramChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ProgramChunkBase::ProgramFieldMask = 
     (TypeTraits<BitVector>::One << ProgramChunkBase::ProgramFieldId);
@@ -104,22 +104,22 @@ FieldDescription *ProgramChunkBase::_desc[] =
                      "program", 
                      ProgramFieldId, ProgramFieldMask,
                      false,
-                     (FieldAccessMethod) &ProgramChunkBase::getSFProgram),
+                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::getSFProgram)),
     new FieldDescription(MFVec4f::getClassType(), 
                      "paramValues", 
                      ParamValuesFieldId, ParamValuesFieldMask,
                      false,
-                     (FieldAccessMethod) &ProgramChunkBase::getMFParamValues),
+                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::getMFParamValues)),
     new FieldDescription(MFString::getClassType(), 
                      "paramNames", 
                      ParamNamesFieldId, ParamNamesFieldMask,
                      false,
-                     (FieldAccessMethod) &ProgramChunkBase::getMFParamNames),
+                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::getMFParamNames)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &ProgramChunkBase::getSFGLId)
+                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::getSFGLId))
 };
 
 
@@ -157,7 +157,8 @@ UInt32 ProgramChunkBase::getContainerSize(void) const
 void ProgramChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ProgramChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ProgramChunkBase *>(&other),
+                          whichField);
 }
 #else
 void ProgramChunkBase::executeSync(      FieldContainer &other,
@@ -363,6 +364,8 @@ void ProgramChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -374,8 +377,6 @@ DataType FieldDataTraits<ProgramChunkPtr>::_type("ProgramChunkPtr", "StateChunkP
 
 OSG_DLLEXPORT_SFIELD_DEF1(ProgramChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ProgramChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -391,10 +392,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPROGRAMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROGRAMCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPROGRAMCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

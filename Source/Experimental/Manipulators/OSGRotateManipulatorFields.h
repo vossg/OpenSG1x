@@ -102,6 +102,6 @@ struct FieldDataTraits<RotateManipulatorPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGROTATEMANIPULATORFIELDS_HEADER_CVSID "@(#)$Id: OSGRotateManipulatorFields.h,v 1.4 2006/02/20 17:04:35 dirk Exp $"
+#define OSGROTATEMANIPULATORFIELDS_HEADER_CVSID "@(#)$Id: OSGRotateManipulatorFields.h,v 1.5 2008/06/05 05:02:21 vossg Exp $"
 
 #endif /* _OSGROTATEMANIPULATORFIELDS_H_ */

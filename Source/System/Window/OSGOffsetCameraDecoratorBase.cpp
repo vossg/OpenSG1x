@@ -104,22 +104,22 @@ FieldDescription *OffsetCameraDecoratorBase::_desc[] =
                      "offsetX", 
                      OffsetXFieldId, OffsetXFieldMask,
                      false,
-                     (FieldAccessMethod) &OffsetCameraDecoratorBase::getSFOffsetX),
+                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::getSFOffsetX)),
     new FieldDescription(SFReal32::getClassType(), 
                      "offsetY", 
                      OffsetYFieldId, OffsetYFieldMask,
                      false,
-                     (FieldAccessMethod) &OffsetCameraDecoratorBase::getSFOffsetY),
+                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::getSFOffsetY)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fullWidth", 
                      FullWidthFieldId, FullWidthFieldMask,
                      false,
-                     (FieldAccessMethod) &OffsetCameraDecoratorBase::getSFFullWidth),
+                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::getSFFullWidth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fullHeight", 
                      FullHeightFieldId, FullHeightFieldMask,
                      true,
-                     (FieldAccessMethod) &OffsetCameraDecoratorBase::getSFFullHeight)
+                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::getSFFullHeight))
 };
 
 
@@ -127,7 +127,7 @@ FieldContainerType OffsetCameraDecoratorBase::_type(
     "OffsetCameraDecorator",
     "CameraDecorator",
     NULL,
-    (PrototypeCreateF) &OffsetCameraDecoratorBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&OffsetCameraDecoratorBase::createEmpty),
     OffsetCameraDecorator::initMethod,
     _desc,
     sizeof(_desc));
@@ -166,7 +166,8 @@ UInt32 OffsetCameraDecoratorBase::getContainerSize(void) const
 void OffsetCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((OffsetCameraDecoratorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<OffsetCameraDecoratorBase *>(&other),
+                          whichField);
 }
 #else
 void OffsetCameraDecoratorBase::executeSync(      FieldContainer &other,
@@ -392,7 +393,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(OffsetCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffsetCameraDecoratorBase.cpp,v 1.1 2007/09/26 14:18:52 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffsetCameraDecoratorBase.cpp,v 1.2 2008/06/05 05:02:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFSETCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFSETCAMERADECORATORBASE_INLINE_CVSID;
 

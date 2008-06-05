@@ -62,7 +62,7 @@
 #include "OSGParallelComposer.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ParallelComposerBase::ShortFieldMask = 
     (TypeTraits<BitVector>::One << ParallelComposerBase::ShortFieldId);
@@ -98,17 +98,17 @@ FieldDescription *ParallelComposerBase::_desc[] =
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     (FieldAccessMethod) &ParallelComposerBase::getSFShort),
+                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::getSFShort)),
     new FieldDescription(SFBool::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     (FieldAccessMethod) &ParallelComposerBase::getSFAlpha),
+                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::getSFAlpha)),
     new FieldDescription(SFString::getClassType(), 
                      "pcLibPath", 
                      PcLibPathFieldId, PcLibPathFieldMask,
                      false,
-                     (FieldAccessMethod) &ParallelComposerBase::getSFPcLibPath)
+                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::getSFPcLibPath))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType ParallelComposerBase::_type(
     "ParallelComposer",
     "ImageComposer",
     NULL,
-    (PrototypeCreateF) &ParallelComposerBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ParallelComposerBase::createEmpty),
     ParallelComposer::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 ParallelComposerBase::getContainerSize(void) const
 void ParallelComposerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ParallelComposerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ParallelComposerBase *>(&other),
+                          whichField);
 }
 #else
 void ParallelComposerBase::executeSync(      FieldContainer &other,
@@ -330,14 +331,10 @@ void ParallelComposerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ParallelComposerPtr>::_type("ParallelComposerPtr", "ImageComposerPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -353,10 +350,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposerBase.cpp,v 1.1 2006/05/08 04:00:01 eysquared Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposerBase.cpp,v 1.2 2008/06/05 05:02:25 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARALLELCOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARALLELCOMPOSERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPARALLELCOMPOSERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

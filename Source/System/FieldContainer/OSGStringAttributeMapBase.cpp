@@ -62,7 +62,7 @@
 #include "OSGStringAttributeMap.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  StringAttributeMapBase::KeysFieldMask = 
     (TypeTraits<BitVector>::One << StringAttributeMapBase::KeysFieldId);
@@ -92,12 +92,12 @@ FieldDescription *StringAttributeMapBase::_desc[] =
                      "keys", 
                      KeysFieldId, KeysFieldMask,
                      false,
-                     (FieldAccessMethod) &StringAttributeMapBase::getMFKeys),
+                     reinterpret_cast<FieldAccessMethod>(&StringAttributeMapBase::getMFKeys)),
     new FieldDescription(MFString::getClassType(), 
                      "values", 
                      ValuesFieldId, ValuesFieldMask,
                      false,
-                     (FieldAccessMethod) &StringAttributeMapBase::getMFValues)
+                     reinterpret_cast<FieldAccessMethod>(&StringAttributeMapBase::getMFValues))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType StringAttributeMapBase::_type(
     "StringAttributeMap",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &StringAttributeMapBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&StringAttributeMapBase::createEmpty),
     StringAttributeMap::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 StringAttributeMapBase::getContainerSize(void) const
 void StringAttributeMapBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((StringAttributeMapBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<StringAttributeMapBase *>(&other),
+                          whichField);
 }
 #else
 void StringAttributeMapBase::executeSync(      FieldContainer &other,
@@ -304,6 +305,8 @@ void StringAttributeMapBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -313,8 +316,6 @@ DataType FieldDataTraits<StringAttributeMapPtr>::_type("StringAttributeMapPtr", 
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(StringAttributeMapPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -330,10 +331,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMapBase.cpp,v 1.2 2006/02/20 16:54:57 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMapBase.cpp,v 1.3 2008/06/05 05:02:25 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTRINGATTRIBUTEMAPFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGPhysicsGeom.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsGeomBase::BodyFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsGeomBase::BodyFieldId);
@@ -128,42 +128,42 @@ FieldDescription *PhysicsGeomBase::_desc[] =
                      "body", 
                      BodyFieldId, BodyFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsGeomBase::getSFBody),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFBody)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsGeomBase::getSFPosition),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFPosition)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "rotation", 
                      RotationFieldId, RotationFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsGeomBase::getSFRotation),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFRotation)),
     new FieldDescription(SFQuaternion::getClassType(), 
                      "quaternion", 
                      QuaternionFieldId, QuaternionFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsGeomBase::getSFQuaternion),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFQuaternion)),
     new FieldDescription(SFUInt64::getClassType(), 
                      "categoryBits", 
                      CategoryBitsFieldId, CategoryBitsFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsGeomBase::getSFCategoryBits),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFCategoryBits)),
     new FieldDescription(SFUInt64::getClassType(), 
                      "collideBits", 
                      CollideBitsFieldId, CollideBitsFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsGeomBase::getSFCollideBits),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFCollideBits)),
     new FieldDescription(SFPhysicsSpacePtr::getClassType(), 
                      "space", 
                      SpaceFieldId, SpaceFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsGeomBase::getSFSpace),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFSpace)),
     new FieldDescription(SFBool::getClassType(), 
                      "enable", 
                      EnableFieldId, EnableFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsGeomBase::getSFEnable)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFEnable))
 };
 
 
@@ -171,7 +171,7 @@ FieldContainerType PhysicsGeomBase::_type(
     "PhysicsGeom",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &PhysicsGeomBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsGeomBase::createEmpty),
     PhysicsGeom::initMethod,
     _desc,
     sizeof(_desc));
@@ -210,7 +210,8 @@ UInt32 PhysicsGeomBase::getContainerSize(void) const
 void PhysicsGeomBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsGeomBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsGeomBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsGeomBase::executeSync(      FieldContainer &other,
@@ -500,6 +501,8 @@ void PhysicsGeomBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -511,8 +514,6 @@ DataType FieldDataTraits<PhysicsGeomPtr>::_type("PhysicsGeomPtr", "AttachmentPtr
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -528,10 +529,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsGeomBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsGeomBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSGEOMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSGEOMFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

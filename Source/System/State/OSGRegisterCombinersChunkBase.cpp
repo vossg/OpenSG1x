@@ -62,7 +62,7 @@
 #include "OSGRegisterCombinersChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  RegisterCombinersChunkBase::Color0FieldMask = 
     (TypeTraits<BitVector>::One << RegisterCombinersChunkBase::Color0FieldId);
@@ -266,157 +266,157 @@ FieldDescription *RegisterCombinersChunkBase::_desc[] =
                      "color0", 
                      Color0FieldId, Color0FieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getSFColor0),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getSFColor0)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "color1", 
                      Color1FieldId, Color1FieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getSFColor1),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getSFColor1)),
     new FieldDescription(SFBool::getClassType(), 
                      "colorSumClamp", 
                      ColorSumClampFieldId, ColorSumClampFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getSFColorSumClamp),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getSFColorSumClamp)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableArgb", 
                      VariableArgbFieldId, VariableArgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableArgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableArgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableBrgb", 
                      VariableBrgbFieldId, VariableBrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableBrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableBrgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableCrgb", 
                      VariableCrgbFieldId, VariableCrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableCrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableCrgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableDrgb", 
                      VariableDrgbFieldId, VariableDrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableDrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableDrgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableAalpha", 
                      VariableAalphaFieldId, VariableAalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableAalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableAalpha)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableBalpha", 
                      VariableBalphaFieldId, VariableBalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableBalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableBalpha)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableCalpha", 
                      VariableCalphaFieldId, VariableCalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableCalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableCalpha)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableDalpha", 
                      VariableDalphaFieldId, VariableDalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableDalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableDalpha)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "outputABrgb", 
                      OutputABrgbFieldId, OutputABrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFOutputABrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFOutputABrgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "outputCDrgb", 
                      OutputCDrgbFieldId, OutputCDrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFOutputCDrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFOutputCDrgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "outputSumrgb", 
                      OutputSumrgbFieldId, OutputSumrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFOutputSumrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFOutputSumrgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "scalergb", 
                      ScalergbFieldId, ScalergbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFScalergb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFScalergb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "biasrgb", 
                      BiasrgbFieldId, BiasrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFBiasrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFBiasrgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "outputABalpha", 
                      OutputABalphaFieldId, OutputABalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFOutputABalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFOutputABalpha)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "outputCDalpha", 
                      OutputCDalphaFieldId, OutputCDalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFOutputCDalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFOutputCDalpha)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "outputSumalpha", 
                      OutputSumalphaFieldId, OutputSumalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFOutputSumalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFOutputSumalpha)),
     new FieldDescription(MFUInt8::getClassType(), 
                      "dotABrgb", 
                      DotABrgbFieldId, DotABrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFDotABrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFDotABrgb)),
     new FieldDescription(MFUInt8::getClassType(), 
                      "dotCDrgb", 
                      DotCDrgbFieldId, DotCDrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFDotCDrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFDotCDrgb)),
     new FieldDescription(MFUInt8::getClassType(), 
                      "muxSumrgb", 
                      MuxSumrgbFieldId, MuxSumrgbFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFMuxSumrgb),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFMuxSumrgb)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "scalealpha", 
                      ScalealphaFieldId, ScalealphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFScalealpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFScalealpha)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "biasalpha", 
                      BiasalphaFieldId, BiasalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFBiasalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFBiasalpha)),
     new FieldDescription(MFUInt8::getClassType(), 
                      "muxSumalpha", 
                      MuxSumalphaFieldId, MuxSumalphaFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFMuxSumalpha),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFMuxSumalpha)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableE", 
                      VariableEFieldId, VariableEFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableE),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableE)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableF", 
                      VariableFFieldId, VariableFFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableF),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableF)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "variableG", 
                      VariableGFieldId, VariableGFieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFVariableG),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFVariableG)),
     new FieldDescription(MFColor4f::getClassType(), 
                      "combinerColor0", 
                      CombinerColor0FieldId, CombinerColor0FieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFCombinerColor0),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFCombinerColor0)),
     new FieldDescription(MFColor4f::getClassType(), 
                      "combinerColor1", 
                      CombinerColor1FieldId, CombinerColor1FieldMask,
                      false,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getMFCombinerColor1),
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getMFCombinerColor1)),
     new FieldDescription(SFUInt8::getClassType(), 
                      "perStageConstants", 
                      PerStageConstantsFieldId, PerStageConstantsFieldMask,
                      true,
-                     (FieldAccessMethod) &RegisterCombinersChunkBase::getSFPerStageConstants)
+                     reinterpret_cast<FieldAccessMethod>(&RegisterCombinersChunkBase::getSFPerStageConstants))
 };
 
 
@@ -424,7 +424,7 @@ FieldContainerType RegisterCombinersChunkBase::_type(
     "RegisterCombinersChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &RegisterCombinersChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&RegisterCombinersChunkBase::createEmpty),
     RegisterCombinersChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -463,7 +463,8 @@ UInt32 RegisterCombinersChunkBase::getContainerSize(void) const
 void RegisterCombinersChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((RegisterCombinersChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<RegisterCombinersChunkBase *>(&other),
+                          whichField);
 }
 #else
 void RegisterCombinersChunkBase::executeSync(      FieldContainer &other,
@@ -1390,6 +1391,8 @@ void RegisterCombinersChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -1401,8 +1404,6 @@ DataType FieldDataTraits<RegisterCombinersChunkPtr>::_type("RegisterCombinersChu
 
 OSG_DLLEXPORT_SFIELD_DEF1(RegisterCombinersChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(RegisterCombinersChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -1418,10 +1419,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGREGISTERCOMBINERSCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGREGISTERCOMBINERSCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

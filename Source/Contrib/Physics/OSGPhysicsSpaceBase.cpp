@@ -62,7 +62,7 @@
 #include "OSGPhysicsSpace.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsSpaceBase::CleanupFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsSpaceBase::CleanupFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsSpaceBase::_desc[] =
                      "cleanup", 
                      CleanupFieldId, CleanupFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsSpaceBase::getSFCleanup)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsSpaceBase::getSFCleanup))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsSpaceBase::_type(
     "PhysicsSpace",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &PhysicsSpaceBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsSpaceBase::createEmpty),
     PhysicsSpace::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsSpaceBase::getContainerSize(void) const
 void PhysicsSpaceBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsSpaceBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsSpaceBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsSpaceBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsSpaceBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsSpacePtr>::_type("PhysicsSpacePtr", "AttachmentP
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSpaceBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSpaceBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSSPACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSSPACEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSSPACEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

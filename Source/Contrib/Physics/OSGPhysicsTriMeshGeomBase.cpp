@@ -62,7 +62,7 @@
 #include "OSGPhysicsTriMeshGeom.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsTriMeshGeomBase::GeometryNodeFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsTriMeshGeomBase::GeometryNodeFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsTriMeshGeomBase::_desc[] =
                      "geometryNode", 
                      GeometryNodeFieldId, GeometryNodeFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsTriMeshGeomBase::getSFGeometryNode)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsTriMeshGeomBase::getSFGeometryNode))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsTriMeshGeomBase::_type(
     "PhysicsTriMeshGeom",
     "PhysicsGeom",
     NULL,
-    (PrototypeCreateF) &PhysicsTriMeshGeomBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsTriMeshGeomBase::createEmpty),
     PhysicsTriMeshGeom::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsTriMeshGeomBase::getContainerSize(void) const
 void PhysicsTriMeshGeomBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsTriMeshGeomBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsTriMeshGeomBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsTriMeshGeomBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsTriMeshGeomBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsTriMeshGeomPtr>::_type("PhysicsTriMeshGeomPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsTriMeshGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsTriMeshGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsTriMeshGeomBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsTriMeshGeomBase.cpp,v 1.3 2008/06/05 05:02:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSTRIMESHGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSTRIMESHGEOMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSTRIMESHGEOMFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGDVRSimpleShader.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector DVRSimpleShaderBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType DVRSimpleShaderBase::_type(
     "DVRSimpleShader",
     "DVRShader",
     NULL,
-    (PrototypeCreateF) &DVRSimpleShaderBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRSimpleShaderBase::createEmpty),
     DVRSimpleShader::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 DVRSimpleShaderBase::getContainerSize(void) const
 void DVRSimpleShaderBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRSimpleShaderBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRSimpleShaderBase *>(&other),
+                          whichField);
 }
 #else
 void DVRSimpleShaderBase::executeSync(      FieldContainer &other,
@@ -219,14 +220,10 @@ void DVRSimpleShaderBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DVRSimpleShaderPtr>::_type("DVRSimpleShaderPtr", "DVRShaderPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -242,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRSIMPLESHADERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRSIMPLESHADERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRSIMPLESHADERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGDrawable.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector DrawableBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -104,7 +104,8 @@ UInt32 DrawableBase::getContainerSize(void) const
 void DrawableBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DrawableBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DrawableBase *>(&other),
+                          whichField);
 }
 #else
 void DrawableBase::executeSync(      FieldContainer &other,
@@ -210,6 +211,8 @@ void DrawableBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -221,8 +224,6 @@ DataType FieldDataTraits<DrawablePtr>::_type("DrawablePtr", "NodeCorePtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -238,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawableBase.cpp,v 1.9 2006/02/20 16:54:27 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawableBase.cpp,v 1.10 2008/06/05 05:02:26 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWABLEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDRAWABLEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

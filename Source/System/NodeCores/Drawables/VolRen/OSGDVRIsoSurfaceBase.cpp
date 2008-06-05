@@ -63,7 +63,7 @@
 
 #include <OSGGL.h>                        // AlphaMode default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DVRIsoSurfaceBase::IsoValueFieldMask = 
     (TypeTraits<BitVector>::One << DVRIsoSurfaceBase::IsoValueFieldId);
@@ -111,27 +111,27 @@ FieldDescription *DVRIsoSurfaceBase::_desc[] =
                      "isoValue", 
                      IsoValueFieldId, IsoValueFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRIsoSurfaceBase::getSFIsoValue),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFIsoValue)),
     new FieldDescription(SFReal32::getClassType(), 
                      "isoThickness", 
                      IsoThicknessFieldId, IsoThicknessFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRIsoSurfaceBase::getSFIsoThickness),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFIsoThickness)),
     new FieldDescription(SFReal32::getClassType(), 
                      "isoOpacity", 
                      IsoOpacityFieldId, IsoOpacityFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRIsoSurfaceBase::getSFIsoOpacity),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFIsoOpacity)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "alphaMode", 
                      AlphaModeFieldId, AlphaModeFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRIsoSurfaceBase::getSFAlphaMode),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFAlphaMode)),
     new FieldDescription(SFBool::getClassType(), 
                      "specularLighting", 
                      SpecularLightingFieldId, SpecularLightingFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRIsoSurfaceBase::getSFSpecularLighting)
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFSpecularLighting))
 };
 
 
@@ -139,7 +139,7 @@ FieldContainerType DVRIsoSurfaceBase::_type(
     "DVRIsoSurface",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &DVRIsoSurfaceBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRIsoSurfaceBase::createEmpty),
     DVRIsoSurface::initMethod,
     _desc,
     sizeof(_desc));
@@ -178,7 +178,8 @@ UInt32 DVRIsoSurfaceBase::getContainerSize(void) const
 void DVRIsoSurfaceBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRIsoSurfaceBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRIsoSurfaceBase *>(&other),
+                          whichField);
 }
 #else
 void DVRIsoSurfaceBase::executeSync(      FieldContainer &other,
@@ -399,14 +400,10 @@ void DVRIsoSurfaceBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DVRIsoSurfacePtr>::_type("DVRIsoSurfacePtr", "AttachmentPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -422,10 +419,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRISOSURFACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRISOSURFACEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRISOSURFACEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

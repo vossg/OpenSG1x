@@ -62,7 +62,7 @@
 #include "OSGShaderParameter.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShaderParameterBase::NameFieldMask = 
     (TypeTraits<BitVector>::One << ShaderParameterBase::NameFieldId);
@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterBase::_desc[] =
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderParameterBase::getSFName)
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterBase::getSFName))
 };
 
 
@@ -124,7 +124,8 @@ UInt32 ShaderParameterBase::getContainerSize(void) const
 void ShaderParameterBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShaderParameterBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShaderParameterBase *>(&other),
+                          whichField);
 }
 #else
 void ShaderParameterBase::executeSync(      FieldContainer &other,
@@ -253,6 +254,8 @@ void ShaderParameterBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -264,8 +267,6 @@ DataType FieldDataTraits<ShaderParameterPtr>::_type("ShaderParameterPtr", "Attac
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShaderParameterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -281,10 +282,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.9 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.10 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

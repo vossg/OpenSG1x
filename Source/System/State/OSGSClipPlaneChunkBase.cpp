@@ -86,7 +86,7 @@ FieldDescription *SClipPlaneChunkBase::_desc[] =
                      "equation", 
                      EquationFieldId, EquationFieldMask,
                      false,
-                     (FieldAccessMethod) &SClipPlaneChunkBase::getSFEquation)
+                     reinterpret_cast<FieldAccessMethod>(&SClipPlaneChunkBase::getSFEquation))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType SClipPlaneChunkBase::_type(
     "SClipPlaneChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &SClipPlaneChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SClipPlaneChunkBase::createEmpty),
     SClipPlaneChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 SClipPlaneChunkBase::getContainerSize(void) const
 void SClipPlaneChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SClipPlaneChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SClipPlaneChunkBase *>(&other),
+                          whichField);
 }
 #else
 void SClipPlaneChunkBase::executeSync(      FieldContainer &other,
@@ -290,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SClipPlaneChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSClipPlaneChunkBase.cpp,v 1.1 2007/04/26 15:22:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSClipPlaneChunkBase.cpp,v 1.2 2008/06/05 05:02:29 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSCLIPPLANECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCLIPPLANECHUNKBASE_INLINE_CVSID;
 

@@ -62,7 +62,7 @@
 #include "OSGLinearCombinerGeometry.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  LinearCombinerGeometryBase::WeightsFieldMask = 
     (TypeTraits<BitVector>::One << LinearCombinerGeometryBase::WeightsFieldId);
@@ -116,32 +116,32 @@ FieldDescription *LinearCombinerGeometryBase::_desc[] =
                      "weights", 
                      WeightsFieldId, WeightsFieldMask,
                      false,
-                     (FieldAccessMethod) &LinearCombinerGeometryBase::getMFWeights),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getMFWeights)),
     new FieldDescription(MFGeoPositionsPtr::getClassType(), 
                      "srcpositions", 
                      SrcpositionsFieldId, SrcpositionsFieldMask,
                      false,
-                     (FieldAccessMethod) &LinearCombinerGeometryBase::getMFSrcpositions),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getMFSrcpositions)),
     new FieldDescription(MFVolume::getClassType(), 
                      "srcvolumes", 
                      SrcvolumesFieldId, SrcvolumesFieldMask,
                      true,
-                     (FieldAccessMethod) &LinearCombinerGeometryBase::getMFSrcvolumes),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getMFSrcvolumes)),
     new FieldDescription(SFBool::getClassType(), 
                      "recalconrender", 
                      RecalconrenderFieldId, RecalconrenderFieldMask,
                      true,
-                     (FieldAccessMethod) &LinearCombinerGeometryBase::getSFRecalconrender),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getSFRecalconrender)),
     new FieldDescription(SFBool::getClassType(), 
                      "allgeometries3f", 
                      Allgeometries3fFieldId, Allgeometries3fFieldMask,
                      true,
-                     (FieldAccessMethod) &LinearCombinerGeometryBase::getSFAllgeometries3f),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getSFAllgeometries3f)),
     new FieldDescription(SFBool::getClassType(), 
                      "positionsdirty", 
                      PositionsdirtyFieldId, PositionsdirtyFieldMask,
                      true,
-                     (FieldAccessMethod) &LinearCombinerGeometryBase::getSFPositionsdirty)
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getSFPositionsdirty))
 };
 
 
@@ -149,7 +149,7 @@ FieldContainerType LinearCombinerGeometryBase::_type(
     "LinearCombinerGeometry",
     "Geometry",
     NULL,
-    (PrototypeCreateF) &LinearCombinerGeometryBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&LinearCombinerGeometryBase::createEmpty),
     LinearCombinerGeometry::initMethod,
     _desc,
     sizeof(_desc));
@@ -188,7 +188,8 @@ UInt32 LinearCombinerGeometryBase::getContainerSize(void) const
 void LinearCombinerGeometryBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((LinearCombinerGeometryBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<LinearCombinerGeometryBase *>(&other),
+                          whichField);
 }
 #else
 void LinearCombinerGeometryBase::executeSync(      FieldContainer &other,
@@ -444,14 +445,10 @@ void LinearCombinerGeometryBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<LinearCombinerGeometryPtr>::_type("LinearCombinerGeometryPtr", "GeometryPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -467,10 +464,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGLINEARCOMBINERGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINEARCOMBINERGEOMETRYBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGLINEARCOMBINERGEOMETRYFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

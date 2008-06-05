@@ -62,7 +62,7 @@
 #include "OSGDVRClipGeometry.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DVRClipGeometryBase::GeometryNodeFieldMask = 
     (TypeTraits<BitVector>::One << DVRClipGeometryBase::GeometryNodeFieldId);
@@ -92,12 +92,12 @@ FieldDescription *DVRClipGeometryBase::_desc[] =
                      "geometryNode", 
                      GeometryNodeFieldId, GeometryNodeFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRClipGeometryBase::getSFGeometryNode),
+                     reinterpret_cast<FieldAccessMethod>(&DVRClipGeometryBase::getSFGeometryNode)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRClipGeometryBase::getSFBeacon)
+                     reinterpret_cast<FieldAccessMethod>(&DVRClipGeometryBase::getSFBeacon))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType DVRClipGeometryBase::_type(
     "DVRClipGeometry",
     "FieldContainer",
     NULL,
-    (PrototypeCreateF) &DVRClipGeometryBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRClipGeometryBase::createEmpty),
     DVRClipGeometry::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 DVRClipGeometryBase::getContainerSize(void) const
 void DVRClipGeometryBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRClipGeometryBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRClipGeometryBase *>(&other),
+                          whichField);
 }
 #else
 void DVRClipGeometryBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void DVRClipGeometryBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<DVRClipGeometryPtr>::_type("DVRClipGeometryPtr", "Field
 
 OSG_DLLEXPORT_SFIELD_DEF1(DVRClipGeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DVRClipGeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRCLIPGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRCLIPGEOMETRYBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRCLIPGEOMETRYFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

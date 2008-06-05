@@ -856,5 +856,5 @@ void RenderOptionsBase::setFogMode(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.9 2007/10/25 14:31:27 yjung Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.10 2008/06/05 05:02:24 vossg Exp $"
 

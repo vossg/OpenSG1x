@@ -62,7 +62,7 @@
 #include "OSGProjectionCameraDecorator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ProjectionCameraDecoratorBase::UserFieldMask = 
     (TypeTraits<BitVector>::One << ProjectionCameraDecoratorBase::UserFieldId);
@@ -122,37 +122,37 @@ FieldDescription *ProjectionCameraDecoratorBase::_desc[] =
                      "user", 
                      UserFieldId, UserFieldMask,
                      false,
-                     (FieldAccessMethod) &ProjectionCameraDecoratorBase::getSFUser),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFUser)),
     new FieldDescription(MFPnt3f::getClassType(), 
                      "surface", 
                      SurfaceFieldId, SurfaceFieldMask,
                      false,
-                     (FieldAccessMethod) &ProjectionCameraDecoratorBase::getMFSurface),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getMFSurface)),
     new FieldDescription(SFPlane::getClassType(), 
                      "left", 
                      LeftFieldId, LeftFieldMask,
                      true,
-                     (FieldAccessMethod) &ProjectionCameraDecoratorBase::getSFLeft),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFLeft)),
     new FieldDescription(SFPlane::getClassType(), 
                      "bottom", 
                      BottomFieldId, BottomFieldMask,
                      true,
-                     (FieldAccessMethod) &ProjectionCameraDecoratorBase::getSFBottom),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFBottom)),
     new FieldDescription(SFPlane::getClassType(), 
                      "normal", 
                      NormalFieldId, NormalFieldMask,
                      true,
-                     (FieldAccessMethod) &ProjectionCameraDecoratorBase::getSFNormal),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFNormal)),
     new FieldDescription(SFReal32::getClassType(), 
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      true,
-                     (FieldAccessMethod) &ProjectionCameraDecoratorBase::getSFWidth),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFWidth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "height", 
                      HeightFieldId, HeightFieldMask,
                      true,
-                     (FieldAccessMethod) &ProjectionCameraDecoratorBase::getSFHeight)
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFHeight))
 };
 
 
@@ -160,7 +160,7 @@ FieldContainerType ProjectionCameraDecoratorBase::_type(
     "ProjectionCameraDecorator",
     "StereoCameraDecorator",
     NULL,
-    (PrototypeCreateF) &ProjectionCameraDecoratorBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ProjectionCameraDecoratorBase::createEmpty),
     ProjectionCameraDecorator::initMethod,
     _desc,
     sizeof(_desc));
@@ -199,7 +199,8 @@ UInt32 ProjectionCameraDecoratorBase::getContainerSize(void) const
 void ProjectionCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ProjectionCameraDecoratorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ProjectionCameraDecoratorBase *>(&other),
+                          whichField);
 }
 #else
 void ProjectionCameraDecoratorBase::executeSync(      FieldContainer &other,
@@ -470,6 +471,8 @@ void ProjectionCameraDecoratorBase::execBeginEditImpl (const BitVector &whichFie
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -481,8 +484,6 @@ DataType FieldDataTraits<ProjectionCameraDecoratorPtr>::_type("ProjectionCameraD
 
 OSG_DLLEXPORT_SFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -498,10 +499,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPROJECTIONCAMERADECORATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

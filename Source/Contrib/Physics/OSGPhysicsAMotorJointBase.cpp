@@ -62,7 +62,7 @@
 #include "OSGPhysicsAMotorJoint.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsAMotorJointBase::ModeFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsAMotorJointBase::ModeFieldId);
@@ -92,12 +92,12 @@ FieldDescription *PhysicsAMotorJointBase::_desc[] =
                      "mode", 
                      ModeFieldId, ModeFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsAMotorJointBase::getSFMode),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsAMotorJointBase::getSFMode)),
     new FieldDescription(SFInt32::getClassType(), 
                      "numAxes", 
                      NumAxesFieldId, NumAxesFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsAMotorJointBase::getSFNumAxes)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsAMotorJointBase::getSFNumAxes))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType PhysicsAMotorJointBase::_type(
     "PhysicsAMotorJoint",
     "PhysicsJoint",
     NULL,
-    (PrototypeCreateF) &PhysicsAMotorJointBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsAMotorJointBase::createEmpty),
     PhysicsAMotorJoint::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 PhysicsAMotorJointBase::getContainerSize(void) const
 void PhysicsAMotorJointBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsAMotorJointBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsAMotorJointBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsAMotorJointBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void PhysicsAMotorJointBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<PhysicsAMotorJointPtr>::_type("PhysicsAMotorJointPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsAMotorJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsAMotorJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsAMotorJointBase.cpp,v 1.2 2006/02/20 17:04:20 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsAMotorJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSAMOTORJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSAMOTORJOINTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSAMOTORJOINTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -70,7 +70,7 @@
 #include <OSGGL.h>                        // OffsetLine default header
 #include <OSGGL.h>                        // OffsetFill default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PolygonChunkBase::CullFaceFieldMask = 
     (TypeTraits<BitVector>::One << PolygonChunkBase::CullFaceFieldId);
@@ -154,57 +154,57 @@ FieldDescription *PolygonChunkBase::_desc[] =
                      "cullFace", 
                      CullFaceFieldId, CullFaceFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFCullFace),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFCullFace)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "frontFace", 
                      FrontFaceFieldId, FrontFaceFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFFrontFace),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFFrontFace)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "frontMode", 
                      FrontModeFieldId, FrontModeFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFFrontMode),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFFrontMode)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "backMode", 
                      BackModeFieldId, BackModeFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFBackMode),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFBackMode)),
     new FieldDescription(SFBool::getClassType(), 
                      "smooth", 
                      SmoothFieldId, SmoothFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFSmooth),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFSmooth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "offsetFactor", 
                      OffsetFactorFieldId, OffsetFactorFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFOffsetFactor),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFOffsetFactor)),
     new FieldDescription(SFReal32::getClassType(), 
                      "offsetBias", 
                      OffsetBiasFieldId, OffsetBiasFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFOffsetBias),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFOffsetBias)),
     new FieldDescription(SFBool::getClassType(), 
                      "offsetPoint", 
                      OffsetPointFieldId, OffsetPointFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFOffsetPoint),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFOffsetPoint)),
     new FieldDescription(SFBool::getClassType(), 
                      "offsetLine", 
                      OffsetLineFieldId, OffsetLineFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFOffsetLine),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFOffsetLine)),
     new FieldDescription(SFBool::getClassType(), 
                      "offsetFill", 
                      OffsetFillFieldId, OffsetFillFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getSFOffsetFill),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getSFOffsetFill)),
     new FieldDescription(MFInt32::getClassType(), 
                      "stipple", 
                      StippleFieldId, StippleFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonChunkBase::getMFStipple)
+                     reinterpret_cast<FieldAccessMethod>(&PolygonChunkBase::getMFStipple))
 };
 
 
@@ -212,7 +212,7 @@ FieldContainerType PolygonChunkBase::_type(
     "PolygonChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &PolygonChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PolygonChunkBase::createEmpty),
     PolygonChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -251,7 +251,8 @@ UInt32 PolygonChunkBase::getContainerSize(void) const
 void PolygonChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PolygonChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PolygonChunkBase *>(&other),
+                          whichField);
 }
 #else
 void PolygonChunkBase::executeSync(      FieldContainer &other,
@@ -614,6 +615,8 @@ void PolygonChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -625,8 +628,6 @@ DataType FieldDataTraits<PolygonChunkPtr>::_type("PolygonChunkPtr", "StateChunkP
 
 OSG_DLLEXPORT_SFIELD_DEF1(PolygonChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PolygonChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -642,10 +643,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPOLYGONCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

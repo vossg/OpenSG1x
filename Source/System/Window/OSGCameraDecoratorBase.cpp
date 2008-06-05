@@ -62,7 +62,7 @@
 #include "OSGCameraDecorator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CameraDecoratorBase::DecorateeFieldMask = 
     (TypeTraits<BitVector>::One << CameraDecoratorBase::DecorateeFieldId);
@@ -84,7 +84,7 @@ FieldDescription *CameraDecoratorBase::_desc[] =
                      "decoratee", 
                      DecorateeFieldId, DecorateeFieldMask,
                      true,
-                     (FieldAccessMethod) &CameraDecoratorBase::getSFDecoratee)
+                     reinterpret_cast<FieldAccessMethod>(&CameraDecoratorBase::getSFDecoratee))
 };
 
 
@@ -122,7 +122,8 @@ UInt32 CameraDecoratorBase::getContainerSize(void) const
 void CameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CameraDecoratorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CameraDecoratorBase *>(&other),
+                          whichField);
 }
 #else
 void CameraDecoratorBase::executeSync(      FieldContainer &other,
@@ -249,6 +250,8 @@ void CameraDecoratorBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -260,8 +263,6 @@ DataType FieldDataTraits<CameraDecoratorPtr>::_type("CameraDecoratorPtr", "Camer
 
 OSG_DLLEXPORT_SFIELD_DEF1(CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -277,10 +278,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERADECORATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCAMERADECORATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

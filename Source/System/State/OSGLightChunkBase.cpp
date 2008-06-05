@@ -62,7 +62,7 @@
 #include "OSGLightChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  LightChunkBase::DiffuseFieldMask = 
     (TypeTraits<BitVector>::One << LightChunkBase::DiffuseFieldId);
@@ -140,52 +140,52 @@ FieldDescription *LightChunkBase::_desc[] =
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFDiffuse),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFDiffuse)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFAmbient),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFAmbient)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFSpecular),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFSpecular)),
     new FieldDescription(SFVec4f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFPosition),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFPosition)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "direction", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFDirection),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFDirection)),
     new FieldDescription(SFReal32::getClassType(), 
                      "exponent", 
                      ExponentFieldId, ExponentFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFExponent),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFExponent)),
     new FieldDescription(SFReal32::getClassType(), 
                      "cutoff", 
                      CutoffFieldId, CutoffFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFCutoff),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFCutoff)),
     new FieldDescription(SFReal32::getClassType(), 
                      "constantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFConstantAttenuation),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFConstantAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "linearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFLinearAttenuation),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFLinearAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "quadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &LightChunkBase::getSFQuadraticAttenuation)
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFQuadraticAttenuation))
 };
 
 
@@ -193,7 +193,7 @@ FieldContainerType LightChunkBase::_type(
     "LightChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &LightChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&LightChunkBase::createEmpty),
     LightChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -232,7 +232,8 @@ UInt32 LightChunkBase::getContainerSize(void) const
 void LightChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((LightChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<LightChunkBase *>(&other),
+                          whichField);
 }
 #else
 void LightChunkBase::executeSync(      FieldContainer &other,
@@ -568,6 +569,8 @@ void LightChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -579,8 +582,6 @@ DataType FieldDataTraits<LightChunkPtr>::_type("LightChunkPtr", "StateChunkPtr")
 
 OSG_DLLEXPORT_SFIELD_DEF1(LightChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(LightChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -596,10 +597,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGLIGHTCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

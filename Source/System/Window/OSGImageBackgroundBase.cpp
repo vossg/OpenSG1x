@@ -62,7 +62,7 @@
 #include "OSGImageBackground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ImageBackgroundBase::ColorFieldMask = 
     (TypeTraits<BitVector>::One << ImageBackgroundBase::ColorFieldId);
@@ -98,17 +98,17 @@ FieldDescription *ImageBackgroundBase::_desc[] =
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageBackgroundBase::getSFColor),
+                     reinterpret_cast<FieldAccessMethod>(&ImageBackgroundBase::getSFColor)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageBackgroundBase::getSFImage),
+                     reinterpret_cast<FieldAccessMethod>(&ImageBackgroundBase::getSFImage)),
     new FieldDescription(SFBool::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageBackgroundBase::getSFScale)
+                     reinterpret_cast<FieldAccessMethod>(&ImageBackgroundBase::getSFScale))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType ImageBackgroundBase::_type(
     "ImageBackground",
     "Background",
     NULL,
-    (PrototypeCreateF) &ImageBackgroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ImageBackgroundBase::createEmpty),
     ImageBackground::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 ImageBackgroundBase::getContainerSize(void) const
 void ImageBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ImageBackgroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ImageBackgroundBase *>(&other),
+                          whichField);
 }
 #else
 void ImageBackgroundBase::executeSync(      FieldContainer &other,
@@ -330,6 +331,8 @@ void ImageBackgroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -339,8 +342,6 @@ DataType FieldDataTraits<ImageBackgroundPtr>::_type("ImageBackgroundPtr", "Backg
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(ImageBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -356,10 +357,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGEBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGEBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGIMAGEBACKGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

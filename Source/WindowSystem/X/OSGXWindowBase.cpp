@@ -62,7 +62,7 @@
 #include "OSGXWindow.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  XWindowBase::DisplayFieldMask = 
     (TypeTraits<BitVector>::One << XWindowBase::DisplayFieldId);
@@ -98,17 +98,17 @@ FieldDescription *XWindowBase::_desc[] =
                      "display", 
                      DisplayFieldId, DisplayFieldMask,
                      true,
-                     (FieldAccessMethod) &XWindowBase::getSFDisplay),
+                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::getSFDisplay)),
     new FieldDescription(SFX11Window::getClassType(), 
                      "window", 
                      WindowFieldId, WindowFieldMask,
                      true,
-                     (FieldAccessMethod) &XWindowBase::getSFWindow),
+                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::getSFWindow)),
     new FieldDescription(SFGLXContext::getClassType(), 
                      "context", 
                      ContextFieldId, ContextFieldMask,
                      true,
-                     (FieldAccessMethod) &XWindowBase::getSFContext)
+                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::getSFContext))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType XWindowBase::_type(
     "XWindow",
     "Window",
     NULL,
-    (PrototypeCreateF) &XWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&XWindowBase::createEmpty),
     XWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 XWindowBase::getContainerSize(void) const
 void XWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((XWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<XWindowBase *>(&other),
+                          whichField);
 }
 #else
 void XWindowBase::executeSync(      FieldContainer &other,
@@ -330,6 +331,8 @@ void XWindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -341,8 +344,6 @@ DataType FieldDataTraits<XWindowPtr>::_type("XWindowPtr", "WindowPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -358,10 +359,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGXWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGXWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGXWINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

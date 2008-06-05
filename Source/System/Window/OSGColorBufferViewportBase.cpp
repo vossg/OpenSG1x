@@ -66,7 +66,7 @@
 #include <OSGGL.h>                        // Green default header
 #include <OSGGL.h>                        // Alpha default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ColorBufferViewportBase::RedFieldMask = 
     (TypeTraits<BitVector>::One << ColorBufferViewportBase::RedFieldId);
@@ -108,22 +108,22 @@ FieldDescription *ColorBufferViewportBase::_desc[] =
                      "red", 
                      RedFieldId, RedFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorBufferViewportBase::getSFRed),
+                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::getSFRed)),
     new FieldDescription(SFBool::getClassType(), 
                      "blue", 
                      BlueFieldId, BlueFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorBufferViewportBase::getSFBlue),
+                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::getSFBlue)),
     new FieldDescription(SFBool::getClassType(), 
                      "green", 
                      GreenFieldId, GreenFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorBufferViewportBase::getSFGreen),
+                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::getSFGreen)),
     new FieldDescription(SFBool::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorBufferViewportBase::getSFAlpha)
+                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::getSFAlpha))
 };
 
 
@@ -131,7 +131,7 @@ FieldContainerType ColorBufferViewportBase::_type(
     "ColorBufferViewport",
     "Viewport",
     NULL,
-    (PrototypeCreateF) &ColorBufferViewportBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ColorBufferViewportBase::createEmpty),
     ColorBufferViewport::initMethod,
     _desc,
     sizeof(_desc));
@@ -170,7 +170,8 @@ UInt32 ColorBufferViewportBase::getContainerSize(void) const
 void ColorBufferViewportBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ColorBufferViewportBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ColorBufferViewportBase *>(&other),
+                          whichField);
 }
 #else
 void ColorBufferViewportBase::executeSync(      FieldContainer &other,
@@ -368,6 +369,8 @@ void ColorBufferViewportBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -379,8 +382,6 @@ DataType FieldDataTraits<ColorBufferViewportPtr>::_type("ColorBufferViewportPtr"
 
 OSG_DLLEXPORT_SFIELD_DEF1(ColorBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ColorBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -396,10 +397,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORBUFFERVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORBUFFERVIEWPORTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCOLORBUFFERVIEWPORTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

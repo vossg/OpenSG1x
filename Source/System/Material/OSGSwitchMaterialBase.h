@@ -261,6 +261,6 @@ typedef RefPtr<SwitchMaterialPtr> SwitchMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSwitchMaterialBase.h,v 1.2 2006/02/20 17:04:44 dirk Exp $"
+#define OSGSWITCHMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSwitchMaterialBase.h,v 1.3 2008/06/05 05:02:25 vossg Exp $"
 
 #endif /* _OSGSWITCHMATERIALBASE_H_ */

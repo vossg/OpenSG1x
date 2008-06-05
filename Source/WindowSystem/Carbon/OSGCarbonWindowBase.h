@@ -253,6 +253,6 @@ typedef RefPtr<CarbonWindowPtr> CarbonWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCARBONWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCarbonWindowBase.h,v 1.1 2006/08/04 09:18:19 pdaehne Exp $"
+#define OSGCARBONWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCarbonWindowBase.h,v 1.2 2008/06/05 05:02:32 vossg Exp $"
 
 #endif /* _OSGCARBONWINDOWBASE_H_ */

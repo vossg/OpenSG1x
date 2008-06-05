@@ -62,7 +62,7 @@
 #include "OSGFCPtrAttributeMap.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  FCPtrAttributeMapBase::KeysFieldMask = 
     (TypeTraits<BitVector>::One << FCPtrAttributeMapBase::KeysFieldId);
@@ -92,12 +92,12 @@ FieldDescription *FCPtrAttributeMapBase::_desc[] =
                      "keys", 
                      KeysFieldId, KeysFieldMask,
                      false,
-                     (FieldAccessMethod) &FCPtrAttributeMapBase::getMFKeys),
+                     reinterpret_cast<FieldAccessMethod>(&FCPtrAttributeMapBase::getMFKeys)),
     new FieldDescription(MFFieldContainerPtr::getClassType(), 
                      "values", 
                      ValuesFieldId, ValuesFieldMask,
                      false,
-                     (FieldAccessMethod) &FCPtrAttributeMapBase::getMFValues)
+                     reinterpret_cast<FieldAccessMethod>(&FCPtrAttributeMapBase::getMFValues))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType FCPtrAttributeMapBase::_type(
     "FCPtrAttributeMap",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &FCPtrAttributeMapBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&FCPtrAttributeMapBase::createEmpty),
     FCPtrAttributeMap::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 FCPtrAttributeMapBase::getContainerSize(void) const
 void FCPtrAttributeMapBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((FCPtrAttributeMapBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<FCPtrAttributeMapBase *>(&other),
+                          whichField);
 }
 #else
 void FCPtrAttributeMapBase::executeSync(      FieldContainer &other,
@@ -304,6 +305,8 @@ void FCPtrAttributeMapBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -313,8 +316,6 @@ DataType FieldDataTraits<FCPtrAttributeMapPtr>::_type("FCPtrAttributeMapPtr", "A
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(FCPtrAttributeMapPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -330,10 +331,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFCPtrAttributeMapBase.cpp,v 1.2 2006/02/20 16:54:57 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFCPtrAttributeMapBase.cpp,v 1.3 2008/06/05 05:02:25 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFCPTRATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFCPTRATTRIBUTEMAPFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

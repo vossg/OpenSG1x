@@ -65,7 +65,7 @@
 #include <OSGGL.h>                        // Sprite default header
 #include <OSGGL.h>                        // RMode default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PointChunkBase::SizeFieldMask = 
     (TypeTraits<BitVector>::One << PointChunkBase::SizeFieldId);
@@ -143,52 +143,52 @@ FieldDescription *PointChunkBase::_desc[] =
                      "size", 
                      SizeFieldId, SizeFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFSize),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "smooth", 
                      SmoothFieldId, SmoothFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFSmooth),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFSmooth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "minSize", 
                      MinSizeFieldId, MinSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFMinSize),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFMinSize)),
     new FieldDescription(SFReal32::getClassType(), 
                      "maxSize", 
                      MaxSizeFieldId, MaxSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFMaxSize),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFMaxSize)),
     new FieldDescription(SFReal32::getClassType(), 
                      "constantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFConstantAttenuation),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFConstantAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "linearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFLinearAttenuation),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFLinearAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "quadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFQuadraticAttenuation),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFQuadraticAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "fadeThreshold", 
                      FadeThresholdFieldId, FadeThresholdFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFFadeThreshold),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFFadeThreshold)),
     new FieldDescription(SFBool::getClassType(), 
                      "sprite", 
                      SpriteFieldId, SpriteFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFSprite),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFSprite)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "rMode", 
                      RModeFieldId, RModeFieldMask,
                      false,
-                     (FieldAccessMethod) &PointChunkBase::getSFRMode)
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFRMode))
 };
 
 
@@ -196,7 +196,7 @@ FieldContainerType PointChunkBase::_type(
     "PointChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &PointChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PointChunkBase::createEmpty),
     PointChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -235,7 +235,8 @@ UInt32 PointChunkBase::getContainerSize(void) const
 void PointChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PointChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PointChunkBase *>(&other),
+                          whichField);
 }
 #else
 void PointChunkBase::executeSync(      FieldContainer &other,
@@ -571,6 +572,8 @@ void PointChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -582,8 +585,6 @@ DataType FieldDataTraits<PointChunkPtr>::_type("PointChunkPtr", "StateChunkPtr")
 
 OSG_DLLEXPORT_SFIELD_DEF1(PointChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PointChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -599,10 +600,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPOINTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOINTCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPOINTCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

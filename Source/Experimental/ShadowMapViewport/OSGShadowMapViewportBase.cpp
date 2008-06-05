@@ -140,52 +140,52 @@ FieldDescription *ShadowMapViewportBase::_desc[] =
                      "offBias", 
                      OffBiasFieldId, OffBiasFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFOffBias),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFOffBias)),
     new FieldDescription(SFReal32::getClassType(), 
                      "offFactor", 
                      OffFactorFieldId, OffFactorFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFOffFactor),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFOffFactor)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "sceneRoot", 
                      SceneRootFieldId, SceneRootFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFSceneRoot),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFSceneRoot)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "shadowColor", 
                      ShadowColorFieldId, ShadowColorFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFShadowColor),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFShadowColor)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "mapSize", 
                      MapSizeFieldId, MapSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFMapSize),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFMapSize)),
     new FieldDescription(MFNodePtr::getClassType(), 
                      "lightNodes", 
                      LightNodesFieldId, LightNodesFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getMFLightNodes),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getMFLightNodes)),
     new FieldDescription(MFNodePtr::getClassType(), 
                      "excludeNodes", 
                      ExcludeNodesFieldId, ExcludeNodesFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getMFExcludeNodes),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getMFExcludeNodes)),
     new FieldDescription(SFBool::getClassType(), 
                      "shadowOn", 
                      ShadowOnFieldId, ShadowOnFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFShadowOn),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFShadowOn)),
     new FieldDescription(SFBool::getClassType(), 
                      "mapAutoUpdate", 
                      MapAutoUpdateFieldId, MapAutoUpdateFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFMapAutoUpdate),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFMapAutoUpdate)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "shadowMapTextureIndex", 
                      ShadowMapTextureIndexFieldId, ShadowMapTextureIndexFieldMask,
                      false,
-                     (FieldAccessMethod) &ShadowMapViewportBase::getSFShadowMapTextureIndex)
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFShadowMapTextureIndex))
 };
 
 
@@ -193,7 +193,7 @@ FieldContainerType ShadowMapViewportBase::_type(
     "ShadowMapViewport",
     "StereoBufferViewport",
     NULL,
-    (PrototypeCreateF) &ShadowMapViewportBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ShadowMapViewportBase::createEmpty),
     ShadowMapViewport::initMethod,
     _desc,
     sizeof(_desc));
@@ -232,7 +232,8 @@ UInt32 ShadowMapViewportBase::getContainerSize(void) const
 void ShadowMapViewportBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShadowMapViewportBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShadowMapViewportBase *>(&other),
+                          whichField);
 }
 #else
 void ShadowMapViewportBase::executeSync(      FieldContainer &other,
@@ -604,7 +605,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShadowMapViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.13 2006/07/27 13:43:08 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.14 2008/06/05 05:02:23 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

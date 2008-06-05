@@ -62,7 +62,7 @@
 #include "OSGWIN32Window.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  WIN32WindowBase::HwndFieldMask = 
     (TypeTraits<BitVector>::One << WIN32WindowBase::HwndFieldId);
@@ -98,17 +98,17 @@ FieldDescription *WIN32WindowBase::_desc[] =
                      "hwnd", 
                      HwndFieldId, HwndFieldMask,
                      true,
-                     (FieldAccessMethod) &WIN32WindowBase::getSFHwnd),
+                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::getSFHwnd)),
     new FieldDescription(SFHDC::getClassType(), 
                      "hdc", 
                      HdcFieldId, HdcFieldMask,
                      true,
-                     (FieldAccessMethod) &WIN32WindowBase::getSFHdc),
+                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::getSFHdc)),
     new FieldDescription(SFHGLRC::getClassType(), 
                      "hglrc", 
                      HglrcFieldId, HglrcFieldMask,
                      true,
-                     (FieldAccessMethod) &WIN32WindowBase::getSFHglrc)
+                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::getSFHglrc))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType WIN32WindowBase::_type(
     "WIN32Window",
     "Window",
     NULL,
-    (PrototypeCreateF) &WIN32WindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&WIN32WindowBase::createEmpty),
     WIN32Window::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 WIN32WindowBase::getContainerSize(void) const
 void WIN32WindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((WIN32WindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<WIN32WindowBase *>(&other),
+                          whichField);
 }
 #else
 void WIN32WindowBase::executeSync(      FieldContainer &other,
@@ -330,6 +331,8 @@ void WIN32WindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -341,8 +344,6 @@ DataType FieldDataTraits<WIN32WindowPtr>::_type("WIN32WindowPtr", "WindowPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -358,10 +359,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGWIN32WINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

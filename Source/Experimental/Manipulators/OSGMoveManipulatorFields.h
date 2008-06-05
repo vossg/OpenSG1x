@@ -102,6 +102,6 @@ struct FieldDataTraits<MoveManipulatorPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGMOVEMANIPULATORFIELDS_HEADER_CVSID "@(#)$Id: OSGMoveManipulatorFields.h,v 1.4 2006/02/20 17:04:35 dirk Exp $"
+#define OSGMOVEMANIPULATORFIELDS_HEADER_CVSID "@(#)$Id: OSGMoveManipulatorFields.h,v 1.5 2008/06/05 05:02:21 vossg Exp $"
 
 #endif /* _OSGMOVEMANIPULATORFIELDS_H_ */

@@ -100,5 +100,5 @@ ScreenGroupPtr ScreenGroupBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSCREENGROUPBASE_INLINE_CVSID "@(#)$Id: OSGScreenGroupBase.inl,v 1.1 2007/05/07 11:50:37 pdaehne Exp $"
+#define OSGSCREENGROUPBASE_INLINE_CVSID "@(#)$Id: OSGScreenGroupBase.inl,v 1.2 2008/06/05 05:02:28 vossg Exp $"
 

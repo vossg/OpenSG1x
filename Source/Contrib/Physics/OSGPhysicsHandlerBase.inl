@@ -156,5 +156,5 @@ void PhysicsHandlerBase::setSpace(const PhysicsSpacePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHANDLERBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHandlerBase.inl,v 1.2 2006/02/20 17:04:21 dirk Exp $"
+#define OSGPHYSICSHANDLERBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHandlerBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 

@@ -98,17 +98,17 @@ FieldDescription *ClipPlaneBase::_desc[] =
                      "equation", 
                      EquationFieldId, EquationFieldMask,
                      false,
-                     (FieldAccessMethod) &ClipPlaneBase::getSFEquation),
+                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::getSFEquation)),
     new FieldDescription(SFBool::getClassType(), 
                      "on", 
                      OnFieldId, OnFieldMask,
                      false,
-                     (FieldAccessMethod) &ClipPlaneBase::getSFOn),
+                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::getSFOn)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &ClipPlaneBase::getSFBeacon)
+                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::getSFBeacon))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType ClipPlaneBase::_type(
     "ClipPlane",
     "Group",
     NULL,
-    (PrototypeCreateF) &ClipPlaneBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ClipPlaneBase::createEmpty),
     ClipPlane::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 ClipPlaneBase::getContainerSize(void) const
 void ClipPlaneBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ClipPlaneBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ClipPlaneBase *>(&other),
+                          whichField);
 }
 #else
 void ClipPlaneBase::executeSync(      FieldContainer &other,
@@ -356,7 +357,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(ClipPlanePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneBase.cpp,v 1.1 2007/04/26 15:22:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneBase.cpp,v 1.2 2008/06/05 05:02:27 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCLIPPLANEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLIPPLANEBASE_INLINE_CVSID;
 

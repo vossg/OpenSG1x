@@ -146,57 +146,57 @@ FieldDescription *PolygonBackgroundBase::_desc[] =
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFMaterial),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFMaterial)),
     new FieldDescription(MFVec3f::getClassType(), 
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getMFTexCoords),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getMFTexCoords)),
     new FieldDescription(MFPnt2f::getClassType(), 
                      "positions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getMFPositions),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getMFPositions)),
     new FieldDescription(SFBool::getClassType(), 
                      "normalizedX", 
                      NormalizedXFieldId, NormalizedXFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFNormalizedX),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFNormalizedX)),
     new FieldDescription(SFBool::getClassType(), 
                      "normalizedY", 
                      NormalizedYFieldId, NormalizedYFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFNormalizedY),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFNormalizedY)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "aspectHeight", 
                      AspectHeightFieldId, AspectHeightFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFAspectHeight),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFAspectHeight)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "aspectWidth", 
                      AspectWidthFieldId, AspectWidthFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFAspectWidth),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFAspectWidth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFScale),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFScale)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFClearStencilBit),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFClearStencilBit)),
     new FieldDescription(SFBool::getClassType(), 
                      "cleanup", 
                      CleanupFieldId, CleanupFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFCleanup),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFCleanup)),
     new FieldDescription(SFBool::getClassType(), 
                      "tile", 
                      TileFieldId, TileFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonBackgroundBase::getSFTile)
+                     reinterpret_cast<FieldAccessMethod>(&PolygonBackgroundBase::getSFTile))
 };
 
 
@@ -204,7 +204,7 @@ FieldContainerType PolygonBackgroundBase::_type(
     "PolygonBackground",
     "Background",
     NULL,
-    (PrototypeCreateF) &PolygonBackgroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PolygonBackgroundBase::createEmpty),
     PolygonBackground::initMethod,
     _desc,
     sizeof(_desc));
@@ -243,7 +243,8 @@ UInt32 PolygonBackgroundBase::getContainerSize(void) const
 void PolygonBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PolygonBackgroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PolygonBackgroundBase *>(&other),
+                          whichField);
 }
 #else
 void PolygonBackgroundBase::executeSync(      FieldContainer &other,
@@ -638,7 +639,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PolygonBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.9 2007/03/09 16:59:50 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.10 2008/06/05 05:02:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

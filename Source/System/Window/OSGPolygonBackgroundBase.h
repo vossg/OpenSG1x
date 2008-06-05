@@ -333,6 +333,6 @@ typedef RefPtr<PolygonBackgroundPtr> PolygonBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.9 2007/03/09 16:59:50 yjung Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.10 2008/06/05 05:02:30 vossg Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUNDBASE_H_ */

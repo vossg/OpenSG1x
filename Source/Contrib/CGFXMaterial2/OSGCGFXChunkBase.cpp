@@ -86,7 +86,7 @@ FieldDescription *CGFXChunkBase::_desc[] =
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &CGFXChunkBase::getSFGLId)
+                     reinterpret_cast<FieldAccessMethod>(&CGFXChunkBase::getSFGLId))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType CGFXChunkBase::_type(
     "CGFXChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &CGFXChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CGFXChunkBase::createEmpty),
     CGFXChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 CGFXChunkBase::getContainerSize(void) const
 void CGFXChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGFXChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CGFXChunkBase *>(&other),
+                          whichField);
 }
 #else
 void CGFXChunkBase::executeSync(      FieldContainer &other,
@@ -290,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CGFXChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunkBase.cpp,v 1.1 2006/04/05 16:10:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunkBase.cpp,v 1.2 2008/06/05 05:02:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

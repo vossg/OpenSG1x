@@ -62,7 +62,7 @@
 #include "OSGTransformChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TransformChunkBase::MatrixFieldMask = 
     (TypeTraits<BitVector>::One << TransformChunkBase::MatrixFieldId);
@@ -86,7 +86,7 @@ FieldDescription *TransformChunkBase::_desc[] =
                      "matrix", 
                      MatrixFieldId, MatrixFieldMask,
                      false,
-                     (FieldAccessMethod) &TransformChunkBase::getSFMatrix)
+                     reinterpret_cast<FieldAccessMethod>(&TransformChunkBase::getSFMatrix))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType TransformChunkBase::_type(
     "TransformChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &TransformChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TransformChunkBase::createEmpty),
     TransformChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 TransformChunkBase::getContainerSize(void) const
 void TransformChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TransformChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TransformChunkBase *>(&other),
+                          whichField);
 }
 #else
 void TransformChunkBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void TransformChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<TransformChunkPtr>::_type("TransformChunkPtr", "StateCh
 
 OSG_DLLEXPORT_SFIELD_DEF1(TransformChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TransformChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGTRANSFORMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTRANSFORMCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTRANSFORMCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

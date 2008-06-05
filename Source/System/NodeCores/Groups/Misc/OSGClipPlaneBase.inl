@@ -184,5 +184,5 @@ void ClipPlaneBase::setBeacon(const NodePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANEBASE_INLINE_CVSID "@(#)$Id: OSGClipPlaneBase.inl,v 1.1 2007/04/26 15:22:01 a-m-z Exp $"
+#define OSGCLIPPLANEBASE_INLINE_CVSID "@(#)$Id: OSGClipPlaneBase.inl,v 1.2 2008/06/05 05:02:27 vossg Exp $"
 

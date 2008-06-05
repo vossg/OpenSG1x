@@ -62,7 +62,7 @@
 #include "OSGPhysicsSphereGeom.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsSphereGeomBase::RadiusFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsSphereGeomBase::RadiusFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsSphereGeomBase::_desc[] =
                      "radius", 
                      RadiusFieldId, RadiusFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsSphereGeomBase::getSFRadius)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsSphereGeomBase::getSFRadius))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsSphereGeomBase::_type(
     "PhysicsSphereGeom",
     "PhysicsGeom",
     NULL,
-    (PrototypeCreateF) &PhysicsSphereGeomBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsSphereGeomBase::createEmpty),
     PhysicsSphereGeom::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsSphereGeomBase::getContainerSize(void) const
 void PhysicsSphereGeomBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsSphereGeomBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsSphereGeomBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsSphereGeomBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsSphereGeomBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsSphereGeomPtr>::_type("PhysicsSphereGeomPtr", "P
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsSphereGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsSphereGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSphereGeomBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSphereGeomBase.cpp,v 1.3 2008/06/05 05:02:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSSPHEREGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSSPHEREGEOMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSSPHEREGEOMFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

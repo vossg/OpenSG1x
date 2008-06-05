@@ -92,12 +92,12 @@ FieldDescription *DisplayFilterForegroundBase::_desc[] =
                      "filter", 
                      FilterFieldId, FilterFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayFilterForegroundBase::getMFFilter),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayFilterForegroundBase::getMFFilter)),
     new FieldDescription(SFString::getClassType(), 
                      "server", 
                      ServerFieldId, ServerFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayFilterForegroundBase::getSFServer)
+                     reinterpret_cast<FieldAccessMethod>(&DisplayFilterForegroundBase::getSFServer))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType DisplayFilterForegroundBase::_type(
     "DisplayFilterForeground",
     "Foreground",
     NULL,
-    (PrototypeCreateF) &DisplayFilterForegroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DisplayFilterForegroundBase::createEmpty),
     DisplayFilterForeground::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 DisplayFilterForegroundBase::getContainerSize(void) const
 void DisplayFilterForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DisplayFilterForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DisplayFilterForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void DisplayFilterForegroundBase::executeSync(      FieldContainer &other,

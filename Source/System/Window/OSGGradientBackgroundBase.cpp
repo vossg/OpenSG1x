@@ -98,17 +98,17 @@ FieldDescription *GradientBackgroundBase::_desc[] =
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &GradientBackgroundBase::getMFColor),
+                     reinterpret_cast<FieldAccessMethod>(&GradientBackgroundBase::getMFColor)),
     new FieldDescription(MFReal32::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     (FieldAccessMethod) &GradientBackgroundBase::getMFPosition),
+                     reinterpret_cast<FieldAccessMethod>(&GradientBackgroundBase::getMFPosition)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     (FieldAccessMethod) &GradientBackgroundBase::getSFClearStencilBit)
+                     reinterpret_cast<FieldAccessMethod>(&GradientBackgroundBase::getSFClearStencilBit))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType GradientBackgroundBase::_type(
     "GradientBackground",
     "Background",
     NULL,
-    (PrototypeCreateF) &GradientBackgroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&GradientBackgroundBase::createEmpty),
     GradientBackground::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 GradientBackgroundBase::getContainerSize(void) const
 void GradientBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((GradientBackgroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<GradientBackgroundBase *>(&other),
+                          whichField);
 }
 #else
 void GradientBackgroundBase::executeSync(      FieldContainer &other,

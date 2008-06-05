@@ -62,7 +62,7 @@
 #include "OSGColorMaskChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ColorMaskChunkBase::MaskRFieldMask = 
     (TypeTraits<BitVector>::One << ColorMaskChunkBase::MaskRFieldId);
@@ -104,22 +104,22 @@ FieldDescription *ColorMaskChunkBase::_desc[] =
                      "maskR", 
                      MaskRFieldId, MaskRFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorMaskChunkBase::getSFMaskR),
+                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::getSFMaskR)),
     new FieldDescription(SFBool::getClassType(), 
                      "maskG", 
                      MaskGFieldId, MaskGFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorMaskChunkBase::getSFMaskG),
+                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::getSFMaskG)),
     new FieldDescription(SFBool::getClassType(), 
                      "maskB", 
                      MaskBFieldId, MaskBFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorMaskChunkBase::getSFMaskB),
+                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::getSFMaskB)),
     new FieldDescription(SFBool::getClassType(), 
                      "maskA", 
                      MaskAFieldId, MaskAFieldMask,
                      false,
-                     (FieldAccessMethod) &ColorMaskChunkBase::getSFMaskA)
+                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::getSFMaskA))
 };
 
 
@@ -127,7 +127,7 @@ FieldContainerType ColorMaskChunkBase::_type(
     "ColorMaskChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &ColorMaskChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ColorMaskChunkBase::createEmpty),
     ColorMaskChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -166,7 +166,8 @@ UInt32 ColorMaskChunkBase::getContainerSize(void) const
 void ColorMaskChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ColorMaskChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ColorMaskChunkBase *>(&other),
+                          whichField);
 }
 #else
 void ColorMaskChunkBase::executeSync(      FieldContainer &other,
@@ -364,6 +365,8 @@ void ColorMaskChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -375,8 +378,6 @@ DataType FieldDataTraits<ColorMaskChunkPtr>::_type("ColorMaskChunkPtr", "StateCh
 
 OSG_DLLEXPORT_SFIELD_DEF1(ColorMaskChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ColorMaskChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -392,10 +393,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGColorMaskChunkBase.cpp,v 1.4 2006/02/20 16:54:19 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGColorMaskChunkBase.cpp,v 1.5 2008/06/05 05:02:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORMASKCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORMASKCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCOLORMASKCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

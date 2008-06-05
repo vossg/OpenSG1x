@@ -62,7 +62,7 @@
 #include "OSGMaterialPool.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MaterialPoolBase::MaterialsFieldMask = 
     (TypeTraits<BitVector>::One << MaterialPoolBase::MaterialsFieldId);
@@ -86,7 +86,7 @@ FieldDescription *MaterialPoolBase::_desc[] =
                      "materials", 
                      MaterialsFieldId, MaterialsFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialPoolBase::getMFMaterials)
+                     reinterpret_cast<FieldAccessMethod>(&MaterialPoolBase::getMFMaterials))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType MaterialPoolBase::_type(
     "MaterialPool",
     "Group",
     NULL,
-    (PrototypeCreateF) &MaterialPoolBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&MaterialPoolBase::createEmpty),
     MaterialPool::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 MaterialPoolBase::getContainerSize(void) const
 void MaterialPoolBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MaterialPoolBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MaterialPoolBase *>(&other),
+                          whichField);
 }
 #else
 void MaterialPoolBase::executeSync(      FieldContainer &other,
@@ -266,6 +267,8 @@ void MaterialPoolBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -277,8 +280,6 @@ DataType FieldDataTraits<MaterialPoolPtr>::_type("MaterialPoolPtr", "GroupPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialPoolPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialPoolPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -294,10 +295,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialPoolBase.cpp,v 1.6 2006/02/20 16:54:24 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialPoolBase.cpp,v 1.7 2008/06/05 05:02:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALPOOLBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALPOOLBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMATERIALPOOLFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

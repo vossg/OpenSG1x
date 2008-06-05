@@ -128,5 +128,5 @@ void CocoaWindowBase::setContext(const NSOpenGLContextP &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCOCOAWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCocoaWindowBase.inl,v 1.1 2006/10/16 17:24:24 pdaehne Exp $"
+#define OSGCOCOAWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCocoaWindowBase.inl,v 1.2 2008/06/05 05:02:33 vossg Exp $"
 

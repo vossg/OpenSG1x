@@ -104,22 +104,22 @@ FieldDescription *PipelineComposerBase::_desc[] =
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     (FieldAccessMethod) &PipelineComposerBase::getSFShort),
+                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::getSFShort)),
     new FieldDescription(SFBool::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     (FieldAccessMethod) &PipelineComposerBase::getSFAlpha),
+                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::getSFAlpha)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "tileSize", 
                      TileSizeFieldId, TileSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &PipelineComposerBase::getSFTileSize),
+                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::getSFTileSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "pipelined", 
                      PipelinedFieldId, PipelinedFieldMask,
                      false,
-                     (FieldAccessMethod) &PipelineComposerBase::getSFPipelined)
+                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::getSFPipelined))
 };
 
 
@@ -127,7 +127,7 @@ FieldContainerType PipelineComposerBase::_type(
     "PipelineComposer",
     "ImageComposer",
     NULL,
-    (PrototypeCreateF) &PipelineComposerBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PipelineComposerBase::createEmpty),
     PipelineComposer::initMethod,
     _desc,
     sizeof(_desc));
@@ -166,7 +166,8 @@ UInt32 PipelineComposerBase::getContainerSize(void) const
 void PipelineComposerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PipelineComposerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PipelineComposerBase *>(&other),
+                          whichField);
 }
 #else
 void PipelineComposerBase::executeSync(      FieldContainer &other,
@@ -383,7 +384,7 @@ DataType FieldDataTraits<PipelineComposerPtr>::_type("PipelineComposerPtr", "Ima
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.46 2006/03/16 17:01:53 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPIPELINECOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPIPELINECOMPOSERBASE_INLINE_CVSID;
 

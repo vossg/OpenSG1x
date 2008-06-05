@@ -62,7 +62,7 @@
 #include "OSGSortFirstWindow.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SortFirstWindowBase::CompressionFieldMask = 
     (TypeTraits<BitVector>::One << SortFirstWindowBase::CompressionFieldId);
@@ -110,27 +110,27 @@ FieldDescription *SortFirstWindowBase::_desc[] =
                      "compression", 
                      CompressionFieldId, CompressionFieldMask,
                      false,
-                     (FieldAccessMethod) &SortFirstWindowBase::getSFCompression),
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getSFCompression)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "subtileSize", 
                      SubtileSizeFieldId, SubtileSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &SortFirstWindowBase::getSFSubtileSize),
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getSFSubtileSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "compose", 
                      ComposeFieldId, ComposeFieldMask,
                      false,
-                     (FieldAccessMethod) &SortFirstWindowBase::getSFCompose),
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getSFCompose)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "region", 
                      RegionFieldId, RegionFieldMask,
                      false,
-                     (FieldAccessMethod) &SortFirstWindowBase::getMFRegion),
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getMFRegion)),
     new FieldDescription(SFBool::getClassType(), 
                      "useFaceDistribution", 
                      UseFaceDistributionFieldId, UseFaceDistributionFieldMask,
                      false,
-                     (FieldAccessMethod) &SortFirstWindowBase::getSFUseFaceDistribution)
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getSFUseFaceDistribution))
 };
 
 
@@ -138,7 +138,7 @@ FieldContainerType SortFirstWindowBase::_type(
     "SortFirstWindow",
     "ClusterWindow",
     NULL,
-    (PrototypeCreateF) &SortFirstWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SortFirstWindowBase::createEmpty),
     SortFirstWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -177,7 +177,8 @@ UInt32 SortFirstWindowBase::getContainerSize(void) const
 void SortFirstWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SortFirstWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SortFirstWindowBase *>(&other),
+                          whichField);
 }
 #else
 void SortFirstWindowBase::executeSync(      FieldContainer &other,
@@ -402,14 +403,10 @@ void SortFirstWindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SortFirstWindowPtr>::_type("SortFirstWindowPtr", "ClusterWindowPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -425,10 +422,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSORTFIRSTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSORTFIRSTWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSORTFIRSTWINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

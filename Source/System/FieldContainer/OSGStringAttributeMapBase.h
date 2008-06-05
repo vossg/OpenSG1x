@@ -261,6 +261,6 @@ typedef RefPtr<StringAttributeMapPtr> StringAttributeMapRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID "@(#)$Id: OSGStringAttributeMapBase.h,v 1.2 2006/02/20 16:54:57 dirk Exp $"
+#define OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID "@(#)$Id: OSGStringAttributeMapBase.h,v 1.3 2008/06/05 05:02:25 vossg Exp $"
 
 #endif /* _OSGSTRINGATTRIBUTEMAPBASE_H_ */

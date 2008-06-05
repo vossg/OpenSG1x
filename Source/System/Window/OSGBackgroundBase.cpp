@@ -62,7 +62,7 @@
 #include "OSGBackground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector BackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -104,7 +104,8 @@ UInt32 BackgroundBase::getContainerSize(void) const
 void BackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((BackgroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<BackgroundBase *>(&other),
+                          whichField);
 }
 #else
 void BackgroundBase::executeSync(      FieldContainer &other,
@@ -210,6 +211,8 @@ void BackgroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -221,8 +224,6 @@ DataType FieldDataTraits<BackgroundPtr>::_type("BackgroundPtr", "AttachmentConta
 
 OSG_DLLEXPORT_SFIELD_DEF1(BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -238,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBACKGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGBACKGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

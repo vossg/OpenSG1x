@@ -62,7 +62,7 @@
 #include "OSGLightEnv.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector LightEnvBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType LightEnvBase::_type(
     "LightEnv",
     "NodeCore",
     NULL,
-    (PrototypeCreateF) &LightEnvBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&LightEnvBase::createEmpty),
     LightEnv::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 LightEnvBase::getContainerSize(void) const
 void LightEnvBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((LightEnvBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<LightEnvBase *>(&other),
+                          whichField);
 }
 #else
 void LightEnvBase::executeSync(      FieldContainer &other,
@@ -219,14 +220,10 @@ void LightEnvBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<LightEnvPtr>::_type("LightEnvPtr", "NodeCorePtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -242,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightEnvBase.cpp,v 1.6 2006/02/20 16:54:23 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightEnvBase.cpp,v 1.7 2008/06/05 05:02:27 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTENVBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTENVBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGLIGHTENVFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

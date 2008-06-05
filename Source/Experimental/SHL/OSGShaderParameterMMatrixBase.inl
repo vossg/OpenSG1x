@@ -128,5 +128,5 @@ const MFMatrix &ShaderParameterMMatrixBase::getValue(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMMATRIXBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMMatrixBase.inl,v 1.1 2007/03/09 18:11:48 a-m-z Exp $"
+#define OSGSHADERPARAMETERMMATRIXBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMMatrixBase.inl,v 1.2 2008/06/05 05:02:21 vossg Exp $"
 

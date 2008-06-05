@@ -156,5 +156,5 @@ void PhysicsAMotorJointBase::setNumAxes(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSAMOTORJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsAMotorJointBase.inl,v 1.2 2006/02/20 17:04:20 dirk Exp $"
+#define OSGPHYSICSAMOTORJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsAMotorJointBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 

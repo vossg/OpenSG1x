@@ -212,5 +212,5 @@ void ColorMaskChunkBase::setMaskA(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCOLORMASKCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGColorMaskChunkBase.inl,v 1.3 2006/02/20 17:04:46 dirk Exp $"
+#define OSGCOLORMASKCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGColorMaskChunkBase.inl,v 1.4 2008/06/05 05:02:28 vossg Exp $"
 

@@ -62,7 +62,7 @@
 #include "OSGSpotLight.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SpotLightBase::DirectionFieldMask = 
     (TypeTraits<BitVector>::One << SpotLightBase::DirectionFieldId);
@@ -98,17 +98,17 @@ FieldDescription *SpotLightBase::_desc[] =
                      "direction", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
-                     (FieldAccessMethod) &SpotLightBase::getSFDirection),
+                     reinterpret_cast<FieldAccessMethod>(&SpotLightBase::getSFDirection)),
     new FieldDescription(SFReal32::getClassType(), 
                      "spotExponent", 
                      SpotExponentFieldId, SpotExponentFieldMask,
                      false,
-                     (FieldAccessMethod) &SpotLightBase::getSFSpotExponent),
+                     reinterpret_cast<FieldAccessMethod>(&SpotLightBase::getSFSpotExponent)),
     new FieldDescription(SFReal32::getClassType(), 
                      "spotCutOff", 
                      SpotCutOffFieldId, SpotCutOffFieldMask,
                      false,
-                     (FieldAccessMethod) &SpotLightBase::getSFSpotCutOff)
+                     reinterpret_cast<FieldAccessMethod>(&SpotLightBase::getSFSpotCutOff))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType SpotLightBase::_type(
     "SpotLight",
     "PointLight",
     NULL,
-    (PrototypeCreateF) &SpotLightBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SpotLightBase::createEmpty),
     SpotLight::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 SpotLightBase::getContainerSize(void) const
 void SpotLightBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SpotLightBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SpotLightBase *>(&other),
+                          whichField);
 }
 #else
 void SpotLightBase::executeSync(      FieldContainer &other,
@@ -330,14 +331,10 @@ void SpotLightBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SpotLightPtr>::_type("SpotLightPtr", "PointLightPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -353,10 +350,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSPOTLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSPOTLIGHTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSPOTLIGHTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

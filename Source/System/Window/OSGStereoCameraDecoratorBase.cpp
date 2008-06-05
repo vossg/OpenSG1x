@@ -62,7 +62,7 @@
 #include "OSGStereoCameraDecorator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  StereoCameraDecoratorBase::LeftEyeFieldMask = 
     (TypeTraits<BitVector>::One << StereoCameraDecoratorBase::LeftEyeFieldId);
@@ -92,12 +92,12 @@ FieldDescription *StereoCameraDecoratorBase::_desc[] =
                      "leftEye", 
                      LeftEyeFieldId, LeftEyeFieldMask,
                      false,
-                     (FieldAccessMethod) &StereoCameraDecoratorBase::getSFLeftEye),
+                     reinterpret_cast<FieldAccessMethod>(&StereoCameraDecoratorBase::getSFLeftEye)),
     new FieldDescription(SFReal32::getClassType(), 
                      "eyeSeparation", 
                      EyeSeparationFieldId, EyeSeparationFieldMask,
                      false,
-                     (FieldAccessMethod) &StereoCameraDecoratorBase::getSFEyeSeparation)
+                     reinterpret_cast<FieldAccessMethod>(&StereoCameraDecoratorBase::getSFEyeSeparation))
 };
 
 
@@ -135,7 +135,8 @@ UInt32 StereoCameraDecoratorBase::getContainerSize(void) const
 void StereoCameraDecoratorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((StereoCameraDecoratorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<StereoCameraDecoratorBase *>(&other),
+                          whichField);
 }
 #else
 void StereoCameraDecoratorBase::executeSync(      FieldContainer &other,
@@ -287,6 +288,8 @@ void StereoCameraDecoratorBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -298,8 +301,6 @@ DataType FieldDataTraits<StereoCameraDecoratorPtr>::_type("StereoCameraDecorator
 
 OSG_DLLEXPORT_SFIELD_DEF1(StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StereoCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -315,10 +316,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSTEREOCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTEREOCAMERADECORATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTEREOCAMERADECORATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

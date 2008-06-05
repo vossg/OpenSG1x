@@ -221,14 +221,14 @@ void OffCenterPerspectiveCamera::getProjection(Matrix& result,
     // like before or rather for an symmetical camera
     if ( principalPointX==Real32(0) && principalPointY==Real32(0) ) {
       MatrixPerspective(result, fov / 2, 
-			width /(Real32) height * getAspect(), 
-			getNear(), getFar());
+                        width /Real32(height) * getAspect(), 
+                        getNear(), getFar());
     } 
     else {
       MatrixPerspectivePrincipalPnt(result, fov / 2, 
-				    width /(Real32) height * getAspect(), 
-				    getNear(), getFar(),
-				    principalPointX, principalPointY);
+                                    width /Real32(height) * getAspect(), 
+                                    getNear(), getFar(),
+                                    principalPointX, principalPointY);
     }
 }
     
@@ -256,7 +256,7 @@ void OffCenterPerspectiveCamera::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCamera.cpp,v 1.1 2005/07/18 18:46:23 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCamera.cpp,v 1.2 2008/06/05 05:02:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFCENTERPERSPECTIVECAMERA_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFCENTERPERSPECTIVECAMERA_INLINE_CVSID;
 

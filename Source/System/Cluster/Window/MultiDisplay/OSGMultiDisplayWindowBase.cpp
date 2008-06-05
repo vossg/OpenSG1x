@@ -62,7 +62,7 @@
 #include "OSGMultiDisplayWindow.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MultiDisplayWindowBase::HServersFieldMask = 
     (TypeTraits<BitVector>::One << MultiDisplayWindowBase::HServersFieldId);
@@ -110,27 +110,27 @@ FieldDescription *MultiDisplayWindowBase::_desc[] =
                      "hServers", 
                      HServersFieldId, HServersFieldMask,
                      false,
-                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFHServers),
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFHServers)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "vServers", 
                      VServersFieldId, VServersFieldMask,
                      false,
-                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFVServers),
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFVServers)),
     new FieldDescription(SFBool::getClassType(), 
                      "manageClientViewports", 
                      ManageClientViewportsFieldId, ManageClientViewportsFieldMask,
                      false,
-                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFManageClientViewports),
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFManageClientViewports)),
     new FieldDescription(SFInt32::getClassType(), 
                      "xOverlap", 
                      XOverlapFieldId, XOverlapFieldMask,
                      false,
-                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFXOverlap),
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFXOverlap)),
     new FieldDescription(SFInt32::getClassType(), 
                      "yOverlap", 
                      YOverlapFieldId, YOverlapFieldMask,
                      false,
-                     (FieldAccessMethod) &MultiDisplayWindowBase::getSFYOverlap)
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFYOverlap))
 };
 
 
@@ -138,7 +138,7 @@ FieldContainerType MultiDisplayWindowBase::_type(
     "MultiDisplayWindow",
     "ClusterWindow",
     NULL,
-    (PrototypeCreateF) &MultiDisplayWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&MultiDisplayWindowBase::createEmpty),
     MultiDisplayWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -177,7 +177,8 @@ UInt32 MultiDisplayWindowBase::getContainerSize(void) const
 void MultiDisplayWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MultiDisplayWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MultiDisplayWindowBase *>(&other),
+                          whichField);
 }
 #else
 void MultiDisplayWindowBase::executeSync(      FieldContainer &other,
@@ -398,14 +399,10 @@ void MultiDisplayWindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<MultiDisplayWindowPtr>::_type("MultiDisplayWindowPtr", "ClusterWindowPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -421,10 +418,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIDISPLAYWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIDISPLAYWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMULTIDISPLAYWINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -576,5 +576,5 @@ const MFInt32 &FBOViewportBase::getZOffset(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.4 2007/09/21 16:09:57 yjung Exp $"
+#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.5 2008/06/05 05:02:30 vossg Exp $"
 

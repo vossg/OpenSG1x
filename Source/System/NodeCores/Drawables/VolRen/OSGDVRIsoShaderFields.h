@@ -102,6 +102,6 @@ struct FieldDataTraits<DVRIsoShaderPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGDVRISOSHADERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.25 2005/04/04 14:51:48 dirk Exp $"
+#define OSGDVRISOSHADERFIELDS_HEADER_CVSID "@(#)$Id: FCFieldsTemplate_h.h,v 1.26 2006/02/20 16:55:35 dirk Exp $"
 
 #endif /* _OSGDVRISOSHADERFIELDS_H_ */

@@ -123,37 +123,37 @@ FieldDescription *SHLChunkBase::_desc[] =
                      "cgFrontEnd", 
                      CgFrontEndFieldId, CgFrontEndFieldMask,
                      false,
-                     (FieldAccessMethod) &SHLChunkBase::getSFCgFrontEnd),
+                     reinterpret_cast<FieldAccessMethod>(&SHLChunkBase::getSFCgFrontEnd)),
     new FieldDescription(SFBool::getClassType(), 
                      "pointSize", 
                      PointSizeFieldId, PointSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &SHLChunkBase::getSFPointSize),
+                     reinterpret_cast<FieldAccessMethod>(&SHLChunkBase::getSFPointSize)),
     new FieldDescription(MFGLenum::getClassType(), 
                      "programParameterNames", 
                      ProgramParameterNamesFieldId, ProgramParameterNamesFieldMask,
                      false,
-                     (FieldAccessMethod) &SHLChunkBase::getMFProgramParameterNames),
+                     reinterpret_cast<FieldAccessMethod>(&SHLChunkBase::getMFProgramParameterNames)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "programParameterValues", 
                      ProgramParameterValuesFieldId, ProgramParameterValuesFieldMask,
                      false,
-                     (FieldAccessMethod) &SHLChunkBase::getMFProgramParameterValues),
+                     reinterpret_cast<FieldAccessMethod>(&SHLChunkBase::getMFProgramParameterValues)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &SHLChunkBase::getSFGLId),
+                     reinterpret_cast<FieldAccessMethod>(&SHLChunkBase::getSFGLId)),
     new FieldDescription(SFInt32::getClassType(), 
                      "IgnoreGLForAspect", 
                      IgnoreGLForAspectFieldId, IgnoreGLForAspectFieldMask,
                      true,
-                     (FieldAccessMethod) &SHLChunkBase::getSFIgnoreGLForAspect),
+                     reinterpret_cast<FieldAccessMethod>(&SHLChunkBase::getSFIgnoreGLForAspect)),
     new FieldDescription(SFBool::getClassType(), 
                      "UnknownParameterWarning", 
                      UnknownParameterWarningFieldId, UnknownParameterWarningFieldMask,
                      false,
-                     (FieldAccessMethod) &SHLChunkBase::getSFUnknownParameterWarning)
+                     reinterpret_cast<FieldAccessMethod>(&SHLChunkBase::getSFUnknownParameterWarning))
 };
 
 
@@ -161,7 +161,7 @@ FieldContainerType SHLChunkBase::_type(
     "SHLChunk",
     "ShaderChunk",
     NULL,
-    (PrototypeCreateF) &SHLChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SHLChunkBase::createEmpty),
     SHLChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -200,7 +200,8 @@ UInt32 SHLChunkBase::getContainerSize(void) const
 void SHLChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SHLChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SHLChunkBase *>(&other),
+                          whichField);
 }
 #else
 void SHLChunkBase::executeSync(      FieldContainer &other,
@@ -503,7 +504,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SHLChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.15 2007/10/10 16:00:12 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunkBase.cpp,v 1.16 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

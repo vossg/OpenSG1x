@@ -62,7 +62,7 @@
 #include "OSGPhysicsHinge2Joint.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsHinge2JointBase::AnchorFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsHinge2JointBase::AnchorFieldId);
@@ -98,17 +98,17 @@ FieldDescription *PhysicsHinge2JointBase::_desc[] =
                      "anchor", 
                      AnchorFieldId, AnchorFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsHinge2JointBase::getSFAnchor),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::getSFAnchor)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis1", 
                      Axis1FieldId, Axis1FieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsHinge2JointBase::getSFAxis1),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::getSFAxis1)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis2", 
                      Axis2FieldId, Axis2FieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsHinge2JointBase::getSFAxis2)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::getSFAxis2))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType PhysicsHinge2JointBase::_type(
     "PhysicsHinge2Joint",
     "PhysicsJoint",
     NULL,
-    (PrototypeCreateF) &PhysicsHinge2JointBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsHinge2JointBase::createEmpty),
     PhysicsHinge2Joint::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 PhysicsHinge2JointBase::getContainerSize(void) const
 void PhysicsHinge2JointBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsHinge2JointBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsHinge2JointBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsHinge2JointBase::executeSync(      FieldContainer &other,
@@ -330,6 +331,8 @@ void PhysicsHinge2JointBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -341,8 +344,6 @@ DataType FieldDataTraits<PhysicsHinge2JointPtr>::_type("PhysicsHinge2JointPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsHinge2JointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsHinge2JointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -358,10 +359,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHinge2JointBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHinge2JointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHINGE2JOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHINGE2JOINTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSHINGE2JOINTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

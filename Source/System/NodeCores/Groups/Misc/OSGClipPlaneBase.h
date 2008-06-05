@@ -269,6 +269,6 @@ typedef RefPtr<ClipPlanePtr> ClipPlaneRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANEBASE_HEADER_CVSID "@(#)$Id: OSGClipPlaneBase.h,v 1.1 2007/04/26 15:22:01 a-m-z Exp $"
+#define OSGCLIPPLANEBASE_HEADER_CVSID "@(#)$Id: OSGClipPlaneBase.h,v 1.2 2008/06/05 05:02:27 vossg Exp $"
 
 #endif /* _OSGCLIPPLANEBASE_H_ */

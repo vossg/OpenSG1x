@@ -184,5 +184,5 @@ void PhysicsHinge2JointBase::setAxis2(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHINGE2JOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHinge2JointBase.inl,v 1.2 2006/02/20 17:04:21 dirk Exp $"
+#define OSGPHYSICSHINGE2JOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHinge2JointBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 

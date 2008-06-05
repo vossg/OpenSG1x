@@ -116,32 +116,32 @@ FieldDescription *DVRVolumeTextureBase::_desc[] =
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeTextureBase::getSFImage),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFImage)),
     new FieldDescription(MFReal32::getClassType(), 
                      "histogram", 
                      HistogramFieldId, HistogramFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRVolumeTextureBase::getMFHistogram),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getMFHistogram)),
     new FieldDescription(SFReal32::getClassType(), 
                      "maxVal", 
                      MaxValFieldId, MaxValFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeTextureBase::getSFMaxVal),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFMaxVal)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "sliceThickness", 
                      SliceThicknessFieldId, SliceThicknessFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeTextureBase::getSFSliceThickness),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFSliceThickness)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "resolution", 
                      ResolutionFieldId, ResolutionFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeTextureBase::getSFResolution),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFResolution)),
     new FieldDescription(SFString::getClassType(), 
                      "fileName", 
                      FileNameFieldId, FileNameFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRVolumeTextureBase::getSFFileName)
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFFileName))
 };
 
 
@@ -149,7 +149,7 @@ FieldContainerType DVRVolumeTextureBase::_type(
     "DVRVolumeTexture",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &DVRVolumeTextureBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRVolumeTextureBase::createEmpty),
     DVRVolumeTexture::initMethod,
     _desc,
     sizeof(_desc));
@@ -188,7 +188,8 @@ UInt32 DVRVolumeTextureBase::getContainerSize(void) const
 void DVRVolumeTextureBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRVolumeTextureBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRVolumeTextureBase *>(&other),
+                          whichField);
 }
 #else
 void DVRVolumeTextureBase::executeSync(      FieldContainer &other,

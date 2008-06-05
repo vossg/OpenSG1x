@@ -62,7 +62,7 @@
 #include "OSGBlendShapeDeformer.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  BlendShapeDeformerBase::WeightFieldMask = 
     (TypeTraits<BitVector>::One << BlendShapeDeformerBase::WeightFieldId);
@@ -122,37 +122,37 @@ FieldDescription *BlendShapeDeformerBase::_desc[] =
                      "weight", 
                      WeightFieldId, WeightFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendShapeDeformerBase::getMFWeight),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFWeight)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "vertexIndices", 
                      VertexIndicesFieldId, VertexIndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendShapeDeformerBase::getMFVertexIndices),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFVertexIndices)),
     new FieldDescription(MFUInt16::getClassType(), 
                      "targetIndices", 
                      TargetIndicesFieldId, TargetIndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendShapeDeformerBase::getMFTargetIndices),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFTargetIndices)),
     new FieldDescription(MFPnt3f::getClassType(), 
                      "targetVertices", 
                      TargetVerticesFieldId, TargetVerticesFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendShapeDeformerBase::getMFTargetVertices),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFTargetVertices)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "normalIndices", 
                      NormalIndicesFieldId, NormalIndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendShapeDeformerBase::getMFNormalIndices),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFNormalIndices)),
     new FieldDescription(MFUInt16::getClassType(), 
                      "normalTargetIndices", 
                      NormalTargetIndicesFieldId, NormalTargetIndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendShapeDeformerBase::getMFNormalTargetIndices),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFNormalTargetIndices)),
     new FieldDescription(MFVec3f::getClassType(), 
                      "targetNormals", 
                      TargetNormalsFieldId, TargetNormalsFieldMask,
                      false,
-                     (FieldAccessMethod) &BlendShapeDeformerBase::getMFTargetNormals)
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFTargetNormals))
 };
 
 
@@ -160,7 +160,7 @@ FieldContainerType BlendShapeDeformerBase::_type(
     "BlendShapeDeformer",
     "Deformer",
     NULL,
-    (PrototypeCreateF) &BlendShapeDeformerBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&BlendShapeDeformerBase::createEmpty),
     BlendShapeDeformer::initMethod,
     _desc,
     sizeof(_desc));
@@ -199,7 +199,8 @@ UInt32 BlendShapeDeformerBase::getContainerSize(void) const
 void BlendShapeDeformerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((BlendShapeDeformerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<BlendShapeDeformerBase *>(&other),
+                          whichField);
 }
 #else
 void BlendShapeDeformerBase::executeSync(      FieldContainer &other,
@@ -494,6 +495,8 @@ void BlendShapeDeformerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -505,8 +508,6 @@ DataType FieldDataTraits<BlendShapeDeformerPtr>::_type("BlendShapeDeformerPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(BlendShapeDeformerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(BlendShapeDeformerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -522,10 +523,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDSHAPEDEFORMERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDSHAPEDEFORMERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGBLENDSHAPEDEFORMERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

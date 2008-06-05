@@ -62,7 +62,7 @@
 #include "OSGAVCodecGrabForeground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  AVCodecGrabForegroundBase::ActiveFieldMask = 
     (TypeTraits<BitVector>::One << AVCodecGrabForegroundBase::ActiveFieldId);
@@ -122,37 +122,37 @@ FieldDescription *AVCodecGrabForegroundBase::_desc[] =
                      "active", 
                      ActiveFieldId, ActiveFieldMask,
                      false,
-                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFActive),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFActive)),
     new FieldDescription(SFString::getClassType(), 
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFName),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFName)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "kbit", 
                      KbitFieldId, KbitFieldMask,
                      false,
-                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFKbit),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFKbit)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fps", 
                      FpsFieldId, FpsFieldMask,
                      false,
-                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFFps),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFFps)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "codecid", 
                      CodecidFieldId, CodecidFieldMask,
                      false,
-                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFCodecid),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFCodecid)),
     new FieldDescription(SFBool::getClassType(), 
                      "flip", 
                      FlipFieldId, FlipFieldMask,
                      false,
-                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFFlip),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFFlip)),
     new FieldDescription(SFBool::getClassType(), 
                      "autoWrite", 
                      AutoWriteFieldId, AutoWriteFieldMask,
                      false,
-                     (FieldAccessMethod) &AVCodecGrabForegroundBase::getSFAutoWrite)
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFAutoWrite))
 };
 
 
@@ -160,7 +160,7 @@ FieldContainerType AVCodecGrabForegroundBase::_type(
     "AVCodecGrabForeground",
     "GrabForeground",
     NULL,
-    (PrototypeCreateF) &AVCodecGrabForegroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&AVCodecGrabForegroundBase::createEmpty),
     AVCodecGrabForeground::initMethod,
     _desc,
     sizeof(_desc));
@@ -199,7 +199,8 @@ UInt32 AVCodecGrabForegroundBase::getContainerSize(void) const
 void AVCodecGrabForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((AVCodecGrabForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<AVCodecGrabForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void AVCodecGrabForegroundBase::executeSync(      FieldContainer &other,
@@ -466,6 +467,8 @@ void AVCodecGrabForegroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -477,8 +480,6 @@ DataType FieldDataTraits<AVCodecGrabForegroundPtr>::_type("AVCodecGrabForeground
 
 OSG_DLLEXPORT_SFIELD_DEF1(AVCodecGrabForegroundPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(AVCodecGrabForegroundPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -494,10 +495,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGAVCODECGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGAVCODECGRABFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGAVCODECGRABFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGMultiPassMaterial.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MultiPassMaterialBase::MaterialsFieldMask = 
     (TypeTraits<BitVector>::One << MultiPassMaterialBase::MaterialsFieldId);
@@ -86,7 +86,7 @@ FieldDescription *MultiPassMaterialBase::_desc[] =
                      "materials", 
                      MaterialsFieldId, MaterialsFieldMask,
                      false,
-                     (FieldAccessMethod) &MultiPassMaterialBase::getMFMaterials)
+                     reinterpret_cast<FieldAccessMethod>(&MultiPassMaterialBase::getMFMaterials))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType MultiPassMaterialBase::_type(
     "MultiPassMaterial",
     "Material",
     NULL,
-    (PrototypeCreateF) &MultiPassMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&MultiPassMaterialBase::createEmpty),
     MultiPassMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 MultiPassMaterialBase::getContainerSize(void) const
 void MultiPassMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MultiPassMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MultiPassMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void MultiPassMaterialBase::executeSync(      FieldContainer &other,
@@ -266,6 +267,8 @@ void MultiPassMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -277,8 +280,6 @@ DataType FieldDataTraits<MultiPassMaterialPtr>::_type("MultiPassMaterialPtr", "M
 
 OSG_DLLEXPORT_SFIELD_DEF1(MultiPassMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MultiPassMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -294,10 +295,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterialBase.cpp,v 1.6 2006/02/20 17:04:43 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterialBase.cpp,v 1.7 2008/06/05 05:02:25 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIPASSMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIPASSMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMULTIPASSMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -156,5 +156,5 @@ const MFFieldContainerPtr &FCPtrAttributeMapBase::getValues(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.inl,v 1.2 2006/02/20 16:54:45 dirk Exp $"
+#define OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.inl,v 1.3 2008/06/05 05:02:25 vossg Exp $"
 

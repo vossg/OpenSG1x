@@ -62,7 +62,7 @@
 #include "OSGSepiaComposer.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector SepiaComposerBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType SepiaComposerBase::_type(
     "SepiaComposer",
     "ImageComposer",
     NULL,
-    (PrototypeCreateF) &SepiaComposerBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SepiaComposerBase::createEmpty),
     SepiaComposer::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 SepiaComposerBase::getContainerSize(void) const
 void SepiaComposerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SepiaComposerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SepiaComposerBase *>(&other),
+                          whichField);
 }
 #else
 void SepiaComposerBase::executeSync(      FieldContainer &other,
@@ -219,14 +220,10 @@ void SepiaComposerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SepiaComposerPtr>::_type("SepiaComposerPtr", "ImageComposerPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -242,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSEPIACOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSEPIACOMPOSERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSEPIACOMPOSERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

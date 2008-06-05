@@ -62,7 +62,7 @@
 #include "OSGFTGLFont.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  FTGLFontBase::NameFieldMask = 
     (TypeTraits<BitVector>::One << FTGLFontBase::NameFieldId);
@@ -116,32 +116,32 @@ FieldDescription *FTGLFontBase::_desc[] =
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     (FieldAccessMethod) &FTGLFontBase::getSFName),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFName)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "drawType", 
                      DrawTypeFieldId, DrawTypeFieldMask,
                      false,
-                     (FieldAccessMethod) &FTGLFontBase::getSFDrawType),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFDrawType)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "size", 
                      SizeFieldId, SizeFieldMask,
                      false,
-                     (FieldAccessMethod) &FTGLFontBase::getSFSize),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFSize)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "res", 
                      ResFieldId, ResFieldMask,
                      false,
-                     (FieldAccessMethod) &FTGLFontBase::getSFRes),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFRes)),
     new FieldDescription(SFReal32::getClassType(), 
                      "depth", 
                      DepthFieldId, DepthFieldMask,
                      false,
-                     (FieldAccessMethod) &FTGLFontBase::getSFDepth),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFDepth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &FTGLFontBase::getSFGLId)
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFGLId))
 };
 
 
@@ -149,7 +149,7 @@ FieldContainerType FTGLFontBase::_type(
     "FTGLFont",
     "FieldContainer",
     NULL,
-    (PrototypeCreateF) &FTGLFontBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&FTGLFontBase::createEmpty),
     FTGLFont::initMethod,
     _desc,
     sizeof(_desc));
@@ -188,7 +188,8 @@ UInt32 FTGLFontBase::getContainerSize(void) const
 void FTGLFontBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((FTGLFontBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<FTGLFontBase *>(&other),
+                          whichField);
 }
 #else
 void FTGLFontBase::executeSync(      FieldContainer &other,
@@ -432,6 +433,8 @@ void FTGLFontBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -443,8 +446,6 @@ DataType FieldDataTraits<FTGLFontPtr>::_type("FTGLFontPtr", "FieldContainerPtr")
 
 OSG_DLLEXPORT_SFIELD_DEF1(FTGLFontPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(FTGLFontPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -460,10 +461,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFontBase.cpp,v 1.7 2006/02/20 17:04:13 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFontBase.cpp,v 1.8 2008/06/05 05:02:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLFONTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLFONTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFTGLFONTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

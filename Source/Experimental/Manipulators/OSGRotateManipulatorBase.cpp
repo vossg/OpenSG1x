@@ -62,7 +62,7 @@
 #include "OSGRotateManipulator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector RotateManipulatorBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType RotateManipulatorBase::_type(
     "RotateManipulator",
     "Manipulator",
     NULL,
-    (PrototypeCreateF) &RotateManipulatorBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&RotateManipulatorBase::createEmpty),
     RotateManipulator::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 RotateManipulatorBase::getContainerSize(void) const
 void RotateManipulatorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((RotateManipulatorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<RotateManipulatorBase *>(&other),
+                          whichField);
 }
 #else
 void RotateManipulatorBase::executeSync(      FieldContainer &other,
@@ -219,14 +220,10 @@ void RotateManipulatorBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<RotateManipulatorPtr>::_type("RotateManipulatorPtr", "ManipulatorPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -242,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulatorBase.cpp,v 1.5 2006/02/20 17:04:35 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulatorBase.cpp,v 1.6 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGROTATEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGROTATEMANIPULATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGROTATEMANIPULATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

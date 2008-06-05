@@ -62,7 +62,7 @@
 #include "OSGCamera.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CameraBase::BeaconFieldMask = 
     (TypeTraits<BitVector>::One << CameraBase::BeaconFieldId);
@@ -98,17 +98,17 @@ FieldDescription *CameraBase::_desc[] =
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &CameraBase::getSFBeacon),
+                     reinterpret_cast<FieldAccessMethod>(&CameraBase::getSFBeacon)),
     new FieldDescription(SFReal32::getClassType(), 
                      "near", 
                      NearFieldId, NearFieldMask,
                      false,
-                     (FieldAccessMethod) &CameraBase::getSFNear),
+                     reinterpret_cast<FieldAccessMethod>(&CameraBase::getSFNear)),
     new FieldDescription(SFReal32::getClassType(), 
                      "far", 
                      FarFieldId, FarFieldMask,
                      false,
-                     (FieldAccessMethod) &CameraBase::getSFFar)
+                     reinterpret_cast<FieldAccessMethod>(&CameraBase::getSFFar))
 };
 
 
@@ -146,7 +146,8 @@ UInt32 CameraBase::getContainerSize(void) const
 void CameraBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CameraBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CameraBase *>(&other),
+                          whichField);
 }
 #else
 void CameraBase::executeSync(      FieldContainer &other,
@@ -397,6 +398,8 @@ void CameraBase::setFar(const Real32 &value)
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -408,8 +411,6 @@ DataType FieldDataTraits<CameraPtr>::_type("CameraPtr", "AttachmentContainerPtr"
 
 OSG_DLLEXPORT_SFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -425,10 +426,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCAMERAFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

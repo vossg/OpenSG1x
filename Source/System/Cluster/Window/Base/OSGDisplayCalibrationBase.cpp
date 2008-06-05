@@ -62,7 +62,7 @@
 #include "OSGDisplayCalibration.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DisplayCalibrationBase::EnabledFieldMask = 
     (TypeTraits<BitVector>::One << DisplayCalibrationBase::EnabledFieldId);
@@ -134,47 +134,47 @@ FieldDescription *DisplayCalibrationBase::_desc[] =
                      "enabled", 
                      EnabledFieldId, EnabledFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getSFEnabled),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFEnabled)),
     new FieldDescription(SFString::getClassType(), 
                      "server", 
                      ServerFieldId, ServerFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getSFServer),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFServer)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "colorMatrix", 
                      ColorMatrixFieldId, ColorMatrixFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getSFColorMatrix),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFColorMatrix)),
     new FieldDescription(SFReal32::getClassType(), 
                      "gamma", 
                      GammaFieldId, GammaFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getSFGamma),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFGamma)),
     new FieldDescription(MFColor3f::getClassType(), 
                      "gammaRamp", 
                      GammaRampFieldId, GammaRampFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getMFGammaRamp),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getMFGammaRamp)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "gridWidth", 
                      GridWidthFieldId, GridWidthFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getSFGridWidth),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFGridWidth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "gridHeight", 
                      GridHeightFieldId, GridHeightFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getSFGridHeight),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFGridHeight)),
     new FieldDescription(MFVec2f::getClassType(), 
                      "grid", 
                      GridFieldId, GridFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getMFGrid),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getMFGrid)),
     new FieldDescription(SFReal32::getClassType(), 
                      "scaleDown", 
                      ScaleDownFieldId, ScaleDownFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayCalibrationBase::getSFScaleDown)
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFScaleDown))
 };
 
 
@@ -182,7 +182,7 @@ FieldContainerType DisplayCalibrationBase::_type(
     "DisplayCalibration",
     "AttachmentContainer",
     NULL,
-    (PrototypeCreateF) &DisplayCalibrationBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DisplayCalibrationBase::createEmpty),
     DisplayCalibration::initMethod,
     _desc,
     sizeof(_desc));
@@ -221,7 +221,8 @@ UInt32 DisplayCalibrationBase::getContainerSize(void) const
 void DisplayCalibrationBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DisplayCalibrationBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DisplayCalibrationBase *>(&other),
+                          whichField);
 }
 #else
 void DisplayCalibrationBase::executeSync(      FieldContainer &other,
@@ -542,6 +543,8 @@ void DisplayCalibrationBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -553,8 +556,6 @@ DataType FieldDataTraits<DisplayCalibrationPtr>::_type("DisplayCalibrationPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(DisplayCalibrationPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DisplayCalibrationPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -570,10 +571,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDISPLAYCALIBRATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISPLAYCALIBRATIONBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDISPLAYCALIBRATIONFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

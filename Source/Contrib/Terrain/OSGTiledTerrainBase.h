@@ -357,6 +357,6 @@ typedef RefPtr<TiledTerrainPtr> TiledTerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.7 2006/02/20 17:04:33 dirk Exp $"
+#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.8 2008/06/05 05:02:18 vossg Exp $"
 
 #endif /* _OSGTILEDTERRAINBASE_H_ */

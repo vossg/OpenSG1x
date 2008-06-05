@@ -62,7 +62,7 @@
 #include "OSGCharacterModel.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CharacterModelBase::ConfigFileFieldMask = 
     (TypeTraits<BitVector>::One << CharacterModelBase::ConfigFileFieldId);
@@ -104,22 +104,22 @@ FieldDescription *CharacterModelBase::_desc[] =
                      "configFile", 
                      ConfigFileFieldId, ConfigFileFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterModelBase::getSFConfigFile),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::getSFConfigFile)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "numAnimations", 
                      NumAnimationsFieldId, NumAnimationsFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterModelBase::getSFNumAnimations),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::getSFNumAnimations)),
     new FieldDescription(SFSHLChunkPtr::getClassType(), 
                      "shader", 
                      ShaderFieldId, ShaderFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterModelBase::getSFShader),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::getSFShader)),
     new FieldDescription(MFChunkMaterialPtr::getClassType(), 
                      "materials", 
                      MaterialsFieldId, MaterialsFieldMask,
                      true,
-                     (FieldAccessMethod) &CharacterModelBase::getMFMaterials)
+                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::getMFMaterials))
 };
 
 
@@ -127,7 +127,7 @@ FieldContainerType CharacterModelBase::_type(
     "CharacterModel",
     "AttachmentContainer",
     NULL,
-    (PrototypeCreateF) &CharacterModelBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CharacterModelBase::createEmpty),
     CharacterModel::initMethod,
     _desc,
     sizeof(_desc));
@@ -166,7 +166,8 @@ UInt32 CharacterModelBase::getContainerSize(void) const
 void CharacterModelBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CharacterModelBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CharacterModelBase *>(&other),
+                          whichField);
 }
 #else
 void CharacterModelBase::executeSync(      FieldContainer &other,
@@ -368,6 +369,8 @@ void CharacterModelBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -377,8 +380,6 @@ DataType FieldDataTraits<CharacterModelPtr>::_type("CharacterModelPtr", "Attachm
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(CharacterModelPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -394,10 +395,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModelBase.cpp,v 1.2 2006/02/20 17:04:12 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModelBase.cpp,v 1.3 2008/06/05 05:02:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERMODELBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERMODELBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCHARACTERMODELFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

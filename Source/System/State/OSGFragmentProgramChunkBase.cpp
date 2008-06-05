@@ -62,7 +62,7 @@
 #include "OSGFragmentProgramChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector FragmentProgramChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType FragmentProgramChunkBase::_type(
     "FragmentProgramChunk",
     "ProgramChunk",
     NULL,
-    (PrototypeCreateF) &FragmentProgramChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&FragmentProgramChunkBase::createEmpty),
     FragmentProgramChunk::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 FragmentProgramChunkBase::getContainerSize(void) const
 void FragmentProgramChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((FragmentProgramChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<FragmentProgramChunkBase *>(&other),
+                          whichField);
 }
 #else
 void FragmentProgramChunkBase::executeSync(      FieldContainer &other,
@@ -219,6 +220,8 @@ void FragmentProgramChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -230,8 +233,6 @@ DataType FieldDataTraits<FragmentProgramChunkPtr>::_type("FragmentProgramChunkPt
 
 OSG_DLLEXPORT_SFIELD_DEF1(FragmentProgramChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(FragmentProgramChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -247,10 +248,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGFRAGMENTPROGRAMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRAGMENTPROGRAMCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFRAGMENTPROGRAMCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -86,7 +86,7 @@ FieldDescription *DisplayFilterBase::_desc[] =
                      "enabled", 
                      EnabledFieldId, EnabledFieldMask,
                      false,
-                     (FieldAccessMethod) &DisplayFilterBase::getSFEnabled)
+                     reinterpret_cast<FieldAccessMethod>(&DisplayFilterBase::getSFEnabled))
 };
 
 
@@ -124,7 +124,8 @@ UInt32 DisplayFilterBase::getContainerSize(void) const
 void DisplayFilterBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DisplayFilterBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DisplayFilterBase *>(&other),
+                          whichField);
 }
 #else
 void DisplayFilterBase::executeSync(      FieldContainer &other,
@@ -281,7 +282,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DisplayFilterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.46 2006/03/16 17:01:53 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDISPLAYFILTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISPLAYFILTERBASE_INLINE_CVSID;
 

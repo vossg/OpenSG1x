@@ -184,5 +184,5 @@ void FTGLTextBase::setPosition(const Pnt3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLTEXTBASE_INLINE_CVSID "@(#)$Id: OSGFTGLTextBase.inl,v 1.6 2006/02/20 17:04:14 dirk Exp $"
+#define OSGFTGLTEXTBASE_INLINE_CVSID "@(#)$Id: OSGFTGLTextBase.inl,v 1.7 2008/06/05 05:02:15 vossg Exp $"
 

@@ -632,5 +632,5 @@ const MFNodePtr &ShadowViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.13 2008/04/14 11:30:41 yjung Exp $"
+#define OSGSHADOWVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowViewportBase.inl,v 1.14 2008/06/05 05:02:23 vossg Exp $"
 

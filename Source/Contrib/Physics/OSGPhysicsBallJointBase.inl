@@ -128,5 +128,5 @@ void PhysicsBallJointBase::setAnchor(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBALLJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBallJointBase.inl,v 1.2 2006/02/20 17:04:20 dirk Exp $"
+#define OSGPHYSICSBALLJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBallJointBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 

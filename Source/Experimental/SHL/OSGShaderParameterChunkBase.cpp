@@ -62,7 +62,7 @@
 #include "OSGShaderParameterChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShaderParameterChunkBase::ParametersFieldMask = 
     (TypeTraits<BitVector>::One << ShaderParameterChunkBase::ParametersFieldId);
@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterChunkBase::_desc[] =
                      "parameters", 
                      ParametersFieldId, ParametersFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderParameterChunkBase::getMFParameters)
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterChunkBase::getMFParameters))
 };
 
 
@@ -124,7 +124,8 @@ UInt32 ShaderParameterChunkBase::getContainerSize(void) const
 void ShaderParameterChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShaderParameterChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShaderParameterChunkBase *>(&other),
+                          whichField);
 }
 #else
 void ShaderParameterChunkBase::executeSync(      FieldContainer &other,
@@ -257,6 +258,8 @@ void ShaderParameterChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -268,8 +271,6 @@ DataType FieldDataTraits<ShaderParameterChunkPtr>::_type("ShaderParameterChunkPt
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShaderParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -285,10 +286,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunkBase.cpp,v 1.6 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunkBase.cpp,v 1.7 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

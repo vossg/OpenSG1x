@@ -253,6 +253,6 @@ typedef RefPtr<LogicOpChunkPtr> LogicOpChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLOGICOPCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLogicOpChunkBase.h,v 1.1 2007/06/25 14:32:45 neumannc Exp $"
+#define OSGLOGICOPCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLogicOpChunkBase.h,v 1.2 2008/06/05 05:02:28 vossg Exp $"
 
 #endif /* _OSGLOGICOPCHUNKBASE_H_ */

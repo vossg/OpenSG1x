@@ -62,7 +62,7 @@
 #include "OSGMaterialDrawable.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MaterialDrawableBase::MaterialFieldMask = 
     (TypeTraits<BitVector>::One << MaterialDrawableBase::MaterialFieldId);
@@ -86,7 +86,7 @@ FieldDescription *MaterialDrawableBase::_desc[] =
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialDrawableBase::getSFMaterial)
+                     reinterpret_cast<FieldAccessMethod>(&MaterialDrawableBase::getSFMaterial))
 };
 
 
@@ -124,7 +124,8 @@ UInt32 MaterialDrawableBase::getContainerSize(void) const
 void MaterialDrawableBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MaterialDrawableBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MaterialDrawableBase *>(&other),
+                          whichField);
 }
 #else
 void MaterialDrawableBase::executeSync(      FieldContainer &other,
@@ -253,6 +254,8 @@ void MaterialDrawableBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -264,8 +267,6 @@ DataType FieldDataTraits<MaterialDrawablePtr>::_type("MaterialDrawablePtr", "Dra
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -281,10 +282,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawableBase.cpp,v 1.9 2006/02/20 16:54:27 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawableBase.cpp,v 1.10 2008/06/05 05:02:26 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMATERIALDRAWABLEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

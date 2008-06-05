@@ -62,7 +62,7 @@
 #include "OSGDVRClipObjects.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DVRClipObjectsBase::ClipObjectsFieldMask = 
     (TypeTraits<BitVector>::One << DVRClipObjectsBase::ClipObjectsFieldId);
@@ -98,17 +98,17 @@ FieldDescription *DVRClipObjectsBase::_desc[] =
                      "clipObjects", 
                      ClipObjectsFieldId, ClipObjectsFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRClipObjectsBase::getMFClipObjects),
+                     reinterpret_cast<FieldAccessMethod>(&DVRClipObjectsBase::getMFClipObjects)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clipMode", 
                      ClipModeFieldId, ClipModeFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRClipObjectsBase::getSFClipMode),
+                     reinterpret_cast<FieldAccessMethod>(&DVRClipObjectsBase::getSFClipMode)),
     new FieldDescription(SFBool::getClassType(), 
                      "doContours", 
                      DoContoursFieldId, DoContoursFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRClipObjectsBase::getSFDoContours)
+                     reinterpret_cast<FieldAccessMethod>(&DVRClipObjectsBase::getSFDoContours))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType DVRClipObjectsBase::_type(
     "DVRClipObjects",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &DVRClipObjectsBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRClipObjectsBase::createEmpty),
     DVRClipObjects::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 DVRClipObjectsBase::getContainerSize(void) const
 void DVRClipObjectsBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRClipObjectsBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRClipObjectsBase *>(&other),
+                          whichField);
 }
 #else
 void DVRClipObjectsBase::executeSync(      FieldContainer &other,
@@ -334,6 +335,8 @@ void DVRClipObjectsBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -343,8 +346,6 @@ DataType FieldDataTraits<DVRClipObjectsPtr>::_type("DVRClipObjectsPtr", "Attachm
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(DVRClipObjectsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -360,10 +361,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRCLIPOBJECTSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRCLIPOBJECTSBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRCLIPOBJECTSFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

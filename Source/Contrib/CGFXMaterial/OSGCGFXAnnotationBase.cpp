@@ -62,7 +62,7 @@
 #include "OSGCGFXAnnotation.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CGFXAnnotationBase::ParametersFieldMask = 
     (TypeTraits<BitVector>::One << CGFXAnnotationBase::ParametersFieldId);
@@ -86,7 +86,7 @@ FieldDescription *CGFXAnnotationBase::_desc[] =
                      "parameters", 
                      ParametersFieldId, ParametersFieldMask,
                      true,
-                     (FieldAccessMethod) &CGFXAnnotationBase::getMFParameters)
+                     reinterpret_cast<FieldAccessMethod>(&CGFXAnnotationBase::getMFParameters))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType CGFXAnnotationBase::_type(
     "CGFXAnnotation",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &CGFXAnnotationBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CGFXAnnotationBase::createEmpty),
     CGFXAnnotation::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 CGFXAnnotationBase::getContainerSize(void) const
 void CGFXAnnotationBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGFXAnnotationBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CGFXAnnotationBase *>(&other),
+                          whichField);
 }
 #else
 void CGFXAnnotationBase::executeSync(      FieldContainer &other,
@@ -266,14 +267,10 @@ void CGFXAnnotationBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<CGFXAnnotationPtr>::_type("CGFXAnnotationPtr", "AttachmentPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -289,10 +286,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.4 2006/02/20 17:04:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.5 2008/06/05 05:02:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXANNOTATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXANNOTATIONBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCGFXANNOTATIONFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

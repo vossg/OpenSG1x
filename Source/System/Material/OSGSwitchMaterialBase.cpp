@@ -62,7 +62,7 @@
 #include "OSGSwitchMaterial.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SwitchMaterialBase::MaterialsFieldMask = 
     (TypeTraits<BitVector>::One << SwitchMaterialBase::MaterialsFieldId);
@@ -92,12 +92,12 @@ FieldDescription *SwitchMaterialBase::_desc[] =
                      "materials", 
                      MaterialsFieldId, MaterialsFieldMask,
                      false,
-                     (FieldAccessMethod) &SwitchMaterialBase::getMFMaterials),
+                     reinterpret_cast<FieldAccessMethod>(&SwitchMaterialBase::getMFMaterials)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "choice", 
                      ChoiceFieldId, ChoiceFieldMask,
                      false,
-                     (FieldAccessMethod) &SwitchMaterialBase::getSFChoice)
+                     reinterpret_cast<FieldAccessMethod>(&SwitchMaterialBase::getSFChoice))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType SwitchMaterialBase::_type(
     "SwitchMaterial",
     "Material",
     NULL,
-    (PrototypeCreateF) &SwitchMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SwitchMaterialBase::createEmpty),
     SwitchMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 SwitchMaterialBase::getContainerSize(void) const
 void SwitchMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SwitchMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SwitchMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void SwitchMaterialBase::executeSync(      FieldContainer &other,
@@ -300,6 +301,8 @@ void SwitchMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -311,8 +314,6 @@ DataType FieldDataTraits<SwitchMaterialPtr>::_type("SwitchMaterialPtr", "Materia
 
 OSG_DLLEXPORT_SFIELD_DEF1(SwitchMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SwitchMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -328,10 +329,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterialBase.cpp,v 1.2 2006/02/20 17:04:44 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterialBase.cpp,v 1.3 2008/06/05 05:02:25 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSWITCHMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSWITCHMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSWITCHMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

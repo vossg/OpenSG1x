@@ -62,7 +62,7 @@
 #include "OSGPhysicsWorld.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsWorldBase::ErpFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsWorldBase::ErpFieldId);
@@ -146,57 +146,57 @@ FieldDescription *PhysicsWorldBase::_desc[] =
                      "erp", 
                      ErpFieldId, ErpFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFErp),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFErp)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "gravity", 
                      GravityFieldId, GravityFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFGravity),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFGravity)),
     new FieldDescription(SFReal32::getClassType(), 
                      "cfm", 
                      CfmFieldId, CfmFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFCfm),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFCfm)),
     new FieldDescription(SFInt32::getClassType(), 
                      "autoDisableFlag", 
                      AutoDisableFlagFieldId, AutoDisableFlagFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFAutoDisableFlag),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableFlag)),
     new FieldDescription(SFReal32::getClassType(), 
                      "autoDisableLinearThreshold", 
                      AutoDisableLinearThresholdFieldId, AutoDisableLinearThresholdFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFAutoDisableLinearThreshold),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableLinearThreshold)),
     new FieldDescription(SFReal32::getClassType(), 
                      "autoDisableAngularThreshold", 
                      AutoDisableAngularThresholdFieldId, AutoDisableAngularThresholdFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFAutoDisableAngularThreshold),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableAngularThreshold)),
     new FieldDescription(SFInt32::getClassType(), 
                      "autoDisableSteps", 
                      AutoDisableStepsFieldId, AutoDisableStepsFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFAutoDisableSteps),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableSteps)),
     new FieldDescription(SFReal32::getClassType(), 
                      "autoDisableTime", 
                      AutoDisableTimeFieldId, AutoDisableTimeFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFAutoDisableTime),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableTime)),
     new FieldDescription(SFInt32::getClassType(), 
                      "worldQuickStepNumIterations", 
                      WorldQuickStepNumIterationsFieldId, WorldQuickStepNumIterationsFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFWorldQuickStepNumIterations),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFWorldQuickStepNumIterations)),
     new FieldDescription(SFReal32::getClassType(), 
                      "worldContactMaxCorrectingVel", 
                      WorldContactMaxCorrectingVelFieldId, WorldContactMaxCorrectingVelFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFWorldContactMaxCorrectingVel),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFWorldContactMaxCorrectingVel)),
     new FieldDescription(SFReal32::getClassType(), 
                      "worldContactSurfaceLayer", 
                      WorldContactSurfaceLayerFieldId, WorldContactSurfaceLayerFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsWorldBase::getSFWorldContactSurfaceLayer)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFWorldContactSurfaceLayer))
 };
 
 
@@ -204,7 +204,7 @@ FieldContainerType PhysicsWorldBase::_type(
     "PhysicsWorld",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &PhysicsWorldBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsWorldBase::createEmpty),
     PhysicsWorld::initMethod,
     _desc,
     sizeof(_desc));
@@ -243,7 +243,8 @@ UInt32 PhysicsWorldBase::getContainerSize(void) const
 void PhysicsWorldBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsWorldBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsWorldBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsWorldBase::executeSync(      FieldContainer &other,
@@ -602,6 +603,8 @@ void PhysicsWorldBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -613,8 +616,6 @@ DataType FieldDataTraits<PhysicsWorldPtr>::_type("PhysicsWorldPtr", "AttachmentP
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsWorldPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsWorldPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -630,10 +631,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsWorldBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsWorldBase.cpp,v 1.3 2008/06/05 05:02:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSWORLDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSWORLDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSWORLDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -269,6 +269,6 @@ typedef RefPtr<FTGLTextPtr> FTGLTextRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.7 2006/02/20 17:04:14 dirk Exp $"
+#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.8 2008/06/05 05:02:15 vossg Exp $"
 
 #endif /* _OSGFTGLTEXTBASE_H_ */

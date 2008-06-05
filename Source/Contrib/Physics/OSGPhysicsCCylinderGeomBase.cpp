@@ -62,7 +62,7 @@
 #include "OSGPhysicsCCylinderGeom.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsCCylinderGeomBase::ParamsFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsCCylinderGeomBase::ParamsFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsCCylinderGeomBase::_desc[] =
                      "params", 
                      ParamsFieldId, ParamsFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsCCylinderGeomBase::getSFParams)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsCCylinderGeomBase::getSFParams))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsCCylinderGeomBase::_type(
     "PhysicsCCylinderGeom",
     "PhysicsGeom",
     NULL,
-    (PrototypeCreateF) &PhysicsCCylinderGeomBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsCCylinderGeomBase::createEmpty),
     PhysicsCCylinderGeom::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsCCylinderGeomBase::getContainerSize(void) const
 void PhysicsCCylinderGeomBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsCCylinderGeomBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsCCylinderGeomBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsCCylinderGeomBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsCCylinderGeomBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsCCylinderGeomPtr>::_type("PhysicsCCylinderGeomPt
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsCCylinderGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsCCylinderGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsCCylinderGeomBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsCCylinderGeomBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSCCYLINDERGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSCCYLINDERGEOMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSCCYLINDERGEOMFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

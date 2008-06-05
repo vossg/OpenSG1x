@@ -324,5 +324,5 @@ void PhysicsGeomBase::setEnable(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsGeomBase.inl,v 1.2 2006/02/20 17:04:21 dirk Exp $"
+#define OSGPHYSICSGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsGeomBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 

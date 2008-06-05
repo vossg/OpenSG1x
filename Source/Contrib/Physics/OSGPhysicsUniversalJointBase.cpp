@@ -62,7 +62,7 @@
 #include "OSGPhysicsUniversalJoint.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsUniversalJointBase::AnchorFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsUniversalJointBase::AnchorFieldId);
@@ -98,17 +98,17 @@ FieldDescription *PhysicsUniversalJointBase::_desc[] =
                      "anchor", 
                      AnchorFieldId, AnchorFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsUniversalJointBase::getSFAnchor),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::getSFAnchor)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis1", 
                      Axis1FieldId, Axis1FieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsUniversalJointBase::getSFAxis1),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::getSFAxis1)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis2", 
                      Axis2FieldId, Axis2FieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsUniversalJointBase::getSFAxis2)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::getSFAxis2))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType PhysicsUniversalJointBase::_type(
     "PhysicsUniversalJoint",
     "PhysicsJoint",
     NULL,
-    (PrototypeCreateF) &PhysicsUniversalJointBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsUniversalJointBase::createEmpty),
     PhysicsUniversalJoint::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 PhysicsUniversalJointBase::getContainerSize(void) const
 void PhysicsUniversalJointBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsUniversalJointBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsUniversalJointBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsUniversalJointBase::executeSync(      FieldContainer &other,
@@ -330,6 +331,8 @@ void PhysicsUniversalJointBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -341,8 +344,6 @@ DataType FieldDataTraits<PhysicsUniversalJointPtr>::_type("PhysicsUniversalJoint
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsUniversalJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsUniversalJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -358,10 +359,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsUniversalJointBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsUniversalJointBase.cpp,v 1.3 2008/06/05 05:02:17 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSUNIVERSALJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSUNIVERSALJOINTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSUNIVERSALJOINTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

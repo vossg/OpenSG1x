@@ -62,7 +62,7 @@
 #include "OSGMoveManipulator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector MoveManipulatorBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType MoveManipulatorBase::_type(
     "MoveManipulator",
     "Manipulator",
     NULL,
-    (PrototypeCreateF) &MoveManipulatorBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&MoveManipulatorBase::createEmpty),
     MoveManipulator::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 MoveManipulatorBase::getContainerSize(void) const
 void MoveManipulatorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MoveManipulatorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MoveManipulatorBase *>(&other),
+                          whichField);
 }
 #else
 void MoveManipulatorBase::executeSync(      FieldContainer &other,
@@ -219,14 +220,10 @@ void MoveManipulatorBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<MoveManipulatorPtr>::_type("MoveManipulatorPtr", "ManipulatorPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -242,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMoveManipulatorBase.cpp,v 1.5 2006/02/20 17:04:35 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMoveManipulatorBase.cpp,v 1.6 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMOVEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMOVEMANIPULATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMOVEMANIPULATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

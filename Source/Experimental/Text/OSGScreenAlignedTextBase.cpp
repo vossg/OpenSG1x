@@ -62,7 +62,7 @@
 #include "OSGScreenAlignedText.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ScreenAlignedTextBase::ColorFieldMask = 
     (TypeTraits<BitVector>::One << ScreenAlignedTextBase::ColorFieldId);
@@ -92,12 +92,12 @@ FieldDescription *ScreenAlignedTextBase::_desc[] =
                      "Color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &ScreenAlignedTextBase::getSFColor),
+                     reinterpret_cast<FieldAccessMethod>(&ScreenAlignedTextBase::getSFColor)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "RenderImage", 
                      RenderImageFieldId, RenderImageFieldMask,
                      true,
-                     (FieldAccessMethod) &ScreenAlignedTextBase::getSFRenderImage)
+                     reinterpret_cast<FieldAccessMethod>(&ScreenAlignedTextBase::getSFRenderImage))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType ScreenAlignedTextBase::_type(
     "ScreenAlignedText",
     "AbstractText",
     NULL,
-    (PrototypeCreateF) &ScreenAlignedTextBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ScreenAlignedTextBase::createEmpty),
     ScreenAlignedText::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 ScreenAlignedTextBase::getContainerSize(void) const
 void ScreenAlignedTextBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ScreenAlignedTextBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ScreenAlignedTextBase *>(&other),
+                          whichField);
 }
 #else
 void ScreenAlignedTextBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void ScreenAlignedTextBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<ScreenAlignedTextPtr>::_type("ScreenAlignedTextPtr", "A
 
 OSG_DLLEXPORT_SFIELD_DEF1(ScreenAlignedTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ScreenAlignedTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENALIGNEDTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENALIGNEDTEXTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSCREENALIGNEDTEXTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

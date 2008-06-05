@@ -86,7 +86,7 @@ FieldDescription *CarbonWindowBase::_desc[] =
                      "context", 
                      ContextFieldId, ContextFieldMask,
                      true,
-                     (FieldAccessMethod) &CarbonWindowBase::getSFContext)
+                     reinterpret_cast<FieldAccessMethod>(&CarbonWindowBase::getSFContext))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType CarbonWindowBase::_type(
     "CarbonWindow",
     "Window",
     NULL,
-    (PrototypeCreateF) &CarbonWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CarbonWindowBase::createEmpty),
     CarbonWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 CarbonWindowBase::getContainerSize(void) const
 void CarbonWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CarbonWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CarbonWindowBase *>(&other),
+                          whichField);
 }
 #else
 void CarbonWindowBase::executeSync(      FieldContainer &other,
@@ -290,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CarbonWindowPtr, OSG_WINDOWCARBONLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCarbonWindowBase.cpp,v 1.1 2006/08/04 09:18:18 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCarbonWindowBase.cpp,v 1.2 2008/06/05 05:02:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCARBONWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCARBONWINDOWBASE_INLINE_CVSID;
 

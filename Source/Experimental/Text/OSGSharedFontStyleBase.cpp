@@ -62,7 +62,7 @@
 #include "OSGSharedFontStyle.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SharedFontStyleBase::ContainedFontStyleFieldMask = 
     (TypeTraits<BitVector>::One << SharedFontStyleBase::ContainedFontStyleFieldId);
@@ -86,7 +86,7 @@ FieldDescription *SharedFontStyleBase::_desc[] =
                      "ContainedFontStyle", 
                      ContainedFontStyleFieldId, ContainedFontStyleFieldMask,
                      false,
-                     (FieldAccessMethod) &SharedFontStyleBase::getSFContainedFontStyle)
+                     reinterpret_cast<FieldAccessMethod>(&SharedFontStyleBase::getSFContainedFontStyle))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType SharedFontStyleBase::_type(
     "SharedFontStyle",
     "FieldContainer",
     NULL,
-    (PrototypeCreateF) &SharedFontStyleBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SharedFontStyleBase::createEmpty),
     SharedFontStyle::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 SharedFontStyleBase::getContainerSize(void) const
 void SharedFontStyleBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SharedFontStyleBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SharedFontStyleBase *>(&other),
+                          whichField);
 }
 #else
 void SharedFontStyleBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void SharedFontStyleBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -271,8 +274,6 @@ DataType FieldDataTraits<SharedFontStylePtr>::_type("SharedFontStylePtr", "Field
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(SharedFontStylePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -288,10 +289,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHAREDFONTSTYLEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -269,6 +269,6 @@ typedef RefPtr<ParallelComposerPtr> ParallelComposerRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPARALLELCOMPOSERBASE_HEADER_CVSID "@(#)$Id: OSGParallelComposerBase.h,v 1.1 2006/05/08 04:00:01 eysquared Exp $"
+#define OSGPARALLELCOMPOSERBASE_HEADER_CVSID "@(#)$Id: OSGParallelComposerBase.h,v 1.2 2008/06/05 05:02:25 vossg Exp $"
 
 #endif /* _OSGPARALLELCOMPOSERBASE_H_ */

@@ -253,6 +253,6 @@ typedef RefPtr<PhysicsBoxGeomPtr> PhysicsBoxGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBOXGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBoxGeomBase.h,v 1.2 2006/02/20 17:04:20 dirk Exp $"
+#define OSGPHYSICSBOXGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBoxGeomBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 
 #endif /* _OSGPHYSICSBOXGEOMBASE_H_ */

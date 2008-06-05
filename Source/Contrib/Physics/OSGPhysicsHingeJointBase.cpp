@@ -62,7 +62,7 @@
 #include "OSGPhysicsHingeJoint.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsHingeJointBase::AnchorFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsHingeJointBase::AnchorFieldId);
@@ -92,12 +92,12 @@ FieldDescription *PhysicsHingeJointBase::_desc[] =
                      "anchor", 
                      AnchorFieldId, AnchorFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsHingeJointBase::getSFAnchor),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHingeJointBase::getSFAnchor)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis", 
                      AxisFieldId, AxisFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsHingeJointBase::getSFAxis)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHingeJointBase::getSFAxis))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType PhysicsHingeJointBase::_type(
     "PhysicsHingeJoint",
     "PhysicsJoint",
     NULL,
-    (PrototypeCreateF) &PhysicsHingeJointBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsHingeJointBase::createEmpty),
     PhysicsHingeJoint::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 PhysicsHingeJointBase::getContainerSize(void) const
 void PhysicsHingeJointBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsHingeJointBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsHingeJointBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsHingeJointBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void PhysicsHingeJointBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<PhysicsHingeJointPtr>::_type("PhysicsHingeJointPtr", "P
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsHingeJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsHingeJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHingeJointBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHingeJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHINGEJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHINGEJOINTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSHINGEJOINTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

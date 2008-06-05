@@ -62,7 +62,7 @@
 #include "OSGParticles.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ParticlesBase::ModeFieldMask = 
     (TypeTraits<BitVector>::One << ParticlesBase::ModeFieldId);
@@ -158,67 +158,67 @@ FieldDescription *ParticlesBase::_desc[] =
                      "mode", 
                      ModeFieldId, ModeFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFMode),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFMode)),
     new FieldDescription(SFGeoPositionsPtr::getClassType(), 
                      "positions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFPositions),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFPositions)),
     new FieldDescription(MFVec3f::getClassType(), 
                      "sizes", 
                      SizesFieldId, SizesFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getMFSizes),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getMFSizes)),
     new FieldDescription(SFGeoPositionsPtr::getClassType(), 
                      "secPositions", 
                      SecPositionsFieldId, SecPositionsFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFSecPositions),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFSecPositions)),
     new FieldDescription(SFGeoColorsPtr::getClassType(), 
                      "colors", 
                      ColorsFieldId, ColorsFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFColors),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFColors)),
     new FieldDescription(SFGeoNormalsPtr::getClassType(), 
                      "normals", 
                      NormalsFieldId, NormalsFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFNormals),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFNormals)),
     new FieldDescription(MFInt32::getClassType(), 
                      "indices", 
                      IndicesFieldId, IndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getMFIndices),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getMFIndices)),
     new FieldDescription(MFReal32::getClassType(), 
                      "textureZs", 
                      TextureZsFieldId, TextureZsFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getMFTextureZs),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getMFTextureZs)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "drawOrder", 
                      DrawOrderFieldId, DrawOrderFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFDrawOrder),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFDrawOrder)),
     new FieldDescription(SFBool::getClassType(), 
                      "dynamic", 
                      DynamicFieldId, DynamicFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFDynamic),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFDynamic)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "pump", 
                      PumpFieldId, PumpFieldMask,
                      true,
-                     (FieldAccessMethod) &ParticlesBase::getSFPump),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFPump)),
     new FieldDescription(SFParticleBSPTree::getClassType(), 
                      "bsp", 
                      BspFieldId, BspFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFBsp),
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFBsp)),
     new FieldDescription(SFInt32::getClassType(), 
                      "numParticles", 
                      NumParticlesFieldId, NumParticlesFieldMask,
                      false,
-                     (FieldAccessMethod) &ParticlesBase::getSFNumParticles)
+                     reinterpret_cast<FieldAccessMethod>(&ParticlesBase::getSFNumParticles))
 };
 
 
@@ -226,7 +226,7 @@ FieldContainerType ParticlesBase::_type(
     "Particles",
     "MaterialDrawable",
     NULL,
-    (PrototypeCreateF) &ParticlesBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ParticlesBase::createEmpty),
     Particles::initMethod,
     _desc,
     sizeof(_desc));
@@ -265,7 +265,8 @@ UInt32 ParticlesBase::getContainerSize(void) const
 void ParticlesBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ParticlesBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ParticlesBase *>(&other),
+                          whichField);
 }
 #else
 void ParticlesBase::executeSync(      FieldContainer &other,
@@ -682,6 +683,8 @@ void ParticlesBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -693,8 +696,6 @@ DataType FieldDataTraits<ParticlesPtr>::_type("ParticlesPtr", "MaterialDrawableP
 
 OSG_DLLEXPORT_SFIELD_DEF1(ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ParticlesPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -710,10 +711,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPARTICLESBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARTICLESBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPARTICLESFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

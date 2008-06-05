@@ -102,6 +102,6 @@ struct FieldDataTraits<CharacterPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERFIELDS_HEADER_CVSID "@(#)$Id: OSGCharacterFields.h,v 1.2 2006/02/20 17:04:12 dirk Exp $"
+#define OSGCHARACTERFIELDS_HEADER_CVSID "@(#)$Id: OSGCharacterFields.h,v 1.3 2008/06/05 05:02:15 vossg Exp $"
 
 #endif /* _OSGCHARACTERFIELDS_H_ */

@@ -62,7 +62,7 @@
 #include "OSGSharedFontStyleWrapper.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SharedFontStyleWrapperBase::FStyleContainerFieldMask = 
     (TypeTraits<BitVector>::One << SharedFontStyleWrapperBase::FStyleContainerFieldId);
@@ -86,7 +86,7 @@ FieldDescription *SharedFontStyleWrapperBase::_desc[] =
                      "FStyleContainer", 
                      FStyleContainerFieldId, FStyleContainerFieldMask,
                      false,
-                     (FieldAccessMethod) &SharedFontStyleWrapperBase::getSFFStyleContainer)
+                     reinterpret_cast<FieldAccessMethod>(&SharedFontStyleWrapperBase::getSFFStyleContainer))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType SharedFontStyleWrapperBase::_type(
     "SharedFontStyleWrapper",
     "FieldContainer",
     NULL,
-    (PrototypeCreateF) &SharedFontStyleWrapperBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SharedFontStyleWrapperBase::createEmpty),
     SharedFontStyleWrapper::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 SharedFontStyleWrapperBase::getContainerSize(void) const
 void SharedFontStyleWrapperBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SharedFontStyleWrapperBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SharedFontStyleWrapperBase *>(&other),
+                          whichField);
 }
 #else
 void SharedFontStyleWrapperBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void SharedFontStyleWrapperBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<SharedFontStyleWrapperPtr>::_type("SharedFontStyleWrapp
 
 OSG_DLLEXPORT_SFIELD_DEF1(SharedFontStyleWrapperPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(SharedFontStyleWrapperPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapperBase.cpp,v 1.7 2006/02/20 17:04:42 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapperBase.cpp,v 1.8 2008/06/05 05:02:23 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHAREDFONTSTYLEWRAPPERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

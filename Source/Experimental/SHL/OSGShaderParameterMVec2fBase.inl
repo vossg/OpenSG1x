@@ -128,5 +128,5 @@ const MFVec2f &ShaderParameterMVec2fBase::getValue(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMVEC2FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMVec2fBase.inl,v 1.1 2007/03/09 18:11:49 a-m-z Exp $"
+#define OSGSHADERPARAMETERMVEC2FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMVec2fBase.inl,v 1.2 2008/06/05 05:02:22 vossg Exp $"
 

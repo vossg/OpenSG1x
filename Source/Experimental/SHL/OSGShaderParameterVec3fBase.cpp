@@ -62,7 +62,7 @@
 #include "OSGShaderParameterVec3f.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShaderParameterVec3fBase::ValueFieldMask = 
     (TypeTraits<BitVector>::One << ShaderParameterVec3fBase::ValueFieldId);
@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterVec3fBase::_desc[] =
                      "value", 
                      ValueFieldId, ValueFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderParameterVec3fBase::getSFValue)
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterVec3fBase::getSFValue))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType ShaderParameterVec3fBase::_type(
     "ShaderParameterVec3f",
     "ShaderParameter",
     NULL,
-    (PrototypeCreateF) &ShaderParameterVec3fBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ShaderParameterVec3fBase::createEmpty),
     ShaderParameterVec3f::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 ShaderParameterVec3fBase::getContainerSize(void) const
 void ShaderParameterVec3fBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShaderParameterVec3fBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShaderParameterVec3fBase *>(&other),
+                          whichField);
 }
 #else
 void ShaderParameterVec3fBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void ShaderParameterVec3fBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<ShaderParameterVec3fPtr>::_type("ShaderParameterVec3fPt
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShaderParameterVec3fPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterVec3fPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterVec3fBase.cpp,v 1.6 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterVec3fBase.cpp,v 1.7 2008/06/05 05:02:22 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERVEC3FBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERVEC3FBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERVEC3FFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

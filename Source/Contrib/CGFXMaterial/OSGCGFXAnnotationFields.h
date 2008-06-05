@@ -102,6 +102,6 @@ struct FieldDataTraits<CGFXAnnotationPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXANNOTATIONFIELDS_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotationFields.h,v 1.3 2006/02/20 17:04:10 dirk Exp $"
+#define OSGCGFXANNOTATIONFIELDS_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotationFields.h,v 1.4 2008/06/05 05:02:14 vossg Exp $"
 
 #endif /* _OSGCGFXANNOTATIONFIELDS_H_ */

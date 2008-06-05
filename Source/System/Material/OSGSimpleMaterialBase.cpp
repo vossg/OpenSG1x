@@ -63,7 +63,7 @@
 
 #include <OSGGL.h>                        // ColorMaterial default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  SimpleMaterialBase::AmbientFieldMask = 
     (TypeTraits<BitVector>::One << SimpleMaterialBase::AmbientFieldId);
@@ -129,42 +129,42 @@ FieldDescription *SimpleMaterialBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFAmbient),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFAmbient)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFDiffuse),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFDiffuse)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFSpecular),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFSpecular)),
     new FieldDescription(SFReal32::getClassType(), 
                      "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFShininess),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFShininess)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFEmission),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFEmission)),
     new FieldDescription(SFReal32::getClassType(), 
                      "transparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFTransparency),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFTransparency)),
     new FieldDescription(SFBool::getClassType(), 
                      "lit", 
                      LitFieldId, LitFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFLit),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFLit)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &SimpleMaterialBase::getSFColorMaterial)
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFColorMaterial))
 };
 
 
@@ -172,7 +172,7 @@ FieldContainerType SimpleMaterialBase::_type(
     "SimpleMaterial",
     "ChunkMaterial",
     NULL,
-    (PrototypeCreateF) &SimpleMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SimpleMaterialBase::createEmpty),
     SimpleMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -211,7 +211,8 @@ UInt32 SimpleMaterialBase::getContainerSize(void) const
 void SimpleMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SimpleMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SimpleMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void SimpleMaterialBase::executeSync(      FieldContainer &other,
@@ -501,14 +502,10 @@ void SimpleMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<SimpleMaterialPtr>::_type("SimpleMaterialPtr", "ChunkMaterialPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -524,10 +521,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSIMPLEMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

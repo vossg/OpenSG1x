@@ -450,6 +450,6 @@ typedef RefPtr<TerrainPtr> TerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.7 2006/02/20 17:04:33 dirk Exp $"
+#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.8 2008/06/05 05:02:18 vossg Exp $"
 
 #endif /* _OSGTERRAINBASE_H_ */

@@ -92,12 +92,12 @@ FieldDescription *ChunkMaterialBase::_desc[] =
                      "chunks", 
                      ChunksFieldId, ChunksFieldMask,
                      false,
-                     (FieldAccessMethod) &ChunkMaterialBase::getMFChunks),
+                     reinterpret_cast<FieldAccessMethod>(&ChunkMaterialBase::getMFChunks)),
     new FieldDescription(MFInt32::getClassType(), 
                      "slots", 
                      SlotsFieldId, SlotsFieldMask,
                      false,
-                     (FieldAccessMethod) &ChunkMaterialBase::getMFSlots)
+                     reinterpret_cast<FieldAccessMethod>(&ChunkMaterialBase::getMFSlots))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType ChunkMaterialBase::_type(
     "ChunkMaterial",
     "Material",
     NULL,
-    (PrototypeCreateF) &ChunkMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ChunkMaterialBase::createEmpty),
     ChunkMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 ChunkMaterialBase::getContainerSize(void) const
 void ChunkMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ChunkMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ChunkMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void ChunkMaterialBase::executeSync(      FieldContainer &other,

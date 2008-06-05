@@ -62,7 +62,7 @@
 #include "OSGWindow.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  WindowBase::WidthFieldMask = 
     (TypeTraits<BitVector>::One << WindowBase::WidthFieldId);
@@ -122,37 +122,37 @@ FieldDescription *WindowBase::_desc[] =
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      false,
-                     (FieldAccessMethod) &WindowBase::getSFWidth),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getSFWidth)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "height", 
                      HeightFieldId, HeightFieldMask,
                      false,
-                     (FieldAccessMethod) &WindowBase::getSFHeight),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getSFHeight)),
     new FieldDescription(MFViewportPtr::getClassType(), 
                      "port", 
                      PortFieldId, PortFieldMask,
                      false,
-                     (FieldAccessMethod) &WindowBase::getMFPort),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getMFPort)),
     new FieldDescription(SFBool::getClassType(), 
                      "resizePending", 
                      ResizePendingFieldId, ResizePendingFieldMask,
                      true,
-                     (FieldAccessMethod) &WindowBase::getSFResizePending),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getSFResizePending)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "glObjectEventCounter", 
                      GlObjectEventCounterFieldId, GlObjectEventCounterFieldMask,
                      true,
-                     (FieldAccessMethod) &WindowBase::getSFGlObjectEventCounter),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getSFGlObjectEventCounter)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "glObjectLastRefresh", 
                      GlObjectLastRefreshFieldId, GlObjectLastRefreshFieldMask,
                      true,
-                     (FieldAccessMethod) &WindowBase::getMFGlObjectLastRefresh),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getMFGlObjectLastRefresh)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "glObjectLastReinitialize", 
                      GlObjectLastReinitializeFieldId, GlObjectLastReinitializeFieldMask,
                      true,
-                     (FieldAccessMethod) &WindowBase::getMFGlObjectLastReinitialize)
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getMFGlObjectLastReinitialize))
 };
 
 
@@ -190,7 +190,8 @@ UInt32 WindowBase::getContainerSize(void) const
 void WindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((WindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<WindowBase *>(&other),
+                          whichField);
 }
 #else
 void WindowBase::executeSync(      FieldContainer &other,
@@ -469,6 +470,8 @@ void WindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -480,8 +483,6 @@ DataType FieldDataTraits<WindowPtr>::_type("WindowPtr", "AttachmentContainerPtr"
 
 OSG_DLLEXPORT_SFIELD_DEF1(WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -497,10 +498,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGWINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

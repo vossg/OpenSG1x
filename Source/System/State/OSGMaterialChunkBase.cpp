@@ -64,7 +64,7 @@
 #include <OSGGL.h>                        // ColorMaterial default header
 #include <OSGGL.h>                        // BackColorMaterial default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MaterialChunkBase::DiffuseFieldMask = 
     (TypeTraits<BitVector>::One << MaterialChunkBase::DiffuseFieldId);
@@ -166,72 +166,72 @@ FieldDescription *MaterialChunkBase::_desc[] =
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFDiffuse),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFDiffuse)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFAmbient),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFAmbient)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFSpecular),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFSpecular)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFEmission),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFEmission)),
     new FieldDescription(SFReal32::getClassType(), 
                      "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFShininess),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFShininess)),
     new FieldDescription(SFBool::getClassType(), 
                      "lit", 
                      LitFieldId, LitFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFLit),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFLit)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFColorMaterial),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFColorMaterial)),
     new FieldDescription(SFBool::getClassType(), 
                      "backMaterial", 
                      BackMaterialFieldId, BackMaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFBackMaterial),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFBackMaterial)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "backDiffuse", 
                      BackDiffuseFieldId, BackDiffuseFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFBackDiffuse),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFBackDiffuse)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "backAmbient", 
                      BackAmbientFieldId, BackAmbientFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFBackAmbient),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFBackAmbient)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "backSpecular", 
                      BackSpecularFieldId, BackSpecularFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFBackSpecular),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFBackSpecular)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "backEmission", 
                      BackEmissionFieldId, BackEmissionFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFBackEmission),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFBackEmission)),
     new FieldDescription(SFReal32::getClassType(), 
                      "backShininess", 
                      BackShininessFieldId, BackShininessFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFBackShininess),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFBackShininess)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "backColorMaterial", 
                      BackColorMaterialFieldId, BackColorMaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialChunkBase::getSFBackColorMaterial)
+                     reinterpret_cast<FieldAccessMethod>(&MaterialChunkBase::getSFBackColorMaterial))
 };
 
 
@@ -239,7 +239,7 @@ FieldContainerType MaterialChunkBase::_type(
     "MaterialChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &MaterialChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&MaterialChunkBase::createEmpty),
     MaterialChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -278,7 +278,8 @@ UInt32 MaterialChunkBase::getContainerSize(void) const
 void MaterialChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MaterialChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MaterialChunkBase *>(&other),
+                          whichField);
 }
 #else
 void MaterialChunkBase::executeSync(      FieldContainer &other,
@@ -706,6 +707,8 @@ void MaterialChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -717,8 +720,6 @@ DataType FieldDataTraits<MaterialChunkPtr>::_type("MaterialChunkPtr", "StateChun
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -734,10 +735,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMATERIALCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGViewport.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ViewportBase::LeftFieldMask = 
     (TypeTraits<BitVector>::One << ViewportBase::LeftFieldId);
@@ -146,57 +146,57 @@ FieldDescription *ViewportBase::_desc[] =
                      "left", 
                      LeftFieldId, LeftFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFLeft),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFLeft)),
     new FieldDescription(SFReal32::getClassType(), 
                      "right", 
                      RightFieldId, RightFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFRight),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFRight)),
     new FieldDescription(SFReal32::getClassType(), 
                      "bottom", 
                      BottomFieldId, BottomFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFBottom),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFBottom)),
     new FieldDescription(SFReal32::getClassType(), 
                      "top", 
                      TopFieldId, TopFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFTop),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFTop)),
     new FieldDescription(SFWindowPtr::getClassType(), 
                      "parent", 
                      ParentFieldId, ParentFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFParent),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFParent)),
     new FieldDescription(SFCameraPtr::getClassType(), 
                      "camera", 
                      CameraFieldId, CameraFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFCamera),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFCamera)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "root", 
                      RootFieldId, RootFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFRoot),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFRoot)),
     new FieldDescription(SFBackgroundPtr::getClassType(), 
                      "background", 
                      BackgroundFieldId, BackgroundFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFBackground),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFBackground)),
     new FieldDescription(MFForegroundPtr::getClassType(), 
                      "foregrounds", 
                      ForegroundsFieldId, ForegroundsFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getMFForegrounds),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getMFForegrounds)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "travMask", 
                      TravMaskFieldId, TravMaskFieldMask,
                      false,
-                     (FieldAccessMethod) &ViewportBase::getSFTravMask),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFTravMask)),
     new FieldDescription(SFReal32::getClassType(), 
                      "drawTime", 
                      DrawTimeFieldId, DrawTimeFieldMask,
                      true,
-                     (FieldAccessMethod) &ViewportBase::getSFDrawTime)
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFDrawTime))
 };
 
 
@@ -204,7 +204,7 @@ FieldContainerType ViewportBase::_type(
     "Viewport",
     "AttachmentContainer",
     NULL,
-    (PrototypeCreateF) &ViewportBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ViewportBase::createEmpty),
     Viewport::initMethod,
     _desc,
     sizeof(_desc));
@@ -243,7 +243,8 @@ UInt32 ViewportBase::getContainerSize(void) const
 void ViewportBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ViewportBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ViewportBase *>(&other),
+                          whichField);
 }
 #else
 void ViewportBase::executeSync(      FieldContainer &other,
@@ -606,6 +607,8 @@ void ViewportBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -617,8 +620,6 @@ DataType FieldDataTraits<ViewportPtr>::_type("ViewportPtr", "AttachmentContainer
 
 OSG_DLLEXPORT_SFIELD_DEF1(ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -634,10 +635,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGVIEWPORTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

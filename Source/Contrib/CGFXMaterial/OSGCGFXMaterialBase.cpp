@@ -62,7 +62,7 @@
 #include "OSGCGFXMaterial.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CGFXMaterialBase::EffectFileFieldMask = 
     (TypeTraits<BitVector>::One << CGFXMaterialBase::EffectFileFieldId);
@@ -110,27 +110,27 @@ FieldDescription *CGFXMaterialBase::_desc[] =
                      "effectFile", 
                      EffectFileFieldId, EffectFileFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getSFEffectFile),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFEffectFile)),
     new FieldDescription(SFString::getClassType(), 
                      "effectString", 
                      EffectStringFieldId, EffectStringFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getSFEffectString),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFEffectString)),
     new FieldDescription(SFInt32::getClassType(), 
                      "technique", 
                      TechniqueFieldId, TechniqueFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getSFTechnique),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFTechnique)),
     new FieldDescription(MFShaderParameterPtr::getClassType(), 
                      "parameters", 
                      ParametersFieldId, ParametersFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getMFParameters),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getMFParameters)),
     new FieldDescription(MFImagePtr::getClassType(), 
                      "images", 
                      ImagesFieldId, ImagesFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getMFImages)
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getMFImages))
 };
 
 
@@ -138,7 +138,7 @@ FieldContainerType CGFXMaterialBase::_type(
     "CGFXMaterial",
     "MultiPassMaterial",
     NULL,
-    (PrototypeCreateF) &CGFXMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CGFXMaterialBase::createEmpty),
     CGFXMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -177,7 +177,8 @@ UInt32 CGFXMaterialBase::getContainerSize(void) const
 void CGFXMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGFXMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CGFXMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void CGFXMaterialBase::executeSync(      FieldContainer &other,
@@ -406,14 +407,10 @@ void CGFXMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "MultiPassMaterialPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -429,10 +426,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.4 2006/02/20 17:04:10 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.5 2008/06/05 05:02:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCGFXMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGPhysicsBoxGeom.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsBoxGeomBase::LenghtsFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsBoxGeomBase::LenghtsFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsBoxGeomBase::_desc[] =
                      "lenghts", 
                      LenghtsFieldId, LenghtsFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsBoxGeomBase::getSFLenghts)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsBoxGeomBase::getSFLenghts))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsBoxGeomBase::_type(
     "PhysicsBoxGeom",
     "PhysicsGeom",
     NULL,
-    (PrototypeCreateF) &PhysicsBoxGeomBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsBoxGeomBase::createEmpty),
     PhysicsBoxGeom::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsBoxGeomBase::getContainerSize(void) const
 void PhysicsBoxGeomBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsBoxGeomBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsBoxGeomBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsBoxGeomBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsBoxGeomBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsBoxGeomPtr>::_type("PhysicsBoxGeomPtr", "Physics
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsBoxGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsBoxGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBoxGeomBase.cpp,v 1.2 2006/02/20 17:04:20 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBoxGeomBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSBOXGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSBOXGEOMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSBOXGEOMFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

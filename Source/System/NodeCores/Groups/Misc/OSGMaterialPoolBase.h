@@ -253,6 +253,6 @@ typedef RefPtr<MaterialPoolPtr> MaterialPoolRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALPOOLBASE_HEADER_CVSID "@(#)$Id: OSGMaterialPoolBase.h,v 1.6 2006/02/20 16:54:24 dirk Exp $"
+#define OSGMATERIALPOOLBASE_HEADER_CVSID "@(#)$Id: OSGMaterialPoolBase.h,v 1.7 2008/06/05 05:02:28 vossg Exp $"
 
 #endif /* _OSGMATERIALPOOLBASE_H_ */

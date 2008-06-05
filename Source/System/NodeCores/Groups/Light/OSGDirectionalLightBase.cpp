@@ -62,7 +62,7 @@
 #include "OSGDirectionalLight.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DirectionalLightBase::DirectionFieldMask = 
     (TypeTraits<BitVector>::One << DirectionalLightBase::DirectionFieldId);
@@ -86,7 +86,7 @@ FieldDescription *DirectionalLightBase::_desc[] =
                      "direction", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
-                     (FieldAccessMethod) &DirectionalLightBase::getSFDirection)
+                     reinterpret_cast<FieldAccessMethod>(&DirectionalLightBase::getSFDirection))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType DirectionalLightBase::_type(
     "DirectionalLight",
     "Light",
     NULL,
-    (PrototypeCreateF) &DirectionalLightBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DirectionalLightBase::createEmpty),
     DirectionalLight::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 DirectionalLightBase::getContainerSize(void) const
 void DirectionalLightBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DirectionalLightBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DirectionalLightBase *>(&other),
+                          whichField);
 }
 #else
 void DirectionalLightBase::executeSync(      FieldContainer &other,
@@ -262,14 +263,10 @@ void DirectionalLightBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DirectionalLightPtr>::_type("DirectionalLightPtr", "LightPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -285,10 +282,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDIRECTIONALLIGHTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

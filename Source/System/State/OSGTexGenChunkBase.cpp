@@ -66,7 +66,7 @@
 #include <OSGGL.h>                        // GenFuncR default header
 #include <OSGGL.h>                        // GenFuncQ default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TexGenChunkBase::GenFuncSFieldMask = 
     (TypeTraits<BitVector>::One << TexGenChunkBase::GenFuncSFieldId);
@@ -156,62 +156,62 @@ FieldDescription *TexGenChunkBase::_desc[] =
                      "genFuncS", 
                      GenFuncSFieldId, GenFuncSFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncS),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFGenFuncS)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "genFuncT", 
                      GenFuncTFieldId, GenFuncTFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncT),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFGenFuncT)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "genFuncR", 
                      GenFuncRFieldId, GenFuncRFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncR),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFGenFuncR)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "genFuncQ", 
                      GenFuncQFieldId, GenFuncQFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncQ),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFGenFuncQ)),
     new FieldDescription(SFVec4f::getClassType(), 
                      "genFuncSPlane", 
                      GenFuncSPlaneFieldId, GenFuncSPlaneFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncSPlane),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFGenFuncSPlane)),
     new FieldDescription(SFVec4f::getClassType(), 
                      "genFuncTPlane", 
                      GenFuncTPlaneFieldId, GenFuncTPlaneFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncTPlane),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFGenFuncTPlane)),
     new FieldDescription(SFVec4f::getClassType(), 
                      "genFuncRPlane", 
                      GenFuncRPlaneFieldId, GenFuncRPlaneFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncRPlane),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFGenFuncRPlane)),
     new FieldDescription(SFVec4f::getClassType(), 
                      "genFuncQPlane", 
                      GenFuncQPlaneFieldId, GenFuncQPlaneFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFGenFuncQPlane),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFGenFuncQPlane)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "sBeacon", 
                      SBeaconFieldId, SBeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFSBeacon),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFSBeacon)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "tBeacon", 
                      TBeaconFieldId, TBeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFTBeacon),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFTBeacon)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "rBeacon", 
                      RBeaconFieldId, RBeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFRBeacon),
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFRBeacon)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "qBeacon", 
                      QBeaconFieldId, QBeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &TexGenChunkBase::getSFQBeacon)
+                     reinterpret_cast<FieldAccessMethod>(&TexGenChunkBase::getSFQBeacon))
 };
 
 
@@ -219,7 +219,7 @@ FieldContainerType TexGenChunkBase::_type(
     "TexGenChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &TexGenChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TexGenChunkBase::createEmpty),
     TexGenChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -258,7 +258,8 @@ UInt32 TexGenChunkBase::getContainerSize(void) const
 void TexGenChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TexGenChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TexGenChunkBase *>(&other),
+                          whichField);
 }
 #else
 void TexGenChunkBase::executeSync(      FieldContainer &other,
@@ -640,6 +641,8 @@ void TexGenChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -651,8 +654,6 @@ DataType FieldDataTraits<TexGenChunkPtr>::_type("TexGenChunkPtr", "StateChunkPtr
 
 OSG_DLLEXPORT_SFIELD_DEF1(TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TexGenChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -668,10 +669,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXGENCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXGENCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTEXGENCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

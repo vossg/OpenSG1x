@@ -301,6 +301,6 @@ typedef RefPtr<SHLChunkPtr> SHLChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.15 2007/10/10 16:00:12 neumannc Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.16 2008/06/05 05:02:21 vossg Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

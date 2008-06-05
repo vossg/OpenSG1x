@@ -394,6 +394,6 @@ typedef RefPtr<FBOViewportPtr> FBOViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.4 2007/09/21 16:09:57 yjung Exp $"
+#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.5 2008/06/05 05:02:30 vossg Exp $"
 
 #endif /* _OSGFBOVIEWPORTBASE_H_ */

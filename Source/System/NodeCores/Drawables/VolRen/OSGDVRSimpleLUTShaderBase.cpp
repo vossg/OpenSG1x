@@ -62,7 +62,7 @@
 #include "OSGDVRSimpleLUTShader.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DVRSimpleLUTShaderBase::LutModeFieldMask = 
     (TypeTraits<BitVector>::One << DVRSimpleLUTShaderBase::LutModeFieldId);
@@ -92,12 +92,12 @@ FieldDescription *DVRSimpleLUTShaderBase::_desc[] =
                      "lutMode", 
                      LutModeFieldId, LutModeFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRSimpleLUTShaderBase::getSFLutMode),
+                     reinterpret_cast<FieldAccessMethod>(&DVRSimpleLUTShaderBase::getSFLutMode)),
     new FieldDescription(SFInt8::getClassType(), 
                      "activeLutMode", 
                      ActiveLutModeFieldId, ActiveLutModeFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRSimpleLUTShaderBase::getSFActiveLutMode)
+                     reinterpret_cast<FieldAccessMethod>(&DVRSimpleLUTShaderBase::getSFActiveLutMode))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType DVRSimpleLUTShaderBase::_type(
     "DVRSimpleLUTShader",
     "DVRSimpleShader",
     NULL,
-    (PrototypeCreateF) &DVRSimpleLUTShaderBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRSimpleLUTShaderBase::createEmpty),
     DVRSimpleLUTShader::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 DVRSimpleLUTShaderBase::getContainerSize(void) const
 void DVRSimpleLUTShaderBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRSimpleLUTShaderBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRSimpleLUTShaderBase *>(&other),
+                          whichField);
 }
 #else
 void DVRSimpleLUTShaderBase::executeSync(      FieldContainer &other,
@@ -296,14 +297,10 @@ void DVRSimpleLUTShaderBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DVRSimpleLUTShaderPtr>::_type("DVRSimpleLUTShaderPtr", "DVRSimpleShaderPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -319,10 +316,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRSIMPLELUTSHADERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRSIMPLELUTSHADERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRSIMPLELUTSHADERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

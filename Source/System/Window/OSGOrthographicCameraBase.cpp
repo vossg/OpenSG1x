@@ -62,7 +62,7 @@
 #include "OSGOrthographicCamera.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  OrthographicCameraBase::VerticalSizeFieldMask = 
     (TypeTraits<BitVector>::One << OrthographicCameraBase::VerticalSizeFieldId);
@@ -92,12 +92,12 @@ FieldDescription *OrthographicCameraBase::_desc[] =
                      "verticalSize", 
                      VerticalSizeFieldId, VerticalSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &OrthographicCameraBase::getSFVerticalSize),
+                     reinterpret_cast<FieldAccessMethod>(&OrthographicCameraBase::getSFVerticalSize)),
     new FieldDescription(SFReal32::getClassType(), 
                      "aspect", 
                      AspectFieldId, AspectFieldMask,
                      false,
-                     (FieldAccessMethod) &OrthographicCameraBase::getSFAspect)
+                     reinterpret_cast<FieldAccessMethod>(&OrthographicCameraBase::getSFAspect))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType OrthographicCameraBase::_type(
     "OrthographicCamera",
     "Camera",
     NULL,
-    (PrototypeCreateF) &OrthographicCameraBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&OrthographicCameraBase::createEmpty),
     OrthographicCamera::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 OrthographicCameraBase::getContainerSize(void) const
 void OrthographicCameraBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((OrthographicCameraBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<OrthographicCameraBase *>(&other),
+                          whichField);
 }
 #else
 void OrthographicCameraBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void OrthographicCameraBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<OrthographicCameraPtr>::_type("OrthographicCameraPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(OrthographicCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(OrthographicCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCameraBase.cpp,v 1.2 2006/02/20 16:54:30 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCameraBase.cpp,v 1.3 2008/06/05 05:02:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGORTHOGRAPHICCAMERAFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -268,5 +268,5 @@ void FTGLFontBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLFONTBASE_INLINE_CVSID "@(#)$Id: OSGFTGLFontBase.inl,v 1.6 2006/02/20 17:04:13 dirk Exp $"
+#define OSGFTGLFONTBASE_INLINE_CVSID "@(#)$Id: OSGFTGLFontBase.inl,v 1.7 2008/06/05 05:02:15 vossg Exp $"
 

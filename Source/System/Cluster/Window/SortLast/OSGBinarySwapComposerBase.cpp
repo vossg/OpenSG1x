@@ -62,7 +62,7 @@
 #include "OSGBinarySwapComposer.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  BinarySwapComposerBase::ShortFieldMask = 
     (TypeTraits<BitVector>::One << BinarySwapComposerBase::ShortFieldId);
@@ -98,17 +98,17 @@ FieldDescription *BinarySwapComposerBase::_desc[] =
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     (FieldAccessMethod) &BinarySwapComposerBase::getSFShort),
+                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::getSFShort)),
     new FieldDescription(SFBool::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     (FieldAccessMethod) &BinarySwapComposerBase::getSFAlpha),
+                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::getSFAlpha)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "tileSize", 
                      TileSizeFieldId, TileSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &BinarySwapComposerBase::getSFTileSize)
+                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::getSFTileSize))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType BinarySwapComposerBase::_type(
     "BinarySwapComposer",
     "ImageComposer",
     NULL,
-    (PrototypeCreateF) &BinarySwapComposerBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&BinarySwapComposerBase::createEmpty),
     BinarySwapComposer::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 BinarySwapComposerBase::getContainerSize(void) const
 void BinarySwapComposerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((BinarySwapComposerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<BinarySwapComposerBase *>(&other),
+                          whichField);
 }
 #else
 void BinarySwapComposerBase::executeSync(      FieldContainer &other,
@@ -330,14 +331,10 @@ void BinarySwapComposerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<BinarySwapComposerPtr>::_type("BinarySwapComposerPtr", "ImageComposerPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -353,10 +350,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGBINARYSWAPCOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBINARYSWAPCOMPOSERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGBINARYSWAPCOMPOSERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

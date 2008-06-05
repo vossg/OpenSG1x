@@ -62,7 +62,7 @@
 #include "OSGDVRGeometry.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector DVRGeometryBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType DVRGeometryBase::_type(
     "DVRGeometry",
     "Geometry",
     NULL,
-    (PrototypeCreateF) &DVRGeometryBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRGeometryBase::createEmpty),
     DVRGeometry::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 DVRGeometryBase::getContainerSize(void) const
 void DVRGeometryBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRGeometryBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRGeometryBase *>(&other),
+                          whichField);
 }
 #else
 void DVRGeometryBase::executeSync(      FieldContainer &other,
@@ -219,6 +220,8 @@ void DVRGeometryBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -228,8 +231,6 @@ DataType FieldDataTraits<DVRGeometryPtr>::_type("DVRGeometryPtr", "GeometryPtr")
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(DVRGeometryPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -245,10 +246,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRGEOMETRYBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRGEOMETRYFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

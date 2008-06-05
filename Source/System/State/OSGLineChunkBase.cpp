@@ -63,7 +63,7 @@
 
 #include <OSGGL.h>                        // Smooth default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  LineChunkBase::WidthFieldMask = 
     (TypeTraits<BitVector>::One << LineChunkBase::WidthFieldId);
@@ -105,22 +105,22 @@ FieldDescription *LineChunkBase::_desc[] =
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      false,
-                     (FieldAccessMethod) &LineChunkBase::getSFWidth),
+                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::getSFWidth)),
     new FieldDescription(SFInt32::getClassType(), 
                      "stippleRepeat", 
                      StippleRepeatFieldId, StippleRepeatFieldMask,
                      false,
-                     (FieldAccessMethod) &LineChunkBase::getSFStippleRepeat),
+                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::getSFStippleRepeat)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "stipplePattern", 
                      StipplePatternFieldId, StipplePatternFieldMask,
                      false,
-                     (FieldAccessMethod) &LineChunkBase::getSFStipplePattern),
+                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::getSFStipplePattern)),
     new FieldDescription(SFBool::getClassType(), 
                      "smooth", 
                      SmoothFieldId, SmoothFieldMask,
                      false,
-                     (FieldAccessMethod) &LineChunkBase::getSFSmooth)
+                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::getSFSmooth))
 };
 
 
@@ -128,7 +128,7 @@ FieldContainerType LineChunkBase::_type(
     "LineChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &LineChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&LineChunkBase::createEmpty),
     LineChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -167,7 +167,8 @@ UInt32 LineChunkBase::getContainerSize(void) const
 void LineChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((LineChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<LineChunkBase *>(&other),
+                          whichField);
 }
 #else
 void LineChunkBase::executeSync(      FieldContainer &other,
@@ -365,6 +366,8 @@ void LineChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -376,8 +379,6 @@ DataType FieldDataTraits<LineChunkPtr>::_type("LineChunkPtr", "StateChunkPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(LineChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(LineChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -393,10 +394,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGLINECHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

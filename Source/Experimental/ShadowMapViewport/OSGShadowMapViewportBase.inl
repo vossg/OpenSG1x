@@ -380,5 +380,5 @@ const MFNodePtr &ShadowMapViewportBase::getExcludeNodes(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.12 2006/07/27 13:43:08 a-m-z Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.13 2008/06/05 05:02:23 vossg Exp $"
 

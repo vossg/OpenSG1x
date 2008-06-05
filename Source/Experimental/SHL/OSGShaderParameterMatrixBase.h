@@ -253,6 +253,6 @@ typedef RefPtr<ShaderParameterMatrixPtr> ShaderParameterMatrixRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMATRIXBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.h,v 1.6 2006/02/20 17:04:38 dirk Exp $"
+#define OSGSHADERPARAMETERMATRIXBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.h,v 1.7 2008/06/05 05:02:22 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERMATRIXBASE_H_ */

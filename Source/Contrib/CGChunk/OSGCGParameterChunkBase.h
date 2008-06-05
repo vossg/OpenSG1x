@@ -253,6 +253,6 @@ typedef RefPtr<CGParameterChunkPtr> CGParameterChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.6 2006/02/20 17:04:09 dirk Exp $"
+#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.7 2008/06/05 05:02:14 vossg Exp $"
 
 #endif /* _OSGCGPARAMETERCHUNKBASE_H_ */

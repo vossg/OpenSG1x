@@ -116,32 +116,32 @@ FieldDescription *SolidBackgroundBase::_desc[] =
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFColor),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFColor)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFClearStencilBit),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFClearStencilBit)),
     new FieldDescription(SFReal32::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFAlpha),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFAlpha)),
     new FieldDescription(SFReal32::getClassType(), 
                      "depth", 
                      DepthFieldId, DepthFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFDepth),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFDepth)),
     new FieldDescription(SFBool::getClassType(), 
                      "clearDepth", 
                      ClearDepthFieldId, ClearDepthFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFClearDepth),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFClearDepth)),
     new FieldDescription(SFBool::getClassType(), 
                      "clearColor", 
                      ClearColorFieldId, ClearColorFieldMask,
                      false,
-                     (FieldAccessMethod) &SolidBackgroundBase::getSFClearColor)
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFClearColor))
 };
 
 
@@ -149,7 +149,7 @@ FieldContainerType SolidBackgroundBase::_type(
     "SolidBackground",
     "Background",
     NULL,
-    (PrototypeCreateF) &SolidBackgroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&SolidBackgroundBase::createEmpty),
     SolidBackground::initMethod,
     _desc,
     sizeof(_desc));
@@ -188,7 +188,8 @@ UInt32 SolidBackgroundBase::getContainerSize(void) const
 void SolidBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((SolidBackgroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<SolidBackgroundBase *>(&other),
+                          whichField);
 }
 #else
 void SolidBackgroundBase::executeSync(      FieldContainer &other,

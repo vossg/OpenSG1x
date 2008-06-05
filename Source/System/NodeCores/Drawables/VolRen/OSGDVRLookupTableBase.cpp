@@ -62,7 +62,7 @@
 #include "OSGDVRLookupTable.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DVRLookupTableBase::DimensionFieldMask = 
     (TypeTraits<BitVector>::One << DVRLookupTableBase::DimensionFieldId);
@@ -134,47 +134,47 @@ FieldDescription *DVRLookupTableBase::_desc[] =
                      "dimension", 
                      DimensionFieldId, DimensionFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getSFDimension),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getSFDimension)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "size", 
                      SizeFieldId, SizeFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getMFSize),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFSize)),
     new FieldDescription(SFUInt8::getClassType(), 
                      "channel", 
                      ChannelFieldId, ChannelFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getSFChannel),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getSFChannel)),
     new FieldDescription(MFUInt8::getClassType(), 
                      "data", 
                      DataFieldId, DataFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getMFData),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFData)),
     new FieldDescription(MFReal32::getClassType(), 
                      "dataR", 
                      DataRFieldId, DataRFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getMFDataR),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFDataR)),
     new FieldDescription(MFReal32::getClassType(), 
                      "dataG", 
                      DataGFieldId, DataGFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getMFDataG),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFDataG)),
     new FieldDescription(MFReal32::getClassType(), 
                      "dataB", 
                      DataBFieldId, DataBFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getMFDataB),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFDataB)),
     new FieldDescription(MFReal32::getClassType(), 
                      "dataA", 
                      DataAFieldId, DataAFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getMFDataA),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFDataA)),
     new FieldDescription(SFBool::getClassType(), 
                      "touched", 
                      TouchedFieldId, TouchedFieldMask,
                      false,
-                     (FieldAccessMethod) &DVRLookupTableBase::getSFTouched)
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getSFTouched))
 };
 
 
@@ -182,7 +182,7 @@ FieldContainerType DVRLookupTableBase::_type(
     "DVRLookupTable",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &DVRLookupTableBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRLookupTableBase::createEmpty),
     DVRLookupTable::initMethod,
     _desc,
     sizeof(_desc));
@@ -221,7 +221,8 @@ UInt32 DVRLookupTableBase::getContainerSize(void) const
 void DVRLookupTableBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRLookupTableBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRLookupTableBase *>(&other),
+                          whichField);
 }
 #else
 void DVRLookupTableBase::executeSync(      FieldContainer &other,
@@ -558,14 +559,10 @@ void DVRLookupTableBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DVRLookupTablePtr>::_type("DVRLookupTablePtr", "AttachmentPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -581,10 +578,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRLOOKUPTABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRLOOKUPTABLEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRLOOKUPTABLEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

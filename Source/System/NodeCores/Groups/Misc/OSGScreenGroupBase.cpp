@@ -74,7 +74,7 @@ FieldContainerType ScreenGroupBase::_type(
     "ScreenGroup",
     "Group",
     NULL,
-    (PrototypeCreateF) &ScreenGroupBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ScreenGroupBase::createEmpty),
     ScreenGroup::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 ScreenGroupBase::getContainerSize(void) const
 void ScreenGroupBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ScreenGroupBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ScreenGroupBase *>(&other),
+                          whichField);
 }
 #else
 void ScreenGroupBase::executeSync(      FieldContainer &other,
@@ -247,7 +248,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ScreenGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroupBase.cpp,v 1.1 2007/05/07 11:50:36 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroupBase.cpp,v 1.2 2008/06/05 05:02:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENGROUPBASE_INLINE_CVSID;
 

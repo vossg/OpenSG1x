@@ -62,7 +62,7 @@
 #include "OSGPhysicsSliderJoint.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsSliderJointBase::AxisFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsSliderJointBase::AxisFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PhysicsSliderJointBase::_desc[] =
                      "axis", 
                      AxisFieldId, AxisFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsSliderJointBase::getSFAxis)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsSliderJointBase::getSFAxis))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PhysicsSliderJointBase::_type(
     "PhysicsSliderJoint",
     "PhysicsJoint",
     NULL,
-    (PrototypeCreateF) &PhysicsSliderJointBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsSliderJointBase::createEmpty),
     PhysicsSliderJoint::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PhysicsSliderJointBase::getContainerSize(void) const
 void PhysicsSliderJointBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsSliderJointBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsSliderJointBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsSliderJointBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void PhysicsSliderJointBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<PhysicsSliderJointPtr>::_type("PhysicsSliderJointPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsSliderJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsSliderJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSliderJointBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSliderJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSSLIDERJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSSLIDERJOINTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSSLIDERJOINTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

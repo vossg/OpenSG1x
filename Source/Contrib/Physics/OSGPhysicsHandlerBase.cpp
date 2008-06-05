@@ -62,7 +62,7 @@
 #include "OSGPhysicsHandler.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhysicsHandlerBase::WorldFieldMask = 
     (TypeTraits<BitVector>::One << PhysicsHandlerBase::WorldFieldId);
@@ -92,12 +92,12 @@ FieldDescription *PhysicsHandlerBase::_desc[] =
                      "world", 
                      WorldFieldId, WorldFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsHandlerBase::getSFWorld),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHandlerBase::getSFWorld)),
     new FieldDescription(SFPhysicsSpacePtr::getClassType(), 
                      "space", 
                      SpaceFieldId, SpaceFieldMask,
                      false,
-                     (FieldAccessMethod) &PhysicsHandlerBase::getSFSpace)
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHandlerBase::getSFSpace))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType PhysicsHandlerBase::_type(
     "PhysicsHandler",
     "Attachment",
     NULL,
-    (PrototypeCreateF) &PhysicsHandlerBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhysicsHandlerBase::createEmpty),
     PhysicsHandler::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 PhysicsHandlerBase::getContainerSize(void) const
 void PhysicsHandlerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhysicsHandlerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhysicsHandlerBase *>(&other),
+                          whichField);
 }
 #else
 void PhysicsHandlerBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void PhysicsHandlerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<PhysicsHandlerPtr>::_type("PhysicsHandlerPtr", "Attachm
 
 OSG_DLLEXPORT_SFIELD_DEF1(PhysicsHandlerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PhysicsHandlerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHandlerBase.cpp,v 1.2 2006/02/20 17:04:21 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHandlerBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHANDLERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHANDLERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHYSICSHANDLERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

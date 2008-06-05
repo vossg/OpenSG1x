@@ -86,7 +86,7 @@ FieldDescription *StateChunkBase::_desc[] =
                      "ignore", 
                      IgnoreFieldId, IgnoreFieldMask,
                      false,
-                     (FieldAccessMethod) &StateChunkBase::getSFIgnore)
+                     reinterpret_cast<FieldAccessMethod>(&StateChunkBase::getSFIgnore))
 };
 
 
@@ -124,7 +124,8 @@ UInt32 StateChunkBase::getContainerSize(void) const
 void StateChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((StateChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<StateChunkBase *>(&other),
+                          whichField);
 }
 #else
 void StateChunkBase::executeSync(      FieldContainer &other,

@@ -128,5 +128,5 @@ void SHLParameterChunkBase::setSHLChunk(const SHLChunkPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunkBase.inl,v 1.6 2006/02/20 17:04:38 dirk Exp $"
+#define OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunkBase.inl,v 1.7 2008/06/05 05:02:21 vossg Exp $"
 

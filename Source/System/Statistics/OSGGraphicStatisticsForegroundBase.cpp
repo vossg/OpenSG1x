@@ -62,7 +62,7 @@
 #include "OSGGraphicStatisticsForeground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  GraphicStatisticsForegroundBase::DisplayTypeFieldMask = 
     (TypeTraits<BitVector>::One << GraphicStatisticsForegroundBase::DisplayTypeFieldId);
@@ -176,82 +176,82 @@ FieldDescription *GraphicStatisticsForegroundBase::_desc[] =
                      "displayType", 
                      DisplayTypeFieldId, DisplayTypeFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFDisplayType),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFDisplayType)),
     new FieldDescription(MFVec2f::getClassType(), 
                      "size", 
                      SizeFieldId, SizeFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFSize),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFSize)),
     new FieldDescription(MFVec2f::getClassType(), 
                      "pos", 
                      PosFieldId, PosFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFPos),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFPos)),
     new FieldDescription(MFColor4f::getClassType(), 
                      "colorMax", 
                      ColorMaxFieldId, ColorMaxFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFColorMax),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFColorMax)),
     new FieldDescription(MFColor4f::getClassType(), 
                      "colorMin", 
                      ColorMinFieldId, ColorMinFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFColorMin),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFColorMin)),
     new FieldDescription(MFColor4f::getClassType(), 
                      "colorCurrent", 
                      ColorCurrentFieldId, ColorCurrentFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFColorCurrent),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFColorCurrent)),
     new FieldDescription(MFReal32::getClassType(), 
                      "minValue", 
                      MinValueFieldId, MinValueFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFMinValue),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFMinValue)),
     new FieldDescription(MFReal32::getClassType(), 
                      "maxValue", 
                      MaxValueFieldId, MaxValueFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFMaxValue),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFMaxValue)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "flags", 
                      FlagsFieldId, FlagsFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFFlags),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFFlags)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "historySize", 
                      HistorySizeFieldId, HistorySizeFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFHistorySize),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFHistorySize)),
     new FieldDescription(MFString::getClassType(), 
                      "description", 
                      DescriptionFieldId, DescriptionFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getMFDescription),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getMFDescription)),
     new FieldDescription(SFReal32::getClassType(), 
                      "lineWidth", 
                      LineWidthFieldId, LineWidthFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFLineWidth),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getSFLineWidth)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "backgroundColor", 
                      BackgroundColorFieldId, BackgroundColorFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFBackgroundColor),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getSFBackgroundColor)),
     new FieldDescription(SFBool::getClassType(), 
                      "textEnabled", 
                      TextEnabledFieldId, TextEnabledFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFTextEnabled),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getSFTextEnabled)),
     new FieldDescription(SFBool::getClassType(), 
                      "backgroundEnabled", 
                      BackgroundEnabledFieldId, BackgroundEnabledFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFBackgroundEnabled),
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getSFBackgroundEnabled)),
     new FieldDescription(SFBool::getClassType(), 
                      "borderEnabled", 
                      BorderEnabledFieldId, BorderEnabledFieldMask,
                      false,
-                     (FieldAccessMethod) &GraphicStatisticsForegroundBase::getSFBorderEnabled)
+                     reinterpret_cast<FieldAccessMethod>(&GraphicStatisticsForegroundBase::getSFBorderEnabled))
 };
 
 
@@ -259,7 +259,7 @@ FieldContainerType GraphicStatisticsForegroundBase::_type(
     "GraphicStatisticsForeground",
     "StatisticsForeground",
     NULL,
-    (PrototypeCreateF) &GraphicStatisticsForegroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&GraphicStatisticsForegroundBase::createEmpty),
     GraphicStatisticsForeground::initMethod,
     _desc,
     sizeof(_desc));
@@ -298,7 +298,8 @@ UInt32 GraphicStatisticsForegroundBase::getContainerSize(void) const
 void GraphicStatisticsForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((GraphicStatisticsForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<GraphicStatisticsForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void GraphicStatisticsForegroundBase::executeSync(      FieldContainer &other,
@@ -816,6 +817,8 @@ void GraphicStatisticsForegroundBase::execBeginEditImpl (const BitVector &whichF
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -827,8 +830,6 @@ DataType FieldDataTraits<GraphicStatisticsForegroundPtr>::_type("GraphicStatisti
 
 OSG_DLLEXPORT_SFIELD_DEF1(GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GraphicStatisticsForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -844,10 +845,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGRAPHICSTATISTICSFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

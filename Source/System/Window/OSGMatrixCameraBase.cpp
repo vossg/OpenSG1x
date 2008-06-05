@@ -62,7 +62,7 @@
 #include "OSGMatrixCamera.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MatrixCameraBase::ProjectionMatrixFieldMask = 
     (TypeTraits<BitVector>::One << MatrixCameraBase::ProjectionMatrixFieldId);
@@ -92,12 +92,12 @@ FieldDescription *MatrixCameraBase::_desc[] =
                      "ProjectionMatrix", 
                      ProjectionMatrixFieldId, ProjectionMatrixFieldMask,
                      false,
-                     (FieldAccessMethod) &MatrixCameraBase::getSFProjectionMatrix),
+                     reinterpret_cast<FieldAccessMethod>(&MatrixCameraBase::getSFProjectionMatrix)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "ModelviewMatrix", 
                      ModelviewMatrixFieldId, ModelviewMatrixFieldMask,
                      false,
-                     (FieldAccessMethod) &MatrixCameraBase::getSFModelviewMatrix)
+                     reinterpret_cast<FieldAccessMethod>(&MatrixCameraBase::getSFModelviewMatrix))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType MatrixCameraBase::_type(
     "MatrixCamera",
     "Camera",
     NULL,
-    (PrototypeCreateF) &MatrixCameraBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&MatrixCameraBase::createEmpty),
     MatrixCamera::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 MatrixCameraBase::getContainerSize(void) const
 void MatrixCameraBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MatrixCameraBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MatrixCameraBase *>(&other),
+                          whichField);
 }
 #else
 void MatrixCameraBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void MatrixCameraBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<MatrixCameraPtr>::_type("MatrixCameraPtr", "CameraPtr")
 
 OSG_DLLEXPORT_SFIELD_DEF1(MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MatrixCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGMATRIXCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATRIXCAMERABASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMATRIXCAMERAFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -253,6 +253,6 @@ typedef RefPtr<ShaderParameterBoolPtr> ShaderParameterBoolRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.6 2006/02/20 17:04:38 dirk Exp $"
+#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.7 2008/06/05 05:02:21 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERBOOLBASE_H_ */

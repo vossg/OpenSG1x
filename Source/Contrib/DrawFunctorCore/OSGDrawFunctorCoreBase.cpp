@@ -62,7 +62,7 @@
 #include "OSGDrawFunctorCore.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DrawFunctorCoreBase::VolumeUpdateFieldMask = 
     (TypeTraits<BitVector>::One << DrawFunctorCoreBase::VolumeUpdateFieldId);
@@ -92,12 +92,12 @@ FieldDescription *DrawFunctorCoreBase::_desc[] =
                      "volumeUpdate", 
                      VolumeUpdateFieldId, VolumeUpdateFieldMask,
                      false,
-                     (FieldAccessMethod) &DrawFunctorCoreBase::getSFVolumeUpdate),
+                     reinterpret_cast<FieldAccessMethod>(&DrawFunctorCoreBase::getSFVolumeUpdate)),
     new FieldDescription(SFDrawFunctor::getClassType(), 
                      "draw", 
                      DrawFieldId, DrawFieldMask,
                      false,
-                     (FieldAccessMethod) &DrawFunctorCoreBase::getSFDraw)
+                     reinterpret_cast<FieldAccessMethod>(&DrawFunctorCoreBase::getSFDraw))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType DrawFunctorCoreBase::_type(
     "DrawFunctorCore",
     "MaterialDrawable",
     NULL,
-    (PrototypeCreateF) &DrawFunctorCoreBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DrawFunctorCoreBase::createEmpty),
     DrawFunctorCore::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 DrawFunctorCoreBase::getContainerSize(void) const
 void DrawFunctorCoreBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DrawFunctorCoreBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DrawFunctorCoreBase *>(&other),
+                          whichField);
 }
 #else
 void DrawFunctorCoreBase::executeSync(      FieldContainer &other,
@@ -296,14 +297,10 @@ void DrawFunctorCoreBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DrawFunctorCorePtr>::_type("DrawFunctorCorePtr", "MaterialDrawablePtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -319,10 +316,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWFUNCTORCOREBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWFUNCTORCOREBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDRAWFUNCTORCOREFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

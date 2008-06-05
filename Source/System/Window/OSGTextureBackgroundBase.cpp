@@ -128,42 +128,42 @@ FieldDescription *TextureBackgroundBase::_desc[] =
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getSFColor),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFColor)),
     new FieldDescription(SFTextureChunkPtr::getClassType(), 
                      "texture", 
                      TextureFieldId, TextureFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getSFTexture),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFTexture)),
     new FieldDescription(MFPnt2f::getClassType(), 
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getMFTexCoords),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getMFTexCoords)),
     new FieldDescription(SFReal32::getClassType(), 
                      "radialDistortion", 
                      RadialDistortionFieldId, RadialDistortionFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getSFRadialDistortion),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFRadialDistortion)),
     new FieldDescription(SFVec2f::getClassType(), 
                      "centerOfDistortion", 
                      CenterOfDistortionFieldId, CenterOfDistortionFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getSFCenterOfDistortion),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFCenterOfDistortion)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "hor", 
                      HorFieldId, HorFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getSFHor),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFHor)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "vert", 
                      VertFieldId, VertFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getSFVert),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFVert)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureBackgroundBase::getSFClearStencilBit)
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFClearStencilBit))
 };
 
 
@@ -171,7 +171,7 @@ FieldContainerType TextureBackgroundBase::_type(
     "TextureBackground",
     "Background",
     NULL,
-    (PrototypeCreateF) &TextureBackgroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TextureBackgroundBase::createEmpty),
     TextureBackground::initMethod,
     _desc,
     sizeof(_desc));
@@ -210,7 +210,8 @@ UInt32 TextureBackgroundBase::getContainerSize(void) const
 void TextureBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TextureBackgroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TextureBackgroundBase *>(&other),
+                          whichField);
 }
 #else
 void TextureBackgroundBase::executeSync(      FieldContainer &other,
@@ -530,7 +531,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(TextureBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.8 2006/09/08 13:45:30 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.9 2008/06/05 05:02:31 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

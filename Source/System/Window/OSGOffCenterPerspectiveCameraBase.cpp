@@ -62,7 +62,7 @@
 #include "OSGOffCenterPerspectiveCamera.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  OffCenterPerspectiveCameraBase::PrincipalPointFieldMask = 
     (TypeTraits<BitVector>::One << OffCenterPerspectiveCameraBase::PrincipalPointFieldId);
@@ -86,7 +86,7 @@ FieldDescription *OffCenterPerspectiveCameraBase::_desc[] =
                      "principalPoint", 
                      PrincipalPointFieldId, PrincipalPointFieldMask,
                      false,
-                     (FieldAccessMethod) &OffCenterPerspectiveCameraBase::getSFPrincipalPoint)
+                     reinterpret_cast<FieldAccessMethod>(&OffCenterPerspectiveCameraBase::getSFPrincipalPoint))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType OffCenterPerspectiveCameraBase::_type(
     "OffCenterPerspectiveCamera",
     "PerspectiveCamera",
     NULL,
-    (PrototypeCreateF) &OffCenterPerspectiveCameraBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&OffCenterPerspectiveCameraBase::createEmpty),
     OffCenterPerspectiveCamera::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 OffCenterPerspectiveCameraBase::getContainerSize(void) const
 void OffCenterPerspectiveCameraBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((OffCenterPerspectiveCameraBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<OffCenterPerspectiveCameraBase *>(&other),
+                          whichField);
 }
 #else
 void OffCenterPerspectiveCameraBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void OffCenterPerspectiveCameraBase::execBeginEditImpl (const BitVector &whichFi
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<OffCenterPerspectiveCameraPtr>::_type("OffCenterPerspec
 
 OSG_DLLEXPORT_SFIELD_DEF1(OffCenterPerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(OffCenterPerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCameraBase.cpp,v 1.2 2006/02/20 16:54:30 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCameraBase.cpp,v 1.3 2008/06/05 05:02:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFCENTERPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFCENTERPERSPECTIVECAMERABASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGOFFCENTERPERSPECTIVECAMERAFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -381,6 +381,6 @@ typedef RefPtr<PhysicsBodyPtr> PhysicsBodyRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBODYBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBodyBase.h,v 1.2 2006/02/20 17:04:20 dirk Exp $"
+#define OSGPHYSICSBODYBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBodyBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 
 #endif /* _OSGPHYSICSBODYBASE_H_ */

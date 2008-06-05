@@ -62,7 +62,7 @@
 #include "OSGStateSortingGroup.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  StateSortingGroupBase::SortingFieldMask = 
     (TypeTraits<BitVector>::One << StateSortingGroupBase::SortingFieldId);
@@ -86,7 +86,7 @@ FieldDescription *StateSortingGroupBase::_desc[] =
                      "sorting", 
                      SortingFieldId, SortingFieldMask,
                      false,
-                     (FieldAccessMethod) &StateSortingGroupBase::getSFSorting)
+                     reinterpret_cast<FieldAccessMethod>(&StateSortingGroupBase::getSFSorting))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType StateSortingGroupBase::_type(
     "StateSortingGroup",
     "NodeCore",
     NULL,
-    (PrototypeCreateF) &StateSortingGroupBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&StateSortingGroupBase::createEmpty),
     StateSortingGroup::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 StateSortingGroupBase::getContainerSize(void) const
 void StateSortingGroupBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((StateSortingGroupBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<StateSortingGroupBase *>(&other),
+                          whichField);
 }
 #else
 void StateSortingGroupBase::executeSync(      FieldContainer &other,
@@ -262,14 +263,10 @@ void StateSortingGroupBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<StateSortingGroupPtr>::_type("StateSortingGroupPtr", "NodeCorePtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -285,10 +282,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.6 2006/02/20 16:54:24 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.7 2008/06/05 05:02:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATESORTINGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATESORTINGGROUPBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTATESORTINGGROUPFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

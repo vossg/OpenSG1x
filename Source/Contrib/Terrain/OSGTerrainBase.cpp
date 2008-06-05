@@ -62,7 +62,7 @@
 #include "OSGTerrain.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TerrainBase::HeightDataFieldMask = 
     (TypeTraits<BitVector>::One << TerrainBase::HeightDataFieldId);
@@ -224,122 +224,122 @@ FieldDescription *TerrainBase::_desc[] =
                      "heightData", 
                      HeightDataFieldId, HeightDataFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFHeightData),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFHeightData)),
     new FieldDescription(SFReal32::getClassType(), 
                      "heightScale", 
                      HeightScaleFieldId, HeightScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFHeightScale),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFHeightScale)),
     new FieldDescription(MFReal32::getClassType(), 
                      "heightError", 
                      HeightErrorFieldId, HeightErrorFieldMask,
                      true,
-                     (FieldAccessMethod) &TerrainBase::getMFHeightError),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getMFHeightError)),
     new FieldDescription(MFReal32::getClassType(), 
                      "heightQuad", 
                      HeightQuadFieldId, HeightQuadFieldMask,
                      true,
-                     (FieldAccessMethod) &TerrainBase::getMFHeightQuad),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getMFHeightQuad)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      true,
-                     (FieldAccessMethod) &TerrainBase::getSFWidth),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFWidth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "level", 
                      LevelFieldId, LevelFieldMask,
                      true,
-                     (FieldAccessMethod) &TerrainBase::getSFLevel),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFLevel)),
     new FieldDescription(SFReal32::getClassType(), 
                      "detail", 
                      DetailFieldId, DetailFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFDetail),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFDetail)),
     new FieldDescription(SFInt32::getClassType(), 
                      "borderDetail", 
                      BorderDetailFieldId, BorderDetailFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFBorderDetail),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFBorderDetail)),
     new FieldDescription(SFReal32::getClassType(), 
                      "vertexSpacing", 
                      VertexSpacingFieldId, VertexSpacingFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFVertexSpacing),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFVertexSpacing)),
     new FieldDescription(SFGeoPositionsPtr::getClassType(), 
                      "heightVertices", 
                      HeightVerticesFieldId, HeightVerticesFieldMask,
                      true,
-                     (FieldAccessMethod) &TerrainBase::getSFHeightVertices),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFHeightVertices)),
     new FieldDescription(SFBool::getClassType(), 
                      "geoMorphing", 
                      GeoMorphingFieldId, GeoMorphingFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFGeoMorphing),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFGeoMorphing)),
     new FieldDescription(SFPnt3f::getClassType(), 
                      "boundMin", 
                      BoundMinFieldId, BoundMinFieldMask,
                      true,
-                     (FieldAccessMethod) &TerrainBase::getSFBoundMin),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFBoundMin)),
     new FieldDescription(SFPnt3f::getClassType(), 
                      "boundMax", 
                      BoundMaxFieldId, BoundMaxFieldMask,
                      true,
-                     (FieldAccessMethod) &TerrainBase::getSFBoundMax),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFBoundMax)),
     new FieldDescription(SFPnt3f::getClassType(), 
                      "eyePoint", 
                      EyePointFieldId, EyePointFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFEyePoint),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFEyePoint)),
     new FieldDescription(SFReal32::getClassType(), 
                      "eyeHeight", 
                      EyeHeightFieldId, EyeHeightFieldMask,
                      true,
-                     (FieldAccessMethod) &TerrainBase::getSFEyeHeight),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFEyeHeight)),
     new FieldDescription(SFBool::getClassType(), 
                      "eyePointValid", 
                      EyePointValidFieldId, EyePointValidFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFEyePointValid),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFEyePointValid)),
     new FieldDescription(SFReal32::getClassType(), 
                      "originX", 
                      OriginXFieldId, OriginXFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFOriginX),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFOriginX)),
     new FieldDescription(SFReal32::getClassType(), 
                      "originY", 
                      OriginYFieldId, OriginYFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFOriginY),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFOriginY)),
     new FieldDescription(SFReal32::getClassType(), 
                      "originTexX", 
                      OriginTexXFieldId, OriginTexXFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFOriginTexX),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFOriginTexX)),
     new FieldDescription(SFReal32::getClassType(), 
                      "originTexY", 
                      OriginTexYFieldId, OriginTexYFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFOriginTexY),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFOriginTexY)),
     new FieldDescription(SFReal32::getClassType(), 
                      "texSpacing", 
                      TexSpacingFieldId, TexSpacingFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFTexSpacing),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFTexSpacing)),
     new FieldDescription(SFReal32::getClassType(), 
                      "texYSpacing", 
                      TexYSpacingFieldId, TexYSpacingFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFTexYSpacing),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFTexYSpacing)),
     new FieldDescription(SFBool::getClassType(), 
                      "updateTerrain", 
                      UpdateTerrainFieldId, UpdateTerrainFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFUpdateTerrain),
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFUpdateTerrain)),
     new FieldDescription(SFBool::getClassType(), 
                      "perPixelLighting", 
                      PerPixelLightingFieldId, PerPixelLightingFieldMask,
                      false,
-                     (FieldAccessMethod) &TerrainBase::getSFPerPixelLighting)
+                     reinterpret_cast<FieldAccessMethod>(&TerrainBase::getSFPerPixelLighting))
 };
 
 
@@ -347,7 +347,7 @@ FieldContainerType TerrainBase::_type(
     "Terrain",
     "Geometry",
     NULL,
-    (PrototypeCreateF) &TerrainBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TerrainBase::createEmpty),
     Terrain::initMethod,
     _desc,
     sizeof(_desc));
@@ -386,7 +386,8 @@ UInt32 TerrainBase::getContainerSize(void) const
 void TerrainBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TerrainBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TerrainBase *>(&other),
+                          whichField);
 }
 #else
 void TerrainBase::executeSync(      FieldContainer &other,
@@ -1052,6 +1053,8 @@ void TerrainBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -1063,8 +1066,6 @@ DataType FieldDataTraits<TerrainPtr>::_type("TerrainPtr", "GeometryPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(TerrainPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TerrainPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -1080,10 +1081,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrainBase.cpp,v 1.7 2006/02/20 17:04:31 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTerrainBase.cpp,v 1.8 2008/06/05 05:02:18 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTERRAINBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTERRAINFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

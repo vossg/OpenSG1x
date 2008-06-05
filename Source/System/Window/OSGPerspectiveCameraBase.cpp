@@ -62,7 +62,7 @@
 #include "OSGPerspectiveCamera.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PerspectiveCameraBase::FovFieldMask = 
     (TypeTraits<BitVector>::One << PerspectiveCameraBase::FovFieldId);
@@ -92,12 +92,12 @@ FieldDescription *PerspectiveCameraBase::_desc[] =
                      "fov", 
                      FovFieldId, FovFieldMask,
                      false,
-                     (FieldAccessMethod) &PerspectiveCameraBase::getSFFov),
+                     reinterpret_cast<FieldAccessMethod>(&PerspectiveCameraBase::getSFFov)),
     new FieldDescription(SFReal32::getClassType(), 
                      "aspect", 
                      AspectFieldId, AspectFieldMask,
                      false,
-                     (FieldAccessMethod) &PerspectiveCameraBase::getSFAspect)
+                     reinterpret_cast<FieldAccessMethod>(&PerspectiveCameraBase::getSFAspect))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType PerspectiveCameraBase::_type(
     "PerspectiveCamera",
     "Camera",
     NULL,
-    (PrototypeCreateF) &PerspectiveCameraBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PerspectiveCameraBase::createEmpty),
     PerspectiveCamera::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 PerspectiveCameraBase::getContainerSize(void) const
 void PerspectiveCameraBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PerspectiveCameraBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PerspectiveCameraBase *>(&other),
+                          whichField);
 }
 #else
 void PerspectiveCameraBase::executeSync(      FieldContainer &other,
@@ -296,6 +297,8 @@ void PerspectiveCameraBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -307,8 +310,6 @@ DataType FieldDataTraits<PerspectiveCameraPtr>::_type("PerspectiveCameraPtr", "C
 
 OSG_DLLEXPORT_SFIELD_DEF1(PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(PerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -324,10 +325,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPERSPECTIVECAMERABASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPERSPECTIVECAMERAFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

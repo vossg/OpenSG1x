@@ -62,7 +62,7 @@
 #include "OSGGLUTWindow.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  GLUTWindowBase::IdFieldMask = 
     (TypeTraits<BitVector>::One << GLUTWindowBase::IdFieldId);
@@ -86,7 +86,7 @@ FieldDescription *GLUTWindowBase::_desc[] =
                      "id", 
                      IdFieldId, IdFieldMask,
                      true,
-                     (FieldAccessMethod) &GLUTWindowBase::getSFId)
+                     reinterpret_cast<FieldAccessMethod>(&GLUTWindowBase::getSFId))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType GLUTWindowBase::_type(
     "GLUTWindow",
     "Window",
     NULL,
-    (PrototypeCreateF) &GLUTWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&GLUTWindowBase::createEmpty),
     GLUTWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 GLUTWindowBase::getContainerSize(void) const
 void GLUTWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((GLUTWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<GLUTWindowBase *>(&other),
+                          whichField);
 }
 #else
 void GLUTWindowBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void GLUTWindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<GLUTWindowPtr>::_type("GLUTWindowPtr", "WindowPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(GLUTWindowPtr, OSG_WINDOWGLUTLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGGLUTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGGLUTWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGGLUTWINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

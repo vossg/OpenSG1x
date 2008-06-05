@@ -62,7 +62,7 @@
 #include "OSGDVRShader.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector DVRShaderBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -104,7 +104,8 @@ UInt32 DVRShaderBase::getContainerSize(void) const
 void DVRShaderBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRShaderBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRShaderBase *>(&other),
+                          whichField);
 }
 #else
 void DVRShaderBase::executeSync(      FieldContainer &other,
@@ -210,6 +211,8 @@ void DVRShaderBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 
 OSG_BEGIN_NAMESPACE
@@ -219,8 +222,6 @@ DataType FieldDataTraits<DVRShaderPtr>::_type("DVRShaderPtr", "FieldContainerPtr
 #endif
 
 OSG_DLLEXPORT_SFIELD_DEF1(DVRShaderPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -236,10 +237,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRSHADERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRSHADERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRSHADERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

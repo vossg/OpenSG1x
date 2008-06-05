@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterMVec3fBase::_desc[] =
                      "value", 
                      ValueFieldId, ValueFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderParameterMVec3fBase::getMFValue)
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterMVec3fBase::getMFValue))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType ShaderParameterMVec3fBase::_type(
     "ShaderParameterMVec3f",
     "ShaderParameter",
     NULL,
-    (PrototypeCreateF) &ShaderParameterMVec3fBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ShaderParameterMVec3fBase::createEmpty),
     ShaderParameterMVec3f::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 ShaderParameterMVec3fBase::getContainerSize(void) const
 void ShaderParameterMVec3fBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShaderParameterMVec3fBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShaderParameterMVec3fBase *>(&other),
+                          whichField);
 }
 #else
 void ShaderParameterMVec3fBase::executeSync(      FieldContainer &other,
@@ -294,7 +295,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterMVec3fPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMVec3fBase.cpp,v 1.1 2007/03/09 18:11:49 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMVec3fBase.cpp,v 1.2 2008/06/05 05:02:22 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERMVEC3FBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERMVEC3FBASE_INLINE_CVSID;
 

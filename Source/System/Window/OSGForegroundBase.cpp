@@ -62,7 +62,7 @@
 #include "OSGForeground.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ForegroundBase::ActiveFieldMask = 
     (TypeTraits<BitVector>::One << ForegroundBase::ActiveFieldId);
@@ -86,7 +86,7 @@ FieldDescription *ForegroundBase::_desc[] =
                      "active", 
                      ActiveFieldId, ActiveFieldMask,
                      false,
-                     (FieldAccessMethod) &ForegroundBase::getSFActive)
+                     reinterpret_cast<FieldAccessMethod>(&ForegroundBase::getSFActive))
 };
 
 
@@ -124,7 +124,8 @@ UInt32 ForegroundBase::getContainerSize(void) const
 void ForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void ForegroundBase::executeSync(      FieldContainer &other,
@@ -253,6 +254,8 @@ void ForegroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -264,8 +267,6 @@ DataType FieldDataTraits<ForegroundPtr>::_type("ForegroundPtr", "AttachmentConta
 
 OSG_DLLEXPORT_SFIELD_DEF1(ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -281,10 +282,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

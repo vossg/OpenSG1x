@@ -62,7 +62,7 @@
 #include "OSGCGChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CGChunkBase::VertexProfileFieldMask = 
     (TypeTraits<BitVector>::One << CGChunkBase::VertexProfileFieldId);
@@ -122,37 +122,37 @@ FieldDescription *CGChunkBase::_desc[] =
                      "vertexProfile", 
                      VertexProfileFieldId, VertexProfileFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getSFVertexProfile),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFVertexProfile)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fragmentProfile", 
                      FragmentProfileFieldId, FragmentProfileFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getSFFragmentProfile),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFFragmentProfile)),
     new FieldDescription(SFString::getClassType(), 
                      "vertexEntryPoint", 
                      VertexEntryPointFieldId, VertexEntryPointFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getSFVertexEntryPoint),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFVertexEntryPoint)),
     new FieldDescription(MFString::getClassType(), 
                      "vertexArguments", 
                      VertexArgumentsFieldId, VertexArgumentsFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getMFVertexArguments),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getMFVertexArguments)),
     new FieldDescription(SFString::getClassType(), 
                      "fragmentEntryPoint", 
                      FragmentEntryPointFieldId, FragmentEntryPointFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getSFFragmentEntryPoint),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFFragmentEntryPoint)),
     new FieldDescription(MFString::getClassType(), 
                      "fragmentArguments", 
                      FragmentArgumentsFieldId, FragmentArgumentsFieldMask,
                      false,
-                     (FieldAccessMethod) &CGChunkBase::getMFFragmentArguments),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getMFFragmentArguments)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     (FieldAccessMethod) &CGChunkBase::getSFGLId)
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFGLId))
 };
 
 
@@ -160,7 +160,7 @@ FieldContainerType CGChunkBase::_type(
     "CGChunk",
     "ShaderChunk",
     NULL,
-    (PrototypeCreateF) &CGChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CGChunkBase::createEmpty),
     CGChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -199,7 +199,8 @@ UInt32 CGChunkBase::getContainerSize(void) const
 void CGChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CGChunkBase *>(&other),
+                          whichField);
 }
 #else
 void CGChunkBase::executeSync(      FieldContainer &other,
@@ -474,6 +475,8 @@ void CGChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -485,8 +488,6 @@ DataType FieldDataTraits<CGChunkPtr>::_type("CGChunkPtr", "ShaderChunkPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -502,10 +503,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCGCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

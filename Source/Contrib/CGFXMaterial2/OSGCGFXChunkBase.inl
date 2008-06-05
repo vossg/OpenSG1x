@@ -128,5 +128,5 @@ void CGFXChunkBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGFXChunkBase.inl,v 1.1 2006/04/05 16:10:24 a-m-z Exp $"
+#define OSGCGFXCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGFXChunkBase.inl,v 1.2 2008/06/05 05:02:15 vossg Exp $"
 

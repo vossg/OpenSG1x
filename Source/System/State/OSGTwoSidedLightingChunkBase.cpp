@@ -62,7 +62,7 @@
 #include "OSGTwoSidedLightingChunk.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector TwoSidedLightingChunkBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType TwoSidedLightingChunkBase::_type(
     "TwoSidedLightingChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &TwoSidedLightingChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TwoSidedLightingChunkBase::createEmpty),
     TwoSidedLightingChunk::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 TwoSidedLightingChunkBase::getContainerSize(void) const
 void TwoSidedLightingChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TwoSidedLightingChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TwoSidedLightingChunkBase *>(&other),
+                          whichField);
 }
 #else
 void TwoSidedLightingChunkBase::executeSync(      FieldContainer &other,
@@ -219,14 +220,10 @@ void TwoSidedLightingChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TwoSidedLightingChunkPtr>::_type("TwoSidedLightingChunkPtr", "StateChunkPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -242,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTwoSidedLightingChunkBase.cpp,v 1.4 2006/02/20 17:04:46 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTwoSidedLightingChunkBase.cpp,v 1.5 2008/06/05 05:02:29 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTWOSIDEDLIGHTINGCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTWOSIDEDLIGHTINGCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

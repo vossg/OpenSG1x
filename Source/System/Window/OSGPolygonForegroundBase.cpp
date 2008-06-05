@@ -134,47 +134,47 @@ FieldDescription *PolygonForegroundBase::_desc[] =
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFMaterial),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFMaterial)),
     new FieldDescription(MFVec3f::getClassType(), 
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getMFTexCoords),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getMFTexCoords)),
     new FieldDescription(MFPnt2f::getClassType(), 
                      "positions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getMFPositions),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getMFPositions)),
     new FieldDescription(SFBool::getClassType(), 
                      "normalizedX", 
                      NormalizedXFieldId, NormalizedXFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFNormalizedX),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFNormalizedX)),
     new FieldDescription(SFBool::getClassType(), 
                      "normalizedY", 
                      NormalizedYFieldId, NormalizedYFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFNormalizedY),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFNormalizedY)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "aspectHeight", 
                      AspectHeightFieldId, AspectHeightFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFAspectHeight),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFAspectHeight)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "aspectWidth", 
                      AspectWidthFieldId, AspectWidthFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFAspectWidth),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFAspectWidth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFScale),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFScale)),
     new FieldDescription(SFBool::getClassType(), 
                      "tile", 
                      TileFieldId, TileFieldMask,
                      false,
-                     (FieldAccessMethod) &PolygonForegroundBase::getSFTile)
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFTile))
 };
 
 
@@ -182,7 +182,7 @@ FieldContainerType PolygonForegroundBase::_type(
     "PolygonForeground",
     "Foreground",
     NULL,
-    (PrototypeCreateF) &PolygonForegroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PolygonForegroundBase::createEmpty),
     PolygonForeground::initMethod,
     _desc,
     sizeof(_desc));
@@ -221,7 +221,8 @@ UInt32 PolygonForegroundBase::getContainerSize(void) const
 void PolygonForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PolygonForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PolygonForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void PolygonForegroundBase::executeSync(      FieldContainer &other,

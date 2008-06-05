@@ -62,7 +62,7 @@
 #include "OSGCharacter.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  CharacterBase::ModelFieldMask = 
     (TypeTraits<BitVector>::One << CharacterBase::ModelFieldId);
@@ -128,42 +128,42 @@ FieldDescription *CharacterBase::_desc[] =
                      "model", 
                      ModelFieldId, ModelFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterBase::getSFModel),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFModel)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "currentAnimation", 
                      CurrentAnimationFieldId, CurrentAnimationFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterBase::getSFCurrentAnimation),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFCurrentAnimation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "blendTime", 
                      BlendTimeFieldId, BlendTimeFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterBase::getSFBlendTime),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFBlendTime)),
     new FieldDescription(SFReal32::getClassType(), 
                      "delta", 
                      DeltaFieldId, DeltaFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterBase::getSFDelta),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFDelta)),
     new FieldDescription(SFReal32::getClassType(), 
                      "timeScale", 
                      TimeScaleFieldId, TimeScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterBase::getSFTimeScale),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFTimeScale)),
     new FieldDescription(SFBool::getClassType(), 
                      "drawSkeleton", 
                      DrawSkeletonFieldId, DrawSkeletonFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterBase::getSFDrawSkeleton),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFDrawSkeleton)),
     new FieldDescription(SFBool::getClassType(), 
                      "useShaderForGeometry", 
                      UseShaderForGeometryFieldId, UseShaderForGeometryFieldMask,
                      false,
-                     (FieldAccessMethod) &CharacterBase::getSFUseShaderForGeometry),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFUseShaderForGeometry)),
     new FieldDescription(SFDynamicVolume::getClassType(), 
                      "modelVolume", 
                      ModelVolumeFieldId, ModelVolumeFieldMask,
                      true,
-                     (FieldAccessMethod) &CharacterBase::getSFModelVolume)
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFModelVolume))
 };
 
 
@@ -171,7 +171,7 @@ FieldContainerType CharacterBase::_type(
     "Character",
     "Drawable",
     NULL,
-    (PrototypeCreateF) &CharacterBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CharacterBase::createEmpty),
     Character::initMethod,
     _desc,
     sizeof(_desc));
@@ -210,7 +210,8 @@ UInt32 CharacterBase::getContainerSize(void) const
 void CharacterBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CharacterBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CharacterBase *>(&other),
+                          whichField);
 }
 #else
 void CharacterBase::executeSync(      FieldContainer &other,
@@ -500,14 +501,10 @@ void CharacterBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<CharacterPtr>::_type("CharacterPtr", "DrawablePtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -523,10 +520,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterBase.cpp,v 1.2 2006/02/20 17:04:12 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterBase.cpp,v 1.3 2008/06/05 05:02:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCHARACTERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

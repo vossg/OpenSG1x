@@ -62,7 +62,7 @@
 #include "OSGDeformer.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DeformerBase::GeometryFieldMask = 
     (TypeTraits<BitVector>::One << DeformerBase::GeometryFieldId);
@@ -86,7 +86,7 @@ FieldDescription *DeformerBase::_desc[] =
                      "geometry", 
                      GeometryFieldId, GeometryFieldMask,
                      false,
-                     (FieldAccessMethod) &DeformerBase::getSFGeometry)
+                     reinterpret_cast<FieldAccessMethod>(&DeformerBase::getSFGeometry))
 };
 
 
@@ -124,7 +124,8 @@ UInt32 DeformerBase::getContainerSize(void) const
 void DeformerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DeformerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DeformerBase *>(&other),
+                          whichField);
 }
 #else
 void DeformerBase::executeSync(      FieldContainer &other,
@@ -253,6 +254,8 @@ void DeformerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -264,8 +267,6 @@ DataType FieldDataTraits<DeformerPtr>::_type("DeformerPtr", "AttachmentContainer
 
 OSG_DLLEXPORT_SFIELD_DEF1(DeformerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DeformerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -281,10 +282,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDEFORMERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEFORMERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDEFORMERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

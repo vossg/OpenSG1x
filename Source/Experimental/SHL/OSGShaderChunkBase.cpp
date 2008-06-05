@@ -98,17 +98,17 @@ FieldDescription *ShaderChunkBase::_desc[] =
                      "vertexProgram", 
                      VertexProgramFieldId, VertexProgramFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderChunkBase::getSFVertexProgram),
+                     reinterpret_cast<FieldAccessMethod>(&ShaderChunkBase::getSFVertexProgram)),
     new FieldDescription(SFString::getClassType(), 
                      "fragmentProgram", 
                      FragmentProgramFieldId, FragmentProgramFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderChunkBase::getSFFragmentProgram),
+                     reinterpret_cast<FieldAccessMethod>(&ShaderChunkBase::getSFFragmentProgram)),
     new FieldDescription(SFString::getClassType(), 
                      "geometryProgram", 
                      GeometryProgramFieldId, GeometryProgramFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderChunkBase::getSFGeometryProgram)
+                     reinterpret_cast<FieldAccessMethod>(&ShaderChunkBase::getSFGeometryProgram))
 };
 
 
@@ -146,7 +146,8 @@ UInt32 ShaderChunkBase::getContainerSize(void) const
 void ShaderChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShaderChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShaderChunkBase *>(&other),
+                          whichField);
 }
 #else
 void ShaderChunkBase::executeSync(      FieldContainer &other,
@@ -349,7 +350,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShaderChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunkBase.cpp,v 1.8 2006/11/17 17:16:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunkBase.cpp,v 1.9 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERCHUNKBASE_INLINE_CVSID;
 

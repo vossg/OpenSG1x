@@ -62,7 +62,7 @@
 #include "OSGInline.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  InlineBase::UrlFieldMask = 
     (TypeTraits<BitVector>::One << InlineBase::UrlFieldId);
@@ -92,12 +92,12 @@ FieldDescription *InlineBase::_desc[] =
                      "url", 
                      UrlFieldId, UrlFieldMask,
                      true,
-                     (FieldAccessMethod) &InlineBase::getMFUrl),
+                     reinterpret_cast<FieldAccessMethod>(&InlineBase::getMFUrl)),
     new FieldDescription(SFBool::getClassType(), 
                      "loaded", 
                      LoadedFieldId, LoadedFieldMask,
                      true,
-                     (FieldAccessMethod) &InlineBase::getSFLoaded)
+                     reinterpret_cast<FieldAccessMethod>(&InlineBase::getSFLoaded))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType InlineBase::_type(
     "Inline",
     "NodeCore",
     NULL,
-    (PrototypeCreateF) &InlineBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&InlineBase::createEmpty),
     Inline::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 InlineBase::getContainerSize(void) const
 void InlineBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((InlineBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<InlineBase *>(&other),
+                          whichField);
 }
 #else
 void InlineBase::executeSync(      FieldContainer &other,
@@ -300,6 +301,8 @@ void InlineBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -311,8 +314,6 @@ DataType FieldDataTraits<InlinePtr>::_type("InlinePtr", "NodeCorePtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -328,10 +329,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGINLINEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGINLINEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGINLINEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

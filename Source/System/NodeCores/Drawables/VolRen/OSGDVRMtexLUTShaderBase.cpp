@@ -62,7 +62,7 @@
 #include "OSGDVRMtexLUTShader.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector DVRMtexLUTShaderBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType DVRMtexLUTShaderBase::_type(
     "DVRMtexLUTShader",
     "DVRSimpleLUTShader",
     NULL,
-    (PrototypeCreateF) &DVRMtexLUTShaderBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRMtexLUTShaderBase::createEmpty),
     DVRMtexLUTShader::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 DVRMtexLUTShaderBase::getContainerSize(void) const
 void DVRMtexLUTShaderBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRMtexLUTShaderBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRMtexLUTShaderBase *>(&other),
+                          whichField);
 }
 #else
 void DVRMtexLUTShaderBase::executeSync(      FieldContainer &other,
@@ -219,14 +220,10 @@ void DVRMtexLUTShaderBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DVRMtexLUTShaderPtr>::_type("DVRMtexLUTShaderPtr", "DVRSimpleLUTShaderPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -242,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRMTEXLUTSHADERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRMTEXLUTSHADERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRMTEXLUTSHADERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -98,17 +98,17 @@ FieldDescription *DistortionDisplayFilterBase::_desc[] =
                      "rows", 
                      RowsFieldId, RowsFieldMask,
                      false,
-                     (FieldAccessMethod) &DistortionDisplayFilterBase::getSFRows),
+                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::getSFRows)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "columns", 
                      ColumnsFieldId, ColumnsFieldMask,
                      false,
-                     (FieldAccessMethod) &DistortionDisplayFilterBase::getSFColumns),
+                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::getSFColumns)),
     new FieldDescription(MFVec2f::getClassType(), 
                      "positions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
-                     (FieldAccessMethod) &DistortionDisplayFilterBase::getMFPositions)
+                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::getMFPositions))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType DistortionDisplayFilterBase::_type(
     "DistortionDisplayFilter",
     "DisplayFilter",
     NULL,
-    (PrototypeCreateF) &DistortionDisplayFilterBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DistortionDisplayFilterBase::createEmpty),
     DistortionDisplayFilter::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 DistortionDisplayFilterBase::getContainerSize(void) const
 void DistortionDisplayFilterBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DistortionDisplayFilterBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DistortionDisplayFilterBase *>(&other),
+                          whichField);
 }
 #else
 void DistortionDisplayFilterBase::executeSync(      FieldContainer &other,
@@ -362,7 +363,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DistortionDisplayFilterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPI
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.46 2006/03/16 17:01:53 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDISTORTIONDISPLAYFILTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISTORTIONDISPLAYFILTERBASE_INLINE_CVSID;
 

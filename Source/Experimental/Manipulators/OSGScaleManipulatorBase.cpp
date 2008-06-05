@@ -62,7 +62,7 @@
 #include "OSGScaleManipulator.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector ScaleManipulatorBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
@@ -74,7 +74,7 @@ FieldContainerType ScaleManipulatorBase::_type(
     "ScaleManipulator",
     "Manipulator",
     NULL,
-    (PrototypeCreateF) &ScaleManipulatorBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ScaleManipulatorBase::createEmpty),
     ScaleManipulator::initMethod,
     NULL,
     0);
@@ -113,7 +113,8 @@ UInt32 ScaleManipulatorBase::getContainerSize(void) const
 void ScaleManipulatorBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ScaleManipulatorBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ScaleManipulatorBase *>(&other),
+                          whichField);
 }
 #else
 void ScaleManipulatorBase::executeSync(      FieldContainer &other,
@@ -219,14 +220,10 @@ void ScaleManipulatorBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ScaleManipulatorPtr>::_type("ScaleManipulatorPtr", "ManipulatorPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -242,10 +239,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulatorBase.cpp,v 1.5 2006/02/20 17:04:35 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulatorBase.cpp,v 1.6 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSCALEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCALEMANIPULATORBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSCALEMANIPULATORFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

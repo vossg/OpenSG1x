@@ -129,7 +129,7 @@ const OSG::BitVector LightBase::MTInfluenceMask =
     
 */
 /*! \var UInt32          LightBase::_sfShadowMode
-    possible values are CAST_SHADOW_AUTO, CAST_SHADOW_ON, CAST_SHADOW_OFF in auto mode the light source casts shadows if the light is on and the shadow intensity is greater than zero.
+    
 */
 
 //! Light description
@@ -140,52 +140,52 @@ FieldDescription *LightBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFAmbient),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFAmbient)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFDiffuse),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFDiffuse)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFSpecular),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFSpecular)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFBeacon),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFBeacon)),
     new FieldDescription(SFBool::getClassType(), 
                      "on", 
                      OnFieldId, OnFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFOn),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFOn)),
     new FieldDescription(SFReal32::getClassType(), 
                      "constantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFConstantAttenuation),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFConstantAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "linearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFLinearAttenuation),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFLinearAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "quadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFQuadraticAttenuation),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFQuadraticAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "shadowIntensity", 
                      ShadowIntensityFieldId, ShadowIntensityFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFShadowIntensity),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFShadowIntensity)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "shadowMode", 
                      ShadowModeFieldId, ShadowModeFieldMask,
                      false,
-                     (FieldAccessMethod) &LightBase::getSFShadowMode)
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFShadowMode))
 };
 
 
@@ -223,7 +223,8 @@ UInt32 LightBase::getContainerSize(void) const
 void LightBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((LightBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<LightBase *>(&other),
+                          whichField);
 }
 #else
 void LightBase::executeSync(      FieldContainer &other,

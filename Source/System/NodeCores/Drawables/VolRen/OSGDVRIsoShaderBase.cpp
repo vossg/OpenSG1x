@@ -62,7 +62,7 @@
 #include "OSGDVRIsoShader.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DVRIsoShaderBase::ShadeModeFieldMask = 
     (TypeTraits<BitVector>::One << DVRIsoShaderBase::ShadeModeFieldId);
@@ -92,12 +92,12 @@ FieldDescription *DVRIsoShaderBase::_desc[] =
                      "shadeMode", 
                      ShadeModeFieldId, ShadeModeFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRIsoShaderBase::getSFShadeMode),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoShaderBase::getSFShadeMode)),
     new FieldDescription(SFInt8::getClassType(), 
                      "activeShadeMode", 
                      ActiveShadeModeFieldId, ActiveShadeModeFieldMask,
                      true,
-                     (FieldAccessMethod) &DVRIsoShaderBase::getSFActiveShadeMode)
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoShaderBase::getSFActiveShadeMode))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType DVRIsoShaderBase::_type(
     "DVRIsoShader",
     "DVRShader",
     NULL,
-    (PrototypeCreateF) &DVRIsoShaderBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DVRIsoShaderBase::createEmpty),
     DVRIsoShader::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 DVRIsoShaderBase::getContainerSize(void) const
 void DVRIsoShaderBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DVRIsoShaderBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DVRIsoShaderBase *>(&other),
+                          whichField);
 }
 #else
 void DVRIsoShaderBase::executeSync(      FieldContainer &other,
@@ -296,14 +297,10 @@ void DVRIsoShaderBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DVRIsoShaderPtr>::_type("DVRIsoShaderPtr", "DVRShaderPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -319,10 +316,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRISOSHADERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRISOSHADERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDVRISOSHADERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

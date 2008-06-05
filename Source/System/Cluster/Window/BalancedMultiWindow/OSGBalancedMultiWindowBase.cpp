@@ -62,7 +62,7 @@
 #include "OSGBalancedMultiWindow.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  BalancedMultiWindowBase::BalanceFieldMask = 
     (TypeTraits<BitVector>::One << BalancedMultiWindowBase::BalanceFieldId);
@@ -110,27 +110,27 @@ FieldDescription *BalancedMultiWindowBase::_desc[] =
                      "balance", 
                      BalanceFieldId, BalanceFieldMask,
                      false,
-                     (FieldAccessMethod) &BalancedMultiWindowBase::getSFBalance),
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFBalance)),
     new FieldDescription(SFBool::getClassType(), 
                      "bestCut", 
                      BestCutFieldId, BestCutFieldMask,
                      false,
-                     (FieldAccessMethod) &BalancedMultiWindowBase::getSFBestCut),
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFBestCut)),
     new FieldDescription(SFBool::getClassType(), 
                      "showBalancing", 
                      ShowBalancingFieldId, ShowBalancingFieldMask,
                      false,
-                     (FieldAccessMethod) &BalancedMultiWindowBase::getSFShowBalancing),
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFShowBalancing)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "tileSize", 
                      TileSizeFieldId, TileSizeFieldMask,
                      false,
-                     (FieldAccessMethod) &BalancedMultiWindowBase::getSFTileSize),
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFTileSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     (FieldAccessMethod) &BalancedMultiWindowBase::getSFShort)
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFShort))
 };
 
 
@@ -138,7 +138,7 @@ FieldContainerType BalancedMultiWindowBase::_type(
     "BalancedMultiWindow",
     "MultiDisplayWindow",
     NULL,
-    (PrototypeCreateF) &BalancedMultiWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&BalancedMultiWindowBase::createEmpty),
     BalancedMultiWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -177,7 +177,8 @@ UInt32 BalancedMultiWindowBase::getContainerSize(void) const
 void BalancedMultiWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((BalancedMultiWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<BalancedMultiWindowBase *>(&other),
+                          whichField);
 }
 #else
 void BalancedMultiWindowBase::executeSync(      FieldContainer &other,
@@ -398,14 +399,10 @@ void BalancedMultiWindowBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<BalancedMultiWindowPtr>::_type("BalancedMultiWindowPtr", "MultiDisplayWindowPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -421,10 +418,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGBALANCEDMULTIWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBALANCEDMULTIWINDOWBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGBALANCEDMULTIWINDOWFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

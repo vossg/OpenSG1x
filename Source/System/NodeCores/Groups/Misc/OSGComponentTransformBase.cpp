@@ -62,7 +62,7 @@
 #include "OSGComponentTransform.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ComponentTransformBase::CenterFieldMask = 
     (TypeTraits<BitVector>::One << ComponentTransformBase::CenterFieldId);
@@ -110,27 +110,27 @@ FieldDescription *ComponentTransformBase::_desc[] =
                      "center", 
                      CenterFieldId, CenterFieldMask,
                      false,
-                     (FieldAccessMethod) &ComponentTransformBase::getSFCenter),
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFCenter)),
     new FieldDescription(SFQuaternion::getClassType(), 
                      "rotation", 
                      RotationFieldId, RotationFieldMask,
                      false,
-                     (FieldAccessMethod) &ComponentTransformBase::getSFRotation),
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFRotation)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &ComponentTransformBase::getSFScale),
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFScale)),
     new FieldDescription(SFQuaternion::getClassType(), 
                      "scaleOrientation", 
                      ScaleOrientationFieldId, ScaleOrientationFieldMask,
                      false,
-                     (FieldAccessMethod) &ComponentTransformBase::getSFScaleOrientation),
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFScaleOrientation)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "translation", 
                      TranslationFieldId, TranslationFieldMask,
                      false,
-                     (FieldAccessMethod) &ComponentTransformBase::getSFTranslation)
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFTranslation))
 };
 
 
@@ -138,7 +138,7 @@ FieldContainerType ComponentTransformBase::_type(
     "ComponentTransform",
     "Transform",
     NULL,
-    (PrototypeCreateF) &ComponentTransformBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ComponentTransformBase::createEmpty),
     ComponentTransform::initMethod,
     _desc,
     sizeof(_desc));
@@ -177,7 +177,8 @@ UInt32 ComponentTransformBase::getContainerSize(void) const
 void ComponentTransformBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ComponentTransformBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ComponentTransformBase *>(&other),
+                          whichField);
 }
 #else
 void ComponentTransformBase::executeSync(      FieldContainer &other,
@@ -398,6 +399,8 @@ void ComponentTransformBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -409,8 +412,6 @@ DataType FieldDataTraits<ComponentTransformPtr>::_type("ComponentTransformPtr", 
 
 OSG_DLLEXPORT_SFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -426,10 +427,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGCOMPONENTTRANSFORMFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGTransform.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TransformBase::MatrixFieldMask = 
     (TypeTraits<BitVector>::One << TransformBase::MatrixFieldId);
@@ -86,7 +86,7 @@ FieldDescription *TransformBase::_desc[] =
                      "matrix", 
                      MatrixFieldId, MatrixFieldMask,
                      false,
-                     (FieldAccessMethod) &TransformBase::getSFMatrix)
+                     reinterpret_cast<FieldAccessMethod>(&TransformBase::getSFMatrix))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType TransformBase::_type(
     "Transform",
     "Group",
     NULL,
-    (PrototypeCreateF) &TransformBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TransformBase::createEmpty),
     Transform::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 TransformBase::getContainerSize(void) const
 void TransformBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TransformBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TransformBase *>(&other),
+                          whichField);
 }
 #else
 void TransformBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void TransformBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<TransformPtr>::_type("TransformPtr", "GroupPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(TransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTRANSFORMBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTRANSFORMFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGImageComposer.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ImageComposerBase::EnabledFieldMask = 
     (TypeTraits<BitVector>::One << ImageComposerBase::EnabledFieldId);
@@ -92,12 +92,12 @@ FieldDescription *ImageComposerBase::_desc[] =
                      "enabled", 
                      EnabledFieldId, EnabledFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageComposerBase::getSFEnabled),
+                     reinterpret_cast<FieldAccessMethod>(&ImageComposerBase::getSFEnabled)),
     new FieldDescription(SFBool::getClassType(), 
                      "statistics", 
                      StatisticsFieldId, StatisticsFieldMask,
                      false,
-                     (FieldAccessMethod) &ImageComposerBase::getSFStatistics)
+                     reinterpret_cast<FieldAccessMethod>(&ImageComposerBase::getSFStatistics))
 };
 
 
@@ -135,7 +135,8 @@ UInt32 ImageComposerBase::getContainerSize(void) const
 void ImageComposerBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ImageComposerBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ImageComposerBase *>(&other),
+                          whichField);
 }
 #else
 void ImageComposerBase::executeSync(      FieldContainer &other,
@@ -287,6 +288,8 @@ void ImageComposerBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -298,8 +301,6 @@ DataType FieldDataTraits<ImageComposerPtr>::_type("ImageComposerPtr", "Attachmen
 
 OSG_DLLEXPORT_SFIELD_DEF1(ImageComposerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ImageComposerPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -315,10 +316,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGIMAGECOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGIMAGECOMPOSERBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGIMAGECOMPOSERFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

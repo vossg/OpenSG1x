@@ -64,7 +64,7 @@
 #include <OSGGL.h>                        // BindTarget default header
 #include <OSGGL.h>                        // CopyTarget default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  TextureGrabForegroundBase::TextureFieldMask = 
     (TypeTraits<BitVector>::One << TextureGrabForegroundBase::TextureFieldId);
@@ -106,22 +106,22 @@ FieldDescription *TextureGrabForegroundBase::_desc[] =
                      "texture", 
                      TextureFieldId, TextureFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureGrabForegroundBase::getSFTexture),
+                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::getSFTexture)),
     new FieldDescription(SFBool::getClassType(), 
                      "autoResize", 
                      AutoResizeFieldId, AutoResizeFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureGrabForegroundBase::getSFAutoResize),
+                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::getSFAutoResize)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "bindTarget", 
                      BindTargetFieldId, BindTargetFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureGrabForegroundBase::getSFBindTarget),
+                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::getSFBindTarget)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "copyTarget", 
                      CopyTargetFieldId, CopyTargetFieldMask,
                      false,
-                     (FieldAccessMethod) &TextureGrabForegroundBase::getSFCopyTarget)
+                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::getSFCopyTarget))
 };
 
 
@@ -129,7 +129,7 @@ FieldContainerType TextureGrabForegroundBase::_type(
     "TextureGrabForeground",
     "Foreground",
     NULL,
-    (PrototypeCreateF) &TextureGrabForegroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&TextureGrabForegroundBase::createEmpty),
     TextureGrabForeground::initMethod,
     _desc,
     sizeof(_desc));
@@ -168,7 +168,8 @@ UInt32 TextureGrabForegroundBase::getContainerSize(void) const
 void TextureGrabForegroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((TextureGrabForegroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<TextureGrabForegroundBase *>(&other),
+                          whichField);
 }
 #else
 void TextureGrabForegroundBase::executeSync(      FieldContainer &other,
@@ -366,14 +367,10 @@ void TextureGrabForegroundBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<TextureGrabForegroundPtr>::_type("TextureGrabForegroundPtr", "ForegroundPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -389,10 +386,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREGRABFOREGROUNDBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGTEXTUREGRABFOREGROUNDFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

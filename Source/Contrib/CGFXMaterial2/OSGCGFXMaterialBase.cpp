@@ -110,27 +110,27 @@ FieldDescription *CGFXMaterialBase::_desc[] =
                      "effectFile", 
                      EffectFileFieldId, EffectFileFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getSFEffectFile),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFEffectFile)),
     new FieldDescription(SFString::getClassType(), 
                      "effectString", 
                      EffectStringFieldId, EffectStringFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getSFEffectString),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFEffectString)),
     new FieldDescription(SFInt32::getClassType(), 
                      "technique", 
                      TechniqueFieldId, TechniqueFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getSFTechnique),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFTechnique)),
     new FieldDescription(MFShaderParameterPtr::getClassType(), 
                      "parameters", 
                      ParametersFieldId, ParametersFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getMFParameters),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getMFParameters)),
     new FieldDescription(MFImagePtr::getClassType(), 
                      "images", 
                      ImagesFieldId, ImagesFieldMask,
                      false,
-                     (FieldAccessMethod) &CGFXMaterialBase::getMFImages)
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getMFImages))
 };
 
 
@@ -138,7 +138,7 @@ FieldContainerType CGFXMaterialBase::_type(
     "CGFXMaterial",
     "ChunkMaterial",
     NULL,
-    (PrototypeCreateF) &CGFXMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CGFXMaterialBase::createEmpty),
     CGFXMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -177,7 +177,8 @@ UInt32 CGFXMaterialBase::getContainerSize(void) const
 void CGFXMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CGFXMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CGFXMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void CGFXMaterialBase::executeSync(      FieldContainer &other,
@@ -425,7 +426,7 @@ DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "ChunkMateri
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.2 2006/06/25 09:43:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.3 2008/06/05 05:02:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIALBASE_INLINE_CVSID;
 

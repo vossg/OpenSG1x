@@ -253,6 +253,6 @@ typedef RefPtr<PhysicsSphereGeomPtr> PhysicsSphereGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSPHEREGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSphereGeomBase.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
+#define OSGPHYSICSSPHEREGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSphereGeomBase.h,v 1.3 2008/06/05 05:02:17 vossg Exp $"
 
 #endif /* _OSGPHYSICSSPHEREGEOMBASE_H_ */

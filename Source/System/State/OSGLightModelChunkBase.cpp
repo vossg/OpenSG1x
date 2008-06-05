@@ -63,7 +63,7 @@
 
 #include <OSGGLEXT.h>                     // ColorControl default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  LightModelChunkBase::AmbientFieldMask = 
     (TypeTraits<BitVector>::One << LightModelChunkBase::AmbientFieldId);
@@ -99,17 +99,17 @@ FieldDescription *LightModelChunkBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     (FieldAccessMethod) &LightModelChunkBase::getSFAmbient),
+                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::getSFAmbient)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "colorControl", 
                      ColorControlFieldId, ColorControlFieldMask,
                      false,
-                     (FieldAccessMethod) &LightModelChunkBase::getSFColorControl),
+                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::getSFColorControl)),
     new FieldDescription(SFBool::getClassType(), 
                      "localViewer", 
                      LocalViewerFieldId, LocalViewerFieldMask,
                      false,
-                     (FieldAccessMethod) &LightModelChunkBase::getSFLocalViewer)
+                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::getSFLocalViewer))
 };
 
 
@@ -117,7 +117,7 @@ FieldContainerType LightModelChunkBase::_type(
     "LightModelChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &LightModelChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&LightModelChunkBase::createEmpty),
     LightModelChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -156,7 +156,8 @@ UInt32 LightModelChunkBase::getContainerSize(void) const
 void LightModelChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((LightModelChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<LightModelChunkBase *>(&other),
+                          whichField);
 }
 #else
 void LightModelChunkBase::executeSync(      FieldContainer &other,
@@ -331,6 +332,8 @@ void LightModelChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -342,8 +345,6 @@ DataType FieldDataTraits<LightModelChunkPtr>::_type("LightModelChunkPtr", "State
 
 OSG_DLLEXPORT_SFIELD_DEF1(LightModelChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(LightModelChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -359,10 +360,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightModelChunkBase.cpp,v 1.3 2006/02/20 17:04:46 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightModelChunkBase.cpp,v 1.4 2008/06/05 05:02:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTMODELCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTMODELCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGLIGHTMODELCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

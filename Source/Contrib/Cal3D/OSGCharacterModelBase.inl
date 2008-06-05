@@ -212,5 +212,5 @@ const MFChunkMaterialPtr &CharacterModelBase::getMaterials(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERMODELBASE_INLINE_CVSID "@(#)$Id: OSGCharacterModelBase.inl,v 1.2 2006/02/20 17:04:12 dirk Exp $"
+#define OSGCHARACTERMODELBASE_INLINE_CVSID "@(#)$Id: OSGCharacterModelBase.inl,v 1.3 2008/06/05 05:02:15 vossg Exp $"
 

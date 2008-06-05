@@ -158,5 +158,5 @@ void ShaderChunkBase::setGeometryProgram(const std::string &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.7 2006/11/17 17:16:04 a-m-z Exp $"
+#define OSGSHADERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderChunkBase.inl,v 1.8 2008/06/05 05:02:21 vossg Exp $"
 

@@ -86,7 +86,7 @@ FieldDescription *LogicOpChunkBase::_desc[] =
                      "LogicOp", 
                      LogicOpFieldId, LogicOpFieldMask,
                      false,
-                     (FieldAccessMethod) &LogicOpChunkBase::getSFLogicOp)
+                     reinterpret_cast<FieldAccessMethod>(&LogicOpChunkBase::getSFLogicOp))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType LogicOpChunkBase::_type(
     "LogicOpChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &LogicOpChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&LogicOpChunkBase::createEmpty),
     LogicOpChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 LogicOpChunkBase::getContainerSize(void) const
 void LogicOpChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((LogicOpChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<LogicOpChunkBase *>(&other),
+                          whichField);
 }
 #else
 void LogicOpChunkBase::executeSync(      FieldContainer &other,
@@ -290,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(LogicOpChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLogicOpChunkBase.cpp,v 1.1 2007/06/25 14:32:45 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLogicOpChunkBase.cpp,v 1.2 2008/06/05 05:02:28 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLOGICOPCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLOGICOPCHUNKBASE_INLINE_CVSID;
 

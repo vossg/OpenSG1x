@@ -62,7 +62,7 @@
 #include "OSGProxyGroup.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ProxyGroupBase::EnabledFieldMask = 
     (TypeTraits<BitVector>::One << ProxyGroupBase::EnabledFieldId);
@@ -152,62 +152,62 @@ FieldDescription *ProxyGroupBase::_desc[] =
                      "enabled", 
                      EnabledFieldId, EnabledFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFEnabled),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFEnabled)),
     new FieldDescription(SFString::getClassType(), 
                      "url", 
                      UrlFieldId, UrlFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFUrl),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFUrl)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "root", 
                      RootFieldId, RootFieldMask,
                      true,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFRoot),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFRoot)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "state", 
                      StateFieldId, StateFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFState),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFState)),
     new FieldDescription(SFBool::getClassType(), 
                      "concurrentLoad", 
                      ConcurrentLoadFieldId, ConcurrentLoadFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFConcurrentLoad),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFConcurrentLoad)),
     new FieldDescription(SFDynamicVolume::getClassType(), 
                      "volume", 
                      VolumeFieldId, VolumeFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFVolume),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFVolume)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "indices", 
                      IndicesFieldId, IndicesFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFIndices),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFIndices)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "triangles", 
                      TrianglesFieldId, TrianglesFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFTriangles),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFTriangles)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "positions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFPositions),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFPositions)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "geometries", 
                      GeometriesFieldId, GeometriesFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFGeometries),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFGeometries)),
     new FieldDescription(SFString::getClassType(), 
                      "absoluteUrl", 
                      AbsoluteUrlFieldId, AbsoluteUrlFieldMask,
                      true,
-                     (FieldAccessMethod) &ProxyGroupBase::getSFAbsoluteUrl),
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getSFAbsoluteUrl)),
     new FieldDescription(MFUInt8::getClassType(), 
                      "inline", 
                      InlineFieldId, InlineFieldMask,
                      false,
-                     (FieldAccessMethod) &ProxyGroupBase::getMFInline)
+                     reinterpret_cast<FieldAccessMethod>(&ProxyGroupBase::getMFInline))
 };
 
 
@@ -215,7 +215,7 @@ FieldContainerType ProxyGroupBase::_type(
     "ProxyGroup",
     "Group",
     NULL,
-    (PrototypeCreateF) &ProxyGroupBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ProxyGroupBase::createEmpty),
     ProxyGroup::initMethod,
     _desc,
     sizeof(_desc));
@@ -254,7 +254,8 @@ UInt32 ProxyGroupBase::getContainerSize(void) const
 void ProxyGroupBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ProxyGroupBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ProxyGroupBase *>(&other),
+                          whichField);
 }
 #else
 void ProxyGroupBase::executeSync(      FieldContainer &other,
@@ -640,14 +641,10 @@ void ProxyGroupBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<ProxyGroupPtr>::_type("ProxyGroupPtr", "GroupPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -663,10 +660,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPROXYGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROXYGROUPBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPROXYGROUPFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

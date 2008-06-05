@@ -269,6 +269,6 @@ typedef RefPtr<PhysicsUniversalJointPtr> PhysicsUniversalJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSUNIVERSALJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsUniversalJointBase.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
+#define OSGPHYSICSUNIVERSALJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsUniversalJointBase.h,v 1.3 2008/06/05 05:02:17 vossg Exp $"
 
 #endif /* _OSGPHYSICSUNIVERSALJOINTBASE_H_ */

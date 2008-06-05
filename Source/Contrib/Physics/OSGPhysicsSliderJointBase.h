@@ -253,6 +253,6 @@ typedef RefPtr<PhysicsSliderJointPtr> PhysicsSliderJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSLIDERJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJointBase.h,v 1.2 2006/02/20 17:04:21 dirk Exp $"
+#define OSGPHYSICSSLIDERJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJointBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 
 #endif /* _OSGPHYSICSSLIDERJOINTBASE_H_ */

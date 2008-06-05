@@ -62,7 +62,7 @@
 #include "OSGDistanceLOD.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DistanceLODBase::CenterFieldMask = 
     (TypeTraits<BitVector>::One << DistanceLODBase::CenterFieldId);
@@ -92,12 +92,12 @@ FieldDescription *DistanceLODBase::_desc[] =
                      "center", 
                      CenterFieldId, CenterFieldMask,
                      false,
-                     (FieldAccessMethod) &DistanceLODBase::getSFCenter),
+                     reinterpret_cast<FieldAccessMethod>(&DistanceLODBase::getSFCenter)),
     new FieldDescription(MFReal32::getClassType(), 
                      "range", 
                      RangeFieldId, RangeFieldMask,
                      false,
-                     (FieldAccessMethod) &DistanceLODBase::getMFRange)
+                     reinterpret_cast<FieldAccessMethod>(&DistanceLODBase::getMFRange))
 };
 
 
@@ -105,7 +105,7 @@ FieldContainerType DistanceLODBase::_type(
     "DistanceLOD",
     "Group",
     NULL,
-    (PrototypeCreateF) &DistanceLODBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DistanceLODBase::createEmpty),
     DistanceLOD::initMethod,
     _desc,
     sizeof(_desc));
@@ -144,7 +144,8 @@ UInt32 DistanceLODBase::getContainerSize(void) const
 void DistanceLODBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DistanceLODBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DistanceLODBase *>(&other),
+                          whichField);
 }
 #else
 void DistanceLODBase::executeSync(      FieldContainer &other,
@@ -300,14 +301,10 @@ void DistanceLODBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<DistanceLODPtr>::_type("DistanceLODPtr", "GroupPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -323,10 +320,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGDISTANCELODBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISTANCELODBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDISTANCELODFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

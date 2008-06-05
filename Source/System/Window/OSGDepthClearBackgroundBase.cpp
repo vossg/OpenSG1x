@@ -98,17 +98,17 @@ FieldDescription *DepthClearBackgroundBase::_desc[] =
                      "clearDepth", 
                      ClearDepthFieldId, ClearDepthFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthClearBackgroundBase::getSFClearDepth),
+                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::getSFClearDepth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "depth", 
                      DepthFieldId, DepthFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthClearBackgroundBase::getSFDepth),
+                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::getSFDepth)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthClearBackgroundBase::getSFClearStencilBit)
+                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::getSFClearStencilBit))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType DepthClearBackgroundBase::_type(
     "DepthClearBackground",
     "Background",
     NULL,
-    (PrototypeCreateF) &DepthClearBackgroundBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DepthClearBackgroundBase::createEmpty),
     DepthClearBackground::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 DepthClearBackgroundBase::getContainerSize(void) const
 void DepthClearBackgroundBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DepthClearBackgroundBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DepthClearBackgroundBase *>(&other),
+                          whichField);
 }
 #else
 void DepthClearBackgroundBase::executeSync(      FieldContainer &other,
@@ -356,7 +357,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(DepthClearBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.9 2007/05/10 15:57:22 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.10 2008/06/05 05:02:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID;
 

@@ -62,7 +62,7 @@
 #include "OSGAbstractText.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  AbstractTextBase::PositionFieldMask = 
     (TypeTraits<BitVector>::One << AbstractTextBase::PositionFieldId);
@@ -110,27 +110,27 @@ FieldDescription *AbstractTextBase::_desc[] =
                      "Position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     (FieldAccessMethod) &AbstractTextBase::getSFPosition),
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getSFPosition)),
     new FieldDescription(SFSharedFontStyleWrapperPtr::getClassType(), 
                      "Font", 
                      FontFieldId, FontFieldMask,
                      false,
-                     (FieldAccessMethod) &AbstractTextBase::getSFFont),
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getSFFont)),
     new FieldDescription(MFString::getClassType(), 
                      "Text", 
                      TextFieldId, TextFieldMask,
                      false,
-                     (FieldAccessMethod) &AbstractTextBase::getMFText),
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getMFText)),
     new FieldDescription(SFReal32::getClassType(), 
                      "VerticalLineDistance", 
                      VerticalLineDistanceFieldId, VerticalLineDistanceFieldMask,
                      false,
-                     (FieldAccessMethod) &AbstractTextBase::getSFVerticalLineDistance),
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getSFVerticalLineDistance)),
     new FieldDescription(SFUInt8::getClassType(), 
                      "Alignment", 
                      AlignmentFieldId, AlignmentFieldMask,
                      false,
-                     (FieldAccessMethod) &AbstractTextBase::getSFAlignment)
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getSFAlignment))
 };
 
 
@@ -168,7 +168,8 @@ UInt32 AbstractTextBase::getContainerSize(void) const
 void AbstractTextBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((AbstractTextBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<AbstractTextBase *>(&other),
+                          whichField);
 }
 #else
 void AbstractTextBase::executeSync(      FieldContainer &other,
@@ -393,6 +394,8 @@ void AbstractTextBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -404,8 +407,6 @@ DataType FieldDataTraits<AbstractTextPtr>::_type("AbstractTextPtr", "MaterialDra
 
 OSG_DLLEXPORT_SFIELD_DEF1(AbstractTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(AbstractTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -421,10 +422,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGABSTRACTTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGABSTRACTTEXTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGABSTRACTTEXTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

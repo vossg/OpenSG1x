@@ -62,7 +62,7 @@
 #include "OSGPointLight.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PointLightBase::PositionFieldMask = 
     (TypeTraits<BitVector>::One << PointLightBase::PositionFieldId);
@@ -86,7 +86,7 @@ FieldDescription *PointLightBase::_desc[] =
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     (FieldAccessMethod) &PointLightBase::getSFPosition)
+                     reinterpret_cast<FieldAccessMethod>(&PointLightBase::getSFPosition))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType PointLightBase::_type(
     "PointLight",
     "Light",
     NULL,
-    (PrototypeCreateF) &PointLightBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PointLightBase::createEmpty),
     PointLight::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 PointLightBase::getContainerSize(void) const
 void PointLightBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PointLightBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PointLightBase *>(&other),
+                          whichField);
 }
 #else
 void PointLightBase::executeSync(      FieldContainer &other,
@@ -262,14 +263,10 @@ void PointLightBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PointLightPtr>::_type("PointLightPtr", "LightPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -285,10 +282,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPOINTLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOINTLIGHTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPOINTLIGHTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

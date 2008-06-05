@@ -63,7 +63,7 @@
 
 #include <OSGGL.h>                        // ColorMaterial default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  FresnelMaterialBase::AmbientFieldMask = 
     (TypeTraits<BitVector>::One << FresnelMaterialBase::AmbientFieldId);
@@ -153,62 +153,62 @@ FieldDescription *FresnelMaterialBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFAmbient),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFAmbient)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFDiffuse),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFDiffuse)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFSpecular),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFSpecular)),
     new FieldDescription(SFReal32::getClassType(), 
                      "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFShininess),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFShininess)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFEmission),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFEmission)),
     new FieldDescription(SFReal32::getClassType(), 
                      "transparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFTransparency),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFTransparency)),
     new FieldDescription(SFBool::getClassType(), 
                      "lit", 
                      LitFieldId, LitFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFLit),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFLit)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFColorMaterial),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFColorMaterial)),
     new FieldDescription(SFReal32::getClassType(), 
                      "index", 
                      IndexFieldId, IndexFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFIndex),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFIndex)),
     new FieldDescription(SFReal32::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFScale),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFScale)),
     new FieldDescription(SFReal32::getClassType(), 
                      "bias", 
                      BiasFieldId, BiasFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFBias),
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFBias)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     (FieldAccessMethod) &FresnelMaterialBase::getSFImage)
+                     reinterpret_cast<FieldAccessMethod>(&FresnelMaterialBase::getSFImage))
 };
 
 
@@ -216,7 +216,7 @@ FieldContainerType FresnelMaterialBase::_type(
     "FresnelMaterial",
     "ChunkMaterial",
     NULL,
-    (PrototypeCreateF) &FresnelMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&FresnelMaterialBase::createEmpty),
     FresnelMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -255,7 +255,8 @@ UInt32 FresnelMaterialBase::getContainerSize(void) const
 void FresnelMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((FresnelMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<FresnelMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void FresnelMaterialBase::executeSync(      FieldContainer &other,
@@ -637,14 +638,10 @@ void FresnelMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<FresnelMaterialPtr>::_type("FresnelMaterialPtr", "ChunkMaterialPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -660,10 +657,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterialBase.cpp,v 1.6 2006/02/20 17:04:43 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterialBase.cpp,v 1.7 2008/06/05 05:02:25 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFRESNELMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -62,7 +62,7 @@
 #include "OSGMaterialGroup.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  MaterialGroupBase::MaterialFieldMask = 
     (TypeTraits<BitVector>::One << MaterialGroupBase::MaterialFieldId);
@@ -86,7 +86,7 @@ FieldDescription *MaterialGroupBase::_desc[] =
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialGroupBase::getSFMaterial)
+                     reinterpret_cast<FieldAccessMethod>(&MaterialGroupBase::getSFMaterial))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType MaterialGroupBase::_type(
     "MaterialGroup",
     "Group",
     NULL,
-    (PrototypeCreateF) &MaterialGroupBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&MaterialGroupBase::createEmpty),
     MaterialGroup::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 MaterialGroupBase::getContainerSize(void) const
 void MaterialGroupBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MaterialGroupBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MaterialGroupBase *>(&other),
+                          whichField);
 }
 #else
 void MaterialGroupBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void MaterialGroupBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<MaterialGroupPtr>::_type("MaterialGroupPtr", "GroupPtr"
 
 OSG_DLLEXPORT_SFIELD_DEF1(MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(MaterialGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALGROUPBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGMATERIALGROUPFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -324,5 +324,5 @@ void StencilChunkBase::setBitMask(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStencilChunkBase.inl,v 1.6 2006/09/08 13:45:30 yjung Exp $"
+#define OSGSTENCILCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGStencilChunkBase.inl,v 1.7 2008/06/05 05:02:29 vossg Exp $"
 

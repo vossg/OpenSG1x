@@ -62,7 +62,7 @@
 #include "OSGFTGLText.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  FTGLTextBase::TextFieldMask = 
     (TypeTraits<BitVector>::One << FTGLTextBase::TextFieldId);
@@ -98,17 +98,17 @@ FieldDescription *FTGLTextBase::_desc[] =
                      "text", 
                      TextFieldId, TextFieldMask,
                      false,
-                     (FieldAccessMethod) &FTGLTextBase::getSFText),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::getSFText)),
     new FieldDescription(SFFTGLFontPtr::getClassType(), 
                      "font", 
                      FontFieldId, FontFieldMask,
                      false,
-                     (FieldAccessMethod) &FTGLTextBase::getSFFont),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::getSFFont)),
     new FieldDescription(SFPnt3f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     (FieldAccessMethod) &FTGLTextBase::getSFPosition)
+                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::getSFPosition))
 };
 
 
@@ -116,7 +116,7 @@ FieldContainerType FTGLTextBase::_type(
     "FTGLText",
     "MaterialDrawable",
     NULL,
-    (PrototypeCreateF) &FTGLTextBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&FTGLTextBase::createEmpty),
     FTGLText::initMethod,
     _desc,
     sizeof(_desc));
@@ -155,7 +155,8 @@ UInt32 FTGLTextBase::getContainerSize(void) const
 void FTGLTextBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((FTGLTextBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<FTGLTextBase *>(&other),
+                          whichField);
 }
 #else
 void FTGLTextBase::executeSync(      FieldContainer &other,
@@ -330,6 +331,8 @@ void FTGLTextBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -341,8 +344,6 @@ DataType FieldDataTraits<FTGLTextPtr>::_type("FTGLTextPtr", "MaterialDrawablePtr
 
 OSG_DLLEXPORT_SFIELD_DEF1(FTGLTextPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(FTGLTextPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -358,10 +359,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLTextBase.cpp,v 1.7 2006/02/20 17:04:13 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLTextBase.cpp,v 1.8 2008/06/05 05:02:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLTEXTBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGFTGLTEXTFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

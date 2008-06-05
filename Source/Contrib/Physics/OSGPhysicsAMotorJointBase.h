@@ -261,6 +261,6 @@ typedef RefPtr<PhysicsAMotorJointPtr> PhysicsAMotorJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSAMOTORJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJointBase.h,v 1.2 2006/02/20 17:04:20 dirk Exp $"
+#define OSGPHYSICSAMOTORJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJointBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
 
 #endif /* _OSGPHYSICSAMOTORJOINTBASE_H_ */

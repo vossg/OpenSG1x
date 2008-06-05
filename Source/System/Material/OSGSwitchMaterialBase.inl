@@ -156,5 +156,5 @@ const MFMaterialPtr &SwitchMaterialBase::getMaterials(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSwitchMaterialBase.inl,v 1.2 2006/02/20 17:04:44 dirk Exp $"
+#define OSGSWITCHMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSwitchMaterialBase.inl,v 1.3 2008/06/05 05:02:25 vossg Exp $"
 

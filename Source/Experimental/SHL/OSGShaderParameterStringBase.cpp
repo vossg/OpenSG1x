@@ -62,7 +62,7 @@
 #include "OSGShaderParameterString.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  ShaderParameterStringBase::ValueFieldMask = 
     (TypeTraits<BitVector>::One << ShaderParameterStringBase::ValueFieldId);
@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterStringBase::_desc[] =
                      "value", 
                      ValueFieldId, ValueFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderParameterStringBase::getSFValue)
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterStringBase::getSFValue))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType ShaderParameterStringBase::_type(
     "ShaderParameterString",
     "ShaderParameter",
     NULL,
-    (PrototypeCreateF) &ShaderParameterStringBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ShaderParameterStringBase::createEmpty),
     ShaderParameterString::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 ShaderParameterStringBase::getContainerSize(void) const
 void ShaderParameterStringBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShaderParameterStringBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShaderParameterStringBase *>(&other),
+                          whichField);
 }
 #else
 void ShaderParameterStringBase::executeSync(      FieldContainer &other,
@@ -262,6 +263,8 @@ void ShaderParameterStringBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -273,8 +276,6 @@ DataType FieldDataTraits<ShaderParameterStringPtr>::_type("ShaderParameterString
 
 OSG_DLLEXPORT_SFIELD_DEF1(ShaderParameterStringPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterStringPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -290,10 +291,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterStringBase.cpp,v 1.6 2006/02/20 17:04:38 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterStringBase.cpp,v 1.7 2008/06/05 05:02:22 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERSTRINGBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERSTRINGBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSHADERPARAMETERSTRINGFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterMRealBase::_desc[] =
                      "value", 
                      ValueFieldId, ValueFieldMask,
                      false,
-                     (FieldAccessMethod) &ShaderParameterMRealBase::getMFValue)
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterMRealBase::getMFValue))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType ShaderParameterMRealBase::_type(
     "ShaderParameterMReal",
     "ShaderParameter",
     NULL,
-    (PrototypeCreateF) &ShaderParameterMRealBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&ShaderParameterMRealBase::createEmpty),
     ShaderParameterMReal::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 ShaderParameterMRealBase::getContainerSize(void) const
 void ShaderParameterMRealBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((ShaderParameterMRealBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<ShaderParameterMRealBase *>(&other),
+                          whichField);
 }
 #else
 void ShaderParameterMRealBase::executeSync(      FieldContainer &other,
@@ -294,7 +295,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterMRealPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMRealBase.cpp,v 1.1 2007/03/09 18:11:48 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMRealBase.cpp,v 1.2 2008/06/05 05:02:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERMREALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERMREALBASE_INLINE_CVSID;
 
