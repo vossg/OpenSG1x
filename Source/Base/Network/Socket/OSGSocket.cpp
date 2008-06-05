@@ -384,7 +384,7 @@ void Socket::setReusePort(bool value)
     ::setsockopt(_sd, 
                  SOL_SOCKET, 
                  SO_REUSEADDR, 
-                 static_cast<SocketOptT *>(&v),
+                 reinterpret_cast<SocketOptT *>(&v),
                  sizeof(v));
 }
 
@@ -450,7 +450,7 @@ void Socket::setReadBufferSize(int size)
     ::setsockopt(_sd, 
                  SOL_SOCKET, 
                  SO_RCVBUF, 
-                 static_cast<SocketOptT *>(&v),
+                 reinterpret_cast<SocketOptT *>(&v),
                  sizeof(v));
 }
 
@@ -463,7 +463,7 @@ void Socket::setWriteBufferSize(int size)
     ::setsockopt(_sd,
                  SOL_SOCKET,
                  SO_SNDBUF,
-                 static_cast<SocketOptT *>(&v),
+                 reinterpret_cast<SocketOptT *>(&v),
                  sizeof(v));
 }
 
@@ -477,7 +477,7 @@ int Socket::getReadBufferSize()
     ::getsockopt(_sd,
                  SOL_SOCKET,
                  SO_RCVBUF,
-                 static_cast<SocketOptT *>(&v),
+                 reinterpret_cast<SocketOptT *>(&v),
                  &len);
     return v;
 }
@@ -492,7 +492,7 @@ int Socket::getWriteBufferSize()
     ::getsockopt(_sd,
                  SOL_SOCKET,
                  SO_SNDBUF,
-                 static_cast<SocketOptT *>(&v),
+                 reinterpret_cast<SocketOptT *>(&v),
                  &len);
     return v;
 }

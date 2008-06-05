@@ -225,7 +225,7 @@ FieldContainerType CLASSNAME< T1 >::_type =                                \
         T1::getTypeName(),                                                 \
         T1::getParentTypeName(),                                           \
         T1::getGroupName(),                                                \
-        reinterpret_cast<PrototypeCreateF.(&CLASSNAME< T1 >::createEmpty), \
+        reinterpret_cast<PrototypeCreateF>(&CLASSNAME< T1 >::createEmpty), \
         T1::getInitMethod(),                                               \
         NULL,                                                              \
         0,                                                                 \

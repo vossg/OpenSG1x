@@ -139,7 +139,7 @@ void StreamSocket::open()
     int rc = setsockopt(_sd, 
                         SOL_SOCKET, 
                         SO_LINGER, 
-                        static_cast<SocketOptT *>(&li),
+                        reinterpret_cast<SocketOptT *>(&li),
                         sizeof(li));
 }
 
@@ -196,7 +196,7 @@ void StreamSocket::setDelay(bool value)
     rc=setsockopt(_sd, 
                   IPPROTO_TCP, 
                   TCP_NODELAY, 
-                  static_cast<SocketOptT *>(&on), 
+                  reinterpret_cast<SocketOptT *>(&on), 
                   sizeof(on));
     if(rc < 0)
     {

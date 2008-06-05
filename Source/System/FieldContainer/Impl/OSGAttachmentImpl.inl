@@ -71,7 +71,7 @@ FieldDescription *SimpleAttachment<AttachmentDescT>::_desc[] =
         AttachmentDescT::getFieldName(),
         OSG_FC_FIELD_IDM_DESC(SimpleField),
         false,
-        static_cast<FieldAccessMethod>(
+        reinterpret_cast<FieldAccessMethod>(
             &SimpleAttachment<AttachmentDescT>::getFieldPtr),
         NULL)
 };
