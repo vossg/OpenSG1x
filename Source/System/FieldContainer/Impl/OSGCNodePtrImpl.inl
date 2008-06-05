@@ -92,13 +92,13 @@ CNodePtr::~CNodePtr(void)
 inline
 Node *CNodePtr::getNode(void)
 {
-    return (Node *) getElemP(Thread::getAspect());
+    return reinterpret_cast<Node *>(getElemP(Thread::getAspect()));
 }
 
 inline
 Node *CNodePtr::getNode(void) const
 {
-    return (Node *) getElemP(Thread::getAspect());
+    return reinterpret_cast<Node *>(getElemP(Thread::getAspect()));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -107,37 +107,43 @@ Node *CNodePtr::getNode(void) const
 inline
 NodeCore *CNodePtr::operator->(void)
 {
-    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return (reinterpret_cast<Node *>(
+                getElemP(Thread::getAspect())))->getCore().getCPtr();
 }
 
 inline
 NodeCore *CNodePtr::operator->(void) const
 {
-    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return (reinterpret_cast<Node *>(
+                getElemP(Thread::getAspect())))->getCore().getCPtr();
 }
 
 inline
 NodeCore &CNodePtr::operator *(void)
 {
-    return *(((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr());
+    return *((reinterpret_cast<Node *>(
+                  getElemP(Thread::getAspect())))->getCore().getCPtr());
 }
 
 inline
 NodeCore &CNodePtr::operator *(void) const
 {
-    return *(((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr());
+    return *((reinterpret_cast<Node *>(
+                  getElemP(Thread::getAspect())))->getCore().getCPtr());
 }
 
 inline
 NodeCore *CNodePtr::getCPtr(void)
 {
-    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return (reinterpret_cast<Node *>(
+                getElemP(Thread::getAspect())))->getCore().getCPtr();
 }
 
 inline
 NodeCore *CNodePtr::getCPtr(void) const
 {
-    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return (reinterpret_cast<Node *>(
+                getElemP(Thread::getAspect())))->getCore().getCPtr();
 }
 
 /*-------------------------------------------------------------------------*/

@@ -250,7 +250,8 @@ void ProxyGroup::startLoading(void)
             std::stringstream tmpStream(std::ios_base::in|
                                         std::ios_base::out|
                                         std::ios_base::binary);
-            tmpStream.write((char*)(&getInline()[0]),getInline().size());
+            tmpStream.write(reinterpret_cast<char*>(&getInline()[0]),
+                            getInline().size());
             _loadedRoot = SceneFileHandler::the().read(tmpStream, "osb");
         }
         beginEditCP(ptr,StateFieldMask);
@@ -330,7 +331,7 @@ void ProxyGroup::loadProc(void *)
             std::stringstream tmpStream(std::ios_base::in|
                                         std::ios_base::out|
                                         std::ios_base::binary);
-            tmpStream.write((char*)(&g->getInline()[0]),g->getInline().size());
+            tmpStream.write(reinterpret_cast<char*>(&g->getInline()[0]),g->getInline().size());
             g->_loadedRoot = SceneFileHandler::the().read(tmpStream, "osb");
         }
         beginEditCP(g,StateFieldMask);

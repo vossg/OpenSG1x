@@ -62,8 +62,8 @@ FieldDescription *GeoPLengthsUI32PropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPLengthsUI32PropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                               GeoPLengthsUI32PropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                               GeoPLengthsUI32PropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -78,8 +78,8 @@ FieldDescription *GeoPLengthsUI16PropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPLengthsUI16PropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                               GeoPLengthsUI16PropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                               GeoPLengthsUI16PropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -94,8 +94,8 @@ FieldDescription *GeoPLengthsUI8PropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPLengthsUI8PropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                               GeoPLengthsUI8PropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                               GeoPLengthsUI8PropertyDesc>::getFieldPtr))
 #endif
 };
 

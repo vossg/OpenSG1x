@@ -1529,7 +1529,7 @@ void osgsleep(UInt32 millisecs)
 inline
 Real32 osgrand(void)
 {
-    return rand() / (Real32) RAND_MAX;
+    return rand() / Real32(RAND_MAX);
 }
 
 /*! return true if the current system is big endian
@@ -1609,7 +1609,7 @@ UInt64 osghtonll(UInt64 src)
 inline
 Real32 osghtonf(Real32 src)
 {
-    UInt8 *p = (UInt8 *) &src;
+    UInt8 *p = reinterpret_cast<UInt8 *>(&src);
     std::swap(p[0], p[3]);
     std::swap(p[1], p[2]);
     return src;
@@ -1618,7 +1618,7 @@ Real32 osghtonf(Real32 src)
 inline
 Real64 osghtond(Real64 src)
 {
-    UInt8 *p = (UInt8 *) &src;
+    UInt8 *p = reinterpret_cast<UInt8 *>(&src);
     std::swap(p[0], p[7]);
     std::swap(p[1], p[6]);
     std::swap(p[2], p[5]);
@@ -1629,7 +1629,7 @@ Real64 osghtond(Real64 src)
 inline
 Real128 osghtondd(Real128 src)
 {
-    UInt8 *p = (UInt8 *) &src;
+    UInt8 *p = reinterpret_cast<UInt8 *>(&src);
     std::swap(p[0], p[15]);
     std::swap(p[1], p[14]);
     std::swap(p[2], p[13]);
@@ -1685,7 +1685,7 @@ UInt64 osgntohll(UInt64 src)
 inline
 Real32 osgntohf(Real32 src)
 {
-    UInt8 *p = (UInt8 *) &src;
+    UInt8 *p = reinterpret_cast<UInt8 *>(&src);
     std::swap(p[0], p[3]);
     std::swap(p[1], p[2]);
     return src;
@@ -1694,7 +1694,7 @@ Real32 osgntohf(Real32 src)
 inline
 Real64 osgntohd(Real64 src)
 {
-    UInt8 *p = (UInt8 *) &src;
+    UInt8 *p = reinterpret_cast<UInt8 *>(&src);
     std::swap(p[0], p[7]);
     std::swap(p[1], p[6]);
     std::swap(p[2], p[5]);
@@ -1705,7 +1705,7 @@ Real64 osgntohd(Real64 src)
 inline
 Real128 osgntohdd(Real128 src)
 {
-    UInt8 *p = (UInt8 *) &src;
+    UInt8 *p = reinterpret_cast<UInt8 *>(&src);
     std::swap(p[0], p[15]);
     std::swap(p[1], p[14]);
     std::swap(p[2], p[13]);

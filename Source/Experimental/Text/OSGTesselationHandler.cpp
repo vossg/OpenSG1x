@@ -32,7 +32,7 @@ void OSG_APIENTRY tessVertex(void *data)
 {
     assert(tmTesselator);
 
-    tmTesselator->addPoint((float *) data);
+    tmTesselator->addPoint(static_cast<float *>(data));
 }
 
 void OSG_APIENTRY tessEnd(void)
@@ -44,7 +44,7 @@ void OSG_APIENTRY  tessError(GLenum errorNum)
 {
     assert(tmTesselator);
     FWARNING(("got tesselation error %d (%s).", 
-              (int) errorNum, gluErrorString(errorNum)));
+              int(errorNum), gluErrorString(errorNum)));
 }
 
 OSG_END_NAMESPACE

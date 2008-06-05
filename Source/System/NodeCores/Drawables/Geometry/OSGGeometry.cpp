@@ -897,9 +897,9 @@ bool Geometry::merge( const GeometryPtr other )
                     dst.push_back(indices->getValue(i));
             endEditCP(indicesUI32);
     
-            beginEditCP((GeometryPtr)this, Geometry::IndicesFieldMask);
+            beginEditCP(static_cast<GeometryPtr>(this), Geometry::IndicesFieldMask);
                 setIndices(indicesUI32);
-            endEditCP((GeometryPtr)this, Geometry::IndicesFieldMask);
+            endEditCP(static_cast<GeometryPtr>(this), Geometry::IndicesFieldMask);
         }
     }
 
@@ -2395,10 +2395,10 @@ void Geometry::merge0( const GeometryPtr other )
 //merges non-indexed geometry in single-indexed one
 void Geometry::merge1( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
-           texcoord7Base;
+    UInt32 posBase = 0, typeBase = 0, lengthBase = 0, normalBase = 0,
+        colorBase = 0, seccolorBase = 0, texcoordBase = 0, texcoord1Base = 0,
+        texcoord2Base = 0, texcoord3Base = 0, texcoord4Base = 0, 
+        texcoord5Base = 0, texcoord6Base = 0, texcoord7Base = 0;
 
     UInt32 i;
 
@@ -2421,10 +2421,10 @@ void Geometry::merge1( const GeometryPtr other )
 //the non-indexed geometry is converted to single-indexed
 void Geometry::merge2( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
-           texcoord7Base;
+    UInt32 posBase = 0, typeBase = 0, lengthBase = 0, normalBase = 0,
+        colorBase = 0, seccolorBase = 0, texcoordBase = 0, texcoord1Base = 0,
+        texcoord2Base = 0, texcoord3Base = 0, texcoord4Base = 0, 
+        texcoord5Base = 0, texcoord6Base = 0, texcoord7Base = 0;
 
     UInt32 i;
 
@@ -2443,20 +2443,20 @@ void Geometry::merge2( const GeometryPtr other )
 
     endEditCP  (indices, GeoIndicesUI32::GeoPropDataFieldMask);
 
-    beginEditCP((GeometryPtr)this, Geometry::IndicesFieldMask);
+    beginEditCP(static_cast<GeometryPtr>(this), Geometry::IndicesFieldMask);
 
     setIndices(indices);
 
-    endEditCP((GeometryPtr)this, Geometry::IndicesFieldMask);
+    endEditCP(static_cast<GeometryPtr>(this), Geometry::IndicesFieldMask);
 }
 
 //merges non-indexed geometry in multi-indexed one
 void Geometry::merge3( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
-           texcoord7Base;
+    UInt32 posBase = 0,typeBase = 0,lengthBase = 0,normalBase = 0, 
+        colorBase = 0, seccolorBase = 0, texcoordBase = 0, texcoord1Base = 0,
+        texcoord2Base = 0, texcoord3Base = 0, texcoord4Base = 0, 
+        texcoord5Base = 0, texcoord6Base = 0, texcoord7Base = 0;
 
     UInt32 i;
 
@@ -2578,20 +2578,20 @@ void Geometry::merge4( const GeometryPtr other )
 
     endEditCP  (indices, GeoIndicesUI32::GeoPropDataFieldMask);
 
-    beginEditCP((GeometryPtr)this, Geometry::IndicesFieldMask);
+    beginEditCP(static_cast<GeometryPtr>(this), Geometry::IndicesFieldMask);
 
     setIndices(indices);
 
-    endEditCP((GeometryPtr)this, Geometry::IndicesFieldMask);
+    endEditCP(static_cast<GeometryPtr>(this), Geometry::IndicesFieldMask);
 }
 
 //merges single-indexed geometry in multi-indexed one
 void Geometry::merge5( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
-           texcoord7Base;
+    UInt32 posBase = 0, typeBase = 0, lengthBase = 0, normalBase = 0,
+        colorBase = 0, seccolorBase = 0, texcoordBase = 0, texcoord1Base = 0,
+        texcoord2Base = 0, texcoord3Base = 0, texcoord4Base = 0, 
+        texcoord5Base = 0, texcoord6Base = 0, texcoord7Base = 0;
 
     UInt32 i;
 
@@ -2653,10 +2653,10 @@ void Geometry::merge5( const GeometryPtr other )
 //the single-indexed geometry is converted to multi-indexed
 void Geometry::merge6( const GeometryPtr other )
 {
-    UInt32 posBase,typeBase,lengthBase,normalBase,colorBase,
-           seccolorBase,texcoordBase,texcoord1Base,texcoord2Base,
-           texcoord3Base, texcoord4Base, texcoord5Base, texcoord6Base,
-           texcoord7Base;
+    UInt32 posBase = 0, typeBase = 0, lengthBase = 0, normalBase = 0,
+        colorBase = 0, seccolorBase = 0, texcoordBase = 0, texcoord1Base = 0,
+        texcoord2Base = 0, texcoord3Base = 0, texcoord4Base = 0, 
+        texcoord5Base = 0, texcoord6Base = 0, texcoord7Base = 0;
 
     UInt32 i;
 

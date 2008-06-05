@@ -270,7 +270,7 @@ struct TypeTraits<Int8> : public TypeTraitsBase
 
     static Int8        getPortion   (Real32 val)
     {
-        return (Int8) (val * Real32(getMax()));
+        return Int8(val * Real32(getMax()));
     };
 
 
@@ -341,7 +341,7 @@ struct TypeTraits<UInt16> : public TypeTraitsBase
 
     static UInt16      getPortion   (Real32 val)
     {
-        return (UInt16) (val * Real32(getMax()));
+        return UInt16(val * Real32(getMax()));
     };
 
 
@@ -417,7 +417,7 @@ struct TypeTraits<Int16> : public TypeTraitsBase
 
     static Int16       getPortion   (Real32 val)
     {
-        return (Int16) (val * Real32(getMax()));
+        return Int16(val * Real32(getMax()));
     };
 
 
@@ -488,7 +488,7 @@ struct TypeTraits<UInt32> : public TypeTraitsBase
 
     static UInt32      getPortion   (Real32 val)
     {
-        return (UInt32) (val * Real32(getMax()));
+        return UInt32(val * Real32(getMax()));
     };
 
 
@@ -559,7 +559,7 @@ struct TypeTraits<Int32> : public TypeTraitsBase
 
     static Int32       getPortion   (Real32 val)
     {
-        return (Int32) (val * Real32(getMax()));
+        return Int32(val * Real32(getMax()));
     };
 
 
@@ -643,7 +643,7 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
 
     static UInt64      getPortion   (Real32 val)
     {
-        return (UInt64) (val * Real32(getMax()));
+        return UInt64(val * Real32(getMax()));
     };
 
 
@@ -733,7 +733,7 @@ struct TypeTraits<Int64> : public TypeTraitsBase
 
     static Int64       getPortion   (Real32 val)
     {
-        return (Int64) (val * Real32(getMax()));
+        return Int64(val * Real32(getMax()));
     };
 
 
@@ -832,7 +832,7 @@ struct TypeTraits<Real16> : public TypeTraitsBase
     {
         Char8 buffer[20];
 
-        sprintf(buffer, "%e", (Real32) val);
+        sprintf(buffer, "%e", Real32(val));
 
         return std::string(buffer);
     }

@@ -416,19 +416,32 @@ bool FBOViewport::initialize(Window *win, Int32 format)
     setDirty(false);    // force re-initialization
 
     OSGGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
-        (OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+        reinterpret_cast<OSGGLBINDFRAMEBUFFEREXTPROC>(
+            win->getFunction(_funcBindFramebuffer));
+
     OSGGLBINDRENDERBUFFEREXTPROC glBindRenderbufferEXT =
-        (OSGGLBINDRENDERBUFFEREXTPROC)win->getFunction(_funcBindRenderbuffer);
+        reinterpret_cast<OSGGLBINDRENDERBUFFEREXTPROC>(
+            win->getFunction(_funcBindRenderbuffer));
+
     OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT =
-        (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
+        reinterpret_cast<OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC>(
+            win->getFunction(_funcCheckFramebufferStatus));
+
     OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC glFramebufferRenderbufferEXT =
-        (OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC)win->getFunction(_funcFramebufferRenderbuffer);
+        reinterpret_cast<OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC>(
+            win->getFunction(_funcFramebufferRenderbuffer));
+
     OSGGLGENFRAMEBUFFERSEXTPROC glGenFramebuffersEXT =
-        (OSGGLGENFRAMEBUFFERSEXTPROC)win->getFunction(_funcGenFramebuffers);
+        reinterpret_cast<OSGGLGENFRAMEBUFFERSEXTPROC>(
+            win->getFunction(_funcGenFramebuffers));
+
     OSGGLGENRENDERBUFFERSEXTPROC glGenRenderbuffersEXT =
-        (OSGGLGENRENDERBUFFERSEXTPROC)win->getFunction(_funcGenRenderbuffers);
+        reinterpret_cast<OSGGLGENRENDERBUFFERSEXTPROC>(
+            win->getFunction(_funcGenRenderbuffers));
+
     OSGGLRENDERBUFFERSTORAGEEXTPROC glRenderbufferStorageEXT =
-        (OSGGLRENDERBUFFERSTORAGEEXTPROC)win->getFunction(_funcRenderbufferStorage);
+        reinterpret_cast<OSGGLRENDERBUFFERSTORAGEEXTPROC>(
+            win->getFunction(_funcRenderbufferStorage));
     
 
     glGenFramebuffersEXT(1, &fbIndex);
@@ -491,11 +504,16 @@ bool FBOViewport::initialize(Window *win, Int32 format)
 void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum target, GLint zoffset)
 {
     OSGGLFRAMEBUFFERTEXTURE1DEXTPROC glFramebufferTexture1DEXT =
-        (OSGGLFRAMEBUFFERTEXTURE1DEXTPROC)win->getFunction(_funcFramebufferTexture1D);
+        reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE1DEXTPROC>(
+            win->getFunction(_funcFramebufferTexture1D));
+
     OSGGLFRAMEBUFFERTEXTURE2DEXTPROC glFramebufferTexture2DEXT =
-        (OSGGLFRAMEBUFFERTEXTURE2DEXTPROC)win->getFunction(_funcFramebufferTexture2D);
+        reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE2DEXTPROC>(
+            win->getFunction(_funcFramebufferTexture2D));
+
     OSGGLFRAMEBUFFERTEXTURE3DEXTPROC glFramebufferTexture3DEXT =
-        (OSGGLFRAMEBUFFERTEXTURE3DEXTPROC)win->getFunction(_funcFramebufferTexture3D);
+        reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE3DEXTPROC>(
+            win->getFunction(_funcFramebufferTexture3D));
 
     if (getFrameBufferIndex())
     {
@@ -520,7 +538,8 @@ void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum ta
 void FBOViewport::bind(Window *win)
 {
     OSGGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
-        (OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+        reinterpret_cast<OSGGLBINDFRAMEBUFFEREXTPROC>(
+            win->getFunction(_funcBindFramebuffer));
         
     if (getFrameBufferIndex()) 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, getFrameBufferIndex());
@@ -533,7 +552,8 @@ void FBOViewport::bind(Window *win)
 void FBOViewport::stop(Window *win)
 {
     OSGGLBINDFRAMEBUFFEREXTPROC glBindFramebufferEXT =
-        (OSGGLBINDFRAMEBUFFEREXTPROC)win->getFunction(_funcBindFramebuffer);
+        reinterpret_cast<OSGGLBINDFRAMEBUFFEREXTPROC>(
+            win->getFunction(_funcBindFramebuffer));
         
     if (getFrameBufferIndex())
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
@@ -713,7 +733,7 @@ void FBOViewport::render(RenderActionBase* action)
             MFForegroundPtr::iterator fgndIt;
             std::vector< Int32 > pos;
             Int32 n = 0;
-            Real32 svpL, svpB, svpR, svpT;
+            Real32 svpL = 0.f, svpB = 0.f, svpR = 0.f, svpT = 0.f;
             
             // there seems to be s.th. wrong with the svp init, only render if done
             static bool check = false;
@@ -803,18 +823,23 @@ void FBOViewport::render(RenderActionBase* action)
                     
                     for (y1=0; y1 < imgHeight; y1 += winHeight)
                     {
-                        y2 = osgMin((float)(y1+winHeight-1), (float)(imgHeight-1));
+                        y2 = UInt32(osgMin(float(y1+winHeight-1), 
+                                           float(imgHeight-1)));
+
                         th = y2 - y1 + 1;
                         
                         for (x1=0; x1 < imgWidth; x1 += winWidth)
                         {
-                            x2 = osgMin((float)(x1+winWidth-1), (float)(imgWidth-1));
+                            x2 = UInt32(osgMin(float(x1+winWidth-1), 
+                                               float(imgWidth-1)));
                             tw = x2 - x1 + 1;
                             
                             // set tile size to maximal renderable size
                             beginEditCP(_tiledeco);
-                                _tiledeco->setSize(  x1/(float)imgWidth,     y1/(float)imgHeight,
-                                                (x2+1)/(float)imgWidth, (y2+1)/(float)imgHeight);
+                            _tiledeco->setSize(  x1/float(imgWidth),
+                                                 y1/float(imgHeight),
+                                                 (x2+1)/float(imgWidth), 
+                                                 (y2+1)/float(imgHeight));
                             endEditCP(_tiledeco);
                             
                             beginEditCP(getPtr(), LeftFieldMask | RightFieldMask |
@@ -885,18 +910,22 @@ void FBOViewport::render(RenderActionBase* action)
 
                 for (y1=0; y1 < totalHeight; y1 += winHeight)
                 {
-                    y2 = osgMin((float)(y1+winHeight-1), (float)(totalHeight-1));
+                    y2 = UInt32(osgMin(float(y1+winHeight-1), 
+                                       float(totalHeight-1)));
                     th = y2 - y1 + 1;
                     
                     for (x1=0; x1 < totalWidth; x1 += winWidth)
                     {
-                        x2 = osgMin((float)(x1+winWidth-1), (float)(totalWidth-1));
+                        x2 = UInt32(osgMin(float(x1+winWidth-1),
+                                           float(totalWidth-1)));
                         tw = x2 - x1 + 1;
                         
                         // set tile size to maximal renderable size
                         beginEditCP(_tiledeco);
-                            _tiledeco->setSize(  x1/(float)totalWidth,     y1/(float)totalHeight,
-                                            (x2+1)/(float)totalWidth, (y2+1)/(float)totalHeight);
+                        _tiledeco->setSize(  x1/float(totalWidth),     
+                                             y1/float(totalHeight),
+                                             (x2+1)/float(totalWidth),
+                                             (y2+1)/float(totalHeight));
                         endEditCP(_tiledeco);
                         
                         beginEditCP(getPtr(), LeftFieldMask | RightFieldMask |
@@ -929,7 +958,7 @@ void FBOViewport::render(RenderActionBase* action)
                         // deactivate viewport settings
                         deactivate();
 
-                        GLenum target;
+                        GLenum target = GL_NONE;
                         // copy ALL attached textures.
                         // Most likely there's just one texture attached, the
                         // color buffer or the depth buffer. But in case both
@@ -953,7 +982,10 @@ void FBOViewport::render(RenderActionBase* action)
                             if (target == GL_TEXTURE_3D) 
                             {
                                 OSGGLCOPYTEXSUBIMAGE3DPROC glCopyTexSubImage3D = 
-                                    (OSGGLCOPYTEXSUBIMAGE3DPROC)win->getFunction(_funcCopyTexSubImage3D);
+                                    reinterpret_cast<
+                                        OSGGLCOPYTEXSUBIMAGE3DPROC>(
+                                            win->getFunction(
+                                                _funcCopyTexSubImage3D));
                                     
                                 if (glCopyTexSubImage3D) 
                                 {
@@ -1038,7 +1070,8 @@ void FBOViewport::render(RenderActionBase* action)
                 if (target == GL_TEXTURE_3D) 
                 {
                     OSGGLCOPYTEXSUBIMAGE3DPROC glCopyTexSubImage3D = 
-                        (OSGGLCOPYTEXSUBIMAGE3DPROC)win->getFunction(_funcCopyTexSubImage3D);
+                        reinterpret_cast<OSGGLCOPYTEXSUBIMAGE3DPROC>(
+                            win->getFunction(_funcCopyTexSubImage3D));
                         
                     if (glCopyTexSubImage3D) 
                     {
@@ -1115,9 +1148,12 @@ void FBOViewport::render(RenderActionBase* action)
     else
     {
         OSGGLDRAWBUFFERSARBPROC glDrawBuffersARB =
-            (OSGGLDRAWBUFFERSARBPROC)win->getFunction(_funcDrawBuffers);   
+            reinterpret_cast<OSGGLDRAWBUFFERSARBPROC>(
+                win->getFunction(_funcDrawBuffers));   
+
         OSGGLGENERATEMIPMAPEXTPROC glGenerateMipmapEXT =
-            (OSGGLGENERATEMIPMAPEXTPROC)win->getFunction(_funcGenerateMipmap); 
+            reinterpret_cast<OSGGLGENERATEMIPMAPEXTPROC>(
+                win->getFunction(_funcGenerateMipmap)); 
     
         // get number of render targets
         Int32 numBuffers = getMaxBuffers();
@@ -1340,7 +1376,7 @@ void FBOViewport::render(RenderActionBase* action)
             }
 
             // render
-            for (i=0; i<(Int32)getExcludeNodes().getSize(); i++)
+            for (i=0; i< Int32(getExcludeNodes().getSize()); i++)
             {
                 NodePtr exnode = getExcludeNodes()[i];
                 if (exnode != NullFC)
@@ -1382,7 +1418,7 @@ void FBOViewport::render(RenderActionBase* action)
             }
             else
             {
-                for (i=0; i<(Int32)getRenderNodes().getSize(); i++)
+                for (i=0; i< Int32(getRenderNodes().getSize()); i++)
                 {
                     NodePtr rdnode = getRenderNodes()[i];  
                     if (rdnode != NullFC)
@@ -1424,7 +1460,7 @@ void FBOViewport::render(RenderActionBase* action)
             // deactivate viewport settings
             deactivate();
 
-            for (i=0; i<(Int32)getExcludeNodes().getSize(); i++)
+            for (i=0; i< Int32(getExcludeNodes().getSize()); i++)
             {
                 NodePtr exnode = getExcludeNodes()[i];
                 if (exnode != NullFC)
@@ -1477,7 +1513,9 @@ bool FBOViewport::extensionCheck(void)
 bool FBOViewport::checkFrameBufferStatus(Window *win)
 {
     OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC glCheckFramebufferStatusEXT =
-        (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC)win->getFunction(_funcCheckFramebufferStatus);
+        reinterpret_cast<OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC>(
+            win->getFunction(_funcCheckFramebufferStatus));
+
     GLenum errCode, status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     
     switch(status)
@@ -1579,7 +1617,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.20 2007/12/17 15:43:49 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.21 2008/06/05 05:01:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

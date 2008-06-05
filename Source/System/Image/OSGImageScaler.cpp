@@ -188,6 +188,8 @@ struct ValueHandler
     virtual void setValue(Real64 value,UInt8 *data,
                           UInt32 channels,UInt32 width,UInt32 height,
                           UInt32 c,UInt32 x,UInt32 y,UInt32 z)=0;
+
+    virtual ~ValueHandler(void) {}
 };
 
 template <class ValueT> 
@@ -210,13 +212,13 @@ struct ValueHandlerTempl : public ValueHandler
         {
             for(y = 0 ; y <= (y2-y1) ; ++y)
             {
-                ValueT *valueP = (ValueT*)(data) +
+                const ValueT *valueP = reinterpret_cast<const ValueT*>(data) +
                     (z1 + z) * (height*width*channels) +
                     (y1 + y) * (width*channels) +
                     (x1)     * (channels) + c;
                 for(x = 0 ; x <= (x2-x1) ; ++x)
                 {
-                    result += (Real64)*(valueP) *
+                    result += Real64(*(valueP)) *
                         (weightX[x] * weightY[y] * weightZ[z]);
                     valueP += channels;
                 }
@@ -229,7 +231,7 @@ struct ValueHandlerTempl : public ValueHandler
                           UInt32 c,UInt32 x,UInt32 y,UInt32 z)
     {
         // clamp value.
-        Real64 maxValue = (Real64)TypeTraits<ValueT>::getMax();
+        Real64 maxValue = Real64(TypeTraits<ValueT>::getMax());
         if(value > maxValue)
         {
             value = maxValue;
@@ -240,14 +242,14 @@ struct ValueHandlerTempl : public ValueHandler
                 value = 0.0;
         }
 
-        ValueT *valueP = (ValueT*)(data);
+        ValueT *valueP = reinterpret_cast<ValueT *>(data);
         valueP = valueP + 
             z * (width*height*channels) +
             y * (width*channels) +
             x * (channels) +
             c;
 
-        *valueP = (ValueT)value;
+        *valueP = ValueT(value);
     }
 };
 
@@ -278,7 +280,7 @@ void ImageScaler::calcContributions(UInt32 axis,
     Real64 dFScale = 1.0;
     Real64 dFilterWidth = filter.getWidth();
 
-    Real64 dScale = (Real64)uResSize / (Real64)uSrcSize;
+    Real64 dScale = Real64(uResSize) / Real64(uSrcSize);
 
     // resize arrays
     contrib[axis].resize(uResSize);
@@ -294,16 +296,16 @@ void ImageScaler::calcContributions(UInt32 axis,
     }
 
     // Window size is the number of sampled pixels
-    Int32 iWindowSize = 2 * (Int32)ceil(dWidth) + 1;
+    Int32 iWindowSize = 2 * Int32(ceil(dWidth)) + 1;
 
     for (Int32 u = 0; u < uResSize; u++)
     {   
         // Scan through line of contributions
-        Real64 dCenter = (Real64)u / dScale;   // Reverse mapping
+        Real64 dCenter = Real64(u) / dScale;   // Reverse mapping
         // Find the significant edge points that affect the pixel
-        Int32 iLeft = osgMax (0, (Int32)floor (dCenter - dWidth));
+        Int32 iLeft = osgMax (0, Int32(floor (dCenter - dWidth)));
         //res->ContribRow[u].Left = iLeft;
-        Int32 iRight = osgMin ((Int32)ceil (dCenter + dWidth), Int32(uSrcSize) - 1);
+        Int32 iRight = osgMin (Int32(ceil(dCenter + dWidth)), Int32(uSrcSize) - 1);
         //res->ContribRow[u].Right = iRight;
 
         // Cut edge points to fit in filter window in case of spill-off
@@ -328,7 +330,7 @@ void ImageScaler::calcContributions(UInt32 axis,
         { 
             // calculate weight
             Real64 weight = dFScale * 
-                filter.filter(dFScale * (dCenter - (Real64)iSrc));
+                filter.filter(dFScale * (dCenter - Real64(iSrc)));
             contrib[axis][u].weights[iSrc-iLeft] = weight;
             // sum weights
             dTotalWeight += weight;
@@ -407,7 +409,7 @@ bool ImageScaler::scale(ImagePtr &srcImg,
     calcContributions(1,height,srcImg->getHeight(),filter,contrib);
     calcContributions(2,depth, srcImg->getDepth() ,filter,contrib);
 
-    if(!dstImg->set((Image::PixelFormat)srcImg->getPixelFormat(),
+    if(!dstImg->set(static_cast<Image::PixelFormat>(srcImg->getPixelFormat()),
                     width,
                     height,
                     depth,

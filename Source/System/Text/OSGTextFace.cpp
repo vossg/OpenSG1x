@@ -286,7 +286,7 @@ static wchar_t utf8Char2Unicode(const char *&str)
     if ((c & 0x80) == 0)
         return c;
     if (((c & 0xc0) == 0x80) || ((c & 0xfe) == 0xfe)) // should never happen
-        return (unsigned char)c;
+        return static_cast<unsigned char>(c);
     char mask = 0xe0, value = 0xc0;
     int i;
     for (i = 1; i < 6; ++i)
@@ -529,7 +529,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFace.cpp,v 1.2 2005/06/01 10:42:15 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFace.cpp,v 1.3 2008/06/05 05:01:21 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFACE_INLINE_CVSID;
 }

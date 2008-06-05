@@ -275,15 +275,15 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
                 //traverse the referenced SF/MF-containers
                 if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
                 {
-                    doIndexFC(((SFFieldContainerPtr *) fieldPtr)->getValue());
+                    doIndexFC(static_cast<SFFieldContainerPtr *>(fieldPtr)->getValue());
                 }
                 else if(fieldPtr->getCardinality() == FieldType::MULTI_FIELD)
                 {
                     UInt32 j;
-                    for(j = 0; j < ((MFFieldContainerPtr *) fieldPtr)->size();
+                    for(j = 0; j < static_cast<MFFieldContainerPtr *>(fieldPtr)->size();
                                             ++j)
                     {
-                        doIndexFC((*(((MFFieldContainerPtr *) fieldPtr)))[j]);
+                        doIndexFC((*(static_cast<MFFieldContainerPtr *>(fieldPtr)))[j]);
                     }
                 }
             }
@@ -292,9 +292,9 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
             if(strcmp(fDesc->getCName(), "attachments") == 0)
             {
                 AttachmentMap::const_iterator   mapIt =
-                    ((SFAttachmentMap *) fieldPtr)->getValue().begin();
+                    static_cast<SFAttachmentMap *>(fieldPtr)->getValue().begin();
                 AttachmentMap::const_iterator   mapEnd =
-                    ((SFAttachmentMap *) fieldPtr)->getValue().end();
+                    static_cast<SFAttachmentMap *>(fieldPtr)->getValue().end();
 
                 for(; mapIt != mapEnd; ++mapIt)
                 {
@@ -414,7 +414,7 @@ BINWriter::BinaryFileHandler::~BinaryFileHandler(void)
  */
 void BINWriter::BinaryFileHandler::write(MemoryHandle mem, UInt32 size)
 {
-    _os.write((const char *) mem, size);
+    _os.write(reinterpret_cast<const char *>(mem), size);
 }
 
 /*-------------------------------------------------------------------------*/

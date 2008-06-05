@@ -81,7 +81,7 @@ public:
     {
         dctpfacevector::iterator fe = qtm->faces.end();
         for( dctpfacevector::iterator f = qtm->faces.begin(); f != fe; ++f )
-                delete (BezierTensorSurface*)((*f)->faceinfo);
+                delete static_cast<BezierTensorSurface*>((*f)->faceinfo);
     }
     void setErrorTolerance( double epsilon ) { error_epsilon = epsilon; }
     int setInitialLeaves( const beziersurfacematrix& patches,

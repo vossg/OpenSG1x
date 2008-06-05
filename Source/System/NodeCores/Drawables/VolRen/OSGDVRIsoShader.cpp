@@ -506,9 +506,9 @@ bool DVRIsoShader::useMTSlabs(void)
 // Compute gradients from a 3D volume
 ImagePtr DVRIsoShader::createGradientImage(DVRVolumeTexturePtr volTex)
 { 
-    int resX = (int) volTex->getImage()->getWidth(); 
-    int resY = (int) volTex->getImage()->getHeight(); 
-    int resZ = (int) volTex->getImage()->getDepth(); 
+    int resX = int(volTex->getImage()->getWidth()); 
+    int resY = int(volTex->getImage()->getHeight()); 
+    int resZ = int(volTex->getImage()->getDepth()); 
     
     int nGradSetSize =   resX * resY * resZ * 4; 
     int zOff         =   resX * resY; 
@@ -572,9 +572,9 @@ ImagePtr DVRIsoShader::createGradientImage(DVRVolumeTexturePtr volTex)
                     UChar8 &dataZn = 
                         volData[(z + 1) * zOff +  y      * yOff + x    ]; 
 					
-                    gradient = Vec3f((float)(dataXl - dataXr), 
-                                     (float)(dataYb - dataYt), 
-                                     (float)(dataZf - dataZn));  
+                    gradient = Vec3f(float(dataXl - dataXr), 
+                                     float(dataYb - dataYt), 
+                                     float(dataZf - dataZn));  
 
                     if(gradient.length() != 0.0)
                         gradient.normalize(); 
@@ -582,13 +582,13 @@ ImagePtr DVRIsoShader::createGradientImage(DVRVolumeTexturePtr volTex)
                 } 
 		
                 gradbuffer[4 * (z * zOff + y * yOff + x)  ] 
-                    = (UChar8) (127.0 + gradient[0] * 127.0); // R 
+                    = UChar8(127.0 + gradient[0] * 127.0); // R 
 
                 gradbuffer[4 * (z * zOff + y * yOff + x) + 1] 
-                    = (UChar8) (127.0 + gradient[1] * 127.0); // G 
+                    = UChar8(127.0 + gradient[1] * 127.0); // G 
 
                 gradbuffer[4 * (z * zOff + y * yOff + x) + 2] 
-                    = (UChar8) (127.0 + gradient[2] * 127.0); // B 
+                    = UChar8(127.0 + gradient[2] * 127.0); // B 
 
                 gradbuffer[4 * (z * zOff + y * yOff + x) + 3] 
                     = volData[z * zOff +  y    * yOff + x  ]; // A 
@@ -704,7 +704,8 @@ void DVRIsoShader::getLightSources(DirLightList &diffuseLights,
 // Note: only the major and the minor version is checked!!
 bool DVRIsoShader::checkGLVersion(GLfloat minVersion)
 {
-    char *versionString = (char*) glGetString(GL_VERSION);
+    const char *versionString = 
+        reinterpret_cast<const char*>(glGetString(GL_VERSION));
 
     if(atof(versionString) >= minVersion)
         return true;

@@ -337,92 +337,130 @@ void TreeRenderer::initialize(Window *win)
             bool    FBOerror = false;
 
             glBindFramebufferEXT =
-                (OSGGLBINDFRAMEBUFFEREXTPROC) win->getFunction(
-                _funcBindFramebuffer);
+                reinterpret_cast<OSGGLBINDFRAMEBUFFEREXTPROC>(
+                    win->getFunction(_funcBindFramebuffer));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glBindRenderbufferEXT =
-                (OSGGLBINDRENDERBUFFEREXTPROC) win->getFunction(
-                _funcBindRenderbuffer);
+                reinterpret_cast<OSGGLBINDRENDERBUFFEREXTPROC>(
+                    win->getFunction(_funcBindRenderbuffer));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glCheckFramebufferStatusEXT =
-                (OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC) win->getFunction(
-                _funcCheckFramebufferStatus);
+                reinterpret_cast<OSGGLCHECKFRAMEBUFFERSTATUSEXTPROC>(
+                    win->getFunction(_funcCheckFramebufferStatus));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glDeleteFramebuffersEXT =
-                (OSGGLDELETEFRAMEBUFFERSEXTPROC) win->getFunction(
-                _funcDeleteFramebuffers);
+                reinterpret_cast<OSGGLDELETEFRAMEBUFFERSEXTPROC>(
+                    win->getFunction(_funcDeleteFramebuffers));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glDeleteRenderbuffersEXT =
-                (OSGGLDELETERENDERBUFFERSEXTPROC) win->getFunction(
-                _funcDeleteRenderbuffers);
+                reinterpret_cast<OSGGLDELETERENDERBUFFERSEXTPROC>(
+                    win->getFunction(_funcDeleteRenderbuffers));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glFramebufferRenderbufferEXT =
-                (OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC) win->getFunction(
-                _funcFramebufferRenderbuffer);
+                reinterpret_cast<OSGGLFRAMEBUFFERRENDERBUFFEREXTPROC>(
+                    win->getFunction(_funcFramebufferRenderbuffer));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glFramebufferTexture1DEXT =
-                (OSGGLFRAMEBUFFERTEXTURE1DEXTPROC) win->getFunction(
-                _funcFramebufferTexture1D);
+                reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE1DEXTPROC>(
+                    win->getFunction(_funcFramebufferTexture1D));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glFramebufferTexture2DEXT =
-                (OSGGLFRAMEBUFFERTEXTURE2DEXTPROC) win->getFunction(
-                _funcFramebufferTexture2D);
+                reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE2DEXTPROC>(
+                    win->getFunction(_funcFramebufferTexture2D));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glFramebufferTexture3DEXT =
-                (OSGGLFRAMEBUFFERTEXTURE3DEXTPROC) win->getFunction(
-                _funcFramebufferTexture3D);
+                reinterpret_cast<OSGGLFRAMEBUFFERTEXTURE3DEXTPROC>(
+                    win->getFunction(_funcFramebufferTexture3D));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glGenFramebuffersEXT =
-                (OSGGLGENFRAMEBUFFERSEXTPROC) win->getFunction(
-                _funcGenFramebuffers);
+                reinterpret_cast<OSGGLGENFRAMEBUFFERSEXTPROC>(
+                    win->getFunction(_funcGenFramebuffers));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glGenRenderbuffersEXT =
-                (OSGGLGENRENDERBUFFERSEXTPROC) win->getFunction(
-                _funcGenRenderbuffers);
+                reinterpret_cast<OSGGLGENRENDERBUFFERSEXTPROC>(
+                    win->getFunction(_funcGenRenderbuffers));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glGenerateMipmapEXT =
-                (OSGGLGENERATEMIPMAPEXTPROC) win->getFunction(
-                _funcGenerateMipmap);
+                reinterpret_cast<OSGGLGENERATEMIPMAPEXTPROC>(
+                    win->getFunction(_funcGenerateMipmap));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glGetFramebufferAttachmentParameterivEXT =
-                (OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC)
-                win->getFunction(_funcGetFramebufferAttachmentParameteriv);
+                reinterpret_cast<
+                    OSGGLGETFRAMEBUFFERATTACHMENTPARAMETERIVEXTPROC>(
+                        win->getFunction(
+                            _funcGetFramebufferAttachmentParameteriv));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glGetRenderbufferParameterivEXT =
-                (OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC) win->getFunction(
-                _funcGetRenderbufferParameteriv);
+                reinterpret_cast<OSGGLGETRENDERBUFFERPARAMETERIVEXTPROC>(
+                    win->getFunction(_funcGetRenderbufferParameteriv));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glIsFramebufferEXT =
-                (OSGGLISFRAMEBUFFEREXTPROC) win->getFunction(
-                _funcIsFramebuffer);
+                reinterpret_cast<OSGGLISFRAMEBUFFEREXTPROC>(
+                    win->getFunction(_funcIsFramebuffer));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glIsRenderbufferEXT =
-                (OSGGLISRENDERBUFFEREXTPROC) win->getFunction(
-                _funcIsRenderbuffer);
+                reinterpret_cast<OSGGLISRENDERBUFFEREXTPROC>(
+                    win->getFunction(_funcIsRenderbuffer));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glRenderbufferStorageEXT =
-                (OSGGLRENDERBUFFERSTORAGEEXTPROC) win->getFunction(
-                _funcRenderbufferStorage);
+                reinterpret_cast<OSGGLRENDERBUFFERSTORAGEEXTPROC>(
+                    win->getFunction(_funcRenderbufferStorage));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
+
             glDrawBuffersARB =
-                (OSGGLDRAWBUFFERSARBPROC) win->getFunction(_funcDrawBuffers);
+                reinterpret_cast<OSGGLDRAWBUFFERSARBPROC>(
+                    win->getFunction(_funcDrawBuffers));
+
             if((errCode = glGetError()) != GL_NO_ERROR)
                 FBOerror = true;
 

@@ -227,7 +227,7 @@ void OSGWriter::visitField(const Field* pF)
     {
         //visit the Attachment FCs
 
-        const SFAttachmentMap *sfAttMap = (const SFAttachmentMap*) pF;
+        const SFAttachmentMap *sfAttMap = static_cast<const SFAttachmentMap*>(pF);
               AttachmentMap    attMap   = sfAttMap->getValue();
 
         AttachmentMap::const_iterator iter = attMap.begin();
@@ -247,13 +247,13 @@ void OSGWriter::visitField(const Field* pF)
         if(pF->getCardinality() == FieldType::SINGLE_FIELD)
         {
             const SFFieldContainerPtr* sfFCPtr =
-                (const SFFieldContainerPtr*) pF;
+                static_cast<const SFFieldContainerPtr*>(pF);
             visitContainer(sfFCPtr->getValue());
         }
         else if(pF->getCardinality() == FieldType::MULTI_FIELD)
         {
             const MFFieldContainerPtr* mfFCPtr =
-                (const MFFieldContainerPtr*) pF;
+                static_cast<const MFFieldContainerPtr*>(pF);
             UInt32 mfSize = mfFCPtr->size();
             for(UInt32 i=0; i < mfSize; i++)
             {
@@ -349,7 +349,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
     {
         //write Attachments
 
-        const SFAttachmentMap *sfAttMap = (const SFAttachmentMap*) pF;
+        const SFAttachmentMap *sfAttMap = static_cast<const SFAttachmentMap*>(pF);
               AttachmentMap    attMap   = sfAttMap->getValue();
 
         AttachmentMap::const_iterator iter = attMap.begin();
@@ -394,7 +394,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
         if(pF->getCardinality() == FieldType::SINGLE_FIELD)
         {
             const SFFieldContainerPtr* sfFCPtr =
-                (const SFFieldContainerPtr*) pF;
+                static_cast<const SFFieldContainerPtr*>(pF);
             if(sfFCPtr->getValue() == NullFC)
             {
                 _outStream << " NULL" << std::endl;
@@ -412,7 +412,7 @@ void OSGWriter::writeField(const Field* pF, const FieldDescription* fieldDesc)
             _outStream << " [" << std::endl;
             _indent++;
             const MFFieldContainerPtr* mfFCPtr =
-                (const MFFieldContainerPtr*) pF;
+                static_cast<const MFFieldContainerPtr*>(pF);
             UInt32 mfSize = mfFCPtr->size();
             for(UInt32 i=0; i < mfSize; i++)
             {

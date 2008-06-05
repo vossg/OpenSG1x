@@ -211,10 +211,10 @@ void GraphicStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
         glScalef(size[0], size[1], 1.0);
 
         // calculate the pixel size of the display
-        UInt32  pw = (UInt32) (port->getPixelWidth() * size[0]);
-        UInt32  ph = (UInt32) (port->getPixelHeight() * size[1]);
-        UInt32  px = (UInt32) (port->getPixelWidth() * pos[0]);
-        UInt32  py = (UInt32) (port->getPixelHeight() * pos[1]);
+        UInt32  pw = UInt32(port->getPixelWidth() * size[0]);
+        UInt32  ph = UInt32(port->getPixelHeight() * size[1]);
+        UInt32  px = UInt32(port->getPixelWidth() * pos[0]);
+        UInt32  py = UInt32(port->getPixelHeight() * pos[1]);
         glScissor(px - 1, py - 1, pw + 2, ph + 2);
 
         //std::cout << pos << std::endl;
@@ -628,8 +628,8 @@ void GraphicStatisticsForeground::drawChart(UInt32 elementID, StatElem *el,
         glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
         // scale and translate the text
-        Real32  ratio = ((Real32) port->getPixelHeight()) /
-            ((Real32) port->getPixelWidth());
+        Real32  ratio = (Real32(port->getPixelHeight())) /
+            (Real32(port->getPixelWidth()));
 
         // bottom: Current Value
         glMatrixMode(GL_MODELVIEW);
@@ -783,8 +783,8 @@ void GraphicStatisticsForeground::drawBar(UInt32 elementID, StatElem *el,
         glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
         // scale and translate the text
-        Real32  ratio = ((Real32) port->getPixelHeight()) /
-            ((Real32) port->getPixelWidth());
+        Real32  ratio = (Real32(port->getPixelHeight())) /
+            (Real32(port->getPixelWidth()));
 
         // Left side: Min
         glMatrixMode(GL_MODELVIEW);
@@ -957,8 +957,8 @@ void GraphicStatisticsForeground::drawLineChart(UInt32 elementID, StatElem *el,
         glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
         // scale and translate the text
-        Real32  ratio = ((Real32) port->getPixelHeight()) /
-            ((Real32) port->getPixelWidth());
+        Real32  ratio = (Real32(port->getPixelHeight())) /
+            (Real32(port->getPixelWidth()));
 
         // bottom: Current Value
         glMatrixMode(GL_MODELVIEW);
@@ -1041,8 +1041,8 @@ void GraphicStatisticsForeground::drawText(UInt32 elementID, StatElem *el,
     glColor4f(1.0f - c[0], 1.0f - c[1], 1.0f - c[2], 1.0f);
 
     // scale and translate the text
-    Real32  ratio = ((Real32) port->getPixelHeight()) /
-        ((Real32) port->getPixelWidth());
+    Real32  ratio = (Real32(port->getPixelHeight())) /
+        (Real32(port->getPixelWidth()));
 
     // Current Value
     glMatrixMode(GL_MODELVIEW);

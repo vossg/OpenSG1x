@@ -332,7 +332,7 @@ Action::ResultE MaterialPool::addMaterialCB(NodePtr &node)
         Field *field = core->getField("renderMaterial");
         if(field != NULL)
         {
-            add(MaterialPtr::dcast(((SFFieldContainerPtr *) field)->getValue()));
+            add(MaterialPtr::dcast((static_cast<SFFieldContainerPtr *>(field))->getValue()));
         }
     }
 
@@ -376,7 +376,7 @@ Action::ResultE MaterialPool::subMaterialCB(NodePtr &node)
         Field *field = core->getField("renderMaterial");
         if(field != NULL)
         {
-            sub(MaterialPtr::dcast(((SFFieldContainerPtr *) field)->getValue()));
+            sub(MaterialPtr::dcast((static_cast<SFFieldContainerPtr *>(field))->getValue()));
         }
     }
 
@@ -396,7 +396,7 @@ Action::ResultE MaterialPool::subMaterialCB(NodePtr &node)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialPool.cpp,v 1.1 2005/04/30 15:03:19 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGMaterialPool.cpp,v 1.2 2008/06/05 05:01:18 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGMATERIALPOOL_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGMATERIALPOOL_INLINE_CVSID;
 }

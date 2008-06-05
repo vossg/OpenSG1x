@@ -139,19 +139,19 @@ void ColorDisplayFilter::updateFilterValues()
         imageData.resize(size*3);
         for(c=0 ; c<size ; ++c)
         {
-            imageData[c*3 + 0] = (UChar8)(getTable()[c][0]*255);
-            imageData[c*3 + 1] = (UChar8)(getTable()[c][1]*255);
-            imageData[c*3 + 2] = (UChar8)(getTable()[c][2]*255);
+            imageData[c*3 + 0] = UChar8(getTable()[c][0]*255);
+            imageData[c*3 + 1] = UChar8(getTable()[c][1]*255);
+            imageData[c*3 + 2] = UChar8(getTable()[c][2]*255);
         }
     }
     _shadingImage->set(Image::OSG_RGB_PF,width,height,depth,1,1,0,&imageData[0]);
 
     beginEditCP(_shlChunk);
-    _shlChunk->setUniformParameter("colorMatrix",  getMatrix());
-    _shlChunk->setUniformParameter("gamma",        getGamma());
-    _shlChunk->setUniformParameter("shadingWidth", (Int32)width);
-    _shlChunk->setUniformParameter("shadingHeight", (Int32)height);
-    _shlChunk->setUniformParameter("shadingDepth", (Int32)depth);
+    _shlChunk->setUniformParameter("colorMatrix",   getMatrix());
+    _shlChunk->setUniformParameter("gamma",         getGamma());
+    _shlChunk->setUniformParameter("shadingWidth",  Int32(width));
+    _shlChunk->setUniformParameter("shadingHeight", Int32(height));
+    _shlChunk->setUniformParameter("shadingDepth",  Int32(depth));
     endEditCP(_shlChunk);
 }
 

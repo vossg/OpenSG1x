@@ -415,8 +415,8 @@ bool PNGImageFileType::write(const ImagePtr &OSG_PNG_ARG(img), std::ostream &OSG
 
     // set resolution png supports only meter per pixel,
     // so we do a conversion from dpi with some rounding.
-    png_uint_32 res_x = img->getResX();
-    png_uint_32 res_y = img->getResY();
+    png_uint_32 res_x = png_uint_32(img->getResX());
+    png_uint_32 res_y = png_uint_32(img->getResY());
     if(img->getResUnit() == Image::OSG_RESUNIT_INCH)
     {
         res_x = png_uint_32((img->getResX() * 39.37007874f) < 0.0f ?
@@ -581,7 +581,7 @@ bool PNGImageFileType::validateHeader( const Char8 *fileName, bool &implemented)
 
     std::string magic;
     magic.resize(4);
-    fread((void *) &magic[0], 4, 1, file);
+    fread(static_cast<void *>(&magic[0]), 4, 1, file);
     fclose(file);
 
     if(magic == "\x89PNG")
@@ -602,8 +602,10 @@ typedef struct
 static void user_read_data(png_structp png_ptr,
                            png_bytep data, png_size_t length)
 {
-    BufferInfo *bufferInfo = (BufferInfo *) png_get_io_ptr(png_ptr);
-    memcpy((void *) data, (void *) bufferInfo->buffer, length);
+    BufferInfo *bufferInfo = static_cast<BufferInfo *>(png_get_io_ptr(png_ptr));
+    memcpy(static_cast<void *>(data),
+           static_cast<void *>(bufferInfo->buffer), 
+           length);
     bufferInfo->buffer += length;
     bufferInfo->length += length;
 }
@@ -647,9 +649,9 @@ UInt64 PNGImageFileType::restoreData(      ImagePtr &OSG_PNG_ARG(image  ),
     }
 
     BufferInfo bufferInfo;
-    bufferInfo.buffer = (UChar8 *) buffer;
+    bufferInfo.buffer = const_cast<UChar8 *>(buffer);
     bufferInfo.length = 0;
-    png_set_read_fn(png_ptr, (void *) &bufferInfo, user_read_data);
+    png_set_read_fn(png_ptr, static_cast<void *>(&bufferInfo), user_read_data);
 
     png_read_info(png_ptr, info_ptr);
 
@@ -755,8 +757,10 @@ UInt64 PNGImageFileType::restoreData(      ImagePtr &OSG_PNG_ARG(image  ),
 static void user_write_data(png_structp png_ptr,
                             png_bytep data, png_size_t length)
 {
-    BufferInfo *bufferInfo = (BufferInfo *) png_get_io_ptr(png_ptr);
-    memcpy((void *) bufferInfo->buffer, (void *) data, length);
+    BufferInfo *bufferInfo = static_cast<BufferInfo *>(png_get_io_ptr(png_ptr));
+    memcpy(static_cast<void *>(bufferInfo->buffer), 
+           static_cast<void *>(data),
+           length);
     bufferInfo->buffer += length;
     bufferInfo->length += length;
 }
@@ -813,7 +817,7 @@ UInt64 PNGImageFileType::storeData(const ImagePtr &OSG_PNG_ARG(image  ),
     BufferInfo bufferInfo;
     bufferInfo.buffer = buffer;
     bufferInfo.length = 0;
-    png_set_write_fn(png_ptr, (void *) &bufferInfo, user_write_data, user_flush_data);
+    png_set_write_fn(png_ptr, static_cast<void *>(&bufferInfo), user_write_data, user_flush_data);
 
     /* This is the hard way */
 

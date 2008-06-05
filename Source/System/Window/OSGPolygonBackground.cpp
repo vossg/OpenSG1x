@@ -162,8 +162,9 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
     
     if (getAspectHeight() && getAspectWidth())
     {
-        aspectX = ((Real32)port->getPixelHeight()/getAspectHeight()) /
-                  ((Real32)port->getPixelWidth() / getAspectWidth());
+        aspectX = 
+            (Real32(port->getPixelHeight()) / getAspectHeight()) /
+            (Real32(port->getPixelWidth ()) / getAspectWidth());
     }
 	
 	glMatrixMode(GL_TEXTURE);
@@ -209,10 +210,11 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
         if (getAspectHeight() && getAspectWidth() &&
             height != 0 && width != 0)
         {
-            aspectX = ((Real32)height/getAspectHeight()) /
-                      ((Real32)width / getAspectWidth());
-            t  = (Real32)width * (1 - aspectX) * 0.5f;
-            t *= (Real32)port->getPixelWidth() / width;
+            aspectX = 
+                (Real32(height)/getAspectHeight()) /
+                (Real32(width) / getAspectWidth());
+            t  = Real32(width) * (1 - aspectX) * 0.5f;
+            t *= Real32(port->getPixelWidth()) / width;
         }
 		
 		Matrix sm;
@@ -224,8 +226,8 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
         glTranslatef(t, 0, 0);
         glScalef(aspectX, aspectY, 1);
 		
-        float t1 = (1 - sFac) * 0.5f * (Real32)port->getPixelWidth();
-        float t2 = (1 - sFac) * 0.5f * (Real32)port->getPixelHeight();
+        float t1 = (1 - sFac) * 0.5f * Real32(port->getPixelWidth());
+        float t2 = (1 - sFac) * 0.5f * Real32(port->getPixelHeight());
         glTranslatef(t1, t2, 0);
         glScalef(sFac,sFac,1);
     }
@@ -302,7 +304,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.7 2007/03/09 16:59:50 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.8 2008/06/05 05:01:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

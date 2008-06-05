@@ -181,7 +181,7 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
         {
             p->push_back(Pnt3f(x * xstep - xsize / 2, y * ystep - ysize / 2, 0));
             n->push_back(Vec3f(0, 0, 1));
-            tx->push_back(Vec2f(x / (Real32) hor, y / (Real32) vert));
+            tx->push_back(Vec2f(x / Real32(hor), y / Real32(vert)));
         }
     }
 
@@ -434,7 +434,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
             p->push_back(Pnt3f(x * topradius, height/2, z * topradius));
             n->push_back(Vec3f(x/nlen, incl/nlen, z/nlen));
-            tx->push_back(Vec2f(1.f - j / (Real32) sides, 1));
+            tx->push_back(Vec2f(1.f - j / Real32(sides), 1));
         }
         
         for(j = 0; j <= sides; j++)
@@ -445,7 +445,7 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
 
             p->push_back(Pnt3f(x * botradius, -height/2, z * botradius));
             n->push_back(Vec3f(x/nlen, incl/nlen, z/nlen));
-            tx->push_back(Vec2f(1.f - j / (Real32) sides, 0));
+            tx->push_back(Vec2f(1.f - j / Real32(sides), 0));
         }
 
         t->push_back(GL_TRIANGLE_STRIP);
@@ -624,7 +624,7 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
             p->push_back(Pnt3f(cosTheta * dist, 
                               -sinTheta * dist, 
                               innerRadius * sinPhi));
-            tx->push_back(Vec2f(- a / (Real32) rings, b / (Real32)sides));
+            tx->push_back(Vec2f(- a / Real32(rings), b / Real32(sides)));
         }
     }   
 
@@ -865,7 +865,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     beginEditCP(types);
     
     // initial sizing to prevent reallocation halfway through
-    UInt32 estimatedSize = UInt32(osgpow(4.f, (Real32) depth) * 20.f);
+    UInt32 estimatedSize = UInt32(osgpow(4.f, Real32(depth)) * 20.f);
 
     p->reserve (estimatedSize);
     n->reserve (estimatedSize);
@@ -1083,8 +1083,8 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
             p->push_back(Pnt3f( cosTheta * sinPhi * radius, 
                                sinTheta          * radius, 
                                cosTheta * cosPhi * radius));
-            tx->push_back(Vec2f(b / (Real32)longres, 
-                               a / (Real32)latres));
+            tx->push_back(Vec2f(b / Real32(longres), 
+                                a / Real32(latres)));
         }
     }   
 
@@ -1225,8 +1225,8 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
                 Vec3f norm(0, 0, 0);
                 norm[ axis ] = Real32(asigns[ pl ]);
                 n->push_back(norm);
-                tx->push_back(Vec2f(x / (Real32) res[inds[pl][0]], 
-                                    y / (Real32) res[inds[pl][1]]));
+                tx->push_back(Vec2f(x / Real32(res[inds[pl][0]]), 
+                                    y / Real32(res[inds[pl][1]])));
             }
         }
     }

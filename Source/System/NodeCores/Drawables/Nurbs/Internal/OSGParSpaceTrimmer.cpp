@@ -252,7 +252,7 @@ void ParSpaceTrimmer::initializeStartState( bezier2ddeque& tc ) {
 		if ( !isedge ) //startin' from a vertex
 		{
 //			std::cerr << "start is in edge" << std::endl;
-			state.v = (DCTPVertex*)ptr;
+			state.v = static_cast<DCTPVertex*>(ptr);
 		}
 		else
 		{
@@ -265,11 +265,11 @@ void ParSpaceTrimmer::initializeStartState( bezier2ddeque& tc ) {
 			{
 				state.v = new DCTPVertex;
 				state.v->coords = p3d;
-				state.v->faces = ( ( DCTPEdge* ) ptr )->faces;
+				state.v->faces = ( static_cast<DCTPEdge* >(ptr) )->faces;
 //				std::cerr << "2-" << ptr << " " << state.v << std::endl;
-				state.v->edges.push_back( ( DCTPEdge* ) ptr );
+				state.v->edges.push_back( static_cast<DCTPEdge*>(ptr) );
 			}
-			state.v->vertexinfo = (void*) 1;
+			state.v->vertexinfo = reinterpret_cast<void*>(1);
 		}
 	}
 	else
@@ -313,14 +313,14 @@ void ParSpaceTrimmer::initializeStartState2( unsigned int uiLoop, std::vector< D
 		if ( !isedge ) //startin' from a vertex
 		{
 //			std::cerr << "start is in vertex" << std::endl;
-			state.v = ( DCTPVertex* )ptr;
+			state.v = static_cast<DCTPVertex*>(ptr);
 		}
 		else
 		{
 //			std::cerr << "start is on edge" << std::endl;
 			//starting on an edge: split
 			Vec3d p3d = Vec3d( p );
-			state.v = mesh->SplitEdge( ( DCTPEdge* )ptr, p3d );
+			state.v = mesh->SplitEdge( static_cast<DCTPEdge*>(ptr), p3d );
 //			std::cerr << state.v->coords << std::endl;
 		}
 #ifdef OSG_FORCE_NO_T_VERTICES
@@ -332,10 +332,10 @@ void ParSpaceTrimmer::initializeStartState2( unsigned int uiLoop, std::vector< D
  #ifdef OSG_KEEP_2D_POINTS
 		pt_s->uiNum = m_uiPosCnt;
  #endif
-		state.v->vertexinfo = ( void* ) pt_s;
+		state.v->vertexinfo = static_cast<void*>(pt_s);
 #else
 		Vec3d *pcl_s = new Vec3d( rcl_s );
-		state.v->vertexinfo = ( void* ) pcl_s;
+		state.v->vertexinfo = static_cast<void*>(pcl_s);
 #endif
 //		std::cerr << state.v->vertexinfo << std::endl;
 		el.push_back( state.v );
@@ -920,7 +920,7 @@ bool ParSpaceTrimmer::StateTransition( BezierCurve2D &b, std::vector< DCTPVertex
                                      << std::endl;
                                 throw ParSpaceTrimmerError( ERR_STATETRANSITION_I );
                         }
-						vp->vertexinfo = (void*) 1;
+						vp->vertexinfo = reinterpret_cast<void*>(1);
                         state.state = TrimState::IN_VERTEX;
                         state.v = vp;
 						return StoreCurveApproximation( b, ip, el );
@@ -977,26 +977,26 @@ bool ParSpaceTrimmer::StateTransition( BezierCurve2D &b, std::vector< DCTPVertex
 									}
 									else 
 									{
-										state.v->edges[ 0 ] = ( DCTPEdge* )
-											isOnFaceBoundary( state.v->faces[ ui_face ], cl_v2d, b_dummy );
+										state.v->edges[ 0 ] = static_cast<DCTPEdge*>(
+											isOnFaceBoundary( state.v->faces[ ui_face ], cl_v2d, b_dummy ));
 									}
 									if( isNearQuad( mesh->faces[ mesh->faces.size( ) - 3 ], cl_v2d ) )
 									{
 										state.v->faces.push_back( mesh->faces[ mesh->faces.size( ) - 3 ] );
-										state.v->edges[ 0 ] = ( DCTPEdge* )
-											isOnFaceBoundary( mesh->faces[ mesh->faces.size( ) - 3 ], cl_v2d, b_dummy );
+										state.v->edges[ 0 ] = static_cast<DCTPEdge*>(
+											isOnFaceBoundary( mesh->faces[ mesh->faces.size( ) - 3 ], cl_v2d, b_dummy ));
 									}
 									if( isNearQuad( mesh->faces[ mesh->faces.size( ) - 2 ], cl_v2d ) )
 									{
 										state.v->faces.push_back( mesh->faces[ mesh->faces.size( ) - 2 ] );
-										state.v->edges[ 0 ] = ( DCTPEdge* )
-											isOnFaceBoundary( mesh->faces[ mesh->faces.size( ) - 2 ], cl_v2d, b_dummy );
+										state.v->edges[ 0 ] = static_cast<DCTPEdge*>(
+											isOnFaceBoundary( mesh->faces[ mesh->faces.size( ) - 2 ], cl_v2d, b_dummy ));
 									}
 									if( isNearQuad( mesh->faces[ mesh->faces.size( ) - 1 ], cl_v2d ) )
 									{
 										state.v->faces.push_back( mesh->faces[ mesh->faces.size( ) - 1 ] );
-										state.v->edges[ 0 ] = ( DCTPEdge* )
-											isOnFaceBoundary( mesh->faces[ mesh->faces.size( ) - 1 ], cl_v2d, b_dummy );
+										state.v->edges[ 0 ] = static_cast<DCTPEdge*>(
+											isOnFaceBoundary( mesh->faces[ mesh->faces.size( ) - 1 ], cl_v2d, b_dummy ));
 									}
 								}
 							}
@@ -1128,7 +1128,7 @@ bool ParSpaceTrimmer::StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector
 				vp->vertexinfo = ( void* ) pt_s;
 #else
 				Vec3d *pcl_s = new Vec3d( rclActS );
-				vp->vertexinfo = ( void* ) pcl_s;
+				vp->vertexinfo = static_cast<void*>(pcl_s);
 #endif
 			}
 			state.state = TrimState::IN_VERTEX;
@@ -1164,7 +1164,7 @@ bool ParSpaceTrimmer::StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector
 			v->vertexinfo = ( void* ) pt_s;
 #else
 			Vec3d *pcl_s = new Vec3d( clNextS );
-			v->vertexinfo = ( void* ) pcl_s;
+			v->vertexinfo = static_cast<void*>(pcl_s);
 #endif
 		}
 		mesh->AddEdge( el[ el.size( ) - 1 ], v, 1 );
@@ -1221,7 +1221,7 @@ bool ParSpaceTrimmer::StateTransition2( Vec2d &rclAct, Vec2d clNext, std::vector
 				v->vertexinfo = ( void* ) pt_s;
 #else
 				Vec3d *pcl_s = new Vec3d( rclActS );
-				v->vertexinfo = ( void* ) pcl_s;
+				v->vertexinfo = static_cast<void*>(pcl_s);
 #endif
 			}
 			state.v = v;
@@ -1857,7 +1857,7 @@ int ParSpaceTrimmer::buildSurfaceGraph( DirectedGraph< Vec2d, unsigned char > *p
 			if( pvuiIdx ) pvuiIdx->push_back( ( ( SPosNorm* ) ( *i )->vertexinfo )->uiNum );
  #endif
 #else
-			if( pvclSewed ) pvclSewed->push_back( *( ( Vec3d* ) ( *i )->vertexinfo ) );
+			if( pvclSewed ) pvclSewed->push_back( *( static_cast<Vec3d*>(( *i )->vertexinfo )) );
 #endif
 		}
 	}
@@ -2951,7 +2951,7 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 		insertScanLineEvents( pt_edge1, rsptEvents, 0 );    // second event already exists
 //		std::cerr << "new edge1: " << pt_edge1->pclFromVertex->coords << " - " << pt_edge1->pclToVertex->coords << std::endl;
 //		std::cerr << "new edge: " << pt_new_edge->pclFromVertex->coords << " - " << pt_new_edge->pclToVertex->coords << std::endl;
-		pcl_split_vertex->vertexinfo = ( void* ) 1;
+		pcl_split_vertex->vertexinfo = reinterpret_cast<void*>(1);
 	}
 	if( ( pcl_split_vertex != pt_edge2->pclFromVertex ) &&
 		( pcl_split_vertex != pt_edge2->pclToVertex ) )
@@ -2993,7 +2993,7 @@ void ParSpaceTrimmer::ScanLineIntersect( SScanLineEntry *ptEntry1, SScanLineEntr
 		insertScanLineEvents( pt_edge2, rsptEvents, 0 );    // second event already exists
 //		std::cerr << "new edge2: " << pt_edge2->pclFromVertex->coords << " - " << pt_edge2->pclToVertex->coords << std::endl;
 //		std::cerr << "new edge: " << pt_new_edge->pclFromVertex->coords << " - " << pt_new_edge->pclToVertex->coords << std::endl;
-		pcl_split_vertex->vertexinfo = ( void* ) 1;
+		pcl_split_vertex->vertexinfo = reinterpret_cast<void*>(1);
 	}
 }
 
@@ -3431,7 +3431,7 @@ void ParSpaceTrimmer::deleteVertexInfo( )
 #ifdef OSG_FORCE_NO_T_VERTICES
 			delete ( SPosNorm* ) ( *itspcl_v )->vertexinfo;
 #else
-			delete ( Vec3d* ) ( *itspcl_v )->vertexinfo;
+			delete static_cast<Vec3d*>(( *itspcl_v )->vertexinfo);
 #endif
 			( *itspcl_v )->vertexinfo = NULL;
 		}

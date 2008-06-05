@@ -226,7 +226,7 @@ void NFIOImage::writeCompressedPixel(const ImagePtr &img)
     JPGImageFileType::the().setQuality(getOptions().texturesCompressionQuality());
     UInt64 msize = img->store(imageType.c_str(), &buffer[0]);
 
-    UInt32 noe = (UInt32) msize;
+    UInt32 noe = UInt32(msize);
     UInt32 size = sizeof(UInt32) + sizeof(UInt8) * noe;
 
     _out->putValue(size);
@@ -266,6 +266,6 @@ bool NFIOImage::isImageTypeSupported(const std::string &imageType)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.9 2006/11/07 16:09:10 mroth Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.10 2008/06/05 05:00:29 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }

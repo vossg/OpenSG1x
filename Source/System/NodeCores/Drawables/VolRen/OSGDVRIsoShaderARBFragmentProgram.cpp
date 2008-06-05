@@ -102,7 +102,7 @@ void DVRIsoShader::activate_FragmentProgramShading(DVRVolume      *volume,
 
     beginEditCP(m_pFragProg, ProgramChunk::ParamValuesFieldMask);
     {
-        m_pFragProg->setParameter((short int) 0, 
+        m_pFragProg->setParameter(static_cast<short int>(0), 
                                   cToV(ambientLight)); // ambient color
 
         // Diffuse lights

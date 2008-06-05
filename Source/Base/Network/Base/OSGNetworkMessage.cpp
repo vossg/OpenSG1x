@@ -96,7 +96,7 @@ NetworkMessage& NetworkMessage::operator = (const NetworkMessage &)
  */
 NetworkMessage::Header &NetworkMessage::getHeader (void)
 {
-    return *((Header*)(getBuffer()));
+    return *(reinterpret_cast<Header*>(getBuffer()));
 }
 
 

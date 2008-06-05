@@ -485,9 +485,10 @@ void Slices::drawSlices(Window *win, const Vec3f &planeNormal,
     bool has_multitexture = win->hasExtension(_arbMultitexture);
 
     OSGGLMULTITEXCOORD3FARBPROC multiTexCoord3f = NULL;
+
     if(has_multitexture)
-        multiTexCoord3f = (OSGGLMULTITEXCOORD3FARBPROC)
-            win->getFunction(_funcMultiTexCoord3fARB);
+        multiTexCoord3f = reinterpret_cast<OSGGLMULTITEXCOORD3FARBPROC>(
+            win->getFunction(_funcMultiTexCoord3fARB));
 
     Real32 hsx = getSize().x()/2, hsy = getSize().y()/2, hsz = getSize().z()/2;
     Real32 ssx = 1/getSize().x(), ssy = 1/getSize().y(), ssz = 1/getSize().z();

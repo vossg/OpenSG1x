@@ -184,7 +184,7 @@ void PolygonChunk::activate(DrawActionBase *, UInt32)
 
     if(_mfStipple.size() == 32)
     {
-        glPolygonStipple((const GLubyte *) &(_mfStipple[0]));
+        glPolygonStipple(reinterpret_cast<const GLubyte *>(&(_mfStipple[0])));
         glEnable(GL_POLYGON_STIPPLE);
     }
 }
@@ -293,7 +293,8 @@ void PolygonChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
     {
         if(_mfStipple.size() == 32)
         {
-            glPolygonStipple((const GLubyte *) &(_mfStipple[0]));
+            glPolygonStipple(
+                reinterpret_cast<const GLubyte *>(&(_mfStipple[0])));
             glEnable(GL_POLYGON_STIPPLE);
         }
         else glDisable(GL_POLYGON_STIPPLE);

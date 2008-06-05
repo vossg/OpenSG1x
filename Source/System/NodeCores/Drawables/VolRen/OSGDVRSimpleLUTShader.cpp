@@ -288,7 +288,8 @@ bool DVRSimpleLUTShader::isModeSupported(DrawActionBase *action,
             result = 
                 (action->getWindow()->hasExtension(_sgiTexColorTable) &&
                  (0 != strncmp("IMPACT", 
-                               (char *) glGetString(GL_RENDERER), 
+                               reinterpret_cast<const char *>(
+                                   glGetString(GL_RENDERER)), 
                                6)));
 	break;
 
@@ -446,14 +447,16 @@ void DVRSimpleLUTShader::setupAlphaCorrectionRegisterCombiners(
     CombinerOutputNVFunc     CombinerOutputNV     = NULL;
 	
     FinalCombinerInputNV =
-        (FinalCombinerInputNVFunc) win->getFunction(
-            _funcFinalCombinerInputNV);
+        reinterpret_cast<FinalCombinerInputNVFunc>(
+            win->getFunction(_funcFinalCombinerInputNV));
 
     CombinerInputNV = 
-        (CombinerInputNVFunc) win->getFunction(_funcCombinerInputNV);
+        reinterpret_cast<CombinerInputNVFunc>(
+            win->getFunction(_funcCombinerInputNV));
     
     CombinerOutputNV = 
-        (CombinerOutputNVFunc) win->getFunction(_funcCombinerOutputNV);
+        reinterpret_cast<CombinerOutputNVFunc>(
+            win->getFunction(_funcCombinerOutputNV));
 	
 #if defined GL_NV_register_combiners
     //!! First general combiner: multiply result of texture stage 1 
@@ -745,7 +748,8 @@ void DVRSimpleLUTShader::activate(DVRVolume *volume, DrawActionBase *action)
     // remove compiler warnings for unused variable
 #if defined GL_NV_texture_shader2 
     ActiveTextureARBFunc ActiveTextureARB = 
-        (ActiveTextureARBFunc) win->getFunction(_funcActiveTextureARB);
+        reinterpret_cast<ActiveTextureARBFunc>(
+            win->getFunction(_funcActiveTextureARB));
 #endif
     
     ColorTableSGIFunc ColorTableSGI = NULL;
@@ -753,7 +757,8 @@ void DVRSimpleLUTShader::activate(DVRVolume *volume, DrawActionBase *action)
     if(win->hasExtension(_sgiTexColorTable))
     {
         ColorTableSGI = 
-            (ColorTableSGIFunc) win->getFunction(_funcColorTableSGI);
+            reinterpret_cast<ColorTableSGIFunc>(
+                win->getFunction(_funcColorTableSGI));
     }
     
     ColorTableEXTFunc ColorTableEXT = NULL;
@@ -761,7 +766,8 @@ void DVRSimpleLUTShader::activate(DVRVolume *volume, DrawActionBase *action)
     if(win->hasExtension(_extSharedPalettedTexture))
     {
         ColorTableEXT = 
-            (ColorTableEXTFunc) win->getFunction(_funcColorTableEXT);
+            reinterpret_cast<ColorTableEXTFunc>(
+                win->getFunction(_funcColorTableEXT));
     }
     
     DVRSimpleShader::activate(volume, action);
@@ -1135,8 +1141,8 @@ void DVRSimpleLUTShader::deactivate(DVRVolume *volume, DrawActionBase *action)
 // remove compiler warnings for unused variable
 #if defined GL_NV_texture_shader2 
     ActiveTextureARBFunc ActiveTextureARB =
-        (ActiveTextureARBFunc) action->getWindow()->getFunction(
-            _funcActiveTextureARB);
+        reinterpret_cast<ActiveTextureARBFunc>(
+            action->getWindow()->getFunction(_funcActiveTextureARB));
 #endif
 
     switch(m_nTexturePaletteMode) 

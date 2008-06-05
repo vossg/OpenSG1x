@@ -385,7 +385,7 @@ void Navigator::moveTo(Int16 x, Int16 y)
     Real32 winHeight;
     
     if(par != NullFC)
-        winHeight = (Real32)par->getHeight();
+        winHeight = Real32(par->getHeight());
     else
         winHeight = height;
         
@@ -597,8 +597,8 @@ void Navigator::setFrom(Pnt3f new_from)
     {
     case NONE:
         setNoneMatrix( new_from,
-                      (Pnt3f)(_NoneMatrix[3]-_NoneMatrix[2]),
-                      (Vec3f) _NoneMatrix[1] );
+                       Pnt3f(_NoneMatrix[3]-_NoneMatrix[2]),
+                       Vec3f(_NoneMatrix[1]) );
         break;
     case TRACKBALL:     _trackball.setFrom(new_from);   break;
     case FLY:           _flyer    .setFrom(new_from);   break;
@@ -615,7 +615,7 @@ void Navigator::setAt(Pnt3f new_at)
     switch (_currentMode)
     {
     case NONE:
-        setNoneMatrix((Pnt3f)_NoneMatrix[3], new_at, (Vec3f)_NoneMatrix[1]);
+        setNoneMatrix(Pnt3f(_NoneMatrix[3]), new_at, Vec3f(_NoneMatrix[1]));
         break;
     case TRACKBALL:     _trackball.setAt(new_at);   break;
     case FLY:           _flyer    .setAt(new_at);   break;
@@ -655,9 +655,9 @@ void Navigator::setUp(Vec3f new_up)
     switch (_currentMode)
     {
     case NONE:
-        setNoneMatrix((Pnt3f) _NoneMatrix[3],
-                      (Pnt3f)(_NoneMatrix[3]-_NoneMatrix[2]),
-                       new_up );
+        setNoneMatrix(Pnt3f(_NoneMatrix[3]),
+                      Pnt3f(_NoneMatrix[3]-_NoneMatrix[2]),
+                      new_up );
         break;
 
     case TRACKBALL:     _trackball.setUp(new_up);
@@ -760,7 +760,7 @@ const Matrix &Navigator::getMatrix(void)
 const Pnt3f  &Navigator::getFrom(void)
 {
     static Pnt3f returnValue(0.f, 0.f, 0.f);
-    returnValue = (Pnt3f)_NoneMatrix[3];
+    returnValue = Pnt3f(_NoneMatrix[3]);
 
     switch (_currentMode)
     {
@@ -780,7 +780,7 @@ const Pnt3f  &Navigator::getFrom(void)
 const Pnt3f  &Navigator::getAt(void)
 {
     static Pnt3f returnValue(0.f, 0.f, 0.f);
-    returnValue = (Pnt3f)(_NoneMatrix[3] - _NoneMatrix[2]);
+    returnValue = Pnt3f(_NoneMatrix[3] - _NoneMatrix[2]);
 
     switch (_currentMode)
     {
@@ -800,7 +800,7 @@ const Pnt3f  &Navigator::getAt(void)
 const Vec3f  &Navigator::getUp(void)
 {
     static Vec3f returnValue(0.f, 0.f, 0.f);
-    returnValue = (Vec3f)_NoneMatrix[1];
+    returnValue = Vec3f(_NoneMatrix[1]);
 
     switch (_currentMode)
     {
@@ -1007,8 +1007,8 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
     Matrix cctowc;
     calcCCtoWCMatrix(cctowc, view, _vp);
 
-    Real32  rx = ( toX / (Real32) _vp->getPixelWidth() ) * 2.f - 1.f,
-            ry = 1.f - ( toY / (Real32) _vp->getPixelHeight() ) * 2.f;
+    Real32  rx = ( toX / Real32(_vp->getPixelWidth()) ) * 2.f - 1.f,
+        ry = 1.f - ( toY / Real32(_vp->getPixelHeight()) ) * 2.f;
 
     Pnt3f at;
     cctowc.multFullMatrixPnt( Pnt3f( rx, ry, 1 ), at );

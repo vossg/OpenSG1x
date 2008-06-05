@@ -72,21 +72,21 @@ Int32 FontGlyphContour::getNumNormals(void)
 
 void FontGlyphContour::addPoint(Real32 *point, Real32 *normal, bool copy)
 {
-    if(_numPoints == (int) _points.size())
+    if(_numPoints == int(_points.size()))
         _points.push_back(point);
     else
         _points[_numPoints] = point;
 
     if(normal)
     {
-        if(_numNormals == (int) _normals.size())
+        if(_numNormals == int(_normals.size()))
             _normals.push_back(normal);
         else
             _normals[_numNormals] = normal;
         if(_numPoints > _numNormals && copy)
         {
             _numNormals++;
-            if(_numNormals == (int) _normals.size())
+            if(_numNormals == int(_normals.size()))
                 _normals.push_back(normal);
             else
                 _normals[_numNormals] = normal;

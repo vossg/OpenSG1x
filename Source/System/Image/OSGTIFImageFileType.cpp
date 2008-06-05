@@ -270,7 +270,8 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
 {
 #ifdef OSG_WITH_TIF
 
-    TIFF *in = TIFFClientOpen("dummy", "rm", (thandle_t)&is,
+    TIFF *in = TIFFClientOpen("dummy", "rm", 
+                              static_cast<thandle_t>(&is),
                               isReadProc, isWriteProc, isSeekProc, closeProc,
                               isSizeProc, mapFileProc, unmapFileProc);
     if (in == 0)
@@ -416,7 +417,8 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image), std::ostream &O
         return false;
     }
 
-    TIFF         *out = TIFFClientOpen("dummy", "wm", (thandle_t)&os,
+    TIFF         *out = TIFFClientOpen("dummy", "wm", 
+                                       static_cast<thandle_t>(&os),
                                        osReadProc, osWriteProc, osSeekProc, closeProc,
 			                           osSizeProc, mapFileProc, unmapFileProc);
     int           lineSize = image->getWidth() * image->getBpp();
@@ -496,7 +498,8 @@ bool TIFImageFileType::write(const ImagePtr &OSG_TIF_ARG(image), std::ostream &O
         {
             data = image->getData() + ((image->getHeight() - row - 1) * lineSize);
             if(TIFFWriteScanline(out, 
-                                 (tdata_t) const_cast<UChar8 *>(data), 
+                                 static_cast<tdata_t>(
+                                     const_cast<UChar8 *>(data)), 
                                  row, 
                                  0) < 0)
                 break;
@@ -548,7 +551,7 @@ bool TIFImageFileType::validateHeader( const Char8 *fileName, bool &implemented)
 
     std::string magic;
     magic.resize(2);
-    fread((void *) &magic[0], 2, 1, file);
+    fread(static_cast<void *>(&magic[0]), 2, 1, file);
     fclose(file);
 
     if(magic == "MM" || magic == "II")

@@ -89,7 +89,7 @@ AttachmentContainer *AttachmentContainerPtr::operator->(void)
 #if 0
     return (AttachmentContainer *) getElemP(Thread::getAspect());
 #else
-    return (AttachmentContainer *) Inherited::operator ->();
+    return static_cast<AttachmentContainer *>(Inherited::operator ->());
 #endif
 }
 
@@ -99,7 +99,7 @@ AttachmentContainer *AttachmentContainerPtr::operator->(void) const
 #if 0
     return (AttachmentContainer *) getElemP(Thread::getAspect());
 #else
-    return (AttachmentContainer *) Inherited::operator ->();
+    return static_cast<AttachmentContainer *>(Inherited::operator ->());
 #endif
 }
 
@@ -109,7 +109,7 @@ AttachmentContainer &AttachmentContainerPtr::operator *(void)
 #if 0
     return *((AttachmentContainer *) getElemP(Thread::getAspect()));
 #else
-    return (AttachmentContainer &) Inherited::operator *();
+    return static_cast<AttachmentContainer &>(Inherited::operator *());
 #endif
 }
 
@@ -119,7 +119,7 @@ AttachmentContainer &AttachmentContainerPtr::operator *(void) const
 #if 0
     return *((AttachmentContainer *) getElemP(Thread::getAspect()));
 #else
-    return (AttachmentContainer &) Inherited::operator *();
+    return static_cast<AttachmentContainer &>(Inherited::operator *());
 #endif
 }
 
@@ -129,7 +129,7 @@ AttachmentContainer *AttachmentContainerPtr::getCPtr(void)
 #if 0
     return (AttachmentContainer *) getElemP(Thread::getAspect());
 #else
-    return (AttachmentContainer *) Inherited::getCPtr();
+    return static_cast<AttachmentContainer *>(Inherited::getCPtr());
 #endif
 }
 
@@ -139,7 +139,7 @@ AttachmentContainer *AttachmentContainerPtr::getCPtr(void) const
 #if 0
     return (AttachmentContainer *) getElemP(Thread::getAspect());
 #else
-    return (AttachmentContainer *) Inherited::getCPtr();
+    return static_cast<AttachmentContainer *>(Inherited::getCPtr());
 #endif
 }
 

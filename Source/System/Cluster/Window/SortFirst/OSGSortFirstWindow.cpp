@@ -222,10 +222,10 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
         beginEditCP(deco);
         deco->setFullWidth ( vpWidth );
         deco->setFullHeight( vpHeight );
-        deco->setSize( getRegion()[ regionStart+0 ]/(float)vpWidth,
-                       getRegion()[ regionStart+1 ]/(float)vpHeight,
-                       getRegion()[ regionStart+2 ]/(float)vpWidth,
-                       getRegion()[ regionStart+3 ]/(float)vpHeight );
+        deco->setSize( getRegion()[ regionStart+0 ]/float(vpWidth),
+                       getRegion()[ regionStart+1 ]/float(vpHeight),
+                       getRegion()[ regionStart+2 ]/float(vpWidth),
+                       getRegion()[ regionStart+3 ]/float(vpHeight) );
         deco->setDecoratee( clientPort->getCamera() );
         endEditCP(deco);
         sv++;

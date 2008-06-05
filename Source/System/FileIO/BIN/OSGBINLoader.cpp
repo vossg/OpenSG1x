@@ -346,7 +346,7 @@ BINLoader::BinaryFileHandler::~BinaryFileHandler(void)
  */
 void BINLoader::BinaryFileHandler::read(MemoryHandle mem, UInt32 size)
 {
-    _is.read((char *) mem, size);
+    _is.read(reinterpret_cast<char *>(mem), size);
 }
 
 /*-------------------------------------------------------------------------*/

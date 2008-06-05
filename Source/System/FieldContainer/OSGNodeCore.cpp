@@ -60,7 +60,8 @@ FieldDescription *NodeCore::_desc[] =
                          "parents",
                          OSG_FC_FIELD_IDM_DESC(ParentsField),
                          true,
-                         (FieldAccessMethod) &NodeCore::getMFParents)
+                         reinterpret_cast<FieldAccessMethod>(
+                             &NodeCore::getMFParents))
 };
 
 FieldContainerType NodeCore::_type("NodeCore",

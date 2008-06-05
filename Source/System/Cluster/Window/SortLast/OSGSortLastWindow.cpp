@@ -583,13 +583,13 @@ void SortLastWindow::splitDrawables(DrawableListT &src,
             if(dst2Load < dst1Load)
             {
                 dst2.push_back(src[dIBack]);
-                dst2Load += src[dIBack].load*groups/(float)groups2;
+                dst2Load += src[dIBack].load*groups/float(groups2);
                 dIBack--;
             }
             else
             {
                 dst1.push_back(src[dIFront]);
-                dst1Load += src[dIFront].load*groups/(float)groups1;
+                dst1Load += src[dIFront].load*groups/float(groups1);
                 dIFront++;
             }
         }

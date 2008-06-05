@@ -62,8 +62,8 @@ FieldDescription *GeoIndicesUI32PropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoIndicesUI32PropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoIndicesUI32PropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoIndicesUI32PropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -78,8 +78,8 @@ FieldDescription *GeoIndicesUI16PropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoIndicesUI16PropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoIndicesUI16PropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoIndicesUI16PropertyDesc>::getFieldPtr))
 #endif
 };
 

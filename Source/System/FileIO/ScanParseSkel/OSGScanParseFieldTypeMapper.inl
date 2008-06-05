@@ -111,7 +111,7 @@ Int32 ScanParseFieldTypeMapper<BaseT>::mapIntExtFieldType(
     const Int32  iFieldTypeId)
 {
     typename IntExtMap::iterator gMIt = _mIntExt.find(
-        (BuildInFieldTypes) iFieldTypeId);
+        BuildInFieldTypes(iFieldTypeId));
 
     if(gMIt != _mIntExt.end())
     {

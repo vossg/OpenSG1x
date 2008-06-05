@@ -301,7 +301,9 @@ bool TextFT2Backend::findPath(const string &family, TextFace::Style style,
     }
 
     // Set font family
-    if (FcPatternAddString(pattern, FC_FAMILY, (const FcChar8*)f.c_str()) == FcFalse)
+    if (FcPatternAddString(pattern, 
+                           FC_FAMILY, 
+                           reinterpret_cast<const FcChar8*>(f.c_str())) == FcFalse)
     {
         FcPatternDestroy(pattern);
         return false;
@@ -366,7 +368,7 @@ bool TextFT2Backend::findPath(const string &family, TextFace::Style style,
         FcPatternDestroy(match);
         return false;
     }
-    path = (const char *)pathPtr;
+    path = reinterpret_cast<const char *>(pathPtr);
 
     // Get index of face in the font file
     if (FcPatternGetInteger(match, FC_INDEX, 0, &index) != FcResultMatch)
@@ -533,7 +535,7 @@ void TextFT2Backend::getFontFamilies(vector<string> &families)
         return;
 
     // We are only interested in the names of the font families
-    FcObjectSet *objectSet = FcObjectSetBuild(FC_FAMILY, 0);
+    FcObjectSet *objectSet = FcObjectSetBuild(FC_FAMILY, NULL);
     if (objectSet == 0)
     {
         FcPatternDestroy(pattern);
@@ -1472,7 +1474,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.7 2007/03/30 14:53:22 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.8 2008/06/05 05:01:21 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFT2BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFT2BACKEND_INLINE_CVSID;
 }

@@ -75,7 +75,8 @@ FieldDescription *Node::_desc[] =
                          "volume",
                          OSG_FC_FIELD_IDM_DESC(VolumeField),
                          false,
-                         (FieldAccessMethod) &Node::getSFVolume),
+                         reinterpret_cast<FieldAccessMethod>(
+                             &Node::getSFVolume)),
 
     // Yes, this is wrong, it should be an UInt32, but changing
     // it now will break all old .osb files, and this info is
@@ -84,32 +85,35 @@ FieldDescription *Node::_desc[] =
                          "travMask",
                          OSG_FC_FIELD_IDM_DESC(TravMaskField),
                          false,
-                         (FieldAccessMethod) &Node::getSFTravMask),
+                         reinterpret_cast<FieldAccessMethod>(
+                             &Node::getSFTravMask)),
 
     new FieldDescription(SFNodePtr::getClassType(),
                          "parent",
                          OSG_FC_FIELD_IDM_DESC(ParentField),
                          true,
-                         (FieldAccessMethod) &Node::getSFParent),
+                         reinterpret_cast<FieldAccessMethod>(
+                             &Node::getSFParent)),
 
     new FieldDescription(MFNodePtr::getClassType(),
                          "children",
                          OSG_FC_FIELD_IDM_DESC(ChildrenField),
                          false,
-                         (FieldAccessMethod) &Node::getMFChildren),
+                         reinterpret_cast<FieldAccessMethod>(
+                             &Node::getMFChildren)),
 
     new FieldDescription(SFNodeCorePtr::getClassType(),
                          "core",
                          OSG_FC_FIELD_IDM_DESC(CoreField),
                          false,
-                         (FieldAccessMethod) &Node::getSFCore)
+                         reinterpret_cast<FieldAccessMethod>(&Node::getSFCore))
 };
 
 FieldContainerType Node::_type(
     "Node",
     "AttachmentContainer",
     0,
-    (PrototypeCreateF) &Node::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&Node::createEmpty),
     0,
     _desc,
     sizeof(_desc));
@@ -757,7 +761,7 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
         // attachements
         if(strcmp(fdesc->getCName(), "attachments") == 0)
         {
-            SFAttachmentMap *amap = (SFAttachmentMap *) src_field;
+            SFAttachmentMap *amap = static_cast<SFAttachmentMap *>(src_field);
 
             AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
             AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
@@ -802,7 +806,8 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
         {
             if(src_field->getCardinality() == FieldType::SINGLE_FIELD)
             {
-                FieldContainerPtr fc = ((SFFieldContainerPtr *) src_field)->getValue();
+                FieldContainerPtr fc = 
+                    (static_cast<SFFieldContainerPtr *>(src_field)->getValue());
 
                 bool shareit = false;
                 for(UInt32 k=0;k<share.size();++k)
@@ -825,16 +830,17 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                     // increment reference counter!
                     addRefCP(fc);
                     beginEditCP(dst);
-                        ((SFFieldContainerPtr *) dst_field)->setValue(fc);
+                        (static_cast<SFFieldContainerPtr *>(
+                            dst_field))->setValue(fc);
                     endEditCP(dst);
                 }
             }
             else if(src_field->getCardinality() == FieldType::MULTI_FIELD)
             {
                 beginEditCP(dst, mask);
-                    for(UInt32 j=0;j < ((MFFieldContainerPtr*)src_field)->size();++j)
+                for(UInt32 j=0;j < (static_cast<MFFieldContainerPtr *>(src_field))->size();++j)
                     {
-                        FieldContainerPtr fc = (*(((MFFieldContainerPtr *)src_field)))[j];
+                        FieldContainerPtr fc = (*((static_cast<MFFieldContainerPtr *>(src_field))))[j];
 
                         bool shareit = false;
                         for(UInt32 k=0;k<share.size();++k)
@@ -856,7 +862,7 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                         {
                             // increment reference counter!
                             addRefCP(fc);
-                            ((MFFieldContainerPtr *) dst_field)->push_back(fc);
+                            (static_cast<MFFieldContainerPtr *>(dst_field))->push_back(fc);
                         }
                     }
                 endEditCP(dst, mask);
@@ -910,7 +916,8 @@ void OSG::deepCloneAttachments(const AttachmentContainerPtr &src,
                                AttachmentContainerPtr dst,
                                const std::vector<std::string> &share)
 {
-    SFAttachmentMap *amap = (SFAttachmentMap *) src->getSFAttachments();
+    SFAttachmentMap *amap = 
+        static_cast<SFAttachmentMap *>(src->getSFAttachments());
 
     AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
     AttachmentMap::const_iterator   mapEnd = amap->getValue().end();

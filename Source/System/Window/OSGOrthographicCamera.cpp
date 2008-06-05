@@ -121,7 +121,7 @@ void OrthographicCamera::getProjection(Matrix& result,
         return;
     }
 
-    Real32 a = width /(Real32) height * getAspect();
+    Real32 a = width /Real32(height) * getAspect();
     
     MatrixOrthogonal(result, -vs / 2 * a,  vs / 2 * a, 
                              -vs / 2, vs / 2,
@@ -149,7 +149,7 @@ void OrthographicCamera::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCamera.cpp,v 1.1 2005/09/26 00:08:18 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCamera.cpp,v 1.2 2008/06/05 05:01:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID;
 

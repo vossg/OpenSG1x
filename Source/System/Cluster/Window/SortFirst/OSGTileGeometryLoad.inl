@@ -50,7 +50,7 @@ inline Real32 TileGeometryLoad::getFaceDistribution(UInt32 dir,Real32 cut)
     }
     cut*=FACE_DISTRIBUTION_SAMPLING_COUNT-1;
     
-    UInt32 a=(UInt32)(floor(cut));
+    UInt32 a=UInt32(floor(cut));
     Real32 f=cut-a;
 
     return _faceDistribution[dir][a] +

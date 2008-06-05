@@ -502,25 +502,41 @@ char *ColTraitBase::formatNames[] =
 */
 ColTraitBase::pumpFunc 
 ColTraitBase::ColorFuncs[ColTraitBase::numFormats][4] = {
-    { NULL, NULL, 
-      (pumpFunc)glColor3bv, (pumpFunc)glColor4bv },   // GL_BYTE
-    { NULL, NULL, 
-      (pumpFunc)glColor3ubv,(pumpFunc)glColor4ubv },  // GL_UNSIGNED_BYTE
-    { NULL, NULL, 
-      (pumpFunc)glColor3sv, (pumpFunc)glColor4sv },   // GL_SHORT
-    { NULL, NULL,  
-      (pumpFunc)glColor3usv,(pumpFunc)glColor4usv },  // GL_UNSIGNED_SHORT
-    { NULL, NULL,  
-      (pumpFunc)glColor3iv, (pumpFunc)glColor4iv },   // GL_INT
-    { NULL, NULL,  
-      (pumpFunc)glColor3uiv,(pumpFunc)glColor4uiv },  // GL_UNSIGNED_INT
-    { NULL, NULL,  
-      (pumpFunc)glColor3fv, (pumpFunc)glColor4fv },   // GL_FLOAT
+    { NULL, 
+      NULL, 
+      reinterpret_cast<pumpFunc>(glColor3bv),
+      reinterpret_cast<pumpFunc>(glColor4bv) },   // GL_BYTE
+    { NULL, 
+      NULL, 
+      reinterpret_cast<pumpFunc>(glColor3ubv),
+      reinterpret_cast<pumpFunc>(glColor4ubv) },  // GL_UNSIGNED_BYTE
+    { NULL, 
+      NULL, 
+      reinterpret_cast<pumpFunc>(glColor3sv),
+      reinterpret_cast<pumpFunc>(glColor4sv) },   // GL_SHORT
+    { NULL, 
+      NULL,  
+      reinterpret_cast<pumpFunc>(glColor3usv),
+      reinterpret_cast<pumpFunc>(glColor4usv) },  // GL_UNSIGNED_SHORT
+    { NULL, 
+      NULL,  
+      reinterpret_cast<pumpFunc>(glColor3iv),
+      reinterpret_cast<pumpFunc>(glColor4iv) },   // GL_INT
+    { NULL, 
+      NULL,  
+      reinterpret_cast<pumpFunc>(glColor3uiv),
+      reinterpret_cast<pumpFunc>(glColor4uiv) },  // GL_UNSIGNED_INT
+    { NULL, 
+      NULL,  
+      reinterpret_cast<pumpFunc>(glColor3fv),
+      reinterpret_cast<pumpFunc>(glColor4fv) },   // GL_FLOAT
     { NULL, NULL, NULL, NULL },                       // GL_2_BYTES
     { NULL, NULL, NULL, NULL },                       // GL_3_BYTES
     { NULL, NULL, NULL, NULL },                       // GL_4_BYTES
-    { NULL, NULL,  
-      (pumpFunc)glColor3dv, (pumpFunc)glColor4dv },   // GL_DOUBLE
+    { NULL, 
+      NULL,  
+      reinterpret_cast<pumpFunc>(glColor3dv),
+      reinterpret_cast<pumpFunc>(glColor4dv) },   // GL_DOUBLE
 };
 
 struct ColTraitNone : public ColTraitBase
@@ -566,7 +582,7 @@ struct ColTraitSingle : public ColTraitBase
             }
             else
             {
-                col_func((GLubyte*) col->getData());
+                col_func(const_cast<GLubyte*>(col->getData()));
             }
         }
     }
@@ -614,7 +630,7 @@ struct ColTraitParticle : public ColTraitBase
     
     static inline bool particle(dataType &data, UInt32 particle)
     {   
-        data.func((GLubyte*)(data.data + particle * data.stride));
+        data.func(const_cast<GLubyte*>(data.data + particle * data.stride));
         return false;
     }
     
@@ -639,7 +655,10 @@ struct ColTraitGeneric : public ColTraitBase
         GeoColorsPtr col = part->getColors();
         
         data.perParticle = false;
-        
+        data.data        = NULL;
+        data.stride      = 0;
+        data.func        = NULL;
+
         if(col != NullFC)
         {
             data.data = col->getData();
@@ -660,7 +679,7 @@ struct ColTraitGeneric : public ColTraitBase
             
             if(col->getSize() == 1)
             {
-                data.func((GLubyte*) col->getData());
+                data.func(const_cast<GLubyte*>(col->getData()));
             }
             else if(col->getSize() == part->getPositions()->getSize())
             {
@@ -672,7 +691,7 @@ struct ColTraitGeneric : public ColTraitBase
     static inline bool particle(dataType &data, UInt32 particle)
     {   
         if(data.perParticle == true)
-            data.func((GLubyte*)(data.data + particle * data.stride));
+            data.func(const_cast<GLubyte*>(data.data + particle * data.stride));
         return false;
     }
         
@@ -753,7 +772,7 @@ struct PosTraitGeneric : public ParticleTraits
     
     static inline void vertex(dataType &data)
     {
-        glVertex3fv( (GLfloat*) data.p.getValues() );             
+        glVertex3fv( static_cast<const GLfloat*>(data.p.getValues()) );
     }
 };
 
@@ -794,7 +813,7 @@ struct PosTrait3f : public ParticleTraits
     
     static inline void vertex(dataType &data)
     {
-        glVertex3fv( (GLfloat*) (*data.p).getValues() );             
+        glVertex3fv( static_cast<const GLfloat*>((*data.p).getValues()) );
     }
 };
 
@@ -937,7 +956,8 @@ struct TexTraitGeneric : public ParticleTraits
         data.texzs = part->getMFTextureZs();
         
         data.perParticle = false;
-        
+        data.z           = 0.f;
+
         if(data.texzs != NULL)
         {
             if(data.texzs->size() == 1)
@@ -1121,7 +1141,7 @@ struct NormalTraitGeneric : public ParticleTraits
     
     static inline void normal(dataType &data, UInt32 )
     {
-        glNormal3fv( (GLfloat*) data.n.getValues() );            
+        glNormal3fv( static_cast<GLfloat*>(data.n.getValues()) );            
     }
 };
 
@@ -1182,7 +1202,7 @@ struct NormalTraitGeneric3f : public ParticleTraits
     
     static inline void normal(dataType &data, UInt32 )
     {
-        glNormal3fv( (GLfloat*) data.n->getValues() );            
+        glNormal3fv( static_cast<GLfloat*>(data.n->getValues()) );            
     }
 };
 
@@ -1887,11 +1907,11 @@ struct GeoTraitArrow : public ParticleTraits
         dz*=s[2];
         dx*=s[0];
        
-        glNormal3fv((GLfloat*) dy.getValues() );
+        glNormal3fv(static_cast<GLfloat*>(dy.getValues()));
         
         glBegin(GL_TRIANGLE_FAN);
         
-        glVertex3fv((GLfloat*) p.getValues() );
+        glVertex3fv(static_cast<GLfloat*>(p.getValues()));
         
         glVertex3f(p[0] + dz[0] * .5f + dx[0]      ,
                    p[1] + dz[1] * .5f + dx[1]      ,
@@ -1949,7 +1969,7 @@ struct GeoTraitRectangle : public ParticleTraits
     {
         dx *= s[0] * .5f;
        
-        glNormal3fv((GLfloat*) dy.getValues() );
+        glNormal3fv(static_cast<GLfloat*>(dy.getValues()));
 
         glVertex3f( p[0] - dx[0],
                     p[1] - dx[1],
@@ -2351,10 +2371,11 @@ struct drawShaderQuads : public ParticlesDrawer
     {   
         Window *win = action->getWindow();
         
-        void (OSG_APIENTRY*_glMultiTexCoord3fvARB) 
-            (GLenum which, GLubyte * data)=
-            (void (OSG_APIENTRY*) (GLenum which, GLubyte * data))
-                win->getFunction(_funcglMultiTexCoord3fvARB);
+        void (OSG_APIENTRY*_glMultiTexCoord3fvARB)(GLenum which, 
+                                                   GLubyte * data)=
+            reinterpret_cast<void (OSG_APIENTRY*) (GLenum which, 
+                                                   GLubyte * data)>(
+                win->getFunction(_funcglMultiTexCoord3fvARB));
 
         // init traits
         typename colTrait::dataType colData;
@@ -2414,11 +2435,18 @@ struct drawShaderQuads : public ParticlesDrawer
             
             normalTrait::normal(normalData, 0);
             
-            _glMultiTexCoord3fvARB(GL_TEXTURE1_ARB,
-                     (GLubyte*)posTrait::position(posData).getValues());
-            _glMultiTexCoord3fvARB(GL_TEXTURE2_ARB,
-                     (GLubyte*)secPosTrait::position(secPosData).getValues());
-            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, (GLubyte*)s.getValues());
+            _glMultiTexCoord3fvARB(
+                GL_TEXTURE1_ARB,
+                reinterpret_cast<GLubyte*>(
+                    posTrait::position(posData).getValues()));
+
+            _glMultiTexCoord3fvARB(
+                GL_TEXTURE2_ARB,
+                reinterpret_cast<GLubyte*>(
+                    secPosTrait::position(secPosData).getValues()));
+
+            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB,
+                                   reinterpret_cast<GLubyte*>(s.getValues()));
             
             texTrait::vertex(texData, 0, 0, 0);
             glVertex2f      (-.5f, -.5f);
@@ -2437,10 +2465,11 @@ struct drawShaderQuads : public ParticlesDrawer
     {
         Window *win = action->getWindow();
         
-        void (OSG_APIENTRY*_glMultiTexCoord3fvARB) 
-            (GLenum which, GLubyte * data)=
-            (void (OSG_APIENTRY*) (GLenum which, GLubyte * data))
-                win->getFunction(_funcglMultiTexCoord3fvARB);
+        void (OSG_APIENTRY*_glMultiTexCoord3fvARB)(GLenum which, 
+                                                   GLubyte * data)=
+            reinterpret_cast<void (OSG_APIENTRY*) (GLenum which,
+                                                   GLubyte * data)>(
+                win->getFunction(_funcglMultiTexCoord3fvARB));
 
         // init traits
         typename colTrait::dataType colData;
@@ -2495,11 +2524,18 @@ struct drawShaderQuads : public ParticlesDrawer
             
             normalTrait::normal(normalData, 0);
             
-            _glMultiTexCoord3fvARB(GL_TEXTURE1_ARB,
-                     (GLubyte*)posTrait::position(posData).getValues());
-            _glMultiTexCoord3fvARB(GL_TEXTURE2_ARB,
-                     (GLubyte*)secPosTrait::position(secPosData).getValues());
-            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, (GLubyte*)s.getValues());
+            _glMultiTexCoord3fvARB(
+                GL_TEXTURE1_ARB,
+                reinterpret_cast<GLubyte*>(
+                    posTrait::position(posData).getValues()));
+
+            _glMultiTexCoord3fvARB(
+                GL_TEXTURE2_ARB,
+                reinterpret_cast<GLubyte*>(
+                    secPosTrait::position(secPosData).getValues()));
+
+            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB,
+                                   reinterpret_cast<GLubyte*>(s.getValues()));
             
             texTrait::vertex(texData, 0, 0, 0);
             glVertex2f      (-.5f, -.5f);
@@ -2528,10 +2564,11 @@ struct drawShaderStrips : public ParticlesDrawer
     {   
         Window *win = action->getWindow();
         
-        void (OSG_APIENTRY*_glMultiTexCoord3fvARB) 
-            (GLenum which, GLubyte * data)=
-            (void (OSG_APIENTRY*) (GLenum which, GLubyte * data))
-                win->getFunction(_funcglMultiTexCoord3fvARB);
+        void (OSG_APIENTRY*_glMultiTexCoord3fvARB)(GLenum which, 
+                                                   GLubyte * data)=
+            reinterpret_cast<void (OSG_APIENTRY*) (GLenum which, 
+                                                   GLubyte * data)>(
+                win->getFunction(_funcglMultiTexCoord3fvARB));
 
         // init traits
         typename colTrait::dataType colData;
@@ -2589,11 +2626,18 @@ struct drawShaderStrips : public ParticlesDrawer
              
             normalTrait::normal(normalData, 0);
            
-            _glMultiTexCoord3fvARB(GL_TEXTURE1_ARB,
-                     (GLubyte*)posTrait::position(posData).getValues());
-            _glMultiTexCoord3fvARB(GL_TEXTURE2_ARB,
-                     (GLubyte*)secPosTrait::position(secPosData).getValues());
-            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, (GLubyte*)s.getValues());
+            _glMultiTexCoord3fvARB(
+                GL_TEXTURE1_ARB,
+                reinterpret_cast<GLubyte *>(
+                    posTrait::position(posData).getValues()));
+
+            _glMultiTexCoord3fvARB(
+                GL_TEXTURE2_ARB,
+                reinterpret_cast<GLubyte*>(
+                    secPosTrait::position(secPosData).getValues()));
+            
+            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, 
+                                   reinterpret_cast<GLubyte*>(s.getValues()));
          
             glBegin(GL_QUAD_STRIP);
            
@@ -2617,10 +2661,11 @@ struct drawShaderStrips : public ParticlesDrawer
     {
         Window *win = action->getWindow();
         
-        void (OSG_APIENTRY*_glMultiTexCoord3fvARB) 
-            (GLenum which, GLubyte * data)=
-            (void (OSG_APIENTRY*) (GLenum which, GLubyte * data))
-                win->getFunction(_funcglMultiTexCoord3fvARB);
+        void (OSG_APIENTRY*_glMultiTexCoord3fvARB)(GLenum which, 
+                                                   GLubyte * data)=
+            reinterpret_cast<void (OSG_APIENTRY*)(GLenum which, 
+                                                  GLubyte * data)>(
+                win->getFunction(_funcglMultiTexCoord3fvARB));
 
         // init traits
         typename colTrait::dataType colData;
@@ -2673,11 +2718,18 @@ struct drawShaderStrips : public ParticlesDrawer
              
             normalTrait::normal(normalData, 0);
            
-            _glMultiTexCoord3fvARB(GL_TEXTURE1_ARB,
-                     (GLubyte*)posTrait::position(posData).getValues());
-            _glMultiTexCoord3fvARB(GL_TEXTURE2_ARB,
-                     (GLubyte*)secPosTrait::position(secPosData).getValues());
-            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, (GLubyte*)s.getValues());
+            _glMultiTexCoord3fvARB(
+                GL_TEXTURE1_ARB,
+                reinterpret_cast<GLubyte*>(
+                    posTrait::position(posData).getValues()));
+
+            _glMultiTexCoord3fvARB(
+                GL_TEXTURE2_ARB,
+                reinterpret_cast<GLubyte*>(
+                    secPosTrait::position(secPosData).getValues()));
+
+            _glMultiTexCoord3fvARB(GL_TEXTURE3_ARB, 
+                                   reinterpret_cast<GLubyte*>(s.getValues()));
          
             glBegin(GL_QUAD_STRIP);
            
@@ -2917,7 +2969,7 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
         FWARNING(("Particles::draw: inconsistent attributes "
                     "(p:%d s:%d c:%d)!\n",
                     pos->getSize(), size->size(),
-                    (col != NullFC)? (int)col->getSize() : -1));
+                  (col != NullFC)? int(col->getSize()) : -1));
         return Action::Continue;
     }
 

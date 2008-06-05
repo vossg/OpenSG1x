@@ -301,7 +301,7 @@ int SimplePolygon::triangulate( DCTPVec2dvector &globalverts, simplepolygonvecto
   int i;
   int j;
   // pseudo random (reproduces same triangulation)
-  int offs = ( ( int ) ( globalverts[ vertices[ 0 ] ][0] * vertices.size( ) ) ) % vertices.size( );
+  int offs = ( int( globalverts[ vertices[ 0 ] ][0] * vertices.size( ) ) ) % vertices.size( );
 
 /*  for( i = 0; i < vertices.size( ); ++i )
   {
@@ -309,10 +309,10 @@ int SimplePolygon::triangulate( DCTPVec2dvector &globalverts, simplepolygonvecto
     std::cerr << globalverts[ vertices[ i ] ][1] << std::endl;
   }*/
 
-  for( j = 0; j < (int)vertices.size(); j++ ) {
+  for( j = 0; j < int(vertices.size()); j++ ) {
 	i = ( j + offs ) % vertices.size( );
 //    v1 = vertices[ i ];
-    if ( i == (int) vertices.size() - 1 )
+    if ( i == int(vertices.size()) - 1 )
       i2 = 0; //v2 = vertices [ 0 ];
     else
       i2 = i + 1; //v2 = vertices[ i + 1 ];
@@ -325,7 +325,7 @@ int SimplePolygon::triangulate( DCTPVec2dvector &globalverts, simplepolygonvecto
       while ( k != i3 ) {
 //        std::cerr << " k: " << k;
         verts.push_back( vertices[ k ] );
-        k++; if ( k == (int) vertices.size() ) k = 0;
+        k++; if ( k == int(vertices.size()) ) k = 0;
       } // while k
       verts.push_back( vertices[ k ] ); // record the last one aswell
 //      std::cerr << " k: " << k << std::endl;
@@ -348,7 +348,7 @@ int SimplePolygon::triangulate( DCTPVec2dvector &globalverts, simplepolygonvecto
       verts.resize( 0 );
       while ( k != i ) {
         verts.push_back( vertices[ k ] );
-        k++; if ( k == (int) vertices.size() ) k = 0;
+        k++; if ( k == int(vertices.size()) ) k = 0;
       } // while k
       verts.push_back( vertices[ k ] ); // record the last one aswell
       poly.vertices = verts;

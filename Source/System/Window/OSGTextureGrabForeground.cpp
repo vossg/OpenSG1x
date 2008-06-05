@@ -155,8 +155,8 @@ void TextureGrabForeground::draw(DrawActionBase *action, Viewport *port)
         endEditCP  (t, TextureChunk::ImageFieldMask);
     }
     
-    UInt32 w = osgMin((Int32)i->getWidth(),  pw);
-    UInt32 h = osgMin((Int32)i->getHeight(), ph);
+    UInt32 w = osgMin(Int32(i->getWidth()),  pw);
+    UInt32 h = osgMin(Int32(i->getHeight()), ph);
 
     glErr("TextureGrabForeground::activate precheck");
     

@@ -364,12 +364,12 @@ UInt32 BinarySwapComposer::getUsableServers()
 
 BinarySwapComposer::TileBuffer *BinarySwapComposer::getTileBuffer(UInt32 x,UInt32 y)
 {
-    return (TileBuffer*)(&_tile[(y*_tilesX + x)*_tileBufferSize]);
+    return reinterpret_cast<TileBuffer*>(&_tile[(y*_tilesX + x)*_tileBufferSize]);
 }
 
 BinarySwapComposer::TileBuffer *BinarySwapComposer::getTileReadBuffer(void)
 {
-    return (TileBuffer*)(&_readTile[0]);
+    return reinterpret_cast<TileBuffer*>(&_readTile[0]);
 }
 
 /*----------------------------- thread proc -------------------------------*/
@@ -377,7 +377,7 @@ BinarySwapComposer::TileBuffer *BinarySwapComposer::getTileReadBuffer(void)
 
 void BinarySwapComposer::writeProc(void *arg) 
 {
-    BinarySwapComposer *the=(BinarySwapComposer*)arg;
+    BinarySwapComposer *the=static_cast<BinarySwapComposer*>(arg);
     for(;;)
     {
         the->_barrier->enter(2);

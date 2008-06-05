@@ -148,7 +148,7 @@ void GeoProperty<GeoPropertyDesc>::executeSync(
           FieldContainer &other,
     const BitVector      &whichField)
 {
-    this->executeSyncImpl((GeoProperty *) &other, whichField);
+    this->executeSyncImpl(static_cast<GeoProperty *>(&other), whichField);
 }
 
 template <class GeoPropertyDesc> inline
@@ -375,7 +375,8 @@ UInt32 GeoProperty<GeoPropertyDesc>::size(void) const
 template <class GeoPropertyDesc> inline
 UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
 {
-    return _field.empty() ? NULL : (UInt8 *) &(_field[0]);
+    return _field.empty() ? NULL : 
+        const_cast<UInt8 *>(reinterpret_cast<const UInt8 *>(&(_field[0])));
 }
 
 

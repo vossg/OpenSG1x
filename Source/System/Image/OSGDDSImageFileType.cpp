@@ -212,11 +212,11 @@ public:
 
   inline CSurface &get_mipmap(Int32 index)
   {
-    assert(index < (Int32)mipmaps.size());
+      assert(index < Int32(mipmaps.size()));
     return mipmaps[index];
   }
 
-  inline Int32 get_num_mipmaps() { return (Int32)mipmaps.size(); }
+    inline Int32 get_num_mipmaps() { return Int32(mipmaps.size()); }
 protected:
   std::vector<CSurface> mipmaps;
 };
@@ -234,10 +234,10 @@ public:
   operator char*();
   CTexture &operator[](Int32 index);
 
-  inline Int32 get_num_images(void) { return (Int32)images.size(); }
+    inline Int32 get_num_images(void) { return Int32(images.size()); }
   inline CTexture &get_image(Int32 index)
   {
-    assert(index < (Int32)images.size());
+      assert(index < Int32(images.size()));
     return images[index];
   }
 
@@ -277,6 +277,16 @@ private:
   std::vector<CTexture> images;
 
 };
+
+///////////////////////////////////////////////////////////////////////////////
+// clamps input size to [1-size]
+inline Int32 CDDSImage::clamp_size(Int32 size)
+{
+    if (size <= 0)
+        size = 1;
+
+    return size;
+}
 
 
 /********************************
@@ -704,7 +714,7 @@ CTexture &CDDSImage::operator[](Int32 index)
 {
     // make sure an image has been loaded
     assert(valid);
-    assert(index < (Int32)images.size());
+    assert(index < Int32(images.size()));
 
     return images[index];
 }
@@ -719,15 +729,6 @@ CDDSImage::operator char*()
 }
 
 
-///////////////////////////////////////////////////////////////////////////////
-// clamps input size to [1-size]
-inline Int32 CDDSImage::clamp_size(Int32 size)
-{
-    if (size <= 0)
-        size = 1;
-
-    return size;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 // CDDSImage private functions
@@ -795,8 +796,8 @@ void CDDSImage::align_memory(CTexture *surface)
         imagesize);
 
     // add pad bytes to end of each line
-    char *srcimage = (char*)*surface;
-    char *dstimage = (char*)newSurface;
+    char *srcimage = static_cast<char*>(*surface);
+    char *dstimage = static_cast<char*>(newSurface);
     for (Int32 n = 0; n < surface->depth; n++)
     {
         char *curline = srcimage;
@@ -822,7 +823,7 @@ void CDDSImage::align_memory(CTexture *surface)
 bool CDDSImage::check_dxt1_alpha_data (char *image, Int32 size)
 {
   bool        hasAlpha(false);
-  DXTColBlock *colBlock((DXTColBlock*)(image));
+  DXTColBlock *colBlock(reinterpret_cast<DXTColBlock*>(image));
 
   for (unsigned i = 0, n = (size / 8); i < n; i++)
     if (colBlock[i].col0 <= colBlock[i].col1) 
@@ -922,8 +923,8 @@ void CDDSImage::flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 
 
         for (Int32 j = 0; j < (yblocks >> 1); j++)
         {
-            top = (DXTColBlock*)(image + j * linesize);
-            bottom = (DXTColBlock*)(image + (((yblocks-j)-1) * linesize));
+            top = reinterpret_cast<DXTColBlock*>(image + j * linesize);
+            bottom = reinterpret_cast<DXTColBlock*>(image + (((yblocks-j)-1) * linesize));
 
             (this->*flipblocks)(top, xblocks);
             (this->*flipblocks)(bottom, xblocks);
@@ -970,7 +971,7 @@ void CDDSImage::flip_blocks_dxtc3(DXTColBlock *line, Int32 numBlocks)
 
     for (Int32 i = 0; i < numBlocks; i++)
     {
-        alphablock = (DXT3AlphaBlock*)curblock;
+        alphablock = reinterpret_cast<DXT3AlphaBlock*>(curblock);
 
         swap(&alphablock->row[0], &alphablock->row[3], sizeof(UInt16));
         swap(&alphablock->row[1], &alphablock->row[2], sizeof(UInt16));
@@ -994,42 +995,42 @@ void CDDSImage::flip_dxt5_alpha(DXT5AlphaBlock *block)
     UInt32 bits = 0;
     memcpy(&bits, &block->row[0], sizeof(UInt8) * 3);
 
-    gBits[0][0] = (UInt8)(bits & mask);
+    gBits[0][0] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[0][1] = (UInt8)(bits & mask);
+    gBits[0][1] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[0][2] = (UInt8)(bits & mask);
+    gBits[0][2] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[0][3] = (UInt8)(bits & mask);
+    gBits[0][3] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[1][0] = (UInt8)(bits & mask);
+    gBits[1][0] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[1][1] = (UInt8)(bits & mask);
+    gBits[1][1] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[1][2] = (UInt8)(bits & mask);
+    gBits[1][2] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[1][3] = (UInt8)(bits & mask);
+    gBits[1][3] = UInt8(bits & mask);
 
     bits = 0;
     memcpy(&bits, &block->row[3], sizeof(UInt8) * 3);
 
-    gBits[2][0] = (UInt8)(bits & mask);
+    gBits[2][0] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[2][1] = (UInt8)(bits & mask);
+    gBits[2][1] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[2][2] = (UInt8)(bits & mask);
+    gBits[2][2] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[2][3] = (UInt8)(bits & mask);
+    gBits[2][3] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[3][0] = (UInt8)(bits & mask);
+    gBits[3][0] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[3][1] = (UInt8)(bits & mask);
+    gBits[3][1] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[3][2] = (UInt8)(bits & mask);
+    gBits[3][2] = UInt8(bits & mask);
     bits >>= 3;
-    gBits[3][3] = (UInt8)(bits & mask);
+    gBits[3][3] = UInt8(bits & mask);
 
-    UInt32 *pBits = ((UInt32*) &(block->row[0]));
+    UInt32 *pBits = (reinterpret_cast<UInt32*>(&(block->row[0])));
 
     *pBits = *pBits | (gBits[3][0] << 0);
     *pBits = *pBits | (gBits[3][1] << 3);
@@ -1041,7 +1042,7 @@ void CDDSImage::flip_dxt5_alpha(DXT5AlphaBlock *block)
     *pBits = *pBits | (gBits[2][2] << 18);
     *pBits = *pBits | (gBits[2][3] << 21);
 
-    pBits = ((UInt32*) &(block->row[3]));
+    pBits = (reinterpret_cast<UInt32*>(&(block->row[3])));
 
 #if BYTE_ORDER == BIG_ENDIAN
     *pBits &= 0x000000ff;
@@ -1069,7 +1070,7 @@ void CDDSImage::flip_blocks_dxtc5(DXTColBlock *line, Int32 numBlocks)
 
     for (Int32 i = 0; i < numBlocks; i++)
     {
-        alphablock = (DXT5AlphaBlock*)curblock;
+        alphablock = reinterpret_cast<DXT5AlphaBlock*>(curblock);
 
         flip_dxt5_alpha(alphablock);
 

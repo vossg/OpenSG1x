@@ -141,11 +141,11 @@ public:
 //      std::cerr << "I am: " << v1->coords << ' ' << v2->coords << std::endl;
       std::cerr << "The already existing triangles:\n";
       for( unsigned int i = 0; i < faces.size(); ++i ) {
-                std::cerr << "Ptr: " << (void*)faces[ i ] << ' ';
+          std::cerr << "Ptr: " << static_cast<void*>(faces[ i ]) << ' ';
                 faces[ i ]->dump_triangle();
       }
       std::cerr << "And the new one:\n";
-      std::cerr << "Ptr: " << (void*)f << ' '; f->dump_triangle();
+      std::cerr << "Ptr: " << static_cast<void*>(f) << ' '; f->dump_triangle();
     }
     faces.push_back( f );
   }

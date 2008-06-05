@@ -72,7 +72,7 @@ int BSplineCurve2D::CheckKnotPoints( const DCTPdvector& knots, int dim )
   DCTPdvector::size_type max_index = knots.size() - 1;
   double test_begin = knots[ 0 ], test_end = knots[ max_index ];
 
-  for( DCTPdvector::size_type i = 1; i < (unsigned int) dim + 1; ++i )
+  for( DCTPdvector::size_type i = 1; i < static_cast<unsigned int>(dim) + 1; ++i )
     if ( knots[ i ] != test_begin || knots[ max_index - i ] != test_end ) return -1; //FIXME: double comparison ?!
 
   return 0;
@@ -280,11 +280,11 @@ int BSplineCurve2D::insertKnot( double k )
     DCTPVec3dvector newcps;
     newcps.resize( control_points.size() + 1 );
     DCTPVec3dvector::size_type i;
-    for ( i = 0; i <= (unsigned int) span - dimension; i++ )
+    for ( i = 0; i <= static_cast<unsigned int>(span) - dimension; i++ )
     {
         newcps[ i ] = control_points[ i ];
     }
-    for ( i = span - dimension + 1; i <= (unsigned int) span; i++ ) 
+    for ( i = span - dimension + 1; i <= static_cast<unsigned int>(span); i++ ) 
     {
         double alpha;
         if ( knots[ i + dimension ] != knots[ i ] )
@@ -366,7 +366,8 @@ int BSplineCurve2D::makeBezier( bezier2dvector &beziers, DCTPdvector &pars )
     {
         firstcp = control_points[ i * dimension + 0 ];
         degenerate = true;
-        for (DCTPVec3dvector::size_type j = 0; j < (unsigned int) dimension + 1; j++ ) 
+        for (DCTPVec3dvector::size_type j = 0; 
+             j < static_cast<unsigned int>(dimension) + 1; j++ ) 
         {
             beziercps[ j ] = control_points[ i * dimension + j ];
             if ( degenerate ) 

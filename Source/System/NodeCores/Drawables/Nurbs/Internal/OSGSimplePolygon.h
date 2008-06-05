@@ -105,14 +105,14 @@ protected:
 
     if( ( v1 != v1tp ) || ( v2 != v2tp ) )
     {
-      maxCalculated = ( int ) hsize1;
+      maxCalculated = int(hsize1);
       numThirdPoints = 0;
       v1tp = v1;
       v2tp = v2;
     }
     while( index >= numThirdPoints )
     {
-	  if( ( maxCalculated >= ( int ) vsize ) || ( maxCalculated < 0 ) )
+        if( ( maxCalculated >= int(vsize) ) || ( maxCalculated < 0 ) )
       {
 //        std::cerr << "No valid third point " << v1 << "," << v2 << " " << index << std::endl;
         return -1;
@@ -129,7 +129,7 @@ protected:
         ++numThirdPoints;
       }
 	  maxCalculated = h2size - maxCalculated;
-	  if( maxCalculated >= ( int ) hsize1 )
+	  if( maxCalculated >= int(hsize1) )
 	  {
 	      ++maxCalculated;
 	  }

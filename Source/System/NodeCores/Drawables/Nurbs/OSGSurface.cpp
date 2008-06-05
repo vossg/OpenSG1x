@@ -679,8 +679,8 @@ Int32 Surface::convertSurface( void )
         SLOG << "Surface::tessellate: null surfacecontrol prop " << endLog;
         return -1;
     }
-    MFPnt3f *polyControlPoints;
-    MFPnt4f *ratControlPoints;
+    MFPnt3f *polyControlPoints = NULL;
+    MFPnt4f *ratControlPoints  = NULL;
     UInt32 cpsize;
     if ( !israt )
     {
@@ -1788,7 +1788,7 @@ void Surface::addCurve( UInt32 dim,
     UInt32 i;
     for ( i = 0; i < knotsize; ++i )
     {
-        _mfKnots.push_back( (Real32) knots[ i ] );
+        _mfKnots.push_back( Real32(knots[ i ]) );
     }
     for ( i = 0; i < cpsize; ++i )
     {
@@ -1973,13 +1973,13 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
     _mfKnotsU.clear();
     for ( u = 0; u < knots.size(); ++u )
     {
-        _mfKnotsU.push_back( (Real32) knots[ u ] );
+        _mfKnotsU.push_back( Real32(knots[ u ]) );
     }
     knots = tensor_surface.getKnotVector_V();
     _mfKnotsV.clear();
     for ( v = 0; v < knots.size(); ++v )
     {
-        _mfKnotsV.push_back( (Real32) knots[ v ] );
+        _mfKnotsV.push_back( Real32(knots[ v ]) );
     }
 
     // now deal with the trimming curves

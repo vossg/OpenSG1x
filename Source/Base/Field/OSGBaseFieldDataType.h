@@ -791,7 +791,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<DynamicVolume> :
     static void copyToBin(      BinaryDataHandler   &pMem, 
                           const DynamicVolume       &oObject)
     {
-        UInt32 type = (UInt32)(oObject.getType());
+        UInt32 type = UInt32(oObject.getType());
 
         pMem.putValue(type);
 
@@ -1041,7 +1041,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<GLenum> :
     static void   copyToBin  (      BinaryDataHandler &pMem, 
                               const GLenum            &oObject)
     {
-        pMem.putValue ((UInt32)oObject);
+        pMem.putValue (UInt32(oObject));
     }
 
     static void copyToBin(      BinaryDataHandler &pMem, 

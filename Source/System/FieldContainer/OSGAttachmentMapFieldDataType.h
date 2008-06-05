@@ -176,7 +176,7 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
 
             key = (UInt32 (fcp->getGroupId()) << 16) | binding;
 
-            ((FieldContainerPtr &) pObject[key]) = fcp;
+            (static_cast<FieldContainerPtr &>(pObject[key])) = fcp;
         }
     }
 

@@ -62,7 +62,7 @@
 #include "OSGState.h"
 
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  StateBase::ChunksFieldMask = 
     (TypeTraits<BitVector>::One << StateBase::ChunksFieldId);
@@ -86,7 +86,7 @@ FieldDescription *StateBase::_desc[] =
                      "chunks", 
                      ChunksFieldId, ChunksFieldMask,
                      false,
-                     (FieldAccessMethod) &StateBase::getMFChunks)
+                     reinterpret_cast<FieldAccessMethod>(&StateBase::getMFChunks))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType StateBase::_type(
     "State",
     "FieldContainer",
     NULL,
-    (PrototypeCreateF) &StateBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&StateBase::createEmpty),
     State::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 StateBase::getContainerSize(void) const
 void StateBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((StateBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<StateBase *>(&other),
+                          whichField);
 }
 #else
 void StateBase::executeSync(      FieldContainer &other,
@@ -266,6 +267,8 @@ void StateBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -277,8 +280,6 @@ DataType FieldDataTraits<StatePtr>::_type("StatePtr", "FieldContainerPtr");
 
 OSG_DLLEXPORT_SFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(StatePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -294,10 +295,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATEBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGSTATEFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

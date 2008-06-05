@@ -1135,9 +1135,9 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             {
                 // for two passes it looks like this.
                 //      root
-                //     /    \
+                //     |    |
                 //  state1  state2
-                //   / \ \    / \ \
+                //   / |  |   / |  |
                 //  n1 n2 nx n1 n2 nx
 
                 DrawTreeNode *pNewPassElem = it->second->getFirstChild();
@@ -2459,11 +2459,11 @@ Action::ResultE RenderAction::start(void)
     if(_glGenQueriesARB == NULL &&
        _window->hasExtension(_arbOcclusionQuery))
     {
-        _glGenQueriesARB          = (void (OSG_APIENTRY*)(GLsizei, GLuint *)) _window->getFunction(_funcGenQueriesARB);
-        _glDeleteQueriesARB       = (void (OSG_APIENTRY*)(GLsizei, GLuint *)) _window->getFunction(_funcDeleteQueriesARB);
-        _glBeginQueryARB          = (void (OSG_APIENTRY*)(GLenum, GLuint)) _window->getFunction(_funcBeginQueryARB);
-        _glEndQueryARB            = (void (OSG_APIENTRY*)(GLenum)) _window->getFunction(_funcEndQueryARB);
-        _glGetQueryObjectuivARB   = (void (OSG_APIENTRY*)(GLuint, GLenum, GLuint*)) _window->getFunction(_funcGetQueryObjectuivARB);
+        _glGenQueriesARB          = reinterpret_cast<void (OSG_APIENTRY*)(GLsizei, GLuint *)>(_window->getFunction(_funcGenQueriesARB));
+        _glDeleteQueriesARB       = reinterpret_cast<void (OSG_APIENTRY*)(GLsizei, GLuint *)>(_window->getFunction(_funcDeleteQueriesARB));
+        _glBeginQueryARB          = reinterpret_cast<void (OSG_APIENTRY*)(GLenum, GLuint)>(_window->getFunction(_funcBeginQueryARB));
+        _glEndQueryARB            = reinterpret_cast<void (OSG_APIENTRY*)(GLenum)>(_window->getFunction(_funcEndQueryARB));
+        _glGetQueryObjectuivARB   = reinterpret_cast<void (OSG_APIENTRY*)(GLuint, GLenum, GLuint*)>(_window->getFunction(_funcGetQueryObjectuivARB));
 		
 		if (!_glGenQueriesARB || !_glDeleteQueriesARB || 
 			!_glBeginQueryARB || !_glEndQueryARB ||
@@ -2976,7 +2976,7 @@ Action::ResultE RenderAction::stop(ResultE res)
     StatTimeElem* elemDraw = getStatistics()->getElem(statDrawTime);
     elemDraw->stop();
 
-    _viewport->setDrawTime((Real32)elemDraw->getTime());
+    _viewport->setDrawTime(Real32(elemDraw->getTime()));
     if(!_ownStat)
     {
         getStatistics()->getElem(statNMaterials      )->set(

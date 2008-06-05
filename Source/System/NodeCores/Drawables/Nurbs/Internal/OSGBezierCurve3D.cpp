@@ -400,7 +400,7 @@ int BezierCurve3D::approximate_sub( std::vector< double > &vertices, double delt
     int n = control_points.size() - 1;
     for ( i = 0; i <= n; i++ ) 
     {
-        t.push_back(( (double) ( n - i ) ) / n);
+        t.push_back(( double( n - i ) ) / n);
     }
     // first, make a copy of the cp vector, and do one 
     // or more de Casteljau steps to get rid of 0 weights
@@ -491,7 +491,7 @@ int BezierCurve3D::approximate_sub( std::vector< double > &vertices, double delt
 	}
 	else
 	{
-	  mid = ( ( double ) worst_i ) / n;
+      mid = ( double(worst_i) ) / n;
 	  error = subDivision( mid, newbez );
       if ( error ) return error;
 	  mid = min + ( max - min ) * mid;
@@ -580,7 +580,7 @@ int BezierCurve3D::createCurve( DCTPVec4dvector &points )
 		for( i = 0; i <= n; ++i )
 		{
 			int err = 0;
-			vcl_err[ i ] = points[ i ] - computewdeCasteljau4D( ( ( double ) i ) / n, err );
+			vcl_err[ i ] = points[ i ] - computewdeCasteljau4D( ( double(i) ) / n, err );
 
 			double acterr = ( vcl_err[ i ] ).squareLength( );
 
@@ -638,7 +638,7 @@ bool BezierCurve3D::reduceDegree( double tol )
     for (i = 1; i < n; ++i)
     {
         b_right[ i ] = (control_points[ i ] * n - b_right[ i - 1 ] * i) *
-                       (1.0 / (Real64)(n - i));
+                       (1.0 / Real64(n - i));
     }
 
     // calculate b_left:
@@ -646,7 +646,7 @@ bool BezierCurve3D::reduceDegree( double tol )
     for (i = n - 1; i > 0; --i)
     {
         b_left[i - 1] = (control_points[ i ] * n - b_left[ i ] * (n - i)) *
-                        (1.0 / (Real64)i);
+            (1.0 / Real64(i));
     }
 
     // check for introduced error:

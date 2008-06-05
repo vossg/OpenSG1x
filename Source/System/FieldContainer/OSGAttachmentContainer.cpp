@@ -62,8 +62,8 @@ FieldDescription *AttachmentContainer::_desc[] =
                          "attachments",
                          OSG_FC_FIELD_IDM_DESC(AttachmentsField),
                          false,
-                         (FieldAccessMethod)
-                             &AttachmentContainer::getSFAttachments)
+                         reinterpret_cast<FieldAccessMethod>
+                             (&AttachmentContainer::getSFAttachments))
 };
 
 FieldContainerType AttachmentContainer::_type(
@@ -310,7 +310,8 @@ AttachmentContainer::~AttachmentContainer(void)
 void AttachmentContainer::executeSync(      FieldContainer &other,
                                       const BitVector      &whichField)
 {
-    this->executeSyncImpl((AttachmentContainer *) &other, whichField);
+    this->executeSyncImpl(static_cast<AttachmentContainer *>(&other),
+                          whichField);
 }
 
 void AttachmentContainer::executeSyncImpl(

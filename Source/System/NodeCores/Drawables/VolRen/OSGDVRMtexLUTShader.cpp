@@ -362,11 +362,12 @@ void DVRMtexLUTShader::renderSlice(DVRVolume      *volume,
     }
 
     CombinerParameterfvNVFunc CombinerParameterfvNV = 
-        (CombinerParameterfvNVFunc) win->getFunction(
-            _funcCombinerParameterfvNV);
+        reinterpret_cast<CombinerParameterfvNVFunc>(
+            win->getFunction(_funcCombinerParameterfvNV));
 
     MultiTexCoord2dARBFunc MultiTexCoord2dARB = 
-        (MultiTexCoord2dARBFunc) win->getFunction(_funcMultiTexCoord2dARB); 
+        reinterpret_cast<MultiTexCoord2dARBFunc>(
+            win->getFunction(_funcMultiTexCoord2dARB)); 
     
     //FINFO(("DVRMtexLUTShader::renderSlice - vert(%d) - values(%d)\n", 
     //       vertices, values));
@@ -446,11 +447,12 @@ void DVRMtexLUTShader::renderSlice(DVRVolume      *volume,
     }
 
     CombinerParameterfvNVFunc CombinerParameterfvNV =
-        (CombinerParameterfvNVFunc) win->getFunction(
-            _funcCombinerParameterfvNV);
+        reinterpret_cast<CombinerParameterfvNVFunc>(
+            win->getFunction(_funcCombinerParameterfvNV));
 
     MultiTexCoord2dARBFunc MultiTexCoord2dARB = 
-        (MultiTexCoord2dARBFunc) win->getFunction(_funcMultiTexCoord2dARB); 
+        reinterpret_cast<MultiTexCoord2dARBFunc>(
+            win->getFunction(_funcMultiTexCoord2dARB)); 
    
     GLfloat intFactor = 0;
     
@@ -629,16 +631,20 @@ void DVRMtexLUTShader::initCombiners(DrawActionBase *action)
     }
 
     CombinerParameteriNVFunc CombinerParameteriNV = 
-        (CombinerParameteriNVFunc) win->getFunction(_funcCombinerParameteriNV);
+        reinterpret_cast<CombinerParameteriNVFunc>(
+            win->getFunction(_funcCombinerParameteriNV));
 
     CombinerInputNVFunc CombinerInputNV           =
-        (CombinerInputNVFunc     ) win->getFunction(_funcCombinerInputNV     );
+        reinterpret_cast<CombinerInputNVFunc     >(
+            win->getFunction(_funcCombinerInputNV     ));
 
     CombinerOutputNVFunc CombinerOutputNV         =
-        (CombinerOutputNVFunc    ) win->getFunction(_funcCombinerOutputNV    );
+        reinterpret_cast<CombinerOutputNVFunc    >(
+            win->getFunction(_funcCombinerOutputNV    ));
 
     FinalCombinerInputNVFunc FinalCombinerInputNV =
-        (FinalCombinerInputNVFunc) win->getFunction(_funcFinalCombinerInputNV);
+        reinterpret_cast<FinalCombinerInputNVFunc>(
+            win->getFunction(_funcFinalCombinerInputNV));
     
     // use only first general combiner
     CombinerParameteriNV(GL_NUM_GENERAL_COMBINERS_NV, 1);

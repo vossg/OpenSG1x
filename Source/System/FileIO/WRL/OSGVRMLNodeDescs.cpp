@@ -417,12 +417,13 @@ bool VRMLNodeDesc::prototypeAddField(const Char8  *OSG_VRML_ARG(szFieldType),
 
         if(_pGenAtt != NullFC)
         {
-            pDesc = new FieldDescription(*pType,
-                                         szFieldName,
-                                         0, 0,
-                                         false,
-                                         (FieldIndexAccessMethod)
-                                         &GenericAtt::getDynamicField);
+            pDesc = new FieldDescription(
+                *pType,
+                szFieldName,
+                0, 0,
+                false,
+                reinterpret_cast<FieldIndexAccessMethod>(
+                    &GenericAtt::getDynamicField));
     
             _pGenAtt->addField(*pDesc);
     
@@ -5313,12 +5314,13 @@ void VRMLViewpointDesc::init(const Char8 *OSG_VRML_ARG(szName))
     _pGenAtt->setInternal(true);
 
     FieldDescription *pDesc =
-        new FieldDescription(SFBool::getClassType(),
-                             "isViewpoint",
-                             0, 0,
-                             false,
-                             (FieldIndexAccessMethod)
-                             &GenericAtt::getDynamicField);
+        new FieldDescription(
+            SFBool::getClassType(),
+            "isViewpoint",
+            0, 0,
+            false,
+            reinterpret_cast<FieldIndexAccessMethod>(
+                &GenericAtt::getDynamicField));
 
 
     _pGenAtt->addField(*pDesc);

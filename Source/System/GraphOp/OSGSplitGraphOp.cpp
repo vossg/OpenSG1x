@@ -351,7 +351,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             {
                 Pnt3f center(0,0,0);
                 for (UInt32 i=0; i<it.getLength(); i++)
-                    center+=(Vec3f)it.getPosition(i);
+                    center+=Vec3f(it.getPosition(i));
                 center/=Real32(it.getLength());
                 centers.push_back(center);                
             } 
@@ -363,7 +363,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             {
                 Pnt3f center(0,0,0);
                 for (UInt32 i=0; i<3; i++, ind++)
-                    center+=(Vec3f)it.getPosition(ind);
+                    center+=Vec3f(it.getPosition(ind));
                 center/=3;
                 centers.push_back(center);
             } 
@@ -375,7 +375,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
             {
                 Pnt3f center(0,0,0);
                 for (UInt32 i=0; i<4; i++, ind++)
-                    center+=(Vec3f)it.getPosition(ind);
+                    center+=Vec3f(it.getPosition(ind));
                 center/=4;
                 centers.push_back(center);
             } 
@@ -401,7 +401,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
 	std::sort(order.begin(), order.end(), comp);
 
     //now we need (centers.size()/_max_polygons) amount of new geometries
-    int ngeos=int(ceil((double)centers.size()/(double)_max_polygons));
+    int ngeos=int(ceil(double(centers.size())/double(_max_polygons)));
 
     if (ngeos<=1) return false;
 

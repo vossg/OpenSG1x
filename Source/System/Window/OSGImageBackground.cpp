@@ -129,8 +129,8 @@ void ImageBackground::clear(DrawActionBase *, Viewport *vp)
   
     if(getScale())
     {   
-        glPixelZoom(vp->getPixelWidth () / (Real32)img->getWidth (),
-                    vp->getPixelHeight() / (Real32)img->getHeight());
+        glPixelZoom(vp->getPixelWidth () / Real32(img->getWidth ()),
+                    vp->getPixelHeight() / Real32(img->getHeight()));
     }
 
     glRasterPos2f(0, 0);

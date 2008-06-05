@@ -29,7 +29,7 @@ DVRClipper::DVRClipper(void)
 {
     myTess = NULL;
     // allocate temp. storage for 6 vertex positions and texture coordinates
-    sliceVertexData = (GLdouble*)malloc(6*6*sizeof(GLdouble));
+    sliceVertexData = static_cast<GLdouble*>(malloc(6*6*sizeof(GLdouble)));
 
     numAddPerVertexAttr  = 0;
     hasTesselatorSupport = false;
@@ -72,9 +72,9 @@ bool DVRClipper::setNumAddPerVertexAttr(
 {
     numAddPerVertexAttr = additionalPerVertexAttributes;
 
-    sliceVertexData = (GLdouble*) realloc(
-        sliceVertexData,
-        6 * (6 + additionalPerVertexAttributes) * sizeof(GLdouble));
+    sliceVertexData = static_cast<GLdouble*>(
+        realloc(sliceVertexData,
+                6 * (6 + additionalPerVertexAttributes) * sizeof(GLdouble)));
   
     if(!sliceVertexData)
         return false;
@@ -112,7 +112,9 @@ void DVRClipper::initialize(DVRVolume *volume)
     if(!hasTesselatorSupport)
     {
         // check for glu tesselator support
-        hasTesselatorSupport = (atof((char*)gluGetString(GLU_VERSION)) >= 1.2);
+        hasTesselatorSupport = 
+            (atof(reinterpret_cast<const char*>(
+                      gluGetString(GLU_VERSION))) >= 1.2);
         
         if(!hasTesselatorSupport)
             return;
@@ -468,7 +470,7 @@ void OSG_APIENTRY errorCallback(GLenum errorCode)
 
 void OSG_APIENTRY beginCallback(GLenum which, void *data)
 {
-    DVRRenderSlice *sliceData = (DVRRenderSlice *) data; 
+    DVRRenderSlice *sliceData = static_cast<DVRRenderSlice *>(data); 
   
     if(sliceData->directRender)
     {
@@ -488,7 +490,7 @@ void OSG_APIENTRY beginCallback(GLenum which, void *data)
 
 void OSG_APIENTRY endCallback(void *data)
 {
-    DVRRenderSlice *sliceData = (DVRRenderSlice *) data; 
+    DVRRenderSlice *sliceData = static_cast<DVRRenderSlice *>(data); 
 
     if(sliceData->directRender)
     {
@@ -498,9 +500,9 @@ void OSG_APIENTRY endCallback(void *data)
 
 void OSG_APIENTRY vertexCallback(GLvoid *vertexData, void *data)
 {
-    GLdouble       *v         = (GLdouble       *) vertexData;
+    GLdouble       *v         = static_cast<GLdouble       *>(vertexData);
 
-    DVRRenderSlice *sliceData = (DVRRenderSlice *) data; 
+    DVRRenderSlice *sliceData = static_cast<DVRRenderSlice *>(data); 
 
     if(sliceData->directRender)
     {
@@ -539,7 +541,7 @@ void OSG_APIENTRY vertexCombineCallback(GLdouble  *coords,
                                         GLdouble **dataOut, 
                                         void      *data         )
 {
-    DVRRenderSlice *sliceData = (DVRRenderSlice *) data;
+    DVRRenderSlice *sliceData = static_cast<DVRRenderSlice *>(data);
 
     // allocate additional memory if neccessary
     if(sliceData->maxVertexCombineData <= sliceData->numVertexCombineData)
@@ -550,12 +552,12 @@ void OSG_APIENTRY vertexCombineCallback(GLdouble  *coords,
             sliceData->maxVertexCombineData *= 2;
 
         sliceData->vertexCombineData = 
-            (GLdouble *) realloc(sliceData->vertexCombineData,
-                                 (6                              + 
-                                  sliceData->numPerVertexData)   * 
-                                 sliceData->maxVertexCombineData * 
-                                 sizeof(GLdouble));
-
+            static_cast<GLdouble *>(realloc(sliceData->vertexCombineData,
+                                            (6                              + 
+                                             sliceData->numPerVertexData)   * 
+                                            sliceData->maxVertexCombineData * 
+                                            sizeof(GLdouble)));
+                                    
         FDEBUG(("realloc vd %i\n",sliceData->numVertexCombineData));
     }
     

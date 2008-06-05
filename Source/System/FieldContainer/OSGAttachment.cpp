@@ -67,7 +67,7 @@ FieldDescription *Attachment::_desc[] =
         "internal",
         OSG_FC_FIELD_IDM_DESC(InternalField),
         false,
-        (FieldAccessMethod) &Attachment::getSFInternal,
+        reinterpret_cast<FieldAccessMethod>(&Attachment::getSFInternal),
         "true"),
 
     new FieldDescription(
@@ -75,7 +75,7 @@ FieldDescription *Attachment::_desc[] =
         "parents",
         OSG_FC_FIELD_IDM_DESC(ParentsField),
         true,
-        (FieldAccessMethod) &Attachment::getMFParents,
+        reinterpret_cast<FieldAccessMethod>(&Attachment::getMFParents),
         "test")
 };
 

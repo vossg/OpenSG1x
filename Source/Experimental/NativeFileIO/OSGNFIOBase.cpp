@@ -203,14 +203,14 @@ bool NFIOBase::isOSB(std::istream &is)
     // the length of the osb header!
     const int osb_magic[6] = {0, 0, 0, sizeof(OSGNFIOHEADERID), 'O', 'p'};
 
-    int c1 = (int) is.get();
+    int c1 = int(is.get());
     if(c1 != osb_magic[0])
     {
         is.putback(c1);
         return false;
     }
 
-    int c2 = (int) is.get();
+    int c2 = int(is.get());
     if(c2 != osb_magic[1])
     {
         is.putback(c2);
@@ -218,7 +218,7 @@ bool NFIOBase::isOSB(std::istream &is)
         return false;
     }
 
-    int c3 = (int) is.get();
+    int c3 = int(is.get());
     if(c3 != osb_magic[2])
     {
         is.putback(c3);
@@ -227,7 +227,7 @@ bool NFIOBase::isOSB(std::istream &is)
         return false;
     }
 
-    int c4 = (int) is.get();
+    int c4 = int(is.get());
     if(c4 != osb_magic[3])
     {
         is.putback(c4);
@@ -237,7 +237,7 @@ bool NFIOBase::isOSB(std::istream &is)
         return false;
     }
 
-    int c5 = (int) is.get();
+    int c5 = int(is.get());
     if(c5 != osb_magic[4])
     {
         is.putback(c5);
@@ -248,7 +248,7 @@ bool NFIOBase::isOSB(std::istream &is)
         return false;
     }
 
-    int c6 = (int) is.get();
+    int c6 = int(is.get());
     if(c6 != osb_magic[5])
     {
         is.putback(c6);
@@ -373,7 +373,7 @@ void NFIOBase::chargeFieldPtr(const fcInfo &info)
             else
             {
                 addRefCP(fc); // increment ref count
-                ((SFFieldContainerPtr *) field)->setValue(fc);
+                static_cast<SFFieldContainerPtr *>(field)->setValue(fc);
             }
         endEditCP(info._fc, info._mask);
     }
@@ -427,7 +427,7 @@ void NFIOBase::chargeFieldPtr(const fcInfo &info)
             else
             {
                 addRefCP(fc); // increment ref count
-                ((MFFieldContainerPtr *) field)->push_back(fc);
+                static_cast<MFFieldContainerPtr *>(field)->push_back(fc);
             }
         }
         endEditCP(info._fc, info._mask);
@@ -640,11 +640,11 @@ void NFIOBase::getFCCount(const FieldContainerPtr &fc, UInt32 &count)
             {
                 if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
                 {
-                    getFCCount(((SFFieldContainerPtr *) fieldPtr)->getValue(), count);
+                    getFCCount(static_cast<SFFieldContainerPtr *>(fieldPtr)->getValue(), count);
                 }
                 else if(fieldPtr->getCardinality() == FieldType::MULTI_FIELD)
                 {
-                    MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                    MFFieldContainerPtr *mfield = static_cast<MFFieldContainerPtr *>(fieldPtr);
                     UInt32 noe = mfield->size();
                     for(UInt32 i = 0; i < noe; ++i)
                     {
@@ -655,7 +655,7 @@ void NFIOBase::getFCCount(const FieldContainerPtr &fc, UInt32 &count)
             }
             else if(!strcmp(fDesc->getCName(), "attachments"))
             {
-                SFAttachmentMap *amap = (SFAttachmentMap *) fieldPtr;
+                SFAttachmentMap *amap = static_cast<SFAttachmentMap *>(fieldPtr);
                 
                 AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
                 AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
@@ -698,7 +698,7 @@ void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
     _out->putValue(std::string(OSGNFIOHEADERID));
     _out->putValue(std::string(""));
     _out->putValue(std::string(""));
-    _out->putValue((UInt64) 0);
+    _out->putValue(UInt64(0));
     
     std::string typeName = fc->getType().getCName();
     
@@ -779,11 +779,11 @@ void NFIOBase::writeFCFields(const FieldContainerPtr &fc,
                     _out->putValue(fieldName);
                     _out->putValue(fieldType);
                     _out->putValue(fc->getBinSize(mask));
-                    writeSFFieldContainerPtr((SFFieldContainerPtr *) fieldPtr);
+                    writeSFFieldContainerPtr(static_cast<SFFieldContainerPtr *>(fieldPtr));
                 }
                 else if(fieldPtr->getCardinality() == FieldType::MULTI_FIELD)
                 {
-                    MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                    MFFieldContainerPtr *mfield = static_cast<MFFieldContainerPtr *>(fieldPtr);
                     if(!mfield->empty())
                     {
                         UInt32 size = sizeof(UInt32) + sizeof(UInt32) * mfield->size();
@@ -798,7 +798,7 @@ void NFIOBase::writeFCFields(const FieldContainerPtr &fc,
             }
             else if(!strcmp(fDesc->getCName(), "attachments"))
             {
-                SFAttachmentMap *amap = (SFAttachmentMap *) fieldPtr;
+                SFAttachmentMap *amap = static_cast<SFAttachmentMap *>(fieldPtr);
                 
                 if(!amap->getValue().empty())
                 {
@@ -913,7 +913,7 @@ void NFIOBase::writeFCId(const FieldContainerPtr &fc)
 {
     if(fc == NullFC)
     {
-        _out->putValue((UInt32) 0);
+        _out->putValue(UInt32(0));
         return;
     }
     
@@ -987,8 +987,9 @@ Action::ResultE NFIOBase::clearAttachmentParent(NodePtr &node)
             if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
             {
                 AttachmentPtr attachment =
-                    AttachmentPtr::dcast(((SFFieldContainerPtr *) fieldPtr)
-                    ->getValue());
+                    AttachmentPtr::
+                    dcast(static_cast<SFFieldContainerPtr *>(fieldPtr)
+                          ->getValue());
                 if(attachment != NullFC)
                 {
                     fc.setParentFieldPos(fDesc->getFieldId());
@@ -999,7 +1000,7 @@ Action::ResultE NFIOBase::clearAttachmentParent(NodePtr &node)
             }
             else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
             {
-                MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                MFFieldContainerPtr *mfield = static_cast<MFFieldContainerPtr *>(fieldPtr);
                 UInt32 noe = mfield->size();
                 for(UInt32 j = 0; j < noe; ++j)
                 {
@@ -1057,8 +1058,9 @@ Action::ResultE NFIOBase::addAttachmentParent(NodePtr &node)
             if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
             {
                 AttachmentPtr attachment =
-                    AttachmentPtr::dcast(((SFFieldContainerPtr *) fieldPtr)
-                    ->getValue());
+                    AttachmentPtr::dcast(
+                        static_cast<SFFieldContainerPtr *>(fieldPtr)
+                        ->getValue());
                 if(attachment != NullFC)
                 {
                     fc.setParentFieldPos(fDesc->getFieldId());
@@ -1069,7 +1071,7 @@ Action::ResultE NFIOBase::addAttachmentParent(NodePtr &node)
             }
             else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
             {
-                MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                MFFieldContainerPtr *mfield = static_cast<MFFieldContainerPtr *>(fieldPtr);
                 UInt32 noe = mfield->size();
                 for(UInt32 j = 0; j < noe; ++j)
                 {
@@ -1160,7 +1162,7 @@ NFIOBase::BinaryReadHandler::~BinaryReadHandler(void)
  */
 void NFIOBase::BinaryReadHandler::read(MemoryHandle mem, UInt32 size)
 {
-    _is.read((char *) mem, size);
+    _is.read(reinterpret_cast<char *>(mem), size);
 }
 
 void NFIOBase::BinaryReadHandler::skip(UInt32 size)
@@ -1170,7 +1172,7 @@ void NFIOBase::BinaryReadHandler::skip(UInt32 size)
 
     char b;
     for(UInt32 i=0;i<size;++i)
-        get((void *) &b, 1);
+        get(static_cast<void *>(&b), 1);
 }
 
 /*-------------------------------------------------------------------------*/
@@ -1196,7 +1198,7 @@ NFIOBase::BinaryWriteHandler::~BinaryWriteHandler(void)
  */
 void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 {
-    _os.write((const char *) mem, size);
+    _os.write(reinterpret_cast<const char *>(mem), size);
 }
 
 
@@ -1214,6 +1216,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.15 2007/08/31 16:03:51 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.16 2008/06/05 05:00:29 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }

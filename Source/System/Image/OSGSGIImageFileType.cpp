@@ -116,7 +116,7 @@ ConvertShort(unsigned short *array, long length)
     unsigned b1, b2;
     unsigned char *ptr;
 
-    ptr = (unsigned char *)array;
+    ptr = reinterpret_cast<unsigned char *>(array);
     while (length--) 
     {
         b1 = *ptr++;
@@ -131,7 +131,7 @@ ConvertLong(unsigned *array, unsigned long length)
     unsigned long b1, b2, b3, b4;
     unsigned char *ptr;
 
-    ptr = (unsigned char *)array;
+    ptr = reinterpret_cast<unsigned char *>(array);
     while (length--) 
     {
         b1 = *ptr++;
@@ -352,7 +352,7 @@ bool SGIImageFileType::validateHeader( const Char8 *fileName, bool &implemented 
         return false;
 
     UInt16 magic = 0;
-    fread((void *) &magic, sizeof(magic), 1, file);
+    fread(static_cast<void *>(&magic), sizeof(magic), 1, file);
     fclose(file);
 
 #if BYTE_ORDER == LITTLE_ENDIAN

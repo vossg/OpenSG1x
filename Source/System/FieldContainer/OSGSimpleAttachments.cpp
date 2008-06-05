@@ -71,8 +71,8 @@ FieldDescription *NameAttachmentDesc::_desc[] =
         OSG_FC_FIELD_IDM_DESC(
             SimpleAttachment<NameAttachmentDesc>::SimpleField),
         false,
-        (FieldAccessMethod) &SimpleAttachment<
-                                  NameAttachmentDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&SimpleAttachment<
+                                            NameAttachmentDesc>::getFieldPtr))
 };
 
 OSG_BEGIN_NAMESPACE
@@ -94,8 +94,8 @@ FieldDescription *VoidPAttachmentDesc::_desc[] =
         OSG_FC_FIELD_IDM_DESC(
             SimpleAttachment<VoidPAttachmentDesc>::SimpleField),
         false,
-        (FieldAccessMethod) &SimpleAttachment<
-                                  VoidPAttachmentDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&SimpleAttachment<
+                                            VoidPAttachmentDesc>::getFieldPtr))
 };
 
 OSG_BEGIN_NAMESPACE

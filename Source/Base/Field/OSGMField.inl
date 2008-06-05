@@ -153,7 +153,8 @@ void MField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
-        setValues(*((const MField<FieldTypeT, fieldNameSpace> *) &obj));
+        setValues(
+            *(static_cast<const MField<FieldTypeT, fieldNameSpace> *>(&obj)));
     }
 }
 
@@ -375,7 +376,7 @@ void MField<FieldTypeT, fieldNameSpace>::swap(MField &right)
 template <class FieldTypeT, Int32 fieldNameSpace> inline
 void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
-    FieldTypeT  tmpVal;
+    FieldTypeT  tmpVal = FieldTypeT();
 
     typedef typename osgIF< (MFieldTraits::StringConvertable &
                              FieldTraits ::FromStringConvertable), 

@@ -208,11 +208,11 @@ void FresnelMaterial::updateFresnel(void)
         {
             for(Int32 x = -ws; x < ws; ++x)
             {
-                Real32 xs = (Real32) x / (Real32) width;
-                Real32 ys = (Real32) y / (Real32) height;
+                Real32 xs = Real32(x) / Real32(width);
+                Real32 ys = Real32(y) / Real32(height);
                 
                 Real32 a = osgpow(osgsqrt(xs * xs + ys * ys), expo) * bias + offset;
-                UInt32 ac = ((UInt32) (a * 255.0f)) & 0xff;
+                UInt32 ac = (UInt32(a * 255.0f)) & 0xff;
                 //ac = 255 - ac;
                 
                 UInt32 i = (x + ws) + ((y + hs) * width);
@@ -416,7 +416,7 @@ bool FresnelMaterial::isTransparent(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.5 2006/04/13 16:24:29 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.6 2008/06/05 05:01:15 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIAL_INLINE_CVSID;
 

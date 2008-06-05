@@ -149,7 +149,8 @@ void SField<FieldTypeT, fieldNameSpace>::setAbstrValue(const Field &obj)
 {
     if(getType() == obj.getType())
     {
-        setValue(*((const SField<FieldTypeT, fieldNameSpace> *) &obj));
+        setValue(
+            *(static_cast<const SField<FieldTypeT, fieldNameSpace> *>(&obj)));
     }
 }
 

@@ -97,4 +97,13 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="shadowMode"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	</Field>
 </FieldContainer>

@@ -93,13 +93,13 @@ class AbstractGeoProperty :
 
     typedef typename GeoPropertyDesc::GenericType          GenericType;
 
-    virtual UInt32  getFormat    (void) const = 0;
-    virtual UInt32  getFormatSize(void) const = 0;
-    virtual UInt32  getStride    (void) const = 0;
-    virtual UInt32  getDimension (void) const = 0;
-    virtual UInt32  getSize      (void) const = 0;
-    virtual UInt32  size         (void) const = 0;
-    virtual UInt8  *getData      (void) const = 0;
+    virtual       UInt32  getFormat    (void) const = 0;
+    virtual       UInt32  getFormatSize(void) const = 0;
+    virtual       UInt32  getStride    (void) const = 0;
+    virtual       UInt32  getDimension (void) const = 0;
+    virtual       UInt32  getSize      (void) const = 0;
+    virtual       UInt32  size         (void) const = 0;
+    virtual const UInt8  *getData      (void) const = 0;
 
     virtual GenericType getValue (const UInt32       index )       = 0;
 

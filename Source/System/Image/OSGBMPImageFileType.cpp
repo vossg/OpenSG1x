@@ -153,6 +153,11 @@ static bool readBitmapInfoHeader(std::istream &is, BITMAPINFOHEADER &infoHeader)
     char *ptr = buffer;
     infoHeader.biSize = parseUInt32(ptr);
 
+    infoHeader.redMask   = 0;
+    infoHeader.greenMask = 0;
+    infoHeader.blueMask  = 0;
+    infoHeader.alphaMask = 0;
+
     // Parse the header
     if (infoHeader.biSize >= 40)
     {
@@ -325,7 +330,7 @@ static bool parseUncompressedPaletteImage(std::istream &is, const BITMAPINFOHEAD
     for (int y = 0; y < height; ++y)
     {
         int shift = 0;
-        unsigned long bits;
+        unsigned long bits = 0;
         UChar8 *ptr = data;
         for (unsigned int x = 0; x < infoHeader.biWidth; ++x)
         {
@@ -532,7 +537,7 @@ static bool parseTrueColorImage(std::istream &is, const BITMAPINFOHEADER &infoHe
     for (int y = 0; y < height; ++y)
     {
         int shift = 32;
-        unsigned long bits;
+        unsigned long bits = 0;
         UChar8 *ptr = data;
         for (unsigned int x = 0; x < infoHeader.biWidth; ++x)
         {
@@ -623,13 +628,13 @@ static void long_int_write ( long int long_int_val, std::ostream &os)
     if(temp < 0)
         temp = temp + 65536;
 
-    u_short_int_val_hi = ( unsigned short ) temp;
+    u_short_int_val_hi = static_cast<unsigned short>(temp);
     
     temp = long_int_val % 65536;
     if(temp < 0)
         temp = temp + 65536;
 
-    u_short_int_val_lo = ( unsigned short ) temp;
+    u_short_int_val_lo = static_cast<unsigned short>(temp);
     
     if(_bmp_byte_swap)
     {
@@ -650,8 +655,8 @@ static void u_long_int_write(unsigned long int u_long_int_val,
     unsigned short int u_short_int_val_hi;
     unsigned short int u_short_int_val_lo;
     
-    u_short_int_val_hi = ( unsigned short ) ( u_long_int_val / 65536 );
-    u_short_int_val_lo = ( unsigned short ) ( u_long_int_val % 65536 );
+    u_short_int_val_hi = static_cast<unsigned short>( u_long_int_val / 65536 );
+    u_short_int_val_lo = static_cast<unsigned short>( u_long_int_val % 65536 );
     
     if(_bmp_byte_swap)
     {
@@ -673,8 +678,8 @@ static void u_short_int_write(unsigned short int u_short_int_val,
     unsigned char chi;
     unsigned char clo;
     
-    chi = ( unsigned char ) ( u_short_int_val / 256 );
-    clo = ( unsigned char ) ( u_short_int_val % 256 );
+    chi = static_cast<unsigned char>( u_short_int_val / 256 );
+    clo = static_cast<unsigned char>( u_short_int_val % 256 );
     
     if(_bmp_byte_swap)
         os << clo << chi;
@@ -893,7 +898,7 @@ bool BMPImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
 
     int width = image->getWidth();
     int height = image->getHeight();
-    unsigned char *data = (unsigned char *) image->getData();
+    unsigned char *data = static_cast<unsigned char *>(image->getData());
 
     unsigned long int bitmapoffset;
     unsigned short int bitsperpixel;

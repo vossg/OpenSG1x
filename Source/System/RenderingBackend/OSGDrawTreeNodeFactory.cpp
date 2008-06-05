@@ -74,7 +74,7 @@ DrawTreeNodeFactory::~DrawTreeNodeFactory(void)
 
 void DrawTreeNodeFactory::printStat(void)
 {
-    fprintf(stderr, "\n%d | %d | %d\n", 
+    fprintf(stderr, "\n%d | %d | %zu\n", 
             _uiAllocated, 
             _uiReused, 
             _nodeStore.size());

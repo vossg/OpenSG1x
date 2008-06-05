@@ -62,8 +62,8 @@ FieldDescription *GeoNormals3fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoNormals3fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                  GeoNormals3fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                  GeoNormals3fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -78,8 +78,8 @@ FieldDescription *GeoNormals3sPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoNormals3sPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                  GeoNormals3sPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                  GeoNormals3sPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -95,8 +95,8 @@ FieldDescription *GeoNormals3bPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoNormals3sPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                  GeoNormals3bPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                  GeoNormals3bPropertyDesc>::getFieldPtr))
 #endif
 };
 #endif

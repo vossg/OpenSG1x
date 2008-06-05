@@ -88,7 +88,7 @@ struct TypedTraits2
                                      ArgType  arg1, 
                                      Arg1T    arg2)
     {
-        ObjMethodF  pFunc = *((ObjMethodF *) pData2);
+        ObjMethodF  pFunc = *(static_cast<ObjMethodF *>(pData2));
         ObjType    *pObj  = CallArgT::getPtr(arg1); 
 
         (pObj->*pFunc)(arg2);
@@ -98,7 +98,7 @@ struct TypedTraits2
                                  ArgType  arg1, 
                                  Arg1T    arg2)
     {
-        ObjMethodF  pFunc = *((ObjMethodF *) pData2);
+        ObjMethodF  pFunc = *(reinterpret_cast<ObjMethodF *>(pData2));
         ObjType    *pObj  = CallArgT::getPtr(arg1); 
 
         return (pObj->*pFunc)(arg2);
@@ -136,7 +136,7 @@ struct TypedSOTraits2
 
     static void setCalledObject(Char8 *pData, SetObjectT obj)
     {
-        *((ObjType **) pData) = &(*obj);
+        *(reinterpret_cast<ObjType **>(pData)) = &(*obj);
     }
 
 
@@ -145,9 +145,9 @@ struct TypedSOTraits2
                                      ArgType  arg1  ,
                                      Arg2T    arg2  )
     {
-        StoredObjectT pObj  = *((StoredObjectT *) pData1);
+        StoredObjectT pObj  = *(reinterpret_cast<StoredObjectT *>(pData1));
 
-        ObjMethodF    pFunc = *((ObjMethodF     *) pData2);
+        ObjMethodF    pFunc = *(reinterpret_cast<ObjMethodF    *>(pData2));
         
         (pObj->*pFunc)(arg1, arg2);
     }
@@ -157,9 +157,9 @@ struct TypedSOTraits2
                                  ArgType  arg1  ,
                                  Arg2T    arg2  )
     {
-        StoredObjectT pObj  = *((StoredObjectT *) pData1);
+        StoredObjectT pObj  = *(reinterpret_cast<StoredObjectT *>(pData1));
 
-        ObjMethodF    pFunc = *((ObjMethodF     *) pData2);
+        ObjMethodF    pFunc = *(reinterpret_cast<ObjMethodF    *>(pData2));
         
         return (pObj->*pFunc)(arg1, arg2);
     }

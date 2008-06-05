@@ -81,7 +81,7 @@ struct TypedTraits1
 
     static void callObjectMethodVoid(UInt8 *pData2, ArgType arg1)
     {
-        ObjMethodF  pFunc = *((ObjMethodF *) pData2);
+        ObjMethodF  pFunc = *(static_cast<ObjMethodF *>(pData2));
         ObjType    *pObj  = CallArgT::getPtr(arg1); 
 
         (pObj->*pFunc)();
@@ -89,7 +89,7 @@ struct TypedTraits1
 
     static RetT callObjectMethod(UInt8 *pData2, ArgType arg1)
     {
-        ObjMethodF  pFunc = *((ObjMethodF *) pData2);
+        ObjMethodF  pFunc = *(static_cast<ObjMethodF *>(pData2));
         ObjType    *pObj  = CallArgT::getPtr(arg1); 
 
         return (pObj->*pFunc)();
@@ -123,16 +123,16 @@ struct TypedSOTraits1
 
     static void setCalledObject(Char8 *pData, SetObjectT obj)
     {
-        *((ObjType **) pData) = obj;
+        *(reinterpret_cast<ObjType **>(pData)) = obj;
     }
 
     static void callObjectMethodVoid(UInt8   *pData1, 
                                      UInt8   *pData2, 
                                      ArgType  arg1  )
     {
-        StoredObjectT pObj  = *((StoredObjectT *) pData1);
+        StoredObjectT pObj  = *(static_cast<StoredObjectT *>(pData1));
 
-        ObjMethodF    pFunc = *((ObjMethodF     *) pData2);
+        ObjMethodF    pFunc = *(static_cast<ObjMethodF    *>(pData2));
         
         (pObj->*pFunc)(arg1);
     }
@@ -141,9 +141,9 @@ struct TypedSOTraits1
                                  UInt8   *pData2, 
                                  ArgType  arg1  )
     {
-        StoredObjectT pObj  = *((StoredObjectT *) pData1);
+        StoredObjectT pObj  = *(reinterpret_cast<StoredObjectT *>(pData1));
 
-        ObjMethodF    pFunc = *((ObjMethodF     *) pData2);
+        ObjMethodF    pFunc = *(reinterpret_cast<ObjMethodF    *>(pData2));
         
         return (pObj->*pFunc)(arg1);
     }

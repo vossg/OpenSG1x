@@ -59,7 +59,7 @@ double QuadTreeCreator::
 
 //first gotta get needed controlpoints from the index-ed quadtreeleaf
     BezierTensorSurface *btsp =
-        (BezierTensorSurface*)f->faceinfo;
+        static_cast<BezierTensorSurface*>(f->faceinfo);
 
     const DCTPVec4dmatrix &cps = btsp->getControlPointMatrix();
     const DCTPVec4dmatrix::size_type m = cps.size() - 1;
@@ -212,7 +212,7 @@ int QuadTreeCreator::setInitialLeaves(
 #ifdef OSG_ADAPTIVE_QUAD_TREE
 			face->norm = -1.0;
 #endif
-            *((BezierTensorSurface*)face->faceinfo) = patches[ u ][ v ]; 
+            *(static_cast<BezierTensorSurface*>(face->faceinfo)) = patches[ u ][ v ]; 
 			BezierTensorSurface temp_surface = patches[ u ][ v ];
 		}//end inner for
 	}
@@ -245,7 +245,7 @@ int QuadTreeCreator::finishSubdivisions( DCTPFace *f )
         *((BezierTensorSurface*)f->faceinfo) = created_surfaces[ 0 ][ 1 ];
         return 0;*/
 
-        BezierTensorSurface *btsp = (BezierTensorSurface*)f->faceinfo;
+        BezierTensorSurface *btsp = static_cast<BezierTensorSurface*>(f->faceinfo);
         beziersurfacevector created_surfaces;
         if ( btsp->midPointSubDivision( created_surfaces ) ) {
                 std::cerr << "QuadTreeCreator::finisSubdivisions:" <<
@@ -255,7 +255,7 @@ int QuadTreeCreator::finishSubdivisions( DCTPFace *f )
         dctpfacevector::size_type idx = qtm->faces.size() - 3;
 
         (qtm->faces[ idx ])->faceinfo = new BezierTensorSurface;
-        *((BezierTensorSurface*)(qtm->faces[ idx++ ])->faceinfo) =
+        *(static_cast<BezierTensorSurface*>((qtm->faces[ idx++ ])->faceinfo)) =
                 created_surfaces[ 2 ];
 
 /*		std::cerr << std::endl;
@@ -266,13 +266,13 @@ int QuadTreeCreator::finishSubdivisions( DCTPFace *f )
 		std::cerr << created_surfaces[ 1 ].getControlPointMatrix( )[ 0 ][ 0 ] << std::endl;*/
 
         (qtm->faces[ idx ])->faceinfo = new BezierTensorSurface;
-        *((BezierTensorSurface*)(qtm->faces[ idx++ ])->faceinfo) =
+        *(static_cast<BezierTensorSurface*>((qtm->faces[ idx++ ])->faceinfo)) =
                 created_surfaces[ 1 ];
 
         (qtm->faces[ idx ])->faceinfo = btsp;
 
         f->faceinfo = new BezierTensorSurface;
-        *((BezierTensorSurface*)f->faceinfo) = created_surfaces[ 0 ];
+        *(static_cast<BezierTensorSurface*>(f->faceinfo)) = created_surfaces[ 0 ];
         return 0;
 }
 
@@ -295,7 +295,7 @@ int QuadTreeCreator::createQuadTree( void ) {
 
 double QuadTreeCreator::computeBilinearNorm( DCTPFace *face ) {
         BezierTensorSurface *btsp =
-                (BezierTensorSurface*)face->faceinfo;
+            static_cast<BezierTensorSurface*>(face->faceinfo);
         DCTPVec4dmatrix& cps = btsp->getControlPointMatrix();
         DCTPVec4dmatrix::size_type m = cps.size() - 1;
         DCTPVec4dvector::size_type n = cps[ 0 ].size() - 1;
@@ -327,6 +327,6 @@ double QuadTreeCreator::computeBilinearNorm( DCTPFace *face ) {
 void QuadTreeCreator::resetMesh( void ) {
         dctpfacevector::iterator fe = qtm->faces.end();
         for( dctpfacevector::iterator f = qtm->faces.begin(); f != fe; ++f )
-                delete (BezierTensorSurface*)((*f)->faceinfo);
+                delete static_cast<BezierTensorSurface*>((*f)->faceinfo);
         qtm->reinit();
 }

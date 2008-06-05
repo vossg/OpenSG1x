@@ -8,7 +8,7 @@ OSG_USING_NAMESPACE
 DVRTriangle::DVRTriangle(void)
 {
     // at least we need the vertex position and a texture coordinate
-    cutPoint = (GLdouble*) malloc(6 * sizeof(GLdouble));
+    cutPoint = static_cast<GLdouble*>(malloc(6 * sizeof(GLdouble)));
   
     for(UInt32 i = 0; i < 3; i++)
     {
@@ -20,7 +20,7 @@ DVRTriangle::DVRTriangle(void)
 
 DVRTriangle::DVRTriangle(const DVRTriangle &tri)
 {
-  cutPoint = (GLdouble*) malloc(6 * sizeof(GLdouble));
+    cutPoint = static_cast<GLdouble*>(malloc(6 * sizeof(GLdouble)));
 
   for(UInt32 i = 0; i < 3; i++)
   {
@@ -39,9 +39,9 @@ DVRTriangle::~DVRTriangle(void)
 
 bool DVRTriangle::setNumAddPerVertexAttr(UInt32 additionalPerVertexAttributes)
 {
-    cutPoint = (GLdouble*) realloc(
+    cutPoint = static_cast<GLdouble*>(realloc(
         cutPoint,
-        (6 + additionalPerVertexAttributes) * sizeof(GLdouble));
+        (6 + additionalPerVertexAttributes) * sizeof(GLdouble)));
 
     return cutPoint != NULL;
 }

@@ -424,8 +424,8 @@ Real32 STLSceneFileType::ReadFloat(std::istream& is, bool bigEndian) const
 	Real32 result = 0;
 
 	unsigned char buffer[4];
-	is.read ((char*)&buffer[0], 4);
-	Real32* tmp = (Real32*)&buffer;
+	is.read (reinterpret_cast<char*>(&buffer[0]), 4);
+	Real32* tmp = reinterpret_cast<Real32*>(&buffer);
 	result = *tmp;
 	if (bigEndian)
 		result = osg::osgntohf(result);
@@ -555,7 +555,7 @@ const Char8 *STLSceneFileType::getName(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.6 2007/03/06 09:28:28 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGSTLSceneFileType.cpp,v 1.7 2008/06/05 05:01:14 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGSTLSCENEFILETYPE_HEADER_CVSID;
 }
 

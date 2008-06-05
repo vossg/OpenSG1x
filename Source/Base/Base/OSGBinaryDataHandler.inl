@@ -63,7 +63,7 @@ void BinaryDataHandler::putValue(const bool &value)
     // platfroms it is one byte long. So we write now always
     // one byte out.
     // put(&value, sizeof(bool));
-    UInt8 temp = (UInt8) value;
+    UInt8 temp = UInt8(value);
     put(&temp, sizeof(UInt8));
 }
 
@@ -138,7 +138,7 @@ void BinaryDataHandler::putValue(const Real16 &value)
 inline 
 void BinaryDataHandler::putValue(const Real32 &value)
 {
-    UInt32 v = osghtonl( *((const UInt32 *)(&value)) );
+    UInt32 v = osghtonl( *(reinterpret_cast<const UInt32 *>(&value)) );
 
     put(&v, sizeof(Real32));
 }
@@ -146,7 +146,7 @@ void BinaryDataHandler::putValue(const Real32 &value)
 inline 
 void BinaryDataHandler::putValue(const Real64 &value)
 {
-    UInt64 v = osghtonll( *((const UInt64 *)(&value)) );
+    UInt64 v = osghtonll( *(reinterpret_cast<const UInt64 *>(&value)) );
 
     put(&v, sizeof(Real64));
 }
@@ -154,8 +154,8 @@ void BinaryDataHandler::putValue(const Real64 &value)
 inline 
 void BinaryDataHandler::putValue(const Real128 &value)
 {
-    UInt64 v = osghtonll( *( (const UInt64 *)(&value)) );
-    UInt64 w = osghtonll( *(((const UInt64 *)(&value)) + 1) );
+    UInt64 v = osghtonll( *( reinterpret_cast<const UInt64 *>(&value)) );
+    UInt64 w = osghtonll( *((reinterpret_cast<const UInt64 *>(&value)) + 1) );
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     put(&w, sizeof(UInt64));

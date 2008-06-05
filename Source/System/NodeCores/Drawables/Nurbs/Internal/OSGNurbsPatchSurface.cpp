@@ -1401,7 +1401,7 @@ void CNurbsPatchSurface::Gen3DLoops( const unsigned int cuiSurface )
 			for( ui_pos = 0; ui_pos <= ui_dim; ++ui_pos )
 			{
 				i_err = 0;
-				cl_param = rcl_curve2d.computewdeCasteljau( ( ( double ) ui_pos ) / ui_dim, i_err );
+				cl_param = rcl_curve2d.computewdeCasteljau( ( double(ui_pos) ) / ui_dim, i_err );
 //				vcl_points.push_back( rcl_surf.computewdeCasteljau( cl_param, i_err ) );
 				vcl_points.push_back( m_vclBSplineSurfaces[ cuiSurface ].getSurface( ).compute4D( cl_param, i_err ) );
 			}

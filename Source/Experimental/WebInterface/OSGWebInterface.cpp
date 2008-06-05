@@ -331,7 +331,7 @@ void WebInterface::decodeUrl(const std::string &url,
                                     else
                                         bu[c] -= '0';
                             }
-                            value += (char)(bu[0]*16+bu[1]);
+                            value += char(bu[0]*16+bu[1]);
                             break;
                         default:
                             value += *sI;
@@ -680,7 +680,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
             if(type == "SFAttachmentMap")
             {         
                 os << "</td><td>\n";
-                AttachmentMap &am = ((SFAttachmentMap *)field)->getValue();
+                AttachmentMap &am = static_cast<SFAttachmentMap *>(field)->getValue();
                 AttachmentMap::const_iterator mI;
                 for(mI = am.begin() ; mI != am.end() ; ++mI)
                 {
@@ -697,7 +697,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
                     os << "</td><td>\n";
                     if(type.find("MF") == 0)
                     {
-                        mfFCPtr = ((MFFieldContainerPtr*)field);
+                        mfFCPtr = static_cast<MFFieldContainerPtr*>(field);
                         for(unsigned int j = 0 ; j < mfFCPtr->size() ; ++j)
                         {
                             if(j>0)
@@ -707,7 +707,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
                     }
                     else
                     {
-                        childFcPtr = ((SFFieldContainerPtr*)field)->getValue();
+                        childFcPtr = static_cast<SFFieldContainerPtr*>(field)->getValue();
                         os << createFCViewReference(childFcPtr);
                     }
                 }

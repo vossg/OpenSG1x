@@ -62,8 +62,8 @@ FieldDescription *GeoColors3fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoColors3fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoColors3fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                         GeoColors3fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -78,8 +78,8 @@ FieldDescription *GeoColors4fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoColors4fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoColors4fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoColors4fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -94,8 +94,8 @@ FieldDescription *GeoColors3ubPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoColors3ubPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoColors3ubPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoColors3ubPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -110,8 +110,8 @@ FieldDescription *GeoColors4ubPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         (FieldAccessMethod) NULL)
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoColors4ubPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoColors4ubPropertyDesc>::getFieldPtr))
 #endif
 };
 

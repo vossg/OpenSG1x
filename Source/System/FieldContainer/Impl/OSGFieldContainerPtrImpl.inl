@@ -69,25 +69,25 @@ OSG_BEGIN_NAMESPACE
 inline
 Int32 *FieldContainerPtrBase::getRefCountP(void)
 {
-    return (Int32 *) (_storeP - sizeof(Int32) - sizeof(UInt32));
+    return reinterpret_cast<Int32 *>(_storeP - sizeof(Int32) - sizeof(UInt32));
 }
 
 inline
 Int32 *FieldContainerPtrBase::getRefCountP(void) const
 {
-    return (Int32 *) (_storeP - sizeof(Int32) - sizeof(UInt32));
+    return reinterpret_cast<Int32 *>(_storeP - sizeof(Int32) - sizeof(UInt32));
 }
 
 inline
 UInt32 *FieldContainerPtrBase::getIdP(void)
 {
-    return (UInt32 *) (_storeP - sizeof(UInt32));
+    return reinterpret_cast<UInt32 *>(_storeP - sizeof(UInt32));
 }
 
 inline
 UInt32 *FieldContainerPtrBase::getIdP(void) const
 {
-    return (UInt32 *) (_storeP - sizeof(UInt32));
+    return reinterpret_cast<UInt32 *>(_storeP - sizeof(UInt32));
 }
 
 inline
@@ -389,7 +389,8 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source,
 
     if(source != NULL)
     {
-        _storeP  = (UInt8 *) (const_cast<FieldContainer *>(source));
+        _storeP  = reinterpret_cast<UInt8 *>(
+            const_cast<FieldContainer *>(source));
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
         _storeP -= getElemOff(Thread::getAspect());
 #endif
@@ -423,7 +424,8 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer &source)
 {
     _containerSize   = source.getContainerSize();
     _uiParentEPos    = InvalidParentEPos;
-    _storeP          = (UInt8 *) (const_cast<FieldContainer *>(&source));
+    _storeP          = reinterpret_cast<UInt8 *>(
+        const_cast<FieldContainer *>(&source));
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
     _storeP         -= getElemOff(Thread::getAspect());
 #endif
@@ -448,7 +450,8 @@ FieldContainerPtrBase::FieldContainerPtrBase(const FieldContainer *source)
     if(source != NULL)
     {
         _containerSize = source->getContainerSize();
-        _storeP          = (UInt8 *) (const_cast<FieldContainer *>(source));
+        _storeP          = reinterpret_cast<UInt8 *>(
+            const_cast<FieldContainer *>(source));
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
         _storeP         -= getElemOff(Thread::getAspect());
 #endif
@@ -567,7 +570,7 @@ FieldContainer *FieldContainerPtr::operator->(void)
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
+    return reinterpret_cast<FieldContainer *>(getElemP(Thread::getAspect()));
 #else
     return (FieldContainer *) (getFirstElemP());
 #endif
@@ -588,7 +591,7 @@ FieldContainer *FieldContainerPtr::operator->(void) const
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
+    return reinterpret_cast<FieldContainer *>(getElemP(Thread::getAspect()));
 #else
     return (FieldContainer *) (getFirstElemP());
 #endif
@@ -609,7 +612,7 @@ FieldContainer &FieldContainerPtr::operator *(void)
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return *((FieldContainer *) (getElemP(Thread::getAspect())));
+    return *(reinterpret_cast<FieldContainer *>(getElemP(Thread::getAspect())));
 #else
     return *((FieldContainer *) (getFirstElemP()));
 #endif
@@ -630,7 +633,7 @@ FieldContainer &FieldContainerPtr::operator *(void) const
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return *((FieldContainer *) (getElemP(Thread::getAspect())));
+    return *(reinterpret_cast<FieldContainer *>(getElemP(Thread::getAspect())));
 #else
     return *((FieldContainer *) (getFirstElemP()));
 #endif
@@ -651,7 +654,7 @@ FieldContainer *FieldContainerPtr::getCPtr(void)
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
+    return reinterpret_cast<FieldContainer *>(getElemP(Thread::getAspect()));
 #else
     return (FieldContainer *) (getFirstElemP());
 #endif
@@ -672,7 +675,7 @@ FieldContainer *FieldContainerPtr::getCPtr(void) const
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (FieldContainer *) (getElemP(Thread::getAspect()));
+    return reinterpret_cast<FieldContainer *>(getElemP(Thread::getAspect()));
 #else
     return (FieldContainer *) (getFirstElemP());
 #endif
@@ -840,7 +843,8 @@ const FieldContainer *ConstFieldContainerPtr::operator->(void)
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (const FieldContainer *) (getElemP(Thread::getAspect()));
+    return 
+        reinterpret_cast<const FieldContainer *>(getElemP(Thread::getAspect()));
 #else
     return (const FieldContainer *) (getFirstElemP());
 #endif
@@ -861,7 +865,8 @@ const FieldContainer *ConstFieldContainerPtr::operator->(void) const
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (const FieldContainer *) (getElemP(Thread::getAspect()));
+    return 
+        reinterpret_cast<const FieldContainer *>(getElemP(Thread::getAspect()));
 #else
     return (const FieldContainer *) (getFirstElemP());
 #endif
@@ -871,7 +876,9 @@ inline
 const FieldContainer &ConstFieldContainerPtr::operator *(void)
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return *((const FieldContainer *) (getElemP(Thread::getAspect())));
+    return 
+        *(reinterpret_cast<const FieldContainer *>(
+              getElemP(Thread::getAspect())));
 #else
     return *((const FieldContainer *) (getFirstElemP()));
 #endif
@@ -881,7 +888,9 @@ inline
 const FieldContainer &ConstFieldContainerPtr::operator *(void) const
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return *((const FieldContainer *) (getElemP(Thread::getAspect())));
+    return 
+        *(reinterpret_cast<const FieldContainer *>(
+              getElemP(Thread::getAspect())));
 #else
     return *((const FieldContainer *) (getFirstElemP()));
 #endif
@@ -891,7 +900,8 @@ inline
 const FieldContainer *ConstFieldContainerPtr::getCPtr(void)
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (const FieldContainer *) (getElemP(Thread::getAspect()));
+    return 
+        reinterpret_cast<const FieldContainer *>(getElemP(Thread::getAspect()));
 #else
     return (const FieldContainer *) (getFirstElemP());
 #endif
@@ -901,7 +911,8 @@ inline
 const FieldContainer *ConstFieldContainerPtr::getCPtr(void) const
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (const FieldContainer *) (getElemP(Thread::getAspect()));
+    return 
+        reinterpret_cast<const FieldContainer *>(getElemP(Thread::getAspect()));
 #else
     return (const FieldContainer *) (getFirstElemP());
 #endif
@@ -1031,7 +1042,9 @@ FieldContainerTypeT *FCPtr<BasePtrTypeT,
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+    return 
+        reinterpret_cast<FieldContainerTypeT *>(
+            Self::getElemP(Thread::getAspect()));
 #else
     return (FieldContainerTypeT *) Self::getFirstElemP();
 #endif
@@ -1053,7 +1066,8 @@ FieldContainerTypeT *FCPtr<BasePtrTypeT,
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+    return 
+        reinterpret_cast<FieldContainerTypeT *>(Self::getElemP(Thread::getAspect()));
 #else
     return (FieldContainerTypeT *) Self::getFirstElemP();
 #endif
@@ -1064,7 +1078,9 @@ FieldContainerTypeT &FCPtr<BasePtrTypeT,
                            FieldContainerTypeT>::operator *(void)
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+    return 
+        *(reinterpret_cast<FieldContainerTypeT *>(
+              Self::getElemP(Thread::getAspect())));
 #else
     return *((FieldContainerTypeT *) Self::getFirstElemP());
 #endif
@@ -1075,7 +1091,9 @@ FieldContainerTypeT &FCPtr<BasePtrTypeT,
                             FieldContainerTypeT>::operator *(void) const
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return *((FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+    return 
+        *(reinterpret_cast<FieldContainerTypeT *>(
+              Self::getElemP(Thread::getAspect())));
 #else
     return *((FieldContainerTypeT *) Self::getFirstElemP());
 #endif
@@ -1087,7 +1105,9 @@ FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void)
 
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+    return 
+        reinterpret_cast<FieldContainerTypeT *>(
+            Self::getElemP(Thread::getAspect()));
 #else
     return (FieldContainerTypeT *) Self::getFirstElemP();
 #endif
@@ -1098,7 +1118,8 @@ FieldContainerTypeT *
     FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+    return 
+        reinterpret_cast<FieldContainerTypeT *>(Self::getElemP(Thread::getAspect()));
 #else
     return (FieldContainerTypeT *) Self::getFirstElemP();
 #endif
@@ -1219,7 +1240,9 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+    return 
+        static_cast<const FieldContainerTypeT *>(
+            Self::getElemP(Thread::getAspect()));
 #else
     return (const FieldContainerTypeT *) Self::getFirstElemP();
 #endif
@@ -1242,7 +1265,9 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
 #endif
 
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+    return 
+        static_cast<const FieldContainerTypeT *>(
+            Self::getElemP(Thread::getAspect()));
 #else
     return (const FieldContainerTypeT *) Self::getFirstElemP();
 #endif
@@ -1253,9 +1278,11 @@ const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::operator *(void)
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-   return *((const FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+    return 
+        *(static_cast<const FieldContainerTypeT *>(
+              Self::getElemP(Thread::getAspect())));
 #else
-   return *((const FieldContainerTypeT *) Self::getFirstElemP());
+    return *((const FieldContainerTypeT *) Self::getFirstElemP());
 #endif
 }
 
@@ -1265,9 +1292,11 @@ const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
                                            void) const
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-   return *((const FieldContainerTypeT *) Self::getElemP(Thread::getAspect()));
+    return 
+        *(static_cast<const FieldContainerTypeT *>(
+              Self::getElemP(Thread::getAspect())));
 #else
-   return *((const FieldContainerTypeT *) Self::getFirstElemP());
+    return *((const FieldContainerTypeT *) Self::getFirstElemP());
 #endif
 }
 
@@ -1278,7 +1307,9 @@ const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
 
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+    return 
+        static_cast<const FieldContainerTypeT *>(
+            Self::getElemP(Thread::getAspect()));
 #else
     return (const FieldContainerTypeT *) Self::getFirstElemP();
 #endif
@@ -1289,7 +1320,9 @@ const FieldContainerTypeT *
     ConstFCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void) const
 {
 #if !defined(OSG_DEBUG_NO_FCPTR_ARITHM) 
-    return (const FieldContainerTypeT *) Self::getElemP(Thread::getAspect());
+    return 
+        static_cast<const FieldContainerTypeT *>(
+            Self::getElemP(Thread::getAspect()));
 #else
     return (const FieldContainerTypeT *) Self::getFirstElemP();
 #endif
@@ -1391,11 +1424,13 @@ void FieldContainerPtrBase::executeSync(UInt32    uiFromAspect,
     sInfo.uiCopyOffset = getContainerSize();
 #endif
 
-    FieldContainer *pTo = ((FieldContainer *) getElemP(uiToAspect));
+    FieldContainer *pTo = 
+        (reinterpret_cast<FieldContainer *>(getElemP(uiToAspect)));
     
 #if !defined(OSG_FIXED_MFIELDSYNC)
-    pTo->executeSync(*((FieldContainer *) getElemP(uiFromAspect)), 
-                     whichField);
+    pTo->executeSync(
+        *(reinterpret_cast<FieldContainer *>(getElemP(uiFromAspect))), 
+        whichField);
 #else
     pTo->executeSync(*((FieldContainer *) getElemP(uiFromAspect)), 
                      whichField,

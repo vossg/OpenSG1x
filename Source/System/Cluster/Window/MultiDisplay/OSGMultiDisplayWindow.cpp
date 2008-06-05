@@ -166,8 +166,8 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     Int32 bottom = row    * height - row    * getYOverlap();
     Int32 right  = left   + width  - 1;
     Int32 top    = bottom + height - 1;
-    Real64 scaleCWidth   = ((width - getXOverlap()) * (getHServers() - 1) + width) / (float)getWidth();
-    Real64 scaleCHeight  = ((height - getYOverlap())* (getVServers() - 1) + height)/ (float)getHeight();
+    Real64 scaleCWidth   = ((width - getXOverlap()) * (getHServers() - 1) + width) / float(getWidth());
+    Real64 scaleCHeight  = ((height - getYOverlap())* (getVServers() - 1) + height)/ float(getHeight());
     bool   isVirtualPort = false;
 
     // duplicate viewports
@@ -209,10 +209,10 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
         else
         {
             clientStereoPort = StereoBufferViewportPtr::dcast(clientPort);
-            cleft   = (Int32)(clientPort->getPixelLeft()      * scaleCWidth)   ;
-            cbottom = (Int32)(clientPort->getPixelBottom()    * scaleCHeight)  ;
-            cright  = (Int32)((clientPort->getPixelRight()+1) * scaleCWidth) -1;
-            ctop    = (Int32)((clientPort->getPixelTop()+1)   * scaleCHeight)-1;
+            cleft   = Int32(clientPort->getPixelLeft()      * scaleCWidth)   ;
+            cbottom = Int32(clientPort->getPixelBottom()    * scaleCHeight)  ;
+            cright  = Int32((clientPort->getPixelRight()+1) * scaleCWidth) -1;
+            ctop    = Int32((clientPort->getPixelTop()+1)   * scaleCHeight)-1;
 
             if( cright  < left   ||
                 cleft   > right  ||
@@ -287,10 +287,10 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
             beginEditCP(deco);
             deco->setFullWidth ( cright-cleft );
             deco->setFullHeight( ctop-cbottom );
-            deco->setSize( ( l+left-cleft     ) / (float)( cright-cleft ),
-                       ( b+bottom-cbottom ) / (float)( ctop-cbottom ),
-                       ( r+left-cleft     ) / (float)( cright-cleft ),
-                       ( t+bottom-cbottom ) / (float)( ctop-cbottom ) );
+            deco->setSize( ( l+left-cleft     ) / float( cright-cleft ),
+                       ( b+bottom-cbottom ) / float( ctop-cbottom ),
+                       ( r+left-cleft     ) / float( cright-cleft ),
+                       ( t+bottom-cbottom ) / float( ctop-cbottom ) );
             deco->setDecoratee( clientPort->getCamera() );
             endEditCP(deco);
         }
@@ -473,14 +473,14 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
         {
             if(dst_field->getCardinality() == FieldType::SINGLE_FIELD)
             {
-                if((((SFFieldContainerPtr *)dst_field)->getValue() !=
-                    ((SFFieldContainerPtr *)src_field)->getValue()))
+                if((static_cast<SFFieldContainerPtr *>(dst_field)->getValue() !=
+                    static_cast<SFFieldContainerPtr *>(src_field)->getValue()))
                     equal = false;
             }
             else if(dst_field->getCardinality() == FieldType::MULTI_FIELD)
             {
-                UInt32 j, cn = ((MFFieldContainerPtr*)src_field)->size(),
-                          sn = ((MFFieldContainerPtr*)src_field)->size();
+                UInt32 j, cn = static_cast<MFFieldContainerPtr*>(src_field)->size(),
+                          sn = static_cast<MFFieldContainerPtr*>(src_field)->size();
                           
                 if (strcmp(fdesc->getCName(), "foregrounds") == 0)
                 {
@@ -527,15 +527,15 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                 }
                 else
                 {
-                    if(((MFFieldContainerPtr*)dst_field)->size() !=
-                    ((MFFieldContainerPtr*)src_field)->size()) {
+                    if(static_cast<MFFieldContainerPtr*>(dst_field)->size() !=
+                       static_cast<MFFieldContainerPtr*>(src_field)->size()) {
                         equal = false;
                     }
                     else {
-                        for(j=0;j < ((MFFieldContainerPtr*)dst_field)->size();++j)
+                        for(j=0;j < static_cast<MFFieldContainerPtr*>(dst_field)->size();++j)
                         {
-                            if(((*(((MFFieldContainerPtr *)dst_field)))[j] !=
-                                (*(((MFFieldContainerPtr *)src_field)))[j]))
+                            if(((*(static_cast<MFFieldContainerPtr *>(dst_field)))[j] !=
+                                (*(static_cast<MFFieldContainerPtr *>(src_field)))[j]))
                                 equal = false;
                         }
                     }

@@ -149,6 +149,14 @@ SocketSelection::~SocketSelection()
     delete _fdSetWrite;
 }
 
+#ifdef OSG_DEBUG_OLD_C_CASTS
+// For my debugging, should not be active for any other case (GV)
+#ifdef __FDMASK
+#undef __FDMASK
+#define	__FDMASK(d)	(__fd_mask(1) << ((d) % __NFDBITS))
+#endif
+#endif
+
 /** \brief Clear all settings
  */
 

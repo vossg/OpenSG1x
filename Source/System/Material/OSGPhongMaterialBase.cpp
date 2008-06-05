@@ -63,7 +63,7 @@
 
 #include <OSGGL.h>                        // ColorMaterial default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  PhongMaterialBase::AmbientFieldMask = 
     (TypeTraits<BitVector>::One << PhongMaterialBase::AmbientFieldId);
@@ -129,42 +129,42 @@ FieldDescription *PhongMaterialBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFAmbient),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFAmbient)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFDiffuse),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFDiffuse)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFSpecular),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFSpecular)),
     new FieldDescription(SFReal32::getClassType(), 
                      "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFShininess),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFShininess)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFEmission),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFEmission)),
     new FieldDescription(SFReal32::getClassType(), 
                      "transparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFTransparency),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFTransparency)),
     new FieldDescription(SFBool::getClassType(), 
                      "lit", 
                      LitFieldId, LitFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFLit),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFLit)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
-                     (FieldAccessMethod) &PhongMaterialBase::getSFColorMaterial)
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFColorMaterial))
 };
 
 
@@ -172,7 +172,7 @@ FieldContainerType PhongMaterialBase::_type(
     "PhongMaterial",
     "ChunkMaterial",
     NULL,
-    (PrototypeCreateF) &PhongMaterialBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&PhongMaterialBase::createEmpty),
     PhongMaterial::initMethod,
     _desc,
     sizeof(_desc));
@@ -211,7 +211,8 @@ UInt32 PhongMaterialBase::getContainerSize(void) const
 void PhongMaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((PhongMaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<PhongMaterialBase *>(&other),
+                          whichField);
 }
 #else
 void PhongMaterialBase::executeSync(      FieldContainer &other,
@@ -501,14 +502,10 @@ void PhongMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
-OSG_BEGIN_NAMESPACE
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 DataType FieldDataTraits<PhongMaterialPtr>::_type("PhongMaterialPtr", "ChunkMaterialPtr");
 #endif
 
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -524,10 +521,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.45 2005/07/20 00:10:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIALBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGPHONGMATERIALFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

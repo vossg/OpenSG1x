@@ -120,13 +120,15 @@ NodeCorePtr Node::getCore(void) const
 inline
 NodeCore *NodePtr::getCore(void)
 {
-    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return (reinterpret_cast<Node *>(
+                getElemP(Thread::getAspect())))->getCore().getCPtr();
 }
 
 inline
 NodeCore *NodePtr::getCore(void) const
 {
-    return ((Node *) getElemP(Thread::getAspect()))->getCore().getCPtr();
+    return (reinterpret_cast<Node *>(
+                getElemP(Thread::getAspect())))->getCore().getCPtr();
 }
 
 inline

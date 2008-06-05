@@ -81,7 +81,7 @@ inline bool Window::hasCommonExtension(UInt32 id)
     issued if there are problems. Use getFunctionNoCheck if you're sure you
     don't need them.
 */
-inline void* Window::getFunction(UInt32 id)
+inline Window::GLExtensionFunction Window::getFunction(UInt32 id)
 {
     if(id >= _extFunctions.size())
     {
@@ -101,7 +101,7 @@ inline void* Window::getFunction(UInt32 id)
     \warning No error checks are done on the passed index nor on the returned
     function!
 */
-inline void* Window::getFunctionNoCheck(UInt32 id)
+inline Window::GLExtensionFunction Window::getFunctionNoCheck(UInt32 id)
 {
     return _extFunctions[ id ];
 }

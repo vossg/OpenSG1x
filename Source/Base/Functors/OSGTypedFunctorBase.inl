@@ -132,7 +132,7 @@ void TypedFunctionFunctorBase<Parent, Params>::setMethod(FunctionF pFunc)
 {
     Self::_flags |=  Self::FuncPtrValid;
 
-    *((FunctionF *) Self::_data2) = pFunc; 
+    *(reinterpret_cast<FunctionF *>(Self::_data2)) = pFunc; 
 }
 
 
@@ -170,7 +170,7 @@ void TypedObjectFunctorBase<Parent, Params>::setMethod(ObjMethodF pFunc)
 {
     Self::_flags |=  Self::FuncPtrValid;
 
-    *((ObjMethodF *) Self::_data2) = pFunc; 
+    *(reinterpret_cast<ObjMethodF *>(Self::_data2)) = pFunc; 
 }
 
 
@@ -211,7 +211,7 @@ void TypedStoredObjectFunctorBase<Parent, Params>::setMethod(ObjMethodF pFunc)
 {
     Self::_flags |=  Self::FuncPtrValid;
 
-    *((ObjMethodF *) Self::_data2) = pFunc; 
+    *(reinterpret_cast<ObjMethodF *>(Self::_data2)) = pFunc; 
 }
 
 
@@ -235,7 +235,7 @@ void TypedStoredObjectFunctorBase<Parent, Params>::setObjectAndMethod(
      
     Params::setCalledObject(reinterpret_cast<Char8 *>(Self::_data1), pObj);
 
-    *((ObjMethodF *) Self::_data2) = pFunc; 
+    *(static_cast<ObjMethodF *>(Self::_data2)) = pFunc; 
 }
 
 OSG_END_NAMESPACE

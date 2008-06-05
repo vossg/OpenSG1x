@@ -63,7 +63,7 @@
 
 #include <OSGGL.h>                        // Func default header
 
-OSG_USING_NAMESPACE
+OSG_BEGIN_NAMESPACE
 
 const OSG::BitVector  DepthChunkBase::EnableFieldMask = 
     (TypeTraits<BitVector>::One << DepthChunkBase::EnableFieldId);
@@ -111,27 +111,27 @@ FieldDescription *DepthChunkBase::_desc[] =
                      "enable", 
                      EnableFieldId, EnableFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthChunkBase::getSFEnable),
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFEnable)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "func", 
                      FuncFieldId, FuncFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthChunkBase::getSFFunc),
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFFunc)),
     new FieldDescription(SFReal32::getClassType(), 
                      "near", 
                      NearFieldId, NearFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthChunkBase::getSFNear),
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFNear)),
     new FieldDescription(SFReal32::getClassType(), 
                      "far", 
                      FarFieldId, FarFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthChunkBase::getSFFar),
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFFar)),
     new FieldDescription(SFBool::getClassType(), 
                      "readOnly", 
                      ReadOnlyFieldId, ReadOnlyFieldMask,
                      false,
-                     (FieldAccessMethod) &DepthChunkBase::getSFReadOnly)
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFReadOnly))
 };
 
 
@@ -139,7 +139,7 @@ FieldContainerType DepthChunkBase::_type(
     "DepthChunk",
     "StateChunk",
     NULL,
-    (PrototypeCreateF) &DepthChunkBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&DepthChunkBase::createEmpty),
     DepthChunk::initMethod,
     _desc,
     sizeof(_desc));
@@ -178,7 +178,8 @@ UInt32 DepthChunkBase::getContainerSize(void) const
 void DepthChunkBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((DepthChunkBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<DepthChunkBase *>(&other),
+                          whichField);
 }
 #else
 void DepthChunkBase::executeSync(      FieldContainer &other,
@@ -399,6 +400,8 @@ void DepthChunkBase::execBeginEditImpl (const BitVector &whichField,
 
 
 
+OSG_END_NAMESPACE
+
 #include <OSGSFieldTypeDef.inl>
 #include <OSGMFieldTypeDef.inl>
 
@@ -410,8 +413,6 @@ DataType FieldDataTraits<DepthChunkPtr>::_type("DepthChunkPtr", "StateChunkPtr")
 
 OSG_DLLEXPORT_SFIELD_DEF1(DepthChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DepthChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
-
-OSG_END_NAMESPACE
 
 
 /*------------------------------------------------------------------------*/
@@ -427,10 +428,12 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.7 2006/02/20 17:04:46 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.8 2008/06/05 05:01:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCHUNKBASE_INLINE_CVSID;
 
     static Char8 cvsid_fields_hpp[] = OSGDEPTHCHUNKFIELDS_HEADER_CVSID;
 }
+
+OSG_END_NAMESPACE
 

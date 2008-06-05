@@ -82,14 +82,14 @@ void FieldContainerPtrBase::deleteContainers(void) const
     Thread::getCurrentChangeList()->addDestroyed(*getIdP());
     
     if (FieldContainerFactory::the()->unregisterFieldContainer(
-            *((const FieldContainerPtr *) this)))
+            *(static_cast<const FieldContainerPtr *>(this))))
     {
         return;
     }
     
     UInt8 *pTmp = getFirstElemP();
     
-    ((FieldContainer *) pTmp)->onDestroy();
+    (reinterpret_cast<FieldContainer *>(pTmp))->onDestroy();
     
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
 
@@ -111,7 +111,7 @@ void FieldContainerPtrBase::deleteContainers(void) const
 #endif
 
 #if !defined(OSG_FIXED_MFIELDSYNC)
-        ((FieldContainer *) pTmp)->~FieldContainer();
+        (reinterpret_cast<FieldContainer *>(pTmp))->~FieldContainer();
 #endif
 
         pTmp += _containerSize;

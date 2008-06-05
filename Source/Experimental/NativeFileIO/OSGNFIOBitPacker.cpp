@@ -73,7 +73,7 @@ BitPacker::BitPacker(UInt32 size, UInt32 range_max) :
 {
     while(true)
     {
-        UInt32 max_value = (UInt32) (1 << _num_bits_to_pack) - 1;
+        UInt32 max_value = UInt32(1 << _num_bits_to_pack) - 1;
         if (max_value >= range_max)
             break;
     
@@ -162,7 +162,7 @@ BitUnpacker::BitUnpacker(const std::vector<UInt8> &buffer, UInt32 range_max) :
 {
     while(true)
     {
-        UInt32 max_value = (UInt32) (1 << _num_bits_to_unpack) - 1;
+        UInt32 max_value = UInt32(1 << _num_bits_to_unpack) - 1;
         if (max_value >= range_max)
             break;
     
@@ -207,6 +207,6 @@ UInt32 BitUnpacker::unpack(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBitPacker.cpp,v 1.1 2004/01/08 18:00:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBitPacker.cpp,v 1.2 2008/06/05 05:00:29 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBITPACKER_HEADER_CVSID;
 }

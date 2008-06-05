@@ -322,7 +322,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     glTranslatef(orthoX, orthoY, 0.0);
 
     // draw background
-    glColor4fv((GLfloat*)getBgColor().getValuesRGBA());
+    glColor4fv(static_cast<GLfloat*>(getBgColor().getValuesRGBA()));
     glBegin(GL_QUADS);
         glVertex2f(0, -textHeight);
         glVertex2f(textWidth, -textHeight);
@@ -333,7 +333,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     // draw border
     if(getBorderColor().red() >= 0.0f)
     {
-        glColor4fv((GLfloat*)getBorderColor().getValuesRGBA());
+        glColor4fv(static_cast<GLfloat*>(getBorderColor().getValuesRGBA()));
         glBegin(GL_LINE_LOOP);
             glVertex2f(getBorderOffset().x(), -textHeight + 1 + getBorderOffset().y());
             glVertex2f(textWidth - 1 - getBorderOffset().x(), -textHeight + 1 + getBorderOffset().y());
@@ -347,13 +347,13 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
     _texchunk->activate(action);
 
-    glColor4fv((GLfloat*)getShadowColor().getValuesRGBA());
+    glColor4fv(static_cast<GLfloat*>(getShadowColor().getValuesRGBA()));
     glPushMatrix();
     glTranslatef(getShadowOffset().x(), getShadowOffset().y(), 0);
     glScalef(scale, scale, 1);
     drawCharacters(layoutResult);
 
-    glColor4fv((GLfloat*)getColor().getValuesRGBA());
+    glColor4fv(static_cast<GLfloat*>(getColor().getValuesRGBA()));
     glPopMatrix();
     glScalef(scale, scale, 1);
     drawCharacters(layoutResult);

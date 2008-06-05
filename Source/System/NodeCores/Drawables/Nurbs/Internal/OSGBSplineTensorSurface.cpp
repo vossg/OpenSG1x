@@ -78,7 +78,7 @@ int BSplineTensorSurface::CheckKnotPoints( const DCTPdvector& knots, int dim )
   DCTPdvector::size_type max_index = knots.size() - 1;
   double test_begin = knots[ 0 ], test_end = knots[ max_index ];
 
-  for( DCTPdvector::size_type i = 1; i < ( unsigned int ) dim + 1; ++i )
+  for( DCTPdvector::size_type i = 1; i < static_cast<unsigned int>(dim) + 1; ++i )
     if ( knots[ i ] != test_begin || knots[ max_index - i ] != test_end ) return -1; //FIXME: double comparison ?!
 
   return 0;
@@ -353,7 +353,7 @@ Vec4d BSplineTensorSurface::compute4D( Vec2d uv, int &error )
   {
     temp[0] = temp[1] = temp[2] = temp[3] = 0.0;
     index_u = span_u - dimension_u;
-    for( DCTPVec4dmatrix::size_type k = 0; k <= ( unsigned int ) dimension_u; ++k )
+    for( DCTPVec4dmatrix::size_type k = 0; k <= static_cast<unsigned int>(dimension_u); ++k )
 	{
       temp += control_points[ index_u ][ index_v ] * nu[ k ];
 	  ++index_u;
@@ -697,9 +697,9 @@ int BSplineTensorSurface::insertKnot_U( double k )
     {
         newcps[ i ].resize( control_points[ 0 ].size() ); // this must be 0 (or at least < newcps.size() - 1
     }
-    for ( i = 0; ( int ) i <= span - dimension_u; i++ )
+    for ( i = 0; int(i) <= span - dimension_u; i++ )
         newcps[ i ] = control_points[ i ];
-    for ( i = span - dimension_u + 1; i <= ( unsigned int ) span; i++ ) 
+    for ( i = span - dimension_u + 1; i <= static_cast<unsigned int>(span); i++ ) 
     {
         double alpha;
         if ( knots[ i + dimension_u ] != knots[ i ] )
@@ -1482,7 +1482,7 @@ void BSplineTensorSurface::computeNormal( std::vector< Vec2d > &rvclUV,
 	DCTPVec3dmatrix				vvcl_skl_eucl;
 	Vec4d						*apcl_temp[ 2 ];
 	int							i_r;
-	double						d_len;
+	double						d_len = 0.0;
 	int							i_u;
 	int							i_v;
 	bool						b_u_new;
@@ -1708,7 +1708,7 @@ void BSplineTensorSurface::computeNormalforTrimming( std::vector< Vec2d > &rvclU
 	DCTPVec3dmatrix				vvcl_skl_eucl;
 	Vec4d						*apcl_temp[ 2 ];
 	int							i_r;
-	double						d_len;
+	double						d_len = 0.0;
 	int							i_u;
 	int							i_v;
 	bool						b_u_new;

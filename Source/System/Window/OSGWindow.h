@@ -162,8 +162,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
            bool                 hasExtension      (const Char8  *s   );
     static 
     inline bool                 hasCommonExtension(      UInt32  id  );
-           void                *getFunction       (      UInt32  id  );
-           void                *getFunctionNoCheck(      UInt32  id  );
+           GLExtensionFunction  getFunction       (      UInt32  id  );
+           GLExtensionFunction  getFunctionNoCheck(      UInt32  id  );
            void                 dumpExtensions    (      void        );
            GLExtensionFunction  getFunctionByName (const Char8  *s   );
     inline Real32               getConstantValue  (      GLenum  val );
@@ -381,19 +381,19 @@ class OSG_SYSTEMLIB_DLLMAPPING Window : public WindowBase
     /*! \name        GL Object / Extension variables                       */
     /*! \{                                                                 */
     
-    std::vector<UInt32     > _lastValidate;
-    std::vector<UInt32     > _ids;
+    std::vector<UInt32             > _lastValidate;
+    std::vector<UInt32             > _ids;
 
-    UInt32                   _glVersion;
-    std::vector<std::string> _extensions;
-    std::vector<bool       > _availExtensions;
-    std::vector<void      *> _extFunctions;
-    ConstHash                _availConstants;
-    UInt32                   _numAvailConstants;
+    UInt32                           _glVersion;
+    std::vector<std::string        > _extensions;
+    std::vector<bool               > _availExtensions;
+    std::vector<GLExtensionFunction> _extFunctions;
+    ConstHash                        _availConstants;
+    UInt32                           _numAvailConstants;
 
     /*! \}                                                                 */
 
-    UInt32                   _windowId;
+    UInt32                           _windowId;
 
     // prohibit default functions (move to 'public' if you need one)
 

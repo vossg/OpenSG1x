@@ -333,11 +333,11 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                             {
                                 if(fieldPtr->getCardinality() == FieldType::SINGLE_FIELD)
                                 {
-                                    ((SFFieldContainerPtr *)fieldPtr)->setValue(NullFC);
+                                    (static_cast<SFFieldContainerPtr *>(fieldPtr))->setValue(NullFC);
                                 }
                                 else 
                                 {
-                                    ((MFFieldContainerPtr *) fieldPtr)->clear();
+                                    (static_cast<MFFieldContainerPtr *>(fieldPtr))->clear();
                                 }
                             }
                         }
@@ -481,7 +481,7 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
             }
         default:
             {
-                SFATAL << "Unknown tag:" << (int) cmd << std::endl;
+                SFATAL << "Unknown tag:" << int(cmd) << std::endl;
                 throw RemoteSyncError();
             }
         }
@@ -979,8 +979,8 @@ void RemoteAspect::handleFCMapping(Connection &connection)
         remoteFCI != _remoteFC.end() ;
         ++remoteFCI)
     {
-        remoteId     = (UInt32)(remoteFCI->second);
-        remoteAspect = (UInt32)(remoteFCI->second>>32);
+        remoteId     = UInt32(remoteFCI->second);
+        remoteAspect = UInt32(remoteFCI->second>>32);
 
         cmd = IDMAPPING;
         connection.putValue(cmd);

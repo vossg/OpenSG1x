@@ -62,8 +62,8 @@ FieldDescription *GeoTexCoords1fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoTexCoords1fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoTexCoords1fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoTexCoords1fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -78,8 +78,8 @@ FieldDescription *GeoTexCoords2fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoTexCoords2fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoTexCoords2fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoTexCoords2fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -94,8 +94,8 @@ FieldDescription *GeoTexCoords3fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoTexCoords3fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoTexCoords3fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoTexCoords3fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -110,8 +110,8 @@ FieldDescription *GeoTexCoords4fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoTexCoords4fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoTexCoords4fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoTexCoords4fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -126,8 +126,8 @@ FieldDescription *GeoTexCoords1dPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoTexCoords1dPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoTexCoords1dPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoTexCoords1dPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -142,8 +142,8 @@ FieldDescription *GeoTexCoords2dPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoTexCoords2dPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoTexCoords2dPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoTexCoords2dPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -158,8 +158,8 @@ FieldDescription *GeoTexCoords3dPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoTexCoords3dPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoTexCoords3dPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoTexCoords3dPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -174,8 +174,8 @@ FieldDescription *GeoTexCoords4dPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoTexCoords4dPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoTexCoords4dPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoTexCoords4dPropertyDesc>::getFieldPtr))
 #endif
 };
 

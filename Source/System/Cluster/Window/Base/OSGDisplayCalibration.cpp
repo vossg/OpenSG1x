@@ -301,7 +301,7 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
                 UInt8 *data = img->getData();
                 for(int i=0; i < 256; i++)
                 {
-                    data[i] = (UInt8)(pow(i/255.0,1.0)*255);
+                    data[i] = UInt8(pow(i/255.0,1.0)*255);
                 }
             }
             else
@@ -310,7 +310,7 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
                 UInt8 *data = img->getData();
                 for(int i=0; i < getGammaRamp().size(); i++)
                 {
-                    data[i] = (UInt8)(getGammaRamp()[i][j] * 255);
+                    data[i] = UInt8(getGammaRamp()[i][j] * 255);
                 }
             }
             endEditCP(img);
@@ -674,8 +674,8 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
     Real32 h=top-bottom+1;
     Real32 w=right-left+1;
     Real32 
-        tw = osgnextpower2((UInt32)w), 
-        th = osgnextpower2((UInt32)h);
+        tw = osgnextpower2(UInt32(w)), 
+        th = osgnextpower2(UInt32(h));
 
     beginEditCP(_texcoords);
     beginEditCP(_positions);
@@ -742,8 +742,8 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
                     // scale to ^2 texture size
                     if(!_nonPowerOfTwo)
                     {
-                        tex[i][0] *= w/(float)tw;
-                        tex[i][1] *= h/(float)th;
+                        tex[i][0] *= w/float(tw);
+                        tex[i][1] *= h/float(th);
                     }
                     if(absolute) 
                     {
@@ -782,8 +782,8 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
                     
     Real32 h3= tops - bottoms + 1;
     Real32 w3= rights - lefts + 1;
-    Real32 tw2 = osgnextpower2((UInt32) w2);
-    Real32 th2 = osgnextpower2((UInt32) h2);
+    Real32 tw2 = osgnextpower2(UInt32(w2));
+    Real32 th2 = osgnextpower2(UInt32(h2));
     
     beginEditCP(_texcoordsScale);
     _texcoordsScale->clear();
@@ -831,7 +831,7 @@ void DisplayCalibration::updateGamma()
     
         for(y = 0; y < res; ++y)
         {
-            UInt8 v = (int)(pow(y/(Real32)(res-1),getGamma())*255+0.5);
+            UInt8 v = int(pow(y/Real32(res-1),getGamma())*255+0.5);
             for(x = 0; x < res; ++x)
             {
                 *data++ = v;
@@ -854,10 +854,10 @@ void DisplayCalibration::updateGamma()
     
         for(y = 0; y < res; ++y)
         {
-            UInt8 vy = (int)(pow(y/(Real32)(res-1),getGamma())*255+0.5);
+            UInt8 vy = int(pow(y/Real32(res-1),getGamma())*255+0.5);
             for(x = 0; x < res; ++x)
             {
-                UInt8 vx = (int)(pow(x/(Real32)(res-1),getGamma())*255+0.5);
+                UInt8 vx = int(pow(x/Real32(res-1),getGamma())*255+0.5);
                 *data++ = 0;
                 *data++ = vx;
                 *data++ = vy;           

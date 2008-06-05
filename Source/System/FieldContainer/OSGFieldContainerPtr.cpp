@@ -94,7 +94,7 @@ void FieldContainerPtrBase::dump(      UInt32    uiIndent,
 
         indentLog(uiIndent, PLOG);
         PLOG << "Storage  : " 
-             << std::hex << (UInt32 *)getFirstElemP() 
+             << std::hex << reinterpret_cast<UInt32 *>(getFirstElemP()) 
              << std::endl;
 
         if(bvFlags & FCDumpFlags::RefCount)

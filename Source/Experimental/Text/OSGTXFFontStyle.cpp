@@ -43,30 +43,30 @@ bool TXFFontStyle::buildGlyphInfos(TXFFont::txfChar *txfGlyphs)
             continue;
         }
 
-        x = (Real32) current->x / (Real32) _txfFontWidth + xstep;
-        y = (Real32) current->y / (Real32) _txfFontHeight + ystep;
+        x = Real32(current->x) / Real32(_txfFontWidth)  + xstep;
+        y = Real32(current->y) / Real32(_txfFontHeight) + ystep;
         glyph->setTextureCoords(0, x, y);
 
-        x += (Real32) (current->dimensions[0]) / (Real32) _txfFontWidth;
+        x += Real32(current->dimensions[0]) / Real32(_txfFontWidth);
         glyph->setTextureCoords(1, x, y);
 
-        y += (Real32) (current->dimensions[1]) / (Real32) _txfFontHeight;
+        y += Real32(current->dimensions[1]) / Real32(_txfFontHeight);
         glyph->setTextureCoords(2, x, y);
 
-        x = (Real32) current->x / (Real32) _txfFontWidth + xstep;
+        x = Real32(current->x) / Real32(_txfFontWidth) + xstep;
         glyph->setTextureCoords(3, x, y);
 
-        x = (Real32) current->dimensions[2];
-        y = (Real32) current->dimensions[3];
+        x = Real32(current->dimensions[2]);
+        y = Real32(current->dimensions[3]);
         glyph->setVertexCoords(0, x, y);
 
-        x += (Real32) current->dimensions[0];
+        x += Real32(current->dimensions[0]);
         glyph->setVertexCoords(1, x, y);
 
-        y += (Real32) current->dimensions[1];
+        y += Real32(current->dimensions[1]);
         glyph->setVertexCoords(2, x, y);
 
-        x = (Real32) current->dimensions[2];
+        x = Real32(current->dimensions[2]);
         glyph->setVertexCoords(3, x, y);
 
         glyph->setAdvance(current->dimensions[4]);

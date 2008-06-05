@@ -196,7 +196,7 @@ OSG_USING_NAMESPACE
   y = b - bvirt
 
 #define Fast_Two_Sum(a, b, x, y) \
-  x = (REAL) (a + b); \
+  x = REAL(a + b); \
   Fast_Two_Sum_Tail(a, b, x, y)
 
 #define Fast_Two_Diff_Tail(a, b, x, y) \
@@ -204,34 +204,34 @@ OSG_USING_NAMESPACE
   y = bvirt - b
 
 #define Fast_Two_Diff(a, b, x, y) \
-  x = (REAL) (a - b); \
+  x = REAL(a - b); \
   Fast_Two_Diff_Tail(a, b, x, y)
 
 #define Two_Sum_Tail(a, b, x, y) \
-  bvirt = (REAL) (x - a); \
+  bvirt = REAL(x - a); \
   avirt = x - bvirt; \
   bround = b - bvirt; \
   around = a - avirt; \
   y = around + bround
 
 #define Two_Sum(a, b, x, y) \
-  x = (REAL) (a + b); \
+  x = REAL(a + b); \
   Two_Sum_Tail(a, b, x, y)
 
 #define Two_Diff_Tail(a, b, x, y) \
-  bvirt = (REAL) (a - x); \
+  bvirt = REAL(a - x); \
   avirt = x + bvirt; \
   bround = bvirt - b; \
   around = a - avirt; \
   y = around + bround
 
 #define Two_Diff(a, b, x, y) \
-  x = (REAL) (a - b); \
+  x = REAL(a - b); \
   Two_Diff_Tail(a, b, x, y)
 
 #define Split(a, ahi, alo) \
-  c = (REAL) (splitter * a); \
-  abig = (REAL) (c - a); \
+  c = REAL(splitter * a); \
+  abig = REAL(c - a); \
   ahi = c - abig; \
   alo = a - ahi
 
@@ -244,14 +244,14 @@ OSG_USING_NAMESPACE
   y = (alo * blo) - err3
 
 #define Two_Product(a, b, x, y) \
-  x = (REAL) (a * b); \
+  x = REAL(a * b); \
   Two_Product_Tail(a, b, x, y)
 
 /* Two_Product_Presplit() is Two_Product() where one of the inputs has       */
 /*   already been split.  Avoids redundant splitting.                        */
 
 #define Two_Product_Presplit(a, b, bhi, blo, x, y) \
-  x = (REAL) (a * b); \
+  x = REAL(a * b); \
   Split(a, ahi, alo); \
   err1 = x - (ahi * bhi); \
   err2 = err1 - (alo * bhi); \
@@ -262,7 +262,7 @@ OSG_USING_NAMESPACE
 /*   already been split.  Avoids redundant splitting.                        */
 
 #define Two_Product_2Presplit(a, ahi, alo, b, bhi, blo, x, y) \
-  x = (REAL) (a * b); \
+  x = REAL(a * b); \
   err1 = x - (ahi * bhi); \
   err2 = err1 - (alo * bhi); \
   err3 = err2 - (ahi * blo); \
@@ -277,7 +277,7 @@ OSG_USING_NAMESPACE
   y = (alo * alo) - err3
 
 #define Square(a, x, y) \
-  x = (REAL) (a * a); \
+  x = REAL(a * a);  \
   Square_Tail(a, x, y)
 
 /* Macros for summing expansions of various fixed lengths.  These are all    */
@@ -563,7 +563,7 @@ static double doublerand()
   a = random();
   b = random();
   c = random();
-  result = (double) (a - 1073741824) * 8388608.0 + (double) (b >> 8);
+  result = double(a - 1073741824) * 8388608.0 + double(b >> 8);
   for (i = 512, expo = 2; i <= 131072; i *= 2, expo = expo * expo) {
     if (c & i) {
       result *= expo;
@@ -589,7 +589,7 @@ static double narrowdoublerand()
   a = random();
   b = random();
   c = random();
-  result = (double) (a - 1073741824) * 8388608.0 + (double) (b >> 8);
+  result = double(a - 1073741824) * 8388608.0 + double(b >> 8);
   for (i = 512, expo = 2; i <= 2048; i *= 2, expo = expo * expo) {
     if (c & i) {
       result *= expo;
@@ -611,7 +611,7 @@ static double uniformdoublerand()
 
   a = random();
   b = random();
-  result = (double) (a - 1073741824) * 8388608.0 + (double) (b >> 8);
+  result = double(a - 1073741824) * 8388608.0 + double(b >> 8);
   return result;
 }
 
@@ -631,7 +631,7 @@ static float floatrand()
 
   a = random();
   c = random();
-  result = (float) ((a - 1073741824) >> 6);
+  result = float((a - 1073741824) >> 6);
   for (i = 512, expo = 2; i <= 16384; i *= 2, expo = expo * expo) {
     if (c & i) {
       result *= expo;
@@ -656,7 +656,7 @@ static float narrowfloatrand()
 
   a = random();
   c = random();
-  result = (float) ((a - 1073741824) >> 6);
+  result = float((a - 1073741824) >> 6);
   for (i = 512, expo = 2; i <= 2048; i *= 2, expo = expo * expo) {
     if (c & i) {
       result *= expo;
@@ -677,7 +677,7 @@ static float uniformfloatrand()
   long a;
 
   a = random();
-  result = (float) ((a - 1073741824) >> 6);
+  result = float((a - 1073741824) >> 6);
   return result;
 }
 
@@ -1624,10 +1624,10 @@ REAL orient2dadapt(REAL *pa, REAL *pb, REAL *pc, REAL detsum)
   INEXACT REAL _i, _j;
   REAL _0;
 
-  acx = (REAL) (pa[0] - pc[0]);
-  bcx = (REAL) (pb[0] - pc[0]);
-  acy = (REAL) (pa[1] - pc[1]);
-  bcy = (REAL) (pb[1] - pc[1]);
+  acx = REAL(pa[0] - pc[0]);
+  bcx = REAL(pb[0] - pc[0]);
+  acy = REAL(pa[1] - pc[1]);
+  bcy = REAL(pb[1] - pc[1]);
 
   Two_Product(acx, bcy, detleft, detlefttail);
   Two_Product(acy, bcx, detright, detrighttail);
@@ -2030,15 +2030,15 @@ REAL orient3dadapt(REAL *pa, REAL *pb, REAL *pc, REAL *pd, REAL permanent)
   INEXACT REAL _i, _j, _k;
   REAL _0;
 
-  adx = (REAL) (pa[0] - pd[0]);
-  bdx = (REAL) (pb[0] - pd[0]);
-  cdx = (REAL) (pc[0] - pd[0]);
-  ady = (REAL) (pa[1] - pd[1]);
-  bdy = (REAL) (pb[1] - pd[1]);
-  cdy = (REAL) (pc[1] - pd[1]);
-  adz = (REAL) (pa[2] - pd[2]);
-  bdz = (REAL) (pb[2] - pd[2]);
-  cdz = (REAL) (pc[2] - pd[2]);
+  adx = REAL(pa[0] - pd[0]);
+  bdx = REAL(pb[0] - pd[0]);
+  cdx = REAL(pc[0] - pd[0]);
+  ady = REAL(pa[1] - pd[1]);
+  bdy = REAL(pb[1] - pd[1]);
+  cdy = REAL(pc[1] - pd[1]);
+  adz = REAL(pa[2] - pd[2]);
+  bdz = REAL(pb[2] - pd[2]);
+  cdz = REAL(pc[2] - pd[2]);
 
   Two_Product(bdx, cdy, bdxcdy1, bdxcdy0);
   Two_Product(cdx, bdy, cdxbdy1, cdxbdy0);
@@ -2811,12 +2811,12 @@ REAL incircleadapt(REAL *pa, REAL *pb, REAL *pc, REAL *pd, REAL permanent)
   INEXACT REAL _i, _j;
   REAL _0;
 
-  adx = (REAL) (pa[0] - pd[0]);
-  bdx = (REAL) (pb[0] - pd[0]);
-  cdx = (REAL) (pc[0] - pd[0]);
-  ady = (REAL) (pa[1] - pd[1]);
-  bdy = (REAL) (pb[1] - pd[1]);
-  cdy = (REAL) (pc[1] - pd[1]);
+  adx = REAL(pa[0] - pd[0]);
+  bdx = REAL(pb[0] - pd[0]);
+  cdx = REAL(pc[0] - pd[0]);
+  ady = REAL(pa[1] - pd[1]);
+  bdy = REAL(pb[1] - pd[1]);
+  cdy = REAL(pc[1] - pd[1]);
 
   Two_Product(bdx, cdy, bdxcdy1, bdxcdy0);
   Two_Product(cdx, bdy, cdxbdy1, cdxbdy0);
@@ -4079,18 +4079,18 @@ REAL insphereadapt(REAL *pa, REAL *pb, REAL *pc, REAL *pd, REAL *pe, REAL perman
   INEXACT REAL _i, _j;
   REAL _0;
 
-  aex = (REAL) (pa[0] - pe[0]);
-  bex = (REAL) (pb[0] - pe[0]);
-  cex = (REAL) (pc[0] - pe[0]);
-  dex = (REAL) (pd[0] - pe[0]);
-  aey = (REAL) (pa[1] - pe[1]);
-  bey = (REAL) (pb[1] - pe[1]);
-  cey = (REAL) (pc[1] - pe[1]);
-  dey = (REAL) (pd[1] - pe[1]);
-  aez = (REAL) (pa[2] - pe[2]);
-  bez = (REAL) (pb[2] - pe[2]);
-  cez = (REAL) (pc[2] - pe[2]);
-  dez = (REAL) (pd[2] - pe[2]);
+  aex = REAL(pa[0] - pe[0]);
+  bex = REAL(pb[0] - pe[0]);
+  cex = REAL(pc[0] - pe[0]);
+  dex = REAL(pd[0] - pe[0]);
+  aey = REAL(pa[1] - pe[1]);
+  bey = REAL(pb[1] - pe[1]);
+  cey = REAL(pc[1] - pe[1]);
+  dey = REAL(pd[1] - pe[1]);
+  aez = REAL(pa[2] - pe[2]);
+  bez = REAL(pb[2] - pe[2]);
+  cez = REAL(pc[2] - pe[2]);
+  dez = REAL(pd[2] - pe[2]);
 
   Two_Product(aex, bey, aexbey1, aexbey0);
   Two_Product(bex, aey, bexaey1, bexaey0);

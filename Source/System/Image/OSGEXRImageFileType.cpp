@@ -370,7 +370,7 @@ bool EXRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
                 delete copy;
             }
     
-            Real16 *data = (Real16*)(image->getData());
+            Real16 *data = reinterpret_cast<Real16*>(image->getData());
     
             for (Int32 side=numImg-1; side >=0; side--)
             {
@@ -391,10 +391,10 @@ bool EXRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
                             j = width - x - 1; // new x
                         }
     
-                        *(data + size++) = (Real16)pixels[i][j].r;
-                        *(data + size++) = (Real16)pixels[i][j].g;
-                        *(data + size++) = (Real16)pixels[i][j].b;
-                        *(data + size++) = (Real16)pixels[i][j].a;
+                        *(data + size++) = Real16(pixels[i][j].r);
+                        *(data + size++) = Real16(pixels[i][j].g);
+                        *(data + size++) = Real16(pixels[i][j].b);
+                        *(data + size++) = Real16(pixels[i][j].a);
                     }
                 }
             }
@@ -484,7 +484,7 @@ bool EXRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
             {
                 for(int side=0;side<num_img;++side)
                 {
-                    char *data = ((char *) image->getData(0, 0, side)) + i * (sizeof(Real16) * 4 * width);
+                    char *data = (reinterpret_cast<char *>(image->getData(0, 0, side))) + i * (sizeof(Real16) * 4 * width);
 
                     data -= current_scan_line * (sizeof(Real16) * 4 * width);
 
@@ -579,7 +579,9 @@ bool EXRImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
                     if(strField != NULL)
                     {
                         //printf("key: '%s' value: '%s'\n", fDesc->getCName(), strField->getValue().c_str());
-                        header.insert(fDesc->getCName(), Imf::StringAttribute(strField->getValue().c_str()));
+                        
+                        Imf::StringAttribute imfAttr(strField->getValue().c_str());
+                        header.insert(fDesc->getCName(), imfAttr);
                     }
                 }
             }
@@ -613,7 +615,7 @@ bool EXRImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
         {
             for(Int32 side=0;side<image->getSideCount();++side)
             {
-                char *data = ((char *) image->getData(0, 0, side)) + i * (sizeof(Real16) * 4 * width);
+                char *data = (reinterpret_cast<char *>(image->getData(0, 0, side))) + i * (sizeof(Real16) * 4 * width);
 
                 // writePixels() adds the current scan line index as an offset to the
                 // base address we need to eliminate this!

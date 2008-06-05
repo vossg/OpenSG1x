@@ -71,7 +71,7 @@ const UChar8 *Dgram::getData(void) const
 
 UChar8 *Dgram::getBuffer(void)
 {
-    return (UChar8 *)&_buffer;
+    return reinterpret_cast<UChar8 *>(&_buffer);
 }
 
 UInt32 Dgram::getBufferSize(void) const

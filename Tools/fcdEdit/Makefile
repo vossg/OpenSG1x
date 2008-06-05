@@ -48,45 +48,45 @@ OS_TYPE := $(shell echo `uname`_`uname -r`)
 # lines and nothing after the win lines!!
 
 ifeq ($(OS),IRIX)
-    
-    	CCOUT := -o 
+
+	CCOUT := -o 
 	LDOUT := -o 
 	BINSUF:=
 
 endif
 ifeq ($(OS),IRIX64)
-    
-    	CCOUT := -o 
-    	LDOUT := -o 
+
+	CCOUT := -o 
+	LDOUT := -o 
 	BINSUF:=
 
 endif
 ifeq ($(OS),Linux)
-    
-    	CCOUT := -o 
-    	LDOUT := -o 
+
+	CCOUT := -o 
+	LDOUT := -o 
 	BINSUF:=
 
 endif
 ifeq ($(findstring WIN,$(OS)),WIN)
-    
-    	OS := WIN32
-    	CCOUT := -Fo
-    	LDOUT := /out:
+
+	OS := WIN32
+	CCOUT := -Fo
+	LDOUT := /out:
 	BINSUF := .exe
 
 endif
 ifeq ($(OS),HP-UX)
-    
-    	CCOUT := -o 
-    	LDOUT := -o 
+
+	CCOUT := -o 
+	LDOUT := -o 
 	BINSUF:=
 
 endif
 ifeq ($(OS),Darwin)
-    
-    	CCOUT := -o 
-    	LDOUT := -o 
+
+	CCOUT := -o 
+	LDOUT := -o 
 	BINSUF:=
 
 endif
@@ -127,13 +127,13 @@ LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base System)
 else
     ifeq ($(findstring icc,$(CXX)),icc)
     # HACK this fixes the link problems on my icc 81 Linux. No clue why.
-    LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base) -lGLU
+    LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) System) -lGLU
     else
-    LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base)
+    LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) System)
     endif
 endif
 else
-LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) Base QT )
+LIBS       :=  $(shell $(OSG_CONFIG) --libs --$(LIBTYPE) System QT )
 endif
 CMPLR_ID   :=  $(shell $(OSG_CONFIG) --compiler-id)
 
@@ -262,7 +262,7 @@ moc_%.cpp: %.h
 
 ### Commands #########################################################
 all: $(TARGET)$(BINSUF)
-	
+
 clean:
 	-rm -f *.$(SYSDEP).o *.$(SYSDEP)*_pure_* *.bak *.manifest *.swp *~ *% \#*\# 
 	-rm -f $(TARGET)$(BINSUF) $(SYSTARGET)

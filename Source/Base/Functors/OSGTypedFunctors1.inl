@@ -244,7 +244,7 @@ RetT TypedFunctionFunctor1<RetT,
 
     if(Self::_flags & Self::FuncPtrValid)
     {
-        FuncF pFunc = *((FuncF *) Self::_data2);
+        FuncF pFunc = *(reinterpret_cast<FuncF *>(Self::_data2));
         
         return pFunc(pObj);
     }
@@ -303,7 +303,7 @@ void TypedFunctionVoidFunctor1<CallArgT,
 
     if(Self::_flags & Self::FuncPtrValid)
     {
-        FuncF pFunc = *((FuncF *) Self::_data2);
+        FuncF pFunc = *(static_cast<FuncF *>(Self::_data2));
         
         pFunc(pObj);
     }

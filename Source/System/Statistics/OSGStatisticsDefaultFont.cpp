@@ -588,8 +588,9 @@ UChar8 StatisticsDefaultFontData[9364] = {
 #endif
 };
 
-std::string StatisticsDefaultFontString((char *) StatisticsDefaultFontData, 
-                                        StatisticsDefaultFontDataSize     );
+std::string StatisticsDefaultFontString(
+    reinterpret_cast<char *>(StatisticsDefaultFontData), 
+    StatisticsDefaultFontDataSize     );
 
 class DefaultFontInitializer
 {

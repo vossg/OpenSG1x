@@ -64,9 +64,9 @@ void BrickSet::buildBricks3D(DVRVolume   *volume,
     
     Vec3f vox  = vT->getSliceThickness();
     Vec3f res  = vT->getResolution();
-    Int32 resX = (Int32) res[0];
-    Int32 resY = (Int32) res[1];
-    Int32 resZ = (Int32) res[2];
+    Int32 resX = Int32(res[0]);
+    Int32 resY = Int32(res[1]);
+    Int32 resZ = Int32(res[2]);
 
     Int32 nNumBricksX = Int32((resX - overlap) / (brickSize[0] - overlap));
     Int32 nNumBricksY = Int32((resY - overlap) / (brickSize[1] - overlap));
@@ -158,8 +158,8 @@ void BrickSet::buildBricks2D(DVRVolume *volume, Orientation ori)
         case XY: 
         {
             // XY stack of textures
-            resX  = (Int32) res[0];
-            resY  = (Int32) res[1];
+            resX  = Int32(res[0]);
+            resY  = Int32(res[1]);
             resZ  = 1;
             
             xinc = 0;
@@ -175,7 +175,7 @@ void BrickSet::buildBricks2D(DVRVolume *volume, Orientation ori)
             ymax = -ymin;
             zmax =  zmin + zinc * vox[2];
 
-            m_nNumBricks = (int) res[2];
+            m_nNumBricks = int(res[2]);
             m_pBricks    = new Brick[m_nNumBricks];
 
             break;
@@ -184,9 +184,9 @@ void BrickSet::buildBricks2D(DVRVolume *volume, Orientation ori)
         case XZ: 
         {
             // XZ stack of textures
-            resX  = (Int32) res[0];
+            resX  = Int32(res[0]);
             resY  = 1;
-            resZ  = (Int32) res[2];
+            resZ  = Int32(res[2]);
             
             xinc = 0;
             yinc = 1;
@@ -201,7 +201,7 @@ void BrickSet::buildBricks2D(DVRVolume *volume, Orientation ori)
             ymax =  ymin + yinc * vox[1];
             zmax = -zmin;
             
-            m_nNumBricks = (int) res[1];
+            m_nNumBricks = int(res[1]);
             m_pBricks    = new Brick[m_nNumBricks];
 
             break;
@@ -211,8 +211,8 @@ void BrickSet::buildBricks2D(DVRVolume *volume, Orientation ori)
         {
             // YZ stack of textures
             resX  = 1;
-            resY  = (Int32) res[1];
-            resZ  = (Int32) res[2];
+            resY  = Int32(res[1]);
+            resZ  = Int32(res[2]);
             
             xinc = 1;
             yinc = 0;
@@ -227,7 +227,7 @@ void BrickSet::buildBricks2D(DVRVolume *volume, Orientation ori)
             ymax = -ymin;
             zmax = -zmin;
             
-            m_nNumBricks = (int) res[0];
+            m_nNumBricks = int(res[0]);
             m_pBricks    = new Brick[m_nNumBricks];
 
             break;
@@ -796,7 +796,7 @@ void Brick::renderSlices(DVRVolume                   *volume,
                 glDisable(GL_TEXTURE_3D);
                 SWARNING << "Brick::renderSlices - 3DTextures enabled "
                          << "-> DISABLING " 
-                         << (int) val 
+                         << int(val) 
                          << std::endl;
             }
 
@@ -954,7 +954,7 @@ void Brick::render3DSlices(DVRVolume      *volume,
 
     Plane planeSlice(vecViewDir, -fRadius);
 
-    Int32 numSlices = 1 + (Int32) (2.0f * fRadius/ fSliceDistance); 
+    Int32 numSlices = 1 + Int32(2.0f * fRadius/ fSliceDistance); 
     
     Vec3f   vecIntersections[12];
     Int32   nEdgeCodes[12];

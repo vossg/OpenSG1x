@@ -139,7 +139,7 @@ Matrix &TrackballNavigator::getMatrix()
 */
 Pnt3f &TrackballNavigator::getFrom()
 {
-    _pFrom = (Pnt3f)_finalMatrix[3];
+    _pFrom = Pnt3f(_finalMatrix[3]);
     return _pFrom;
 }
 
@@ -149,7 +149,7 @@ Pnt3f &TrackballNavigator::getFrom()
 */
 Pnt3f &TrackballNavigator::getAt()
 {
-    _pAt = (Pnt3f)(_finalMatrix[3] - (_rDistance*_finalMatrix[2]));
+    _pAt = Pnt3f(_finalMatrix[3] - (_rDistance*_finalMatrix[2]));
     return _pAt;
 }
 
@@ -159,7 +159,7 @@ Pnt3f &TrackballNavigator::getAt()
 */
 Vec3f &TrackballNavigator::getUp()
 {
-    _vUp = (Vec3f)_finalMatrix[1];
+    _vUp = Vec3f(_finalMatrix[1]);
     return _vUp;
 }
 
@@ -229,9 +229,9 @@ void TrackballNavigator::set(Matrix new_matrix)
     Vec3f translation( new_matrix[3][0], new_matrix[3][1], new_matrix[3][2] );
     _rDistance = translation.length();
 
-    _pFrom = (Pnt3f) new_matrix[3];
-    _pAt   = (Pnt3f)(new_matrix[3] - (_rDistance * new_matrix[2]));
-    _vUp   = (Vec3f) new_matrix[1];
+    _pFrom = Pnt3f(new_matrix[3]);
+    _pAt   = Pnt3f(new_matrix[3] - (_rDistance * new_matrix[2]));
+    _vUp   = Vec3f(new_matrix[1]);
     set(_pFrom, _pAt, _vUp);
 }
 

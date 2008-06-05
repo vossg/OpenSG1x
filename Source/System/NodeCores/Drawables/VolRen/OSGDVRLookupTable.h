@@ -129,8 +129,8 @@ typedef DVRLookupTable *DVRLookupTableP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRLookupTable.inl>
 #include <OSGDVRLookupTableBase.inl>
+#include <OSGDVRLookupTable.inl>
 
 #define OSGDVRLOOKUPTABLE_HEADER_CVSID "@(#)$Id: $"
 

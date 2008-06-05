@@ -285,9 +285,9 @@ void TextureManager::buildTextures(ChunkMaterialPtr  material,
                                      int(res[2]),
                                      vT->getImage()->getBpp(), volume);
 
-            Vec3f brickSize(Real32((int)(res[0] / brickSubdivision[0])),
-                            Real32((int)(res[1] / brickSubdivision[1])),
-                            Real32((int)(res[2] / brickSubdivision[2])));
+            Vec3f brickSize(Real32(int(res[0] / brickSubdivision[0])),
+                            Real32(int(res[1] / brickSubdivision[1])),
+                            Real32(int(res[2] / brickSubdivision[2])));
             
 
             FDEBUG(
@@ -352,12 +352,12 @@ Vec3f TextureManager::calcBrickSubdivision(Int32      resX,
         case BRICK_SUBDIVIDE_ON_TEXTURE_MEMORY:
         {
             Real32 fMB_available = 
-                1024.0F * 1024.0F * (Real32) volume->getBrickStaticMemoryMB();
+                1024.0F * 1024.0F * Real32(volume->getBrickStaticMemoryMB());
 
-            Real32 fMB_required  = (Real32) (resX * resY * resZ * dataSize);
+            Real32 fMB_required  = Real32(resX * resY * resZ * dataSize);
 
-            Int32 nNumBricks     = (Int32) osgceil(fMB_required / 
-                                                   fMB_available);
+            Int32 nNumBricks     = Int32(osgceil(fMB_required / 
+                                                 fMB_available));
             Int32 nRealNumBricks = 1;
 
             while(nNumBricks > nRealNumBricks) 
@@ -380,7 +380,7 @@ Vec3f TextureManager::calcBrickSubdivision(Int32      resX,
                 }
                 
                 nRealNumBricks = 
-                    (Int32)(subdivision[0] * subdivision[1] * subdivision[2]);
+                    Int32(subdivision[0] * subdivision[1] * subdivision[2]);
             }
             break;
         }
@@ -389,17 +389,17 @@ Vec3f TextureManager::calcBrickSubdivision(Int32      resX,
         {
             Vec3f maxSize = volume->getBrickMaxSize();
             
-            while(resX > (Int32) maxSize[0]) 
+            while(resX > Int32(maxSize[0])) 
             {
                 resX /= 2;
                 subdivision[0] *= 2;
             }
-            while(resY > (Int32) maxSize[1]) 
+            while(resY > Int32(maxSize[1])) 
             {
                 resY /= 2;
                 subdivision[1] *= 2;
             }
-            while(resZ > (Int32) maxSize[2]) 
+            while(resZ > Int32(maxSize[2])) 
             {
                 resZ /= 2;
                 subdivision[2] *= 2;

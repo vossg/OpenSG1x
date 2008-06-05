@@ -373,7 +373,7 @@ public:
 				m_clMin[1] = m_clMax[1] = ( *mesh->vertices.begin( ) )->coords[1];
 				for( dctpvertexset::iterator it_vertex = mesh->vertices.begin( ); it_vertex != mesh->vertices.end( ); ++it_vertex )
 				{
-					( *it_vertex )->vertexinfo = ( void* ) 1;
+					( *it_vertex )->vertexinfo = reinterpret_cast<void*>(1);
 					if( ( *it_vertex )->coords[0] < m_clMin[0] )
 						m_clMin[0] = ( *it_vertex )->coords[0];
 					else if( ( *it_vertex )->coords[0] > m_clMax[0] )

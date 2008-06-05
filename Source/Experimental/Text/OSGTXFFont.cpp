@@ -39,7 +39,7 @@ bool sRead(std::istream &file,
 
         for(Int32 i = 0; i < size; i++)
         {
-            ((Char8 *) value)[i] = buffer[size - i - 1];
+            static_cast<Char8 *>(value)[i] = buffer[size - i - 1];
         }
     }
     else
@@ -154,10 +154,11 @@ void TXFFont::initFromStream(std::istream &source)
     for(i = 0; i < _txfNumGlyphs; i++)
     {
         valid &= sRead(source, &sbuff, 2, swapit);
-        source.read((Char8 *) _txfGlyphs[(UChar8) sbuff].dimensions, 6);
-        valid &= sRead(source, &_txfGlyphs[(UChar8) sbuff].x, 2, swapit);
-        valid &= sRead(source, &_txfGlyphs[(UChar8) sbuff].y, 2, swapit);
-        _txfGlyphs[(UChar8) sbuff].remapped = 0;
+        source.read(reinterpret_cast<Char8 *>(
+                        _txfGlyphs[UChar8(sbuff)].dimensions), 6);
+        valid &= sRead(source, &_txfGlyphs[UChar8(sbuff)].x, 2, swapit);
+        valid &= sRead(source, &_txfGlyphs[UChar8(sbuff)].y, 2, swapit);
+        _txfGlyphs[UChar8(sbuff)].remapped = 0;
 
         if(!valid)
         {
@@ -265,7 +266,7 @@ bool TXFFont::createInstance(Text *fs)
     fInst->setMaxAscent   (Real32(_txfFontMaxAscent) );
     fInst->setMaxDescent  (Real32(_txfFontMaxDescent));
     fInst->setBaselineSkip(
-        ((Real32)(_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
+        (Real32(_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
 
     fInst->setSize(fs->size());
 
@@ -296,7 +297,7 @@ OSG::FontStyle *TXFFont::createInstance(Real32 size)
     fInst->setMaxAscent   (Real32(_txfFontMaxAscent ));
     fInst->setMaxDescent  (Real32(_txfFontMaxDescent));
     fInst->setBaselineSkip(
-        ((Real32)(_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
+        (Real32(_txfFontMaxAscent - _txfFontMaxDescent)) / fInst->getYRes());
 
     retVal = fInst->setTXFInstance(_txfFontWidth, 
                                    _txfFontHeight, 

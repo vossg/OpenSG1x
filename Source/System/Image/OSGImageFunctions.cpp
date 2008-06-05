@@ -240,8 +240,8 @@ bool OSG::createNormalMapFromBump ( ImagePtr image,
     {
         for (j=1; j<h-1; j++)
         {
-            Vec3f dfdi(2.0f, 0.0f, (Real32)(srcData[(i+1) +     j*w] - srcData[(i-1) +     j*w]) / 255.0f);
-            Vec3f dfdj(0.0f, 2.0f, (Real32)(srcData[    i + (j+1)*w] - srcData[    i + (j-1)*w]) / 255.0f);
+            Vec3f dfdi(2.0f, 0.0f, Real32(srcData[(i+1) +     j*w] - srcData[(i-1) +     j*w]) / 255.0f);
+            Vec3f dfdj(0.0f, 2.0f, Real32(srcData[    i + (j+1)*w] - srcData[    i + (j-1)*w]) / 255.0f);
             Vec3f n = dfdi.cross(dfdj);
             
             n[0] *= scale[0];
@@ -249,9 +249,9 @@ bool OSG::createNormalMapFromBump ( ImagePtr image,
             n[2] *= scale[2];
             n.normalize();
 
-            dstData[(j*w+i)*3+0] = (unsigned char)((n[0]+1)*127.5);
-            dstData[(j*w+i)*3+1] = (unsigned char)((n[1]+1)*127.5);
-            dstData[(j*w+i)*3+2] = (unsigned char)((n[2]+1)*127.5);
+            dstData[(j*w+i)*3+0] = static_cast<unsigned char>((n[0]+1)*127.5);
+            dstData[(j*w+i)*3+1] = static_cast<unsigned char>((n[1]+1)*127.5);
+            dstData[(j*w+i)*3+2] = static_cast<unsigned char>((n[2]+1)*127.5);
         }
     }
 
@@ -503,8 +503,8 @@ bool OSG::createNormalVolume ( ImagePtr inImage,
           if (v<minV) minV=v;
           if (v>maxV) maxV=v;
 
-          voxelData[THETA_DI] = (osg::UInt8)(v * 255.f);	// theta
-          voxelData[PHI_DI]   = (osg::UInt8)(u * 255.f);	// phi
+          voxelData[THETA_DI] = UInt8(v * 255.f);	// theta
+          voxelData[PHI_DI]   = UInt8(u * 255.f);	// phi
         }
 
         // copy voxeldata to image data
@@ -552,9 +552,9 @@ bool OSG::create2DPreIntegrationLUT ( ImagePtr dst,
 
         unsigned char *dataDst = dst->getData();
 
-        for (Int32 x = 0; x < (Int32)width; x++)
+        for (Int32 x = 0; x < Int32(width); x++)
         {
-            for (Int32 y = 0; y < (Int32)width; y++)
+            for (Int32 y = 0; y < Int32(width); y++)
             {
                 Int32 n = 10 + 2 * abs(x-y);
                 Real64 step = thickness / n;
@@ -566,12 +566,12 @@ bool OSG::create2DPreIntegrationLUT ( ImagePtr dst,
                 
                 for (Int32 i = 0; i < n; i++)
                 { 
-                    Real64 w = x + (y-x) * (Real64)i/n;
+                    Real64 w = x + (y-x) * Real64(i)/n;
                     
-                    if ((Int32)(w + 1) >= (Int32)width)
-                        w = (Real64)(width - 1) - 0.5/n;
+                    if (Int32(w + 1) >= Int32(width))
+                        w = Real64(width - 1) - 0.5/n;
 
-                    Int32 pos = ((Int32)w) * 4;
+                    Int32 pos = (Int32(w)) * 4;
                         
                     Real64 e = exp(-dtau), scale = step * (1.0 / 255.0),
                            f = w - floor(w), invF = 1 - f;
@@ -587,10 +587,10 @@ bool OSG::create2DPreIntegrationLUT ( ImagePtr dst,
                     dtau += tau;
                 }
                 
-                dataDst[(x*width+y)*4+0] = (unsigned char)((dr > 1.0 ? 1.0 : dr)*255);
-                dataDst[(x*width+y)*4+1] = (unsigned char)((dg > 1.0 ? 1.0 : dg)*255);
-                dataDst[(x*width+y)*4+2] = (unsigned char)((db > 1.0 ? 1.0 : db)*255);
-                dataDst[(x*width+y)*4+3] = (unsigned char)((1.0 - exp(-dtau))*255);
+                dataDst[(x*width+y)*4+0] = static_cast<unsigned char>((dr > 1.0 ? 1.0 : dr)*255);
+                dataDst[(x*width+y)*4+1] = static_cast<unsigned char>((dg > 1.0 ? 1.0 : dg)*255);
+                dataDst[(x*width+y)*4+2] = static_cast<unsigned char>((db > 1.0 ? 1.0 : db)*255);
+                dataDst[(x*width+y)*4+3] = static_cast<unsigned char>((1.0 - exp(-dtau))*255);
             }
         }
     }
@@ -726,7 +726,8 @@ bool OSG::blendImage ( ImagePtr canvas,
   int red = 0, green = 0, blue = 0, grey = 0;
   int alpha = 0;
   osg::UChar8 *s = 0, *d = 0;
-  
+  UChar8 tmpD;
+
   osg::beginEditCP(canvas);
   
   osg::UChar8 *src  = brush->getData();
@@ -831,25 +832,34 @@ bool OSG::blendImage ( ImagePtr canvas,
         alpha = int(talpha * alpha);
         switch ( cPF ) {
         case osg::Image::OSG_I_PF:
-          *d++  = int(*d * (alpha - 255) + grey  * alpha) / 255;
+            tmpD = *d;
+            *d++  = int(tmpD * (alpha - 255) + grey  * alpha) / 255;
           break;
         case osg::Image::OSG_L_PF:
-          *d++  = int(*d * (alpha - 255) + grey  * alpha) / 255;
+            tmpD = *d;
+            *d++  = int(tmpD * (alpha - 255) + grey  * alpha) / 255;
           break;
         case osg::Image::OSG_LA_PF:
-          *d++  = int(*d * (alpha - 255) + grey  * alpha) / 255;
-          d++;
-          break;
+            tmpD = *d;
+            *d++  = int(tmpD * (alpha - 255) + grey  * alpha) / 255;
+            d++;
+            break;
         case osg::Image::OSG_RGB_PF:
-          *d++  = int(*d * (255 - alpha) + red   * alpha) / 255;
-          *d++  = int(*d * (255 - alpha) + green * alpha) / 255;
-          *d++  = int(*d * (255 - alpha) + blue  * alpha) / 255;
+            tmpD = *d;
+            *d++  = int(tmpD * (255 - alpha) + red   * alpha) / 255;
+            tmpD = *d;
+            *d++  = int(tmpD * (255 - alpha) + green * alpha) / 255;
+            tmpD = *d;
+            *d++  = int(tmpD * (255 - alpha) + blue  * alpha) / 255;
           break;
         case osg::Image::OSG_RGBA_PF:
-          *d++  = int(*d * (255 - alpha) + red   * alpha) / 255;
-          *d++  = int(*d * (255 - alpha) + green * alpha) / 255;
-          *d++  = int(*d * (255 - alpha) + blue  * alpha) / 255;
-          d++;
+            tmpD = *d;
+            *d++  = int(tmpD * (255 - alpha) + red   * alpha) / 255;
+            tmpD = *d;
+            *d++  = int(tmpD * (255 - alpha) + green * alpha) / 255;
+            tmpD = *d;
+            *d++  = int(tmpD * (255 - alpha) + blue  * alpha) / 255;
+            d++;
           break;
         default:
           FFATAL (("Invalid Canvas PixelFormat\n"));
@@ -899,7 +909,7 @@ bool OSG::createPhongTexture(ImagePtr image,
                 diffuse_factor  = sqrt(1.0 - x * x);
                 specular_factor = pow( diffuse_factor * sqrt (1.0f - y * y) - x * y,
                                        specular_exponent );               
-                textureMap[index++] = (unsigned char)((ka + kd * diffuse_factor + ks * specular_factor) * 255);
+                textureMap[index++] = static_cast<unsigned char>((ka + kd * diffuse_factor + ks * specular_factor) * 255);
                 x += textureStep;
             }
             y += textureStep;
@@ -955,8 +965,8 @@ bool createPhongVolume ( ImagePtr image,
 				if (min>color[i]) min=color[i];
 				if (max<color[i]) max=color[i];
 				
-				color[i] = osg::osgClamp(0.f, (color[i]), 1.f);
-				*ds++ = (osg::UInt8)(color[i]*255);
+				color[i] = osgClamp(0.f, (color[i]), 1.f);
+				*ds++ = UInt8(color[i]*255);
 			}
 		}
 	  }
@@ -1014,13 +1024,13 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
             for (i=0; i<size; i++) {
                 
                 n[0] =  size2;  
-                n[1] = -((float)j + offset - size2);
-                n[2] = -((float)i + offset - size2);
+                n[1] = -(float(j) + offset - size2);
+                n[2] = -(float(i) + offset - size2);
                 n.normalize();
     
-                data[0] = (UInt8)(((n.x() + 1.f) / 2.f) * 255.f);
-                data[1] = (UInt8)(((n.y() + 1.f) / 2.f) * 255.f);
-                data[2] = (UInt8)(((n.z() + 1.f) / 2.f) * 255.f);
+                data[0] = UInt8(((n.x() + 1.f) / 2.f) * 255.f);
+                data[1] = UInt8(((n.y() + 1.f) / 2.f) * 255.f);
+                data[2] = UInt8(((n.z() + 1.f) / 2.f) * 255.f);
                 data += 3;
             }
         }
@@ -1037,13 +1047,13 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
             for (i=0; i<size; i++) {
                     
                 n[0] = -size2;
-                n[1] = -((float)j + offset - size2);
-                n[2] =  ((float)i + offset - size2);
+                n[1] = -(float(j) + offset - size2);
+                n[2] =  (float(i) + offset - size2);
                 n.normalize();
     
-                data[0]= (UInt8)(((n.x() + 1.f) / 2.f) * 255.f);
-                data[1]= (UInt8)(((n.y() + 1.f) / 2.f) * 255.f);
-                data[2]= (UInt8)(((n.z() + 1.f) / 2.f) * 255.f);
+                data[0]= UInt8(((n.x() + 1.f) / 2.f) * 255.f);
+                data[1]= UInt8(((n.y() + 1.f) / 2.f) * 255.f);
+                data[2]= UInt8(((n.z() + 1.f) / 2.f) * 255.f);
                 data += 3;
             }
         }
@@ -1059,14 +1069,14 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
                 
-                n[0] =  ((float)i + offset - size2);
+                n[0] =  (float(i) + offset - size2);
                 n[1] =  size2;
-                n[2] =  ((float)j + offset - size2);
+                n[2] =  (float(j) + offset - size2);
                 n.normalize();
     
-                data[0]= (UInt8)(((n.x() + 1.f) / 2.f) * 255.f);
-                data[1]= (UInt8)(((n.y() + 1.f) / 2.f) * 255.f);
-                data[2]= (UInt8)(((n.z() + 1.f) / 2.f) * 255.f);
+                data[0]= UInt8(((n.x() + 1.f) / 2.f) * 255.f);
+                data[1]= UInt8(((n.y() + 1.f) / 2.f) * 255.f);
+                data[2]= UInt8(((n.z() + 1.f) / 2.f) * 255.f);
                 data += 3;
             }
         }
@@ -1082,14 +1092,14 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
                 
-                n[0]=  ((float)i + offset - size2);
+                n[0]=  (float(i) + offset - size2);
                 n[1]= -size2;
-                n[2]= -((float)j + offset - size2);
+                n[2]= -(float(j) + offset - size2);
                 n.normalize();
     
-                data[0] = (UInt8)(((n.x() + 1.f) / 2.f) * 255.f);
-                data[1] = (UInt8)(((n.y() + 1.f) / 2.f) * 255.f);
-                data[2] = (UInt8)(((n.z() + 1.f) / 2.f) * 255.f);
+                data[0] = UInt8(((n.x() + 1.f) / 2.f) * 255.f);
+                data[1] = UInt8(((n.y() + 1.f) / 2.f) * 255.f);
+                data[2] = UInt8(((n.z() + 1.f) / 2.f) * 255.f);
                 data += 3;
             }
         }
@@ -1105,14 +1115,14 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
                 
-                n[0] =  ((float)i + offset - size2);
-                n[1] = -((float)j + offset - size2);
+                n[0] =  (float(i) + offset - size2);
+                n[1] = -(float(j) + offset - size2);
                 n[2] =  size2;
                 n.normalize();
     
-                data[0] = (UInt8)(((n.x() + 1.f) / 2.f) * 255.f);
-                data[1] = (UInt8)(((n.y() + 1.f) / 2.f) * 255.f);
-                data[2] = (UInt8)(((n.z() + 1.f) / 2.f) * 255.f);
+                data[0] = UInt8(((n.x() + 1.f) / 2.f) * 255.f);
+                data[1] = UInt8(((n.y() + 1.f) / 2.f) * 255.f);
+                data[2] = UInt8(((n.z() + 1.f) / 2.f) * 255.f);
                 data += 3;
             }
         }
@@ -1128,14 +1138,14 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
             
-                n[0] = -((float)i + offset - size2);
-                n[1] = -((float)j + offset - size2);
+                n[0] = -(float(i) + offset - size2);
+                n[1] = -(float(j) + offset - size2);
                 n[2] = -size2;
                 n.normalize();
     
-                data[0] = (UInt8)(((n.x() + 1.f) / 2.f) * 255.f);
-                data[1] = (UInt8)(((n.y() + 1.f) / 2.f) * 255.f);
-                data[2] = (UInt8)(((n.z() + 1.f) / 2.f) * 255.f);
+                data[0] = UInt8(((n.x() + 1.f) / 2.f) * 255.f);
+                data[1] = UInt8(((n.y() + 1.f) / 2.f) * 255.f);
+                data[2] = UInt8(((n.z() + 1.f) / 2.f) * 255.f);
                 data += 3;
             }
         }
@@ -1233,9 +1243,9 @@ void setup(Real32 *vec, UInt8 i,
            Real32 &r0, Real32 &r1)
 {
     t  = vec[i] + 0x1000;
-    b0 = ((Int32)t) & BM;
+    b0 = (Int32(t)) & BM;
     b1 = (b0 + 1) & BM;
-    r0 = t - (Int32)t;
+    r0 = t - Int32(t);
     r1 = r0 - 1.0f;
 }
 
@@ -1262,14 +1272,14 @@ void init(void)
     for (i = 0 ; i < B ; i++)
     {
         p[i] = i;
-        g1[i] = (Real32)((rand() % (B + B)) - B) / B;
+        g1[i] = Real32((rand() % (B + B)) - B) / B;
 
         for (j = 0 ; j < 2 ; j++)
-            g2[i][j] = (Real32)((rand() % (B + B)) - B) / B;
+            g2[i][j] = Real32((rand() % (B + B)) - B) / B;
         normalize2(g2[i]);
 
         for (j = 0 ; j < 3 ; j++)
-            g3[i][j] = (Real32)((rand() % (B + B)) - B) / B;
+            g3[i][j] = Real32((rand() % (B + B)) - B) / B;
         normalize3(g3[i]);
     }
 
@@ -1484,9 +1494,9 @@ bool OSG::createNoise(ImagePtr image,
 
         setNoiseFrequency(frequency);
         ni[0] = ni[1] = ni[2] = 0;
-        inci = 1.0 / (size / (Real32)frequency);
-        incj = 1.0 / (size / (Real32)frequency);
-        inck = 1.0 / (size / (Real32)frequency);
+        inci = 1.0 / (size / Real32(frequency));
+        incj = 1.0 / (size / Real32(frequency));
+        inck = 1.0 / (size / Real32(frequency));
 
         for (i=0; i<size; ++i, ni[0]+=inci)
         {
@@ -1497,14 +1507,14 @@ bool OSG::createNoise(ImagePtr image,
                     // calculate numOctaves of noise and scale to range [0;1]
                     if (splitOctaves)
                     {
-                        *(ptr+f) = (UInt8)(((noise(ni, dim) + 1) * amp) * 128.0);
+                        *(ptr+f) = UInt8(((noise(ni, dim) + 1) * amp) * 128.0);
                     
                         ptr+=ncomp;
                     }
                     else 
                     {
                         for(c = 0; c < ncomp; ++c, ++ptr, ni[0] += 1)
-                            (*ptr)  += (UInt8)(((noise(ni, dim) + 1) * amp) * 128.0);
+                            (*ptr)  += UInt8(((noise(ni, dim) + 1) * amp) * 128.0);
                         
                         ni[0] -= ncomp;
                     }

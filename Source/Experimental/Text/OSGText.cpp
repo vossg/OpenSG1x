@@ -238,7 +238,7 @@ bool Text::fillTXFArrays(std::vector<std::string> &lineVec,
         numChars += strlen(lineVec[i].c_str());
     }
 
-    scale = ( (Real32) _fontInstance->getBaselineSkip() *
+    scale = ( Real32(_fontInstance->getBaselineSkip()) *
               _fontInstance->getYRes() );
 
     oaWidth = 0.f;
@@ -336,7 +336,7 @@ bool Text::fillTXFArrays(std::vector<std::string> &lineVec,
             xOff += currentGlyph->getAdvance() / scale;
         }
 
-        yOff -= (Real32) _fontInstance->getBaselineSkip();
+        yOff -= Real32(_fontInstance->getBaselineSkip());
     }
 
     return true;
@@ -371,13 +371,13 @@ bool Text::fillImage(ImagePtr & image,
     if(_fontInstance)
     {
         g = new ImageFontGlyph **[lineVec.size()];
-        for(line = 0; line < (Int32) lineVec.size(); line++)
+        for(line = 0; line < Int32(lineVec.size()); line++)
         {
             text = lineVec[line].c_str();
             g[line] = new ImageFontGlyph *[strlen(text)];
             tmpMinY = INT_MAX;
             tmpMaxY = -INT_MAX;
-            for(i = 0; i < (Int32) strlen(text); i++)
+            for(i = 0; i < Int32(strlen(text)); i++)
             {
                 g[line][i] = _fontInstance->getImageGlyph(text[i]);
                 if(g[line][i])
@@ -386,12 +386,12 @@ bool Text::fillImage(ImagePtr & image,
                     if(!retVal)
                     {
                         FWARNING(("Glyph generation failed."));
-                        for(line = 0; line < (Int32) lineVec.size(); line++)
+                        for(line = 0; line < Int32(lineVec.size()); line++)
                             delete[] g[line];
                         delete[] g;
                     }
 
-                    width += (i + 1 == (Int32) strlen(text) ? 
+                    width += (i + 1 == Int32(strlen(text)) ? 
                                 g[line][i]->getImageSize()[0] : 
                                 g[line][i]->getAdvance());
                     tmpMinY = g[line][i]->getBoundingBox()[2] < tmpMinY ? 
@@ -409,13 +409,17 @@ bool Text::fillImage(ImagePtr & image,
             if(!tmpMinY && !tmpMaxY)
             {   // TXF-character not present -> all blanks..
                 tmpMaxY = 
-                    (Int32)osgfloor((Real32)_fontInstance->getBaselineSkip());
+                    Int32(osgfloor(Real32(_fontInstance->getBaselineSkip())));
             }
 
             overallHeight += ( line + 1 == lineVec.size() ? 
-                   (Int32) osgfloor((abs(tmpMaxY) + abs(tmpMinY)) * _spacing) :
-                   (Int32) osgfloor((Real32) _fontInstance->getBaselineSkip() *
-                        (Real32) _fontInstance->getYRes() * _spacing));
+                               Int32(osgfloor((abs(tmpMaxY) + 
+                                               abs(tmpMinY)) * _spacing)) :
+                               
+                               Int32(osgfloor(
+                                         Real32(_fontInstance->getBaselineSkip()) *
+                                         Real32(_fontInstance->getYRes()) * 
+                                         _spacing)));
             width = 0;
         }
 
@@ -424,13 +428,13 @@ bool Text::fillImage(ImagePtr & image,
             height = 1;
             while(height < overallHeight)
                 height *= 2;
-            *maxY = ((Real32)height) / ((Real32)overallHeight);
+            *maxY = (Real32(height)) / (Real32(overallHeight));
             overallHeight = height;
 
             width = 1;
             while(width < overallWidth)
                 width *= 2;
-            *maxX = ((Real32)width) / ((Real32)overallWidth);
+            *maxX = (Real32(width)) / (Real32(overallWidth));
             overallWidth = width;
         }
 
@@ -456,7 +460,7 @@ bool Text::fillImage(ImagePtr & image,
 
         tmpWidth = 0;
         line = 0;
-        for(i = 0; i != (Int32) strlen(lineVec[line].c_str()); i++)
+        for(i = 0; i != Int32(strlen(lineVec[line].c_str())); i++)
         {
             tmpMinY = g[line][i]->getBoundingBox()[2] < tmpMinY ? 
                         g[line][i]->getBoundingBox()[2] : 
@@ -464,7 +468,7 @@ bool Text::fillImage(ImagePtr & image,
             tmpMaxY = g[line][i]->getBoundingBox()[3] > tmpMaxY ? 
                         g[line][i]->getBoundingBox()[3] : 
                         tmpMaxY;
-            tmpWidth += (i + 1 == (Int32) strlen(text) ? 
+            tmpWidth += (i + 1 == Int32(strlen(text)) ? 
                             g[line][i]->getImageSize()[0] : 
                             g[line][i]->getAdvance());
         }
@@ -493,7 +497,7 @@ bool Text::fillImage(ImagePtr & image,
 
         tmpWidth = 0;
 
-        for(line = 0; line < (Int32) lineVec.size(); line++)
+        for(line = 0; line < Int32(lineVec.size()); line++)
         {
             text = lineVec[line].c_str();
 
@@ -549,16 +553,16 @@ bool Text::fillImage(ImagePtr & image,
                 xoff += (g[line][i]->getAdvance() * pixelDepth);
             }
 
-            if(line + 1 < (Int32) lineVec.size())
+            if(line + 1 < Int32(lineVec.size()))
             {
                 tmpWidth = 0;
                 if(_justifyMajor == MIDDLE_JT || _justifyMajor == END_JT)
                 {
-                    for(i = 0; i != (Int32) strlen(lineVec[line + 1].c_str());
+                    for(i = 0; i != Int32(strlen(lineVec[line + 1].c_str()));
                                             i++)
                     {
                         tmpWidth += 
-                            (Int32) osgfloor(g[line + 1][i]->getAdvance());
+                            Int32(osgfloor(g[line + 1][i]->getAdvance()));
                     }
                 }
 
@@ -576,21 +580,21 @@ bool Text::fillImage(ImagePtr & image,
                     break;
                 }
 
-                if(line + 1 == (Int32) lineVec.size() - 1)
+                if(line + 1 == Int32(lineVec.size()) - 1)
                 {
                     yoff = _topToBottom ? 0 : overallHeight - height;
                 }
                 else
                 {
                     yoff += (_topToBottom ? -1 : 1) * 
-                        (Int32) osgfloor(
-                            (Real32) _fontInstance->getBaselineSkip()*
-                            _fontInstance->getYRes() * _spacing);
+                        Int32(osgfloor(
+                                  Real32(_fontInstance->getBaselineSkip())*
+                                  _fontInstance->getYRes() * _spacing));
                 }
             }
         }
 
-        for(line = 0; line < (Int32) lineVec.size(); line++)
+        for(line = 0; line < Int32(lineVec.size()); line++)
             delete[] g[line];
         delete[] g;
 
@@ -718,12 +722,12 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
         bb[3] = 0;
         g = new VectorFontGlyph **[lineVec.size()];
 
-        for(line = 0; line < (Int32) lineVec.size(); line++)
+        for(line = 0; line < Int32(lineVec.size()); line++)
         {
             text = lineVec[line].c_str();
             g[line] = new VectorFontGlyph *[strlen(text)];
 
-            for(i = 0; i < (Int32) strlen(text); i++)
+            for(i = 0; i < Int32(strlen(text)); i++)
             {
                 g[line][i] = _fontInstance->getVectorGlyph(text[i]);
                 if(g[line][i])
@@ -734,7 +738,7 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
                     if(!retVal)
                     {
                         FWARNING(("Glyph generation failed."));
-                        for(line = 0; line < (Int32) lineVec.size(); line++)
+                        for(line = 0; line < Int32(lineVec.size()); line++)
                             delete[] g[line];
                         delete[] g;
                     }
@@ -1018,7 +1022,7 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
 
         if(trY != 0.0)
         {
-            for(i = 0; i < (Int32) points->getSize(); i++)
+            for(i = 0; i < Int32(points->getSize()); i++)
             {
                 points->setValue(points->getValue(lastVert + i) + 
                                     Vec3f(0.0, trY, 0.0),
@@ -1030,7 +1034,7 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
         {
             localHeight = fabs(bb[2]) + fabs(bb[3]);
 
-            for(i = 0; i < (Int32) points->getSize(); i++)
+            for(i = 0; i < Int32(points->getSize()); i++)
             {
                 texCoords->setValue(Vec2f(
                     points->getValue(i)[0] / maxWidth,
@@ -1064,7 +1068,7 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
 		}
 		mesh.getIndexMapping().push_back(Geometry::MapNormal);
 
-        for(line = 0; line < (Int32) lineVec.size(); line++)
+        for(line = 0; line < Int32(lineVec.size()); line++)
             delete[] g[line];
         delete[] g;
 

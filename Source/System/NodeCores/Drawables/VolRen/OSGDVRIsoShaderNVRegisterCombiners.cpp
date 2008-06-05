@@ -61,13 +61,16 @@ void DVRIsoShader::initCombiners_IsoSurfaceDiffuse(DrawActionBase *action)
 
     // get extension functions
     CombinerParameteriNVFunc CombinerParameteriNV = 
-        (CombinerParameteriNVFunc) win->getFunction(_funcCombinerParameteriNV);
+        reinterpret_cast<CombinerParameteriNVFunc>(
+            win->getFunction(_funcCombinerParameteriNV));
 
     CombinerInputNVFunc      CombinerInputNV      =
-        (CombinerInputNVFunc) win->getFunction     (_funcCombinerInputNV     );
+        reinterpret_cast<CombinerInputNVFunc>(
+            win->getFunction     (_funcCombinerInputNV     ));
 
     CombinerOutputNVFunc     CombinerOutputNV     =
-        (CombinerOutputNVFunc) win->getFunction    (_funcCombinerOutputNV    );
+        reinterpret_cast<CombinerOutputNVFunc>(
+            win->getFunction    (_funcCombinerOutputNV    ));
   
     if((m_maxCombiners > 7) && m_hasPerStageConstants)
     {
@@ -257,7 +260,8 @@ void DVRIsoShader::initCombiners_Diffuse2Combiners(DrawActionBase *action)
     Window *win = action->getWindow();
 
     FinalCombinerInputNVFunc FinalCombinerInputNV =
-        (FinalCombinerInputNVFunc) win->getFunction(_funcFinalCombinerInputNV);
+        reinterpret_cast<FinalCombinerInputNVFunc>(
+            win->getFunction(_funcFinalCombinerInputNV));
     
     // final combiner input: multiply with light color and add if we
     // have only 2 general combiners
@@ -306,13 +310,16 @@ void DVRIsoShader::initCombiners_DiffuseMultiCombiners(DrawActionBase *action)
     Window *win = action->getWindow();
 
     CombinerInputNVFunc CombinerInputNV           =
-        (CombinerInputNVFunc) win->getFunction     (_funcCombinerInputNV     );
+        reinterpret_cast<CombinerInputNVFunc>(
+            win->getFunction     (_funcCombinerInputNV     ));
 
     CombinerOutputNVFunc CombinerOutputNV         =
-        (CombinerOutputNVFunc) win->getFunction    (_funcCombinerOutputNV    );
+        reinterpret_cast<CombinerOutputNVFunc>(
+            win->getFunction    (_funcCombinerOutputNV    ));
 
     FinalCombinerInputNVFunc FinalCombinerInputNV =
-        (FinalCombinerInputNVFunc) win->getFunction(_funcFinalCombinerInputNV);
+        reinterpret_cast<FinalCombinerInputNVFunc>(
+            win->getFunction(_funcFinalCombinerInputNV));
     
     // third general combiner: apply light color to first 2 lightsources
 
@@ -677,13 +684,16 @@ void DVRIsoShader::initCombiners_IsoSurfaceSpecular(DrawActionBase *action)
     Window *win = action->getWindow();
 
     CombinerParameteriNVFunc CombinerParameteriNV =
-        (CombinerParameteriNVFunc) win->getFunction(_funcCombinerParameteriNV);
+        reinterpret_cast<CombinerParameteriNVFunc>(
+            win->getFunction(_funcCombinerParameteriNV));
 
     CombinerInputNVFunc CombinerInputNV           =
-        (CombinerInputNVFunc) win->getFunction     (_funcCombinerInputNV     );
+        reinterpret_cast<CombinerInputNVFunc>(
+            win->getFunction     (_funcCombinerInputNV     ));
 
     CombinerOutputNVFunc CombinerOutputNV         =
-        (CombinerOutputNVFunc) win->getFunction    (_funcCombinerOutputNV    );
+        reinterpret_cast<CombinerOutputNVFunc>(
+            win->getFunction    (_funcCombinerOutputNV    ));
  
     if(m_hasPerStageConstants && m_maxCombiners >= 8)
     {
@@ -881,7 +891,8 @@ void DVRIsoShader::initCombiners_Specular2Combiners(DrawActionBase *action)
     Window *win = action->getWindow();
     
     FinalCombinerInputNVFunc FinalCombinerInputNV =
-        (FinalCombinerInputNVFunc) win->getFunction(_funcFinalCombinerInputNV);
+        reinterpret_cast<FinalCombinerInputNVFunc>(
+            win->getFunction(_funcFinalCombinerInputNV));
 
     // final combiner input
 
@@ -934,13 +945,16 @@ void DVRIsoShader::initCombiners_SpecularMultiCombiners(DrawActionBase *action)
     Window *win = action->getWindow();
 
     CombinerInputNVFunc      CombinerInputNV      =
-        (CombinerInputNVFunc) win->getFunction     (_funcCombinerInputNV     );
+        reinterpret_cast<CombinerInputNVFunc>(
+            win->getFunction     (_funcCombinerInputNV     ));
 
     CombinerOutputNVFunc     CombinerOutputNV     =
-        (CombinerOutputNVFunc) win->getFunction    (_funcCombinerOutputNV    );
+        reinterpret_cast<CombinerOutputNVFunc>(
+            win->getFunction    (_funcCombinerOutputNV    ));
 
     FinalCombinerInputNVFunc FinalCombinerInputNV =
-        (FinalCombinerInputNVFunc) win->getFunction(_funcFinalCombinerInputNV);
+        reinterpret_cast<FinalCombinerInputNVFunc>(
+            win->getFunction(_funcFinalCombinerInputNV));
           
     // third general combiner: 
     // compute dotproducts for specular fraction of second and third 
@@ -1473,15 +1487,16 @@ void DVRIsoShader::setupCombinerParametersDiffuse(DVRVolume      *volume,
     Window *win = action->getWindow();
 
     CombinerParameterfvNVFunc      CombinerParameterfvNV      = 
-        (CombinerParameterfvNVFunc) win->getFunction(
-            _funcCombinerParameterfvNV);
+        reinterpret_cast<CombinerParameterfvNVFunc>(
+            win->getFunction(_funcCombinerParameterfvNV));
     
     SecondaryColor3fvEXTFunc       SecondaryColor3fvEXT       =
-        (SecondaryColor3fvEXTFunc) win->getFunction(_funcSecondaryColor3fvEXT);
+        reinterpret_cast<SecondaryColor3fvEXTFunc>(
+            win->getFunction(_funcSecondaryColor3fvEXT));
   
     CombinerStageParameterfvNVFunc CombinerStageParameterfvNV = 
-        (CombinerStageParameterfvNVFunc) win->getFunction(
-            _funcCombinerStageParameterfvNV);
+        reinterpret_cast<CombinerStageParameterfvNVFunc>(
+            win->getFunction( _funcCombinerStageParameterfvNV));
 
 
     DirLightList diffuseLights;
@@ -1639,15 +1654,16 @@ void DVRIsoShader::setupCombinerParametersSpecular(DVRVolume      *volume,
     Window *win = action->getWindow();
 
     CombinerParameterfvNVFunc      CombinerParameterfvNV      = 
-        (CombinerParameterfvNVFunc) win->getFunction(
-            _funcCombinerParameterfvNV);
+        reinterpret_cast<CombinerParameterfvNVFunc>(
+            win->getFunction(_funcCombinerParameterfvNV));
     
     SecondaryColor3fvEXTFunc       SecondaryColor3fvEXT       =
-        (SecondaryColor3fvEXTFunc) win->getFunction(_funcSecondaryColor3fvEXT);
+        reinterpret_cast<SecondaryColor3fvEXTFunc>(
+            win->getFunction(_funcSecondaryColor3fvEXT));
   
     CombinerStageParameterfvNVFunc CombinerStageParameterfvNV = 
-        (CombinerStageParameterfvNVFunc) win->getFunction(
-            _funcCombinerStageParameterfvNV);
+        reinterpret_cast<CombinerStageParameterfvNVFunc>(
+            win->getFunction(_funcCombinerStageParameterfvNV));
 
     DirLightList diffuseLights;
     DirLightList specularLights;
@@ -1844,7 +1860,8 @@ void DVRIsoShader::activate_NVRegisterCombinerShading(DVRVolume      *volume,
         }
     
         ActiveTextureARBFunc ActiveTextureARB =
-            (ActiveTextureARBFunc) win->getFunction(_funcActiveTextureARB);
+            reinterpret_cast<ActiveTextureARBFunc>(
+                win->getFunction(_funcActiveTextureARB));
     
         // get parameters from isosurface attachment if available
         Real32            isoValue;
@@ -1939,11 +1956,12 @@ void DVRIsoShader::renderSlice_NVRegisterCombinerShading(
 
     // get extension functions
     CombinerParameterfvNVFunc CombinerParameterfvNV = 
-        (CombinerParameterfvNVFunc) win->getFunction(
-            _funcCombinerParameterfvNV);
+        reinterpret_cast<CombinerParameterfvNVFunc>(
+            win->getFunction(_funcCombinerParameterfvNV));
 
     MultiTexCoord2dARBFunc    MultiTexCoord2dARB    = 
-        (MultiTexCoord2dARBFunc) win->getFunction(_funcMultiTexCoord2dARB); 
+        reinterpret_cast<MultiTexCoord2dARBFunc>(
+            win->getFunction(_funcMultiTexCoord2dARB)); 
 
     // set interpolation factor
 
@@ -1964,8 +1982,8 @@ void DVRIsoShader::renderSlice_NVRegisterCombinerShading(
         m_hasPerStageConstants                                          )
     {
         CombinerStageParameterfvNVFunc CombinerStageParameterfvNV = 
-            (CombinerStageParameterfvNVFunc) win->getFunction(
-                _funcCombinerStageParameterfvNV);
+            reinterpret_cast<CombinerStageParameterfvNVFunc>(
+                win->getFunction(_funcCombinerStageParameterfvNV));
 
         GLfloat col[4] = 
         {
@@ -2020,11 +2038,12 @@ void DVRIsoShader::renderSlice_NVRegisterCombinerShading(
 
     // get extension functions
     CombinerParameterfvNVFunc CombinerParameterfvNV = 
-        (CombinerParameterfvNVFunc) win->getFunction(
-            _funcCombinerParameterfvNV);
+        reinterpret_cast<CombinerParameterfvNVFunc>(
+            win->getFunction(_funcCombinerParameterfvNV));
 
     MultiTexCoord2dARBFunc    MultiTexCoord2dARB    = 
-        (MultiTexCoord2dARBFunc) win->getFunction(_funcMultiTexCoord2dARB); 
+        reinterpret_cast<MultiTexCoord2dARBFunc>(
+            win->getFunction(_funcMultiTexCoord2dARB)); 
 
     // set interpolation factor
     bool             doSpecular;
@@ -2066,8 +2085,8 @@ void DVRIsoShader::renderSlice_NVRegisterCombinerShading(
         m_hasPerStageConstants                                          )
     {
         CombinerStageParameterfvNVFunc CombinerStageParameterfvNV = 
-            (CombinerStageParameterfvNVFunc) win->getFunction(
-                _funcCombinerStageParameterfvNV);
+            reinterpret_cast<CombinerStageParameterfvNVFunc>(
+                win->getFunction(_funcCombinerStageParameterfvNV));
         
         GLfloat col[4] = 
         {

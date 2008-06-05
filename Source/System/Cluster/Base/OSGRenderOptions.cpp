@@ -139,7 +139,9 @@ void RenderOptions::activateOptions(RenderAction *action)
     if(_gl_version == 0.0f)
     {
         // detect OpenGL version.
-        std::string vstr = (const char *) glGetString(GL_VERSION);
+        std::string vstr = 
+            reinterpret_cast<const char *>(glGetString(GL_VERSION));
+
         // remove last .x
         vstr = vstr.substr(0, 3);
         _gl_version = atof(vstr.c_str());

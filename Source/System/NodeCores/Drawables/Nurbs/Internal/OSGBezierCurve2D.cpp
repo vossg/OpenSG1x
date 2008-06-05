@@ -812,7 +812,7 @@ int BezierCurve2D::approximate_sub( DCTPVec2dvector &vertices, double delta)
   
     for ( i = 0; i <= n; i++ ) 
     {
-        t.push_back(( (double) ( n - i ) ) / n);
+        t.push_back(( double( n - i ) ) / n);
     }
     // first, make a copy of the cp vector, and do one 
     // or more de Casteljau steps to get rid of 0 weights
@@ -1005,7 +1005,7 @@ bool BezierCurve2D::reduceDegree( double tol )
     for (i = 1; i < n; ++i)
     {
         b_right[ i ] = (control_points[ i ] * n - b_right[ i - 1 ] * i) *
-                       (1.0 / (double)(n - i));
+                       (1.0 / double(n - i));
     }
 
     // calculate b_left:
@@ -1013,7 +1013,7 @@ bool BezierCurve2D::reduceDegree( double tol )
     for (i = n - 1; i > 0; --i)
     {
         b_left[i - 1] = (control_points[ i ] * n - b_left[ i ] * (n - i)) *
-                        (1.0 / (double)i);
+            (1.0 / double(i));
     }
 
     // check for introduced error:
@@ -1416,7 +1416,7 @@ void BezierCurve2D::DegreeElevate( )
 
     for( i = n - 1; i != 0; --i )
     {
-        double  alpha = i / ( double ) n;
+        double  alpha = i / double(n);
 		double  malpha = 1.0 - alpha;
 
         control_points[i] = control_points[i-1] * alpha + control_points[i] * malpha;

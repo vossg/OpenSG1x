@@ -72,12 +72,12 @@ DVRClipGeometry::DVRClipGeometry(void) :
     seedVerticesCount       = 0;
 
     activeTriangles         =  
-        (DVRTriangle **) malloc(maxActiveTrianglesCount * 
-                                sizeof(DVRTriangle *)   );
+        static_cast<DVRTriangle **>(malloc(maxActiveTrianglesCount * 
+                                           sizeof(DVRTriangle *)   ));
 
     seedVertices = 
-        (DVRVertex   **) malloc(maxSeedVerticesCount    *
-                                sizeof(DVRVertex *)     );
+        static_cast<DVRVertex   **>(malloc(maxSeedVerticesCount    *
+                                           sizeof(DVRVertex *)     ));
 }
 
 // Copy Constructor
@@ -91,12 +91,12 @@ DVRClipGeometry::DVRClipGeometry(const DVRClipGeometry &source) :
     seedVerticesCount       = 0;
 
     activeTriangles =  
-        (DVRTriangle **) malloc(maxActiveTrianglesCount * 
-                                sizeof(DVRTriangle *)   );
+        static_cast<DVRTriangle **>(malloc(maxActiveTrianglesCount * 
+                                           sizeof(DVRTriangle *)   ));
 
     seedVertices = 
-        (DVRVertex   **) malloc(maxSeedVerticesCount    * 
-                                sizeof(DVRVertex   *)   );
+        static_cast<DVRVertex   **>(malloc(maxSeedVerticesCount    * 
+                                           sizeof(DVRVertex   *)   ));
 }
 
 // Destructor
@@ -429,9 +429,9 @@ void DVRClipGeometry::computeSeedVertices(void)
                 maxSeedVerticesCount *= 2;
 
                 seedVertices = 
-                    (DVRVertex **)realloc(seedVertices,
-                                          maxSeedVerticesCount *
-                                          sizeof(DVRVertex *)  );
+                    static_cast<DVRVertex **>(realloc(seedVertices,
+                                                      maxSeedVerticesCount *
+                                                      sizeof(DVRVertex *)  ));
             }
 
             seedVertices[seedVerticesCount++] = &_mfVertices[i];
@@ -763,9 +763,9 @@ void DVRClipGeometry::addActiveTriangle(DVRTriangle *tri)
 
         maxActiveTrianglesCount *= 2;
         activeTriangles          = 
-            (DVRTriangle **) realloc(activeTriangles, 
-                                     sizeof(DVRTriangle *) * 
-                                     maxActiveTrianglesCount);
+            static_cast<DVRTriangle **>(realloc(activeTriangles, 
+                                                sizeof(DVRTriangle *) * 
+                                                maxActiveTrianglesCount));
     }
     
     activeTriangles[activeTrianglesCount] = tri;    

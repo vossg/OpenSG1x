@@ -391,17 +391,17 @@ bool PipelineComposer::getClientRendering()
 
 PipelineComposer::TileBuffer *PipelineComposer::getComposeTileBuffer(UInt32 x,UInt32 y)
 {
-    return (TileBuffer*)(&(*_composeTilePtr)[(y*_composeTilesX + x)*_tileBufferSize]);
+    return reinterpret_cast<TileBuffer*>(&(*_composeTilePtr)[(y*_composeTilesX + x)*_tileBufferSize]);
 }
 
 PipelineComposer::TileBuffer *PipelineComposer::getReadTileBuffer(UInt32 x,UInt32 y)
 {
-    return (TileBuffer*)(&(*_readTilePtr)[(y*_readTilesX + x)*_tileBufferSize]);
+    return reinterpret_cast<TileBuffer*>(&(*_readTilePtr)[(y*_readTilesX + x)*_tileBufferSize]);
 }
 
 PipelineComposer::TileBuffer *PipelineComposer::getWorkingTileBuffer(void)
 {
-    return (TileBuffer*)(&_workingTile[0]);
+    return reinterpret_cast<TileBuffer*>(&_workingTile[0]);
 }
 
 /*! Depth order for pipe sort
@@ -475,7 +475,7 @@ void PipelineComposer::uncompressTransInfo(std::vector<TransInfo> &transInfo,UIn
 
 void PipelineComposer::writeProc(void *arg) 
 {
-    PipelineComposer *the=(PipelineComposer*)arg;
+    PipelineComposer *the=static_cast<PipelineComposer*>(arg);
     if(the->getShort())
     {
         UInt16 colorDummy;
@@ -501,7 +501,7 @@ void PipelineComposer::writeProc(void *arg)
 
 void PipelineComposer::composeProc(void *arg) 
 {
-    PipelineComposer *the=(PipelineComposer*)arg;
+    PipelineComposer *the=static_cast<PipelineComposer*>(arg);
 
     // TODO stop compose thread
     for(;;)

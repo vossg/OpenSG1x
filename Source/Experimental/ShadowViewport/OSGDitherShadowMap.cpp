@@ -1919,7 +1919,7 @@ void DitherShadowMap::createShadowFactorMap(RenderActionBase *action)
         {
             UInt32  renderTimes = 1;
             if(lightCounter > 4)
-                renderTimes = ceil(Real32(lightCounter) / 4.0f);
+                renderTimes = UInt32(ceil(Real32(lightCounter) / 4.0f));
 
             for(UInt32 i = 0;i < renderTimes;i++)
             {
@@ -2552,7 +2552,7 @@ void DitherShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
     {
         UInt32  renderTimes = 1;
         if(lightCounter > 4)
-            renderTimes = ceil(Real32(lightCounter) / 4.0f);
+            renderTimes = UInt32(ceil(Real32(lightCounter) / 4.0f));
 
         for(UInt32 i = 0;i < renderTimes;i++)
         {

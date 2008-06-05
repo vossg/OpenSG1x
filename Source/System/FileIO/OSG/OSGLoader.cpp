@@ -343,11 +343,11 @@ void OSGLoader::setFieldContainerValue(FieldContainerPtr pNewNode)
         }
         else if(_pCurrentField->getCardinality() == FieldType::SINGLE_FIELD)
         {
-            ((SFFieldContainerPtr *) _pCurrentField)->setValue(pNewNode);
+            static_cast<SFFieldContainerPtr *>(_pCurrentField)->setValue(pNewNode);
         }
         else if(_pCurrentField->getCardinality() == FieldType::MULTI_FIELD)
         {
-            ((MFFieldContainerPtr *) _pCurrentField)->push_back(pNewNode);
+            static_cast<MFFieldContainerPtr *>(_pCurrentField)->push_back(pNewNode);
         }
     }
 }

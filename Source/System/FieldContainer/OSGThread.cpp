@@ -605,8 +605,8 @@ void WinThreadBase::setupChangeList(void)
 
 MPThreadType Thread::_type("OSGThread", 
                            "OSGBaseThread", 
-                           (CreateThreadF)  Thread::create,
-                           (InitThreadingF) Thread::initThreading);
+                           reinterpret_cast<CreateThreadF>(Thread::create),
+                           static_cast<InitThreadingF>(Thread::initThreading));
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
@@ -694,10 +694,11 @@ Thread::~Thread(void)
 
 
 
-MPThreadType ExternalThread::_type("OSGExternalThread", 
-                                   "OSGMPBase", 
-                                   (CreateThreadF)  ExternalThread::create,
-                                   NULL);
+MPThreadType ExternalThread::_type(
+    "OSGExternalThread", 
+    "OSGMPBase", 
+    reinterpret_cast<CreateThreadF>(ExternalThread::create),
+    NULL);
 
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */

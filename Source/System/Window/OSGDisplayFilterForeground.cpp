@@ -194,8 +194,8 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
             Matrix m;
             UInt32 tw = osgnextpower2(port->getPixelWidth());
             UInt32 th = osgnextpower2(port->getPixelHeight());
-            Real32 sx = (Real32)port->getPixelWidth() / tw;
-            Real32 sy = (Real32)port->getPixelHeight() / th;
+            Real32 sx = Real32(port->getPixelWidth()) / tw;
+            Real32 sy = Real32(port->getPixelHeight()) / th;
             m.setScale(sx,sy,1);
             if(m != cI->second->getTextureTransform()->getMatrix())
             {

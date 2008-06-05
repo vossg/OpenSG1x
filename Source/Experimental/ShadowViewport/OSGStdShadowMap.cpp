@@ -2495,7 +2495,7 @@ void StdShadowMap::createShadowFactorMap(RenderActionBase *action)
     {
         UInt32  renderTimes = 1;
         if(lightCounter > 7)
-            renderTimes = ceil(Real32(lightCounter) / 7.0f);
+            renderTimes = UInt32(ceil(Real32(lightCounter) / 7.0f));
 
         for(UInt32 i = 0;i < renderTimes;i++)
         {
@@ -3248,7 +3248,7 @@ void StdShadowMap::createShadowFactorMapFBO(RenderActionBase *action)
 
         UInt32  renderTimes = 1;
         if(lightCounter > 7)
-            renderTimes = ceil(Real32(lightCounter) / 7.0f);
+            renderTimes = UInt32(ceil(Real32(lightCounter) / 7.0f));
 
         for(UInt32 i = 0;i < renderTimes;i++)
         {

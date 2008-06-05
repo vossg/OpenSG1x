@@ -91,11 +91,11 @@ Quantizer::Quantizer(Real32 input_min, Real32 input_max, UInt8 res)
 #if 1
     // RL
     _input_scale = 1.0f / (_input_max - _input_min);
-    _interval_size = 1.0f / (Real32)(_resolution - 1);
+    _interval_size = 1.0f / Real32(_resolution - 1);
 #else
     // TC
     _input_scale = 1.0f / (_input_max - _input_min);
-    _interval_size = 1.0f / (Real32)(_resolution);
+    _interval_size = 1.0f / Real32(_resolution);
 #endif
 }
 
@@ -104,13 +104,13 @@ UInt32 Quantizer::encode(Real32 input)
 #if 1
     // RL
     Real32 normalized = normalize_input(input, _input_min, _input_scale);
-    UInt32 result = (UInt32)((normalized * (_resolution - 1)) + 0.5f);
+    UInt32 result = UInt32((normalized * (_resolution - 1)) + 0.5f);
     if(result > _resolution - 1)
         result = _resolution - 1;
 #else
     // TC
     Real32 normalized = normalize_input(input, _input_min, _input_scale);
-    int result = (UInt32)(normalized * _resolution);
+    int result = UInt32(normalized * _resolution);
     if (result > _resolution - 1)
         result = _resolution - 1;
 #endif
@@ -153,6 +153,6 @@ Real32 Quantizer::normalize_input(Real32 input, Real32 input_min, Real32 input_s
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOQuantizer.cpp,v 1.2 2004/01/09 09:09:31 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOQuantizer.cpp,v 1.3 2008/06/05 05:00:29 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOQUANTIZER_HEADER_CVSID;
 }

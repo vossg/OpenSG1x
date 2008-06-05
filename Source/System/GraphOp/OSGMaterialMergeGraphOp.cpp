@@ -137,20 +137,20 @@ bool isEqual(const osg::FieldContainerPtr& a, const osg::FieldContainerPtr& b)
         {
             if(a_field->getCardinality() == FieldType::SINGLE_FIELD)
             {
-                if(!isEqual(((SFFieldContainerPtr *) a_field)->getValue(),
-                            ((SFFieldContainerPtr *) b_field)->getValue()))
+                if(!isEqual(static_cast<SFFieldContainerPtr *>(a_field)->getValue(),
+                            static_cast<SFFieldContainerPtr *>(b_field)->getValue()))
                     return false;
             }
             else if(a_field->getCardinality() == FieldType::MULTI_FIELD)
             {
-                if(((MFFieldContainerPtr*)a_field)->size() !=
-                   ((MFFieldContainerPtr*)b_field)->size())
+                if(static_cast<MFFieldContainerPtr*>(a_field)->size() !=
+                   static_cast<MFFieldContainerPtr*>(b_field)->size())
                     return false;
     
-                for(UInt32 j=0;j < ((MFFieldContainerPtr*)a_field)->size();++j)
+                for(UInt32 j=0;j < static_cast<MFFieldContainerPtr*>(a_field)->size();++j)
                 {
-                    if(!isEqual((*(((MFFieldContainerPtr *)a_field)))[j],
-                                (*(((MFFieldContainerPtr *)b_field)))[j]))
+                    if(!isEqual((*(static_cast<MFFieldContainerPtr *>(a_field)))[j],
+                                (*(static_cast<MFFieldContainerPtr *>(b_field)))[j]))
                         return false;
                 }
             }

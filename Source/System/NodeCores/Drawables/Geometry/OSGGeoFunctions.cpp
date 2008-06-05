@@ -1039,8 +1039,8 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
     //bool faceSet = (primitiveType == GL_POLYGON);
     Int32 index, i, pi, typei, mapi, primitiveN = 0, vN = 0;
     Int32 pType = 0, localPType;
-    Int32 maxPType; //  = (faceSet ? 5 : 3);
-    Int32 minPType; //  = (faceSet ? 3 : 2);
+    Int32 maxPType = 0; //  = (faceSet ? 5 : 3);
+    Int32 minPType = 0; //  = (faceSet ? 3 : 2);
     Int32 beginIndex, endIndex, step, len, sysPType = 0;
     Int32 piN = 0, ciN = 0, niN = 0, tiN = 0;
     Int32 pN = 0, nN = 0, cN = 0, tN = 0, tN1 = 0, tN2 = 0, tN3 = 0,

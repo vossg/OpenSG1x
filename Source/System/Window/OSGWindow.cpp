@@ -1295,10 +1295,11 @@ void OSG::Window::frameInit(void)
         const Char8 *s    = _registeredFunctions[_extFunctions.size()].c_str();
         Int32        ext  = _registeredFunctionExts[_extFunctions.size()];
         UInt32       ver  = _registeredFunctionVersions[_extFunctions.size()];
-        void        *func = NULL;
+
+        GLExtensionFunction func = NULL;
         
         if(ext == -1 || _availExtensions[ext] == true || _glVersion >= ver)
-            func = (void*)getFunctionByName(s);
+            func = getFunctionByName(s);
 
         _extFunctions.push_back(func);
     }
@@ -1476,13 +1477,23 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
     if(__GetProcAddress == NULL) 
     { 
-        __GetProcAddress = (void (*(*)(const GLubyte*))()) 
-                            dlsym(libHandle, "glXGetProcAddressARB"); 
+        __GetProcAddress = 
+#if __GNUC__ < 4
+            (void (*(*)(const GLubyte*))())
+#else
+            reinterpret_cast<void (*(*)(const GLubyte*))()>
+#endif
+                (dlsym(libHandle, "glXGetProcAddressARB")); 
 
         if(__GetProcAddress == NULL) 
         { 
-            __GetProcAddress = (void (*(*)(const GLubyte*))()) 
-                                dlsym(libHandle, "glXGetProcAddress"); 
+            __GetProcAddress = 
+#if __GNUC__ < 4
+                (void (*(*)(const GLubyte*))())
+#else
+                reinterpret_cast<void (*(*)(const GLubyte*))()>
+#endif
+                    (dlsym(libHandle, "glXGetProcAddress")); 
             
             if(__GetProcAddress == NULL) 
             {
@@ -1503,13 +1514,23 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
                     FDEBUG(("Opened lib libGL.so for GL extension handling.\n"));
                 }
                 
-                __GetProcAddress = (void (*(*)(const GLubyte*))()) 
-                                    dlsym(libHandle, "glXGetProcAddressARB"); 
+                __GetProcAddress = 
+#if __GNUC__ < 4
+                    (void (*(*)(const GLubyte*))())
+#else
+                    reinterpret_cast<void (*(*)(const GLubyte*))()>
+#endif
+                      (dlsym(libHandle, "glXGetProcAddressARB")); 
 
                 if(__GetProcAddress == NULL) 
                 { 
-                    __GetProcAddress = (void (*(*)(const GLubyte*))()) 
-                                        dlsym(libHandle, "glXGetProcAddress"); 
+                    __GetProcAddress = 
+#if __GNUC__ < 4
+                        (void (*(*)(const GLubyte*))())
+#else
+                        reinterpret_cast<void (*(*)(const GLubyte*))()>
+#endif
+                            (dlsym(libHandle, "glXGetProcAddress")); 
                 }
                 
                 if(__GetProcAddress == NULL)
@@ -1534,11 +1555,18 @@ OSG::Window::GLExtensionFunction OSG::Window::getFunctionByName(
 
     if(__GetProcAddress != NULL) 
     { 
-        retval = reinterpret_cast<GLExtensionFunction>(__GetProcAddress((const GLubyte*)s)); 
+        retval = reinterpret_cast<GLExtensionFunction>(
+            __GetProcAddress(reinterpret_cast<const GLubyte*>(s))); 
     } 
     else 
     { 
-        retval = (GLExtensionFunction)(dlsym(libHandle, s)); 
+        retval = 
+#if __GNUC__ < 4
+        (GLExtensionFunction)
+#else
+        reinterpret_cast<GLExtensionFunction>
+#endif
+            (dlsym(libHandle, s)); 
     } 
 
 #else

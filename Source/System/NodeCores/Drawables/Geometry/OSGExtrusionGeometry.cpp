@@ -262,7 +262,8 @@ void ExtrusionSurface::refineCrossSection(UInt32 nTimes)
     std::vector<Vec2f> output;
 
     // cast <Pnt2f> to <Vec2f> because we need the vector interface
-    std::vector<Vec2f> & csVec2f ((std::vector<Vec2f>&)(_crossSection));
+    std::vector<Vec2f> & csVec2f (
+        reinterpret_cast<std::vector<Vec2f>&>(_crossSection));
     subdivide(csVec2f, &output, nTimes, _crossSectionClosed);
 
     // swap output data into _crossSection
@@ -281,7 +282,7 @@ void ExtrusionSurface::refineSpine(UInt32 nTimes)
     std::vector<Vec3f> output;
 
     // cast <Pnt3f> to <Vec3f> because we need the vector interface    
-    std::vector<Vec3f> & spVec3f ((std::vector<Vec3f>&)(_spine));
+    std::vector<Vec3f> & spVec3f (reinterpret_cast<std::vector<Vec3f>&>(_spine));
     subdivide<Vec3f>(spVec3f, &output, nTimes, _spineClosed);
 
     // swap output data into _spine

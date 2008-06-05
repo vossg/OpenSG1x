@@ -356,7 +356,7 @@ TextTXFFace *TextTXFFace::create(const string &family, Style style, const TextTX
 static UInt32 readLong(istream &is, bool swap)
 {
     UInt8 bytes[4];
-    is.read((istream::char_type*)(bytes), 4);
+    is.read(reinterpret_cast<istream::char_type*>(bytes), 4);
     return swap ?
         (bytes[3] << 24) |
         (bytes[2] << 16) |
@@ -377,7 +377,7 @@ static UInt32 readLong(istream &is, bool swap)
 static UInt16 readShort(istream &is, bool swap)
 {
     UInt8 bytes[2];
-    is.read((istream::char_type*)(bytes), 2);
+    is.read(reinterpret_cast<istream::char_type*>(bytes), 2);
     return swap ?
         (bytes[1] << 8) |
         bytes[0]
@@ -460,11 +460,11 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
         characters.append(static_cast<wchar_t>(glyphIndex), 1);
         glyph->_glyphIndex = glyphIndex;
         glyph->_scale = face->_scale;
-        glyph->_width = (unsigned char)is.get();
-        glyph->_height = (unsigned char)is.get();
-        glyph->_horiBearingX = (signed char)is.get();
-        glyph->_horiBearingY = (signed char)is.get() + glyph->_height;
-        glyph->_horiAdvance = ((signed char)is.get()) * face->_scale;
+        glyph->_width = static_cast<unsigned char>(is.get());
+        glyph->_height = static_cast<unsigned char>(is.get());
+        glyph->_horiBearingX = static_cast<signed char>(is.get());
+        glyph->_horiBearingY = static_cast<signed char>(is.get()) + glyph->_height;
+        glyph->_horiAdvance = (static_cast<signed char>(is.get())) * face->_scale;
         is.ignore(); // padding
         glyph->_x = readShort(is, swap);
         glyph->_y = readShort(is, swap);
@@ -508,7 +508,8 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
             {
                 UInt32 size = textureWidth * textureHeight;
                 assert(face->_texture->getSize() == size);
-                is.read((istream::char_type*)face->_texture->getData(), size);
+                is.read(reinterpret_cast<istream::char_type*>(
+                            face->_texture->getData()), size);
                 endEditCP(face->_texture);
                 if (is.good() == false)
                 {
@@ -522,7 +523,7 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
                 UInt32 stride = (textureWidth + 7) >> 3;
                 UInt32 size = stride * textureHeight;
                 UInt8 *buffer = new UInt8[size];
-                is.read((istream::char_type*)buffer, size);
+                is.read(reinterpret_cast<istream::char_type*>(buffer), size);
                 if (is.good() == false)
                 {
                     delete [] buffer;
@@ -648,7 +649,7 @@ bool TextTXFFace::writeToStream(ostream &os) const
 
     // Write texture
     assert(_texture->getSize() == static_cast<UInt32>(_texture->getWidth() * _texture->getHeight()));
-    os.write((ostream::char_type*)_texture->getData(), _texture->getWidth() * _texture->getHeight());
+    os.write(reinterpret_cast<ostream::char_type*>(_texture->getData()), _texture->getWidth() * _texture->getHeight());
 
     return os.good();
 }
@@ -897,7 +898,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.8 2006/08/01 16:38:26 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.9 2008/06/05 05:01:21 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }

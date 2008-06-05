@@ -120,26 +120,26 @@ void DVRLookupTable::changed(BitVector whichField, UInt32 origin)
                     if(k == 0)
                     {
                         _mfDataR[j] = 
-                            (Real32) _mfData[iter++] / 
-                            (Real32) TypeTraits<UInt8>::getMax();
+                            Real32(_mfData[iter++]) / 
+                            Real32(TypeTraits<UInt8>::getMax());
                     }
                     else if(k == 1)
                     {
                         _mfDataG[j] =
-                            (Real32) _mfData[iter++] / 
-                            (Real32) TypeTraits<UInt8>::getMax();
+                            Real32(_mfData[iter++]) / 
+                            Real32(TypeTraits<UInt8>::getMax());
                     }
                     else if(k == 2)
                     {
                         _mfDataB[j] = 
-                            (Real32) _mfData[iter++] / 
-                            (Real32) TypeTraits<UInt8>::getMax();
+                            Real32(_mfData[iter++]) / 
+                            Real32(TypeTraits<UInt8>::getMax());
                     }
                     else if(k == 3)
                     {
                         _mfDataA[j] =
-                            (Real32) _mfData[iter++] / 
-                            (Real32) TypeTraits<UInt8>::getMax();
+                            Real32(_mfData[iter++]) / 
+                            Real32(TypeTraits<UInt8>::getMax());
                     }
                 }
             }
@@ -303,9 +303,9 @@ void DVRLookupTable::dump(      UInt32    uiIndent,
 
     indentLog(uiIndent, PLOG);
     PLOG << "dim: " 
-         << (int) getDimension() 
+         << int(getDimension())
          << " channel: "
-         << (int) getChannel() 
+         << int(getChannel())
          << std::endl;
 
     indentLog(uiIndent, PLOG);
@@ -315,7 +315,7 @@ void DVRLookupTable::dump(      UInt32    uiIndent,
                                    it != _mfSize.end  (); 
                                  ++it)
     {
-        PLOG << std::dec << (int) *it << " ";
+        PLOG << std::dec << int(*it) << " ";
     }
 
     PLOG << std::endl;
@@ -329,7 +329,7 @@ void DVRLookupTable::dump(      UInt32    uiIndent,
     indentLog(uiIndent, PLOG);
     for(i = 0; i < _mfData.size(); i++) 
     {
-        PLOG << std::setw(9) << std::left << (int) _mfData[i] << " ";
+        PLOG << std::setw(9) << std::left << int(_mfData[i]) << " ";
 
         if((i + 1) % getChannel() == 0) 
         {
@@ -466,20 +466,20 @@ void DVRLookupTable::commonConstructor(void)
             //!! setValue ( <value>, index )
 
             _mfDataR[singleIter] = 
-                (Real32) j / 
-                (Real32) TypeTraits<UInt8>::getMax();
+                Real32(j) / 
+                Real32(TypeTraits<UInt8>::getMax());
 
             _mfDataG[singleIter] = 
-                (Real32) j / 
-                (Real32) TypeTraits<UInt8>::getMax();
+                Real32(j) / 
+                Real32(TypeTraits<UInt8>::getMax());
 
             _mfDataB[singleIter] = 
-                (Real32) j / 
-                (Real32) TypeTraits<UInt8>::getMax();
+                Real32(j) / 
+                Real32(TypeTraits<UInt8>::getMax());
 
             _mfDataA[singleIter] = 
-                (Real32) j / 
-                (Real32) TypeTraits<UInt8>::getMax();
+                Real32(j) / 
+                Real32(TypeTraits<UInt8>::getMax());
             
             singleIter++;
             

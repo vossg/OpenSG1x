@@ -113,17 +113,17 @@ pthread_key_t BasePThreadBase::_threadKey;
 
 void *BasePThreadBase::threadFunc(void *pThreadArg)
 {
-    void **pArgs = (void **) pThreadArg;
+    void **pArgs = static_cast<void **>(pThreadArg);
 
     if(pArgs != NULL)
     {
         if(pArgs[2] != NULL)
         {
-            ((BaseThread *) pArgs[2])->init();
+            static_cast<BaseThread *>(pArgs[2])->init();
 
             if(pArgs[0] != NULL)
             {
-                ThreadFuncF fThreadFunc = (ThreadFuncF) pArgs[0];
+                ThreadFuncF fThreadFunc = ThreadFuncF(pArgs[0]);
 
                 fThreadFunc(pArgs[1]);
             }
@@ -245,9 +245,13 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 
         pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, &rc);
 
-        _pThreadData[0] = (void *) fThreadFunc;
-        _pThreadData[1] =          pThreadArg;
-        _pThreadData[2] = (void *) this;
+#if __GNUC__ < 4
+        _pThreadData[0] = (void *)(fThreadFunc);
+#else
+        _pThreadData[0] = reinterpret_cast<void *>(fThreadFunc);
+#endif
+        _pThreadData[1] =                          pThreadArg;
+        _pThreadData[2] = static_cast     <void *>(this       );
        	
 		pthread_attr_t  threadAttr;       
         pthread_attr_setscope(&threadAttr, PTHREAD_SCOPE_SYSTEM);
@@ -259,7 +263,7 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
                             NULL,
 #endif
                             BasePThreadBase::threadFunc,
-                            (void *) &_pThreadData);
+                            static_cast<void *>(&_pThreadData));
 
         if(rc != 0)
         {

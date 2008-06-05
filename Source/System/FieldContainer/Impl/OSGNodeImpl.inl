@@ -368,7 +368,7 @@ inline
 void Node::executeSync(      FieldContainer &other,
                        const BitVector      &whichField)
 {
-    this->executeSyncImpl((Node *) &other, whichField);
+    this->executeSyncImpl(static_cast<Node *>(&other), whichField);
 }
 #else
 inline

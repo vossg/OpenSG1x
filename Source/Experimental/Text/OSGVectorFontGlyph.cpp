@@ -134,7 +134,7 @@ void VectorFontGlyph::addPoint(Real32 *point, bool OSG_CHECK_ARG(lower))
     end =
         (
             begin +
-            (_BLOCK_ALLOC / 3) >= (Int32) _points.size() ? _points.size() -
+            (_BLOCK_ALLOC / 3) >= Int32(_points.size()) ? _points.size() -
             1 : begin +
             (_BLOCK_ALLOC / 3) -
             1
@@ -151,7 +151,7 @@ void VectorFontGlyph::addPoint(Real32 *point, bool OSG_CHECK_ARG(lower))
 
     _numIndices++;
 
-    if(_numIndices > (Int32) _indices.size())
+    if(_numIndices > Int32(_indices.size()))
     {
         _indices.resize(_indices.capacity() + _BLOCK_ALLOC);
     }
@@ -199,7 +199,7 @@ void VectorFontGlyph::extrude(void)
     Int32 *indices = NULL;
     Int32  tmp     = 0;
 
-    if(_numIndices * 2 > (Int32) _indices.capacity())
+    if(_numIndices * 2 > Int32(_indices.capacity()))
     {
         _indices.resize(_numIndices * 2);
     }
@@ -236,13 +236,13 @@ bool VectorFontGlyph::createTriangles(void)
 
     tmTesselator = this;
 
-    gluTessCallback(triangulator, (GLenum) GLU_BEGIN,
+    gluTessCallback(triangulator, GLenum(GLU_BEGIN),
                     reinterpret_cast<OSGGLUfuncptr>(tessBegin));
-    gluTessCallback(triangulator, (GLenum) GLU_VERTEX,
+    gluTessCallback(triangulator, GLenum(GLU_VERTEX),
                     reinterpret_cast<OSGGLUfuncptr>(tessVertex));
-    gluTessCallback(triangulator, (GLenum) GLU_EDGE_FLAG,
+    gluTessCallback(triangulator, GLenum(GLU_EDGE_FLAG),
                     reinterpret_cast<OSGGLUfuncptr>(tessEdgeFlag));
-    gluTessCallback(triangulator, (GLenum) GLU_END,
+    gluTessCallback(triangulator, GLenum(GLU_END),
                     reinterpret_cast<OSGGLUfuncptr>(tessEnd));
 
     //     gluTessCallback(triangulator, (GLenum)GLU_ERROR,
@@ -271,7 +271,7 @@ bool VectorFontGlyph::createTriangles(void)
 
     tmpDepth = _depth;
 
-    for(k = 0; k < (Int32) _contours.size(); k++)
+    for(k = 0; k < Int32(_contours.size()); k++)
     {
         doThis = _contours[k];
 
@@ -310,7 +310,8 @@ bool VectorFontGlyph::createTriangles(void)
             vertex[0] = point[0];
             vertex[1] = point[1];
             vertex[2] = point[2] = tmpDepth;
-            gluTessVertex(triangulator, vertex, (void *) _points[last + i]);
+            gluTessVertex(triangulator, vertex, 
+                          static_cast<void *>(_points[last + i]));
         }
     }
 #else
@@ -318,7 +319,7 @@ bool VectorFontGlyph::createTriangles(void)
         {
             lastOrdering = doThis->isClockwise();
             gluBeginPolygon(triangulator);
-            gluNextContour(triangulator, (GLenum) GLU_EXTERIOR);
+            gluNextContour(triangulator, GLenum(GLU_EXTERIOR));
         }
         else
         {
@@ -326,11 +327,11 @@ bool VectorFontGlyph::createTriangles(void)
             {
                 gluEndPolygon(triangulator);
                 gluBeginPolygon(triangulator);
-                gluNextContour(triangulator, (GLenum) GLU_EXTERIOR);
+                gluNextContour(triangulator, GLenum(GLU_EXTERIOR));
             }
             else
             {
-                gluNextContour(triangulator, (GLenum) GLU_INTERIOR);
+                gluNextContour(triangulator, GLenum(GLU_INTERIOR));
             }
         }
 
@@ -340,7 +341,8 @@ bool VectorFontGlyph::createTriangles(void)
             vertex[0] = point[0];
             vertex[1] = point[1];
             vertex[2] = point[2] = tmpDepth;
-            gluTessVertex(triangulator, vertex, (void *) _points[last + i]);
+            gluTessVertex(triangulator, vertex, 
+                          static_cast<void *>(_points[last + i]));
         }
     }
 #endif
@@ -376,7 +378,7 @@ bool VectorFontGlyph::createTriangles(void)
 
         totalPoints = 0;
 
-        for(j = 0; j < (Int32) _contours.size(); j++)
+        for(j = 0; j < Int32(_contours.size()); j++)
         {
             tmp = totalPoints;
             doThis = _contours[j];

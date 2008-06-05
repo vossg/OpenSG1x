@@ -141,14 +141,14 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
         // custom texture coordinates
         // Mess with the best, die like the rest
         glBegin(GL_QUADS);
-        glTexCoord3fv((GLfloat*) texCoord[0].getValues());
-        glVertex3fv((GLfloat*) p1.getValues());
-        glTexCoord3fv((GLfloat*) texCoord[1].getValues());
-        glVertex3fv((GLfloat*) p2.getValues());
-        glTexCoord3fv((GLfloat*) texCoord[2].getValues());
-        glVertex3fv((GLfloat*) p3.getValues());
-        glTexCoord3fv((GLfloat*) texCoord[3].getValues());
-        glVertex3fv((GLfloat*) p4.getValues());
+        glTexCoord3fv(static_cast<const GLfloat*>(texCoord[0].getValues()));
+        glVertex3fv  (static_cast<const GLfloat*>(p1.getValues()));
+        glTexCoord3fv(static_cast<const GLfloat*>(texCoord[1].getValues()));
+        glVertex3fv  (static_cast<const GLfloat*>(p2.getValues()));
+        glTexCoord3fv(static_cast<const GLfloat*>(texCoord[2].getValues()));
+        glVertex3fv  (static_cast<const GLfloat*>(p3.getValues()));
+        glTexCoord3fv(static_cast<const GLfloat*>(texCoord[3].getValues()));
+        glVertex3fv  (static_cast<const GLfloat*>(p4.getValues()));
         glEnd();
 
         if(tex->isTransparent())
@@ -241,9 +241,9 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
         vsin1 = osgsin(_mfSkyAngle[0]);
 
         glBegin(GL_TRIANGLE_FAN);
-        glColor4fv((GLfloat*) _mfSkyColor[0].getValuesRGBA());
+        glColor4fv(static_cast<const GLfloat*>(_mfSkyColor[0].getValuesRGBA()));
         glVertex3f(0, 1, 0);
-        glColor4fv((GLfloat*) _mfSkyColor[1].getValuesRGBA());
+        glColor4fv(static_cast<const GLfloat*>(_mfSkyColor[1].getValuesRGBA()));
 
         for(i = 0; i < sr; ++i)
         {
@@ -268,9 +268,9 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
             for(i = 0; i < sr; ++i)
             {
-                glColor4fv((GLfloat*) c1.getValuesRGBA());
+                glColor4fv(static_cast<const GLfloat*>(c1.getValuesRGBA()));
                 glVertex3f(vsin1 * _sinval[i], vcos1, vsin1 * _cosval[i]);
-                glColor4fv((GLfloat*) c2.getValuesRGBA());
+                glColor4fv(static_cast<const GLfloat*>(c2.getValuesRGBA()));
                 glVertex3f(vsin2 * _sinval[i], vcos2, vsin2 * _cosval[i]);
             }
             glEnd();
@@ -279,7 +279,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
         //if(osgabs(_mfSkyAngle[j] - Pi) > Eps)
         {
             glBegin(GL_TRIANGLE_FAN);
-            glColor4fv((GLfloat*) _mfSkyColor[j+1].getValuesRGBA());
+            glColor4fv(static_cast<const GLfloat*>(
+                           _mfSkyColor[j+1].getValuesRGBA()));
             glVertex3f(0, -1, 0);
             vcos1 = osgcos(_mfSkyAngle[j]);
             vsin1 = osgsin(_mfSkyAngle[j]);
@@ -303,12 +304,14 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
         glBegin(GL_TRIANGLE_FAN);
         
         if (_mfGroundColor.size())
-            glColor4fv((GLfloat*) _mfGroundColor[0].getValuesRGBA());
+            glColor4fv(static_cast<const GLfloat*>(
+                           _mfGroundColor[0].getValuesRGBA()));
         
         glVertex3f(0, -1, 0);
         
         if (_mfGroundColor.size() > 1)
-            glColor4fv((GLfloat*) _mfGroundColor[1].getValuesRGBA());
+            glColor4fv(static_cast<const GLfloat*>(
+                           _mfGroundColor[1].getValuesRGBA()));
 
         for(i = 0; i < sr; ++i)
         {
@@ -336,9 +339,9 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
             for(i = 0; i < sr; ++i)
             {
-                glColor4fv((GLfloat*) c1.getValuesRGBA());
+                glColor4fv(static_cast<const GLfloat*>(c1.getValuesRGBA()));
                 glVertex3f(vsin1 * _sinval[i], vcos1, vsin1 * _cosval[i]);
-                glColor4fv((GLfloat*) c2.getValuesRGBA());
+                glColor4fv(static_cast<GLfloat*>(c2.getValuesRGBA()));
                 glVertex3f(vsin2 * _sinval[i], vcos2, vsin2 * _cosval[i]);
             }
             glEnd();

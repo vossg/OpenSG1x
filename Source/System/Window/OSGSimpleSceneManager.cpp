@@ -627,7 +627,7 @@ void SimpleSceneManager::showAll(void)
 void SimpleSceneManager::useOpenSGLogo(void)
 {
     ImagePtr lo = Image::create();
-    ImageFileType::restore( lo, (UChar8*)LogoData, -1 );
+    ImageFileType::restore( lo, static_cast<UChar8*>(LogoData), -1 );
 
     beginEditCP(_foreground);
     _foreground->addImage( lo, Pnt2f( 0,0 ) );

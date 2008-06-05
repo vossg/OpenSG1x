@@ -62,8 +62,8 @@ FieldDescription *GeoPTypesUI8PropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPTypesUI8PropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                  GeoPTypesUI8PropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                  GeoPTypesUI8PropertyDesc>::getFieldPtr))
 #endif
 };
 

@@ -174,19 +174,19 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 			{
 				f_prev_error = FLT_MAX;
 #ifdef OSG_USE_NURBS_PATCH
-				f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+				f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
 				while( f_act_error > fError )
 				{
 //					std::cerr << ",";
  #ifdef OSG_USE_KD_TREE
   #ifdef OSG_ARBITRARY_SPLIT
-					if( ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fSplitValue < 0.0 )
+					if( ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fSplitValue < 0.0 )
   #else
-					if( ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->bSplitHoriz )
+                    if( ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->bSplitHoriz )
   #endif
 					{
   #ifdef OSG_ARBITRARY_SPLIT
-						pclMesh->SubdivideQuadEW( pcl_face, -( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fSplitValue );
+						pclMesh->SubdivideQuadEW( pcl_face, -( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fSplitValue );
   #else
 						pclMesh->SubdivideQuadEW( pcl_face );
   #endif
@@ -194,7 +194,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 					else
 					{
   #ifdef OSG_ARBITRARY_SPLIT
-						pclMesh->SubdivideQuadNS( pcl_face, ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fSplitValue );
+						pclMesh->SubdivideQuadNS( pcl_face, ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fSplitValue );
   #else
 						pclMesh->SubdivideQuadNS( pcl_face );
   #endif
@@ -207,25 +207,25 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 					ui_face_cnt += 3;	// three new faces
  #endif
 					f_prev_error = f_act_error;
-					f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+					f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
 				}
 #else
-				if( ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell )
+				if( ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell )
 				{
-					f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+					f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
 					while( f_act_error > fError )
 					{
 						pclMesh->SubdivideQuad( pcl_face );
 						SubdivideNode( pclMesh, pcl_face );
 						ui_face_cnt += 3;	// three new faces
 						f_prev_error = f_act_error;
-						f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+						f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
 					}
 				}
 				else
 				{
-					f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->fError;
-					f_prev_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->fPrevError;
+					f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptBPCell->fError;
+					f_prev_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptBPCell->fPrevError;
 //					std::cerr << pcl_face->orig_quad[ 3 ]->coords << pcl_face->orig_quad[ 1 ]->coords << std::endl;
 //					std::cerr << f_act_error << ", " << f_prev_error << std::endl;
 				}
@@ -244,7 +244,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 		for( ui_face = 0; ui_face < ui_face_cnt; ++ui_face )
 		{
 			pcl_face = pclMesh->faces[ ui_face ];
-			pt_finfo = ( SFaceTreeCell* ) pcl_face->faceinfo;
+			pt_finfo = static_cast<SFaceTreeCell*>(pcl_face->faceinfo);
 			if( pt_finfo )
 			{
 				delete pt_finfo;
@@ -283,7 +283,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 	Vec2d							cl_min;
 	Vec2d							cl_add;
 
-	pt_finfo = ( ( SFaceTreeCell* ) pclMesh->faces[ 0 ]->faceinfo );
+	pt_finfo = ( static_cast<SFaceTreeCell*>(pclMesh->faces[ 0 ]->faceinfo) );
 	pt_finfo->bOwnSurface = true;
 	pt_finfo->pclBSplineSurface = new BSplineTensorSurface;
 	*( pt_finfo->pclBSplineSurface ) = *pclPatch;
@@ -341,7 +341,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 			pcl_face = pclMesh->faces[ ui_face ];
 			if( pcl_face->faceinfo )
 			{
-				if( ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell )
+				if( ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell )
 				{
 					ComputeError( pcl_face );
 				}
@@ -358,10 +358,10 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 		{
 			f_prev_error = FLT_MAX;
 #ifdef OSG_USE_NURBS_PATCH
-			f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+			f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
 			while( f_act_error > fError )
 			{
-				const SErrorTreeCell*	cpt_errcell = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell;
+				const SErrorTreeCell*	cpt_errcell = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell;
 				bool					b_split_ok = true;
 
 //				std::cerr << ".";
@@ -431,7 +431,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 					SubdivideBuild( pclMesh, pcl_face );
 					++ui_face_cnt;		// one new face
 					f_prev_error = f_act_error;
-					f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+					f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
 				}
 				else
 				{
@@ -443,26 +443,26 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
 				SubdivideBuild( pclMesh, pcl_face );
 				ui_face_cnt += 3;	// three new faces
 				f_prev_error = f_act_error;
-				f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+				f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
  #endif
 			}
 #else
-			if( ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell )
+			if( ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell )
 			{
-				f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+				f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
 				while( f_act_error > fError )
 				{
 					pclMesh->SubdivideQuad( pcl_face );
 					SubdivideBuild( pclMesh, pcl_face );
 					ui_face_cnt += 3;	// three new faces
 					f_prev_error = f_act_error;
-					f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptErrorCell->fError;
+					f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptErrorCell->fError;
 				}
 			}
 			else
 			{
-				f_act_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->fError;
-				f_prev_error = ( ( SFaceTreeCell* ) pcl_face->faceinfo )->ptBPCell->fPrevError;
+				f_act_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptBPCell->fError;
+				f_prev_error = ( static_cast<SFaceTreeCell*>(pcl_face->faceinfo) )->ptBPCell->fPrevError;
 			}
 #endif
 			if( f_act_error > m_fMaxError )
@@ -481,7 +481,7 @@ void CErrorQuadTree::BuildMesh( DCTPMesh *pclMesh,
     for( ui_face = 0; ui_face < ui_face_cnt; ++ui_face )
 	{
 		pcl_face = pclMesh->faces[ ui_face ];
-		pt_finfo = ( SFaceTreeCell* ) pcl_face->faceinfo;
+		pt_finfo = static_cast<SFaceTreeCell*>(pcl_face->faceinfo);
 		if( pt_finfo )
 		{
 			if( pt_finfo->bOwnSurface )
@@ -903,7 +903,7 @@ void CErrorQuadTree::SetInitialCells( DCTPMesh *pclMesh, float fError,
 	pt_finfo->pclBSplineSurface = pclPatch;
  #endif
 	pt_finfo->ptErrorCell = m_ptRoot;
-	pcl_face->faceinfo = ( void* ) pt_finfo;
+	pcl_face->faceinfo = static_cast<void*>(pt_finfo);
 #else
 	const unsigned int		cui_u_size = cpvdIntervalsU->size( ) - 1;
 	const unsigned int		cui_v_size = cpvdIntervalsV->size( ) - 1;
@@ -1104,7 +1104,7 @@ void CErrorQuadTree::SubdivideNode( DCTPMesh *pclMesh, DCTPFace *pclFace )
 #else
 	DCTPFace			*apcl_faces[ 4 ];
 #endif
-	SFaceTreeCell		*pcl_old_node = ( SFaceTreeCell* ) pclFace->faceinfo;
+	SFaceTreeCell		*pcl_old_node = static_cast<SFaceTreeCell*>(pclFace->faceinfo);
 	SFaceTreeCell		*pcl_new_node;
 
 	pclFace->faceinfo = NULL;
@@ -1134,7 +1134,7 @@ void CErrorQuadTree::SubdivideNode( DCTPMesh *pclMesh, DCTPFace *pclFace )
  #endif
 		pcl_new_node->pclBSplineSurface = NULL;
 		pcl_new_node->bOwnSurface = false;
-		apcl_faces[ ui_child ]->faceinfo = ( void* ) pcl_new_node;
+		apcl_faces[ ui_child ]->faceinfo = static_cast<void*>(pcl_new_node);
 	}
 #else
 	if( pcl_old_node->ptErrorCell )
@@ -1156,7 +1156,7 @@ void CErrorQuadTree::SubdivideNode( DCTPMesh *pclMesh, DCTPFace *pclFace )
 			pcl_new_node->ptBPCell = NULL;
 			pcl_new_node->pclBezierSurface = NULL;
 			pcl_new_node->bOwnSurface = false;
-			apcl_faces[ ui_child ]->faceinfo = ( void* ) pcl_new_node;
+			apcl_faces[ ui_child ]->faceinfo = static_cast<void*>(pcl_new_node);
 		}
 	}
 	else if( pcl_old_node->ptBPCell->aptChildren[ 1 ] )
@@ -1184,7 +1184,7 @@ void CErrorQuadTree::SubdivideNode( DCTPMesh *pclMesh, DCTPFace *pclFace )
 			std::cerr << apcl_faces[ ui_child ]->orig_quad[ 3 ]->coords << std::endl;*/
 			pcl_new_node->pclBezierSurface = NULL;
 			pcl_new_node->bOwnSurface = false;
-			apcl_faces[ ui_child ]->faceinfo = ( void* ) pcl_new_node;
+			apcl_faces[ ui_child ]->faceinfo = static_cast<void*>(pcl_new_node);
 		}
 	}
 	else if( pcl_old_node->ptBPCell->aptChildren[ 0 ] )
@@ -1210,7 +1210,7 @@ void CErrorQuadTree::SubdivideNode( DCTPMesh *pclMesh, DCTPFace *pclFace )
 			std::cerr << apcl_faces[ ui_child ]->orig_quad[ 3 ]->coords << std::endl;*/
 			pcl_new_node->pclBezierSurface = NULL;
 			pcl_new_node->bOwnSurface = false;
-			apcl_faces[ ui_child ]->faceinfo = ( void* ) pcl_new_node;
+			apcl_faces[ ui_child ]->faceinfo = static_cast<void*>(pcl_new_node);
 		}
 	}
 	else
@@ -1235,7 +1235,7 @@ void CErrorQuadTree::SubdivideNode( DCTPMesh *pclMesh, DCTPFace *pclFace )
 			std::cerr << apcl_faces[ ui_child ]->orig_quad[ 3 ]->coords << std::endl;*/
 			pcl_new_node->pclBezierSurface = NULL;
 			pcl_new_node->bOwnSurface = false;
-			apcl_faces[ ui_child ]->faceinfo = ( void* ) pcl_new_node;
+			apcl_faces[ ui_child ]->faceinfo = static_cast<void*>(pcl_new_node);
 		}
 	}
 #endif
@@ -1253,7 +1253,7 @@ void CErrorQuadTree::SubdivideBuild( DCTPMesh *pclMesh, DCTPFace *pclFace )
 #else
 	DCTPFace									*apcl_faces[ 4 ];
 #endif
-	SFaceTreeCell								*pcl_old_node = ( SFaceTreeCell* ) pclFace->faceinfo;
+	SFaceTreeCell								*pcl_old_node = static_cast<SFaceTreeCell*>(pclFace->faceinfo);
 	SFaceTreeCell								*pcl_new_node;
 #ifdef OSG_USE_NURBS_PATCH
  #ifdef OSG_USE_KD_TREE
@@ -1336,7 +1336,7 @@ void CErrorQuadTree::SubdivideBuild( DCTPMesh *pclMesh, DCTPFace *pclFace )
 		( *pcl_new_node->pclBezierSurface ) = vvcl_surfaces[ ( ( ui_child + 1 ) >> 1 ) & 1 ][ 1 - ( ui_child >> 1 ) ];
   #endif
  #endif
-		apcl_faces[ ui_child ]->faceinfo = ( void* ) pcl_new_node;
+		apcl_faces[ ui_child ]->faceinfo = static_cast<void*>(pcl_new_node);
 	}
 	if( pcl_old_node->ptErrorCell->ptChildren == NULL )
 	{
@@ -1348,7 +1348,7 @@ void CErrorQuadTree::SubdivideBuild( DCTPMesh *pclMesh, DCTPFace *pclFace )
 		for( ui_child = 0; ui_child < 4; ++ui_child )
  #endif
 		{
-			pcl_new_node = ( SFaceTreeCell* ) ( apcl_faces[ ui_child ]->faceinfo );
+			pcl_new_node = static_cast<SFaceTreeCell*>( apcl_faces[ ui_child ]->faceinfo );
 			pcl_new_node->ptErrorCell = &( pcl_old_node->ptErrorCell->ptChildren[ ui_child ] );
 			pcl_new_node->ptErrorCell->ptChildren = NULL;
 			pcl_new_node->ptErrorCell->fError = -1.0;
@@ -1367,7 +1367,7 @@ void CErrorQuadTree::SubdivideBuild( DCTPMesh *pclMesh, DCTPFace *pclFace )
 		pcl_new_node->bOwnSurface = true;
 		pcl_new_node->pclBezierSurface = new BezierTensorSurface;
 		( *pcl_new_node->pclBezierSurface ) = vvcl_surfaces[ ( ( ui_child + 1 ) >> 1 ) & 1 ][ 1 - ( ui_child >> 1 ) ];
-		apcl_faces[ ui_child ]->faceinfo = ( void* ) pcl_new_node;
+		apcl_faces[ ui_child ]->faceinfo = static_cast<void*>(pcl_new_node);
 		if( pcl_new_node->ptErrorCell == NULL )
 		{
 			pcl_old_node->ptErrorCell->aptChildren[ ui_child ] = new SErrorTreeCell;
@@ -1408,7 +1408,7 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 //#endif
 {
 //#ifndef OSG_ARBITRARY_SPLIT
-	SFaceTreeCell						*ptCell = ( SFaceTreeCell* ) pclFace->faceinfo;
+	SFaceTreeCell						*ptCell = static_cast<SFaceTreeCell*>(pclFace->faceinfo);
 //#endif
 
 	if( ptCell->ptErrorCell->fError >= 0.0 )
@@ -1505,7 +1505,7 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 #endif
 	osg::Vec3f							cl_normal;
 	osg::Pnt3f							cl_position;
-	double								d_quadcurv;
+	double								d_quadcurv = 0.0;
 
 #ifdef OSG_USE_NURBS_PATCH
 	pcl_surface->getParameterInterval_U( cl_min[0], cl_add[0] );
@@ -1824,14 +1824,14 @@ void CErrorQuadTree::ComputeError( DCTPFace *pclFace )
 				}
 				if( d_quad_size > ptCell->ptErrorCell->fError )
 				{
-					ptCell->ptErrorCell->fError = ( float ) d_quad_size;
+					ptCell->ptErrorCell->fError = float(d_quad_size);
 				}
 			}
 			else
  #endif
 			if( d_quad_size > ptCell->ptErrorCell->fError )
 			{
-				ptCell->ptErrorCell->fError = ( float ) d_quad_size;
+				ptCell->ptErrorCell->fError = float(d_quad_size);
  #ifdef OSG_ARBITRARY_SPLIT
 				cl_worst = cl_uv;
  #endif

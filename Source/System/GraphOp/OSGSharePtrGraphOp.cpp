@@ -271,8 +271,8 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
         {
             if(fc_field->getCardinality() == FieldType::SINGLE_FIELD)
             {
-                FieldContainerPtr ffc = ((SFFieldContainerPtr *) fc_field)
-                                        ->getValue();
+                FieldContainerPtr ffc = 
+                    static_cast<SFFieldContainerPtr *>(fc_field)->getValue();
                 
                 FieldContainerPtr nffc = compareFCs(ffc);
                 
@@ -280,7 +280,7 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
                 {
                     addRefCP(nffc);
                     beginEditCP(fc, mask);
-                        ((SFFieldContainerPtr *) fc_field)->setValue(nffc);
+                    static_cast<SFFieldContainerPtr *>(fc_field)->setValue(nffc);
                     endEditCP(fc, mask);
 #if 0
                     // for attachments we need to update the parents field!
@@ -306,16 +306,16 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
             else if(fc_field->getCardinality() == FieldType::MULTI_FIELD)
             {
                 beginEditCP(fc, mask);
-                for(UInt32 j=0;j < ((MFFieldContainerPtr*)fc_field)->size();++j)
+                for(UInt32 j=0;j < static_cast<MFFieldContainerPtr*>(fc_field)->size();++j)
                 {
-                    FieldContainerPtr ffc = (*(((MFFieldContainerPtr *)fc_field)))[j];
+                    FieldContainerPtr ffc = (*(static_cast<MFFieldContainerPtr *>(fc_field)))[j];
                     
                     FieldContainerPtr nffc = compareFCs(ffc);
                     
                     if(nffc != ffc)
                     {
                         addRefCP(nffc);
-                        (*(((MFFieldContainerPtr *)fc_field)))[j] = nffc;
+                        (*(static_cast<MFFieldContainerPtr *>(fc_field)))[j] = nffc;
 #if 0
                         // for attachments we need to update the parents field!
                         AttachmentPtr attachment = AttachmentPtr::dcast(nffc);
@@ -544,20 +544,20 @@ bool SharePtrGraphOp::isEqual(const osg::FieldContainerPtr &a,
         {
             if(a_field->getCardinality() == FieldType::SINGLE_FIELD)
             {
-                if(!isEqual(((SFFieldContainerPtr *) a_field)->getValue(),
-                            ((SFFieldContainerPtr *) b_field)->getValue()))
+                if(!isEqual(static_cast<SFFieldContainerPtr *>(a_field)->getValue(),
+                            static_cast<SFFieldContainerPtr *>(b_field)->getValue()))
                     return false;
             }
             else if(a_field->getCardinality() == FieldType::MULTI_FIELD)
             {
-                if(((MFFieldContainerPtr*)a_field)->size() !=
-                   ((MFFieldContainerPtr*)b_field)->size())
+                if(static_cast<MFFieldContainerPtr*>(a_field)->size() !=
+                   static_cast<MFFieldContainerPtr*>(b_field)->size())
                    return false;
     
-                for(UInt32 j=0;j < ((MFFieldContainerPtr*)a_field)->size();++j)
+                for(UInt32 j=0;j < static_cast<MFFieldContainerPtr*>(a_field)->size();++j)
                 {
-                    if(!isEqual((*(((MFFieldContainerPtr *)a_field)))[j],
-                                (*(((MFFieldContainerPtr *)b_field)))[j]))
+                    if(!isEqual((*(static_cast<MFFieldContainerPtr *>(a_field)))[j],
+                                (*(static_cast<MFFieldContainerPtr *>(b_field)))[j]))
                         return false;
                 }
             }
@@ -603,7 +603,7 @@ Action::ResultE SharePtrGraphOp::clearAttachmentParent(NodePtr &node)
             if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
             {
                 AttachmentPtr attachment =
-                    AttachmentPtr::dcast(((SFFieldContainerPtr *) fieldPtr)
+                    AttachmentPtr::dcast((static_cast<SFFieldContainerPtr *>(fieldPtr))
                     ->getValue());
                 if(attachment != NullFC)
                 {
@@ -615,7 +615,9 @@ Action::ResultE SharePtrGraphOp::clearAttachmentParent(NodePtr &node)
             }
             else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
             {
-                MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                MFFieldContainerPtr *mfield = 
+                    static_cast<MFFieldContainerPtr *>(fieldPtr);
+
                 UInt32 noe = mfield->size();
                 for(UInt32 j = 0; j < noe; ++j)
                 {
@@ -673,7 +675,7 @@ Action::ResultE SharePtrGraphOp::addAttachmentParent(NodePtr &node)
             if(fieldType[0] == 'S' && fieldType[1] == 'F') // single field
             {
                 AttachmentPtr attachment =
-                    AttachmentPtr::dcast(((SFFieldContainerPtr *) fieldPtr)
+                    AttachmentPtr::dcast(static_cast<SFFieldContainerPtr *>(fieldPtr)
                     ->getValue());
                 if(attachment != NullFC)
                 {
@@ -685,7 +687,7 @@ Action::ResultE SharePtrGraphOp::addAttachmentParent(NodePtr &node)
             }
             else if(fieldType[0] == 'M' && fieldType[1] == 'F') // multi field
             {
-                MFFieldContainerPtr *mfield = (MFFieldContainerPtr *) fieldPtr;
+                MFFieldContainerPtr *mfield = static_cast<MFFieldContainerPtr *>(fieldPtr);
                 UInt32 noe = mfield->size();
                 for(UInt32 j = 0; j < noe; ++j)
                 {

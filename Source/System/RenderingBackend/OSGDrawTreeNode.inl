@@ -55,6 +55,18 @@ DrawTreeNode *DrawTreeNode::getLastChild(void)
 }
 
 inline
+DrawTreeNode *DrawTreeNode::getBrother(void)
+{
+    return _pBrother;
+}
+
+inline
+void DrawTreeNode::setBrother(DrawTreeNode *pBrother)
+{
+    _pBrother = pBrother;
+}
+
+inline
 void DrawTreeNode::addChild(DrawTreeNode *pChild)
 {
     if(_pLastChild == NULL)
@@ -101,18 +113,6 @@ void DrawTreeNode::insertChildAfter(DrawTreeNode *pCurrent,
     {
         _pLastChild = pChild;
     }    
-}
-
-inline
-DrawTreeNode *DrawTreeNode::getBrother(void)
-{
-    return _pBrother;
-}
-
-inline
-void DrawTreeNode::setBrother(DrawTreeNode *pBrother)
-{
-    _pBrother = pBrother;
 }
 
 inline

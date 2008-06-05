@@ -92,12 +92,12 @@ FieldDescription *MaterialBase::_desc[] =
                      "sortKey", 
                      SortKeyFieldId, SortKeyFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialBase::getSFSortKey),
+                     reinterpret_cast<FieldAccessMethod>(&MaterialBase::getSFSortKey)),
     new FieldDescription(SFInt32::getClassType(), 
                      "transparencyMode", 
                      TransparencyModeFieldId, TransparencyModeFieldMask,
                      false,
-                     (FieldAccessMethod) &MaterialBase::getSFTransparencyMode)
+                     reinterpret_cast<FieldAccessMethod>(&MaterialBase::getSFTransparencyMode))
 };
 
 
@@ -135,7 +135,8 @@ UInt32 MaterialBase::getContainerSize(void) const
 void MaterialBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((MaterialBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<MaterialBase *>(&other),
+                          whichField);
 }
 #else
 void MaterialBase::executeSync(      FieldContainer &other,

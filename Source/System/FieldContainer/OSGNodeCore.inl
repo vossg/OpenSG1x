@@ -192,7 +192,7 @@ inline
 void NodeCore::executeSync(      FieldContainer &other,
                            const BitVector      &whichField)
 {
-    this->executeSyncImpl((NodeCore *) &other, whichField);
+    this->executeSyncImpl(static_cast<NodeCore *>(&other), whichField);
 }
 #else
 inline

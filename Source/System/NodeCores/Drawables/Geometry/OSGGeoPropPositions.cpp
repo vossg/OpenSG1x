@@ -62,8 +62,8 @@ FieldDescription *GeoPositions2fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions2fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions2fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions2fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -78,8 +78,8 @@ FieldDescription *GeoPositions3fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions3fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions3fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions3fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -94,8 +94,8 @@ FieldDescription *GeoPositions4fPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions4fPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions4fPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions4fPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -112,8 +112,8 @@ FieldDescription *GeoPositions2dPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions2dPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions2dPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions2dPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -128,8 +128,8 @@ FieldDescription *GeoPositions3dPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions3dPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions3dPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions3dPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -144,8 +144,8 @@ FieldDescription *GeoPositions4dPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions4dPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions4dPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions4dPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -161,8 +161,8 @@ FieldDescription *GeoPositions2sPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions2sPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions2sPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions2sPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -177,8 +177,8 @@ FieldDescription *GeoPositions3sPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions3sPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions3sPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions3sPropertyDesc>::getFieldPtr))
 #endif
 };
 
@@ -193,8 +193,8 @@ FieldDescription *GeoPositions4sPropertyDesc::_desc[] =
 #ifdef OSG_MICROSOFT_COMPILER_HACKS
         GeoProperty<GeoPositions4sPropertyDesc>::getFPtrAccessMethod())
 #else
-        (FieldAccessMethod) &GeoProperty<
-                                GeoPositions4sPropertyDesc>::getFieldPtr)
+        reinterpret_cast<FieldAccessMethod>(&GeoProperty<
+                                GeoPositions4sPropertyDesc>::getFieldPtr))
 #endif
 };
 

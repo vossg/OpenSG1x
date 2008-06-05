@@ -70,13 +70,13 @@ void xmlstream_iterator::get_next()
       if (putback_char == -1 )
       {
          c2 = instr.get();
-		 c = (xml_char_type) c2;
+		 c = xml_char_type(c2);
          location.step();
       }
       else
       {
          c2 = putback_char;
-		 c = (xml_char_type) c2;
+		 c = xml_char_type(c2);
          putback_char = -1;
          location.step();
       }
@@ -121,7 +121,7 @@ void xmlstream_iterator::get_next()
          do
          {
             c2 = instr.get();
-		    c = (xml_char_type) c2;
+		    c = xml_char_type(c2);
             location.step();
             if (c2==EOF)
                break;

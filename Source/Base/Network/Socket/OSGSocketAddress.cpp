@@ -101,6 +101,19 @@ SocketAddress::SocketAddress(const char *host,int port) :
     setPort(port);
 }
 
+#ifdef OSG_DEBUG_OLD_C_CASTS
+// For my debugging, should not be active for any other case (GV)
+#ifdef INADDR_ANY
+#undef INADDR_ANY
+#define INADDR_ANY 0x00000000
+#endif
+
+#ifdef INADDR_BROADCAST
+#undef INADDR_BROADCAST
+#define INADDR_BROADCAST 0xffffffff
+#endif
+#endif
+
 /*! Constructor. Create a socket with predefined type. E.g. ANY is 
     used to bind a socket to all interfaces. BROADCAST chreates a broadcast
     address
@@ -116,12 +129,17 @@ SocketAddress::SocketAddress(SocketAddress::Type type,int port) :
 
     switch(type)
     {
-        case ANY:       _sockaddr->sin_addr.s_addr = osghtonl(INADDR_ANY);
-                        break;
-        case BROADCAST: _sockaddr->sin_addr.s_addr = osghtonl(INADDR_BROADCAST);
+        case ANY:
+            _sockaddr->sin_addr.s_addr = osghtonl(INADDR_ANY);
+            break;
+
+        case BROADCAST:
+            _sockaddr->sin_addr.s_addr = osghtonl(INADDR_BROADCAST);
 //            setHost(std::string("192.168.0.255"));
-                        break;
-        default:        _sockaddr->sin_addr.s_addr = osghtonl(INADDR_ANY);
+            break;
+
+        default:
+            _sockaddr->sin_addr.s_addr = osghtonl(INADDR_ANY);
     }
     setPort(port);
 }
@@ -180,7 +198,7 @@ void SocketAddress::setHost(const std::string &host)
             throw SocketHostError("gethostbyname()");
         }
         // set address
-        _sockaddr->sin_addr = *(struct in_addr *) hent->h_addr;
+        _sockaddr->sin_addr = *reinterpret_cast<struct in_addr *>(hent->h_addr);
     }
 }
 
@@ -198,8 +216,9 @@ std::string SocketAddress::getHostByName() const
     struct hostent *hent;
     std::string result;
 
-    hent=gethostbyaddr((SocketAddrT*)getSockAddr(),
-                       getSockAddrSize(),AF_INET);
+    hent=gethostbyaddr(reinterpret_cast<SocketAddrT *>(getSockAddr()),
+                       getSockAddrSize(),
+                       AF_INET);
     if(hent == NULL)
     {
         // if no host assigned or host unknown

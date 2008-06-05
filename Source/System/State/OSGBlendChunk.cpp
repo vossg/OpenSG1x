@@ -224,8 +224,12 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
             {
                 // get "glBlendFuncSeparate" function pointer
                 void (OSG_APIENTRY* blendfuncsep)(GLenum,GLenum,GLenum,GLenum) =
-                   (void (OSG_APIENTRY*)(GLenum,GLenum,GLenum,GLenum))
-                   action->getWindow()->getFunction(_funcBlendFuncSeparateExt);
+                    reinterpret_cast<void (OSG_APIENTRY*)(GLenum,
+                                                          GLenum,
+                                                          GLenum,
+                                                          GLenum)>(
+                        action->getWindow()->getFunction(
+                            _funcBlendFuncSeparateExt));
 
                 blendfuncsep(src, dest, asrc, adest);
             }
@@ -254,11 +258,15 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
             if(action->getWindow()->hasExtension(_extBlend))
             {
                 // get "glBlendColorEXT" function pointer
-                void (OSG_APIENTRY*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
-                     GLclampf alpha ) =
-                    (void (OSG_APIENTRY*)(GLclampf red,GLclampf green,GLclampf blue,
-                     GLclampf alpha))
-                    action->getWindow()->getFunction(_funcBlendColor);
+                void (OSG_APIENTRY*blendcolor)(GLclampf red,
+                                               GLclampf green,
+                                               GLclampf blue,
+                                               GLclampf alpha ) =
+                    reinterpret_cast<void (OSG_APIENTRY*)(GLclampf red,
+                                                          GLclampf green,
+                                                          GLclampf blue,
+                                                          GLclampf alpha)>(
+                        action->getWindow()->getFunction(_funcBlendColor));
 
                  blendcolor(_sfColor.getValue().red(),
                             _sfColor.getValue().green(),
@@ -276,8 +284,8 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
         {
             // get "glBlendEquation" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
-                (void (OSG_APIENTRY*)(GLenum mode))
-                action->getWindow()->getFunction(_funcBlendEquation);
+                reinterpret_cast<void (OSG_APIENTRY*)(GLenum mode)>(
+                    action->getWindow()->getFunction(_funcBlendEquation));
 
              blendeq(_sfEquation.getValue());
         }
@@ -287,8 +295,8 @@ void BlendChunk::activate(DrawActionBase *action, UInt32)
         {
             // get "glBlendEquationEXT" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
-                (void (OSG_APIENTRY*)(GLenum mode))
-                action->getWindow()->getFunction(_funcBlendEquationExt);
+                reinterpret_cast<void (OSG_APIENTRY*)(GLenum mode)>(
+                    action->getWindow()->getFunction(_funcBlendEquationExt));
 
              blendeq(_sfEquation.getValue());
         }
@@ -336,11 +344,16 @@ void BlendChunk::changeFrom(DrawActionBase *action,
                    )
                 {
                     // get "glBlendFuncSeparate" function pointer
-                    void (OSG_APIENTRY* blendfuncsep)(GLenum,GLenum,
-                                                      GLenum,GLenum) =
-                       (void (OSG_APIENTRY*)(GLenum,GLenum,GLenum,GLenum))
-                       action->getWindow()->getFunction(
-                                _funcBlendFuncSeparateExt);
+                    void (OSG_APIENTRY* blendfuncsep)(GLenum,
+                                                      GLenum,
+                                                      GLenum,
+                                                      GLenum) =
+                        reinterpret_cast<void (OSG_APIENTRY*)(GLenum,
+                                                              GLenum,
+                                                              GLenum,
+                                                              GLenum)>(
+                            action->getWindow()->getFunction(
+                                _funcBlendFuncSeparateExt));
 
                     blendfuncsep(src, dest, asrc, adest);
                 }
@@ -370,11 +383,15 @@ void BlendChunk::changeFrom(DrawActionBase *action,
             if ( action->getWindow()->hasExtension(_extBlend ))
             {
                 // get "glBlendColorEXT" function pointer
-                void (OSG_APIENTRY*blendcolor)(GLclampf red,GLclampf green,GLclampf blue,
-                     GLclampf alpha ) =
-                    (void (OSG_APIENTRY*)(GLclampf red,GLclampf green,GLclampf blue,
-                     GLclampf alpha))
-                    action->getWindow()->getFunction( _funcBlendColor );
+                void (OSG_APIENTRY*blendcolor)(GLclampf red,
+                                               GLclampf green,
+                                               GLclampf blue,
+                                               GLclampf alpha ) =
+                    reinterpret_cast<void (OSG_APIENTRY*)(GLclampf red,
+                                                          GLclampf green,
+                                                          GLclampf blue,
+                                                          GLclampf alpha)>(
+                        action->getWindow()->getFunction( _funcBlendColor ));
 
                  blendcolor(_sfColor.getValue().red(),
                             _sfColor.getValue().green(),
@@ -401,8 +418,8 @@ void BlendChunk::changeFrom(DrawActionBase *action,
         {
             // get "glBlendEquation" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
-                (void (OSG_APIENTRY*)(GLenum mode))
-                action->getWindow()->getFunction(_funcBlendEquation);
+                reinterpret_cast<void (OSG_APIENTRY*)(GLenum mode)>(
+                    action->getWindow()->getFunction(_funcBlendEquation));
 
              blendeq(_sfEquation.getValue());
         }
@@ -412,8 +429,8 @@ void BlendChunk::changeFrom(DrawActionBase *action,
         {
             // get "glBlendEquationEXT" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
-                (void (OSG_APIENTRY*)(GLenum mode))
-                action->getWindow()->getFunction(_funcBlendEquationExt);
+                reinterpret_cast<void (OSG_APIENTRY*)(GLenum mode)>(
+                    action->getWindow()->getFunction(_funcBlendEquationExt));
 
              blendeq(_sfEquation.getValue());
         }
@@ -457,8 +474,8 @@ void BlendChunk::deactivate(DrawActionBase *action, UInt32 )
         {
             // get "glBlendEquation" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
-                (void (OSG_APIENTRY*)(GLenum mode))
-                action->getWindow()->getFunction(_funcBlendEquation);
+                reinterpret_cast<void (OSG_APIENTRY*)(GLenum mode)>(
+                    action->getWindow()->getFunction(_funcBlendEquation));
 
              blendeq(GL_FUNC_ADD_EXT);
         }
@@ -468,8 +485,8 @@ void BlendChunk::deactivate(DrawActionBase *action, UInt32 )
         {
             // get "glBlendEquationEXT" function pointer
             void (OSG_APIENTRY* blendeq)(GLenum mode) =
-                (void (OSG_APIENTRY*)(GLenum mode))
-                action->getWindow()->getFunction(_funcBlendEquationExt);
+                reinterpret_cast<void (OSG_APIENTRY*)(GLenum mode)>(
+                    action->getWindow()->getFunction(_funcBlendEquationExt));
 
              blendeq(GL_FUNC_ADD_EXT);
         }
