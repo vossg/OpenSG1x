@@ -1152,6 +1152,11 @@ dnl ############# TLS Settings #####################
 AC_ARG_ENABLE(backported-sync,     [  --enable-backported-sync              Enable backported multithread sync ],
 			,enable_backported_sync=no) 
 
+dnl ############# TLS Settings #####################
+
+AC_ARG_ENABLE(osg2-prep,     [  --osg2-prep              Enable osg2 prep ],
+			,enable_osg2_prep=no) 
+
 dnl ############# XTREE Settings #####################
 
 AC_ARG_ENABLE(fixed-xtree,     [  --enable-fixed-xtree                Use fixed xtree header ],
@@ -2007,6 +2012,10 @@ fi
 
 if test "$enable_backported_sync" = yes; then
     AC_DEFINE(OSG_FIXED_MFIELDSYNC)
+fi
+
+if test "$enable_osg2_prep" = yes; then
+    AC_DEFINE(OSG_2_PREP)
 fi
 
 if test "$disable_depreciated" = yes; then

@@ -88,6 +88,8 @@
 
 #undef OSG_FIXED_MFIELDSYNC
 
+#undef OSG_2_PREP
+
 #endif
 
 
