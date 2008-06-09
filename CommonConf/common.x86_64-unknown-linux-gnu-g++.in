@@ -92,11 +92,11 @@ ifeq ($(DEBUG_VERSION), 0)
 	COMP_DEBUG       = 
 else
 	COMP_OPTIMIZE    =
-	COMP_DEBUG       = -O1 -g -DOSG_DEBUG
+	COMP_DEBUG       = -O0 -g -DOSG_DEBUG
 endif
 
 CCFLAGS_EXT_OPT := -O3
-CCFLAGS_EXT_DBG := -O1 -g -DOSG_DEBUG
+CCFLAGS_EXT_DBG := -O0 -g -DOSG_DEBUG
 
 ### Compiler Flags ################################################
 
