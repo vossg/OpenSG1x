@@ -98,50 +98,146 @@ SolidBackgroundPtr SolidBackgroundBase::createEmpty(void)
 
 //! Get the SolidBackground::_sfColor field.
 inline
-SFColor3f *SolidBackgroundBase::getSFColor(void)
+const SFColor3f *SolidBackgroundBase::getSFColor(void) const
 {
     return &_sfColor;
 }
 
+//! Get the SolidBackground::_sfColor field.
+inline
+SFColor3f *SolidBackgroundBase::editSFColor(void)
+{
+    return &_sfColor;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SolidBackground::_sfColor field.
+inline
+SFColor3f *SolidBackgroundBase::getSFColor(void)
+{
+    return &_sfColor;
+}
+#endif
+
+//! Get the SolidBackground::_sfClearStencilBit field.
+inline
+const SFInt32 *SolidBackgroundBase::getSFClearStencilBit(void) const
+{
+    return &_sfClearStencilBit;
+}
+
+//! Get the SolidBackground::_sfClearStencilBit field.
+inline
+SFInt32 *SolidBackgroundBase::editSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SolidBackground::_sfClearStencilBit field.
 inline
 SFInt32 *SolidBackgroundBase::getSFClearStencilBit(void)
 {
     return &_sfClearStencilBit;
 }
+#endif
 
+//! Get the SolidBackground::_sfAlpha field.
+inline
+const SFReal32 *SolidBackgroundBase::getSFAlpha(void) const
+{
+    return &_sfAlpha;
+}
+
+//! Get the SolidBackground::_sfAlpha field.
+inline
+SFReal32 *SolidBackgroundBase::editSFAlpha(void)
+{
+    return &_sfAlpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SolidBackground::_sfAlpha field.
 inline
 SFReal32 *SolidBackgroundBase::getSFAlpha(void)
 {
     return &_sfAlpha;
 }
+#endif
 
+//! Get the SolidBackground::_sfDepth field.
+inline
+const SFReal32 *SolidBackgroundBase::getSFDepth(void) const
+{
+    return &_sfDepth;
+}
+
+//! Get the SolidBackground::_sfDepth field.
+inline
+SFReal32 *SolidBackgroundBase::editSFDepth(void)
+{
+    return &_sfDepth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SolidBackground::_sfDepth field.
 inline
 SFReal32 *SolidBackgroundBase::getSFDepth(void)
 {
     return &_sfDepth;
 }
+#endif
 
+//! Get the SolidBackground::_sfClearDepth field.
+inline
+const SFBool *SolidBackgroundBase::getSFClearDepth(void) const
+{
+    return &_sfClearDepth;
+}
+
+//! Get the SolidBackground::_sfClearDepth field.
+inline
+SFBool *SolidBackgroundBase::editSFClearDepth(void)
+{
+    return &_sfClearDepth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SolidBackground::_sfClearDepth field.
 inline
 SFBool *SolidBackgroundBase::getSFClearDepth(void)
 {
     return &_sfClearDepth;
 }
+#endif
 
+//! Get the SolidBackground::_sfClearColor field.
+inline
+const SFBool *SolidBackgroundBase::getSFClearColor(void) const
+{
+    return &_sfClearColor;
+}
+
+//! Get the SolidBackground::_sfClearColor field.
+inline
+SFBool *SolidBackgroundBase::editSFClearColor(void)
+{
+    return &_sfClearColor;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SolidBackground::_sfClearColor field.
 inline
 SFBool *SolidBackgroundBase::getSFClearColor(void)
 {
     return &_sfClearColor;
 }
+#endif
 
 
 //! Get the value of the SolidBackground::_sfColor field.
 inline
-Color3f &SolidBackgroundBase::getColor(void)
+Color3f &SolidBackgroundBase::editColor(void)
 {
     return _sfColor.getValue();
 }
@@ -153,6 +249,15 @@ const Color3f &SolidBackgroundBase::getColor(void) const
     return _sfColor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SolidBackground::_sfColor field.
+inline
+Color3f &SolidBackgroundBase::getColor(void)
+{
+    return _sfColor.getValue();
+}
+#endif
+
 //! Set the value of the SolidBackground::_sfColor field.
 inline
 void SolidBackgroundBase::setColor(const Color3f &value)
@@ -162,7 +267,7 @@ void SolidBackgroundBase::setColor(const Color3f &value)
 
 //! Get the value of the SolidBackground::_sfClearStencilBit field.
 inline
-Int32 &SolidBackgroundBase::getClearStencilBit(void)
+Int32 &SolidBackgroundBase::editClearStencilBit(void)
 {
     return _sfClearStencilBit.getValue();
 }
@@ -174,6 +279,15 @@ const Int32 &SolidBackgroundBase::getClearStencilBit(void) const
     return _sfClearStencilBit.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SolidBackground::_sfClearStencilBit field.
+inline
+Int32 &SolidBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+#endif
+
 //! Set the value of the SolidBackground::_sfClearStencilBit field.
 inline
 void SolidBackgroundBase::setClearStencilBit(const Int32 &value)
@@ -183,7 +297,7 @@ void SolidBackgroundBase::setClearStencilBit(const Int32 &value)
 
 //! Get the value of the SolidBackground::_sfAlpha field.
 inline
-Real32 &SolidBackgroundBase::getAlpha(void)
+Real32 &SolidBackgroundBase::editAlpha(void)
 {
     return _sfAlpha.getValue();
 }
@@ -195,6 +309,15 @@ const Real32 &SolidBackgroundBase::getAlpha(void) const
     return _sfAlpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SolidBackground::_sfAlpha field.
+inline
+Real32 &SolidBackgroundBase::getAlpha(void)
+{
+    return _sfAlpha.getValue();
+}
+#endif
+
 //! Set the value of the SolidBackground::_sfAlpha field.
 inline
 void SolidBackgroundBase::setAlpha(const Real32 &value)
@@ -204,7 +327,7 @@ void SolidBackgroundBase::setAlpha(const Real32 &value)
 
 //! Get the value of the SolidBackground::_sfDepth field.
 inline
-Real32 &SolidBackgroundBase::getDepth(void)
+Real32 &SolidBackgroundBase::editDepth(void)
 {
     return _sfDepth.getValue();
 }
@@ -216,6 +339,15 @@ const Real32 &SolidBackgroundBase::getDepth(void) const
     return _sfDepth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SolidBackground::_sfDepth field.
+inline
+Real32 &SolidBackgroundBase::getDepth(void)
+{
+    return _sfDepth.getValue();
+}
+#endif
+
 //! Set the value of the SolidBackground::_sfDepth field.
 inline
 void SolidBackgroundBase::setDepth(const Real32 &value)
@@ -225,7 +357,7 @@ void SolidBackgroundBase::setDepth(const Real32 &value)
 
 //! Get the value of the SolidBackground::_sfClearDepth field.
 inline
-bool &SolidBackgroundBase::getClearDepth(void)
+bool &SolidBackgroundBase::editClearDepth(void)
 {
     return _sfClearDepth.getValue();
 }
@@ -237,6 +369,15 @@ const bool &SolidBackgroundBase::getClearDepth(void) const
     return _sfClearDepth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SolidBackground::_sfClearDepth field.
+inline
+bool &SolidBackgroundBase::getClearDepth(void)
+{
+    return _sfClearDepth.getValue();
+}
+#endif
+
 //! Set the value of the SolidBackground::_sfClearDepth field.
 inline
 void SolidBackgroundBase::setClearDepth(const bool &value)
@@ -246,7 +387,7 @@ void SolidBackgroundBase::setClearDepth(const bool &value)
 
 //! Get the value of the SolidBackground::_sfClearColor field.
 inline
-bool &SolidBackgroundBase::getClearColor(void)
+bool &SolidBackgroundBase::editClearColor(void)
 {
     return _sfClearColor.getValue();
 }
@@ -257,6 +398,15 @@ const bool &SolidBackgroundBase::getClearColor(void) const
 {
     return _sfClearColor.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the SolidBackground::_sfClearColor field.
+inline
+bool &SolidBackgroundBase::getClearColor(void)
+{
+    return _sfClearColor.getValue();
+}
+#endif
 
 //! Set the value of the SolidBackground::_sfClearColor field.
 inline

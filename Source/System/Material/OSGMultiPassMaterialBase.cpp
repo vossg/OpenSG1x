@@ -86,7 +86,7 @@ FieldDescription *MultiPassMaterialBase::_desc[] =
                      "materials", 
                      MaterialsFieldId, MaterialsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&MultiPassMaterialBase::getMFMaterials))
+                     reinterpret_cast<FieldAccessMethod>(&MultiPassMaterialBase::editMFMaterials))
 };
 
 
@@ -295,7 +295,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(MultiPassMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterialBase.cpp,v 1.7 2008/06/05 05:02:25 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiPassMaterialBase.cpp,v 1.8 2008/06/09 07:31:48 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIPASSMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIPASSMATERIALBASE_INLINE_CVSID;
 

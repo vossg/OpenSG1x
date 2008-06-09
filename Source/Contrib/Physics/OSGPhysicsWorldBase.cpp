@@ -146,57 +146,57 @@ FieldDescription *PhysicsWorldBase::_desc[] =
                      "erp", 
                      ErpFieldId, ErpFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFErp)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFErp)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "gravity", 
                      GravityFieldId, GravityFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFGravity)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFGravity)),
     new FieldDescription(SFReal32::getClassType(), 
                      "cfm", 
                      CfmFieldId, CfmFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFCfm)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFCfm)),
     new FieldDescription(SFInt32::getClassType(), 
                      "autoDisableFlag", 
                      AutoDisableFlagFieldId, AutoDisableFlagFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableFlag)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFAutoDisableFlag)),
     new FieldDescription(SFReal32::getClassType(), 
                      "autoDisableLinearThreshold", 
                      AutoDisableLinearThresholdFieldId, AutoDisableLinearThresholdFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableLinearThreshold)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFAutoDisableLinearThreshold)),
     new FieldDescription(SFReal32::getClassType(), 
                      "autoDisableAngularThreshold", 
                      AutoDisableAngularThresholdFieldId, AutoDisableAngularThresholdFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableAngularThreshold)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFAutoDisableAngularThreshold)),
     new FieldDescription(SFInt32::getClassType(), 
                      "autoDisableSteps", 
                      AutoDisableStepsFieldId, AutoDisableStepsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableSteps)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFAutoDisableSteps)),
     new FieldDescription(SFReal32::getClassType(), 
                      "autoDisableTime", 
                      AutoDisableTimeFieldId, AutoDisableTimeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFAutoDisableTime)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFAutoDisableTime)),
     new FieldDescription(SFInt32::getClassType(), 
                      "worldQuickStepNumIterations", 
                      WorldQuickStepNumIterationsFieldId, WorldQuickStepNumIterationsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFWorldQuickStepNumIterations)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFWorldQuickStepNumIterations)),
     new FieldDescription(SFReal32::getClassType(), 
                      "worldContactMaxCorrectingVel", 
                      WorldContactMaxCorrectingVelFieldId, WorldContactMaxCorrectingVelFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFWorldContactMaxCorrectingVel)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFWorldContactMaxCorrectingVel)),
     new FieldDescription(SFReal32::getClassType(), 
                      "worldContactSurfaceLayer", 
                      WorldContactSurfaceLayerFieldId, WorldContactSurfaceLayerFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::getSFWorldContactSurfaceLayer))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsWorldBase::editSFWorldContactSurfaceLayer))
 };
 
 
@@ -631,7 +631,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsWorldPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsWorldBase.cpp,v 1.3 2008/06/05 05:02:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsWorldBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSWORLDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSWORLDBASE_INLINE_CVSID;
 

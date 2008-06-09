@@ -98,17 +98,17 @@ FieldDescription *ParallelComposerBase::_desc[] =
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::getSFShort)),
+                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::editSFShort)),
     new FieldDescription(SFBool::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::getSFAlpha)),
+                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::editSFAlpha)),
     new FieldDescription(SFString::getClassType(), 
                      "pcLibPath", 
                      PcLibPathFieldId, PcLibPathFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::getSFPcLibPath))
+                     reinterpret_cast<FieldAccessMethod>(&ParallelComposerBase::editSFPcLibPath))
 };
 
 
@@ -350,7 +350,7 @@ DataType FieldDataTraits<ParallelComposerPtr>::_type("ParallelComposerPtr", "Ima
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposerBase.cpp,v 1.2 2008/06/05 05:02:25 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposerBase.cpp,v 1.3 2008/06/09 07:31:47 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARALLELCOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARALLELCOMPOSERBASE_INLINE_CVSID;
 

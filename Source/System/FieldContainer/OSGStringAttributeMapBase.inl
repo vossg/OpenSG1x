@@ -98,20 +98,67 @@ StringAttributeMapPtr StringAttributeMapBase::createEmpty(void)
 
 //! Get the StringAttributeMap::_mfKeys field.
 inline
-MFString *StringAttributeMapBase::getMFKeys(void)
+const MFString *StringAttributeMapBase::getMFKeys(void) const
 {
     return &_mfKeys;
 }
 
+//! Get the StringAttributeMap::_mfKeys field.
+inline
+MFString *StringAttributeMapBase::editMFKeys(void)
+{
+    return &_mfKeys;
+}
+
+#ifndef OSG_2_PREP
+//! Get the StringAttributeMap::_mfKeys field.
+inline
+MFString *StringAttributeMapBase::getMFKeys(void)
+{
+    return &_mfKeys;
+}
+#endif
+
+//! Get the StringAttributeMap::_mfValues field.
+inline
+const MFString *StringAttributeMapBase::getMFValues(void) const
+{
+    return &_mfValues;
+}
+
+//! Get the StringAttributeMap::_mfValues field.
+inline
+MFString *StringAttributeMapBase::editMFValues(void)
+{
+    return &_mfValues;
+}
+
+#ifndef OSG_2_PREP
 //! Get the StringAttributeMap::_mfValues field.
 inline
 MFString *StringAttributeMapBase::getMFValues(void)
 {
     return &_mfValues;
 }
+#endif
 
 
 
+//! Get the value of the \a index element the StringAttributeMap::_mfKeys field.
+inline
+std::string &StringAttributeMapBase::editKeys(const UInt32 index)
+{
+    return _mfKeys[index];
+}
+
+//! Get the value of the \a index element the StringAttributeMap::_mfKeys field.
+inline
+const std::string &StringAttributeMapBase::getKeys(const UInt32 index) const
+{
+    return _mfKeys[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the StringAttributeMap::_mfKeys field.
 inline
 std::string &StringAttributeMapBase::getKeys(const UInt32 index)
@@ -126,13 +173,23 @@ MFString &StringAttributeMapBase::getKeys(void)
     return _mfKeys;
 }
 
-//! Get the StringAttributeMap::_mfKeys field.
+#endif
+
+//! Get the value of the \a index element the StringAttributeMap::_mfValues field.
 inline
-const MFString &StringAttributeMapBase::getKeys(void) const
+std::string &StringAttributeMapBase::editValues(const UInt32 index)
 {
-    return _mfKeys;
+    return _mfValues[index];
 }
 
+//! Get the value of the \a index element the StringAttributeMap::_mfValues field.
+inline
+const std::string &StringAttributeMapBase::getValues(const UInt32 index) const
+{
+    return _mfValues[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the StringAttributeMap::_mfValues field.
 inline
 std::string &StringAttributeMapBase::getValues(const UInt32 index)
@@ -147,14 +204,9 @@ MFString &StringAttributeMapBase::getValues(void)
     return _mfValues;
 }
 
-//! Get the StringAttributeMap::_mfValues field.
-inline
-const MFString &StringAttributeMapBase::getValues(void) const
-{
-    return _mfValues;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGStringAttributeMapBase.inl,v 1.3 2008/06/05 05:02:25 vossg Exp $"
+#define OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGStringAttributeMapBase.inl,v 1.4 2008/06/09 07:31:47 vossg Exp $"
 

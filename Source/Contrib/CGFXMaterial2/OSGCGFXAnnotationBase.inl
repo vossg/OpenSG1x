@@ -98,13 +98,44 @@ CGFXAnnotationPtr CGFXAnnotationBase::createEmpty(void)
 
 //! Get the CGFXAnnotation::_mfParameters field.
 inline
-MFShaderParameterPtr *CGFXAnnotationBase::getMFParameters(void)
+const MFShaderParameterPtr *CGFXAnnotationBase::getMFParameters(void) const
 {
     return &_mfParameters;
 }
 
+//! Get the CGFXAnnotation::_mfParameters field.
+inline
+MFShaderParameterPtr *CGFXAnnotationBase::editMFParameters(void)
+{
+    return &_mfParameters;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CGFXAnnotation::_mfParameters field.
+inline
+MFShaderParameterPtr *CGFXAnnotationBase::getMFParameters(void)
+{
+    return &_mfParameters;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the CGFXAnnotation::_mfParameters field.
+inline
+ShaderParameterPtr &CGFXAnnotationBase::editParameters(const UInt32 index)
+{
+    return _mfParameters[index];
+}
+
+//! Get the value of the \a index element the CGFXAnnotation::_mfParameters field.
+inline
+const ShaderParameterPtr &CGFXAnnotationBase::getParameters(const UInt32 index) const
+{
+    return _mfParameters[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the CGFXAnnotation::_mfParameters field.
 inline
 ShaderParameterPtr &CGFXAnnotationBase::getParameters(const UInt32 index)
@@ -119,14 +150,9 @@ MFShaderParameterPtr &CGFXAnnotationBase::getParameters(void)
     return _mfParameters;
 }
 
-//! Get the CGFXAnnotation::_mfParameters field.
-inline
-const MFShaderParameterPtr &CGFXAnnotationBase::getParameters(void) const
-{
-    return _mfParameters;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXANNOTATIONBASE_INLINE_CVSID "@(#)$Id: OSGCGFXAnnotationBase.inl,v 1.2 2008/06/05 05:02:15 vossg Exp $"
+#define OSGCGFXANNOTATIONBASE_INLINE_CVSID "@(#)$Id: OSGCGFXAnnotationBase.inl,v 1.3 2008/06/09 07:31:37 vossg Exp $"
 

@@ -98,386 +98,1250 @@ TextureChunkPtr TextureChunkBase::createEmpty(void)
 
 //! Get the TextureChunk::_sfImage field.
 inline
-SFImagePtr *TextureChunkBase::getSFImage(void)
+const SFImagePtr *TextureChunkBase::getSFImage(void) const
 {
     return &_sfImage;
 }
 
+//! Get the TextureChunk::_sfImage field.
+inline
+SFImagePtr *TextureChunkBase::editSFImage(void)
+{
+    return &_sfImage;
+}
+
+#ifndef OSG_2_PREP
+//! Get the TextureChunk::_sfImage field.
+inline
+SFImagePtr *TextureChunkBase::getSFImage(void)
+{
+    return &_sfImage;
+}
+#endif
+
+//! Get the TextureChunk::_sfInternalFormat field.
+inline
+const SFGLenum *TextureChunkBase::getSFInternalFormat(void) const
+{
+    return &_sfInternalFormat;
+}
+
+//! Get the TextureChunk::_sfInternalFormat field.
+inline
+SFGLenum *TextureChunkBase::editSFInternalFormat(void)
+{
+    return &_sfInternalFormat;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfInternalFormat field.
 inline
 SFGLenum *TextureChunkBase::getSFInternalFormat(void)
 {
     return &_sfInternalFormat;
 }
+#endif
 
+//! Get the TextureChunk::_sfExternalFormat field.
+inline
+const SFGLenum *TextureChunkBase::getSFExternalFormat(void) const
+{
+    return &_sfExternalFormat;
+}
+
+//! Get the TextureChunk::_sfExternalFormat field.
+inline
+SFGLenum *TextureChunkBase::editSFExternalFormat(void)
+{
+    return &_sfExternalFormat;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfExternalFormat field.
 inline
 SFGLenum *TextureChunkBase::getSFExternalFormat(void)
 {
     return &_sfExternalFormat;
 }
+#endif
 
+//! Get the TextureChunk::_sfScale field.
+inline
+const SFBool *TextureChunkBase::getSFScale(void) const
+{
+    return &_sfScale;
+}
+
+//! Get the TextureChunk::_sfScale field.
+inline
+SFBool *TextureChunkBase::editSFScale(void)
+{
+    return &_sfScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfScale field.
 inline
 SFBool *TextureChunkBase::getSFScale(void)
 {
     return &_sfScale;
 }
+#endif
 
+//! Get the TextureChunk::_sfFrame field.
+inline
+const SFUInt32 *TextureChunkBase::getSFFrame(void) const
+{
+    return &_sfFrame;
+}
+
+//! Get the TextureChunk::_sfFrame field.
+inline
+SFUInt32 *TextureChunkBase::editSFFrame(void)
+{
+    return &_sfFrame;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfFrame field.
 inline
 SFUInt32 *TextureChunkBase::getSFFrame(void)
 {
     return &_sfFrame;
 }
+#endif
 
+//! Get the TextureChunk::_sfMinFilter field.
+inline
+const SFGLenum *TextureChunkBase::getSFMinFilter(void) const
+{
+    return &_sfMinFilter;
+}
+
+//! Get the TextureChunk::_sfMinFilter field.
+inline
+SFGLenum *TextureChunkBase::editSFMinFilter(void)
+{
+    return &_sfMinFilter;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfMinFilter field.
 inline
 SFGLenum *TextureChunkBase::getSFMinFilter(void)
 {
     return &_sfMinFilter;
 }
+#endif
 
+//! Get the TextureChunk::_sfMagFilter field.
+inline
+const SFGLenum *TextureChunkBase::getSFMagFilter(void) const
+{
+    return &_sfMagFilter;
+}
+
+//! Get the TextureChunk::_sfMagFilter field.
+inline
+SFGLenum *TextureChunkBase::editSFMagFilter(void)
+{
+    return &_sfMagFilter;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfMagFilter field.
 inline
 SFGLenum *TextureChunkBase::getSFMagFilter(void)
 {
     return &_sfMagFilter;
 }
+#endif
 
+//! Get the TextureChunk::_sfWrapS field.
+inline
+const SFGLenum *TextureChunkBase::getSFWrapS(void) const
+{
+    return &_sfWrapS;
+}
+
+//! Get the TextureChunk::_sfWrapS field.
+inline
+SFGLenum *TextureChunkBase::editSFWrapS(void)
+{
+    return &_sfWrapS;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfWrapS field.
 inline
 SFGLenum *TextureChunkBase::getSFWrapS(void)
 {
     return &_sfWrapS;
 }
+#endif
 
+//! Get the TextureChunk::_sfWrapT field.
+inline
+const SFGLenum *TextureChunkBase::getSFWrapT(void) const
+{
+    return &_sfWrapT;
+}
+
+//! Get the TextureChunk::_sfWrapT field.
+inline
+SFGLenum *TextureChunkBase::editSFWrapT(void)
+{
+    return &_sfWrapT;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfWrapT field.
 inline
 SFGLenum *TextureChunkBase::getSFWrapT(void)
 {
     return &_sfWrapT;
 }
+#endif
 
+//! Get the TextureChunk::_sfWrapR field.
+inline
+const SFGLenum *TextureChunkBase::getSFWrapR(void) const
+{
+    return &_sfWrapR;
+}
+
+//! Get the TextureChunk::_sfWrapR field.
+inline
+SFGLenum *TextureChunkBase::editSFWrapR(void)
+{
+    return &_sfWrapR;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfWrapR field.
 inline
 SFGLenum *TextureChunkBase::getSFWrapR(void)
 {
     return &_sfWrapR;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvMode field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvMode(void) const
+{
+    return &_sfEnvMode;
+}
+
+//! Get the TextureChunk::_sfEnvMode field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvMode(void)
+{
+    return &_sfEnvMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvMode field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvMode(void)
 {
     return &_sfEnvMode;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvColor field.
+inline
+const SFColor4f *TextureChunkBase::getSFEnvColor(void) const
+{
+    return &_sfEnvColor;
+}
+
+//! Get the TextureChunk::_sfEnvColor field.
+inline
+SFColor4f *TextureChunkBase::editSFEnvColor(void)
+{
+    return &_sfEnvColor;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvColor field.
 inline
 SFColor4f *TextureChunkBase::getSFEnvColor(void)
 {
     return &_sfEnvColor;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvCombineRGB field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvCombineRGB(void) const
+{
+    return &_sfEnvCombineRGB;
+}
+
+//! Get the TextureChunk::_sfEnvCombineRGB field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvCombineRGB(void)
+{
+    return &_sfEnvCombineRGB;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvCombineRGB field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvCombineRGB(void)
 {
     return &_sfEnvCombineRGB;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvCombineAlpha field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvCombineAlpha(void) const
+{
+    return &_sfEnvCombineAlpha;
+}
+
+//! Get the TextureChunk::_sfEnvCombineAlpha field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvCombineAlpha(void)
+{
+    return &_sfEnvCombineAlpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvCombineAlpha field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvCombineAlpha(void)
 {
     return &_sfEnvCombineAlpha;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvScaleRGB field.
+inline
+const SFReal32 *TextureChunkBase::getSFEnvScaleRGB(void) const
+{
+    return &_sfEnvScaleRGB;
+}
+
+//! Get the TextureChunk::_sfEnvScaleRGB field.
+inline
+SFReal32 *TextureChunkBase::editSFEnvScaleRGB(void)
+{
+    return &_sfEnvScaleRGB;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvScaleRGB field.
 inline
 SFReal32 *TextureChunkBase::getSFEnvScaleRGB(void)
 {
     return &_sfEnvScaleRGB;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvScaleAlpha field.
+inline
+const SFReal32 *TextureChunkBase::getSFEnvScaleAlpha(void) const
+{
+    return &_sfEnvScaleAlpha;
+}
+
+//! Get the TextureChunk::_sfEnvScaleAlpha field.
+inline
+SFReal32 *TextureChunkBase::editSFEnvScaleAlpha(void)
+{
+    return &_sfEnvScaleAlpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvScaleAlpha field.
 inline
 SFReal32 *TextureChunkBase::getSFEnvScaleAlpha(void)
 {
     return &_sfEnvScaleAlpha;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvSource0RGB field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvSource0RGB(void) const
+{
+    return &_sfEnvSource0RGB;
+}
+
+//! Get the TextureChunk::_sfEnvSource0RGB field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvSource0RGB(void)
+{
+    return &_sfEnvSource0RGB;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvSource0RGB field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvSource0RGB(void)
 {
     return &_sfEnvSource0RGB;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvSource1RGB field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvSource1RGB(void) const
+{
+    return &_sfEnvSource1RGB;
+}
+
+//! Get the TextureChunk::_sfEnvSource1RGB field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvSource1RGB(void)
+{
+    return &_sfEnvSource1RGB;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvSource1RGB field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvSource1RGB(void)
 {
     return &_sfEnvSource1RGB;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvSource2RGB field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvSource2RGB(void) const
+{
+    return &_sfEnvSource2RGB;
+}
+
+//! Get the TextureChunk::_sfEnvSource2RGB field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvSource2RGB(void)
+{
+    return &_sfEnvSource2RGB;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvSource2RGB field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvSource2RGB(void)
 {
     return &_sfEnvSource2RGB;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvSource0Alpha field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvSource0Alpha(void) const
+{
+    return &_sfEnvSource0Alpha;
+}
+
+//! Get the TextureChunk::_sfEnvSource0Alpha field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvSource0Alpha(void)
+{
+    return &_sfEnvSource0Alpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvSource0Alpha field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvSource0Alpha(void)
 {
     return &_sfEnvSource0Alpha;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvSource1Alpha field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvSource1Alpha(void) const
+{
+    return &_sfEnvSource1Alpha;
+}
+
+//! Get the TextureChunk::_sfEnvSource1Alpha field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvSource1Alpha(void)
+{
+    return &_sfEnvSource1Alpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvSource1Alpha field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvSource1Alpha(void)
 {
     return &_sfEnvSource1Alpha;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvSource2Alpha field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvSource2Alpha(void) const
+{
+    return &_sfEnvSource2Alpha;
+}
+
+//! Get the TextureChunk::_sfEnvSource2Alpha field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvSource2Alpha(void)
+{
+    return &_sfEnvSource2Alpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvSource2Alpha field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvSource2Alpha(void)
 {
     return &_sfEnvSource2Alpha;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvOperand0RGB field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvOperand0RGB(void) const
+{
+    return &_sfEnvOperand0RGB;
+}
+
+//! Get the TextureChunk::_sfEnvOperand0RGB field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvOperand0RGB(void)
+{
+    return &_sfEnvOperand0RGB;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvOperand0RGB field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvOperand0RGB(void)
 {
     return &_sfEnvOperand0RGB;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvOperand1RGB field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvOperand1RGB(void) const
+{
+    return &_sfEnvOperand1RGB;
+}
+
+//! Get the TextureChunk::_sfEnvOperand1RGB field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvOperand1RGB(void)
+{
+    return &_sfEnvOperand1RGB;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvOperand1RGB field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvOperand1RGB(void)
 {
     return &_sfEnvOperand1RGB;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvOperand2RGB field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvOperand2RGB(void) const
+{
+    return &_sfEnvOperand2RGB;
+}
+
+//! Get the TextureChunk::_sfEnvOperand2RGB field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvOperand2RGB(void)
+{
+    return &_sfEnvOperand2RGB;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvOperand2RGB field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvOperand2RGB(void)
 {
     return &_sfEnvOperand2RGB;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvOperand0Alpha field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvOperand0Alpha(void) const
+{
+    return &_sfEnvOperand0Alpha;
+}
+
+//! Get the TextureChunk::_sfEnvOperand0Alpha field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvOperand0Alpha(void)
+{
+    return &_sfEnvOperand0Alpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvOperand0Alpha field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvOperand0Alpha(void)
 {
     return &_sfEnvOperand0Alpha;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvOperand1Alpha field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvOperand1Alpha(void) const
+{
+    return &_sfEnvOperand1Alpha;
+}
+
+//! Get the TextureChunk::_sfEnvOperand1Alpha field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvOperand1Alpha(void)
+{
+    return &_sfEnvOperand1Alpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvOperand1Alpha field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvOperand1Alpha(void)
 {
     return &_sfEnvOperand1Alpha;
 }
+#endif
 
+//! Get the TextureChunk::_sfEnvOperand2Alpha field.
+inline
+const SFGLenum *TextureChunkBase::getSFEnvOperand2Alpha(void) const
+{
+    return &_sfEnvOperand2Alpha;
+}
+
+//! Get the TextureChunk::_sfEnvOperand2Alpha field.
+inline
+SFGLenum *TextureChunkBase::editSFEnvOperand2Alpha(void)
+{
+    return &_sfEnvOperand2Alpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfEnvOperand2Alpha field.
 inline
 SFGLenum *TextureChunkBase::getSFEnvOperand2Alpha(void)
 {
     return &_sfEnvOperand2Alpha;
 }
+#endif
 
+//! Get the TextureChunk::_sfGLId field.
+inline
+const SFGLenum *TextureChunkBase::getSFGLId(void) const
+{
+    return &_sfGLId;
+}
+
+//! Get the TextureChunk::_sfGLId field.
+inline
+SFGLenum *TextureChunkBase::editSFGLId(void)
+{
+    return &_sfGLId;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfGLId field.
 inline
 SFGLenum *TextureChunkBase::getSFGLId(void)
 {
     return &_sfGLId;
 }
+#endif
 
+//! Get the TextureChunk::_sfIgnoreGLForAspect field.
+inline
+const SFInt32 *TextureChunkBase::getSFIgnoreGLForAspect(void) const
+{
+    return &_sfIgnoreGLForAspect;
+}
+
+//! Get the TextureChunk::_sfIgnoreGLForAspect field.
+inline
+SFInt32 *TextureChunkBase::editSFIgnoreGLForAspect(void)
+{
+    return &_sfIgnoreGLForAspect;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfIgnoreGLForAspect field.
 inline
 SFInt32 *TextureChunkBase::getSFIgnoreGLForAspect(void)
 {
     return &_sfIgnoreGLForAspect;
 }
+#endif
 
+//! Get the TextureChunk::_sfPointSprite field.
+inline
+const SFBool *TextureChunkBase::getSFPointSprite(void) const
+{
+    return &_sfPointSprite;
+}
+
+//! Get the TextureChunk::_sfPointSprite field.
+inline
+SFBool *TextureChunkBase::editSFPointSprite(void)
+{
+    return &_sfPointSprite;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfPointSprite field.
 inline
 SFBool *TextureChunkBase::getSFPointSprite(void)
 {
     return &_sfPointSprite;
 }
+#endif
 
+//! Get the TextureChunk::_sfPriority field.
+inline
+const SFReal32 *TextureChunkBase::getSFPriority(void) const
+{
+    return &_sfPriority;
+}
+
+//! Get the TextureChunk::_sfPriority field.
+inline
+SFReal32 *TextureChunkBase::editSFPriority(void)
+{
+    return &_sfPriority;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfPriority field.
 inline
 SFReal32 *TextureChunkBase::getSFPriority(void)
 {
     return &_sfPriority;
 }
+#endif
 
+//! Get the TextureChunk::_sfShaderOperation field.
+inline
+const SFGLenum *TextureChunkBase::getSFShaderOperation(void) const
+{
+    return &_sfShaderOperation;
+}
+
+//! Get the TextureChunk::_sfShaderOperation field.
+inline
+SFGLenum *TextureChunkBase::editSFShaderOperation(void)
+{
+    return &_sfShaderOperation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfShaderOperation field.
 inline
 SFGLenum *TextureChunkBase::getSFShaderOperation(void)
 {
     return &_sfShaderOperation;
 }
+#endif
 
+//! Get the TextureChunk::_sfShaderInput field.
+inline
+const SFGLenum *TextureChunkBase::getSFShaderInput(void) const
+{
+    return &_sfShaderInput;
+}
+
+//! Get the TextureChunk::_sfShaderInput field.
+inline
+SFGLenum *TextureChunkBase::editSFShaderInput(void)
+{
+    return &_sfShaderInput;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfShaderInput field.
 inline
 SFGLenum *TextureChunkBase::getSFShaderInput(void)
 {
     return &_sfShaderInput;
 }
+#endif
 
+//! Get the TextureChunk::_mfShaderOffsetMatrix field.
+inline
+const MFReal32 *TextureChunkBase::getMFShaderOffsetMatrix(void) const
+{
+    return &_mfShaderOffsetMatrix;
+}
+
+//! Get the TextureChunk::_mfShaderOffsetMatrix field.
+inline
+MFReal32 *TextureChunkBase::editMFShaderOffsetMatrix(void)
+{
+    return &_mfShaderOffsetMatrix;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_mfShaderOffsetMatrix field.
 inline
 MFReal32 *TextureChunkBase::getMFShaderOffsetMatrix(void)
 {
     return &_mfShaderOffsetMatrix;
 }
+#endif
 
+//! Get the TextureChunk::_sfShaderOffsetScale field.
+inline
+const SFReal32 *TextureChunkBase::getSFShaderOffsetScale(void) const
+{
+    return &_sfShaderOffsetScale;
+}
+
+//! Get the TextureChunk::_sfShaderOffsetScale field.
+inline
+SFReal32 *TextureChunkBase::editSFShaderOffsetScale(void)
+{
+    return &_sfShaderOffsetScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfShaderOffsetScale field.
 inline
 SFReal32 *TextureChunkBase::getSFShaderOffsetScale(void)
 {
     return &_sfShaderOffsetScale;
 }
+#endif
 
+//! Get the TextureChunk::_sfShaderOffsetBias field.
+inline
+const SFReal32 *TextureChunkBase::getSFShaderOffsetBias(void) const
+{
+    return &_sfShaderOffsetBias;
+}
+
+//! Get the TextureChunk::_sfShaderOffsetBias field.
+inline
+SFReal32 *TextureChunkBase::editSFShaderOffsetBias(void)
+{
+    return &_sfShaderOffsetBias;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfShaderOffsetBias field.
 inline
 SFReal32 *TextureChunkBase::getSFShaderOffsetBias(void)
 {
     return &_sfShaderOffsetBias;
 }
+#endif
 
+//! Get the TextureChunk::_sfShaderRGBADotProduct field.
+inline
+const SFGLenum *TextureChunkBase::getSFShaderRGBADotProduct(void) const
+{
+    return &_sfShaderRGBADotProduct;
+}
+
+//! Get the TextureChunk::_sfShaderRGBADotProduct field.
+inline
+SFGLenum *TextureChunkBase::editSFShaderRGBADotProduct(void)
+{
+    return &_sfShaderRGBADotProduct;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfShaderRGBADotProduct field.
 inline
 SFGLenum *TextureChunkBase::getSFShaderRGBADotProduct(void)
 {
     return &_sfShaderRGBADotProduct;
 }
+#endif
 
+//! Get the TextureChunk::_sfShaderCullModes field.
+inline
+const SFUInt8 *TextureChunkBase::getSFShaderCullModes(void) const
+{
+    return &_sfShaderCullModes;
+}
+
+//! Get the TextureChunk::_sfShaderCullModes field.
+inline
+SFUInt8 *TextureChunkBase::editSFShaderCullModes(void)
+{
+    return &_sfShaderCullModes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfShaderCullModes field.
 inline
 SFUInt8 *TextureChunkBase::getSFShaderCullModes(void)
 {
     return &_sfShaderCullModes;
 }
+#endif
 
+//! Get the TextureChunk::_sfShaderConstEye field.
+inline
+const SFVec3f *TextureChunkBase::getSFShaderConstEye(void) const
+{
+    return &_sfShaderConstEye;
+}
+
+//! Get the TextureChunk::_sfShaderConstEye field.
+inline
+SFVec3f *TextureChunkBase::editSFShaderConstEye(void)
+{
+    return &_sfShaderConstEye;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfShaderConstEye field.
 inline
 SFVec3f *TextureChunkBase::getSFShaderConstEye(void)
 {
     return &_sfShaderConstEye;
 }
+#endif
 
+//! Get the TextureChunk::_sfLodBias field.
+inline
+const SFReal32 *TextureChunkBase::getSFLodBias(void) const
+{
+    return &_sfLodBias;
+}
+
+//! Get the TextureChunk::_sfLodBias field.
+inline
+SFReal32 *TextureChunkBase::editSFLodBias(void)
+{
+    return &_sfLodBias;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfLodBias field.
 inline
 SFReal32 *TextureChunkBase::getSFLodBias(void)
 {
     return &_sfLodBias;
 }
+#endif
 
+//! Get the TextureChunk::_sfTarget field.
+inline
+const SFGLenum *TextureChunkBase::getSFTarget(void) const
+{
+    return &_sfTarget;
+}
+
+//! Get the TextureChunk::_sfTarget field.
+inline
+SFGLenum *TextureChunkBase::editSFTarget(void)
+{
+    return &_sfTarget;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfTarget field.
 inline
 SFGLenum *TextureChunkBase::getSFTarget(void)
 {
     return &_sfTarget;
 }
+#endif
 
+//! Get the TextureChunk::_sfDirtyLeft field.
+inline
+const SFInt32 *TextureChunkBase::getSFDirtyLeft(void) const
+{
+    return &_sfDirtyLeft;
+}
+
+//! Get the TextureChunk::_sfDirtyLeft field.
+inline
+SFInt32 *TextureChunkBase::editSFDirtyLeft(void)
+{
+    return &_sfDirtyLeft;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfDirtyLeft field.
 inline
 SFInt32 *TextureChunkBase::getSFDirtyLeft(void)
 {
     return &_sfDirtyLeft;
 }
+#endif
 
+//! Get the TextureChunk::_sfDirtyMinX field.
+inline
+const SFInt32 *TextureChunkBase::getSFDirtyMinX(void) const
+{
+    return &_sfDirtyMinX;
+}
+
+//! Get the TextureChunk::_sfDirtyMinX field.
+inline
+SFInt32 *TextureChunkBase::editSFDirtyMinX(void)
+{
+    return &_sfDirtyMinX;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfDirtyMinX field.
 inline
 SFInt32 *TextureChunkBase::getSFDirtyMinX(void)
 {
     return &_sfDirtyMinX;
 }
+#endif
 
+//! Get the TextureChunk::_sfDirtyMaxX field.
+inline
+const SFInt32 *TextureChunkBase::getSFDirtyMaxX(void) const
+{
+    return &_sfDirtyMaxX;
+}
+
+//! Get the TextureChunk::_sfDirtyMaxX field.
+inline
+SFInt32 *TextureChunkBase::editSFDirtyMaxX(void)
+{
+    return &_sfDirtyMaxX;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfDirtyMaxX field.
 inline
 SFInt32 *TextureChunkBase::getSFDirtyMaxX(void)
 {
     return &_sfDirtyMaxX;
 }
+#endif
 
+//! Get the TextureChunk::_sfDirtyMinY field.
+inline
+const SFInt32 *TextureChunkBase::getSFDirtyMinY(void) const
+{
+    return &_sfDirtyMinY;
+}
+
+//! Get the TextureChunk::_sfDirtyMinY field.
+inline
+SFInt32 *TextureChunkBase::editSFDirtyMinY(void)
+{
+    return &_sfDirtyMinY;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfDirtyMinY field.
 inline
 SFInt32 *TextureChunkBase::getSFDirtyMinY(void)
 {
     return &_sfDirtyMinY;
 }
+#endif
 
+//! Get the TextureChunk::_sfDirtyMaxY field.
+inline
+const SFInt32 *TextureChunkBase::getSFDirtyMaxY(void) const
+{
+    return &_sfDirtyMaxY;
+}
+
+//! Get the TextureChunk::_sfDirtyMaxY field.
+inline
+SFInt32 *TextureChunkBase::editSFDirtyMaxY(void)
+{
+    return &_sfDirtyMaxY;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfDirtyMaxY field.
 inline
 SFInt32 *TextureChunkBase::getSFDirtyMaxY(void)
 {
     return &_sfDirtyMaxY;
 }
+#endif
 
+//! Get the TextureChunk::_sfDirtyMinZ field.
+inline
+const SFInt32 *TextureChunkBase::getSFDirtyMinZ(void) const
+{
+    return &_sfDirtyMinZ;
+}
+
+//! Get the TextureChunk::_sfDirtyMinZ field.
+inline
+SFInt32 *TextureChunkBase::editSFDirtyMinZ(void)
+{
+    return &_sfDirtyMinZ;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfDirtyMinZ field.
 inline
 SFInt32 *TextureChunkBase::getSFDirtyMinZ(void)
 {
     return &_sfDirtyMinZ;
 }
+#endif
 
+//! Get the TextureChunk::_sfDirtyMaxZ field.
+inline
+const SFInt32 *TextureChunkBase::getSFDirtyMaxZ(void) const
+{
+    return &_sfDirtyMaxZ;
+}
+
+//! Get the TextureChunk::_sfDirtyMaxZ field.
+inline
+SFInt32 *TextureChunkBase::editSFDirtyMaxZ(void)
+{
+    return &_sfDirtyMaxZ;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfDirtyMaxZ field.
 inline
 SFInt32 *TextureChunkBase::getSFDirtyMaxZ(void)
 {
     return &_sfDirtyMaxZ;
 }
+#endif
 
+//! Get the TextureChunk::_sfAnisotropy field.
+inline
+const SFReal32 *TextureChunkBase::getSFAnisotropy(void) const
+{
+    return &_sfAnisotropy;
+}
+
+//! Get the TextureChunk::_sfAnisotropy field.
+inline
+SFReal32 *TextureChunkBase::editSFAnisotropy(void)
+{
+    return &_sfAnisotropy;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfAnisotropy field.
 inline
 SFReal32 *TextureChunkBase::getSFAnisotropy(void)
 {
     return &_sfAnisotropy;
 }
+#endif
 
+//! Get the TextureChunk::_sfBorderColor field.
+inline
+const SFColor4f *TextureChunkBase::getSFBorderColor(void) const
+{
+    return &_sfBorderColor;
+}
+
+//! Get the TextureChunk::_sfBorderColor field.
+inline
+SFColor4f *TextureChunkBase::editSFBorderColor(void)
+{
+    return &_sfBorderColor;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfBorderColor field.
 inline
 SFColor4f *TextureChunkBase::getSFBorderColor(void)
 {
     return &_sfBorderColor;
 }
+#endif
 
+//! Get the TextureChunk::_sfBorderWidth field.
+inline
+const SFUInt32 *TextureChunkBase::getSFBorderWidth(void) const
+{
+    return &_sfBorderWidth;
+}
+
+//! Get the TextureChunk::_sfBorderWidth field.
+inline
+SFUInt32 *TextureChunkBase::editSFBorderWidth(void)
+{
+    return &_sfBorderWidth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfBorderWidth field.
 inline
 SFUInt32 *TextureChunkBase::getSFBorderWidth(void)
 {
     return &_sfBorderWidth;
 }
+#endif
 
+//! Get the TextureChunk::_sfNPOTMatrixScale field.
+inline
+const SFUInt32 *TextureChunkBase::getSFNPOTMatrixScale(void) const
+{
+    return &_sfNPOTMatrixScale;
+}
+
+//! Get the TextureChunk::_sfNPOTMatrixScale field.
+inline
+SFUInt32 *TextureChunkBase::editSFNPOTMatrixScale(void)
+{
+    return &_sfNPOTMatrixScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfNPOTMatrixScale field.
 inline
 SFUInt32 *TextureChunkBase::getSFNPOTMatrixScale(void)
 {
     return &_sfNPOTMatrixScale;
 }
+#endif
 
+//! Get the TextureChunk::_sfSkipMipMapLevels field.
+inline
+const SFReal32 *TextureChunkBase::getSFSkipMipMapLevels(void) const
+{
+    return &_sfSkipMipMapLevels;
+}
+
+//! Get the TextureChunk::_sfSkipMipMapLevels field.
+inline
+SFReal32 *TextureChunkBase::editSFSkipMipMapLevels(void)
+{
+    return &_sfSkipMipMapLevels;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureChunk::_sfSkipMipMapLevels field.
 inline
 SFReal32 *TextureChunkBase::getSFSkipMipMapLevels(void)
 {
     return &_sfSkipMipMapLevels;
 }
+#endif
 
 
 //! Get the value of the TextureChunk::_sfImage field.
 inline
-ImagePtr &TextureChunkBase::getImage(void)
+ImagePtr &TextureChunkBase::editImage(void)
 {
     return _sfImage.getValue();
 }
@@ -489,6 +1353,15 @@ const ImagePtr &TextureChunkBase::getImage(void) const
     return _sfImage.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfImage field.
+inline
+ImagePtr &TextureChunkBase::getImage(void)
+{
+    return _sfImage.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfImage field.
 inline
 void TextureChunkBase::setImage(const ImagePtr &value)
@@ -498,7 +1371,7 @@ void TextureChunkBase::setImage(const ImagePtr &value)
 
 //! Get the value of the TextureChunk::_sfInternalFormat field.
 inline
-GLenum &TextureChunkBase::getInternalFormat(void)
+GLenum &TextureChunkBase::editInternalFormat(void)
 {
     return _sfInternalFormat.getValue();
 }
@@ -510,6 +1383,15 @@ const GLenum &TextureChunkBase::getInternalFormat(void) const
     return _sfInternalFormat.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfInternalFormat field.
+inline
+GLenum &TextureChunkBase::getInternalFormat(void)
+{
+    return _sfInternalFormat.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfInternalFormat field.
 inline
 void TextureChunkBase::setInternalFormat(const GLenum &value)
@@ -519,7 +1401,7 @@ void TextureChunkBase::setInternalFormat(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfExternalFormat field.
 inline
-GLenum &TextureChunkBase::getExternalFormat(void)
+GLenum &TextureChunkBase::editExternalFormat(void)
 {
     return _sfExternalFormat.getValue();
 }
@@ -531,6 +1413,15 @@ const GLenum &TextureChunkBase::getExternalFormat(void) const
     return _sfExternalFormat.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfExternalFormat field.
+inline
+GLenum &TextureChunkBase::getExternalFormat(void)
+{
+    return _sfExternalFormat.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfExternalFormat field.
 inline
 void TextureChunkBase::setExternalFormat(const GLenum &value)
@@ -540,7 +1431,7 @@ void TextureChunkBase::setExternalFormat(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfScale field.
 inline
-bool &TextureChunkBase::getScale(void)
+bool &TextureChunkBase::editScale(void)
 {
     return _sfScale.getValue();
 }
@@ -552,6 +1443,15 @@ const bool &TextureChunkBase::getScale(void) const
     return _sfScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfScale field.
+inline
+bool &TextureChunkBase::getScale(void)
+{
+    return _sfScale.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfScale field.
 inline
 void TextureChunkBase::setScale(const bool &value)
@@ -561,7 +1461,7 @@ void TextureChunkBase::setScale(const bool &value)
 
 //! Get the value of the TextureChunk::_sfFrame field.
 inline
-UInt32 &TextureChunkBase::getFrame(void)
+UInt32 &TextureChunkBase::editFrame(void)
 {
     return _sfFrame.getValue();
 }
@@ -573,6 +1473,15 @@ const UInt32 &TextureChunkBase::getFrame(void) const
     return _sfFrame.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfFrame field.
+inline
+UInt32 &TextureChunkBase::getFrame(void)
+{
+    return _sfFrame.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfFrame field.
 inline
 void TextureChunkBase::setFrame(const UInt32 &value)
@@ -582,7 +1491,7 @@ void TextureChunkBase::setFrame(const UInt32 &value)
 
 //! Get the value of the TextureChunk::_sfMinFilter field.
 inline
-GLenum &TextureChunkBase::getMinFilter(void)
+GLenum &TextureChunkBase::editMinFilter(void)
 {
     return _sfMinFilter.getValue();
 }
@@ -594,6 +1503,15 @@ const GLenum &TextureChunkBase::getMinFilter(void) const
     return _sfMinFilter.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfMinFilter field.
+inline
+GLenum &TextureChunkBase::getMinFilter(void)
+{
+    return _sfMinFilter.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfMinFilter field.
 inline
 void TextureChunkBase::setMinFilter(const GLenum &value)
@@ -603,7 +1521,7 @@ void TextureChunkBase::setMinFilter(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfMagFilter field.
 inline
-GLenum &TextureChunkBase::getMagFilter(void)
+GLenum &TextureChunkBase::editMagFilter(void)
 {
     return _sfMagFilter.getValue();
 }
@@ -615,6 +1533,15 @@ const GLenum &TextureChunkBase::getMagFilter(void) const
     return _sfMagFilter.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfMagFilter field.
+inline
+GLenum &TextureChunkBase::getMagFilter(void)
+{
+    return _sfMagFilter.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfMagFilter field.
 inline
 void TextureChunkBase::setMagFilter(const GLenum &value)
@@ -624,7 +1551,7 @@ void TextureChunkBase::setMagFilter(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfWrapS field.
 inline
-GLenum &TextureChunkBase::getWrapS(void)
+GLenum &TextureChunkBase::editWrapS(void)
 {
     return _sfWrapS.getValue();
 }
@@ -636,6 +1563,15 @@ const GLenum &TextureChunkBase::getWrapS(void) const
     return _sfWrapS.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfWrapS field.
+inline
+GLenum &TextureChunkBase::getWrapS(void)
+{
+    return _sfWrapS.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfWrapS field.
 inline
 void TextureChunkBase::setWrapS(const GLenum &value)
@@ -645,7 +1581,7 @@ void TextureChunkBase::setWrapS(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfWrapT field.
 inline
-GLenum &TextureChunkBase::getWrapT(void)
+GLenum &TextureChunkBase::editWrapT(void)
 {
     return _sfWrapT.getValue();
 }
@@ -657,6 +1593,15 @@ const GLenum &TextureChunkBase::getWrapT(void) const
     return _sfWrapT.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfWrapT field.
+inline
+GLenum &TextureChunkBase::getWrapT(void)
+{
+    return _sfWrapT.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfWrapT field.
 inline
 void TextureChunkBase::setWrapT(const GLenum &value)
@@ -666,7 +1611,7 @@ void TextureChunkBase::setWrapT(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfWrapR field.
 inline
-GLenum &TextureChunkBase::getWrapR(void)
+GLenum &TextureChunkBase::editWrapR(void)
 {
     return _sfWrapR.getValue();
 }
@@ -678,6 +1623,15 @@ const GLenum &TextureChunkBase::getWrapR(void) const
     return _sfWrapR.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfWrapR field.
+inline
+GLenum &TextureChunkBase::getWrapR(void)
+{
+    return _sfWrapR.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfWrapR field.
 inline
 void TextureChunkBase::setWrapR(const GLenum &value)
@@ -687,7 +1641,7 @@ void TextureChunkBase::setWrapR(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvMode field.
 inline
-GLenum &TextureChunkBase::getEnvMode(void)
+GLenum &TextureChunkBase::editEnvMode(void)
 {
     return _sfEnvMode.getValue();
 }
@@ -699,6 +1653,15 @@ const GLenum &TextureChunkBase::getEnvMode(void) const
     return _sfEnvMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvMode field.
+inline
+GLenum &TextureChunkBase::getEnvMode(void)
+{
+    return _sfEnvMode.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvMode field.
 inline
 void TextureChunkBase::setEnvMode(const GLenum &value)
@@ -708,7 +1671,7 @@ void TextureChunkBase::setEnvMode(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvColor field.
 inline
-Color4f &TextureChunkBase::getEnvColor(void)
+Color4f &TextureChunkBase::editEnvColor(void)
 {
     return _sfEnvColor.getValue();
 }
@@ -720,6 +1683,15 @@ const Color4f &TextureChunkBase::getEnvColor(void) const
     return _sfEnvColor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvColor field.
+inline
+Color4f &TextureChunkBase::getEnvColor(void)
+{
+    return _sfEnvColor.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvColor field.
 inline
 void TextureChunkBase::setEnvColor(const Color4f &value)
@@ -729,7 +1701,7 @@ void TextureChunkBase::setEnvColor(const Color4f &value)
 
 //! Get the value of the TextureChunk::_sfEnvCombineRGB field.
 inline
-GLenum &TextureChunkBase::getEnvCombineRGB(void)
+GLenum &TextureChunkBase::editEnvCombineRGB(void)
 {
     return _sfEnvCombineRGB.getValue();
 }
@@ -741,6 +1713,15 @@ const GLenum &TextureChunkBase::getEnvCombineRGB(void) const
     return _sfEnvCombineRGB.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvCombineRGB field.
+inline
+GLenum &TextureChunkBase::getEnvCombineRGB(void)
+{
+    return _sfEnvCombineRGB.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvCombineRGB field.
 inline
 void TextureChunkBase::setEnvCombineRGB(const GLenum &value)
@@ -750,7 +1731,7 @@ void TextureChunkBase::setEnvCombineRGB(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvCombineAlpha field.
 inline
-GLenum &TextureChunkBase::getEnvCombineAlpha(void)
+GLenum &TextureChunkBase::editEnvCombineAlpha(void)
 {
     return _sfEnvCombineAlpha.getValue();
 }
@@ -762,6 +1743,15 @@ const GLenum &TextureChunkBase::getEnvCombineAlpha(void) const
     return _sfEnvCombineAlpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvCombineAlpha field.
+inline
+GLenum &TextureChunkBase::getEnvCombineAlpha(void)
+{
+    return _sfEnvCombineAlpha.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvCombineAlpha field.
 inline
 void TextureChunkBase::setEnvCombineAlpha(const GLenum &value)
@@ -771,7 +1761,7 @@ void TextureChunkBase::setEnvCombineAlpha(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvScaleRGB field.
 inline
-Real32 &TextureChunkBase::getEnvScaleRGB(void)
+Real32 &TextureChunkBase::editEnvScaleRGB(void)
 {
     return _sfEnvScaleRGB.getValue();
 }
@@ -783,6 +1773,15 @@ const Real32 &TextureChunkBase::getEnvScaleRGB(void) const
     return _sfEnvScaleRGB.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvScaleRGB field.
+inline
+Real32 &TextureChunkBase::getEnvScaleRGB(void)
+{
+    return _sfEnvScaleRGB.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvScaleRGB field.
 inline
 void TextureChunkBase::setEnvScaleRGB(const Real32 &value)
@@ -792,7 +1791,7 @@ void TextureChunkBase::setEnvScaleRGB(const Real32 &value)
 
 //! Get the value of the TextureChunk::_sfEnvScaleAlpha field.
 inline
-Real32 &TextureChunkBase::getEnvScaleAlpha(void)
+Real32 &TextureChunkBase::editEnvScaleAlpha(void)
 {
     return _sfEnvScaleAlpha.getValue();
 }
@@ -804,6 +1803,15 @@ const Real32 &TextureChunkBase::getEnvScaleAlpha(void) const
     return _sfEnvScaleAlpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvScaleAlpha field.
+inline
+Real32 &TextureChunkBase::getEnvScaleAlpha(void)
+{
+    return _sfEnvScaleAlpha.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvScaleAlpha field.
 inline
 void TextureChunkBase::setEnvScaleAlpha(const Real32 &value)
@@ -813,7 +1821,7 @@ void TextureChunkBase::setEnvScaleAlpha(const Real32 &value)
 
 //! Get the value of the TextureChunk::_sfEnvSource0RGB field.
 inline
-GLenum &TextureChunkBase::getEnvSource0RGB(void)
+GLenum &TextureChunkBase::editEnvSource0RGB(void)
 {
     return _sfEnvSource0RGB.getValue();
 }
@@ -825,6 +1833,15 @@ const GLenum &TextureChunkBase::getEnvSource0RGB(void) const
     return _sfEnvSource0RGB.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvSource0RGB field.
+inline
+GLenum &TextureChunkBase::getEnvSource0RGB(void)
+{
+    return _sfEnvSource0RGB.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvSource0RGB field.
 inline
 void TextureChunkBase::setEnvSource0RGB(const GLenum &value)
@@ -834,7 +1851,7 @@ void TextureChunkBase::setEnvSource0RGB(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvSource1RGB field.
 inline
-GLenum &TextureChunkBase::getEnvSource1RGB(void)
+GLenum &TextureChunkBase::editEnvSource1RGB(void)
 {
     return _sfEnvSource1RGB.getValue();
 }
@@ -846,6 +1863,15 @@ const GLenum &TextureChunkBase::getEnvSource1RGB(void) const
     return _sfEnvSource1RGB.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvSource1RGB field.
+inline
+GLenum &TextureChunkBase::getEnvSource1RGB(void)
+{
+    return _sfEnvSource1RGB.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvSource1RGB field.
 inline
 void TextureChunkBase::setEnvSource1RGB(const GLenum &value)
@@ -855,7 +1881,7 @@ void TextureChunkBase::setEnvSource1RGB(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvSource2RGB field.
 inline
-GLenum &TextureChunkBase::getEnvSource2RGB(void)
+GLenum &TextureChunkBase::editEnvSource2RGB(void)
 {
     return _sfEnvSource2RGB.getValue();
 }
@@ -867,6 +1893,15 @@ const GLenum &TextureChunkBase::getEnvSource2RGB(void) const
     return _sfEnvSource2RGB.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvSource2RGB field.
+inline
+GLenum &TextureChunkBase::getEnvSource2RGB(void)
+{
+    return _sfEnvSource2RGB.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvSource2RGB field.
 inline
 void TextureChunkBase::setEnvSource2RGB(const GLenum &value)
@@ -876,7 +1911,7 @@ void TextureChunkBase::setEnvSource2RGB(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvSource0Alpha field.
 inline
-GLenum &TextureChunkBase::getEnvSource0Alpha(void)
+GLenum &TextureChunkBase::editEnvSource0Alpha(void)
 {
     return _sfEnvSource0Alpha.getValue();
 }
@@ -888,6 +1923,15 @@ const GLenum &TextureChunkBase::getEnvSource0Alpha(void) const
     return _sfEnvSource0Alpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvSource0Alpha field.
+inline
+GLenum &TextureChunkBase::getEnvSource0Alpha(void)
+{
+    return _sfEnvSource0Alpha.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvSource0Alpha field.
 inline
 void TextureChunkBase::setEnvSource0Alpha(const GLenum &value)
@@ -897,7 +1941,7 @@ void TextureChunkBase::setEnvSource0Alpha(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvSource1Alpha field.
 inline
-GLenum &TextureChunkBase::getEnvSource1Alpha(void)
+GLenum &TextureChunkBase::editEnvSource1Alpha(void)
 {
     return _sfEnvSource1Alpha.getValue();
 }
@@ -909,6 +1953,15 @@ const GLenum &TextureChunkBase::getEnvSource1Alpha(void) const
     return _sfEnvSource1Alpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvSource1Alpha field.
+inline
+GLenum &TextureChunkBase::getEnvSource1Alpha(void)
+{
+    return _sfEnvSource1Alpha.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvSource1Alpha field.
 inline
 void TextureChunkBase::setEnvSource1Alpha(const GLenum &value)
@@ -918,7 +1971,7 @@ void TextureChunkBase::setEnvSource1Alpha(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvSource2Alpha field.
 inline
-GLenum &TextureChunkBase::getEnvSource2Alpha(void)
+GLenum &TextureChunkBase::editEnvSource2Alpha(void)
 {
     return _sfEnvSource2Alpha.getValue();
 }
@@ -930,6 +1983,15 @@ const GLenum &TextureChunkBase::getEnvSource2Alpha(void) const
     return _sfEnvSource2Alpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvSource2Alpha field.
+inline
+GLenum &TextureChunkBase::getEnvSource2Alpha(void)
+{
+    return _sfEnvSource2Alpha.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvSource2Alpha field.
 inline
 void TextureChunkBase::setEnvSource2Alpha(const GLenum &value)
@@ -939,7 +2001,7 @@ void TextureChunkBase::setEnvSource2Alpha(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvOperand0RGB field.
 inline
-GLenum &TextureChunkBase::getEnvOperand0RGB(void)
+GLenum &TextureChunkBase::editEnvOperand0RGB(void)
 {
     return _sfEnvOperand0RGB.getValue();
 }
@@ -951,6 +2013,15 @@ const GLenum &TextureChunkBase::getEnvOperand0RGB(void) const
     return _sfEnvOperand0RGB.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvOperand0RGB field.
+inline
+GLenum &TextureChunkBase::getEnvOperand0RGB(void)
+{
+    return _sfEnvOperand0RGB.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvOperand0RGB field.
 inline
 void TextureChunkBase::setEnvOperand0RGB(const GLenum &value)
@@ -960,7 +2031,7 @@ void TextureChunkBase::setEnvOperand0RGB(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvOperand1RGB field.
 inline
-GLenum &TextureChunkBase::getEnvOperand1RGB(void)
+GLenum &TextureChunkBase::editEnvOperand1RGB(void)
 {
     return _sfEnvOperand1RGB.getValue();
 }
@@ -972,6 +2043,15 @@ const GLenum &TextureChunkBase::getEnvOperand1RGB(void) const
     return _sfEnvOperand1RGB.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvOperand1RGB field.
+inline
+GLenum &TextureChunkBase::getEnvOperand1RGB(void)
+{
+    return _sfEnvOperand1RGB.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvOperand1RGB field.
 inline
 void TextureChunkBase::setEnvOperand1RGB(const GLenum &value)
@@ -981,7 +2061,7 @@ void TextureChunkBase::setEnvOperand1RGB(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvOperand2RGB field.
 inline
-GLenum &TextureChunkBase::getEnvOperand2RGB(void)
+GLenum &TextureChunkBase::editEnvOperand2RGB(void)
 {
     return _sfEnvOperand2RGB.getValue();
 }
@@ -993,6 +2073,15 @@ const GLenum &TextureChunkBase::getEnvOperand2RGB(void) const
     return _sfEnvOperand2RGB.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvOperand2RGB field.
+inline
+GLenum &TextureChunkBase::getEnvOperand2RGB(void)
+{
+    return _sfEnvOperand2RGB.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvOperand2RGB field.
 inline
 void TextureChunkBase::setEnvOperand2RGB(const GLenum &value)
@@ -1002,7 +2091,7 @@ void TextureChunkBase::setEnvOperand2RGB(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvOperand0Alpha field.
 inline
-GLenum &TextureChunkBase::getEnvOperand0Alpha(void)
+GLenum &TextureChunkBase::editEnvOperand0Alpha(void)
 {
     return _sfEnvOperand0Alpha.getValue();
 }
@@ -1014,6 +2103,15 @@ const GLenum &TextureChunkBase::getEnvOperand0Alpha(void) const
     return _sfEnvOperand0Alpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvOperand0Alpha field.
+inline
+GLenum &TextureChunkBase::getEnvOperand0Alpha(void)
+{
+    return _sfEnvOperand0Alpha.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvOperand0Alpha field.
 inline
 void TextureChunkBase::setEnvOperand0Alpha(const GLenum &value)
@@ -1023,7 +2121,7 @@ void TextureChunkBase::setEnvOperand0Alpha(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvOperand1Alpha field.
 inline
-GLenum &TextureChunkBase::getEnvOperand1Alpha(void)
+GLenum &TextureChunkBase::editEnvOperand1Alpha(void)
 {
     return _sfEnvOperand1Alpha.getValue();
 }
@@ -1035,6 +2133,15 @@ const GLenum &TextureChunkBase::getEnvOperand1Alpha(void) const
     return _sfEnvOperand1Alpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvOperand1Alpha field.
+inline
+GLenum &TextureChunkBase::getEnvOperand1Alpha(void)
+{
+    return _sfEnvOperand1Alpha.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvOperand1Alpha field.
 inline
 void TextureChunkBase::setEnvOperand1Alpha(const GLenum &value)
@@ -1044,7 +2151,7 @@ void TextureChunkBase::setEnvOperand1Alpha(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfEnvOperand2Alpha field.
 inline
-GLenum &TextureChunkBase::getEnvOperand2Alpha(void)
+GLenum &TextureChunkBase::editEnvOperand2Alpha(void)
 {
     return _sfEnvOperand2Alpha.getValue();
 }
@@ -1056,6 +2163,15 @@ const GLenum &TextureChunkBase::getEnvOperand2Alpha(void) const
     return _sfEnvOperand2Alpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfEnvOperand2Alpha field.
+inline
+GLenum &TextureChunkBase::getEnvOperand2Alpha(void)
+{
+    return _sfEnvOperand2Alpha.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfEnvOperand2Alpha field.
 inline
 void TextureChunkBase::setEnvOperand2Alpha(const GLenum &value)
@@ -1065,7 +2181,7 @@ void TextureChunkBase::setEnvOperand2Alpha(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfGLId field.
 inline
-GLenum &TextureChunkBase::getGLId(void)
+GLenum &TextureChunkBase::editGLId(void)
 {
     return _sfGLId.getValue();
 }
@@ -1077,6 +2193,15 @@ const GLenum &TextureChunkBase::getGLId(void) const
     return _sfGLId.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfGLId field.
+inline
+GLenum &TextureChunkBase::getGLId(void)
+{
+    return _sfGLId.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfGLId field.
 inline
 void TextureChunkBase::setGLId(const GLenum &value)
@@ -1086,7 +2211,7 @@ void TextureChunkBase::setGLId(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfIgnoreGLForAspect field.
 inline
-Int32 &TextureChunkBase::getIgnoreGLForAspect(void)
+Int32 &TextureChunkBase::editIgnoreGLForAspect(void)
 {
     return _sfIgnoreGLForAspect.getValue();
 }
@@ -1098,6 +2223,15 @@ const Int32 &TextureChunkBase::getIgnoreGLForAspect(void) const
     return _sfIgnoreGLForAspect.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfIgnoreGLForAspect field.
+inline
+Int32 &TextureChunkBase::getIgnoreGLForAspect(void)
+{
+    return _sfIgnoreGLForAspect.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfIgnoreGLForAspect field.
 inline
 void TextureChunkBase::setIgnoreGLForAspect(const Int32 &value)
@@ -1107,7 +2241,7 @@ void TextureChunkBase::setIgnoreGLForAspect(const Int32 &value)
 
 //! Get the value of the TextureChunk::_sfPointSprite field.
 inline
-bool &TextureChunkBase::getPointSprite(void)
+bool &TextureChunkBase::editPointSprite(void)
 {
     return _sfPointSprite.getValue();
 }
@@ -1119,6 +2253,15 @@ const bool &TextureChunkBase::getPointSprite(void) const
     return _sfPointSprite.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfPointSprite field.
+inline
+bool &TextureChunkBase::getPointSprite(void)
+{
+    return _sfPointSprite.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfPointSprite field.
 inline
 void TextureChunkBase::setPointSprite(const bool &value)
@@ -1128,7 +2271,7 @@ void TextureChunkBase::setPointSprite(const bool &value)
 
 //! Get the value of the TextureChunk::_sfPriority field.
 inline
-Real32 &TextureChunkBase::getPriority(void)
+Real32 &TextureChunkBase::editPriority(void)
 {
     return _sfPriority.getValue();
 }
@@ -1140,6 +2283,15 @@ const Real32 &TextureChunkBase::getPriority(void) const
     return _sfPriority.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfPriority field.
+inline
+Real32 &TextureChunkBase::getPriority(void)
+{
+    return _sfPriority.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfPriority field.
 inline
 void TextureChunkBase::setPriority(const Real32 &value)
@@ -1149,7 +2301,7 @@ void TextureChunkBase::setPriority(const Real32 &value)
 
 //! Get the value of the TextureChunk::_sfShaderOperation field.
 inline
-GLenum &TextureChunkBase::getShaderOperation(void)
+GLenum &TextureChunkBase::editShaderOperation(void)
 {
     return _sfShaderOperation.getValue();
 }
@@ -1161,6 +2313,15 @@ const GLenum &TextureChunkBase::getShaderOperation(void) const
     return _sfShaderOperation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfShaderOperation field.
+inline
+GLenum &TextureChunkBase::getShaderOperation(void)
+{
+    return _sfShaderOperation.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfShaderOperation field.
 inline
 void TextureChunkBase::setShaderOperation(const GLenum &value)
@@ -1170,7 +2331,7 @@ void TextureChunkBase::setShaderOperation(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfShaderInput field.
 inline
-GLenum &TextureChunkBase::getShaderInput(void)
+GLenum &TextureChunkBase::editShaderInput(void)
 {
     return _sfShaderInput.getValue();
 }
@@ -1182,6 +2343,15 @@ const GLenum &TextureChunkBase::getShaderInput(void) const
     return _sfShaderInput.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfShaderInput field.
+inline
+GLenum &TextureChunkBase::getShaderInput(void)
+{
+    return _sfShaderInput.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfShaderInput field.
 inline
 void TextureChunkBase::setShaderInput(const GLenum &value)
@@ -1191,7 +2361,7 @@ void TextureChunkBase::setShaderInput(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfShaderOffsetScale field.
 inline
-Real32 &TextureChunkBase::getShaderOffsetScale(void)
+Real32 &TextureChunkBase::editShaderOffsetScale(void)
 {
     return _sfShaderOffsetScale.getValue();
 }
@@ -1203,6 +2373,15 @@ const Real32 &TextureChunkBase::getShaderOffsetScale(void) const
     return _sfShaderOffsetScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfShaderOffsetScale field.
+inline
+Real32 &TextureChunkBase::getShaderOffsetScale(void)
+{
+    return _sfShaderOffsetScale.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfShaderOffsetScale field.
 inline
 void TextureChunkBase::setShaderOffsetScale(const Real32 &value)
@@ -1212,7 +2391,7 @@ void TextureChunkBase::setShaderOffsetScale(const Real32 &value)
 
 //! Get the value of the TextureChunk::_sfShaderOffsetBias field.
 inline
-Real32 &TextureChunkBase::getShaderOffsetBias(void)
+Real32 &TextureChunkBase::editShaderOffsetBias(void)
 {
     return _sfShaderOffsetBias.getValue();
 }
@@ -1224,6 +2403,15 @@ const Real32 &TextureChunkBase::getShaderOffsetBias(void) const
     return _sfShaderOffsetBias.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfShaderOffsetBias field.
+inline
+Real32 &TextureChunkBase::getShaderOffsetBias(void)
+{
+    return _sfShaderOffsetBias.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfShaderOffsetBias field.
 inline
 void TextureChunkBase::setShaderOffsetBias(const Real32 &value)
@@ -1233,7 +2421,7 @@ void TextureChunkBase::setShaderOffsetBias(const Real32 &value)
 
 //! Get the value of the TextureChunk::_sfShaderRGBADotProduct field.
 inline
-GLenum &TextureChunkBase::getShaderRGBADotProduct(void)
+GLenum &TextureChunkBase::editShaderRGBADotProduct(void)
 {
     return _sfShaderRGBADotProduct.getValue();
 }
@@ -1245,6 +2433,15 @@ const GLenum &TextureChunkBase::getShaderRGBADotProduct(void) const
     return _sfShaderRGBADotProduct.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfShaderRGBADotProduct field.
+inline
+GLenum &TextureChunkBase::getShaderRGBADotProduct(void)
+{
+    return _sfShaderRGBADotProduct.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfShaderRGBADotProduct field.
 inline
 void TextureChunkBase::setShaderRGBADotProduct(const GLenum &value)
@@ -1254,7 +2451,7 @@ void TextureChunkBase::setShaderRGBADotProduct(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfShaderCullModes field.
 inline
-UInt8 &TextureChunkBase::getShaderCullModes(void)
+UInt8 &TextureChunkBase::editShaderCullModes(void)
 {
     return _sfShaderCullModes.getValue();
 }
@@ -1266,6 +2463,15 @@ const UInt8 &TextureChunkBase::getShaderCullModes(void) const
     return _sfShaderCullModes.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfShaderCullModes field.
+inline
+UInt8 &TextureChunkBase::getShaderCullModes(void)
+{
+    return _sfShaderCullModes.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfShaderCullModes field.
 inline
 void TextureChunkBase::setShaderCullModes(const UInt8 &value)
@@ -1275,7 +2481,7 @@ void TextureChunkBase::setShaderCullModes(const UInt8 &value)
 
 //! Get the value of the TextureChunk::_sfShaderConstEye field.
 inline
-Vec3f &TextureChunkBase::getShaderConstEye(void)
+Vec3f &TextureChunkBase::editShaderConstEye(void)
 {
     return _sfShaderConstEye.getValue();
 }
@@ -1287,6 +2493,15 @@ const Vec3f &TextureChunkBase::getShaderConstEye(void) const
     return _sfShaderConstEye.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfShaderConstEye field.
+inline
+Vec3f &TextureChunkBase::getShaderConstEye(void)
+{
+    return _sfShaderConstEye.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfShaderConstEye field.
 inline
 void TextureChunkBase::setShaderConstEye(const Vec3f &value)
@@ -1296,7 +2511,7 @@ void TextureChunkBase::setShaderConstEye(const Vec3f &value)
 
 //! Get the value of the TextureChunk::_sfLodBias field.
 inline
-Real32 &TextureChunkBase::getLodBias(void)
+Real32 &TextureChunkBase::editLodBias(void)
 {
     return _sfLodBias.getValue();
 }
@@ -1308,6 +2523,15 @@ const Real32 &TextureChunkBase::getLodBias(void) const
     return _sfLodBias.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfLodBias field.
+inline
+Real32 &TextureChunkBase::getLodBias(void)
+{
+    return _sfLodBias.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfLodBias field.
 inline
 void TextureChunkBase::setLodBias(const Real32 &value)
@@ -1317,7 +2541,7 @@ void TextureChunkBase::setLodBias(const Real32 &value)
 
 //! Get the value of the TextureChunk::_sfTarget field.
 inline
-GLenum &TextureChunkBase::getTarget(void)
+GLenum &TextureChunkBase::editTarget(void)
 {
     return _sfTarget.getValue();
 }
@@ -1329,6 +2553,15 @@ const GLenum &TextureChunkBase::getTarget(void) const
     return _sfTarget.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfTarget field.
+inline
+GLenum &TextureChunkBase::getTarget(void)
+{
+    return _sfTarget.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfTarget field.
 inline
 void TextureChunkBase::setTarget(const GLenum &value)
@@ -1338,7 +2571,7 @@ void TextureChunkBase::setTarget(const GLenum &value)
 
 //! Get the value of the TextureChunk::_sfDirtyLeft field.
 inline
-Int32 &TextureChunkBase::getDirtyLeft(void)
+Int32 &TextureChunkBase::editDirtyLeft(void)
 {
     return _sfDirtyLeft.getValue();
 }
@@ -1350,6 +2583,15 @@ const Int32 &TextureChunkBase::getDirtyLeft(void) const
     return _sfDirtyLeft.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfDirtyLeft field.
+inline
+Int32 &TextureChunkBase::getDirtyLeft(void)
+{
+    return _sfDirtyLeft.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfDirtyLeft field.
 inline
 void TextureChunkBase::setDirtyLeft(const Int32 &value)
@@ -1359,7 +2601,7 @@ void TextureChunkBase::setDirtyLeft(const Int32 &value)
 
 //! Get the value of the TextureChunk::_sfDirtyMinX field.
 inline
-Int32 &TextureChunkBase::getDirtyMinX(void)
+Int32 &TextureChunkBase::editDirtyMinX(void)
 {
     return _sfDirtyMinX.getValue();
 }
@@ -1371,6 +2613,15 @@ const Int32 &TextureChunkBase::getDirtyMinX(void) const
     return _sfDirtyMinX.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfDirtyMinX field.
+inline
+Int32 &TextureChunkBase::getDirtyMinX(void)
+{
+    return _sfDirtyMinX.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfDirtyMinX field.
 inline
 void TextureChunkBase::setDirtyMinX(const Int32 &value)
@@ -1380,7 +2631,7 @@ void TextureChunkBase::setDirtyMinX(const Int32 &value)
 
 //! Get the value of the TextureChunk::_sfDirtyMaxX field.
 inline
-Int32 &TextureChunkBase::getDirtyMaxX(void)
+Int32 &TextureChunkBase::editDirtyMaxX(void)
 {
     return _sfDirtyMaxX.getValue();
 }
@@ -1392,6 +2643,15 @@ const Int32 &TextureChunkBase::getDirtyMaxX(void) const
     return _sfDirtyMaxX.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfDirtyMaxX field.
+inline
+Int32 &TextureChunkBase::getDirtyMaxX(void)
+{
+    return _sfDirtyMaxX.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfDirtyMaxX field.
 inline
 void TextureChunkBase::setDirtyMaxX(const Int32 &value)
@@ -1401,7 +2661,7 @@ void TextureChunkBase::setDirtyMaxX(const Int32 &value)
 
 //! Get the value of the TextureChunk::_sfDirtyMinY field.
 inline
-Int32 &TextureChunkBase::getDirtyMinY(void)
+Int32 &TextureChunkBase::editDirtyMinY(void)
 {
     return _sfDirtyMinY.getValue();
 }
@@ -1413,6 +2673,15 @@ const Int32 &TextureChunkBase::getDirtyMinY(void) const
     return _sfDirtyMinY.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfDirtyMinY field.
+inline
+Int32 &TextureChunkBase::getDirtyMinY(void)
+{
+    return _sfDirtyMinY.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfDirtyMinY field.
 inline
 void TextureChunkBase::setDirtyMinY(const Int32 &value)
@@ -1422,7 +2691,7 @@ void TextureChunkBase::setDirtyMinY(const Int32 &value)
 
 //! Get the value of the TextureChunk::_sfDirtyMaxY field.
 inline
-Int32 &TextureChunkBase::getDirtyMaxY(void)
+Int32 &TextureChunkBase::editDirtyMaxY(void)
 {
     return _sfDirtyMaxY.getValue();
 }
@@ -1434,6 +2703,15 @@ const Int32 &TextureChunkBase::getDirtyMaxY(void) const
     return _sfDirtyMaxY.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfDirtyMaxY field.
+inline
+Int32 &TextureChunkBase::getDirtyMaxY(void)
+{
+    return _sfDirtyMaxY.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfDirtyMaxY field.
 inline
 void TextureChunkBase::setDirtyMaxY(const Int32 &value)
@@ -1443,7 +2721,7 @@ void TextureChunkBase::setDirtyMaxY(const Int32 &value)
 
 //! Get the value of the TextureChunk::_sfDirtyMinZ field.
 inline
-Int32 &TextureChunkBase::getDirtyMinZ(void)
+Int32 &TextureChunkBase::editDirtyMinZ(void)
 {
     return _sfDirtyMinZ.getValue();
 }
@@ -1455,6 +2733,15 @@ const Int32 &TextureChunkBase::getDirtyMinZ(void) const
     return _sfDirtyMinZ.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfDirtyMinZ field.
+inline
+Int32 &TextureChunkBase::getDirtyMinZ(void)
+{
+    return _sfDirtyMinZ.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfDirtyMinZ field.
 inline
 void TextureChunkBase::setDirtyMinZ(const Int32 &value)
@@ -1464,7 +2751,7 @@ void TextureChunkBase::setDirtyMinZ(const Int32 &value)
 
 //! Get the value of the TextureChunk::_sfDirtyMaxZ field.
 inline
-Int32 &TextureChunkBase::getDirtyMaxZ(void)
+Int32 &TextureChunkBase::editDirtyMaxZ(void)
 {
     return _sfDirtyMaxZ.getValue();
 }
@@ -1476,6 +2763,15 @@ const Int32 &TextureChunkBase::getDirtyMaxZ(void) const
     return _sfDirtyMaxZ.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfDirtyMaxZ field.
+inline
+Int32 &TextureChunkBase::getDirtyMaxZ(void)
+{
+    return _sfDirtyMaxZ.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfDirtyMaxZ field.
 inline
 void TextureChunkBase::setDirtyMaxZ(const Int32 &value)
@@ -1485,7 +2781,7 @@ void TextureChunkBase::setDirtyMaxZ(const Int32 &value)
 
 //! Get the value of the TextureChunk::_sfAnisotropy field.
 inline
-Real32 &TextureChunkBase::getAnisotropy(void)
+Real32 &TextureChunkBase::editAnisotropy(void)
 {
     return _sfAnisotropy.getValue();
 }
@@ -1497,6 +2793,15 @@ const Real32 &TextureChunkBase::getAnisotropy(void) const
     return _sfAnisotropy.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfAnisotropy field.
+inline
+Real32 &TextureChunkBase::getAnisotropy(void)
+{
+    return _sfAnisotropy.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfAnisotropy field.
 inline
 void TextureChunkBase::setAnisotropy(const Real32 &value)
@@ -1506,7 +2811,7 @@ void TextureChunkBase::setAnisotropy(const Real32 &value)
 
 //! Get the value of the TextureChunk::_sfBorderColor field.
 inline
-Color4f &TextureChunkBase::getBorderColor(void)
+Color4f &TextureChunkBase::editBorderColor(void)
 {
     return _sfBorderColor.getValue();
 }
@@ -1518,6 +2823,15 @@ const Color4f &TextureChunkBase::getBorderColor(void) const
     return _sfBorderColor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfBorderColor field.
+inline
+Color4f &TextureChunkBase::getBorderColor(void)
+{
+    return _sfBorderColor.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfBorderColor field.
 inline
 void TextureChunkBase::setBorderColor(const Color4f &value)
@@ -1527,7 +2841,7 @@ void TextureChunkBase::setBorderColor(const Color4f &value)
 
 //! Get the value of the TextureChunk::_sfBorderWidth field.
 inline
-UInt32 &TextureChunkBase::getBorderWidth(void)
+UInt32 &TextureChunkBase::editBorderWidth(void)
 {
     return _sfBorderWidth.getValue();
 }
@@ -1539,6 +2853,15 @@ const UInt32 &TextureChunkBase::getBorderWidth(void) const
     return _sfBorderWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfBorderWidth field.
+inline
+UInt32 &TextureChunkBase::getBorderWidth(void)
+{
+    return _sfBorderWidth.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfBorderWidth field.
 inline
 void TextureChunkBase::setBorderWidth(const UInt32 &value)
@@ -1548,7 +2871,7 @@ void TextureChunkBase::setBorderWidth(const UInt32 &value)
 
 //! Get the value of the TextureChunk::_sfNPOTMatrixScale field.
 inline
-UInt32 &TextureChunkBase::getNPOTMatrixScale(void)
+UInt32 &TextureChunkBase::editNPOTMatrixScale(void)
 {
     return _sfNPOTMatrixScale.getValue();
 }
@@ -1560,6 +2883,15 @@ const UInt32 &TextureChunkBase::getNPOTMatrixScale(void) const
     return _sfNPOTMatrixScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfNPOTMatrixScale field.
+inline
+UInt32 &TextureChunkBase::getNPOTMatrixScale(void)
+{
+    return _sfNPOTMatrixScale.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfNPOTMatrixScale field.
 inline
 void TextureChunkBase::setNPOTMatrixScale(const UInt32 &value)
@@ -1569,7 +2901,7 @@ void TextureChunkBase::setNPOTMatrixScale(const UInt32 &value)
 
 //! Get the value of the TextureChunk::_sfSkipMipMapLevels field.
 inline
-Real32 &TextureChunkBase::getSkipMipMapLevels(void)
+Real32 &TextureChunkBase::editSkipMipMapLevels(void)
 {
     return _sfSkipMipMapLevels.getValue();
 }
@@ -1581,6 +2913,15 @@ const Real32 &TextureChunkBase::getSkipMipMapLevels(void) const
     return _sfSkipMipMapLevels.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureChunk::_sfSkipMipMapLevels field.
+inline
+Real32 &TextureChunkBase::getSkipMipMapLevels(void)
+{
+    return _sfSkipMipMapLevels.getValue();
+}
+#endif
+
 //! Set the value of the TextureChunk::_sfSkipMipMapLevels field.
 inline
 void TextureChunkBase::setSkipMipMapLevels(const Real32 &value)
@@ -1589,6 +2930,21 @@ void TextureChunkBase::setSkipMipMapLevels(const Real32 &value)
 }
 
 
+//! Get the value of the \a index element the TextureChunk::_mfShaderOffsetMatrix field.
+inline
+Real32 &TextureChunkBase::editShaderOffsetMatrix(const UInt32 index)
+{
+    return _mfShaderOffsetMatrix[index];
+}
+
+//! Get the value of the \a index element the TextureChunk::_mfShaderOffsetMatrix field.
+inline
+const Real32 &TextureChunkBase::getShaderOffsetMatrix(const UInt32 index) const
+{
+    return _mfShaderOffsetMatrix[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the TextureChunk::_mfShaderOffsetMatrix field.
 inline
 Real32 &TextureChunkBase::getShaderOffsetMatrix(const UInt32 index)
@@ -1603,12 +2959,7 @@ MFReal32 &TextureChunkBase::getShaderOffsetMatrix(void)
     return _mfShaderOffsetMatrix;
 }
 
-//! Get the TextureChunk::_mfShaderOffsetMatrix field.
-inline
-const MFReal32 &TextureChunkBase::getShaderOffsetMatrix(void) const
-{
-    return _mfShaderOffsetMatrix;
-}
+#endif
 
 OSG_END_NAMESPACE
 

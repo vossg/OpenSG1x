@@ -98,29 +98,77 @@ GradientBackgroundPtr GradientBackgroundBase::createEmpty(void)
 
 //! Get the GradientBackground::_mfColor field.
 inline
-MFColor3f *GradientBackgroundBase::getMFColor(void)
+const MFColor3f *GradientBackgroundBase::getMFColor(void) const
 {
     return &_mfColor;
 }
 
+//! Get the GradientBackground::_mfColor field.
+inline
+MFColor3f *GradientBackgroundBase::editMFColor(void)
+{
+    return &_mfColor;
+}
+
+#ifndef OSG_2_PREP
+//! Get the GradientBackground::_mfColor field.
+inline
+MFColor3f *GradientBackgroundBase::getMFColor(void)
+{
+    return &_mfColor;
+}
+#endif
+
+//! Get the GradientBackground::_mfPosition field.
+inline
+const MFReal32 *GradientBackgroundBase::getMFPosition(void) const
+{
+    return &_mfPosition;
+}
+
+//! Get the GradientBackground::_mfPosition field.
+inline
+MFReal32 *GradientBackgroundBase::editMFPosition(void)
+{
+    return &_mfPosition;
+}
+
+#ifndef OSG_2_PREP
 //! Get the GradientBackground::_mfPosition field.
 inline
 MFReal32 *GradientBackgroundBase::getMFPosition(void)
 {
     return &_mfPosition;
 }
+#endif
 
+//! Get the GradientBackground::_sfClearStencilBit field.
+inline
+const SFInt32 *GradientBackgroundBase::getSFClearStencilBit(void) const
+{
+    return &_sfClearStencilBit;
+}
+
+//! Get the GradientBackground::_sfClearStencilBit field.
+inline
+SFInt32 *GradientBackgroundBase::editSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
+#ifndef OSG_2_PREP
 //! Get the GradientBackground::_sfClearStencilBit field.
 inline
 SFInt32 *GradientBackgroundBase::getSFClearStencilBit(void)
 {
     return &_sfClearStencilBit;
 }
+#endif
 
 
 //! Get the value of the GradientBackground::_sfClearStencilBit field.
 inline
-Int32 &GradientBackgroundBase::getClearStencilBit(void)
+Int32 &GradientBackgroundBase::editClearStencilBit(void)
 {
     return _sfClearStencilBit.getValue();
 }
@@ -132,6 +180,15 @@ const Int32 &GradientBackgroundBase::getClearStencilBit(void) const
     return _sfClearStencilBit.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the GradientBackground::_sfClearStencilBit field.
+inline
+Int32 &GradientBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+#endif
+
 //! Set the value of the GradientBackground::_sfClearStencilBit field.
 inline
 void GradientBackgroundBase::setClearStencilBit(const Int32 &value)
@@ -140,6 +197,21 @@ void GradientBackgroundBase::setClearStencilBit(const Int32 &value)
 }
 
 
+//! Get the value of the \a index element the GradientBackground::_mfColor field.
+inline
+Color3f &GradientBackgroundBase::editColor(const UInt32 index)
+{
+    return _mfColor[index];
+}
+
+//! Get the value of the \a index element the GradientBackground::_mfColor field.
+inline
+const Color3f &GradientBackgroundBase::getColor(const UInt32 index) const
+{
+    return _mfColor[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the GradientBackground::_mfColor field.
 inline
 Color3f &GradientBackgroundBase::getColor(const UInt32 index)
@@ -154,13 +226,23 @@ MFColor3f &GradientBackgroundBase::getColor(void)
     return _mfColor;
 }
 
-//! Get the GradientBackground::_mfColor field.
+#endif
+
+//! Get the value of the \a index element the GradientBackground::_mfPosition field.
 inline
-const MFColor3f &GradientBackgroundBase::getColor(void) const
+Real32 &GradientBackgroundBase::editPosition(const UInt32 index)
 {
-    return _mfColor;
+    return _mfPosition[index];
 }
 
+//! Get the value of the \a index element the GradientBackground::_mfPosition field.
+inline
+const Real32 &GradientBackgroundBase::getPosition(const UInt32 index) const
+{
+    return _mfPosition[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the GradientBackground::_mfPosition field.
 inline
 Real32 &GradientBackgroundBase::getPosition(const UInt32 index)
@@ -175,12 +257,7 @@ MFReal32 &GradientBackgroundBase::getPosition(void)
     return _mfPosition;
 }
 
-//! Get the GradientBackground::_mfPosition field.
-inline
-const MFReal32 &GradientBackgroundBase::getPosition(void) const
-{
-    return _mfPosition;
-}
+#endif
 
 OSG_END_NAMESPACE
 

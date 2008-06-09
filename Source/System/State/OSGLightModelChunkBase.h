@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING LightModelChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor4f           *getSFAmbient        (void);
-           SFGLenum            *getSFColorControl   (void);
-           SFBool              *getSFLocalViewer    (void);
 
-           Color4f             &getAmbient        (void);
+           SFColor4f           *editSFAmbient        (void);
+     const SFColor4f           *getSFAmbient        (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFAmbient        (void);
+#endif
+
+           SFGLenum            *editSFColorControl   (void);
+     const SFGLenum            *getSFColorControl   (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFColorControl   (void);
+#endif
+
+           SFBool              *editSFLocalViewer    (void);
+     const SFBool              *getSFLocalViewer    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFLocalViewer    (void);
+#endif
+
+
+           Color4f             &editAmbient        (void);
      const Color4f             &getAmbient        (void) const;
-           GLenum              &getColorControl   (void);
+#ifndef OSG_2_PREP
+           Color4f             &getAmbient        (void);
+#endif
+
+           GLenum              &editColorControl   (void);
      const GLenum              &getColorControl   (void) const;
-           bool                &getLocalViewer    (void);
+#ifndef OSG_2_PREP
+           GLenum              &getColorControl   (void);
+#endif
+
+           bool                &editLocalViewer    (void);
      const bool                &getLocalViewer    (void) const;
+#ifndef OSG_2_PREP
+           bool                &getLocalViewer    (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -269,6 +296,6 @@ typedef RefPtr<LightModelChunkPtr> LightModelChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTMODELCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightModelChunkBase.h,v 1.4 2008/06/05 05:02:28 vossg Exp $"
+#define OSGLIGHTMODELCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLightModelChunkBase.h,v 1.5 2008/06/09 07:31:52 vossg Exp $"
 
 #endif /* _OSGLIGHTMODELCHUNKBASE_H_ */

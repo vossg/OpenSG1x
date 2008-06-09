@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLightBase : public Light
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFPnt3f             *getSFPosition       (void);
 
-           Pnt3f               &getPosition       (void);
+           SFPnt3f             *editSFPosition       (void);
+     const SFPnt3f             *getSFPosition       (void) const;
+#ifndef OSG_2_PREP
+           SFPnt3f             *getSFPosition       (void);
+#endif
+
+
+           Pnt3f               &editPosition       (void);
      const Pnt3f               &getPosition       (void) const;
+#ifndef OSG_2_PREP
+           Pnt3f               &getPosition       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

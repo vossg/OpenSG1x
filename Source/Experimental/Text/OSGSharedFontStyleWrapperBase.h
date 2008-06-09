@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleWrapperBase : public FieldContaine
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFSharedFontStylePtr *getSFFStyleContainer(void);
 
-           SharedFontStylePtr  &getFStyleContainer(void);
+           SFSharedFontStylePtr *editSFFStyleContainer(void);
+     const SFSharedFontStylePtr *getSFFStyleContainer(void) const;
+#ifndef OSG_2_PREP
+           SFSharedFontStylePtr *getSFFStyleContainer(void);
+#endif
+
+
+           SharedFontStylePtr  &editFStyleContainer(void);
      const SharedFontStylePtr  &getFStyleContainer(void) const;
+#ifndef OSG_2_PREP
+           SharedFontStylePtr  &getFStyleContainer(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<SharedFontStyleWrapperPtr> SharedFontStyleWrapperRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.9 2008/06/05 05:02:23 vossg Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.10 2008/06/09 07:31:46 vossg Exp $"
 
 #endif /* _OSGSHAREDFONTSTYLEWRAPPERBASE_H_ */

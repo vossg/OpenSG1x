@@ -143,32 +143,104 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor4f           *getSFColor          (void);
-           SFTextureChunkPtr   *getSFTexture        (void);
-           MFPnt2f             *getMFTexCoords      (void);
-           SFReal32            *getSFRadialDistortion(void);
-           SFVec2f             *getSFCenterOfDistortion(void);
-           SFUInt16            *getSFHor            (void);
-           SFUInt16            *getSFVert           (void);
-           SFInt32             *getSFClearStencilBit(void);
 
-           Color4f             &getColor          (void);
+           SFColor4f           *editSFColor          (void);
+     const SFColor4f           *getSFColor          (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFColor          (void);
+#endif
+
+           SFTextureChunkPtr   *editSFTexture        (void);
+     const SFTextureChunkPtr   *getSFTexture        (void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFTexture        (void);
+#endif
+
+           MFPnt2f             *editMFTexCoords      (void);
+     const MFPnt2f             *getMFTexCoords      (void) const;
+#ifndef OSG_2_PREP
+           MFPnt2f             *getMFTexCoords      (void);
+#endif
+
+           SFReal32            *editSFRadialDistortion(void);
+     const SFReal32            *getSFRadialDistortion(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFRadialDistortion(void);
+#endif
+
+           SFVec2f             *editSFCenterOfDistortion(void);
+     const SFVec2f             *getSFCenterOfDistortion(void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFCenterOfDistortion(void);
+#endif
+
+           SFUInt16            *editSFHor            (void);
+     const SFUInt16            *getSFHor            (void) const;
+#ifndef OSG_2_PREP
+           SFUInt16            *getSFHor            (void);
+#endif
+
+           SFUInt16            *editSFVert           (void);
+     const SFUInt16            *getSFVert           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt16            *getSFVert           (void);
+#endif
+
+           SFInt32             *editSFClearStencilBit(void);
+     const SFInt32             *getSFClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFClearStencilBit(void);
+#endif
+
+
+           Color4f             &editColor          (void);
      const Color4f             &getColor          (void) const;
-           TextureChunkPtr     &getTexture        (void);
+#ifndef OSG_2_PREP
+           Color4f             &getColor          (void);
+#endif
+
+           TextureChunkPtr     &editTexture        (void);
      const TextureChunkPtr     &getTexture        (void) const;
-           Real32              &getRadialDistortion(void);
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getTexture        (void);
+#endif
+
+           Real32              &editRadialDistortion(void);
      const Real32              &getRadialDistortion(void) const;
-           Vec2f               &getCenterOfDistortion(void);
+#ifndef OSG_2_PREP
+           Real32              &getRadialDistortion(void);
+#endif
+
+           Vec2f               &editCenterOfDistortion(void);
      const Vec2f               &getCenterOfDistortion(void) const;
-           UInt16              &getHor            (void);
+#ifndef OSG_2_PREP
+           Vec2f               &getCenterOfDistortion(void);
+#endif
+
+           UInt16              &editHor            (void);
      const UInt16              &getHor            (void) const;
-           UInt16              &getVert           (void);
+#ifndef OSG_2_PREP
+           UInt16              &getHor            (void);
+#endif
+
+           UInt16              &editVert           (void);
      const UInt16              &getVert           (void) const;
-           Int32               &getClearStencilBit(void);
+#ifndef OSG_2_PREP
+           UInt16              &getVert           (void);
+#endif
+
+           Int32               &editClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           Int32               &getClearStencilBit(void);
+#endif
+
+           Pnt2f               &editTexCoords      (const UInt32 index);
+     const Pnt2f               &getTexCoords      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Pnt2f               &getTexCoords      (const UInt32 index);
            MFPnt2f             &getTexCoords      (void);
-     const MFPnt2f             &getTexCoords      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -309,6 +381,6 @@ typedef RefPtr<TextureBackgroundPtr> TextureBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.9 2008/06/05 05:02:31 vossg Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.10 2008/06/09 07:31:55 vossg Exp $"
 
 #endif /* _OSGTEXTUREBACKGROUNDBASE_H_ */

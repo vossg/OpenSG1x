@@ -72,13 +72,44 @@ OSG::UInt32 ShaderParameterChunkBase::getClassTypeId(void)
 
 //! Get the ShaderParameterChunk::_mfParameters field.
 inline
-MFShaderParameterPtr *ShaderParameterChunkBase::getMFParameters(void)
+const MFShaderParameterPtr *ShaderParameterChunkBase::getMFParameters(void) const
 {
     return &_mfParameters;
 }
 
+//! Get the ShaderParameterChunk::_mfParameters field.
+inline
+MFShaderParameterPtr *ShaderParameterChunkBase::editMFParameters(void)
+{
+    return &_mfParameters;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterChunk::_mfParameters field.
+inline
+MFShaderParameterPtr *ShaderParameterChunkBase::getMFParameters(void)
+{
+    return &_mfParameters;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the ShaderParameterChunk::_mfParameters field.
+inline
+ShaderParameterPtr &ShaderParameterChunkBase::editParameters(const UInt32 index)
+{
+    return _mfParameters[index];
+}
+
+//! Get the value of the \a index element the ShaderParameterChunk::_mfParameters field.
+inline
+const ShaderParameterPtr &ShaderParameterChunkBase::getParameters(const UInt32 index) const
+{
+    return _mfParameters[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ShaderParameterChunk::_mfParameters field.
 inline
 ShaderParameterPtr &ShaderParameterChunkBase::getParameters(const UInt32 index)
@@ -93,14 +124,9 @@ MFShaderParameterPtr &ShaderParameterChunkBase::getParameters(void)
     return _mfParameters;
 }
 
-//! Get the ShaderParameterChunk::_mfParameters field.
-inline
-const MFShaderParameterPtr &ShaderParameterChunkBase::getParameters(void) const
-{
-    return _mfParameters;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterChunkBase.inl,v 1.6 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterChunkBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
 

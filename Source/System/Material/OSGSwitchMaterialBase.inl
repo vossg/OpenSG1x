@@ -98,22 +98,54 @@ SwitchMaterialPtr SwitchMaterialBase::createEmpty(void)
 
 //! Get the SwitchMaterial::_mfMaterials field.
 inline
-MFMaterialPtr *SwitchMaterialBase::getMFMaterials(void)
+const MFMaterialPtr *SwitchMaterialBase::getMFMaterials(void) const
 {
     return &_mfMaterials;
 }
 
+//! Get the SwitchMaterial::_mfMaterials field.
+inline
+MFMaterialPtr *SwitchMaterialBase::editMFMaterials(void)
+{
+    return &_mfMaterials;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SwitchMaterial::_mfMaterials field.
+inline
+MFMaterialPtr *SwitchMaterialBase::getMFMaterials(void)
+{
+    return &_mfMaterials;
+}
+#endif
+
+//! Get the SwitchMaterial::_sfChoice field.
+inline
+const SFUInt32 *SwitchMaterialBase::getSFChoice(void) const
+{
+    return &_sfChoice;
+}
+
+//! Get the SwitchMaterial::_sfChoice field.
+inline
+SFUInt32 *SwitchMaterialBase::editSFChoice(void)
+{
+    return &_sfChoice;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SwitchMaterial::_sfChoice field.
 inline
 SFUInt32 *SwitchMaterialBase::getSFChoice(void)
 {
     return &_sfChoice;
 }
+#endif
 
 
 //! Get the value of the SwitchMaterial::_sfChoice field.
 inline
-UInt32 &SwitchMaterialBase::getChoice(void)
+UInt32 &SwitchMaterialBase::editChoice(void)
 {
     return _sfChoice.getValue();
 }
@@ -125,6 +157,15 @@ const UInt32 &SwitchMaterialBase::getChoice(void) const
     return _sfChoice.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SwitchMaterial::_sfChoice field.
+inline
+UInt32 &SwitchMaterialBase::getChoice(void)
+{
+    return _sfChoice.getValue();
+}
+#endif
+
 //! Set the value of the SwitchMaterial::_sfChoice field.
 inline
 void SwitchMaterialBase::setChoice(const UInt32 &value)
@@ -133,6 +174,21 @@ void SwitchMaterialBase::setChoice(const UInt32 &value)
 }
 
 
+//! Get the value of the \a index element the SwitchMaterial::_mfMaterials field.
+inline
+MaterialPtr &SwitchMaterialBase::editMaterials(const UInt32 index)
+{
+    return _mfMaterials[index];
+}
+
+//! Get the value of the \a index element the SwitchMaterial::_mfMaterials field.
+inline
+const MaterialPtr &SwitchMaterialBase::getMaterials(const UInt32 index) const
+{
+    return _mfMaterials[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SwitchMaterial::_mfMaterials field.
 inline
 MaterialPtr &SwitchMaterialBase::getMaterials(const UInt32 index)
@@ -147,14 +203,9 @@ MFMaterialPtr &SwitchMaterialBase::getMaterials(void)
     return _mfMaterials;
 }
 
-//! Get the SwitchMaterial::_mfMaterials field.
-inline
-const MFMaterialPtr &SwitchMaterialBase::getMaterials(void) const
-{
-    return _mfMaterials;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSwitchMaterialBase.inl,v 1.3 2008/06/05 05:02:25 vossg Exp $"
+#define OSGSWITCHMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSwitchMaterialBase.inl,v 1.4 2008/06/09 07:31:48 vossg Exp $"
 

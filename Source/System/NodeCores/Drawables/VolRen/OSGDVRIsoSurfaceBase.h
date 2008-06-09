@@ -134,22 +134,67 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRIsoSurfaceBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFIsoValue       (void);
-           SFReal32            *getSFIsoThickness   (void);
-           SFReal32            *getSFIsoOpacity     (void);
-           SFUInt32            *getSFAlphaMode      (void);
-           SFBool              *getSFSpecularLighting(void);
 
-           Real32              &getIsoValue       (void);
+           SFReal32            *editSFIsoValue       (void);
+     const SFReal32            *getSFIsoValue       (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFIsoValue       (void);
+#endif
+
+           SFReal32            *editSFIsoThickness   (void);
+     const SFReal32            *getSFIsoThickness   (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFIsoThickness   (void);
+#endif
+
+           SFReal32            *editSFIsoOpacity     (void);
+     const SFReal32            *getSFIsoOpacity     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFIsoOpacity     (void);
+#endif
+
+           SFUInt32            *editSFAlphaMode      (void);
+     const SFUInt32            *getSFAlphaMode      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFAlphaMode      (void);
+#endif
+
+           SFBool              *editSFSpecularLighting(void);
+     const SFBool              *getSFSpecularLighting(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSpecularLighting(void);
+#endif
+
+
+           Real32              &editIsoValue       (void);
      const Real32              &getIsoValue       (void) const;
-           Real32              &getIsoThickness   (void);
+#ifndef OSG_2_PREP
+           Real32              &getIsoValue       (void);
+#endif
+
+           Real32              &editIsoThickness   (void);
      const Real32              &getIsoThickness   (void) const;
-           Real32              &getIsoOpacity     (void);
+#ifndef OSG_2_PREP
+           Real32              &getIsoThickness   (void);
+#endif
+
+           Real32              &editIsoOpacity     (void);
      const Real32              &getIsoOpacity     (void) const;
-           UInt32              &getAlphaMode      (void);
+#ifndef OSG_2_PREP
+           Real32              &getIsoOpacity     (void);
+#endif
+
+           UInt32              &editAlphaMode      (void);
      const UInt32              &getAlphaMode      (void) const;
-           bool                &getSpecularLighting(void);
+#ifndef OSG_2_PREP
+           UInt32              &getAlphaMode      (void);
+#endif
+
+           bool                &editSpecularLighting(void);
      const bool                &getSpecularLighting(void) const;
+#ifndef OSG_2_PREP
+           bool                &getSpecularLighting(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

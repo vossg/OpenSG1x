@@ -98,176 +98,560 @@ GeometryPtr GeometryBase::createEmpty(void)
 
 //! Get the Geometry::_sfTypes field.
 inline
-SFGeoPTypesPtr *GeometryBase::getSFTypes(void)
+const SFGeoPTypesPtr *GeometryBase::getSFTypes(void) const
 {
     return &_sfTypes;
 }
 
+//! Get the Geometry::_sfTypes field.
+inline
+SFGeoPTypesPtr *GeometryBase::editSFTypes(void)
+{
+    return &_sfTypes;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Geometry::_sfTypes field.
+inline
+SFGeoPTypesPtr *GeometryBase::getSFTypes(void)
+{
+    return &_sfTypes;
+}
+#endif
+
+//! Get the Geometry::_sfLengths field.
+inline
+const SFGeoPLengthsPtr *GeometryBase::getSFLengths(void) const
+{
+    return &_sfLengths;
+}
+
+//! Get the Geometry::_sfLengths field.
+inline
+SFGeoPLengthsPtr *GeometryBase::editSFLengths(void)
+{
+    return &_sfLengths;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfLengths field.
 inline
 SFGeoPLengthsPtr *GeometryBase::getSFLengths(void)
 {
     return &_sfLengths;
 }
+#endif
 
+//! Get the Geometry::_sfPositions field.
+inline
+const SFGeoPositionsPtr *GeometryBase::getSFPositions(void) const
+{
+    return &_sfPositions;
+}
+
+//! Get the Geometry::_sfPositions field.
+inline
+SFGeoPositionsPtr *GeometryBase::editSFPositions(void)
+{
+    return &_sfPositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfPositions field.
 inline
 SFGeoPositionsPtr *GeometryBase::getSFPositions(void)
 {
     return &_sfPositions;
 }
+#endif
 
+//! Get the Geometry::_sfNormals field.
+inline
+const SFGeoNormalsPtr *GeometryBase::getSFNormals(void) const
+{
+    return &_sfNormals;
+}
+
+//! Get the Geometry::_sfNormals field.
+inline
+SFGeoNormalsPtr *GeometryBase::editSFNormals(void)
+{
+    return &_sfNormals;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfNormals field.
 inline
 SFGeoNormalsPtr *GeometryBase::getSFNormals(void)
 {
     return &_sfNormals;
 }
+#endif
 
+//! Get the Geometry::_sfColors field.
+inline
+const SFGeoColorsPtr *GeometryBase::getSFColors(void) const
+{
+    return &_sfColors;
+}
+
+//! Get the Geometry::_sfColors field.
+inline
+SFGeoColorsPtr *GeometryBase::editSFColors(void)
+{
+    return &_sfColors;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfColors field.
 inline
 SFGeoColorsPtr *GeometryBase::getSFColors(void)
 {
     return &_sfColors;
 }
+#endif
 
+//! Get the Geometry::_sfSecondaryColors field.
+inline
+const SFGeoColorsPtr *GeometryBase::getSFSecondaryColors(void) const
+{
+    return &_sfSecondaryColors;
+}
+
+//! Get the Geometry::_sfSecondaryColors field.
+inline
+SFGeoColorsPtr *GeometryBase::editSFSecondaryColors(void)
+{
+    return &_sfSecondaryColors;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfSecondaryColors field.
 inline
 SFGeoColorsPtr *GeometryBase::getSFSecondaryColors(void)
 {
     return &_sfSecondaryColors;
 }
+#endif
 
+//! Get the Geometry::_sfTexCoords field.
+inline
+const SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords(void) const
+{
+    return &_sfTexCoords;
+}
+
+//! Get the Geometry::_sfTexCoords field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::editSFTexCoords(void)
+{
+    return &_sfTexCoords;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfTexCoords field.
 inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords(void)
 {
     return &_sfTexCoords;
 }
+#endif
 
+//! Get the Geometry::_sfTexCoords1 field.
+inline
+const SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords1(void) const
+{
+    return &_sfTexCoords1;
+}
+
+//! Get the Geometry::_sfTexCoords1 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::editSFTexCoords1(void)
+{
+    return &_sfTexCoords1;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfTexCoords1 field.
 inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords1(void)
 {
     return &_sfTexCoords1;
 }
+#endif
 
+//! Get the Geometry::_sfTexCoords2 field.
+inline
+const SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords2(void) const
+{
+    return &_sfTexCoords2;
+}
+
+//! Get the Geometry::_sfTexCoords2 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::editSFTexCoords2(void)
+{
+    return &_sfTexCoords2;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfTexCoords2 field.
 inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords2(void)
 {
     return &_sfTexCoords2;
 }
+#endif
 
+//! Get the Geometry::_sfTexCoords3 field.
+inline
+const SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords3(void) const
+{
+    return &_sfTexCoords3;
+}
+
+//! Get the Geometry::_sfTexCoords3 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::editSFTexCoords3(void)
+{
+    return &_sfTexCoords3;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfTexCoords3 field.
 inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords3(void)
 {
     return &_sfTexCoords3;
 }
+#endif
 
+//! Get the Geometry::_sfTexCoords4 field.
+inline
+const SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords4(void) const
+{
+    return &_sfTexCoords4;
+}
+
+//! Get the Geometry::_sfTexCoords4 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::editSFTexCoords4(void)
+{
+    return &_sfTexCoords4;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfTexCoords4 field.
 inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords4(void)
 {
     return &_sfTexCoords4;
 }
+#endif
 
+//! Get the Geometry::_sfTexCoords5 field.
+inline
+const SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords5(void) const
+{
+    return &_sfTexCoords5;
+}
+
+//! Get the Geometry::_sfTexCoords5 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::editSFTexCoords5(void)
+{
+    return &_sfTexCoords5;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfTexCoords5 field.
 inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords5(void)
 {
     return &_sfTexCoords5;
 }
+#endif
 
+//! Get the Geometry::_sfTexCoords6 field.
+inline
+const SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords6(void) const
+{
+    return &_sfTexCoords6;
+}
+
+//! Get the Geometry::_sfTexCoords6 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::editSFTexCoords6(void)
+{
+    return &_sfTexCoords6;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfTexCoords6 field.
 inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords6(void)
 {
     return &_sfTexCoords6;
 }
+#endif
 
+//! Get the Geometry::_sfTexCoords7 field.
+inline
+const SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords7(void) const
+{
+    return &_sfTexCoords7;
+}
+
+//! Get the Geometry::_sfTexCoords7 field.
+inline
+SFGeoTexCoordsPtr *GeometryBase::editSFTexCoords7(void)
+{
+    return &_sfTexCoords7;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfTexCoords7 field.
 inline
 SFGeoTexCoordsPtr *GeometryBase::getSFTexCoords7(void)
 {
     return &_sfTexCoords7;
 }
+#endif
 
+//! Get the Geometry::_sfIndices field.
+inline
+const SFGeoIndicesPtr *GeometryBase::getSFIndices(void) const
+{
+    return &_sfIndices;
+}
+
+//! Get the Geometry::_sfIndices field.
+inline
+SFGeoIndicesPtr *GeometryBase::editSFIndices(void)
+{
+    return &_sfIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfIndices field.
 inline
 SFGeoIndicesPtr *GeometryBase::getSFIndices(void)
 {
     return &_sfIndices;
 }
+#endif
 
+//! Get the Geometry::_mfIndexMapping field.
+inline
+const MFUInt16 *GeometryBase::getMFIndexMapping(void) const
+{
+    return &_mfIndexMapping;
+}
+
+//! Get the Geometry::_mfIndexMapping field.
+inline
+MFUInt16 *GeometryBase::editMFIndexMapping(void)
+{
+    return &_mfIndexMapping;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_mfIndexMapping field.
 inline
 MFUInt16 *GeometryBase::getMFIndexMapping(void)
 {
     return &_mfIndexMapping;
 }
+#endif
 
+//! Get the Geometry::_sfDlistCache field.
+inline
+const SFBool *GeometryBase::getSFDlistCache(void) const
+{
+    return &_sfDlistCache;
+}
+
+//! Get the Geometry::_sfDlistCache field.
+inline
+SFBool *GeometryBase::editSFDlistCache(void)
+{
+    return &_sfDlistCache;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfDlistCache field.
 inline
 SFBool *GeometryBase::getSFDlistCache(void)
 {
     return &_sfDlistCache;
 }
+#endif
 
+//! Get the Geometry::_sfGLId field.
+inline
+const SFInt32 *GeometryBase::getSFGLId(void) const
+{
+    return &_sfGLId;
+}
+
+//! Get the Geometry::_sfGLId field.
+inline
+SFInt32 *GeometryBase::editSFGLId(void)
+{
+    return &_sfGLId;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfGLId field.
 inline
 SFInt32 *GeometryBase::getSFGLId(void)
 {
     return &_sfGLId;
 }
+#endif
 
+//! Get the Geometry::_sfIgnoreGLForAspect field.
+inline
+const SFInt32 *GeometryBase::getSFIgnoreGLForAspect(void) const
+{
+    return &_sfIgnoreGLForAspect;
+}
+
+//! Get the Geometry::_sfIgnoreGLForAspect field.
+inline
+SFInt32 *GeometryBase::editSFIgnoreGLForAspect(void)
+{
+    return &_sfIgnoreGLForAspect;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfIgnoreGLForAspect field.
 inline
 SFInt32 *GeometryBase::getSFIgnoreGLForAspect(void)
 {
     return &_sfIgnoreGLForAspect;
 }
+#endif
 
+//! Get the Geometry::_sfMinindex field.
+inline
+const SFUInt32 *GeometryBase::getSFMinindex(void) const
+{
+    return &_sfMinindex;
+}
+
+//! Get the Geometry::_sfMinindex field.
+inline
+SFUInt32 *GeometryBase::editSFMinindex(void)
+{
+    return &_sfMinindex;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfMinindex field.
 inline
 SFUInt32 *GeometryBase::getSFMinindex(void)
 {
     return &_sfMinindex;
 }
+#endif
 
+//! Get the Geometry::_sfMaxindex field.
+inline
+const SFUInt32 *GeometryBase::getSFMaxindex(void) const
+{
+    return &_sfMaxindex;
+}
+
+//! Get the Geometry::_sfMaxindex field.
+inline
+SFUInt32 *GeometryBase::editSFMaxindex(void)
+{
+    return &_sfMaxindex;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfMaxindex field.
 inline
 SFUInt32 *GeometryBase::getSFMaxindex(void)
 {
     return &_sfMaxindex;
 }
+#endif
 
+//! Get the Geometry::_mfLowindices field.
+inline
+const MFUInt32 *GeometryBase::getMFLowindices(void) const
+{
+    return &_mfLowindices;
+}
+
+//! Get the Geometry::_mfLowindices field.
+inline
+MFUInt32 *GeometryBase::editMFLowindices(void)
+{
+    return &_mfLowindices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_mfLowindices field.
 inline
 MFUInt32 *GeometryBase::getMFLowindices(void)
 {
     return &_mfLowindices;
 }
+#endif
 
+//! Get the Geometry::_mfHighindices field.
+inline
+const MFUInt32 *GeometryBase::getMFHighindices(void) const
+{
+    return &_mfHighindices;
+}
+
+//! Get the Geometry::_mfHighindices field.
+inline
+MFUInt32 *GeometryBase::editMFHighindices(void)
+{
+    return &_mfHighindices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_mfHighindices field.
 inline
 MFUInt32 *GeometryBase::getMFHighindices(void)
 {
     return &_mfHighindices;
 }
+#endif
 
+//! Get the Geometry::_sfVbo field.
+inline
+const SFBool *GeometryBase::getSFVbo(void) const
+{
+    return &_sfVbo;
+}
+
+//! Get the Geometry::_sfVbo field.
+inline
+SFBool *GeometryBase::editSFVbo(void)
+{
+    return &_sfVbo;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Geometry::_sfVbo field.
 inline
 SFBool *GeometryBase::getSFVbo(void)
 {
     return &_sfVbo;
 }
+#endif
 
 
 //! Get the value of the Geometry::_sfTypes field.
 inline
-GeoPTypesPtr &GeometryBase::getTypes(void)
+GeoPTypesPtr &GeometryBase::editTypes(void)
 {
     return _sfTypes.getValue();
 }
@@ -279,6 +663,15 @@ const GeoPTypesPtr &GeometryBase::getTypes(void) const
     return _sfTypes.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTypes field.
+inline
+GeoPTypesPtr &GeometryBase::getTypes(void)
+{
+    return _sfTypes.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTypes field.
 inline
 void GeometryBase::setTypes(const GeoPTypesPtr &value)
@@ -288,7 +681,7 @@ void GeometryBase::setTypes(const GeoPTypesPtr &value)
 
 //! Get the value of the Geometry::_sfLengths field.
 inline
-GeoPLengthsPtr &GeometryBase::getLengths(void)
+GeoPLengthsPtr &GeometryBase::editLengths(void)
 {
     return _sfLengths.getValue();
 }
@@ -300,6 +693,15 @@ const GeoPLengthsPtr &GeometryBase::getLengths(void) const
     return _sfLengths.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfLengths field.
+inline
+GeoPLengthsPtr &GeometryBase::getLengths(void)
+{
+    return _sfLengths.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfLengths field.
 inline
 void GeometryBase::setLengths(const GeoPLengthsPtr &value)
@@ -309,7 +711,7 @@ void GeometryBase::setLengths(const GeoPLengthsPtr &value)
 
 //! Get the value of the Geometry::_sfPositions field.
 inline
-GeoPositionsPtr &GeometryBase::getPositions(void)
+GeoPositionsPtr &GeometryBase::editPositions(void)
 {
     return _sfPositions.getValue();
 }
@@ -321,6 +723,15 @@ const GeoPositionsPtr &GeometryBase::getPositions(void) const
     return _sfPositions.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfPositions field.
+inline
+GeoPositionsPtr &GeometryBase::getPositions(void)
+{
+    return _sfPositions.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfPositions field.
 inline
 void GeometryBase::setPositions(const GeoPositionsPtr &value)
@@ -330,7 +741,7 @@ void GeometryBase::setPositions(const GeoPositionsPtr &value)
 
 //! Get the value of the Geometry::_sfNormals field.
 inline
-GeoNormalsPtr &GeometryBase::getNormals(void)
+GeoNormalsPtr &GeometryBase::editNormals(void)
 {
     return _sfNormals.getValue();
 }
@@ -342,6 +753,15 @@ const GeoNormalsPtr &GeometryBase::getNormals(void) const
     return _sfNormals.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfNormals field.
+inline
+GeoNormalsPtr &GeometryBase::getNormals(void)
+{
+    return _sfNormals.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfNormals field.
 inline
 void GeometryBase::setNormals(const GeoNormalsPtr &value)
@@ -351,7 +771,7 @@ void GeometryBase::setNormals(const GeoNormalsPtr &value)
 
 //! Get the value of the Geometry::_sfColors field.
 inline
-GeoColorsPtr &GeometryBase::getColors(void)
+GeoColorsPtr &GeometryBase::editColors(void)
 {
     return _sfColors.getValue();
 }
@@ -363,6 +783,15 @@ const GeoColorsPtr &GeometryBase::getColors(void) const
     return _sfColors.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfColors field.
+inline
+GeoColorsPtr &GeometryBase::getColors(void)
+{
+    return _sfColors.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfColors field.
 inline
 void GeometryBase::setColors(const GeoColorsPtr &value)
@@ -372,7 +801,7 @@ void GeometryBase::setColors(const GeoColorsPtr &value)
 
 //! Get the value of the Geometry::_sfSecondaryColors field.
 inline
-GeoColorsPtr &GeometryBase::getSecondaryColors(void)
+GeoColorsPtr &GeometryBase::editSecondaryColors(void)
 {
     return _sfSecondaryColors.getValue();
 }
@@ -384,6 +813,15 @@ const GeoColorsPtr &GeometryBase::getSecondaryColors(void) const
     return _sfSecondaryColors.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfSecondaryColors field.
+inline
+GeoColorsPtr &GeometryBase::getSecondaryColors(void)
+{
+    return _sfSecondaryColors.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfSecondaryColors field.
 inline
 void GeometryBase::setSecondaryColors(const GeoColorsPtr &value)
@@ -393,7 +831,7 @@ void GeometryBase::setSecondaryColors(const GeoColorsPtr &value)
 
 //! Get the value of the Geometry::_sfTexCoords field.
 inline
-GeoTexCoordsPtr &GeometryBase::getTexCoords(void)
+GeoTexCoordsPtr &GeometryBase::editTexCoords(void)
 {
     return _sfTexCoords.getValue();
 }
@@ -405,6 +843,15 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords(void) const
     return _sfTexCoords.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTexCoords field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords(void)
+{
+    return _sfTexCoords.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTexCoords field.
 inline
 void GeometryBase::setTexCoords(const GeoTexCoordsPtr &value)
@@ -414,7 +861,7 @@ void GeometryBase::setTexCoords(const GeoTexCoordsPtr &value)
 
 //! Get the value of the Geometry::_sfTexCoords1 field.
 inline
-GeoTexCoordsPtr &GeometryBase::getTexCoords1(void)
+GeoTexCoordsPtr &GeometryBase::editTexCoords1(void)
 {
     return _sfTexCoords1.getValue();
 }
@@ -426,6 +873,15 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords1(void) const
     return _sfTexCoords1.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTexCoords1 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords1(void)
+{
+    return _sfTexCoords1.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTexCoords1 field.
 inline
 void GeometryBase::setTexCoords1(const GeoTexCoordsPtr &value)
@@ -435,7 +891,7 @@ void GeometryBase::setTexCoords1(const GeoTexCoordsPtr &value)
 
 //! Get the value of the Geometry::_sfTexCoords2 field.
 inline
-GeoTexCoordsPtr &GeometryBase::getTexCoords2(void)
+GeoTexCoordsPtr &GeometryBase::editTexCoords2(void)
 {
     return _sfTexCoords2.getValue();
 }
@@ -447,6 +903,15 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords2(void) const
     return _sfTexCoords2.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTexCoords2 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords2(void)
+{
+    return _sfTexCoords2.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTexCoords2 field.
 inline
 void GeometryBase::setTexCoords2(const GeoTexCoordsPtr &value)
@@ -456,7 +921,7 @@ void GeometryBase::setTexCoords2(const GeoTexCoordsPtr &value)
 
 //! Get the value of the Geometry::_sfTexCoords3 field.
 inline
-GeoTexCoordsPtr &GeometryBase::getTexCoords3(void)
+GeoTexCoordsPtr &GeometryBase::editTexCoords3(void)
 {
     return _sfTexCoords3.getValue();
 }
@@ -468,6 +933,15 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords3(void) const
     return _sfTexCoords3.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTexCoords3 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords3(void)
+{
+    return _sfTexCoords3.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTexCoords3 field.
 inline
 void GeometryBase::setTexCoords3(const GeoTexCoordsPtr &value)
@@ -477,7 +951,7 @@ void GeometryBase::setTexCoords3(const GeoTexCoordsPtr &value)
 
 //! Get the value of the Geometry::_sfTexCoords4 field.
 inline
-GeoTexCoordsPtr &GeometryBase::getTexCoords4(void)
+GeoTexCoordsPtr &GeometryBase::editTexCoords4(void)
 {
     return _sfTexCoords4.getValue();
 }
@@ -489,6 +963,15 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords4(void) const
     return _sfTexCoords4.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTexCoords4 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords4(void)
+{
+    return _sfTexCoords4.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTexCoords4 field.
 inline
 void GeometryBase::setTexCoords4(const GeoTexCoordsPtr &value)
@@ -498,7 +981,7 @@ void GeometryBase::setTexCoords4(const GeoTexCoordsPtr &value)
 
 //! Get the value of the Geometry::_sfTexCoords5 field.
 inline
-GeoTexCoordsPtr &GeometryBase::getTexCoords5(void)
+GeoTexCoordsPtr &GeometryBase::editTexCoords5(void)
 {
     return _sfTexCoords5.getValue();
 }
@@ -510,6 +993,15 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords5(void) const
     return _sfTexCoords5.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTexCoords5 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords5(void)
+{
+    return _sfTexCoords5.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTexCoords5 field.
 inline
 void GeometryBase::setTexCoords5(const GeoTexCoordsPtr &value)
@@ -519,7 +1011,7 @@ void GeometryBase::setTexCoords5(const GeoTexCoordsPtr &value)
 
 //! Get the value of the Geometry::_sfTexCoords6 field.
 inline
-GeoTexCoordsPtr &GeometryBase::getTexCoords6(void)
+GeoTexCoordsPtr &GeometryBase::editTexCoords6(void)
 {
     return _sfTexCoords6.getValue();
 }
@@ -531,6 +1023,15 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords6(void) const
     return _sfTexCoords6.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTexCoords6 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords6(void)
+{
+    return _sfTexCoords6.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTexCoords6 field.
 inline
 void GeometryBase::setTexCoords6(const GeoTexCoordsPtr &value)
@@ -540,7 +1041,7 @@ void GeometryBase::setTexCoords6(const GeoTexCoordsPtr &value)
 
 //! Get the value of the Geometry::_sfTexCoords7 field.
 inline
-GeoTexCoordsPtr &GeometryBase::getTexCoords7(void)
+GeoTexCoordsPtr &GeometryBase::editTexCoords7(void)
 {
     return _sfTexCoords7.getValue();
 }
@@ -552,6 +1053,15 @@ const GeoTexCoordsPtr &GeometryBase::getTexCoords7(void) const
     return _sfTexCoords7.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfTexCoords7 field.
+inline
+GeoTexCoordsPtr &GeometryBase::getTexCoords7(void)
+{
+    return _sfTexCoords7.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfTexCoords7 field.
 inline
 void GeometryBase::setTexCoords7(const GeoTexCoordsPtr &value)
@@ -561,7 +1071,7 @@ void GeometryBase::setTexCoords7(const GeoTexCoordsPtr &value)
 
 //! Get the value of the Geometry::_sfIndices field.
 inline
-GeoIndicesPtr &GeometryBase::getIndices(void)
+GeoIndicesPtr &GeometryBase::editIndices(void)
 {
     return _sfIndices.getValue();
 }
@@ -573,6 +1083,15 @@ const GeoIndicesPtr &GeometryBase::getIndices(void) const
     return _sfIndices.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfIndices field.
+inline
+GeoIndicesPtr &GeometryBase::getIndices(void)
+{
+    return _sfIndices.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfIndices field.
 inline
 void GeometryBase::setIndices(const GeoIndicesPtr &value)
@@ -582,7 +1101,7 @@ void GeometryBase::setIndices(const GeoIndicesPtr &value)
 
 //! Get the value of the Geometry::_sfDlistCache field.
 inline
-bool &GeometryBase::getDlistCache(void)
+bool &GeometryBase::editDlistCache(void)
 {
     return _sfDlistCache.getValue();
 }
@@ -594,6 +1113,15 @@ const bool &GeometryBase::getDlistCache(void) const
     return _sfDlistCache.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfDlistCache field.
+inline
+bool &GeometryBase::getDlistCache(void)
+{
+    return _sfDlistCache.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfDlistCache field.
 inline
 void GeometryBase::setDlistCache(const bool &value)
@@ -603,7 +1131,7 @@ void GeometryBase::setDlistCache(const bool &value)
 
 //! Get the value of the Geometry::_sfGLId field.
 inline
-Int32 &GeometryBase::getGLId(void)
+Int32 &GeometryBase::editGLId(void)
 {
     return _sfGLId.getValue();
 }
@@ -615,6 +1143,15 @@ const Int32 &GeometryBase::getGLId(void) const
     return _sfGLId.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfGLId field.
+inline
+Int32 &GeometryBase::getGLId(void)
+{
+    return _sfGLId.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfGLId field.
 inline
 void GeometryBase::setGLId(const Int32 &value)
@@ -624,7 +1161,7 @@ void GeometryBase::setGLId(const Int32 &value)
 
 //! Get the value of the Geometry::_sfIgnoreGLForAspect field.
 inline
-Int32 &GeometryBase::getIgnoreGLForAspect(void)
+Int32 &GeometryBase::editIgnoreGLForAspect(void)
 {
     return _sfIgnoreGLForAspect.getValue();
 }
@@ -636,6 +1173,15 @@ const Int32 &GeometryBase::getIgnoreGLForAspect(void) const
     return _sfIgnoreGLForAspect.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfIgnoreGLForAspect field.
+inline
+Int32 &GeometryBase::getIgnoreGLForAspect(void)
+{
+    return _sfIgnoreGLForAspect.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfIgnoreGLForAspect field.
 inline
 void GeometryBase::setIgnoreGLForAspect(const Int32 &value)
@@ -645,7 +1191,7 @@ void GeometryBase::setIgnoreGLForAspect(const Int32 &value)
 
 //! Get the value of the Geometry::_sfMinindex field.
 inline
-UInt32 &GeometryBase::getMinindex(void)
+UInt32 &GeometryBase::editMinindex(void)
 {
     return _sfMinindex.getValue();
 }
@@ -657,6 +1203,15 @@ const UInt32 &GeometryBase::getMinindex(void) const
     return _sfMinindex.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfMinindex field.
+inline
+UInt32 &GeometryBase::getMinindex(void)
+{
+    return _sfMinindex.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfMinindex field.
 inline
 void GeometryBase::setMinindex(const UInt32 &value)
@@ -666,7 +1221,7 @@ void GeometryBase::setMinindex(const UInt32 &value)
 
 //! Get the value of the Geometry::_sfMaxindex field.
 inline
-UInt32 &GeometryBase::getMaxindex(void)
+UInt32 &GeometryBase::editMaxindex(void)
 {
     return _sfMaxindex.getValue();
 }
@@ -678,6 +1233,15 @@ const UInt32 &GeometryBase::getMaxindex(void) const
     return _sfMaxindex.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfMaxindex field.
+inline
+UInt32 &GeometryBase::getMaxindex(void)
+{
+    return _sfMaxindex.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfMaxindex field.
 inline
 void GeometryBase::setMaxindex(const UInt32 &value)
@@ -687,7 +1251,7 @@ void GeometryBase::setMaxindex(const UInt32 &value)
 
 //! Get the value of the Geometry::_sfVbo field.
 inline
-bool &GeometryBase::getVbo(void)
+bool &GeometryBase::editVbo(void)
 {
     return _sfVbo.getValue();
 }
@@ -699,6 +1263,15 @@ const bool &GeometryBase::getVbo(void) const
     return _sfVbo.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Geometry::_sfVbo field.
+inline
+bool &GeometryBase::getVbo(void)
+{
+    return _sfVbo.getValue();
+}
+#endif
+
 //! Set the value of the Geometry::_sfVbo field.
 inline
 void GeometryBase::setVbo(const bool &value)
@@ -707,6 +1280,21 @@ void GeometryBase::setVbo(const bool &value)
 }
 
 
+//! Get the value of the \a index element the Geometry::_mfIndexMapping field.
+inline
+UInt16 &GeometryBase::editIndexMapping(const UInt32 index)
+{
+    return _mfIndexMapping[index];
+}
+
+//! Get the value of the \a index element the Geometry::_mfIndexMapping field.
+inline
+const UInt16 &GeometryBase::getIndexMapping(const UInt32 index) const
+{
+    return _mfIndexMapping[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Geometry::_mfIndexMapping field.
 inline
 UInt16 &GeometryBase::getIndexMapping(const UInt32 index)
@@ -721,13 +1309,23 @@ MFUInt16 &GeometryBase::getIndexMapping(void)
     return _mfIndexMapping;
 }
 
-//! Get the Geometry::_mfIndexMapping field.
+#endif
+
+//! Get the value of the \a index element the Geometry::_mfLowindices field.
 inline
-const MFUInt16 &GeometryBase::getIndexMapping(void) const
+UInt32 &GeometryBase::editLowindices(const UInt32 index)
 {
-    return _mfIndexMapping;
+    return _mfLowindices[index];
 }
 
+//! Get the value of the \a index element the Geometry::_mfLowindices field.
+inline
+const UInt32 &GeometryBase::getLowindices(const UInt32 index) const
+{
+    return _mfLowindices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Geometry::_mfLowindices field.
 inline
 UInt32 &GeometryBase::getLowindices(const UInt32 index)
@@ -742,13 +1340,23 @@ MFUInt32 &GeometryBase::getLowindices(void)
     return _mfLowindices;
 }
 
-//! Get the Geometry::_mfLowindices field.
+#endif
+
+//! Get the value of the \a index element the Geometry::_mfHighindices field.
 inline
-const MFUInt32 &GeometryBase::getLowindices(void) const
+UInt32 &GeometryBase::editHighindices(const UInt32 index)
 {
-    return _mfLowindices;
+    return _mfHighindices[index];
 }
 
+//! Get the value of the \a index element the Geometry::_mfHighindices field.
+inline
+const UInt32 &GeometryBase::getHighindices(const UInt32 index) const
+{
+    return _mfHighindices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Geometry::_mfHighindices field.
 inline
 UInt32 &GeometryBase::getHighindices(const UInt32 index)
@@ -763,12 +1371,7 @@ MFUInt32 &GeometryBase::getHighindices(void)
     return _mfHighindices;
 }
 
-//! Get the Geometry::_mfHighindices field.
-inline
-const MFUInt32 &GeometryBase::getHighindices(void) const
-{
-    return _mfHighindices;
-}
+#endif
 
 OSG_END_NAMESPACE
 

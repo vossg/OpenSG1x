@@ -98,22 +98,54 @@ DisplayFilterForegroundPtr DisplayFilterForegroundBase::createEmpty(void)
 
 //! Get the DisplayFilterForeground::_mfFilter field.
 inline
-MFDisplayFilterPtr *DisplayFilterForegroundBase::getMFFilter(void)
+const MFDisplayFilterPtr *DisplayFilterForegroundBase::getMFFilter(void) const
 {
     return &_mfFilter;
 }
 
+//! Get the DisplayFilterForeground::_mfFilter field.
+inline
+MFDisplayFilterPtr *DisplayFilterForegroundBase::editMFFilter(void)
+{
+    return &_mfFilter;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DisplayFilterForeground::_mfFilter field.
+inline
+MFDisplayFilterPtr *DisplayFilterForegroundBase::getMFFilter(void)
+{
+    return &_mfFilter;
+}
+#endif
+
+//! Get the DisplayFilterForeground::_sfServer field.
+inline
+const SFString *DisplayFilterForegroundBase::getSFServer(void) const
+{
+    return &_sfServer;
+}
+
+//! Get the DisplayFilterForeground::_sfServer field.
+inline
+SFString *DisplayFilterForegroundBase::editSFServer(void)
+{
+    return &_sfServer;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayFilterForeground::_sfServer field.
 inline
 SFString *DisplayFilterForegroundBase::getSFServer(void)
 {
     return &_sfServer;
 }
+#endif
 
 
 //! Get the value of the DisplayFilterForeground::_sfServer field.
 inline
-std::string &DisplayFilterForegroundBase::getServer(void)
+std::string &DisplayFilterForegroundBase::editServer(void)
 {
     return _sfServer.getValue();
 }
@@ -125,6 +157,15 @@ const std::string &DisplayFilterForegroundBase::getServer(void) const
     return _sfServer.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayFilterForeground::_sfServer field.
+inline
+std::string &DisplayFilterForegroundBase::getServer(void)
+{
+    return _sfServer.getValue();
+}
+#endif
+
 //! Set the value of the DisplayFilterForeground::_sfServer field.
 inline
 void DisplayFilterForegroundBase::setServer(const std::string &value)
@@ -133,6 +174,21 @@ void DisplayFilterForegroundBase::setServer(const std::string &value)
 }
 
 
+//! Get the value of the \a index element the DisplayFilterForeground::_mfFilter field.
+inline
+DisplayFilterPtr &DisplayFilterForegroundBase::editFilter(const UInt32 index)
+{
+    return _mfFilter[index];
+}
+
+//! Get the value of the \a index element the DisplayFilterForeground::_mfFilter field.
+inline
+const DisplayFilterPtr &DisplayFilterForegroundBase::getFilter(const UInt32 index) const
+{
+    return _mfFilter[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the DisplayFilterForeground::_mfFilter field.
 inline
 DisplayFilterPtr &DisplayFilterForegroundBase::getFilter(const UInt32 index)
@@ -147,12 +203,7 @@ MFDisplayFilterPtr &DisplayFilterForegroundBase::getFilter(void)
     return _mfFilter;
 }
 
-//! Get the DisplayFilterForeground::_mfFilter field.
-inline
-const MFDisplayFilterPtr &DisplayFilterForegroundBase::getFilter(void) const
-{
-    return _mfFilter;
-}
+#endif
 
 OSG_END_NAMESPACE
 

@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING ParallelComposerBase : public ImageComposer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFShort          (void);
-           SFBool              *getSFAlpha          (void);
-           SFString            *getSFPcLibPath      (void);
 
-           bool                &getShort          (void);
+           SFBool              *editSFShort          (void);
+     const SFBool              *getSFShort          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFShort          (void);
+#endif
+
+           SFBool              *editSFAlpha          (void);
+     const SFBool              *getSFAlpha          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAlpha          (void);
+#endif
+
+           SFString            *editSFPcLibPath      (void);
+     const SFString            *getSFPcLibPath      (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFPcLibPath      (void);
+#endif
+
+
+           bool                &editShort          (void);
      const bool                &getShort          (void) const;
-           bool                &getAlpha          (void);
+#ifndef OSG_2_PREP
+           bool                &getShort          (void);
+#endif
+
+           bool                &editAlpha          (void);
      const bool                &getAlpha          (void) const;
-           std::string         &getPcLibPath      (void);
+#ifndef OSG_2_PREP
+           bool                &getAlpha          (void);
+#endif
+
+           std::string         &editPcLibPath      (void);
      const std::string         &getPcLibPath      (void) const;
+#ifndef OSG_2_PREP
+           std::string         &getPcLibPath      (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -269,6 +296,6 @@ typedef RefPtr<ParallelComposerPtr> ParallelComposerRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPARALLELCOMPOSERBASE_HEADER_CVSID "@(#)$Id: OSGParallelComposerBase.h,v 1.2 2008/06/05 05:02:25 vossg Exp $"
+#define OSGPARALLELCOMPOSERBASE_HEADER_CVSID "@(#)$Id: OSGParallelComposerBase.h,v 1.3 2008/06/09 07:31:47 vossg Exp $"
 
 #endif /* _OSGPARALLELCOMPOSERBASE_H_ */

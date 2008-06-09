@@ -134,42 +134,42 @@ FieldDescription *BlendChunkBase::_desc[] =
                      "srcFactor", 
                      SrcFactorFieldId, SrcFactorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFSrcFactor)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::editSFSrcFactor)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "destFactor", 
                      DestFactorFieldId, DestFactorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFDestFactor)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::editSFDestFactor)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "equation", 
                      EquationFieldId, EquationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFEquation)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::editSFEquation)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFColor)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::editSFColor)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "alphaFunc", 
                      AlphaFuncFieldId, AlphaFuncFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFAlphaFunc)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::editSFAlphaFunc)),
     new FieldDescription(SFReal32::getClassType(), 
                      "alphaValue", 
                      AlphaValueFieldId, AlphaValueFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFAlphaValue)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::editSFAlphaValue)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "alphaSrcFactor", 
                      AlphaSrcFactorFieldId, AlphaSrcFactorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFAlphaSrcFactor)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::editSFAlphaSrcFactor)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "alphaDestFactor", 
                      AlphaDestFactorFieldId, AlphaDestFactorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::getSFAlphaDestFactor))
+                     reinterpret_cast<FieldAccessMethod>(&BlendChunkBase::editSFAlphaDestFactor))
 };
 
 
@@ -535,7 +535,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(BlendChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDCHUNKBASE_INLINE_CVSID;
 

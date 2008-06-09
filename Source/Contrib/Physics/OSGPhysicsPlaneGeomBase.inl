@@ -98,15 +98,31 @@ PhysicsPlaneGeomPtr PhysicsPlaneGeomBase::createEmpty(void)
 
 //! Get the PhysicsPlaneGeom::_sfParams field.
 inline
-SFVec4f *PhysicsPlaneGeomBase::getSFParams(void)
+const SFVec4f *PhysicsPlaneGeomBase::getSFParams(void) const
 {
     return &_sfParams;
 }
 
+//! Get the PhysicsPlaneGeom::_sfParams field.
+inline
+SFVec4f *PhysicsPlaneGeomBase::editSFParams(void)
+{
+    return &_sfParams;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsPlaneGeom::_sfParams field.
+inline
+SFVec4f *PhysicsPlaneGeomBase::getSFParams(void)
+{
+    return &_sfParams;
+}
+#endif
+
 
 //! Get the value of the PhysicsPlaneGeom::_sfParams field.
 inline
-Vec4f &PhysicsPlaneGeomBase::getParams(void)
+Vec4f &PhysicsPlaneGeomBase::editParams(void)
 {
     return _sfParams.getValue();
 }
@@ -118,6 +134,15 @@ const Vec4f &PhysicsPlaneGeomBase::getParams(void) const
     return _sfParams.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsPlaneGeom::_sfParams field.
+inline
+Vec4f &PhysicsPlaneGeomBase::getParams(void)
+{
+    return _sfParams.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsPlaneGeom::_sfParams field.
 inline
 void PhysicsPlaneGeomBase::setParams(const Vec4f &value)
@@ -128,5 +153,5 @@ void PhysicsPlaneGeomBase::setParams(const Vec4f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSPLANEGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsPlaneGeomBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSPLANEGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsPlaneGeomBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

@@ -110,27 +110,27 @@ FieldDescription *SortFirstWindowBase::_desc[] =
                      "compression", 
                      CompressionFieldId, CompressionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getSFCompression)),
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::editSFCompression)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "subtileSize", 
                      SubtileSizeFieldId, SubtileSizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getSFSubtileSize)),
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::editSFSubtileSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "compose", 
                      ComposeFieldId, ComposeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getSFCompose)),
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::editSFCompose)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "region", 
                      RegionFieldId, RegionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getMFRegion)),
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::editMFRegion)),
     new FieldDescription(SFBool::getClassType(), 
                      "useFaceDistribution", 
                      UseFaceDistributionFieldId, UseFaceDistributionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::getSFUseFaceDistribution))
+                     reinterpret_cast<FieldAccessMethod>(&SortFirstWindowBase::editSFUseFaceDistribution))
 };
 
 
@@ -422,7 +422,7 @@ DataType FieldDataTraits<SortFirstWindowPtr>::_type("SortFirstWindowPtr", "Clust
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSORTFIRSTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSORTFIRSTWINDOWBASE_INLINE_CVSID;
 

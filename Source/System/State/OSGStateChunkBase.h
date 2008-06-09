@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING StateChunkBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFIgnore         (void);
 
-           bool                &getIgnore         (void);
+           SFBool              *editSFIgnore         (void);
+     const SFBool              *getSFIgnore         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFIgnore         (void);
+#endif
+
+
+           bool                &editIgnore         (void);
      const bool                &getIgnore         (void) const;
+#ifndef OSG_2_PREP
+           bool                &getIgnore         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

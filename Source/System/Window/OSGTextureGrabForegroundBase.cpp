@@ -106,22 +106,22 @@ FieldDescription *TextureGrabForegroundBase::_desc[] =
                      "texture", 
                      TextureFieldId, TextureFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::getSFTexture)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::editSFTexture)),
     new FieldDescription(SFBool::getClassType(), 
                      "autoResize", 
                      AutoResizeFieldId, AutoResizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::getSFAutoResize)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::editSFAutoResize)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "bindTarget", 
                      BindTargetFieldId, BindTargetFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::getSFBindTarget)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::editSFBindTarget)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "copyTarget", 
                      CopyTargetFieldId, CopyTargetFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::getSFCopyTarget))
+                     reinterpret_cast<FieldAccessMethod>(&TextureGrabForegroundBase::editSFCopyTarget))
 };
 
 
@@ -386,7 +386,7 @@ DataType FieldDataTraits<TextureGrabForegroundPtr>::_type("TextureGrabForeground
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREGRABFOREGROUNDBASE_INLINE_CVSID;
 

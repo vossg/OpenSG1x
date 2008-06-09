@@ -122,10 +122,19 @@ class OSG_WINDOWCOCOALIB_DLLMAPPING CocoaWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFNSOpenGLContextP  *getSFContext        (void);
 
-           NSOpenGLContextP    &getContext        (void);
+           SFNSOpenGLContextP  *editSFContext        (void);
+     const SFNSOpenGLContextP  *getSFContext        (void) const;
+#ifndef OSG_2_PREP
+           SFNSOpenGLContextP  *getSFContext        (void);
+#endif
+
+
+           NSOpenGLContextP    &editContext        (void);
      const NSOpenGLContextP    &getContext        (void) const;
+#ifndef OSG_2_PREP
+           NSOpenGLContextP    &getContext        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<CocoaWindowPtr> CocoaWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCOCOAWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCocoaWindowBase.h,v 1.2 2008/06/05 05:02:33 vossg Exp $"
+#define OSGCOCOAWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCocoaWindowBase.h,v 1.3 2008/06/09 07:31:58 vossg Exp $"
 
 #endif /* _OSGCOCOAWINDOWBASE_H_ */

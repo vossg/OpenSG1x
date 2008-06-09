@@ -98,22 +98,54 @@ OrthographicCameraPtr OrthographicCameraBase::createEmpty(void)
 
 //! Get the OrthographicCamera::_sfVerticalSize field.
 inline
-SFReal32 *OrthographicCameraBase::getSFVerticalSize(void)
+const SFReal32 *OrthographicCameraBase::getSFVerticalSize(void) const
 {
     return &_sfVerticalSize;
 }
 
+//! Get the OrthographicCamera::_sfVerticalSize field.
+inline
+SFReal32 *OrthographicCameraBase::editSFVerticalSize(void)
+{
+    return &_sfVerticalSize;
+}
+
+#ifndef OSG_2_PREP
+//! Get the OrthographicCamera::_sfVerticalSize field.
+inline
+SFReal32 *OrthographicCameraBase::getSFVerticalSize(void)
+{
+    return &_sfVerticalSize;
+}
+#endif
+
+//! Get the OrthographicCamera::_sfAspect field.
+inline
+const SFReal32 *OrthographicCameraBase::getSFAspect(void) const
+{
+    return &_sfAspect;
+}
+
+//! Get the OrthographicCamera::_sfAspect field.
+inline
+SFReal32 *OrthographicCameraBase::editSFAspect(void)
+{
+    return &_sfAspect;
+}
+
+#ifndef OSG_2_PREP
 //! Get the OrthographicCamera::_sfAspect field.
 inline
 SFReal32 *OrthographicCameraBase::getSFAspect(void)
 {
     return &_sfAspect;
 }
+#endif
 
 
 //! Get the value of the OrthographicCamera::_sfVerticalSize field.
 inline
-Real32 &OrthographicCameraBase::getVerticalSize(void)
+Real32 &OrthographicCameraBase::editVerticalSize(void)
 {
     return _sfVerticalSize.getValue();
 }
@@ -125,6 +157,15 @@ const Real32 &OrthographicCameraBase::getVerticalSize(void) const
     return _sfVerticalSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the OrthographicCamera::_sfVerticalSize field.
+inline
+Real32 &OrthographicCameraBase::getVerticalSize(void)
+{
+    return _sfVerticalSize.getValue();
+}
+#endif
+
 //! Set the value of the OrthographicCamera::_sfVerticalSize field.
 inline
 void OrthographicCameraBase::setVerticalSize(const Real32 &value)
@@ -134,7 +175,7 @@ void OrthographicCameraBase::setVerticalSize(const Real32 &value)
 
 //! Get the value of the OrthographicCamera::_sfAspect field.
 inline
-Real32 &OrthographicCameraBase::getAspect(void)
+Real32 &OrthographicCameraBase::editAspect(void)
 {
     return _sfAspect.getValue();
 }
@@ -146,6 +187,15 @@ const Real32 &OrthographicCameraBase::getAspect(void) const
     return _sfAspect.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the OrthographicCamera::_sfAspect field.
+inline
+Real32 &OrthographicCameraBase::getAspect(void)
+{
+    return _sfAspect.getValue();
+}
+#endif
+
 //! Set the value of the OrthographicCamera::_sfAspect field.
 inline
 void OrthographicCameraBase::setAspect(const Real32 &value)
@@ -156,5 +206,5 @@ void OrthographicCameraBase::setAspect(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID "@(#)$Id: OSGOrthographicCameraBase.inl,v 1.3 2008/06/05 05:02:30 vossg Exp $"
+#define OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID "@(#)$Id: OSGOrthographicCameraBase.inl,v 1.4 2008/06/09 07:31:55 vossg Exp $"
 

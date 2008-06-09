@@ -98,22 +98,54 @@ DVRClipGeometryPtr DVRClipGeometryBase::createEmpty(void)
 
 //! Get the DVRClipGeometry::_sfGeometryNode field.
 inline
-SFNodePtr *DVRClipGeometryBase::getSFGeometryNode(void)
+const SFNodePtr *DVRClipGeometryBase::getSFGeometryNode(void) const
 {
     return &_sfGeometryNode;
 }
 
+//! Get the DVRClipGeometry::_sfGeometryNode field.
+inline
+SFNodePtr *DVRClipGeometryBase::editSFGeometryNode(void)
+{
+    return &_sfGeometryNode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DVRClipGeometry::_sfGeometryNode field.
+inline
+SFNodePtr *DVRClipGeometryBase::getSFGeometryNode(void)
+{
+    return &_sfGeometryNode;
+}
+#endif
+
+//! Get the DVRClipGeometry::_sfBeacon field.
+inline
+const SFNodePtr *DVRClipGeometryBase::getSFBeacon(void) const
+{
+    return &_sfBeacon;
+}
+
+//! Get the DVRClipGeometry::_sfBeacon field.
+inline
+SFNodePtr *DVRClipGeometryBase::editSFBeacon(void)
+{
+    return &_sfBeacon;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRClipGeometry::_sfBeacon field.
 inline
 SFNodePtr *DVRClipGeometryBase::getSFBeacon(void)
 {
     return &_sfBeacon;
 }
+#endif
 
 
 //! Get the value of the DVRClipGeometry::_sfGeometryNode field.
 inline
-NodePtr &DVRClipGeometryBase::getGeometryNode(void)
+NodePtr &DVRClipGeometryBase::editGeometryNode(void)
 {
     return _sfGeometryNode.getValue();
 }
@@ -125,6 +157,15 @@ const NodePtr &DVRClipGeometryBase::getGeometryNode(void) const
     return _sfGeometryNode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRClipGeometry::_sfGeometryNode field.
+inline
+NodePtr &DVRClipGeometryBase::getGeometryNode(void)
+{
+    return _sfGeometryNode.getValue();
+}
+#endif
+
 //! Set the value of the DVRClipGeometry::_sfGeometryNode field.
 inline
 void DVRClipGeometryBase::setGeometryNode(const NodePtr &value)
@@ -134,7 +175,7 @@ void DVRClipGeometryBase::setGeometryNode(const NodePtr &value)
 
 //! Get the value of the DVRClipGeometry::_sfBeacon field.
 inline
-NodePtr &DVRClipGeometryBase::getBeacon(void)
+NodePtr &DVRClipGeometryBase::editBeacon(void)
 {
     return _sfBeacon.getValue();
 }
@@ -145,6 +186,15 @@ const NodePtr &DVRClipGeometryBase::getBeacon(void) const
 {
     return _sfBeacon.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the DVRClipGeometry::_sfBeacon field.
+inline
+NodePtr &DVRClipGeometryBase::getBeacon(void)
+{
+    return _sfBeacon.getValue();
+}
+#endif
 
 //! Set the value of the DVRClipGeometry::_sfBeacon field.
 inline

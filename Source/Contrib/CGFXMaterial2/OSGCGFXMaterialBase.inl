@@ -98,43 +98,123 @@ CGFXMaterialPtr CGFXMaterialBase::createEmpty(void)
 
 //! Get the CGFXMaterial::_sfEffectFile field.
 inline
-SFString *CGFXMaterialBase::getSFEffectFile(void)
+const SFString *CGFXMaterialBase::getSFEffectFile(void) const
 {
     return &_sfEffectFile;
 }
 
+//! Get the CGFXMaterial::_sfEffectFile field.
+inline
+SFString *CGFXMaterialBase::editSFEffectFile(void)
+{
+    return &_sfEffectFile;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CGFXMaterial::_sfEffectFile field.
+inline
+SFString *CGFXMaterialBase::getSFEffectFile(void)
+{
+    return &_sfEffectFile;
+}
+#endif
+
+//! Get the CGFXMaterial::_sfEffectString field.
+inline
+const SFString *CGFXMaterialBase::getSFEffectString(void) const
+{
+    return &_sfEffectString;
+}
+
+//! Get the CGFXMaterial::_sfEffectString field.
+inline
+SFString *CGFXMaterialBase::editSFEffectString(void)
+{
+    return &_sfEffectString;
+}
+
+#ifndef OSG_2_PREP
 //! Get the CGFXMaterial::_sfEffectString field.
 inline
 SFString *CGFXMaterialBase::getSFEffectString(void)
 {
     return &_sfEffectString;
 }
+#endif
 
+//! Get the CGFXMaterial::_sfTechnique field.
+inline
+const SFInt32 *CGFXMaterialBase::getSFTechnique(void) const
+{
+    return &_sfTechnique;
+}
+
+//! Get the CGFXMaterial::_sfTechnique field.
+inline
+SFInt32 *CGFXMaterialBase::editSFTechnique(void)
+{
+    return &_sfTechnique;
+}
+
+#ifndef OSG_2_PREP
 //! Get the CGFXMaterial::_sfTechnique field.
 inline
 SFInt32 *CGFXMaterialBase::getSFTechnique(void)
 {
     return &_sfTechnique;
 }
+#endif
 
+//! Get the CGFXMaterial::_mfParameters field.
+inline
+const MFShaderParameterPtr *CGFXMaterialBase::getMFParameters(void) const
+{
+    return &_mfParameters;
+}
+
+//! Get the CGFXMaterial::_mfParameters field.
+inline
+MFShaderParameterPtr *CGFXMaterialBase::editMFParameters(void)
+{
+    return &_mfParameters;
+}
+
+#ifndef OSG_2_PREP
 //! Get the CGFXMaterial::_mfParameters field.
 inline
 MFShaderParameterPtr *CGFXMaterialBase::getMFParameters(void)
 {
     return &_mfParameters;
 }
+#endif
 
+//! Get the CGFXMaterial::_mfImages field.
+inline
+const MFImagePtr *CGFXMaterialBase::getMFImages(void) const
+{
+    return &_mfImages;
+}
+
+//! Get the CGFXMaterial::_mfImages field.
+inline
+MFImagePtr *CGFXMaterialBase::editMFImages(void)
+{
+    return &_mfImages;
+}
+
+#ifndef OSG_2_PREP
 //! Get the CGFXMaterial::_mfImages field.
 inline
 MFImagePtr *CGFXMaterialBase::getMFImages(void)
 {
     return &_mfImages;
 }
+#endif
 
 
 //! Get the value of the CGFXMaterial::_sfEffectFile field.
 inline
-std::string &CGFXMaterialBase::getEffectFile(void)
+std::string &CGFXMaterialBase::editEffectFile(void)
 {
     return _sfEffectFile.getValue();
 }
@@ -146,6 +226,15 @@ const std::string &CGFXMaterialBase::getEffectFile(void) const
     return _sfEffectFile.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CGFXMaterial::_sfEffectFile field.
+inline
+std::string &CGFXMaterialBase::getEffectFile(void)
+{
+    return _sfEffectFile.getValue();
+}
+#endif
+
 //! Set the value of the CGFXMaterial::_sfEffectFile field.
 inline
 void CGFXMaterialBase::setEffectFile(const std::string &value)
@@ -155,7 +244,7 @@ void CGFXMaterialBase::setEffectFile(const std::string &value)
 
 //! Get the value of the CGFXMaterial::_sfEffectString field.
 inline
-std::string &CGFXMaterialBase::getEffectString(void)
+std::string &CGFXMaterialBase::editEffectString(void)
 {
     return _sfEffectString.getValue();
 }
@@ -167,6 +256,15 @@ const std::string &CGFXMaterialBase::getEffectString(void) const
     return _sfEffectString.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CGFXMaterial::_sfEffectString field.
+inline
+std::string &CGFXMaterialBase::getEffectString(void)
+{
+    return _sfEffectString.getValue();
+}
+#endif
+
 //! Set the value of the CGFXMaterial::_sfEffectString field.
 inline
 void CGFXMaterialBase::setEffectString(const std::string &value)
@@ -176,7 +274,7 @@ void CGFXMaterialBase::setEffectString(const std::string &value)
 
 //! Get the value of the CGFXMaterial::_sfTechnique field.
 inline
-Int32 &CGFXMaterialBase::getTechnique(void)
+Int32 &CGFXMaterialBase::editTechnique(void)
 {
     return _sfTechnique.getValue();
 }
@@ -188,6 +286,15 @@ const Int32 &CGFXMaterialBase::getTechnique(void) const
     return _sfTechnique.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CGFXMaterial::_sfTechnique field.
+inline
+Int32 &CGFXMaterialBase::getTechnique(void)
+{
+    return _sfTechnique.getValue();
+}
+#endif
+
 //! Set the value of the CGFXMaterial::_sfTechnique field.
 inline
 void CGFXMaterialBase::setTechnique(const Int32 &value)
@@ -196,6 +303,21 @@ void CGFXMaterialBase::setTechnique(const Int32 &value)
 }
 
 
+//! Get the value of the \a index element the CGFXMaterial::_mfParameters field.
+inline
+ShaderParameterPtr &CGFXMaterialBase::editParameters(const UInt32 index)
+{
+    return _mfParameters[index];
+}
+
+//! Get the value of the \a index element the CGFXMaterial::_mfParameters field.
+inline
+const ShaderParameterPtr &CGFXMaterialBase::getParameters(const UInt32 index) const
+{
+    return _mfParameters[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the CGFXMaterial::_mfParameters field.
 inline
 ShaderParameterPtr &CGFXMaterialBase::getParameters(const UInt32 index)
@@ -210,13 +332,23 @@ MFShaderParameterPtr &CGFXMaterialBase::getParameters(void)
     return _mfParameters;
 }
 
-//! Get the CGFXMaterial::_mfParameters field.
+#endif
+
+//! Get the value of the \a index element the CGFXMaterial::_mfImages field.
 inline
-const MFShaderParameterPtr &CGFXMaterialBase::getParameters(void) const
+ImagePtr &CGFXMaterialBase::editImages(const UInt32 index)
 {
-    return _mfParameters;
+    return _mfImages[index];
 }
 
+//! Get the value of the \a index element the CGFXMaterial::_mfImages field.
+inline
+const ImagePtr &CGFXMaterialBase::getImages(const UInt32 index) const
+{
+    return _mfImages[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the CGFXMaterial::_mfImages field.
 inline
 ImagePtr &CGFXMaterialBase::getImages(const UInt32 index)
@@ -231,14 +363,9 @@ MFImagePtr &CGFXMaterialBase::getImages(void)
     return _mfImages;
 }
 
-//! Get the CGFXMaterial::_mfImages field.
-inline
-const MFImagePtr &CGFXMaterialBase::getImages(void) const
-{
-    return _mfImages;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.3 2008/06/05 05:02:15 vossg Exp $"
+#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.4 2008/06/09 07:31:37 vossg Exp $"
 

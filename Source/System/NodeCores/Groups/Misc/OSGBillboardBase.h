@@ -134,22 +134,67 @@ class OSG_SYSTEMLIB_DLLMAPPING BillboardBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFAxisOfRotation (void);
-           SFBool              *getSFFocusOnCamera  (void);
-           SFBool              *getSFAlignToScreen  (void);
-           SFReal32            *getSFMinAngle       (void);
-           SFReal32            *getSFMaxAngle       (void);
 
-           Vec3f               &getAxisOfRotation (void);
+           SFVec3f             *editSFAxisOfRotation (void);
+     const SFVec3f             *getSFAxisOfRotation (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFAxisOfRotation (void);
+#endif
+
+           SFBool              *editSFFocusOnCamera  (void);
+     const SFBool              *getSFFocusOnCamera  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFFocusOnCamera  (void);
+#endif
+
+           SFBool              *editSFAlignToScreen  (void);
+     const SFBool              *getSFAlignToScreen  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAlignToScreen  (void);
+#endif
+
+           SFReal32            *editSFMinAngle       (void);
+     const SFReal32            *getSFMinAngle       (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFMinAngle       (void);
+#endif
+
+           SFReal32            *editSFMaxAngle       (void);
+     const SFReal32            *getSFMaxAngle       (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFMaxAngle       (void);
+#endif
+
+
+           Vec3f               &editAxisOfRotation (void);
      const Vec3f               &getAxisOfRotation (void) const;
-           bool                &getFocusOnCamera  (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getAxisOfRotation (void);
+#endif
+
+           bool                &editFocusOnCamera  (void);
      const bool                &getFocusOnCamera  (void) const;
-           bool                &getAlignToScreen  (void);
+#ifndef OSG_2_PREP
+           bool                &getFocusOnCamera  (void);
+#endif
+
+           bool                &editAlignToScreen  (void);
      const bool                &getAlignToScreen  (void) const;
-           Real32              &getMinAngle       (void);
+#ifndef OSG_2_PREP
+           bool                &getAlignToScreen  (void);
+#endif
+
+           Real32              &editMinAngle       (void);
      const Real32              &getMinAngle       (void) const;
-           Real32              &getMaxAngle       (void);
+#ifndef OSG_2_PREP
+           Real32              &getMinAngle       (void);
+#endif
+
+           Real32              &editMaxAngle       (void);
      const Real32              &getMaxAngle       (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getMaxAngle       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

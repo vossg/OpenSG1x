@@ -149,37 +149,127 @@ class OSG_SYSTEMLIB_DLLMAPPING PointChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFSize           (void);
-           SFBool              *getSFSmooth         (void);
-           SFReal32            *getSFMinSize        (void);
-           SFReal32            *getSFMaxSize        (void);
-           SFReal32            *getSFConstantAttenuation(void);
-           SFReal32            *getSFLinearAttenuation(void);
-           SFReal32            *getSFQuadraticAttenuation(void);
-           SFReal32            *getSFFadeThreshold  (void);
-           SFBool              *getSFSprite         (void);
-           SFGLenum            *getSFRMode          (void);
 
-           Real32              &getSize           (void);
+           SFReal32            *editSFSize           (void);
+     const SFReal32            *getSFSize           (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSize           (void);
+#endif
+
+           SFBool              *editSFSmooth         (void);
+     const SFBool              *getSFSmooth         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSmooth         (void);
+#endif
+
+           SFReal32            *editSFMinSize        (void);
+     const SFReal32            *getSFMinSize        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFMinSize        (void);
+#endif
+
+           SFReal32            *editSFMaxSize        (void);
+     const SFReal32            *getSFMaxSize        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFMaxSize        (void);
+#endif
+
+           SFReal32            *editSFConstantAttenuation(void);
+     const SFReal32            *getSFConstantAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFConstantAttenuation(void);
+#endif
+
+           SFReal32            *editSFLinearAttenuation(void);
+     const SFReal32            *getSFLinearAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFLinearAttenuation(void);
+#endif
+
+           SFReal32            *editSFQuadraticAttenuation(void);
+     const SFReal32            *getSFQuadraticAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFQuadraticAttenuation(void);
+#endif
+
+           SFReal32            *editSFFadeThreshold  (void);
+     const SFReal32            *getSFFadeThreshold  (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFFadeThreshold  (void);
+#endif
+
+           SFBool              *editSFSprite         (void);
+     const SFBool              *getSFSprite         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSprite         (void);
+#endif
+
+           SFGLenum            *editSFRMode          (void);
+     const SFGLenum            *getSFRMode          (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFRMode          (void);
+#endif
+
+
+           Real32              &editSize           (void);
      const Real32              &getSize           (void) const;
-           bool                &getSmooth         (void);
+#ifndef OSG_2_PREP
+           Real32              &getSize           (void);
+#endif
+
+           bool                &editSmooth         (void);
      const bool                &getSmooth         (void) const;
-           Real32              &getMinSize        (void);
+#ifndef OSG_2_PREP
+           bool                &getSmooth         (void);
+#endif
+
+           Real32              &editMinSize        (void);
      const Real32              &getMinSize        (void) const;
-           Real32              &getMaxSize        (void);
+#ifndef OSG_2_PREP
+           Real32              &getMinSize        (void);
+#endif
+
+           Real32              &editMaxSize        (void);
      const Real32              &getMaxSize        (void) const;
-           Real32              &getConstantAttenuation(void);
+#ifndef OSG_2_PREP
+           Real32              &getMaxSize        (void);
+#endif
+
+           Real32              &editConstantAttenuation(void);
      const Real32              &getConstantAttenuation(void) const;
-           Real32              &getLinearAttenuation(void);
+#ifndef OSG_2_PREP
+           Real32              &getConstantAttenuation(void);
+#endif
+
+           Real32              &editLinearAttenuation(void);
      const Real32              &getLinearAttenuation(void) const;
-           Real32              &getQuadraticAttenuation(void);
+#ifndef OSG_2_PREP
+           Real32              &getLinearAttenuation(void);
+#endif
+
+           Real32              &editQuadraticAttenuation(void);
      const Real32              &getQuadraticAttenuation(void) const;
-           Real32              &getFadeThreshold  (void);
+#ifndef OSG_2_PREP
+           Real32              &getQuadraticAttenuation(void);
+#endif
+
+           Real32              &editFadeThreshold  (void);
      const Real32              &getFadeThreshold  (void) const;
-           bool                &getSprite         (void);
+#ifndef OSG_2_PREP
+           Real32              &getFadeThreshold  (void);
+#endif
+
+           bool                &editSprite         (void);
      const bool                &getSprite         (void) const;
-           GLenum              &getRMode          (void);
+#ifndef OSG_2_PREP
+           bool                &getSprite         (void);
+#endif
+
+           GLenum              &editRMode          (void);
      const GLenum              &getRMode          (void) const;
+#ifndef OSG_2_PREP
+           GLenum              &getRMode          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

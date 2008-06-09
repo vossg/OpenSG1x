@@ -98,176 +98,560 @@ TerrainPtr TerrainBase::createEmpty(void)
 
 //! Get the Terrain::_sfHeightData field.
 inline
-SFImagePtr *TerrainBase::getSFHeightData(void)
+const SFImagePtr *TerrainBase::getSFHeightData(void) const
 {
     return &_sfHeightData;
 }
 
+//! Get the Terrain::_sfHeightData field.
+inline
+SFImagePtr *TerrainBase::editSFHeightData(void)
+{
+    return &_sfHeightData;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Terrain::_sfHeightData field.
+inline
+SFImagePtr *TerrainBase::getSFHeightData(void)
+{
+    return &_sfHeightData;
+}
+#endif
+
+//! Get the Terrain::_sfHeightScale field.
+inline
+const SFReal32 *TerrainBase::getSFHeightScale(void) const
+{
+    return &_sfHeightScale;
+}
+
+//! Get the Terrain::_sfHeightScale field.
+inline
+SFReal32 *TerrainBase::editSFHeightScale(void)
+{
+    return &_sfHeightScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfHeightScale field.
 inline
 SFReal32 *TerrainBase::getSFHeightScale(void)
 {
     return &_sfHeightScale;
 }
+#endif
 
+//! Get the Terrain::_mfHeightError field.
+inline
+const MFReal32 *TerrainBase::getMFHeightError(void) const
+{
+    return &_mfHeightError;
+}
+
+//! Get the Terrain::_mfHeightError field.
+inline
+MFReal32 *TerrainBase::editMFHeightError(void)
+{
+    return &_mfHeightError;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_mfHeightError field.
 inline
 MFReal32 *TerrainBase::getMFHeightError(void)
 {
     return &_mfHeightError;
 }
+#endif
 
+//! Get the Terrain::_mfHeightQuad field.
+inline
+const MFReal32 *TerrainBase::getMFHeightQuad(void) const
+{
+    return &_mfHeightQuad;
+}
+
+//! Get the Terrain::_mfHeightQuad field.
+inline
+MFReal32 *TerrainBase::editMFHeightQuad(void)
+{
+    return &_mfHeightQuad;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_mfHeightQuad field.
 inline
 MFReal32 *TerrainBase::getMFHeightQuad(void)
 {
     return &_mfHeightQuad;
 }
+#endif
 
+//! Get the Terrain::_sfWidth field.
+inline
+const SFUInt32 *TerrainBase::getSFWidth(void) const
+{
+    return &_sfWidth;
+}
+
+//! Get the Terrain::_sfWidth field.
+inline
+SFUInt32 *TerrainBase::editSFWidth(void)
+{
+    return &_sfWidth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfWidth field.
 inline
 SFUInt32 *TerrainBase::getSFWidth(void)
 {
     return &_sfWidth;
 }
+#endif
 
+//! Get the Terrain::_sfLevel field.
+inline
+const SFUInt32 *TerrainBase::getSFLevel(void) const
+{
+    return &_sfLevel;
+}
+
+//! Get the Terrain::_sfLevel field.
+inline
+SFUInt32 *TerrainBase::editSFLevel(void)
+{
+    return &_sfLevel;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfLevel field.
 inline
 SFUInt32 *TerrainBase::getSFLevel(void)
 {
     return &_sfLevel;
 }
+#endif
 
+//! Get the Terrain::_sfDetail field.
+inline
+const SFReal32 *TerrainBase::getSFDetail(void) const
+{
+    return &_sfDetail;
+}
+
+//! Get the Terrain::_sfDetail field.
+inline
+SFReal32 *TerrainBase::editSFDetail(void)
+{
+    return &_sfDetail;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfDetail field.
 inline
 SFReal32 *TerrainBase::getSFDetail(void)
 {
     return &_sfDetail;
 }
+#endif
 
+//! Get the Terrain::_sfBorderDetail field.
+inline
+const SFInt32 *TerrainBase::getSFBorderDetail(void) const
+{
+    return &_sfBorderDetail;
+}
+
+//! Get the Terrain::_sfBorderDetail field.
+inline
+SFInt32 *TerrainBase::editSFBorderDetail(void)
+{
+    return &_sfBorderDetail;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfBorderDetail field.
 inline
 SFInt32 *TerrainBase::getSFBorderDetail(void)
 {
     return &_sfBorderDetail;
 }
+#endif
 
+//! Get the Terrain::_sfVertexSpacing field.
+inline
+const SFReal32 *TerrainBase::getSFVertexSpacing(void) const
+{
+    return &_sfVertexSpacing;
+}
+
+//! Get the Terrain::_sfVertexSpacing field.
+inline
+SFReal32 *TerrainBase::editSFVertexSpacing(void)
+{
+    return &_sfVertexSpacing;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfVertexSpacing field.
 inline
 SFReal32 *TerrainBase::getSFVertexSpacing(void)
 {
     return &_sfVertexSpacing;
 }
+#endif
 
+//! Get the Terrain::_sfHeightVertices field.
+inline
+const SFGeoPositionsPtr *TerrainBase::getSFHeightVertices(void) const
+{
+    return &_sfHeightVertices;
+}
+
+//! Get the Terrain::_sfHeightVertices field.
+inline
+SFGeoPositionsPtr *TerrainBase::editSFHeightVertices(void)
+{
+    return &_sfHeightVertices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfHeightVertices field.
 inline
 SFGeoPositionsPtr *TerrainBase::getSFHeightVertices(void)
 {
     return &_sfHeightVertices;
 }
+#endif
 
+//! Get the Terrain::_sfGeoMorphing field.
+inline
+const SFBool *TerrainBase::getSFGeoMorphing(void) const
+{
+    return &_sfGeoMorphing;
+}
+
+//! Get the Terrain::_sfGeoMorphing field.
+inline
+SFBool *TerrainBase::editSFGeoMorphing(void)
+{
+    return &_sfGeoMorphing;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfGeoMorphing field.
 inline
 SFBool *TerrainBase::getSFGeoMorphing(void)
 {
     return &_sfGeoMorphing;
 }
+#endif
 
+//! Get the Terrain::_sfBoundMin field.
+inline
+const SFPnt3f *TerrainBase::getSFBoundMin(void) const
+{
+    return &_sfBoundMin;
+}
+
+//! Get the Terrain::_sfBoundMin field.
+inline
+SFPnt3f *TerrainBase::editSFBoundMin(void)
+{
+    return &_sfBoundMin;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfBoundMin field.
 inline
 SFPnt3f *TerrainBase::getSFBoundMin(void)
 {
     return &_sfBoundMin;
 }
+#endif
 
+//! Get the Terrain::_sfBoundMax field.
+inline
+const SFPnt3f *TerrainBase::getSFBoundMax(void) const
+{
+    return &_sfBoundMax;
+}
+
+//! Get the Terrain::_sfBoundMax field.
+inline
+SFPnt3f *TerrainBase::editSFBoundMax(void)
+{
+    return &_sfBoundMax;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfBoundMax field.
 inline
 SFPnt3f *TerrainBase::getSFBoundMax(void)
 {
     return &_sfBoundMax;
 }
+#endif
 
+//! Get the Terrain::_sfEyePoint field.
+inline
+const SFPnt3f *TerrainBase::getSFEyePoint(void) const
+{
+    return &_sfEyePoint;
+}
+
+//! Get the Terrain::_sfEyePoint field.
+inline
+SFPnt3f *TerrainBase::editSFEyePoint(void)
+{
+    return &_sfEyePoint;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfEyePoint field.
 inline
 SFPnt3f *TerrainBase::getSFEyePoint(void)
 {
     return &_sfEyePoint;
 }
+#endif
 
+//! Get the Terrain::_sfEyeHeight field.
+inline
+const SFReal32 *TerrainBase::getSFEyeHeight(void) const
+{
+    return &_sfEyeHeight;
+}
+
+//! Get the Terrain::_sfEyeHeight field.
+inline
+SFReal32 *TerrainBase::editSFEyeHeight(void)
+{
+    return &_sfEyeHeight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfEyeHeight field.
 inline
 SFReal32 *TerrainBase::getSFEyeHeight(void)
 {
     return &_sfEyeHeight;
 }
+#endif
 
+//! Get the Terrain::_sfEyePointValid field.
+inline
+const SFBool *TerrainBase::getSFEyePointValid(void) const
+{
+    return &_sfEyePointValid;
+}
+
+//! Get the Terrain::_sfEyePointValid field.
+inline
+SFBool *TerrainBase::editSFEyePointValid(void)
+{
+    return &_sfEyePointValid;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfEyePointValid field.
 inline
 SFBool *TerrainBase::getSFEyePointValid(void)
 {
     return &_sfEyePointValid;
 }
+#endif
 
+//! Get the Terrain::_sfOriginX field.
+inline
+const SFReal32 *TerrainBase::getSFOriginX(void) const
+{
+    return &_sfOriginX;
+}
+
+//! Get the Terrain::_sfOriginX field.
+inline
+SFReal32 *TerrainBase::editSFOriginX(void)
+{
+    return &_sfOriginX;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfOriginX field.
 inline
 SFReal32 *TerrainBase::getSFOriginX(void)
 {
     return &_sfOriginX;
 }
+#endif
 
+//! Get the Terrain::_sfOriginY field.
+inline
+const SFReal32 *TerrainBase::getSFOriginY(void) const
+{
+    return &_sfOriginY;
+}
+
+//! Get the Terrain::_sfOriginY field.
+inline
+SFReal32 *TerrainBase::editSFOriginY(void)
+{
+    return &_sfOriginY;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfOriginY field.
 inline
 SFReal32 *TerrainBase::getSFOriginY(void)
 {
     return &_sfOriginY;
 }
+#endif
 
+//! Get the Terrain::_sfOriginTexX field.
+inline
+const SFReal32 *TerrainBase::getSFOriginTexX(void) const
+{
+    return &_sfOriginTexX;
+}
+
+//! Get the Terrain::_sfOriginTexX field.
+inline
+SFReal32 *TerrainBase::editSFOriginTexX(void)
+{
+    return &_sfOriginTexX;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfOriginTexX field.
 inline
 SFReal32 *TerrainBase::getSFOriginTexX(void)
 {
     return &_sfOriginTexX;
 }
+#endif
 
+//! Get the Terrain::_sfOriginTexY field.
+inline
+const SFReal32 *TerrainBase::getSFOriginTexY(void) const
+{
+    return &_sfOriginTexY;
+}
+
+//! Get the Terrain::_sfOriginTexY field.
+inline
+SFReal32 *TerrainBase::editSFOriginTexY(void)
+{
+    return &_sfOriginTexY;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfOriginTexY field.
 inline
 SFReal32 *TerrainBase::getSFOriginTexY(void)
 {
     return &_sfOriginTexY;
 }
+#endif
 
+//! Get the Terrain::_sfTexSpacing field.
+inline
+const SFReal32 *TerrainBase::getSFTexSpacing(void) const
+{
+    return &_sfTexSpacing;
+}
+
+//! Get the Terrain::_sfTexSpacing field.
+inline
+SFReal32 *TerrainBase::editSFTexSpacing(void)
+{
+    return &_sfTexSpacing;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfTexSpacing field.
 inline
 SFReal32 *TerrainBase::getSFTexSpacing(void)
 {
     return &_sfTexSpacing;
 }
+#endif
 
+//! Get the Terrain::_sfTexYSpacing field.
+inline
+const SFReal32 *TerrainBase::getSFTexYSpacing(void) const
+{
+    return &_sfTexYSpacing;
+}
+
+//! Get the Terrain::_sfTexYSpacing field.
+inline
+SFReal32 *TerrainBase::editSFTexYSpacing(void)
+{
+    return &_sfTexYSpacing;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfTexYSpacing field.
 inline
 SFReal32 *TerrainBase::getSFTexYSpacing(void)
 {
     return &_sfTexYSpacing;
 }
+#endif
 
+//! Get the Terrain::_sfUpdateTerrain field.
+inline
+const SFBool *TerrainBase::getSFUpdateTerrain(void) const
+{
+    return &_sfUpdateTerrain;
+}
+
+//! Get the Terrain::_sfUpdateTerrain field.
+inline
+SFBool *TerrainBase::editSFUpdateTerrain(void)
+{
+    return &_sfUpdateTerrain;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfUpdateTerrain field.
 inline
 SFBool *TerrainBase::getSFUpdateTerrain(void)
 {
     return &_sfUpdateTerrain;
 }
+#endif
 
+//! Get the Terrain::_sfPerPixelLighting field.
+inline
+const SFBool *TerrainBase::getSFPerPixelLighting(void) const
+{
+    return &_sfPerPixelLighting;
+}
+
+//! Get the Terrain::_sfPerPixelLighting field.
+inline
+SFBool *TerrainBase::editSFPerPixelLighting(void)
+{
+    return &_sfPerPixelLighting;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Terrain::_sfPerPixelLighting field.
 inline
 SFBool *TerrainBase::getSFPerPixelLighting(void)
 {
     return &_sfPerPixelLighting;
 }
+#endif
 
 
 //! Get the value of the Terrain::_sfHeightData field.
 inline
-ImagePtr &TerrainBase::getHeightData(void)
+ImagePtr &TerrainBase::editHeightData(void)
 {
     return _sfHeightData.getValue();
 }
@@ -279,6 +663,15 @@ const ImagePtr &TerrainBase::getHeightData(void) const
     return _sfHeightData.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfHeightData field.
+inline
+ImagePtr &TerrainBase::getHeightData(void)
+{
+    return _sfHeightData.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfHeightData field.
 inline
 void TerrainBase::setHeightData(const ImagePtr &value)
@@ -288,7 +681,7 @@ void TerrainBase::setHeightData(const ImagePtr &value)
 
 //! Get the value of the Terrain::_sfHeightScale field.
 inline
-Real32 &TerrainBase::getHeightScale(void)
+Real32 &TerrainBase::editHeightScale(void)
 {
     return _sfHeightScale.getValue();
 }
@@ -300,6 +693,15 @@ const Real32 &TerrainBase::getHeightScale(void) const
     return _sfHeightScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfHeightScale field.
+inline
+Real32 &TerrainBase::getHeightScale(void)
+{
+    return _sfHeightScale.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfHeightScale field.
 inline
 void TerrainBase::setHeightScale(const Real32 &value)
@@ -309,7 +711,7 @@ void TerrainBase::setHeightScale(const Real32 &value)
 
 //! Get the value of the Terrain::_sfWidth field.
 inline
-UInt32 &TerrainBase::getWidth(void)
+UInt32 &TerrainBase::editWidth(void)
 {
     return _sfWidth.getValue();
 }
@@ -321,6 +723,15 @@ const UInt32 &TerrainBase::getWidth(void) const
     return _sfWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfWidth field.
+inline
+UInt32 &TerrainBase::getWidth(void)
+{
+    return _sfWidth.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfWidth field.
 inline
 void TerrainBase::setWidth(const UInt32 &value)
@@ -330,7 +741,7 @@ void TerrainBase::setWidth(const UInt32 &value)
 
 //! Get the value of the Terrain::_sfLevel field.
 inline
-UInt32 &TerrainBase::getLevel(void)
+UInt32 &TerrainBase::editLevel(void)
 {
     return _sfLevel.getValue();
 }
@@ -342,6 +753,15 @@ const UInt32 &TerrainBase::getLevel(void) const
     return _sfLevel.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfLevel field.
+inline
+UInt32 &TerrainBase::getLevel(void)
+{
+    return _sfLevel.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfLevel field.
 inline
 void TerrainBase::setLevel(const UInt32 &value)
@@ -351,7 +771,7 @@ void TerrainBase::setLevel(const UInt32 &value)
 
 //! Get the value of the Terrain::_sfDetail field.
 inline
-Real32 &TerrainBase::getDetail(void)
+Real32 &TerrainBase::editDetail(void)
 {
     return _sfDetail.getValue();
 }
@@ -363,6 +783,15 @@ const Real32 &TerrainBase::getDetail(void) const
     return _sfDetail.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfDetail field.
+inline
+Real32 &TerrainBase::getDetail(void)
+{
+    return _sfDetail.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfDetail field.
 inline
 void TerrainBase::setDetail(const Real32 &value)
@@ -372,7 +801,7 @@ void TerrainBase::setDetail(const Real32 &value)
 
 //! Get the value of the Terrain::_sfBorderDetail field.
 inline
-Int32 &TerrainBase::getBorderDetail(void)
+Int32 &TerrainBase::editBorderDetail(void)
 {
     return _sfBorderDetail.getValue();
 }
@@ -384,6 +813,15 @@ const Int32 &TerrainBase::getBorderDetail(void) const
     return _sfBorderDetail.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfBorderDetail field.
+inline
+Int32 &TerrainBase::getBorderDetail(void)
+{
+    return _sfBorderDetail.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfBorderDetail field.
 inline
 void TerrainBase::setBorderDetail(const Int32 &value)
@@ -393,7 +831,7 @@ void TerrainBase::setBorderDetail(const Int32 &value)
 
 //! Get the value of the Terrain::_sfVertexSpacing field.
 inline
-Real32 &TerrainBase::getVertexSpacing(void)
+Real32 &TerrainBase::editVertexSpacing(void)
 {
     return _sfVertexSpacing.getValue();
 }
@@ -405,6 +843,15 @@ const Real32 &TerrainBase::getVertexSpacing(void) const
     return _sfVertexSpacing.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfVertexSpacing field.
+inline
+Real32 &TerrainBase::getVertexSpacing(void)
+{
+    return _sfVertexSpacing.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfVertexSpacing field.
 inline
 void TerrainBase::setVertexSpacing(const Real32 &value)
@@ -414,7 +861,7 @@ void TerrainBase::setVertexSpacing(const Real32 &value)
 
 //! Get the value of the Terrain::_sfHeightVertices field.
 inline
-GeoPositionsPtr &TerrainBase::getHeightVertices(void)
+GeoPositionsPtr &TerrainBase::editHeightVertices(void)
 {
     return _sfHeightVertices.getValue();
 }
@@ -426,6 +873,15 @@ const GeoPositionsPtr &TerrainBase::getHeightVertices(void) const
     return _sfHeightVertices.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfHeightVertices field.
+inline
+GeoPositionsPtr &TerrainBase::getHeightVertices(void)
+{
+    return _sfHeightVertices.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfHeightVertices field.
 inline
 void TerrainBase::setHeightVertices(const GeoPositionsPtr &value)
@@ -435,7 +891,7 @@ void TerrainBase::setHeightVertices(const GeoPositionsPtr &value)
 
 //! Get the value of the Terrain::_sfGeoMorphing field.
 inline
-bool &TerrainBase::getGeoMorphing(void)
+bool &TerrainBase::editGeoMorphing(void)
 {
     return _sfGeoMorphing.getValue();
 }
@@ -447,6 +903,15 @@ const bool &TerrainBase::getGeoMorphing(void) const
     return _sfGeoMorphing.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfGeoMorphing field.
+inline
+bool &TerrainBase::getGeoMorphing(void)
+{
+    return _sfGeoMorphing.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfGeoMorphing field.
 inline
 void TerrainBase::setGeoMorphing(const bool &value)
@@ -456,7 +921,7 @@ void TerrainBase::setGeoMorphing(const bool &value)
 
 //! Get the value of the Terrain::_sfBoundMin field.
 inline
-Pnt3f &TerrainBase::getBoundMin(void)
+Pnt3f &TerrainBase::editBoundMin(void)
 {
     return _sfBoundMin.getValue();
 }
@@ -468,6 +933,15 @@ const Pnt3f &TerrainBase::getBoundMin(void) const
     return _sfBoundMin.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfBoundMin field.
+inline
+Pnt3f &TerrainBase::getBoundMin(void)
+{
+    return _sfBoundMin.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfBoundMin field.
 inline
 void TerrainBase::setBoundMin(const Pnt3f &value)
@@ -477,7 +951,7 @@ void TerrainBase::setBoundMin(const Pnt3f &value)
 
 //! Get the value of the Terrain::_sfBoundMax field.
 inline
-Pnt3f &TerrainBase::getBoundMax(void)
+Pnt3f &TerrainBase::editBoundMax(void)
 {
     return _sfBoundMax.getValue();
 }
@@ -489,6 +963,15 @@ const Pnt3f &TerrainBase::getBoundMax(void) const
     return _sfBoundMax.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfBoundMax field.
+inline
+Pnt3f &TerrainBase::getBoundMax(void)
+{
+    return _sfBoundMax.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfBoundMax field.
 inline
 void TerrainBase::setBoundMax(const Pnt3f &value)
@@ -498,7 +981,7 @@ void TerrainBase::setBoundMax(const Pnt3f &value)
 
 //! Get the value of the Terrain::_sfEyePoint field.
 inline
-Pnt3f &TerrainBase::getEyePoint(void)
+Pnt3f &TerrainBase::editEyePoint(void)
 {
     return _sfEyePoint.getValue();
 }
@@ -510,6 +993,15 @@ const Pnt3f &TerrainBase::getEyePoint(void) const
     return _sfEyePoint.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfEyePoint field.
+inline
+Pnt3f &TerrainBase::getEyePoint(void)
+{
+    return _sfEyePoint.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfEyePoint field.
 inline
 void TerrainBase::setEyePoint(const Pnt3f &value)
@@ -519,7 +1011,7 @@ void TerrainBase::setEyePoint(const Pnt3f &value)
 
 //! Get the value of the Terrain::_sfEyeHeight field.
 inline
-Real32 &TerrainBase::getEyeHeight(void)
+Real32 &TerrainBase::editEyeHeight(void)
 {
     return _sfEyeHeight.getValue();
 }
@@ -531,6 +1023,15 @@ const Real32 &TerrainBase::getEyeHeight(void) const
     return _sfEyeHeight.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfEyeHeight field.
+inline
+Real32 &TerrainBase::getEyeHeight(void)
+{
+    return _sfEyeHeight.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfEyeHeight field.
 inline
 void TerrainBase::setEyeHeight(const Real32 &value)
@@ -540,7 +1041,7 @@ void TerrainBase::setEyeHeight(const Real32 &value)
 
 //! Get the value of the Terrain::_sfEyePointValid field.
 inline
-bool &TerrainBase::getEyePointValid(void)
+bool &TerrainBase::editEyePointValid(void)
 {
     return _sfEyePointValid.getValue();
 }
@@ -552,6 +1053,15 @@ const bool &TerrainBase::getEyePointValid(void) const
     return _sfEyePointValid.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfEyePointValid field.
+inline
+bool &TerrainBase::getEyePointValid(void)
+{
+    return _sfEyePointValid.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfEyePointValid field.
 inline
 void TerrainBase::setEyePointValid(const bool &value)
@@ -561,7 +1071,7 @@ void TerrainBase::setEyePointValid(const bool &value)
 
 //! Get the value of the Terrain::_sfOriginX field.
 inline
-Real32 &TerrainBase::getOriginX(void)
+Real32 &TerrainBase::editOriginX(void)
 {
     return _sfOriginX.getValue();
 }
@@ -573,6 +1083,15 @@ const Real32 &TerrainBase::getOriginX(void) const
     return _sfOriginX.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfOriginX field.
+inline
+Real32 &TerrainBase::getOriginX(void)
+{
+    return _sfOriginX.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfOriginX field.
 inline
 void TerrainBase::setOriginX(const Real32 &value)
@@ -582,7 +1101,7 @@ void TerrainBase::setOriginX(const Real32 &value)
 
 //! Get the value of the Terrain::_sfOriginY field.
 inline
-Real32 &TerrainBase::getOriginY(void)
+Real32 &TerrainBase::editOriginY(void)
 {
     return _sfOriginY.getValue();
 }
@@ -594,6 +1113,15 @@ const Real32 &TerrainBase::getOriginY(void) const
     return _sfOriginY.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfOriginY field.
+inline
+Real32 &TerrainBase::getOriginY(void)
+{
+    return _sfOriginY.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfOriginY field.
 inline
 void TerrainBase::setOriginY(const Real32 &value)
@@ -603,7 +1131,7 @@ void TerrainBase::setOriginY(const Real32 &value)
 
 //! Get the value of the Terrain::_sfOriginTexX field.
 inline
-Real32 &TerrainBase::getOriginTexX(void)
+Real32 &TerrainBase::editOriginTexX(void)
 {
     return _sfOriginTexX.getValue();
 }
@@ -615,6 +1143,15 @@ const Real32 &TerrainBase::getOriginTexX(void) const
     return _sfOriginTexX.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfOriginTexX field.
+inline
+Real32 &TerrainBase::getOriginTexX(void)
+{
+    return _sfOriginTexX.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfOriginTexX field.
 inline
 void TerrainBase::setOriginTexX(const Real32 &value)
@@ -624,7 +1161,7 @@ void TerrainBase::setOriginTexX(const Real32 &value)
 
 //! Get the value of the Terrain::_sfOriginTexY field.
 inline
-Real32 &TerrainBase::getOriginTexY(void)
+Real32 &TerrainBase::editOriginTexY(void)
 {
     return _sfOriginTexY.getValue();
 }
@@ -636,6 +1173,15 @@ const Real32 &TerrainBase::getOriginTexY(void) const
     return _sfOriginTexY.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfOriginTexY field.
+inline
+Real32 &TerrainBase::getOriginTexY(void)
+{
+    return _sfOriginTexY.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfOriginTexY field.
 inline
 void TerrainBase::setOriginTexY(const Real32 &value)
@@ -645,7 +1191,7 @@ void TerrainBase::setOriginTexY(const Real32 &value)
 
 //! Get the value of the Terrain::_sfTexSpacing field.
 inline
-Real32 &TerrainBase::getTexSpacing(void)
+Real32 &TerrainBase::editTexSpacing(void)
 {
     return _sfTexSpacing.getValue();
 }
@@ -657,6 +1203,15 @@ const Real32 &TerrainBase::getTexSpacing(void) const
     return _sfTexSpacing.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfTexSpacing field.
+inline
+Real32 &TerrainBase::getTexSpacing(void)
+{
+    return _sfTexSpacing.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfTexSpacing field.
 inline
 void TerrainBase::setTexSpacing(const Real32 &value)
@@ -666,7 +1221,7 @@ void TerrainBase::setTexSpacing(const Real32 &value)
 
 //! Get the value of the Terrain::_sfTexYSpacing field.
 inline
-Real32 &TerrainBase::getTexYSpacing(void)
+Real32 &TerrainBase::editTexYSpacing(void)
 {
     return _sfTexYSpacing.getValue();
 }
@@ -678,6 +1233,15 @@ const Real32 &TerrainBase::getTexYSpacing(void) const
     return _sfTexYSpacing.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfTexYSpacing field.
+inline
+Real32 &TerrainBase::getTexYSpacing(void)
+{
+    return _sfTexYSpacing.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfTexYSpacing field.
 inline
 void TerrainBase::setTexYSpacing(const Real32 &value)
@@ -687,7 +1251,7 @@ void TerrainBase::setTexYSpacing(const Real32 &value)
 
 //! Get the value of the Terrain::_sfUpdateTerrain field.
 inline
-bool &TerrainBase::getUpdateTerrain(void)
+bool &TerrainBase::editUpdateTerrain(void)
 {
     return _sfUpdateTerrain.getValue();
 }
@@ -699,6 +1263,15 @@ const bool &TerrainBase::getUpdateTerrain(void) const
     return _sfUpdateTerrain.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfUpdateTerrain field.
+inline
+bool &TerrainBase::getUpdateTerrain(void)
+{
+    return _sfUpdateTerrain.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfUpdateTerrain field.
 inline
 void TerrainBase::setUpdateTerrain(const bool &value)
@@ -708,7 +1281,7 @@ void TerrainBase::setUpdateTerrain(const bool &value)
 
 //! Get the value of the Terrain::_sfPerPixelLighting field.
 inline
-bool &TerrainBase::getPerPixelLighting(void)
+bool &TerrainBase::editPerPixelLighting(void)
 {
     return _sfPerPixelLighting.getValue();
 }
@@ -720,6 +1293,15 @@ const bool &TerrainBase::getPerPixelLighting(void) const
     return _sfPerPixelLighting.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Terrain::_sfPerPixelLighting field.
+inline
+bool &TerrainBase::getPerPixelLighting(void)
+{
+    return _sfPerPixelLighting.getValue();
+}
+#endif
+
 //! Set the value of the Terrain::_sfPerPixelLighting field.
 inline
 void TerrainBase::setPerPixelLighting(const bool &value)
@@ -728,6 +1310,21 @@ void TerrainBase::setPerPixelLighting(const bool &value)
 }
 
 
+//! Get the value of the \a index element the Terrain::_mfHeightError field.
+inline
+Real32 &TerrainBase::editHeightError(const UInt32 index)
+{
+    return _mfHeightError[index];
+}
+
+//! Get the value of the \a index element the Terrain::_mfHeightError field.
+inline
+const Real32 &TerrainBase::getHeightError(const UInt32 index) const
+{
+    return _mfHeightError[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Terrain::_mfHeightError field.
 inline
 Real32 &TerrainBase::getHeightError(const UInt32 index)
@@ -742,13 +1339,23 @@ MFReal32 &TerrainBase::getHeightError(void)
     return _mfHeightError;
 }
 
-//! Get the Terrain::_mfHeightError field.
+#endif
+
+//! Get the value of the \a index element the Terrain::_mfHeightQuad field.
 inline
-const MFReal32 &TerrainBase::getHeightError(void) const
+Real32 &TerrainBase::editHeightQuad(const UInt32 index)
 {
-    return _mfHeightError;
+    return _mfHeightQuad[index];
 }
 
+//! Get the value of the \a index element the Terrain::_mfHeightQuad field.
+inline
+const Real32 &TerrainBase::getHeightQuad(const UInt32 index) const
+{
+    return _mfHeightQuad[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Terrain::_mfHeightQuad field.
 inline
 Real32 &TerrainBase::getHeightQuad(const UInt32 index)
@@ -763,14 +1370,9 @@ MFReal32 &TerrainBase::getHeightQuad(void)
     return _mfHeightQuad;
 }
 
-//! Get the Terrain::_mfHeightQuad field.
-inline
-const MFReal32 &TerrainBase::getHeightQuad(void) const
-{
-    return _mfHeightQuad;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTerrainBase.inl,v 1.7 2008/06/05 05:02:18 vossg Exp $"
+#define OSGTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTerrainBase.inl,v 1.8 2008/06/09 07:31:43 vossg Exp $"
 

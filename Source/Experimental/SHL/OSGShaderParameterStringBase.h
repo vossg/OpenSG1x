@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterStringBase : public ShaderParamete
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFValue          (void);
 
-           std::string         &getValue          (void);
+           SFString            *editSFValue          (void);
+     const SFString            *getSFValue          (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFValue          (void);
+#endif
+
+
+           std::string         &editValue          (void);
      const std::string         &getValue          (void) const;
+#ifndef OSG_2_PREP
+           std::string         &getValue          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<ShaderParameterStringPtr> ShaderParameterStringRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERSTRINGBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterStringBase.h,v 1.7 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERSTRINGBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterStringBase.h,v 1.8 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERSTRINGBASE_H_ */

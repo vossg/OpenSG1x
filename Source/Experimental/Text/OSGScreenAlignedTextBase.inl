@@ -98,22 +98,54 @@ ScreenAlignedTextPtr ScreenAlignedTextBase::createEmpty(void)
 
 //! Get the ScreenAlignedText::_sfColor field.
 inline
-SFColor4f *ScreenAlignedTextBase::getSFColor(void)
+const SFColor4f *ScreenAlignedTextBase::getSFColor(void) const
 {
     return &_sfColor;
 }
 
+//! Get the ScreenAlignedText::_sfColor field.
+inline
+SFColor4f *ScreenAlignedTextBase::editSFColor(void)
+{
+    return &_sfColor;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ScreenAlignedText::_sfColor field.
+inline
+SFColor4f *ScreenAlignedTextBase::getSFColor(void)
+{
+    return &_sfColor;
+}
+#endif
+
+//! Get the ScreenAlignedText::_sfRenderImage field.
+inline
+const SFImagePtr *ScreenAlignedTextBase::getSFRenderImage(void) const
+{
+    return &_sfRenderImage;
+}
+
+//! Get the ScreenAlignedText::_sfRenderImage field.
+inline
+SFImagePtr *ScreenAlignedTextBase::editSFRenderImage(void)
+{
+    return &_sfRenderImage;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ScreenAlignedText::_sfRenderImage field.
 inline
 SFImagePtr *ScreenAlignedTextBase::getSFRenderImage(void)
 {
     return &_sfRenderImage;
 }
+#endif
 
 
 //! Get the value of the ScreenAlignedText::_sfColor field.
 inline
-Color4f &ScreenAlignedTextBase::getColor(void)
+Color4f &ScreenAlignedTextBase::editColor(void)
 {
     return _sfColor.getValue();
 }
@@ -125,6 +157,15 @@ const Color4f &ScreenAlignedTextBase::getColor(void) const
     return _sfColor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ScreenAlignedText::_sfColor field.
+inline
+Color4f &ScreenAlignedTextBase::getColor(void)
+{
+    return _sfColor.getValue();
+}
+#endif
+
 //! Set the value of the ScreenAlignedText::_sfColor field.
 inline
 void ScreenAlignedTextBase::setColor(const Color4f &value)
@@ -134,7 +175,7 @@ void ScreenAlignedTextBase::setColor(const Color4f &value)
 
 //! Get the value of the ScreenAlignedText::_sfRenderImage field.
 inline
-ImagePtr &ScreenAlignedTextBase::getRenderImage(void)
+ImagePtr &ScreenAlignedTextBase::editRenderImage(void)
 {
     return _sfRenderImage.getValue();
 }
@@ -145,6 +186,15 @@ const ImagePtr &ScreenAlignedTextBase::getRenderImage(void) const
 {
     return _sfRenderImage.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the ScreenAlignedText::_sfRenderImage field.
+inline
+ImagePtr &ScreenAlignedTextBase::getRenderImage(void)
+{
+    return _sfRenderImage.getValue();
+}
+#endif
 
 //! Set the value of the ScreenAlignedText::_sfRenderImage field.
 inline

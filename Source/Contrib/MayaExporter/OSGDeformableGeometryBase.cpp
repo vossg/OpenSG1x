@@ -98,17 +98,17 @@ FieldDescription *DeformableGeometryBase::_desc[] =
                      "deformers", 
                      DeformersFieldId, DeformersFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DeformableGeometryBase::getMFDeformers)),
+                     reinterpret_cast<FieldAccessMethod>(&DeformableGeometryBase::editMFDeformers)),
     new FieldDescription(SFGeoPositionsPtr::getClassType(), 
                      "basePositions", 
                      BasePositionsFieldId, BasePositionsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DeformableGeometryBase::getSFBasePositions)),
+                     reinterpret_cast<FieldAccessMethod>(&DeformableGeometryBase::editSFBasePositions)),
     new FieldDescription(SFGeoNormalsPtr::getClassType(), 
                      "baseNormals", 
                      BaseNormalsFieldId, BaseNormalsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DeformableGeometryBase::getSFBaseNormals))
+                     reinterpret_cast<FieldAccessMethod>(&DeformableGeometryBase::editSFBaseNormals))
 };
 
 
@@ -363,7 +363,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DeformableGeometryPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDEFORMABLEGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEFORMABLEGEOMETRYBASE_INLINE_CVSID;
 

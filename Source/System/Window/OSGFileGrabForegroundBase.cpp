@@ -98,17 +98,17 @@ FieldDescription *FileGrabForegroundBase::_desc[] =
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::getSFName)),
+                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::editSFName)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "frame", 
                      FrameFieldId, FrameFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::getSFFrame)),
+                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::editSFFrame)),
     new FieldDescription(SFBool::getClassType(), 
                      "increment", 
                      IncrementFieldId, IncrementFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::getSFIncrement))
+                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::editSFIncrement))
 };
 
 
@@ -359,7 +359,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(FileGrabForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID;
 

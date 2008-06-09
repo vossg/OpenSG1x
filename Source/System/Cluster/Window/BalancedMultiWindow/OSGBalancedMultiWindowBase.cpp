@@ -110,27 +110,27 @@ FieldDescription *BalancedMultiWindowBase::_desc[] =
                      "balance", 
                      BalanceFieldId, BalanceFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFBalance)),
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::editSFBalance)),
     new FieldDescription(SFBool::getClassType(), 
                      "bestCut", 
                      BestCutFieldId, BestCutFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFBestCut)),
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::editSFBestCut)),
     new FieldDescription(SFBool::getClassType(), 
                      "showBalancing", 
                      ShowBalancingFieldId, ShowBalancingFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFShowBalancing)),
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::editSFShowBalancing)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "tileSize", 
                      TileSizeFieldId, TileSizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFTileSize)),
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::editSFTileSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::getSFShort))
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::editSFShort))
 };
 
 
@@ -418,7 +418,7 @@ DataType FieldDataTraits<BalancedMultiWindowPtr>::_type("BalancedMultiWindowPtr"
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBALANCEDMULTIWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBALANCEDMULTIWINDOWBASE_INLINE_CVSID;
 

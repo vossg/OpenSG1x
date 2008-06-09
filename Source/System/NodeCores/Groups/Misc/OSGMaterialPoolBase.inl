@@ -98,13 +98,44 @@ MaterialPoolPtr MaterialPoolBase::createEmpty(void)
 
 //! Get the MaterialPool::_mfMaterials field.
 inline
-MFMaterialPtr *MaterialPoolBase::getMFMaterials(void)
+const MFMaterialPtr *MaterialPoolBase::getMFMaterials(void) const
 {
     return &_mfMaterials;
 }
 
+//! Get the MaterialPool::_mfMaterials field.
+inline
+MFMaterialPtr *MaterialPoolBase::editMFMaterials(void)
+{
+    return &_mfMaterials;
+}
+
+#ifndef OSG_2_PREP
+//! Get the MaterialPool::_mfMaterials field.
+inline
+MFMaterialPtr *MaterialPoolBase::getMFMaterials(void)
+{
+    return &_mfMaterials;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the MaterialPool::_mfMaterials field.
+inline
+MaterialPtr &MaterialPoolBase::editMaterials(const UInt32 index)
+{
+    return _mfMaterials[index];
+}
+
+//! Get the value of the \a index element the MaterialPool::_mfMaterials field.
+inline
+const MaterialPtr &MaterialPoolBase::getMaterials(const UInt32 index) const
+{
+    return _mfMaterials[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the MaterialPool::_mfMaterials field.
 inline
 MaterialPtr &MaterialPoolBase::getMaterials(const UInt32 index)
@@ -119,14 +150,9 @@ MFMaterialPtr &MaterialPoolBase::getMaterials(void)
     return _mfMaterials;
 }
 
-//! Get the MaterialPool::_mfMaterials field.
-inline
-const MFMaterialPtr &MaterialPoolBase::getMaterials(void) const
-{
-    return _mfMaterials;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALPOOLBASE_INLINE_CVSID "@(#)$Id: OSGMaterialPoolBase.inl,v 1.6 2008/06/05 05:02:28 vossg Exp $"
+#define OSGMATERIALPOOLBASE_INLINE_CVSID "@(#)$Id: OSGMaterialPoolBase.inl,v 1.7 2008/06/09 07:31:51 vossg Exp $"
 

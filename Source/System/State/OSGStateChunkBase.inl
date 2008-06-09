@@ -72,15 +72,31 @@ OSG::UInt32 StateChunkBase::getClassTypeId(void)
 
 //! Get the StateChunk::_sfIgnore field.
 inline
-SFBool *StateChunkBase::getSFIgnore(void)
+const SFBool *StateChunkBase::getSFIgnore(void) const
 {
     return &_sfIgnore;
 }
 
+//! Get the StateChunk::_sfIgnore field.
+inline
+SFBool *StateChunkBase::editSFIgnore(void)
+{
+    return &_sfIgnore;
+}
+
+#ifndef OSG_2_PREP
+//! Get the StateChunk::_sfIgnore field.
+inline
+SFBool *StateChunkBase::getSFIgnore(void)
+{
+    return &_sfIgnore;
+}
+#endif
+
 
 //! Get the value of the StateChunk::_sfIgnore field.
 inline
-bool &StateChunkBase::getIgnore(void)
+bool &StateChunkBase::editIgnore(void)
 {
     return _sfIgnore.getValue();
 }
@@ -91,6 +107,15 @@ const bool &StateChunkBase::getIgnore(void) const
 {
     return _sfIgnore.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the StateChunk::_sfIgnore field.
+inline
+bool &StateChunkBase::getIgnore(void)
+{
+    return _sfIgnore.getValue();
+}
+#endif
 
 //! Set the value of the StateChunk::_sfIgnore field.
 inline

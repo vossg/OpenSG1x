@@ -128,16 +128,43 @@ class OSG_WINDOWXLIB_DLLMAPPING XWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFDisplayP          *getSFDisplay        (void);
-           SFX11Window         *getSFWindow         (void);
-           SFGLXContext        *getSFContext        (void);
 
-           DisplayP            &getDisplay        (void);
+           SFDisplayP          *editSFDisplay        (void);
+     const SFDisplayP          *getSFDisplay        (void) const;
+#ifndef OSG_2_PREP
+           SFDisplayP          *getSFDisplay        (void);
+#endif
+
+           SFX11Window         *editSFWindow         (void);
+     const SFX11Window         *getSFWindow         (void) const;
+#ifndef OSG_2_PREP
+           SFX11Window         *getSFWindow         (void);
+#endif
+
+           SFGLXContext        *editSFContext        (void);
+     const SFGLXContext        *getSFContext        (void) const;
+#ifndef OSG_2_PREP
+           SFGLXContext        *getSFContext        (void);
+#endif
+
+
+           DisplayP            &editDisplay        (void);
      const DisplayP            &getDisplay        (void) const;
-           X11Window           &getWindow         (void);
+#ifndef OSG_2_PREP
+           DisplayP            &getDisplay        (void);
+#endif
+
+           X11Window           &editWindow         (void);
      const X11Window           &getWindow         (void) const;
-           GLXContext          &getContext        (void);
+#ifndef OSG_2_PREP
+           X11Window           &getWindow         (void);
+#endif
+
+           GLXContext          &editContext        (void);
      const GLXContext          &getContext        (void) const;
+#ifndef OSG_2_PREP
+           GLXContext          &getContext        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

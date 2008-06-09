@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLightBase : public PointLight
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFDirection      (void);
-           SFReal32            *getSFSpotExponent   (void);
-           SFReal32            *getSFSpotCutOff     (void);
 
-           Vec3f               &getDirection      (void);
+           SFVec3f             *editSFDirection      (void);
+     const SFVec3f             *getSFDirection      (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFDirection      (void);
+#endif
+
+           SFReal32            *editSFSpotExponent   (void);
+     const SFReal32            *getSFSpotExponent   (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSpotExponent   (void);
+#endif
+
+           SFReal32            *editSFSpotCutOff     (void);
+     const SFReal32            *getSFSpotCutOff     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSpotCutOff     (void);
+#endif
+
+
+           Vec3f               &editDirection      (void);
      const Vec3f               &getDirection      (void) const;
-           Real32              &getSpotExponent   (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getDirection      (void);
+#endif
+
+           Real32              &editSpotExponent   (void);
      const Real32              &getSpotExponent   (void) const;
-           Real32              &getSpotCutOff     (void);
+#ifndef OSG_2_PREP
+           Real32              &getSpotExponent   (void);
+#endif
+
+           Real32              &editSpotCutOff     (void);
      const Real32              &getSpotCutOff     (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getSpotCutOff     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

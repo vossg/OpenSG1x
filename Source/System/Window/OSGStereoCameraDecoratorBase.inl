@@ -72,22 +72,54 @@ OSG::UInt32 StereoCameraDecoratorBase::getClassTypeId(void)
 
 //! Get the StereoCameraDecorator::_sfLeftEye field.
 inline
-SFBool *StereoCameraDecoratorBase::getSFLeftEye(void)
+const SFBool *StereoCameraDecoratorBase::getSFLeftEye(void) const
 {
     return &_sfLeftEye;
 }
 
+//! Get the StereoCameraDecorator::_sfLeftEye field.
+inline
+SFBool *StereoCameraDecoratorBase::editSFLeftEye(void)
+{
+    return &_sfLeftEye;
+}
+
+#ifndef OSG_2_PREP
+//! Get the StereoCameraDecorator::_sfLeftEye field.
+inline
+SFBool *StereoCameraDecoratorBase::getSFLeftEye(void)
+{
+    return &_sfLeftEye;
+}
+#endif
+
+//! Get the StereoCameraDecorator::_sfEyeSeparation field.
+inline
+const SFReal32 *StereoCameraDecoratorBase::getSFEyeSeparation(void) const
+{
+    return &_sfEyeSeparation;
+}
+
+//! Get the StereoCameraDecorator::_sfEyeSeparation field.
+inline
+SFReal32 *StereoCameraDecoratorBase::editSFEyeSeparation(void)
+{
+    return &_sfEyeSeparation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the StereoCameraDecorator::_sfEyeSeparation field.
 inline
 SFReal32 *StereoCameraDecoratorBase::getSFEyeSeparation(void)
 {
     return &_sfEyeSeparation;
 }
+#endif
 
 
 //! Get the value of the StereoCameraDecorator::_sfLeftEye field.
 inline
-bool &StereoCameraDecoratorBase::getLeftEye(void)
+bool &StereoCameraDecoratorBase::editLeftEye(void)
 {
     return _sfLeftEye.getValue();
 }
@@ -99,6 +131,15 @@ const bool &StereoCameraDecoratorBase::getLeftEye(void) const
     return _sfLeftEye.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the StereoCameraDecorator::_sfLeftEye field.
+inline
+bool &StereoCameraDecoratorBase::getLeftEye(void)
+{
+    return _sfLeftEye.getValue();
+}
+#endif
+
 //! Set the value of the StereoCameraDecorator::_sfLeftEye field.
 inline
 void StereoCameraDecoratorBase::setLeftEye(const bool &value)
@@ -108,7 +149,7 @@ void StereoCameraDecoratorBase::setLeftEye(const bool &value)
 
 //! Get the value of the StereoCameraDecorator::_sfEyeSeparation field.
 inline
-Real32 &StereoCameraDecoratorBase::getEyeSeparation(void)
+Real32 &StereoCameraDecoratorBase::editEyeSeparation(void)
 {
     return _sfEyeSeparation.getValue();
 }
@@ -119,6 +160,15 @@ const Real32 &StereoCameraDecoratorBase::getEyeSeparation(void) const
 {
     return _sfEyeSeparation.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the StereoCameraDecorator::_sfEyeSeparation field.
+inline
+Real32 &StereoCameraDecoratorBase::getEyeSeparation(void)
+{
+    return _sfEyeSeparation.getValue();
+}
+#endif
 
 //! Set the value of the StereoCameraDecorator::_sfEyeSeparation field.
 inline

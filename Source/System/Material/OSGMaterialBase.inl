@@ -72,22 +72,54 @@ OSG::UInt32 MaterialBase::getClassTypeId(void)
 
 //! Get the Material::_sfSortKey field.
 inline
-SFInt32 *MaterialBase::getSFSortKey(void)
+const SFInt32 *MaterialBase::getSFSortKey(void) const
 {
     return &_sfSortKey;
 }
 
+//! Get the Material::_sfSortKey field.
+inline
+SFInt32 *MaterialBase::editSFSortKey(void)
+{
+    return &_sfSortKey;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Material::_sfSortKey field.
+inline
+SFInt32 *MaterialBase::getSFSortKey(void)
+{
+    return &_sfSortKey;
+}
+#endif
+
+//! Get the Material::_sfTransparencyMode field.
+inline
+const SFInt32 *MaterialBase::getSFTransparencyMode(void) const
+{
+    return &_sfTransparencyMode;
+}
+
+//! Get the Material::_sfTransparencyMode field.
+inline
+SFInt32 *MaterialBase::editSFTransparencyMode(void)
+{
+    return &_sfTransparencyMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Material::_sfTransparencyMode field.
 inline
 SFInt32 *MaterialBase::getSFTransparencyMode(void)
 {
     return &_sfTransparencyMode;
 }
+#endif
 
 
 //! Get the value of the Material::_sfSortKey field.
 inline
-Int32 &MaterialBase::getSortKey(void)
+Int32 &MaterialBase::editSortKey(void)
 {
     return _sfSortKey.getValue();
 }
@@ -99,6 +131,15 @@ const Int32 &MaterialBase::getSortKey(void) const
     return _sfSortKey.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Material::_sfSortKey field.
+inline
+Int32 &MaterialBase::getSortKey(void)
+{
+    return _sfSortKey.getValue();
+}
+#endif
+
 //! Set the value of the Material::_sfSortKey field.
 inline
 void MaterialBase::setSortKey(const Int32 &value)
@@ -108,7 +149,7 @@ void MaterialBase::setSortKey(const Int32 &value)
 
 //! Get the value of the Material::_sfTransparencyMode field.
 inline
-Int32 &MaterialBase::getTransparencyMode(void)
+Int32 &MaterialBase::editTransparencyMode(void)
 {
     return _sfTransparencyMode.getValue();
 }
@@ -119,6 +160,15 @@ const Int32 &MaterialBase::getTransparencyMode(void) const
 {
     return _sfTransparencyMode.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the Material::_sfTransparencyMode field.
+inline
+Int32 &MaterialBase::getTransparencyMode(void)
+{
+    return _sfTransparencyMode.getValue();
+}
+#endif
 
 //! Set the value of the Material::_sfTransparencyMode field.
 inline

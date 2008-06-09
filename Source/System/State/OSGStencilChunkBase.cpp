@@ -132,42 +132,42 @@ FieldDescription *StencilChunkBase::_desc[] =
                      "stencilFunc", 
                      StencilFuncFieldId, StencilFuncFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::getSFStencilFunc)),
+                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::editSFStencilFunc)),
     new FieldDescription(SFInt32::getClassType(), 
                      "stencilValue", 
                      StencilValueFieldId, StencilValueFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::getSFStencilValue)),
+                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::editSFStencilValue)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "stencilMask", 
                      StencilMaskFieldId, StencilMaskFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::getSFStencilMask)),
+                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::editSFStencilMask)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "stencilOpFail", 
                      StencilOpFailFieldId, StencilOpFailFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::getSFStencilOpFail)),
+                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::editSFStencilOpFail)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "stencilOpZFail", 
                      StencilOpZFailFieldId, StencilOpZFailFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::getSFStencilOpZFail)),
+                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::editSFStencilOpZFail)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "stencilOpZPass", 
                      StencilOpZPassFieldId, StencilOpZPassFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::getSFStencilOpZPass)),
+                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::editSFStencilOpZPass)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearBuffer", 
                      ClearBufferFieldId, ClearBufferFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::getSFClearBuffer)),
+                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::editSFClearBuffer)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "bitMask", 
                      BitMaskFieldId, BitMaskFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::getSFBitMask))
+                     reinterpret_cast<FieldAccessMethod>(&StencilChunkBase::editSFBitMask))
 };
 
 
@@ -524,7 +524,7 @@ DataType FieldDataTraits<StencilChunkPtr>::_type("StencilChunkPtr", "StateChunkP
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.8 2008/06/05 05:02:29 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.9 2008/06/09 07:31:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTENCILCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTENCILCHUNKBASE_INLINE_CVSID;
 

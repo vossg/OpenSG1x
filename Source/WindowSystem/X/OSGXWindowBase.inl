@@ -98,29 +98,77 @@ XWindowPtr XWindowBase::createEmpty(void)
 
 //! Get the XWindow::_sfDisplay field.
 inline
-SFDisplayP *XWindowBase::getSFDisplay(void)
+const SFDisplayP *XWindowBase::getSFDisplay(void) const
 {
     return &_sfDisplay;
 }
 
+//! Get the XWindow::_sfDisplay field.
+inline
+SFDisplayP *XWindowBase::editSFDisplay(void)
+{
+    return &_sfDisplay;
+}
+
+#ifndef OSG_2_PREP
+//! Get the XWindow::_sfDisplay field.
+inline
+SFDisplayP *XWindowBase::getSFDisplay(void)
+{
+    return &_sfDisplay;
+}
+#endif
+
+//! Get the XWindow::_sfWindow field.
+inline
+const SFX11Window *XWindowBase::getSFWindow(void) const
+{
+    return &_sfWindow;
+}
+
+//! Get the XWindow::_sfWindow field.
+inline
+SFX11Window *XWindowBase::editSFWindow(void)
+{
+    return &_sfWindow;
+}
+
+#ifndef OSG_2_PREP
 //! Get the XWindow::_sfWindow field.
 inline
 SFX11Window *XWindowBase::getSFWindow(void)
 {
     return &_sfWindow;
 }
+#endif
 
+//! Get the XWindow::_sfContext field.
+inline
+const SFGLXContext *XWindowBase::getSFContext(void) const
+{
+    return &_sfContext;
+}
+
+//! Get the XWindow::_sfContext field.
+inline
+SFGLXContext *XWindowBase::editSFContext(void)
+{
+    return &_sfContext;
+}
+
+#ifndef OSG_2_PREP
 //! Get the XWindow::_sfContext field.
 inline
 SFGLXContext *XWindowBase::getSFContext(void)
 {
     return &_sfContext;
 }
+#endif
 
 
 //! Get the value of the XWindow::_sfDisplay field.
 inline
-DisplayP &XWindowBase::getDisplay(void)
+DisplayP &XWindowBase::editDisplay(void)
 {
     return _sfDisplay.getValue();
 }
@@ -132,6 +180,15 @@ const DisplayP &XWindowBase::getDisplay(void) const
     return _sfDisplay.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the XWindow::_sfDisplay field.
+inline
+DisplayP &XWindowBase::getDisplay(void)
+{
+    return _sfDisplay.getValue();
+}
+#endif
+
 //! Set the value of the XWindow::_sfDisplay field.
 inline
 void XWindowBase::setDisplay(const DisplayP &value)
@@ -141,7 +198,7 @@ void XWindowBase::setDisplay(const DisplayP &value)
 
 //! Get the value of the XWindow::_sfWindow field.
 inline
-X11Window &XWindowBase::getWindow(void)
+X11Window &XWindowBase::editWindow(void)
 {
     return _sfWindow.getValue();
 }
@@ -153,6 +210,15 @@ const X11Window &XWindowBase::getWindow(void) const
     return _sfWindow.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the XWindow::_sfWindow field.
+inline
+X11Window &XWindowBase::getWindow(void)
+{
+    return _sfWindow.getValue();
+}
+#endif
+
 //! Set the value of the XWindow::_sfWindow field.
 inline
 void XWindowBase::setWindow(const X11Window &value)
@@ -162,7 +228,7 @@ void XWindowBase::setWindow(const X11Window &value)
 
 //! Get the value of the XWindow::_sfContext field.
 inline
-GLXContext &XWindowBase::getContext(void)
+GLXContext &XWindowBase::editContext(void)
 {
     return _sfContext.getValue();
 }
@@ -173,6 +239,15 @@ const GLXContext &XWindowBase::getContext(void) const
 {
     return _sfContext.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the XWindow::_sfContext field.
+inline
+GLXContext &XWindowBase::getContext(void)
+{
+    return _sfContext.getValue();
+}
+#endif
 
 //! Set the value of the XWindow::_sfContext field.
 inline

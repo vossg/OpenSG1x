@@ -152,40 +152,139 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsWorldBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFErp            (void);
-           SFVec3f             *getSFGravity        (void);
-           SFReal32            *getSFCfm            (void);
-           SFInt32             *getSFAutoDisableFlag(void);
-           SFReal32            *getSFAutoDisableLinearThreshold(void);
-           SFReal32            *getSFAutoDisableAngularThreshold(void);
-           SFInt32             *getSFAutoDisableSteps(void);
-           SFReal32            *getSFAutoDisableTime(void);
-           SFInt32             *getSFWorldQuickStepNumIterations(void);
-           SFReal32            *getSFWorldContactMaxCorrectingVel(void);
-           SFReal32            *getSFWorldContactSurfaceLayer(void);
 
-           Real32              &getErp            (void);
+           SFReal32            *editSFErp            (void);
+     const SFReal32            *getSFErp            (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFErp            (void);
+#endif
+
+           SFVec3f             *editSFGravity        (void);
+     const SFVec3f             *getSFGravity        (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFGravity        (void);
+#endif
+
+           SFReal32            *editSFCfm            (void);
+     const SFReal32            *getSFCfm            (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFCfm            (void);
+#endif
+
+           SFInt32             *editSFAutoDisableFlag(void);
+     const SFInt32             *getSFAutoDisableFlag(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFAutoDisableFlag(void);
+#endif
+
+           SFReal32            *editSFAutoDisableLinearThreshold(void);
+     const SFReal32            *getSFAutoDisableLinearThreshold(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAutoDisableLinearThreshold(void);
+#endif
+
+           SFReal32            *editSFAutoDisableAngularThreshold(void);
+     const SFReal32            *getSFAutoDisableAngularThreshold(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAutoDisableAngularThreshold(void);
+#endif
+
+           SFInt32             *editSFAutoDisableSteps(void);
+     const SFInt32             *getSFAutoDisableSteps(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFAutoDisableSteps(void);
+#endif
+
+           SFReal32            *editSFAutoDisableTime(void);
+     const SFReal32            *getSFAutoDisableTime(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAutoDisableTime(void);
+#endif
+
+           SFInt32             *editSFWorldQuickStepNumIterations(void);
+     const SFInt32             *getSFWorldQuickStepNumIterations(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFWorldQuickStepNumIterations(void);
+#endif
+
+           SFReal32            *editSFWorldContactMaxCorrectingVel(void);
+     const SFReal32            *getSFWorldContactMaxCorrectingVel(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFWorldContactMaxCorrectingVel(void);
+#endif
+
+           SFReal32            *editSFWorldContactSurfaceLayer(void);
+     const SFReal32            *getSFWorldContactSurfaceLayer(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFWorldContactSurfaceLayer(void);
+#endif
+
+
+           Real32              &editErp            (void);
      const Real32              &getErp            (void) const;
-           Vec3f               &getGravity        (void);
+#ifndef OSG_2_PREP
+           Real32              &getErp            (void);
+#endif
+
+           Vec3f               &editGravity        (void);
      const Vec3f               &getGravity        (void) const;
-           Real32              &getCfm            (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getGravity        (void);
+#endif
+
+           Real32              &editCfm            (void);
      const Real32              &getCfm            (void) const;
-           Int32               &getAutoDisableFlag(void);
+#ifndef OSG_2_PREP
+           Real32              &getCfm            (void);
+#endif
+
+           Int32               &editAutoDisableFlag(void);
      const Int32               &getAutoDisableFlag(void) const;
-           Real32              &getAutoDisableLinearThreshold(void);
+#ifndef OSG_2_PREP
+           Int32               &getAutoDisableFlag(void);
+#endif
+
+           Real32              &editAutoDisableLinearThreshold(void);
      const Real32              &getAutoDisableLinearThreshold(void) const;
-           Real32              &getAutoDisableAngularThreshold(void);
+#ifndef OSG_2_PREP
+           Real32              &getAutoDisableLinearThreshold(void);
+#endif
+
+           Real32              &editAutoDisableAngularThreshold(void);
      const Real32              &getAutoDisableAngularThreshold(void) const;
-           Int32               &getAutoDisableSteps(void);
+#ifndef OSG_2_PREP
+           Real32              &getAutoDisableAngularThreshold(void);
+#endif
+
+           Int32               &editAutoDisableSteps(void);
      const Int32               &getAutoDisableSteps(void) const;
-           Real32              &getAutoDisableTime(void);
+#ifndef OSG_2_PREP
+           Int32               &getAutoDisableSteps(void);
+#endif
+
+           Real32              &editAutoDisableTime(void);
      const Real32              &getAutoDisableTime(void) const;
-           Int32               &getWorldQuickStepNumIterations(void);
+#ifndef OSG_2_PREP
+           Real32              &getAutoDisableTime(void);
+#endif
+
+           Int32               &editWorldQuickStepNumIterations(void);
      const Int32               &getWorldQuickStepNumIterations(void) const;
-           Real32              &getWorldContactMaxCorrectingVel(void);
+#ifndef OSG_2_PREP
+           Int32               &getWorldQuickStepNumIterations(void);
+#endif
+
+           Real32              &editWorldContactMaxCorrectingVel(void);
      const Real32              &getWorldContactMaxCorrectingVel(void) const;
-           Real32              &getWorldContactSurfaceLayer(void);
+#ifndef OSG_2_PREP
+           Real32              &getWorldContactMaxCorrectingVel(void);
+#endif
+
+           Real32              &editWorldContactSurfaceLayer(void);
      const Real32              &getWorldContactSurfaceLayer(void) const;
+#ifndef OSG_2_PREP
+           Real32              &getWorldContactSurfaceLayer(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -333,6 +432,6 @@ typedef RefPtr<PhysicsWorldPtr> PhysicsWorldRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSWORLDBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsWorldBase.h,v 1.3 2008/06/05 05:02:17 vossg Exp $"
+#define OSGPHYSICSWORLDBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsWorldBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSWORLDBASE_H_ */

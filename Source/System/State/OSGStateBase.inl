@@ -98,13 +98,44 @@ StatePtr StateBase::createEmpty(void)
 
 //! Get the State::_mfChunks field.
 inline
-MFStateChunkPtr *StateBase::getMFChunks(void)
+const MFStateChunkPtr *StateBase::getMFChunks(void) const
 {
     return &_mfChunks;
 }
 
+//! Get the State::_mfChunks field.
+inline
+MFStateChunkPtr *StateBase::editMFChunks(void)
+{
+    return &_mfChunks;
+}
+
+#ifndef OSG_2_PREP
+//! Get the State::_mfChunks field.
+inline
+MFStateChunkPtr *StateBase::getMFChunks(void)
+{
+    return &_mfChunks;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the State::_mfChunks field.
+inline
+StateChunkPtr &StateBase::editChunks(const UInt32 index)
+{
+    return _mfChunks[index];
+}
+
+//! Get the value of the \a index element the State::_mfChunks field.
+inline
+const StateChunkPtr &StateBase::getChunks(const UInt32 index) const
+{
+    return _mfChunks[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the State::_mfChunks field.
 inline
 StateChunkPtr &StateBase::getChunks(const UInt32 index)
@@ -119,12 +150,7 @@ MFStateChunkPtr &StateBase::getChunks(void)
     return _mfChunks;
 }
 
-//! Get the State::_mfChunks field.
-inline
-const MFStateChunkPtr &StateBase::getChunks(void) const
-{
-    return _mfChunks;
-}
+#endif
 
 OSG_END_NAMESPACE
 

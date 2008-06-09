@@ -122,11 +122,20 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMVec2fBase : public ShaderParamete
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFVec2f             *getMFValue          (void);
 
+           MFVec2f             *editMFValue          (void);
+     const MFVec2f             *getMFValue          (void) const;
+#ifndef OSG_2_PREP
+           MFVec2f             *getMFValue          (void);
+#endif
+
+
+           Vec2f               &editValue          (const UInt32 index);
+     const Vec2f               &getValue          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec2f               &getValue          (const UInt32 index);
            MFVec2f             &getValue          (void);
-     const MFVec2f             &getValue          (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<ShaderParameterMVec2fPtr> ShaderParameterMVec2fRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMVEC2FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMVec2fBase.h,v 1.2 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERMVEC2FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMVec2fBase.h,v 1.3 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERMVEC2FBASE_H_ */

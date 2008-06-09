@@ -98,15 +98,31 @@ SHLParameterChunkPtr SHLParameterChunkBase::createEmpty(void)
 
 //! Get the SHLParameterChunk::_sfSHLChunk field.
 inline
-SFSHLChunkPtr *SHLParameterChunkBase::getSFSHLChunk(void)
+const SFSHLChunkPtr *SHLParameterChunkBase::getSFSHLChunk(void) const
 {
     return &_sfSHLChunk;
 }
 
+//! Get the SHLParameterChunk::_sfSHLChunk field.
+inline
+SFSHLChunkPtr *SHLParameterChunkBase::editSFSHLChunk(void)
+{
+    return &_sfSHLChunk;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SHLParameterChunk::_sfSHLChunk field.
+inline
+SFSHLChunkPtr *SHLParameterChunkBase::getSFSHLChunk(void)
+{
+    return &_sfSHLChunk;
+}
+#endif
+
 
 //! Get the value of the SHLParameterChunk::_sfSHLChunk field.
 inline
-SHLChunkPtr &SHLParameterChunkBase::getSHLChunk(void)
+SHLChunkPtr &SHLParameterChunkBase::editSHLChunk(void)
 {
     return _sfSHLChunk.getValue();
 }
@@ -118,6 +134,15 @@ const SHLChunkPtr &SHLParameterChunkBase::getSHLChunk(void) const
     return _sfSHLChunk.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SHLParameterChunk::_sfSHLChunk field.
+inline
+SHLChunkPtr &SHLParameterChunkBase::getSHLChunk(void)
+{
+    return _sfSHLChunk.getValue();
+}
+#endif
+
 //! Set the value of the SHLParameterChunk::_sfSHLChunk field.
 inline
 void SHLParameterChunkBase::setSHLChunk(const SHLChunkPtr &value)
@@ -128,5 +153,5 @@ void SHLParameterChunkBase::setSHLChunk(const SHLChunkPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunkBase.inl,v 1.7 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLParameterChunkBase.inl,v 1.8 2008/06/09 07:31:44 vossg Exp $"
 

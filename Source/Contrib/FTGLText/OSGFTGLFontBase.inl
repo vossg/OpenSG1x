@@ -98,50 +98,146 @@ FTGLFontPtr FTGLFontBase::createEmpty(void)
 
 //! Get the FTGLFont::_sfName field.
 inline
-SFString *FTGLFontBase::getSFName(void)
+const SFString *FTGLFontBase::getSFName(void) const
 {
     return &_sfName;
 }
 
+//! Get the FTGLFont::_sfName field.
+inline
+SFString *FTGLFontBase::editSFName(void)
+{
+    return &_sfName;
+}
+
+#ifndef OSG_2_PREP
+//! Get the FTGLFont::_sfName field.
+inline
+SFString *FTGLFontBase::getSFName(void)
+{
+    return &_sfName;
+}
+#endif
+
+//! Get the FTGLFont::_sfDrawType field.
+inline
+const SFUInt32 *FTGLFontBase::getSFDrawType(void) const
+{
+    return &_sfDrawType;
+}
+
+//! Get the FTGLFont::_sfDrawType field.
+inline
+SFUInt32 *FTGLFontBase::editSFDrawType(void)
+{
+    return &_sfDrawType;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FTGLFont::_sfDrawType field.
 inline
 SFUInt32 *FTGLFontBase::getSFDrawType(void)
 {
     return &_sfDrawType;
 }
+#endif
 
+//! Get the FTGLFont::_sfSize field.
+inline
+const SFUInt32 *FTGLFontBase::getSFSize(void) const
+{
+    return &_sfSize;
+}
+
+//! Get the FTGLFont::_sfSize field.
+inline
+SFUInt32 *FTGLFontBase::editSFSize(void)
+{
+    return &_sfSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FTGLFont::_sfSize field.
 inline
 SFUInt32 *FTGLFontBase::getSFSize(void)
 {
     return &_sfSize;
 }
+#endif
 
+//! Get the FTGLFont::_sfRes field.
+inline
+const SFUInt32 *FTGLFontBase::getSFRes(void) const
+{
+    return &_sfRes;
+}
+
+//! Get the FTGLFont::_sfRes field.
+inline
+SFUInt32 *FTGLFontBase::editSFRes(void)
+{
+    return &_sfRes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FTGLFont::_sfRes field.
 inline
 SFUInt32 *FTGLFontBase::getSFRes(void)
 {
     return &_sfRes;
 }
+#endif
 
+//! Get the FTGLFont::_sfDepth field.
+inline
+const SFReal32 *FTGLFontBase::getSFDepth(void) const
+{
+    return &_sfDepth;
+}
+
+//! Get the FTGLFont::_sfDepth field.
+inline
+SFReal32 *FTGLFontBase::editSFDepth(void)
+{
+    return &_sfDepth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FTGLFont::_sfDepth field.
 inline
 SFReal32 *FTGLFontBase::getSFDepth(void)
 {
     return &_sfDepth;
 }
+#endif
 
+//! Get the FTGLFont::_sfGLId field.
+inline
+const SFUInt32 *FTGLFontBase::getSFGLId(void) const
+{
+    return &_sfGLId;
+}
+
+//! Get the FTGLFont::_sfGLId field.
+inline
+SFUInt32 *FTGLFontBase::editSFGLId(void)
+{
+    return &_sfGLId;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FTGLFont::_sfGLId field.
 inline
 SFUInt32 *FTGLFontBase::getSFGLId(void)
 {
     return &_sfGLId;
 }
+#endif
 
 
 //! Get the value of the FTGLFont::_sfName field.
 inline
-std::string &FTGLFontBase::getName(void)
+std::string &FTGLFontBase::editName(void)
 {
     return _sfName.getValue();
 }
@@ -153,6 +249,15 @@ const std::string &FTGLFontBase::getName(void) const
     return _sfName.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLFont::_sfName field.
+inline
+std::string &FTGLFontBase::getName(void)
+{
+    return _sfName.getValue();
+}
+#endif
+
 //! Set the value of the FTGLFont::_sfName field.
 inline
 void FTGLFontBase::setName(const std::string &value)
@@ -162,7 +267,7 @@ void FTGLFontBase::setName(const std::string &value)
 
 //! Get the value of the FTGLFont::_sfDrawType field.
 inline
-UInt32 &FTGLFontBase::getDrawType(void)
+UInt32 &FTGLFontBase::editDrawType(void)
 {
     return _sfDrawType.getValue();
 }
@@ -174,6 +279,15 @@ const UInt32 &FTGLFontBase::getDrawType(void) const
     return _sfDrawType.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLFont::_sfDrawType field.
+inline
+UInt32 &FTGLFontBase::getDrawType(void)
+{
+    return _sfDrawType.getValue();
+}
+#endif
+
 //! Set the value of the FTGLFont::_sfDrawType field.
 inline
 void FTGLFontBase::setDrawType(const UInt32 &value)
@@ -183,7 +297,7 @@ void FTGLFontBase::setDrawType(const UInt32 &value)
 
 //! Get the value of the FTGLFont::_sfSize field.
 inline
-UInt32 &FTGLFontBase::getSize(void)
+UInt32 &FTGLFontBase::editSize(void)
 {
     return _sfSize.getValue();
 }
@@ -195,6 +309,15 @@ const UInt32 &FTGLFontBase::getSize(void) const
     return _sfSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLFont::_sfSize field.
+inline
+UInt32 &FTGLFontBase::getSize(void)
+{
+    return _sfSize.getValue();
+}
+#endif
+
 //! Set the value of the FTGLFont::_sfSize field.
 inline
 void FTGLFontBase::setSize(const UInt32 &value)
@@ -204,7 +327,7 @@ void FTGLFontBase::setSize(const UInt32 &value)
 
 //! Get the value of the FTGLFont::_sfRes field.
 inline
-UInt32 &FTGLFontBase::getRes(void)
+UInt32 &FTGLFontBase::editRes(void)
 {
     return _sfRes.getValue();
 }
@@ -216,6 +339,15 @@ const UInt32 &FTGLFontBase::getRes(void) const
     return _sfRes.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLFont::_sfRes field.
+inline
+UInt32 &FTGLFontBase::getRes(void)
+{
+    return _sfRes.getValue();
+}
+#endif
+
 //! Set the value of the FTGLFont::_sfRes field.
 inline
 void FTGLFontBase::setRes(const UInt32 &value)
@@ -225,7 +357,7 @@ void FTGLFontBase::setRes(const UInt32 &value)
 
 //! Get the value of the FTGLFont::_sfDepth field.
 inline
-Real32 &FTGLFontBase::getDepth(void)
+Real32 &FTGLFontBase::editDepth(void)
 {
     return _sfDepth.getValue();
 }
@@ -237,6 +369,15 @@ const Real32 &FTGLFontBase::getDepth(void) const
     return _sfDepth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLFont::_sfDepth field.
+inline
+Real32 &FTGLFontBase::getDepth(void)
+{
+    return _sfDepth.getValue();
+}
+#endif
+
 //! Set the value of the FTGLFont::_sfDepth field.
 inline
 void FTGLFontBase::setDepth(const Real32 &value)
@@ -246,7 +387,7 @@ void FTGLFontBase::setDepth(const Real32 &value)
 
 //! Get the value of the FTGLFont::_sfGLId field.
 inline
-UInt32 &FTGLFontBase::getGLId(void)
+UInt32 &FTGLFontBase::editGLId(void)
 {
     return _sfGLId.getValue();
 }
@@ -258,6 +399,15 @@ const UInt32 &FTGLFontBase::getGLId(void) const
     return _sfGLId.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLFont::_sfGLId field.
+inline
+UInt32 &FTGLFontBase::getGLId(void)
+{
+    return _sfGLId.getValue();
+}
+#endif
+
 //! Set the value of the FTGLFont::_sfGLId field.
 inline
 void FTGLFontBase::setGLId(const UInt32 &value)
@@ -268,5 +418,5 @@ void FTGLFontBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLFONTBASE_INLINE_CVSID "@(#)$Id: OSGFTGLFontBase.inl,v 1.7 2008/06/05 05:02:15 vossg Exp $"
+#define OSGFTGLFONTBASE_INLINE_CVSID "@(#)$Id: OSGFTGLFontBase.inl,v 1.8 2008/06/09 07:31:38 vossg Exp $"
 

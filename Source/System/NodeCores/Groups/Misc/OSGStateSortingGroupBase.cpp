@@ -86,7 +86,7 @@ FieldDescription *StateSortingGroupBase::_desc[] =
                      "sorting", 
                      SortingFieldId, SortingFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StateSortingGroupBase::getSFSorting))
+                     reinterpret_cast<FieldAccessMethod>(&StateSortingGroupBase::editSFSorting))
 };
 
 
@@ -282,7 +282,7 @@ DataType FieldDataTraits<StateSortingGroupPtr>::_type("StateSortingGroupPtr", "N
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.7 2008/06/05 05:02:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.8 2008/06/09 07:31:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATESORTINGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATESORTINGGROUPBASE_INLINE_CVSID;
 

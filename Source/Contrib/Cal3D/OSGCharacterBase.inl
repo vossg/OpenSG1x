@@ -98,64 +98,192 @@ CharacterPtr CharacterBase::createEmpty(void)
 
 //! Get the Character::_sfModel field.
 inline
-SFCharacterModelPtr *CharacterBase::getSFModel(void)
+const SFCharacterModelPtr *CharacterBase::getSFModel(void) const
 {
     return &_sfModel;
 }
 
+//! Get the Character::_sfModel field.
+inline
+SFCharacterModelPtr *CharacterBase::editSFModel(void)
+{
+    return &_sfModel;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Character::_sfModel field.
+inline
+SFCharacterModelPtr *CharacterBase::getSFModel(void)
+{
+    return &_sfModel;
+}
+#endif
+
+//! Get the Character::_sfCurrentAnimation field.
+inline
+const SFUInt32 *CharacterBase::getSFCurrentAnimation(void) const
+{
+    return &_sfCurrentAnimation;
+}
+
+//! Get the Character::_sfCurrentAnimation field.
+inline
+SFUInt32 *CharacterBase::editSFCurrentAnimation(void)
+{
+    return &_sfCurrentAnimation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Character::_sfCurrentAnimation field.
 inline
 SFUInt32 *CharacterBase::getSFCurrentAnimation(void)
 {
     return &_sfCurrentAnimation;
 }
+#endif
 
+//! Get the Character::_sfBlendTime field.
+inline
+const SFReal32 *CharacterBase::getSFBlendTime(void) const
+{
+    return &_sfBlendTime;
+}
+
+//! Get the Character::_sfBlendTime field.
+inline
+SFReal32 *CharacterBase::editSFBlendTime(void)
+{
+    return &_sfBlendTime;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Character::_sfBlendTime field.
 inline
 SFReal32 *CharacterBase::getSFBlendTime(void)
 {
     return &_sfBlendTime;
 }
+#endif
 
+//! Get the Character::_sfDelta field.
+inline
+const SFReal32 *CharacterBase::getSFDelta(void) const
+{
+    return &_sfDelta;
+}
+
+//! Get the Character::_sfDelta field.
+inline
+SFReal32 *CharacterBase::editSFDelta(void)
+{
+    return &_sfDelta;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Character::_sfDelta field.
 inline
 SFReal32 *CharacterBase::getSFDelta(void)
 {
     return &_sfDelta;
 }
+#endif
 
+//! Get the Character::_sfTimeScale field.
+inline
+const SFReal32 *CharacterBase::getSFTimeScale(void) const
+{
+    return &_sfTimeScale;
+}
+
+//! Get the Character::_sfTimeScale field.
+inline
+SFReal32 *CharacterBase::editSFTimeScale(void)
+{
+    return &_sfTimeScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Character::_sfTimeScale field.
 inline
 SFReal32 *CharacterBase::getSFTimeScale(void)
 {
     return &_sfTimeScale;
 }
+#endif
 
+//! Get the Character::_sfDrawSkeleton field.
+inline
+const SFBool *CharacterBase::getSFDrawSkeleton(void) const
+{
+    return &_sfDrawSkeleton;
+}
+
+//! Get the Character::_sfDrawSkeleton field.
+inline
+SFBool *CharacterBase::editSFDrawSkeleton(void)
+{
+    return &_sfDrawSkeleton;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Character::_sfDrawSkeleton field.
 inline
 SFBool *CharacterBase::getSFDrawSkeleton(void)
 {
     return &_sfDrawSkeleton;
 }
+#endif
 
+//! Get the Character::_sfUseShaderForGeometry field.
+inline
+const SFBool *CharacterBase::getSFUseShaderForGeometry(void) const
+{
+    return &_sfUseShaderForGeometry;
+}
+
+//! Get the Character::_sfUseShaderForGeometry field.
+inline
+SFBool *CharacterBase::editSFUseShaderForGeometry(void)
+{
+    return &_sfUseShaderForGeometry;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Character::_sfUseShaderForGeometry field.
 inline
 SFBool *CharacterBase::getSFUseShaderForGeometry(void)
 {
     return &_sfUseShaderForGeometry;
 }
+#endif
 
+//! Get the Character::_sfModelVolume field.
+inline
+const SFDynamicVolume *CharacterBase::getSFModelVolume(void) const
+{
+    return &_sfModelVolume;
+}
+
+//! Get the Character::_sfModelVolume field.
+inline
+SFDynamicVolume *CharacterBase::editSFModelVolume(void)
+{
+    return &_sfModelVolume;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Character::_sfModelVolume field.
 inline
 SFDynamicVolume *CharacterBase::getSFModelVolume(void)
 {
     return &_sfModelVolume;
 }
+#endif
 
 
 //! Get the value of the Character::_sfModel field.
 inline
-CharacterModelPtr &CharacterBase::getModel(void)
+CharacterModelPtr &CharacterBase::editModel(void)
 {
     return _sfModel.getValue();
 }
@@ -167,6 +295,15 @@ const CharacterModelPtr &CharacterBase::getModel(void) const
     return _sfModel.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Character::_sfModel field.
+inline
+CharacterModelPtr &CharacterBase::getModel(void)
+{
+    return _sfModel.getValue();
+}
+#endif
+
 //! Set the value of the Character::_sfModel field.
 inline
 void CharacterBase::setModel(const CharacterModelPtr &value)
@@ -176,7 +313,7 @@ void CharacterBase::setModel(const CharacterModelPtr &value)
 
 //! Get the value of the Character::_sfCurrentAnimation field.
 inline
-UInt32 &CharacterBase::getCurrentAnimation(void)
+UInt32 &CharacterBase::editCurrentAnimation(void)
 {
     return _sfCurrentAnimation.getValue();
 }
@@ -188,6 +325,15 @@ const UInt32 &CharacterBase::getCurrentAnimation(void) const
     return _sfCurrentAnimation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Character::_sfCurrentAnimation field.
+inline
+UInt32 &CharacterBase::getCurrentAnimation(void)
+{
+    return _sfCurrentAnimation.getValue();
+}
+#endif
+
 //! Set the value of the Character::_sfCurrentAnimation field.
 inline
 void CharacterBase::setCurrentAnimation(const UInt32 &value)
@@ -197,7 +343,7 @@ void CharacterBase::setCurrentAnimation(const UInt32 &value)
 
 //! Get the value of the Character::_sfBlendTime field.
 inline
-Real32 &CharacterBase::getBlendTime(void)
+Real32 &CharacterBase::editBlendTime(void)
 {
     return _sfBlendTime.getValue();
 }
@@ -209,6 +355,15 @@ const Real32 &CharacterBase::getBlendTime(void) const
     return _sfBlendTime.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Character::_sfBlendTime field.
+inline
+Real32 &CharacterBase::getBlendTime(void)
+{
+    return _sfBlendTime.getValue();
+}
+#endif
+
 //! Set the value of the Character::_sfBlendTime field.
 inline
 void CharacterBase::setBlendTime(const Real32 &value)
@@ -218,7 +373,7 @@ void CharacterBase::setBlendTime(const Real32 &value)
 
 //! Get the value of the Character::_sfDelta field.
 inline
-Real32 &CharacterBase::getDelta(void)
+Real32 &CharacterBase::editDelta(void)
 {
     return _sfDelta.getValue();
 }
@@ -230,6 +385,15 @@ const Real32 &CharacterBase::getDelta(void) const
     return _sfDelta.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Character::_sfDelta field.
+inline
+Real32 &CharacterBase::getDelta(void)
+{
+    return _sfDelta.getValue();
+}
+#endif
+
 //! Set the value of the Character::_sfDelta field.
 inline
 void CharacterBase::setDelta(const Real32 &value)
@@ -239,7 +403,7 @@ void CharacterBase::setDelta(const Real32 &value)
 
 //! Get the value of the Character::_sfTimeScale field.
 inline
-Real32 &CharacterBase::getTimeScale(void)
+Real32 &CharacterBase::editTimeScale(void)
 {
     return _sfTimeScale.getValue();
 }
@@ -251,6 +415,15 @@ const Real32 &CharacterBase::getTimeScale(void) const
     return _sfTimeScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Character::_sfTimeScale field.
+inline
+Real32 &CharacterBase::getTimeScale(void)
+{
+    return _sfTimeScale.getValue();
+}
+#endif
+
 //! Set the value of the Character::_sfTimeScale field.
 inline
 void CharacterBase::setTimeScale(const Real32 &value)
@@ -260,7 +433,7 @@ void CharacterBase::setTimeScale(const Real32 &value)
 
 //! Get the value of the Character::_sfDrawSkeleton field.
 inline
-bool &CharacterBase::getDrawSkeleton(void)
+bool &CharacterBase::editDrawSkeleton(void)
 {
     return _sfDrawSkeleton.getValue();
 }
@@ -272,6 +445,15 @@ const bool &CharacterBase::getDrawSkeleton(void) const
     return _sfDrawSkeleton.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Character::_sfDrawSkeleton field.
+inline
+bool &CharacterBase::getDrawSkeleton(void)
+{
+    return _sfDrawSkeleton.getValue();
+}
+#endif
+
 //! Set the value of the Character::_sfDrawSkeleton field.
 inline
 void CharacterBase::setDrawSkeleton(const bool &value)
@@ -281,7 +463,7 @@ void CharacterBase::setDrawSkeleton(const bool &value)
 
 //! Get the value of the Character::_sfUseShaderForGeometry field.
 inline
-bool &CharacterBase::getUseShaderForGeometry(void)
+bool &CharacterBase::editUseShaderForGeometry(void)
 {
     return _sfUseShaderForGeometry.getValue();
 }
@@ -293,6 +475,15 @@ const bool &CharacterBase::getUseShaderForGeometry(void) const
     return _sfUseShaderForGeometry.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Character::_sfUseShaderForGeometry field.
+inline
+bool &CharacterBase::getUseShaderForGeometry(void)
+{
+    return _sfUseShaderForGeometry.getValue();
+}
+#endif
+
 //! Set the value of the Character::_sfUseShaderForGeometry field.
 inline
 void CharacterBase::setUseShaderForGeometry(const bool &value)
@@ -302,7 +493,7 @@ void CharacterBase::setUseShaderForGeometry(const bool &value)
 
 //! Get the value of the Character::_sfModelVolume field.
 inline
-DynamicVolume &CharacterBase::getModelVolume(void)
+DynamicVolume &CharacterBase::editModelVolume(void)
 {
     return _sfModelVolume.getValue();
 }
@@ -314,6 +505,15 @@ const DynamicVolume &CharacterBase::getModelVolume(void) const
     return _sfModelVolume.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Character::_sfModelVolume field.
+inline
+DynamicVolume &CharacterBase::getModelVolume(void)
+{
+    return _sfModelVolume.getValue();
+}
+#endif
+
 //! Set the value of the Character::_sfModelVolume field.
 inline
 void CharacterBase::setModelVolume(const DynamicVolume &value)
@@ -324,5 +524,5 @@ void CharacterBase::setModelVolume(const DynamicVolume &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERBASE_INLINE_CVSID "@(#)$Id: OSGCharacterBase.inl,v 1.3 2008/06/05 05:02:15 vossg Exp $"
+#define OSGCHARACTERBASE_INLINE_CVSID "@(#)$Id: OSGCharacterBase.inl,v 1.4 2008/06/09 07:31:37 vossg Exp $"
 

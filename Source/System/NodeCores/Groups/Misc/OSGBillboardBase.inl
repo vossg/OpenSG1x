@@ -98,43 +98,123 @@ BillboardPtr BillboardBase::createEmpty(void)
 
 //! Get the Billboard::_sfAxisOfRotation field.
 inline
-SFVec3f *BillboardBase::getSFAxisOfRotation(void)
+const SFVec3f *BillboardBase::getSFAxisOfRotation(void) const
 {
     return &_sfAxisOfRotation;
 }
 
+//! Get the Billboard::_sfAxisOfRotation field.
+inline
+SFVec3f *BillboardBase::editSFAxisOfRotation(void)
+{
+    return &_sfAxisOfRotation;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Billboard::_sfAxisOfRotation field.
+inline
+SFVec3f *BillboardBase::getSFAxisOfRotation(void)
+{
+    return &_sfAxisOfRotation;
+}
+#endif
+
+//! Get the Billboard::_sfFocusOnCamera field.
+inline
+const SFBool *BillboardBase::getSFFocusOnCamera(void) const
+{
+    return &_sfFocusOnCamera;
+}
+
+//! Get the Billboard::_sfFocusOnCamera field.
+inline
+SFBool *BillboardBase::editSFFocusOnCamera(void)
+{
+    return &_sfFocusOnCamera;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Billboard::_sfFocusOnCamera field.
 inline
 SFBool *BillboardBase::getSFFocusOnCamera(void)
 {
     return &_sfFocusOnCamera;
 }
+#endif
 
+//! Get the Billboard::_sfAlignToScreen field.
+inline
+const SFBool *BillboardBase::getSFAlignToScreen(void) const
+{
+    return &_sfAlignToScreen;
+}
+
+//! Get the Billboard::_sfAlignToScreen field.
+inline
+SFBool *BillboardBase::editSFAlignToScreen(void)
+{
+    return &_sfAlignToScreen;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Billboard::_sfAlignToScreen field.
 inline
 SFBool *BillboardBase::getSFAlignToScreen(void)
 {
     return &_sfAlignToScreen;
 }
+#endif
 
+//! Get the Billboard::_sfMinAngle field.
+inline
+const SFReal32 *BillboardBase::getSFMinAngle(void) const
+{
+    return &_sfMinAngle;
+}
+
+//! Get the Billboard::_sfMinAngle field.
+inline
+SFReal32 *BillboardBase::editSFMinAngle(void)
+{
+    return &_sfMinAngle;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Billboard::_sfMinAngle field.
 inline
 SFReal32 *BillboardBase::getSFMinAngle(void)
 {
     return &_sfMinAngle;
 }
+#endif
 
+//! Get the Billboard::_sfMaxAngle field.
+inline
+const SFReal32 *BillboardBase::getSFMaxAngle(void) const
+{
+    return &_sfMaxAngle;
+}
+
+//! Get the Billboard::_sfMaxAngle field.
+inline
+SFReal32 *BillboardBase::editSFMaxAngle(void)
+{
+    return &_sfMaxAngle;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Billboard::_sfMaxAngle field.
 inline
 SFReal32 *BillboardBase::getSFMaxAngle(void)
 {
     return &_sfMaxAngle;
 }
+#endif
 
 
 //! Get the value of the Billboard::_sfAxisOfRotation field.
 inline
-Vec3f &BillboardBase::getAxisOfRotation(void)
+Vec3f &BillboardBase::editAxisOfRotation(void)
 {
     return _sfAxisOfRotation.getValue();
 }
@@ -146,6 +226,15 @@ const Vec3f &BillboardBase::getAxisOfRotation(void) const
     return _sfAxisOfRotation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Billboard::_sfAxisOfRotation field.
+inline
+Vec3f &BillboardBase::getAxisOfRotation(void)
+{
+    return _sfAxisOfRotation.getValue();
+}
+#endif
+
 //! Set the value of the Billboard::_sfAxisOfRotation field.
 inline
 void BillboardBase::setAxisOfRotation(const Vec3f &value)
@@ -155,7 +244,7 @@ void BillboardBase::setAxisOfRotation(const Vec3f &value)
 
 //! Get the value of the Billboard::_sfFocusOnCamera field.
 inline
-bool &BillboardBase::getFocusOnCamera(void)
+bool &BillboardBase::editFocusOnCamera(void)
 {
     return _sfFocusOnCamera.getValue();
 }
@@ -167,6 +256,15 @@ const bool &BillboardBase::getFocusOnCamera(void) const
     return _sfFocusOnCamera.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Billboard::_sfFocusOnCamera field.
+inline
+bool &BillboardBase::getFocusOnCamera(void)
+{
+    return _sfFocusOnCamera.getValue();
+}
+#endif
+
 //! Set the value of the Billboard::_sfFocusOnCamera field.
 inline
 void BillboardBase::setFocusOnCamera(const bool &value)
@@ -176,7 +274,7 @@ void BillboardBase::setFocusOnCamera(const bool &value)
 
 //! Get the value of the Billboard::_sfAlignToScreen field.
 inline
-bool &BillboardBase::getAlignToScreen(void)
+bool &BillboardBase::editAlignToScreen(void)
 {
     return _sfAlignToScreen.getValue();
 }
@@ -188,6 +286,15 @@ const bool &BillboardBase::getAlignToScreen(void) const
     return _sfAlignToScreen.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Billboard::_sfAlignToScreen field.
+inline
+bool &BillboardBase::getAlignToScreen(void)
+{
+    return _sfAlignToScreen.getValue();
+}
+#endif
+
 //! Set the value of the Billboard::_sfAlignToScreen field.
 inline
 void BillboardBase::setAlignToScreen(const bool &value)
@@ -197,7 +304,7 @@ void BillboardBase::setAlignToScreen(const bool &value)
 
 //! Get the value of the Billboard::_sfMinAngle field.
 inline
-Real32 &BillboardBase::getMinAngle(void)
+Real32 &BillboardBase::editMinAngle(void)
 {
     return _sfMinAngle.getValue();
 }
@@ -209,6 +316,15 @@ const Real32 &BillboardBase::getMinAngle(void) const
     return _sfMinAngle.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Billboard::_sfMinAngle field.
+inline
+Real32 &BillboardBase::getMinAngle(void)
+{
+    return _sfMinAngle.getValue();
+}
+#endif
+
 //! Set the value of the Billboard::_sfMinAngle field.
 inline
 void BillboardBase::setMinAngle(const Real32 &value)
@@ -218,7 +334,7 @@ void BillboardBase::setMinAngle(const Real32 &value)
 
 //! Get the value of the Billboard::_sfMaxAngle field.
 inline
-Real32 &BillboardBase::getMaxAngle(void)
+Real32 &BillboardBase::editMaxAngle(void)
 {
     return _sfMaxAngle.getValue();
 }
@@ -229,6 +345,15 @@ const Real32 &BillboardBase::getMaxAngle(void) const
 {
     return _sfMaxAngle.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the Billboard::_sfMaxAngle field.
+inline
+Real32 &BillboardBase::getMaxAngle(void)
+{
+    return _sfMaxAngle.getValue();
+}
+#endif
 
 //! Set the value of the Billboard::_sfMaxAngle field.
 inline

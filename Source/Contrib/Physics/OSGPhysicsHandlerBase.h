@@ -125,13 +125,31 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsHandlerBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFPhysicsWorldPtr   *getSFWorld          (void);
-           SFPhysicsSpacePtr   *getSFSpace          (void);
 
-           PhysicsWorldPtr     &getWorld          (void);
+           SFPhysicsWorldPtr   *editSFWorld          (void);
+     const SFPhysicsWorldPtr   *getSFWorld          (void) const;
+#ifndef OSG_2_PREP
+           SFPhysicsWorldPtr   *getSFWorld          (void);
+#endif
+
+           SFPhysicsSpacePtr   *editSFSpace          (void);
+     const SFPhysicsSpacePtr   *getSFSpace          (void) const;
+#ifndef OSG_2_PREP
+           SFPhysicsSpacePtr   *getSFSpace          (void);
+#endif
+
+
+           PhysicsWorldPtr     &editWorld          (void);
      const PhysicsWorldPtr     &getWorld          (void) const;
-           PhysicsSpacePtr     &getSpace          (void);
+#ifndef OSG_2_PREP
+           PhysicsWorldPtr     &getWorld          (void);
+#endif
+
+           PhysicsSpacePtr     &editSpace          (void);
      const PhysicsSpacePtr     &getSpace          (void) const;
+#ifndef OSG_2_PREP
+           PhysicsSpacePtr     &getSpace          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -261,6 +279,6 @@ typedef RefPtr<PhysicsHandlerPtr> PhysicsHandlerRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHANDLERBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHandlerBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSHANDLERBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHandlerBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSHANDLERBASE_H_ */

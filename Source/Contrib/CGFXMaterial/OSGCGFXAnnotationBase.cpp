@@ -86,7 +86,7 @@ FieldDescription *CGFXAnnotationBase::_desc[] =
                      "parameters", 
                      ParametersFieldId, ParametersFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&CGFXAnnotationBase::getMFParameters))
+                     reinterpret_cast<FieldAccessMethod>(&CGFXAnnotationBase::editMFParameters))
 };
 
 
@@ -286,7 +286,7 @@ DataType FieldDataTraits<CGFXAnnotationPtr>::_type("CGFXAnnotationPtr", "Attachm
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.5 2008/06/05 05:02:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.6 2008/06/09 07:31:37 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXANNOTATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXANNOTATIONBASE_INLINE_CVSID;
 

@@ -98,62 +98,205 @@ SkinDeformerPtr SkinDeformerBase::createEmpty(void)
 
 //! Get the SkinDeformer::_mfInfluences field.
 inline
-MFNodePtr *SkinDeformerBase::getMFInfluences(void)
+const MFNodePtr *SkinDeformerBase::getMFInfluences(void) const
 {
     return &_mfInfluences;
 }
 
+//! Get the SkinDeformer::_mfInfluences field.
+inline
+MFNodePtr *SkinDeformerBase::editMFInfluences(void)
+{
+    return &_mfInfluences;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SkinDeformer::_mfInfluences field.
+inline
+MFNodePtr *SkinDeformerBase::getMFInfluences(void)
+{
+    return &_mfInfluences;
+}
+#endif
+
+//! Get the SkinDeformer::_mfBaseMatrices field.
+inline
+const MFMatrix *SkinDeformerBase::getMFBaseMatrices(void) const
+{
+    return &_mfBaseMatrices;
+}
+
+//! Get the SkinDeformer::_mfBaseMatrices field.
+inline
+MFMatrix *SkinDeformerBase::editMFBaseMatrices(void)
+{
+    return &_mfBaseMatrices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SkinDeformer::_mfBaseMatrices field.
 inline
 MFMatrix *SkinDeformerBase::getMFBaseMatrices(void)
 {
     return &_mfBaseMatrices;
 }
+#endif
 
+//! Get the SkinDeformer::_mfVertexIndices field.
+inline
+const MFUInt32 *SkinDeformerBase::getMFVertexIndices(void) const
+{
+    return &_mfVertexIndices;
+}
+
+//! Get the SkinDeformer::_mfVertexIndices field.
+inline
+MFUInt32 *SkinDeformerBase::editMFVertexIndices(void)
+{
+    return &_mfVertexIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SkinDeformer::_mfVertexIndices field.
 inline
 MFUInt32 *SkinDeformerBase::getMFVertexIndices(void)
 {
     return &_mfVertexIndices;
 }
+#endif
 
+//! Get the SkinDeformer::_mfInfluenceIndices field.
+inline
+const MFUInt16 *SkinDeformerBase::getMFInfluenceIndices(void) const
+{
+    return &_mfInfluenceIndices;
+}
+
+//! Get the SkinDeformer::_mfInfluenceIndices field.
+inline
+MFUInt16 *SkinDeformerBase::editMFInfluenceIndices(void)
+{
+    return &_mfInfluenceIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SkinDeformer::_mfInfluenceIndices field.
 inline
 MFUInt16 *SkinDeformerBase::getMFInfluenceIndices(void)
 {
     return &_mfInfluenceIndices;
 }
+#endif
 
+//! Get the SkinDeformer::_mfInfluenceWeights field.
+inline
+const MFReal32 *SkinDeformerBase::getMFInfluenceWeights(void) const
+{
+    return &_mfInfluenceWeights;
+}
+
+//! Get the SkinDeformer::_mfInfluenceWeights field.
+inline
+MFReal32 *SkinDeformerBase::editMFInfluenceWeights(void)
+{
+    return &_mfInfluenceWeights;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SkinDeformer::_mfInfluenceWeights field.
 inline
 MFReal32 *SkinDeformerBase::getMFInfluenceWeights(void)
 {
     return &_mfInfluenceWeights;
 }
+#endif
 
+//! Get the SkinDeformer::_mfNormalIndices field.
+inline
+const MFUInt32 *SkinDeformerBase::getMFNormalIndices(void) const
+{
+    return &_mfNormalIndices;
+}
+
+//! Get the SkinDeformer::_mfNormalIndices field.
+inline
+MFUInt32 *SkinDeformerBase::editMFNormalIndices(void)
+{
+    return &_mfNormalIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SkinDeformer::_mfNormalIndices field.
 inline
 MFUInt32 *SkinDeformerBase::getMFNormalIndices(void)
 {
     return &_mfNormalIndices;
 }
+#endif
 
+//! Get the SkinDeformer::_mfNormalInfluenceIndices field.
+inline
+const MFUInt16 *SkinDeformerBase::getMFNormalInfluenceIndices(void) const
+{
+    return &_mfNormalInfluenceIndices;
+}
+
+//! Get the SkinDeformer::_mfNormalInfluenceIndices field.
+inline
+MFUInt16 *SkinDeformerBase::editMFNormalInfluenceIndices(void)
+{
+    return &_mfNormalInfluenceIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SkinDeformer::_mfNormalInfluenceIndices field.
 inline
 MFUInt16 *SkinDeformerBase::getMFNormalInfluenceIndices(void)
 {
     return &_mfNormalInfluenceIndices;
 }
+#endif
 
+//! Get the SkinDeformer::_mfNormalInfluenceWeights field.
+inline
+const MFReal32 *SkinDeformerBase::getMFNormalInfluenceWeights(void) const
+{
+    return &_mfNormalInfluenceWeights;
+}
+
+//! Get the SkinDeformer::_mfNormalInfluenceWeights field.
+inline
+MFReal32 *SkinDeformerBase::editMFNormalInfluenceWeights(void)
+{
+    return &_mfNormalInfluenceWeights;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SkinDeformer::_mfNormalInfluenceWeights field.
 inline
 MFReal32 *SkinDeformerBase::getMFNormalInfluenceWeights(void)
 {
     return &_mfNormalInfluenceWeights;
 }
+#endif
 
 
 
+//! Get the value of the \a index element the SkinDeformer::_mfInfluences field.
+inline
+NodePtr &SkinDeformerBase::editInfluences(const UInt32 index)
+{
+    return _mfInfluences[index];
+}
+
+//! Get the value of the \a index element the SkinDeformer::_mfInfluences field.
+inline
+const NodePtr &SkinDeformerBase::getInfluences(const UInt32 index) const
+{
+    return _mfInfluences[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SkinDeformer::_mfInfluences field.
 inline
 NodePtr &SkinDeformerBase::getInfluences(const UInt32 index)
@@ -168,13 +311,23 @@ MFNodePtr &SkinDeformerBase::getInfluences(void)
     return _mfInfluences;
 }
 
-//! Get the SkinDeformer::_mfInfluences field.
+#endif
+
+//! Get the value of the \a index element the SkinDeformer::_mfBaseMatrices field.
 inline
-const MFNodePtr &SkinDeformerBase::getInfluences(void) const
+Matrix &SkinDeformerBase::editBaseMatrices(const UInt32 index)
 {
-    return _mfInfluences;
+    return _mfBaseMatrices[index];
 }
 
+//! Get the value of the \a index element the SkinDeformer::_mfBaseMatrices field.
+inline
+const Matrix &SkinDeformerBase::getBaseMatrices(const UInt32 index) const
+{
+    return _mfBaseMatrices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SkinDeformer::_mfBaseMatrices field.
 inline
 Matrix &SkinDeformerBase::getBaseMatrices(const UInt32 index)
@@ -189,13 +342,23 @@ MFMatrix &SkinDeformerBase::getBaseMatrices(void)
     return _mfBaseMatrices;
 }
 
-//! Get the SkinDeformer::_mfBaseMatrices field.
+#endif
+
+//! Get the value of the \a index element the SkinDeformer::_mfVertexIndices field.
 inline
-const MFMatrix &SkinDeformerBase::getBaseMatrices(void) const
+UInt32 &SkinDeformerBase::editVertexIndices(const UInt32 index)
 {
-    return _mfBaseMatrices;
+    return _mfVertexIndices[index];
 }
 
+//! Get the value of the \a index element the SkinDeformer::_mfVertexIndices field.
+inline
+const UInt32 &SkinDeformerBase::getVertexIndices(const UInt32 index) const
+{
+    return _mfVertexIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SkinDeformer::_mfVertexIndices field.
 inline
 UInt32 &SkinDeformerBase::getVertexIndices(const UInt32 index)
@@ -210,13 +373,23 @@ MFUInt32 &SkinDeformerBase::getVertexIndices(void)
     return _mfVertexIndices;
 }
 
-//! Get the SkinDeformer::_mfVertexIndices field.
+#endif
+
+//! Get the value of the \a index element the SkinDeformer::_mfInfluenceIndices field.
 inline
-const MFUInt32 &SkinDeformerBase::getVertexIndices(void) const
+UInt16 &SkinDeformerBase::editInfluenceIndices(const UInt32 index)
 {
-    return _mfVertexIndices;
+    return _mfInfluenceIndices[index];
 }
 
+//! Get the value of the \a index element the SkinDeformer::_mfInfluenceIndices field.
+inline
+const UInt16 &SkinDeformerBase::getInfluenceIndices(const UInt32 index) const
+{
+    return _mfInfluenceIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SkinDeformer::_mfInfluenceIndices field.
 inline
 UInt16 &SkinDeformerBase::getInfluenceIndices(const UInt32 index)
@@ -231,13 +404,23 @@ MFUInt16 &SkinDeformerBase::getInfluenceIndices(void)
     return _mfInfluenceIndices;
 }
 
-//! Get the SkinDeformer::_mfInfluenceIndices field.
+#endif
+
+//! Get the value of the \a index element the SkinDeformer::_mfInfluenceWeights field.
 inline
-const MFUInt16 &SkinDeformerBase::getInfluenceIndices(void) const
+Real32 &SkinDeformerBase::editInfluenceWeights(const UInt32 index)
 {
-    return _mfInfluenceIndices;
+    return _mfInfluenceWeights[index];
 }
 
+//! Get the value of the \a index element the SkinDeformer::_mfInfluenceWeights field.
+inline
+const Real32 &SkinDeformerBase::getInfluenceWeights(const UInt32 index) const
+{
+    return _mfInfluenceWeights[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SkinDeformer::_mfInfluenceWeights field.
 inline
 Real32 &SkinDeformerBase::getInfluenceWeights(const UInt32 index)
@@ -252,13 +435,23 @@ MFReal32 &SkinDeformerBase::getInfluenceWeights(void)
     return _mfInfluenceWeights;
 }
 
-//! Get the SkinDeformer::_mfInfluenceWeights field.
+#endif
+
+//! Get the value of the \a index element the SkinDeformer::_mfNormalIndices field.
 inline
-const MFReal32 &SkinDeformerBase::getInfluenceWeights(void) const
+UInt32 &SkinDeformerBase::editNormalIndices(const UInt32 index)
 {
-    return _mfInfluenceWeights;
+    return _mfNormalIndices[index];
 }
 
+//! Get the value of the \a index element the SkinDeformer::_mfNormalIndices field.
+inline
+const UInt32 &SkinDeformerBase::getNormalIndices(const UInt32 index) const
+{
+    return _mfNormalIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SkinDeformer::_mfNormalIndices field.
 inline
 UInt32 &SkinDeformerBase::getNormalIndices(const UInt32 index)
@@ -273,13 +466,23 @@ MFUInt32 &SkinDeformerBase::getNormalIndices(void)
     return _mfNormalIndices;
 }
 
-//! Get the SkinDeformer::_mfNormalIndices field.
+#endif
+
+//! Get the value of the \a index element the SkinDeformer::_mfNormalInfluenceIndices field.
 inline
-const MFUInt32 &SkinDeformerBase::getNormalIndices(void) const
+UInt16 &SkinDeformerBase::editNormalInfluenceIndices(const UInt32 index)
 {
-    return _mfNormalIndices;
+    return _mfNormalInfluenceIndices[index];
 }
 
+//! Get the value of the \a index element the SkinDeformer::_mfNormalInfluenceIndices field.
+inline
+const UInt16 &SkinDeformerBase::getNormalInfluenceIndices(const UInt32 index) const
+{
+    return _mfNormalInfluenceIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SkinDeformer::_mfNormalInfluenceIndices field.
 inline
 UInt16 &SkinDeformerBase::getNormalInfluenceIndices(const UInt32 index)
@@ -294,13 +497,23 @@ MFUInt16 &SkinDeformerBase::getNormalInfluenceIndices(void)
     return _mfNormalInfluenceIndices;
 }
 
-//! Get the SkinDeformer::_mfNormalInfluenceIndices field.
+#endif
+
+//! Get the value of the \a index element the SkinDeformer::_mfNormalInfluenceWeights field.
 inline
-const MFUInt16 &SkinDeformerBase::getNormalInfluenceIndices(void) const
+Real32 &SkinDeformerBase::editNormalInfluenceWeights(const UInt32 index)
 {
-    return _mfNormalInfluenceIndices;
+    return _mfNormalInfluenceWeights[index];
 }
 
+//! Get the value of the \a index element the SkinDeformer::_mfNormalInfluenceWeights field.
+inline
+const Real32 &SkinDeformerBase::getNormalInfluenceWeights(const UInt32 index) const
+{
+    return _mfNormalInfluenceWeights[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SkinDeformer::_mfNormalInfluenceWeights field.
 inline
 Real32 &SkinDeformerBase::getNormalInfluenceWeights(const UInt32 index)
@@ -315,12 +528,7 @@ MFReal32 &SkinDeformerBase::getNormalInfluenceWeights(void)
     return _mfNormalInfluenceWeights;
 }
 
-//! Get the SkinDeformer::_mfNormalInfluenceWeights field.
-inline
-const MFReal32 &SkinDeformerBase::getNormalInfluenceWeights(void) const
-{
-    return _mfNormalInfluenceWeights;
-}
+#endif
 
 OSG_END_NAMESPACE
 

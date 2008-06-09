@@ -102,6 +102,6 @@ struct FieldDataTraits<StencilChunkPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGStencilChunkFields.h,v 1.7 2008/06/05 05:02:29 vossg Exp $"
+#define OSGSTENCILCHUNKFIELDS_HEADER_CVSID "@(#)$Id: OSGStencilChunkFields.h,v 1.8 2008/06/09 07:31:53 vossg Exp $"
 
 #endif /* _OSGSTENCILCHUNKFIELDS_H_ */

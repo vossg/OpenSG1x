@@ -98,43 +98,123 @@ DepthChunkPtr DepthChunkBase::createEmpty(void)
 
 //! Get the DepthChunk::_sfEnable field.
 inline
-SFBool *DepthChunkBase::getSFEnable(void)
+const SFBool *DepthChunkBase::getSFEnable(void) const
 {
     return &_sfEnable;
 }
 
+//! Get the DepthChunk::_sfEnable field.
+inline
+SFBool *DepthChunkBase::editSFEnable(void)
+{
+    return &_sfEnable;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DepthChunk::_sfEnable field.
+inline
+SFBool *DepthChunkBase::getSFEnable(void)
+{
+    return &_sfEnable;
+}
+#endif
+
+//! Get the DepthChunk::_sfFunc field.
+inline
+const SFGLenum *DepthChunkBase::getSFFunc(void) const
+{
+    return &_sfFunc;
+}
+
+//! Get the DepthChunk::_sfFunc field.
+inline
+SFGLenum *DepthChunkBase::editSFFunc(void)
+{
+    return &_sfFunc;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DepthChunk::_sfFunc field.
 inline
 SFGLenum *DepthChunkBase::getSFFunc(void)
 {
     return &_sfFunc;
 }
+#endif
 
+//! Get the DepthChunk::_sfNear field.
+inline
+const SFReal32 *DepthChunkBase::getSFNear(void) const
+{
+    return &_sfNear;
+}
+
+//! Get the DepthChunk::_sfNear field.
+inline
+SFReal32 *DepthChunkBase::editSFNear(void)
+{
+    return &_sfNear;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DepthChunk::_sfNear field.
 inline
 SFReal32 *DepthChunkBase::getSFNear(void)
 {
     return &_sfNear;
 }
+#endif
 
+//! Get the DepthChunk::_sfFar field.
+inline
+const SFReal32 *DepthChunkBase::getSFFar(void) const
+{
+    return &_sfFar;
+}
+
+//! Get the DepthChunk::_sfFar field.
+inline
+SFReal32 *DepthChunkBase::editSFFar(void)
+{
+    return &_sfFar;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DepthChunk::_sfFar field.
 inline
 SFReal32 *DepthChunkBase::getSFFar(void)
 {
     return &_sfFar;
 }
+#endif
 
+//! Get the DepthChunk::_sfReadOnly field.
+inline
+const SFBool *DepthChunkBase::getSFReadOnly(void) const
+{
+    return &_sfReadOnly;
+}
+
+//! Get the DepthChunk::_sfReadOnly field.
+inline
+SFBool *DepthChunkBase::editSFReadOnly(void)
+{
+    return &_sfReadOnly;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DepthChunk::_sfReadOnly field.
 inline
 SFBool *DepthChunkBase::getSFReadOnly(void)
 {
     return &_sfReadOnly;
 }
+#endif
 
 
 //! Get the value of the DepthChunk::_sfEnable field.
 inline
-bool &DepthChunkBase::getEnable(void)
+bool &DepthChunkBase::editEnable(void)
 {
     return _sfEnable.getValue();
 }
@@ -146,6 +226,15 @@ const bool &DepthChunkBase::getEnable(void) const
     return _sfEnable.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DepthChunk::_sfEnable field.
+inline
+bool &DepthChunkBase::getEnable(void)
+{
+    return _sfEnable.getValue();
+}
+#endif
+
 //! Set the value of the DepthChunk::_sfEnable field.
 inline
 void DepthChunkBase::setEnable(const bool &value)
@@ -155,7 +244,7 @@ void DepthChunkBase::setEnable(const bool &value)
 
 //! Get the value of the DepthChunk::_sfFunc field.
 inline
-GLenum &DepthChunkBase::getFunc(void)
+GLenum &DepthChunkBase::editFunc(void)
 {
     return _sfFunc.getValue();
 }
@@ -167,6 +256,15 @@ const GLenum &DepthChunkBase::getFunc(void) const
     return _sfFunc.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DepthChunk::_sfFunc field.
+inline
+GLenum &DepthChunkBase::getFunc(void)
+{
+    return _sfFunc.getValue();
+}
+#endif
+
 //! Set the value of the DepthChunk::_sfFunc field.
 inline
 void DepthChunkBase::setFunc(const GLenum &value)
@@ -176,7 +274,7 @@ void DepthChunkBase::setFunc(const GLenum &value)
 
 //! Get the value of the DepthChunk::_sfNear field.
 inline
-Real32 &DepthChunkBase::getNear(void)
+Real32 &DepthChunkBase::editNear(void)
 {
     return _sfNear.getValue();
 }
@@ -188,6 +286,15 @@ const Real32 &DepthChunkBase::getNear(void) const
     return _sfNear.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DepthChunk::_sfNear field.
+inline
+Real32 &DepthChunkBase::getNear(void)
+{
+    return _sfNear.getValue();
+}
+#endif
+
 //! Set the value of the DepthChunk::_sfNear field.
 inline
 void DepthChunkBase::setNear(const Real32 &value)
@@ -197,7 +304,7 @@ void DepthChunkBase::setNear(const Real32 &value)
 
 //! Get the value of the DepthChunk::_sfFar field.
 inline
-Real32 &DepthChunkBase::getFar(void)
+Real32 &DepthChunkBase::editFar(void)
 {
     return _sfFar.getValue();
 }
@@ -209,6 +316,15 @@ const Real32 &DepthChunkBase::getFar(void) const
     return _sfFar.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DepthChunk::_sfFar field.
+inline
+Real32 &DepthChunkBase::getFar(void)
+{
+    return _sfFar.getValue();
+}
+#endif
+
 //! Set the value of the DepthChunk::_sfFar field.
 inline
 void DepthChunkBase::setFar(const Real32 &value)
@@ -218,7 +334,7 @@ void DepthChunkBase::setFar(const Real32 &value)
 
 //! Get the value of the DepthChunk::_sfReadOnly field.
 inline
-bool &DepthChunkBase::getReadOnly(void)
+bool &DepthChunkBase::editReadOnly(void)
 {
     return _sfReadOnly.getValue();
 }
@@ -230,6 +346,15 @@ const bool &DepthChunkBase::getReadOnly(void) const
     return _sfReadOnly.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DepthChunk::_sfReadOnly field.
+inline
+bool &DepthChunkBase::getReadOnly(void)
+{
+    return _sfReadOnly.getValue();
+}
+#endif
+
 //! Set the value of the DepthChunk::_sfReadOnly field.
 inline
 void DepthChunkBase::setReadOnly(const bool &value)
@@ -240,5 +365,5 @@ void DepthChunkBase::setReadOnly(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGDepthChunkBase.inl,v 1.7 2008/06/05 05:02:28 vossg Exp $"
+#define OSGDEPTHCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGDepthChunkBase.inl,v 1.8 2008/06/09 07:31:52 vossg Exp $"
 

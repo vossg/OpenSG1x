@@ -98,15 +98,31 @@ ShaderParameterStringPtr ShaderParameterStringBase::createEmpty(void)
 
 //! Get the ShaderParameterString::_sfValue field.
 inline
-SFString *ShaderParameterStringBase::getSFValue(void)
+const SFString *ShaderParameterStringBase::getSFValue(void) const
 {
     return &_sfValue;
 }
 
+//! Get the ShaderParameterString::_sfValue field.
+inline
+SFString *ShaderParameterStringBase::editSFValue(void)
+{
+    return &_sfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterString::_sfValue field.
+inline
+SFString *ShaderParameterStringBase::getSFValue(void)
+{
+    return &_sfValue;
+}
+#endif
+
 
 //! Get the value of the ShaderParameterString::_sfValue field.
 inline
-std::string &ShaderParameterStringBase::getValue(void)
+std::string &ShaderParameterStringBase::editValue(void)
 {
     return _sfValue.getValue();
 }
@@ -118,6 +134,15 @@ const std::string &ShaderParameterStringBase::getValue(void) const
     return _sfValue.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShaderParameterString::_sfValue field.
+inline
+std::string &ShaderParameterStringBase::getValue(void)
+{
+    return _sfValue.getValue();
+}
+#endif
+
 //! Set the value of the ShaderParameterString::_sfValue field.
 inline
 void ShaderParameterStringBase::setValue(const std::string &value)
@@ -128,5 +153,5 @@ void ShaderParameterStringBase::setValue(const std::string &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERSTRINGBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterStringBase.inl,v 1.6 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERSTRINGBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterStringBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
 

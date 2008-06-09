@@ -98,106 +98,330 @@ TiledTerrainPtr TiledTerrainBase::createEmpty(void)
 
 //! Get the TiledTerrain::_mfHeightTiles field.
 inline
-MFImagePtr *TiledTerrainBase::getMFHeightTiles(void)
+const MFImagePtr *TiledTerrainBase::getMFHeightTiles(void) const
 {
     return &_mfHeightTiles;
 }
 
+//! Get the TiledTerrain::_mfHeightTiles field.
+inline
+MFImagePtr *TiledTerrainBase::editMFHeightTiles(void)
+{
+    return &_mfHeightTiles;
+}
+
+#ifndef OSG_2_PREP
+//! Get the TiledTerrain::_mfHeightTiles field.
+inline
+MFImagePtr *TiledTerrainBase::getMFHeightTiles(void)
+{
+    return &_mfHeightTiles;
+}
+#endif
+
+//! Get the TiledTerrain::_mfHeightTextures field.
+inline
+const MFMaterialPtr *TiledTerrainBase::getMFHeightTextures(void) const
+{
+    return &_mfHeightTextures;
+}
+
+//! Get the TiledTerrain::_mfHeightTextures field.
+inline
+MFMaterialPtr *TiledTerrainBase::editMFHeightTextures(void)
+{
+    return &_mfHeightTextures;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_mfHeightTextures field.
 inline
 MFMaterialPtr *TiledTerrainBase::getMFHeightTextures(void)
 {
     return &_mfHeightTextures;
 }
+#endif
 
+//! Get the TiledTerrain::_sfSizeX field.
+inline
+const SFUInt32 *TiledTerrainBase::getSFSizeX(void) const
+{
+    return &_sfSizeX;
+}
+
+//! Get the TiledTerrain::_sfSizeX field.
+inline
+SFUInt32 *TiledTerrainBase::editSFSizeX(void)
+{
+    return &_sfSizeX;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfSizeX field.
 inline
 SFUInt32 *TiledTerrainBase::getSFSizeX(void)
 {
     return &_sfSizeX;
 }
+#endif
 
+//! Get the TiledTerrain::_sfSizeY field.
+inline
+const SFUInt32 *TiledTerrainBase::getSFSizeY(void) const
+{
+    return &_sfSizeY;
+}
+
+//! Get the TiledTerrain::_sfSizeY field.
+inline
+SFUInt32 *TiledTerrainBase::editSFSizeY(void)
+{
+    return &_sfSizeY;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfSizeY field.
 inline
 SFUInt32 *TiledTerrainBase::getSFSizeY(void)
 {
     return &_sfSizeY;
 }
+#endif
 
+//! Get the TiledTerrain::_sfHeightScale field.
+inline
+const SFReal32 *TiledTerrainBase::getSFHeightScale(void) const
+{
+    return &_sfHeightScale;
+}
+
+//! Get the TiledTerrain::_sfHeightScale field.
+inline
+SFReal32 *TiledTerrainBase::editSFHeightScale(void)
+{
+    return &_sfHeightScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfHeightScale field.
 inline
 SFReal32 *TiledTerrainBase::getSFHeightScale(void)
 {
     return &_sfHeightScale;
 }
+#endif
 
+//! Get the TiledTerrain::_sfVertexSpacing field.
+inline
+const SFReal32 *TiledTerrainBase::getSFVertexSpacing(void) const
+{
+    return &_sfVertexSpacing;
+}
+
+//! Get the TiledTerrain::_sfVertexSpacing field.
+inline
+SFReal32 *TiledTerrainBase::editSFVertexSpacing(void)
+{
+    return &_sfVertexSpacing;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfVertexSpacing field.
 inline
 SFReal32 *TiledTerrainBase::getSFVertexSpacing(void)
 {
     return &_sfVertexSpacing;
 }
+#endif
 
+//! Get the TiledTerrain::_sfGeoMorphing field.
+inline
+const SFBool *TiledTerrainBase::getSFGeoMorphing(void) const
+{
+    return &_sfGeoMorphing;
+}
+
+//! Get the TiledTerrain::_sfGeoMorphing field.
+inline
+SFBool *TiledTerrainBase::editSFGeoMorphing(void)
+{
+    return &_sfGeoMorphing;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfGeoMorphing field.
 inline
 SFBool *TiledTerrainBase::getSFGeoMorphing(void)
 {
     return &_sfGeoMorphing;
 }
+#endif
 
+//! Get the TiledTerrain::_sfDetail field.
+inline
+const SFReal32 *TiledTerrainBase::getSFDetail(void) const
+{
+    return &_sfDetail;
+}
+
+//! Get the TiledTerrain::_sfDetail field.
+inline
+SFReal32 *TiledTerrainBase::editSFDetail(void)
+{
+    return &_sfDetail;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfDetail field.
 inline
 SFReal32 *TiledTerrainBase::getSFDetail(void)
 {
     return &_sfDetail;
 }
+#endif
 
+//! Get the TiledTerrain::_sfCurrentX field.
+inline
+const SFInt32 *TiledTerrainBase::getSFCurrentX(void) const
+{
+    return &_sfCurrentX;
+}
+
+//! Get the TiledTerrain::_sfCurrentX field.
+inline
+SFInt32 *TiledTerrainBase::editSFCurrentX(void)
+{
+    return &_sfCurrentX;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfCurrentX field.
 inline
 SFInt32 *TiledTerrainBase::getSFCurrentX(void)
 {
     return &_sfCurrentX;
 }
+#endif
 
+//! Get the TiledTerrain::_sfCurrentY field.
+inline
+const SFInt32 *TiledTerrainBase::getSFCurrentY(void) const
+{
+    return &_sfCurrentY;
+}
+
+//! Get the TiledTerrain::_sfCurrentY field.
+inline
+SFInt32 *TiledTerrainBase::editSFCurrentY(void)
+{
+    return &_sfCurrentY;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfCurrentY field.
 inline
 SFInt32 *TiledTerrainBase::getSFCurrentY(void)
 {
     return &_sfCurrentY;
 }
+#endif
 
+//! Get the TiledTerrain::_sfSizeROI field.
+inline
+const SFInt32 *TiledTerrainBase::getSFSizeROI(void) const
+{
+    return &_sfSizeROI;
+}
+
+//! Get the TiledTerrain::_sfSizeROI field.
+inline
+SFInt32 *TiledTerrainBase::editSFSizeROI(void)
+{
+    return &_sfSizeROI;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfSizeROI field.
 inline
 SFInt32 *TiledTerrainBase::getSFSizeROI(void)
 {
     return &_sfSizeROI;
 }
+#endif
 
+//! Get the TiledTerrain::_sfUpdate field.
+inline
+const SFBool *TiledTerrainBase::getSFUpdate(void) const
+{
+    return &_sfUpdate;
+}
+
+//! Get the TiledTerrain::_sfUpdate field.
+inline
+SFBool *TiledTerrainBase::editSFUpdate(void)
+{
+    return &_sfUpdate;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfUpdate field.
 inline
 SFBool *TiledTerrainBase::getSFUpdate(void)
 {
     return &_sfUpdate;
 }
+#endif
 
+//! Get the TiledTerrain::_sfUpdateTerrain field.
+inline
+const SFBool *TiledTerrainBase::getSFUpdateTerrain(void) const
+{
+    return &_sfUpdateTerrain;
+}
+
+//! Get the TiledTerrain::_sfUpdateTerrain field.
+inline
+SFBool *TiledTerrainBase::editSFUpdateTerrain(void)
+{
+    return &_sfUpdateTerrain;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfUpdateTerrain field.
 inline
 SFBool *TiledTerrainBase::getSFUpdateTerrain(void)
 {
     return &_sfUpdateTerrain;
 }
+#endif
 
+//! Get the TiledTerrain::_sfPerPixelLighting field.
+inline
+const SFBool *TiledTerrainBase::getSFPerPixelLighting(void) const
+{
+    return &_sfPerPixelLighting;
+}
+
+//! Get the TiledTerrain::_sfPerPixelLighting field.
+inline
+SFBool *TiledTerrainBase::editSFPerPixelLighting(void)
+{
+    return &_sfPerPixelLighting;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TiledTerrain::_sfPerPixelLighting field.
 inline
 SFBool *TiledTerrainBase::getSFPerPixelLighting(void)
 {
     return &_sfPerPixelLighting;
 }
+#endif
 
 
 //! Get the value of the TiledTerrain::_sfSizeX field.
 inline
-UInt32 &TiledTerrainBase::getSizeX(void)
+UInt32 &TiledTerrainBase::editSizeX(void)
 {
     return _sfSizeX.getValue();
 }
@@ -209,6 +433,15 @@ const UInt32 &TiledTerrainBase::getSizeX(void) const
     return _sfSizeX.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfSizeX field.
+inline
+UInt32 &TiledTerrainBase::getSizeX(void)
+{
+    return _sfSizeX.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfSizeX field.
 inline
 void TiledTerrainBase::setSizeX(const UInt32 &value)
@@ -218,7 +451,7 @@ void TiledTerrainBase::setSizeX(const UInt32 &value)
 
 //! Get the value of the TiledTerrain::_sfSizeY field.
 inline
-UInt32 &TiledTerrainBase::getSizeY(void)
+UInt32 &TiledTerrainBase::editSizeY(void)
 {
     return _sfSizeY.getValue();
 }
@@ -230,6 +463,15 @@ const UInt32 &TiledTerrainBase::getSizeY(void) const
     return _sfSizeY.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfSizeY field.
+inline
+UInt32 &TiledTerrainBase::getSizeY(void)
+{
+    return _sfSizeY.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfSizeY field.
 inline
 void TiledTerrainBase::setSizeY(const UInt32 &value)
@@ -239,7 +481,7 @@ void TiledTerrainBase::setSizeY(const UInt32 &value)
 
 //! Get the value of the TiledTerrain::_sfHeightScale field.
 inline
-Real32 &TiledTerrainBase::getHeightScale(void)
+Real32 &TiledTerrainBase::editHeightScale(void)
 {
     return _sfHeightScale.getValue();
 }
@@ -251,6 +493,15 @@ const Real32 &TiledTerrainBase::getHeightScale(void) const
     return _sfHeightScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfHeightScale field.
+inline
+Real32 &TiledTerrainBase::getHeightScale(void)
+{
+    return _sfHeightScale.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfHeightScale field.
 inline
 void TiledTerrainBase::setHeightScale(const Real32 &value)
@@ -260,7 +511,7 @@ void TiledTerrainBase::setHeightScale(const Real32 &value)
 
 //! Get the value of the TiledTerrain::_sfVertexSpacing field.
 inline
-Real32 &TiledTerrainBase::getVertexSpacing(void)
+Real32 &TiledTerrainBase::editVertexSpacing(void)
 {
     return _sfVertexSpacing.getValue();
 }
@@ -272,6 +523,15 @@ const Real32 &TiledTerrainBase::getVertexSpacing(void) const
     return _sfVertexSpacing.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfVertexSpacing field.
+inline
+Real32 &TiledTerrainBase::getVertexSpacing(void)
+{
+    return _sfVertexSpacing.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfVertexSpacing field.
 inline
 void TiledTerrainBase::setVertexSpacing(const Real32 &value)
@@ -281,7 +541,7 @@ void TiledTerrainBase::setVertexSpacing(const Real32 &value)
 
 //! Get the value of the TiledTerrain::_sfGeoMorphing field.
 inline
-bool &TiledTerrainBase::getGeoMorphing(void)
+bool &TiledTerrainBase::editGeoMorphing(void)
 {
     return _sfGeoMorphing.getValue();
 }
@@ -293,6 +553,15 @@ const bool &TiledTerrainBase::getGeoMorphing(void) const
     return _sfGeoMorphing.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfGeoMorphing field.
+inline
+bool &TiledTerrainBase::getGeoMorphing(void)
+{
+    return _sfGeoMorphing.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfGeoMorphing field.
 inline
 void TiledTerrainBase::setGeoMorphing(const bool &value)
@@ -302,7 +571,7 @@ void TiledTerrainBase::setGeoMorphing(const bool &value)
 
 //! Get the value of the TiledTerrain::_sfDetail field.
 inline
-Real32 &TiledTerrainBase::getDetail(void)
+Real32 &TiledTerrainBase::editDetail(void)
 {
     return _sfDetail.getValue();
 }
@@ -314,6 +583,15 @@ const Real32 &TiledTerrainBase::getDetail(void) const
     return _sfDetail.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfDetail field.
+inline
+Real32 &TiledTerrainBase::getDetail(void)
+{
+    return _sfDetail.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfDetail field.
 inline
 void TiledTerrainBase::setDetail(const Real32 &value)
@@ -323,7 +601,7 @@ void TiledTerrainBase::setDetail(const Real32 &value)
 
 //! Get the value of the TiledTerrain::_sfCurrentX field.
 inline
-Int32 &TiledTerrainBase::getCurrentX(void)
+Int32 &TiledTerrainBase::editCurrentX(void)
 {
     return _sfCurrentX.getValue();
 }
@@ -335,6 +613,15 @@ const Int32 &TiledTerrainBase::getCurrentX(void) const
     return _sfCurrentX.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfCurrentX field.
+inline
+Int32 &TiledTerrainBase::getCurrentX(void)
+{
+    return _sfCurrentX.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfCurrentX field.
 inline
 void TiledTerrainBase::setCurrentX(const Int32 &value)
@@ -344,7 +631,7 @@ void TiledTerrainBase::setCurrentX(const Int32 &value)
 
 //! Get the value of the TiledTerrain::_sfCurrentY field.
 inline
-Int32 &TiledTerrainBase::getCurrentY(void)
+Int32 &TiledTerrainBase::editCurrentY(void)
 {
     return _sfCurrentY.getValue();
 }
@@ -356,6 +643,15 @@ const Int32 &TiledTerrainBase::getCurrentY(void) const
     return _sfCurrentY.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfCurrentY field.
+inline
+Int32 &TiledTerrainBase::getCurrentY(void)
+{
+    return _sfCurrentY.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfCurrentY field.
 inline
 void TiledTerrainBase::setCurrentY(const Int32 &value)
@@ -365,7 +661,7 @@ void TiledTerrainBase::setCurrentY(const Int32 &value)
 
 //! Get the value of the TiledTerrain::_sfSizeROI field.
 inline
-Int32 &TiledTerrainBase::getSizeROI(void)
+Int32 &TiledTerrainBase::editSizeROI(void)
 {
     return _sfSizeROI.getValue();
 }
@@ -377,6 +673,15 @@ const Int32 &TiledTerrainBase::getSizeROI(void) const
     return _sfSizeROI.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfSizeROI field.
+inline
+Int32 &TiledTerrainBase::getSizeROI(void)
+{
+    return _sfSizeROI.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfSizeROI field.
 inline
 void TiledTerrainBase::setSizeROI(const Int32 &value)
@@ -386,7 +691,7 @@ void TiledTerrainBase::setSizeROI(const Int32 &value)
 
 //! Get the value of the TiledTerrain::_sfUpdate field.
 inline
-bool &TiledTerrainBase::getUpdate(void)
+bool &TiledTerrainBase::editUpdate(void)
 {
     return _sfUpdate.getValue();
 }
@@ -398,6 +703,15 @@ const bool &TiledTerrainBase::getUpdate(void) const
     return _sfUpdate.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfUpdate field.
+inline
+bool &TiledTerrainBase::getUpdate(void)
+{
+    return _sfUpdate.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfUpdate field.
 inline
 void TiledTerrainBase::setUpdate(const bool &value)
@@ -407,7 +721,7 @@ void TiledTerrainBase::setUpdate(const bool &value)
 
 //! Get the value of the TiledTerrain::_sfUpdateTerrain field.
 inline
-bool &TiledTerrainBase::getUpdateTerrain(void)
+bool &TiledTerrainBase::editUpdateTerrain(void)
 {
     return _sfUpdateTerrain.getValue();
 }
@@ -419,6 +733,15 @@ const bool &TiledTerrainBase::getUpdateTerrain(void) const
     return _sfUpdateTerrain.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfUpdateTerrain field.
+inline
+bool &TiledTerrainBase::getUpdateTerrain(void)
+{
+    return _sfUpdateTerrain.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfUpdateTerrain field.
 inline
 void TiledTerrainBase::setUpdateTerrain(const bool &value)
@@ -428,7 +751,7 @@ void TiledTerrainBase::setUpdateTerrain(const bool &value)
 
 //! Get the value of the TiledTerrain::_sfPerPixelLighting field.
 inline
-bool &TiledTerrainBase::getPerPixelLighting(void)
+bool &TiledTerrainBase::editPerPixelLighting(void)
 {
     return _sfPerPixelLighting.getValue();
 }
@@ -440,6 +763,15 @@ const bool &TiledTerrainBase::getPerPixelLighting(void) const
     return _sfPerPixelLighting.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TiledTerrain::_sfPerPixelLighting field.
+inline
+bool &TiledTerrainBase::getPerPixelLighting(void)
+{
+    return _sfPerPixelLighting.getValue();
+}
+#endif
+
 //! Set the value of the TiledTerrain::_sfPerPixelLighting field.
 inline
 void TiledTerrainBase::setPerPixelLighting(const bool &value)
@@ -448,6 +780,21 @@ void TiledTerrainBase::setPerPixelLighting(const bool &value)
 }
 
 
+//! Get the value of the \a index element the TiledTerrain::_mfHeightTiles field.
+inline
+ImagePtr &TiledTerrainBase::editHeightTiles(const UInt32 index)
+{
+    return _mfHeightTiles[index];
+}
+
+//! Get the value of the \a index element the TiledTerrain::_mfHeightTiles field.
+inline
+const ImagePtr &TiledTerrainBase::getHeightTiles(const UInt32 index) const
+{
+    return _mfHeightTiles[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the TiledTerrain::_mfHeightTiles field.
 inline
 ImagePtr &TiledTerrainBase::getHeightTiles(const UInt32 index)
@@ -462,13 +809,23 @@ MFImagePtr &TiledTerrainBase::getHeightTiles(void)
     return _mfHeightTiles;
 }
 
-//! Get the TiledTerrain::_mfHeightTiles field.
+#endif
+
+//! Get the value of the \a index element the TiledTerrain::_mfHeightTextures field.
 inline
-const MFImagePtr &TiledTerrainBase::getHeightTiles(void) const
+MaterialPtr &TiledTerrainBase::editHeightTextures(const UInt32 index)
 {
-    return _mfHeightTiles;
+    return _mfHeightTextures[index];
 }
 
+//! Get the value of the \a index element the TiledTerrain::_mfHeightTextures field.
+inline
+const MaterialPtr &TiledTerrainBase::getHeightTextures(const UInt32 index) const
+{
+    return _mfHeightTextures[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the TiledTerrain::_mfHeightTextures field.
 inline
 MaterialPtr &TiledTerrainBase::getHeightTextures(const UInt32 index)
@@ -483,14 +840,9 @@ MFMaterialPtr &TiledTerrainBase::getHeightTextures(void)
     return _mfHeightTextures;
 }
 
-//! Get the TiledTerrain::_mfHeightTextures field.
-inline
-const MFMaterialPtr &TiledTerrainBase::getHeightTextures(void) const
-{
-    return _mfHeightTextures;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTiledTerrainBase.inl,v 1.7 2008/06/05 05:02:18 vossg Exp $"
+#define OSGTILEDTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTiledTerrainBase.inl,v 1.8 2008/06/09 07:31:43 vossg Exp $"
 

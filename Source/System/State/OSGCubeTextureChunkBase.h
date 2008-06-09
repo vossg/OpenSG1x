@@ -134,22 +134,67 @@ class OSG_SYSTEMLIB_DLLMAPPING CubeTextureChunkBase : public TextureChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImagePtr          *getSFPosZImage      (void);
-           SFImagePtr          *getSFPosXImage      (void);
-           SFImagePtr          *getSFNegXImage      (void);
-           SFImagePtr          *getSFPosYImage      (void);
-           SFImagePtr          *getSFNegYImage      (void);
 
-           ImagePtr            &getPosZImage      (void);
+           SFImagePtr          *editSFPosZImage      (void);
+     const SFImagePtr          *getSFPosZImage      (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFPosZImage      (void);
+#endif
+
+           SFImagePtr          *editSFPosXImage      (void);
+     const SFImagePtr          *getSFPosXImage      (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFPosXImage      (void);
+#endif
+
+           SFImagePtr          *editSFNegXImage      (void);
+     const SFImagePtr          *getSFNegXImage      (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFNegXImage      (void);
+#endif
+
+           SFImagePtr          *editSFPosYImage      (void);
+     const SFImagePtr          *getSFPosYImage      (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFPosYImage      (void);
+#endif
+
+           SFImagePtr          *editSFNegYImage      (void);
+     const SFImagePtr          *getSFNegYImage      (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFNegYImage      (void);
+#endif
+
+
+           ImagePtr            &editPosZImage      (void);
      const ImagePtr            &getPosZImage      (void) const;
-           ImagePtr            &getPosXImage      (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getPosZImage      (void);
+#endif
+
+           ImagePtr            &editPosXImage      (void);
      const ImagePtr            &getPosXImage      (void) const;
-           ImagePtr            &getNegXImage      (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getPosXImage      (void);
+#endif
+
+           ImagePtr            &editNegXImage      (void);
      const ImagePtr            &getNegXImage      (void) const;
-           ImagePtr            &getPosYImage      (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getNegXImage      (void);
+#endif
+
+           ImagePtr            &editPosYImage      (void);
      const ImagePtr            &getPosYImage      (void) const;
-           ImagePtr            &getNegYImage      (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getPosYImage      (void);
+#endif
+
+           ImagePtr            &editNegYImage      (void);
      const ImagePtr            &getNegYImage      (void) const;
+#ifndef OSG_2_PREP
+           ImagePtr            &getNegYImage      (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

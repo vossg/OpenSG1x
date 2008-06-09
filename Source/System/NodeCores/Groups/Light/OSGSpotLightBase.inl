@@ -98,29 +98,77 @@ SpotLightPtr SpotLightBase::createEmpty(void)
 
 //! Get the SpotLight::_sfDirection field.
 inline
-SFVec3f *SpotLightBase::getSFDirection(void)
+const SFVec3f *SpotLightBase::getSFDirection(void) const
 {
     return &_sfDirection;
 }
 
+//! Get the SpotLight::_sfDirection field.
+inline
+SFVec3f *SpotLightBase::editSFDirection(void)
+{
+    return &_sfDirection;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SpotLight::_sfDirection field.
+inline
+SFVec3f *SpotLightBase::getSFDirection(void)
+{
+    return &_sfDirection;
+}
+#endif
+
+//! Get the SpotLight::_sfSpotExponent field.
+inline
+const SFReal32 *SpotLightBase::getSFSpotExponent(void) const
+{
+    return &_sfSpotExponent;
+}
+
+//! Get the SpotLight::_sfSpotExponent field.
+inline
+SFReal32 *SpotLightBase::editSFSpotExponent(void)
+{
+    return &_sfSpotExponent;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SpotLight::_sfSpotExponent field.
 inline
 SFReal32 *SpotLightBase::getSFSpotExponent(void)
 {
     return &_sfSpotExponent;
 }
+#endif
 
+//! Get the SpotLight::_sfSpotCutOff field.
+inline
+const SFReal32 *SpotLightBase::getSFSpotCutOff(void) const
+{
+    return &_sfSpotCutOff;
+}
+
+//! Get the SpotLight::_sfSpotCutOff field.
+inline
+SFReal32 *SpotLightBase::editSFSpotCutOff(void)
+{
+    return &_sfSpotCutOff;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SpotLight::_sfSpotCutOff field.
 inline
 SFReal32 *SpotLightBase::getSFSpotCutOff(void)
 {
     return &_sfSpotCutOff;
 }
+#endif
 
 
 //! Get the value of the SpotLight::_sfDirection field.
 inline
-Vec3f &SpotLightBase::getDirection(void)
+Vec3f &SpotLightBase::editDirection(void)
 {
     return _sfDirection.getValue();
 }
@@ -132,6 +180,15 @@ const Vec3f &SpotLightBase::getDirection(void) const
     return _sfDirection.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SpotLight::_sfDirection field.
+inline
+Vec3f &SpotLightBase::getDirection(void)
+{
+    return _sfDirection.getValue();
+}
+#endif
+
 //! Set the value of the SpotLight::_sfDirection field.
 inline
 void SpotLightBase::setDirection(const Vec3f &value)
@@ -141,7 +198,7 @@ void SpotLightBase::setDirection(const Vec3f &value)
 
 //! Get the value of the SpotLight::_sfSpotExponent field.
 inline
-Real32 &SpotLightBase::getSpotExponent(void)
+Real32 &SpotLightBase::editSpotExponent(void)
 {
     return _sfSpotExponent.getValue();
 }
@@ -153,6 +210,15 @@ const Real32 &SpotLightBase::getSpotExponent(void) const
     return _sfSpotExponent.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SpotLight::_sfSpotExponent field.
+inline
+Real32 &SpotLightBase::getSpotExponent(void)
+{
+    return _sfSpotExponent.getValue();
+}
+#endif
+
 //! Set the value of the SpotLight::_sfSpotExponent field.
 inline
 void SpotLightBase::setSpotExponent(const Real32 &value)
@@ -162,7 +228,7 @@ void SpotLightBase::setSpotExponent(const Real32 &value)
 
 //! Get the value of the SpotLight::_sfSpotCutOff field.
 inline
-Real32 &SpotLightBase::getSpotCutOff(void)
+Real32 &SpotLightBase::editSpotCutOff(void)
 {
     return _sfSpotCutOff.getValue();
 }
@@ -173,6 +239,15 @@ const Real32 &SpotLightBase::getSpotCutOff(void) const
 {
     return _sfSpotCutOff.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the SpotLight::_sfSpotCutOff field.
+inline
+Real32 &SpotLightBase::getSpotCutOff(void)
+{
+    return _sfSpotCutOff.getValue();
+}
+#endif
 
 //! Set the value of the SpotLight::_sfSpotCutOff field.
 inline

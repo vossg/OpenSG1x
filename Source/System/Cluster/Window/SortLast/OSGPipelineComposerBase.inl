@@ -98,36 +98,100 @@ PipelineComposerPtr PipelineComposerBase::createEmpty(void)
 
 //! Get the PipelineComposer::_sfShort field.
 inline
-SFBool *PipelineComposerBase::getSFShort(void)
+const SFBool *PipelineComposerBase::getSFShort(void) const
 {
     return &_sfShort;
 }
 
+//! Get the PipelineComposer::_sfShort field.
+inline
+SFBool *PipelineComposerBase::editSFShort(void)
+{
+    return &_sfShort;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PipelineComposer::_sfShort field.
+inline
+SFBool *PipelineComposerBase::getSFShort(void)
+{
+    return &_sfShort;
+}
+#endif
+
+//! Get the PipelineComposer::_sfAlpha field.
+inline
+const SFBool *PipelineComposerBase::getSFAlpha(void) const
+{
+    return &_sfAlpha;
+}
+
+//! Get the PipelineComposer::_sfAlpha field.
+inline
+SFBool *PipelineComposerBase::editSFAlpha(void)
+{
+    return &_sfAlpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PipelineComposer::_sfAlpha field.
 inline
 SFBool *PipelineComposerBase::getSFAlpha(void)
 {
     return &_sfAlpha;
 }
+#endif
 
+//! Get the PipelineComposer::_sfTileSize field.
+inline
+const SFUInt32 *PipelineComposerBase::getSFTileSize(void) const
+{
+    return &_sfTileSize;
+}
+
+//! Get the PipelineComposer::_sfTileSize field.
+inline
+SFUInt32 *PipelineComposerBase::editSFTileSize(void)
+{
+    return &_sfTileSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PipelineComposer::_sfTileSize field.
 inline
 SFUInt32 *PipelineComposerBase::getSFTileSize(void)
 {
     return &_sfTileSize;
 }
+#endif
 
+//! Get the PipelineComposer::_sfPipelined field.
+inline
+const SFBool *PipelineComposerBase::getSFPipelined(void) const
+{
+    return &_sfPipelined;
+}
+
+//! Get the PipelineComposer::_sfPipelined field.
+inline
+SFBool *PipelineComposerBase::editSFPipelined(void)
+{
+    return &_sfPipelined;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PipelineComposer::_sfPipelined field.
 inline
 SFBool *PipelineComposerBase::getSFPipelined(void)
 {
     return &_sfPipelined;
 }
+#endif
 
 
 //! Get the value of the PipelineComposer::_sfShort field.
 inline
-bool &PipelineComposerBase::getShort(void)
+bool &PipelineComposerBase::editShort(void)
 {
     return _sfShort.getValue();
 }
@@ -139,6 +203,15 @@ const bool &PipelineComposerBase::getShort(void) const
     return _sfShort.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PipelineComposer::_sfShort field.
+inline
+bool &PipelineComposerBase::getShort(void)
+{
+    return _sfShort.getValue();
+}
+#endif
+
 //! Set the value of the PipelineComposer::_sfShort field.
 inline
 void PipelineComposerBase::setShort(const bool &value)
@@ -148,7 +221,7 @@ void PipelineComposerBase::setShort(const bool &value)
 
 //! Get the value of the PipelineComposer::_sfAlpha field.
 inline
-bool &PipelineComposerBase::getAlpha(void)
+bool &PipelineComposerBase::editAlpha(void)
 {
     return _sfAlpha.getValue();
 }
@@ -160,6 +233,15 @@ const bool &PipelineComposerBase::getAlpha(void) const
     return _sfAlpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PipelineComposer::_sfAlpha field.
+inline
+bool &PipelineComposerBase::getAlpha(void)
+{
+    return _sfAlpha.getValue();
+}
+#endif
+
 //! Set the value of the PipelineComposer::_sfAlpha field.
 inline
 void PipelineComposerBase::setAlpha(const bool &value)
@@ -169,7 +251,7 @@ void PipelineComposerBase::setAlpha(const bool &value)
 
 //! Get the value of the PipelineComposer::_sfTileSize field.
 inline
-UInt32 &PipelineComposerBase::getTileSize(void)
+UInt32 &PipelineComposerBase::editTileSize(void)
 {
     return _sfTileSize.getValue();
 }
@@ -181,6 +263,15 @@ const UInt32 &PipelineComposerBase::getTileSize(void) const
     return _sfTileSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PipelineComposer::_sfTileSize field.
+inline
+UInt32 &PipelineComposerBase::getTileSize(void)
+{
+    return _sfTileSize.getValue();
+}
+#endif
+
 //! Set the value of the PipelineComposer::_sfTileSize field.
 inline
 void PipelineComposerBase::setTileSize(const UInt32 &value)
@@ -190,7 +281,7 @@ void PipelineComposerBase::setTileSize(const UInt32 &value)
 
 //! Get the value of the PipelineComposer::_sfPipelined field.
 inline
-bool &PipelineComposerBase::getPipelined(void)
+bool &PipelineComposerBase::editPipelined(void)
 {
     return _sfPipelined.getValue();
 }
@@ -201,6 +292,15 @@ const bool &PipelineComposerBase::getPipelined(void) const
 {
     return _sfPipelined.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the PipelineComposer::_sfPipelined field.
+inline
+bool &PipelineComposerBase::getPipelined(void)
+{
+    return _sfPipelined.getValue();
+}
+#endif
 
 //! Set the value of the PipelineComposer::_sfPipelined field.
 inline

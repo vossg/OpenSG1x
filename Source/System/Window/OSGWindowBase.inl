@@ -72,57 +72,169 @@ OSG::UInt32 WindowBase::getClassTypeId(void)
 
 //! Get the Window::_sfWidth field.
 inline
-SFUInt16 *WindowBase::getSFWidth(void)
+const SFUInt16 *WindowBase::getSFWidth(void) const
 {
     return &_sfWidth;
 }
 
+//! Get the Window::_sfWidth field.
+inline
+SFUInt16 *WindowBase::editSFWidth(void)
+{
+    return &_sfWidth;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Window::_sfWidth field.
+inline
+SFUInt16 *WindowBase::getSFWidth(void)
+{
+    return &_sfWidth;
+}
+#endif
+
+//! Get the Window::_sfHeight field.
+inline
+const SFUInt16 *WindowBase::getSFHeight(void) const
+{
+    return &_sfHeight;
+}
+
+//! Get the Window::_sfHeight field.
+inline
+SFUInt16 *WindowBase::editSFHeight(void)
+{
+    return &_sfHeight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Window::_sfHeight field.
 inline
 SFUInt16 *WindowBase::getSFHeight(void)
 {
     return &_sfHeight;
 }
+#endif
 
+//! Get the Window::_mfPort field.
+inline
+const MFViewportPtr *WindowBase::getMFPort(void) const
+{
+    return &_mfPort;
+}
+
+//! Get the Window::_mfPort field.
+inline
+MFViewportPtr *WindowBase::editMFPort(void)
+{
+    return &_mfPort;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Window::_mfPort field.
 inline
 MFViewportPtr *WindowBase::getMFPort(void)
 {
     return &_mfPort;
 }
+#endif
 
+//! Get the Window::_sfResizePending field.
+inline
+const SFBool *WindowBase::getSFResizePending(void) const
+{
+    return &_sfResizePending;
+}
+
+//! Get the Window::_sfResizePending field.
+inline
+SFBool *WindowBase::editSFResizePending(void)
+{
+    return &_sfResizePending;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Window::_sfResizePending field.
 inline
 SFBool *WindowBase::getSFResizePending(void)
 {
     return &_sfResizePending;
 }
+#endif
 
+//! Get the Window::_sfGlObjectEventCounter field.
+inline
+const SFUInt32 *WindowBase::getSFGlObjectEventCounter(void) const
+{
+    return &_sfGlObjectEventCounter;
+}
+
+//! Get the Window::_sfGlObjectEventCounter field.
+inline
+SFUInt32 *WindowBase::editSFGlObjectEventCounter(void)
+{
+    return &_sfGlObjectEventCounter;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Window::_sfGlObjectEventCounter field.
 inline
 SFUInt32 *WindowBase::getSFGlObjectEventCounter(void)
 {
     return &_sfGlObjectEventCounter;
 }
+#endif
 
+//! Get the Window::_mfGlObjectLastRefresh field.
+inline
+const MFUInt32 *WindowBase::getMFGlObjectLastRefresh(void) const
+{
+    return &_mfGlObjectLastRefresh;
+}
+
+//! Get the Window::_mfGlObjectLastRefresh field.
+inline
+MFUInt32 *WindowBase::editMFGlObjectLastRefresh(void)
+{
+    return &_mfGlObjectLastRefresh;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Window::_mfGlObjectLastRefresh field.
 inline
 MFUInt32 *WindowBase::getMFGlObjectLastRefresh(void)
 {
     return &_mfGlObjectLastRefresh;
 }
+#endif
 
+//! Get the Window::_mfGlObjectLastReinitialize field.
+inline
+const MFUInt32 *WindowBase::getMFGlObjectLastReinitialize(void) const
+{
+    return &_mfGlObjectLastReinitialize;
+}
+
+//! Get the Window::_mfGlObjectLastReinitialize field.
+inline
+MFUInt32 *WindowBase::editMFGlObjectLastReinitialize(void)
+{
+    return &_mfGlObjectLastReinitialize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Window::_mfGlObjectLastReinitialize field.
 inline
 MFUInt32 *WindowBase::getMFGlObjectLastReinitialize(void)
 {
     return &_mfGlObjectLastReinitialize;
 }
+#endif
 
 
 //! Get the value of the Window::_sfWidth field.
 inline
-UInt16 &WindowBase::getWidth(void)
+UInt16 &WindowBase::editWidth(void)
 {
     return _sfWidth.getValue();
 }
@@ -134,6 +246,15 @@ const UInt16 &WindowBase::getWidth(void) const
     return _sfWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Window::_sfWidth field.
+inline
+UInt16 &WindowBase::getWidth(void)
+{
+    return _sfWidth.getValue();
+}
+#endif
+
 //! Set the value of the Window::_sfWidth field.
 inline
 void WindowBase::setWidth(const UInt16 &value)
@@ -143,7 +264,7 @@ void WindowBase::setWidth(const UInt16 &value)
 
 //! Get the value of the Window::_sfHeight field.
 inline
-UInt16 &WindowBase::getHeight(void)
+UInt16 &WindowBase::editHeight(void)
 {
     return _sfHeight.getValue();
 }
@@ -155,6 +276,15 @@ const UInt16 &WindowBase::getHeight(void) const
     return _sfHeight.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Window::_sfHeight field.
+inline
+UInt16 &WindowBase::getHeight(void)
+{
+    return _sfHeight.getValue();
+}
+#endif
+
 //! Set the value of the Window::_sfHeight field.
 inline
 void WindowBase::setHeight(const UInt16 &value)
@@ -164,7 +294,7 @@ void WindowBase::setHeight(const UInt16 &value)
 
 //! Get the value of the Window::_sfResizePending field.
 inline
-bool &WindowBase::getResizePending(void)
+bool &WindowBase::editResizePending(void)
 {
     return _sfResizePending.getValue();
 }
@@ -176,6 +306,15 @@ const bool &WindowBase::getResizePending(void) const
     return _sfResizePending.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Window::_sfResizePending field.
+inline
+bool &WindowBase::getResizePending(void)
+{
+    return _sfResizePending.getValue();
+}
+#endif
+
 //! Set the value of the Window::_sfResizePending field.
 inline
 void WindowBase::setResizePending(const bool &value)
@@ -185,7 +324,7 @@ void WindowBase::setResizePending(const bool &value)
 
 //! Get the value of the Window::_sfGlObjectEventCounter field.
 inline
-UInt32 &WindowBase::getGlObjectEventCounter(void)
+UInt32 &WindowBase::editGlObjectEventCounter(void)
 {
     return _sfGlObjectEventCounter.getValue();
 }
@@ -197,6 +336,15 @@ const UInt32 &WindowBase::getGlObjectEventCounter(void) const
     return _sfGlObjectEventCounter.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Window::_sfGlObjectEventCounter field.
+inline
+UInt32 &WindowBase::getGlObjectEventCounter(void)
+{
+    return _sfGlObjectEventCounter.getValue();
+}
+#endif
+
 //! Set the value of the Window::_sfGlObjectEventCounter field.
 inline
 void WindowBase::setGlObjectEventCounter(const UInt32 &value)
@@ -205,6 +353,21 @@ void WindowBase::setGlObjectEventCounter(const UInt32 &value)
 }
 
 
+//! Get the value of the \a index element the Window::_mfPort field.
+inline
+ViewportPtr &WindowBase::editPort(const UInt32 index)
+{
+    return _mfPort[index];
+}
+
+//! Get the value of the \a index element the Window::_mfPort field.
+inline
+const ViewportPtr &WindowBase::getPort(const UInt32 index) const
+{
+    return _mfPort[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Window::_mfPort field.
 inline
 ViewportPtr &WindowBase::getPort(const UInt32 index)
@@ -219,13 +382,23 @@ MFViewportPtr &WindowBase::getPort(void)
     return _mfPort;
 }
 
-//! Get the Window::_mfPort field.
+#endif
+
+//! Get the value of the \a index element the Window::_mfGlObjectLastRefresh field.
 inline
-const MFViewportPtr &WindowBase::getPort(void) const
+UInt32 &WindowBase::editGlObjectLastRefresh(const UInt32 index)
 {
-    return _mfPort;
+    return _mfGlObjectLastRefresh[index];
 }
 
+//! Get the value of the \a index element the Window::_mfGlObjectLastRefresh field.
+inline
+const UInt32 &WindowBase::getGlObjectLastRefresh(const UInt32 index) const
+{
+    return _mfGlObjectLastRefresh[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Window::_mfGlObjectLastRefresh field.
 inline
 UInt32 &WindowBase::getGlObjectLastRefresh(const UInt32 index)
@@ -240,13 +413,23 @@ MFUInt32 &WindowBase::getGlObjectLastRefresh(void)
     return _mfGlObjectLastRefresh;
 }
 
-//! Get the Window::_mfGlObjectLastRefresh field.
+#endif
+
+//! Get the value of the \a index element the Window::_mfGlObjectLastReinitialize field.
 inline
-const MFUInt32 &WindowBase::getGlObjectLastRefresh(void) const
+UInt32 &WindowBase::editGlObjectLastReinitialize(const UInt32 index)
 {
-    return _mfGlObjectLastRefresh;
+    return _mfGlObjectLastReinitialize[index];
 }
 
+//! Get the value of the \a index element the Window::_mfGlObjectLastReinitialize field.
+inline
+const UInt32 &WindowBase::getGlObjectLastReinitialize(const UInt32 index) const
+{
+    return _mfGlObjectLastReinitialize[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Window::_mfGlObjectLastReinitialize field.
 inline
 UInt32 &WindowBase::getGlObjectLastReinitialize(const UInt32 index)
@@ -261,12 +444,7 @@ MFUInt32 &WindowBase::getGlObjectLastReinitialize(void)
     return _mfGlObjectLastReinitialize;
 }
 
-//! Get the Window::_mfGlObjectLastReinitialize field.
-inline
-const MFUInt32 &WindowBase::getGlObjectLastReinitialize(void) const
-{
-    return _mfGlObjectLastReinitialize;
-}
+#endif
 
 OSG_END_NAMESPACE
 

@@ -140,35 +140,98 @@ class OSG_CONTRIBLIB_DLLMAPPING BlendShapeDeformerBase : public Deformer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFReal32            *getMFWeight         (void);
-           MFUInt32            *getMFVertexIndices  (void);
-           MFUInt16            *getMFTargetIndices  (void);
-           MFPnt3f             *getMFTargetVertices (void);
-           MFUInt32            *getMFNormalIndices  (void);
-           MFUInt16            *getMFNormalTargetIndices(void);
-           MFVec3f             *getMFTargetNormals  (void);
 
+           MFReal32            *editMFWeight         (void);
+     const MFReal32            *getMFWeight         (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFWeight         (void);
+#endif
+
+           MFUInt32            *editMFVertexIndices  (void);
+     const MFUInt32            *getMFVertexIndices  (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFVertexIndices  (void);
+#endif
+
+           MFUInt16            *editMFTargetIndices  (void);
+     const MFUInt16            *getMFTargetIndices  (void) const;
+#ifndef OSG_2_PREP
+           MFUInt16            *getMFTargetIndices  (void);
+#endif
+
+           MFPnt3f             *editMFTargetVertices (void);
+     const MFPnt3f             *getMFTargetVertices (void) const;
+#ifndef OSG_2_PREP
+           MFPnt3f             *getMFTargetVertices (void);
+#endif
+
+           MFUInt32            *editMFNormalIndices  (void);
+     const MFUInt32            *getMFNormalIndices  (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFNormalIndices  (void);
+#endif
+
+           MFUInt16            *editMFNormalTargetIndices(void);
+     const MFUInt16            *getMFNormalTargetIndices(void) const;
+#ifndef OSG_2_PREP
+           MFUInt16            *getMFNormalTargetIndices(void);
+#endif
+
+           MFVec3f             *editMFTargetNormals  (void);
+     const MFVec3f             *getMFTargetNormals  (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFTargetNormals  (void);
+#endif
+
+
+           Real32              &editWeight         (const UInt32 index);
+     const Real32              &getWeight         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getWeight         (const UInt32 index);
            MFReal32            &getWeight         (void);
-     const MFReal32            &getWeight         (void) const;
+#endif
+
+           UInt32              &editVertexIndices  (const UInt32 index);
+     const UInt32              &getVertexIndices  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getVertexIndices  (const UInt32 index);
            MFUInt32            &getVertexIndices  (void);
-     const MFUInt32            &getVertexIndices  (void) const;
+#endif
+
+           UInt16              &editTargetIndices  (const UInt32 index);
+     const UInt16              &getTargetIndices  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt16              &getTargetIndices  (const UInt32 index);
            MFUInt16            &getTargetIndices  (void);
-     const MFUInt16            &getTargetIndices  (void) const;
+#endif
+
+           Pnt3f               &editTargetVertices (const UInt32 index);
+     const Pnt3f               &getTargetVertices (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Pnt3f               &getTargetVertices (const UInt32 index);
            MFPnt3f             &getTargetVertices (void);
-     const MFPnt3f             &getTargetVertices (void) const;
+#endif
+
+           UInt32              &editNormalIndices  (const UInt32 index);
+     const UInt32              &getNormalIndices  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getNormalIndices  (const UInt32 index);
            MFUInt32            &getNormalIndices  (void);
-     const MFUInt32            &getNormalIndices  (void) const;
+#endif
+
+           UInt16              &editNormalTargetIndices(const UInt32 index);
+     const UInt16              &getNormalTargetIndices(const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt16              &getNormalTargetIndices(const UInt32 index);
            MFUInt16            &getNormalTargetIndices(void);
-     const MFUInt16            &getNormalTargetIndices(void) const;
+#endif
+
+           Vec3f               &editTargetNormals  (const UInt32 index);
+     const Vec3f               &getTargetNormals  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getTargetNormals  (const UInt32 index);
            MFVec3f             &getTargetNormals  (void);
-     const MFVec3f             &getTargetNormals  (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

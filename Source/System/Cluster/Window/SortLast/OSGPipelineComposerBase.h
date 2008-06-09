@@ -131,19 +131,55 @@ class OSG_SYSTEMLIB_DLLMAPPING PipelineComposerBase : public ImageComposer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFShort          (void);
-           SFBool              *getSFAlpha          (void);
-           SFUInt32            *getSFTileSize       (void);
-           SFBool              *getSFPipelined      (void);
 
-           bool                &getShort          (void);
+           SFBool              *editSFShort          (void);
+     const SFBool              *getSFShort          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFShort          (void);
+#endif
+
+           SFBool              *editSFAlpha          (void);
+     const SFBool              *getSFAlpha          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAlpha          (void);
+#endif
+
+           SFUInt32            *editSFTileSize       (void);
+     const SFUInt32            *getSFTileSize       (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFTileSize       (void);
+#endif
+
+           SFBool              *editSFPipelined      (void);
+     const SFBool              *getSFPipelined      (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFPipelined      (void);
+#endif
+
+
+           bool                &editShort          (void);
      const bool                &getShort          (void) const;
-           bool                &getAlpha          (void);
+#ifndef OSG_2_PREP
+           bool                &getShort          (void);
+#endif
+
+           bool                &editAlpha          (void);
      const bool                &getAlpha          (void) const;
-           UInt32              &getTileSize       (void);
+#ifndef OSG_2_PREP
+           bool                &getAlpha          (void);
+#endif
+
+           UInt32              &editTileSize       (void);
      const UInt32              &getTileSize       (void) const;
-           bool                &getPipelined      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getTileSize       (void);
+#endif
+
+           bool                &editPipelined      (void);
      const bool                &getPipelined      (void) const;
+#ifndef OSG_2_PREP
+           bool                &getPipelined      (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

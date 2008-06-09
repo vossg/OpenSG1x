@@ -98,17 +98,17 @@ FieldDescription *DepthClearBackgroundBase::_desc[] =
                      "clearDepth", 
                      ClearDepthFieldId, ClearDepthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::getSFClearDepth)),
+                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::editSFClearDepth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "depth", 
                      DepthFieldId, DepthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::getSFDepth)),
+                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::editSFDepth)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::getSFClearStencilBit))
+                     reinterpret_cast<FieldAccessMethod>(&DepthClearBackgroundBase::editSFClearStencilBit))
 };
 
 
@@ -357,7 +357,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(DepthClearBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.10 2008/06/05 05:02:30 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthClearBackgroundBase.cpp,v 1.11 2008/06/09 07:31:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID;
 

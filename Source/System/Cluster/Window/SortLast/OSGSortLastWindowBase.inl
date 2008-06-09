@@ -98,29 +98,77 @@ SortLastWindowPtr SortLastWindowBase::createEmpty(void)
 
 //! Get the SortLastWindow::_mfGroupNodes field.
 inline
-MFNodePtr *SortLastWindowBase::getMFGroupNodes(void)
+const MFNodePtr *SortLastWindowBase::getMFGroupNodes(void) const
 {
     return &_mfGroupNodes;
 }
 
+//! Get the SortLastWindow::_mfGroupNodes field.
+inline
+MFNodePtr *SortLastWindowBase::editMFGroupNodes(void)
+{
+    return &_mfGroupNodes;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SortLastWindow::_mfGroupNodes field.
+inline
+MFNodePtr *SortLastWindowBase::getMFGroupNodes(void)
+{
+    return &_mfGroupNodes;
+}
+#endif
+
+//! Get the SortLastWindow::_mfGroupLengths field.
+inline
+const MFUInt32 *SortLastWindowBase::getMFGroupLengths(void) const
+{
+    return &_mfGroupLengths;
+}
+
+//! Get the SortLastWindow::_mfGroupLengths field.
+inline
+MFUInt32 *SortLastWindowBase::editMFGroupLengths(void)
+{
+    return &_mfGroupLengths;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SortLastWindow::_mfGroupLengths field.
 inline
 MFUInt32 *SortLastWindowBase::getMFGroupLengths(void)
 {
     return &_mfGroupLengths;
 }
+#endif
 
+//! Get the SortLastWindow::_sfGroupsChanged field.
+inline
+const SFBool *SortLastWindowBase::getSFGroupsChanged(void) const
+{
+    return &_sfGroupsChanged;
+}
+
+//! Get the SortLastWindow::_sfGroupsChanged field.
+inline
+SFBool *SortLastWindowBase::editSFGroupsChanged(void)
+{
+    return &_sfGroupsChanged;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SortLastWindow::_sfGroupsChanged field.
 inline
 SFBool *SortLastWindowBase::getSFGroupsChanged(void)
 {
     return &_sfGroupsChanged;
 }
+#endif
 
 
 //! Get the value of the SortLastWindow::_sfGroupsChanged field.
 inline
-bool &SortLastWindowBase::getGroupsChanged(void)
+bool &SortLastWindowBase::editGroupsChanged(void)
 {
     return _sfGroupsChanged.getValue();
 }
@@ -132,6 +180,15 @@ const bool &SortLastWindowBase::getGroupsChanged(void) const
     return _sfGroupsChanged.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SortLastWindow::_sfGroupsChanged field.
+inline
+bool &SortLastWindowBase::getGroupsChanged(void)
+{
+    return _sfGroupsChanged.getValue();
+}
+#endif
+
 //! Set the value of the SortLastWindow::_sfGroupsChanged field.
 inline
 void SortLastWindowBase::setGroupsChanged(const bool &value)
@@ -140,6 +197,21 @@ void SortLastWindowBase::setGroupsChanged(const bool &value)
 }
 
 
+//! Get the value of the \a index element the SortLastWindow::_mfGroupNodes field.
+inline
+NodePtr &SortLastWindowBase::editGroupNodes(const UInt32 index)
+{
+    return _mfGroupNodes[index];
+}
+
+//! Get the value of the \a index element the SortLastWindow::_mfGroupNodes field.
+inline
+const NodePtr &SortLastWindowBase::getGroupNodes(const UInt32 index) const
+{
+    return _mfGroupNodes[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SortLastWindow::_mfGroupNodes field.
 inline
 NodePtr &SortLastWindowBase::getGroupNodes(const UInt32 index)
@@ -154,13 +226,23 @@ MFNodePtr &SortLastWindowBase::getGroupNodes(void)
     return _mfGroupNodes;
 }
 
-//! Get the SortLastWindow::_mfGroupNodes field.
+#endif
+
+//! Get the value of the \a index element the SortLastWindow::_mfGroupLengths field.
 inline
-const MFNodePtr &SortLastWindowBase::getGroupNodes(void) const
+UInt32 &SortLastWindowBase::editGroupLengths(const UInt32 index)
 {
-    return _mfGroupNodes;
+    return _mfGroupLengths[index];
 }
 
+//! Get the value of the \a index element the SortLastWindow::_mfGroupLengths field.
+inline
+const UInt32 &SortLastWindowBase::getGroupLengths(const UInt32 index) const
+{
+    return _mfGroupLengths[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SortLastWindow::_mfGroupLengths field.
 inline
 UInt32 &SortLastWindowBase::getGroupLengths(const UInt32 index)
@@ -175,12 +257,7 @@ MFUInt32 &SortLastWindowBase::getGroupLengths(void)
     return _mfGroupLengths;
 }
 
-//! Get the SortLastWindow::_mfGroupLengths field.
-inline
-const MFUInt32 &SortLastWindowBase::getGroupLengths(void) const
-{
-    return _mfGroupLengths;
-}
+#endif
 
 OSG_END_NAMESPACE
 

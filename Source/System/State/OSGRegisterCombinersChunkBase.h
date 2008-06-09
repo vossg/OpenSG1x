@@ -212,127 +212,406 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor4f           *getSFColor0         (void);
-           SFColor4f           *getSFColor1         (void);
-           SFBool              *getSFColorSumClamp  (void);
-           MFGLenum            *getMFVariableArgb   (void);
-           MFGLenum            *getMFVariableBrgb   (void);
-           MFGLenum            *getMFVariableCrgb   (void);
-           MFGLenum            *getMFVariableDrgb   (void);
-           MFGLenum            *getMFVariableAalpha (void);
-           MFGLenum            *getMFVariableBalpha (void);
-           MFGLenum            *getMFVariableCalpha (void);
-           MFGLenum            *getMFVariableDalpha (void);
-           MFGLenum            *getMFOutputABrgb    (void);
-           MFGLenum            *getMFOutputCDrgb    (void);
-           MFGLenum            *getMFOutputSumrgb   (void);
-           MFGLenum            *getMFScalergb       (void);
-           MFGLenum            *getMFBiasrgb        (void);
-           MFGLenum            *getMFOutputABalpha  (void);
-           MFGLenum            *getMFOutputCDalpha  (void);
-           MFGLenum            *getMFOutputSumalpha (void);
-           MFUInt8             *getMFDotABrgb       (void);
-           MFUInt8             *getMFDotCDrgb       (void);
-           MFUInt8             *getMFMuxSumrgb      (void);
-           MFGLenum            *getMFScalealpha     (void);
-           MFGLenum            *getMFBiasalpha      (void);
-           MFUInt8             *getMFMuxSumalpha    (void);
-           MFGLenum            *getMFVariableE      (void);
-           MFGLenum            *getMFVariableF      (void);
-           MFGLenum            *getMFVariableG      (void);
-           MFColor4f           *getMFCombinerColor0 (void);
-           MFColor4f           *getMFCombinerColor1 (void);
-           SFUInt8             *getSFPerStageConstants(void);
 
-           Color4f             &getColor0         (void);
+           SFColor4f           *editSFColor0         (void);
+     const SFColor4f           *getSFColor0         (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFColor0         (void);
+#endif
+
+           SFColor4f           *editSFColor1         (void);
+     const SFColor4f           *getSFColor1         (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFColor1         (void);
+#endif
+
+           SFBool              *editSFColorSumClamp  (void);
+     const SFBool              *getSFColorSumClamp  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFColorSumClamp  (void);
+#endif
+
+           MFGLenum            *editMFVariableArgb   (void);
+     const MFGLenum            *getMFVariableArgb   (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableArgb   (void);
+#endif
+
+           MFGLenum            *editMFVariableBrgb   (void);
+     const MFGLenum            *getMFVariableBrgb   (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableBrgb   (void);
+#endif
+
+           MFGLenum            *editMFVariableCrgb   (void);
+     const MFGLenum            *getMFVariableCrgb   (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableCrgb   (void);
+#endif
+
+           MFGLenum            *editMFVariableDrgb   (void);
+     const MFGLenum            *getMFVariableDrgb   (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableDrgb   (void);
+#endif
+
+           MFGLenum            *editMFVariableAalpha (void);
+     const MFGLenum            *getMFVariableAalpha (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableAalpha (void);
+#endif
+
+           MFGLenum            *editMFVariableBalpha (void);
+     const MFGLenum            *getMFVariableBalpha (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableBalpha (void);
+#endif
+
+           MFGLenum            *editMFVariableCalpha (void);
+     const MFGLenum            *getMFVariableCalpha (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableCalpha (void);
+#endif
+
+           MFGLenum            *editMFVariableDalpha (void);
+     const MFGLenum            *getMFVariableDalpha (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableDalpha (void);
+#endif
+
+           MFGLenum            *editMFOutputABrgb    (void);
+     const MFGLenum            *getMFOutputABrgb    (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFOutputABrgb    (void);
+#endif
+
+           MFGLenum            *editMFOutputCDrgb    (void);
+     const MFGLenum            *getMFOutputCDrgb    (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFOutputCDrgb    (void);
+#endif
+
+           MFGLenum            *editMFOutputSumrgb   (void);
+     const MFGLenum            *getMFOutputSumrgb   (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFOutputSumrgb   (void);
+#endif
+
+           MFGLenum            *editMFScalergb       (void);
+     const MFGLenum            *getMFScalergb       (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFScalergb       (void);
+#endif
+
+           MFGLenum            *editMFBiasrgb        (void);
+     const MFGLenum            *getMFBiasrgb        (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFBiasrgb        (void);
+#endif
+
+           MFGLenum            *editMFOutputABalpha  (void);
+     const MFGLenum            *getMFOutputABalpha  (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFOutputABalpha  (void);
+#endif
+
+           MFGLenum            *editMFOutputCDalpha  (void);
+     const MFGLenum            *getMFOutputCDalpha  (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFOutputCDalpha  (void);
+#endif
+
+           MFGLenum            *editMFOutputSumalpha (void);
+     const MFGLenum            *getMFOutputSumalpha (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFOutputSumalpha (void);
+#endif
+
+           MFUInt8             *editMFDotABrgb       (void);
+     const MFUInt8             *getMFDotABrgb       (void) const;
+#ifndef OSG_2_PREP
+           MFUInt8             *getMFDotABrgb       (void);
+#endif
+
+           MFUInt8             *editMFDotCDrgb       (void);
+     const MFUInt8             *getMFDotCDrgb       (void) const;
+#ifndef OSG_2_PREP
+           MFUInt8             *getMFDotCDrgb       (void);
+#endif
+
+           MFUInt8             *editMFMuxSumrgb      (void);
+     const MFUInt8             *getMFMuxSumrgb      (void) const;
+#ifndef OSG_2_PREP
+           MFUInt8             *getMFMuxSumrgb      (void);
+#endif
+
+           MFGLenum            *editMFScalealpha     (void);
+     const MFGLenum            *getMFScalealpha     (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFScalealpha     (void);
+#endif
+
+           MFGLenum            *editMFBiasalpha      (void);
+     const MFGLenum            *getMFBiasalpha      (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFBiasalpha      (void);
+#endif
+
+           MFUInt8             *editMFMuxSumalpha    (void);
+     const MFUInt8             *getMFMuxSumalpha    (void) const;
+#ifndef OSG_2_PREP
+           MFUInt8             *getMFMuxSumalpha    (void);
+#endif
+
+           MFGLenum            *editMFVariableE      (void);
+     const MFGLenum            *getMFVariableE      (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableE      (void);
+#endif
+
+           MFGLenum            *editMFVariableF      (void);
+     const MFGLenum            *getMFVariableF      (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableF      (void);
+#endif
+
+           MFGLenum            *editMFVariableG      (void);
+     const MFGLenum            *getMFVariableG      (void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFVariableG      (void);
+#endif
+
+           MFColor4f           *editMFCombinerColor0 (void);
+     const MFColor4f           *getMFCombinerColor0 (void) const;
+#ifndef OSG_2_PREP
+           MFColor4f           *getMFCombinerColor0 (void);
+#endif
+
+           MFColor4f           *editMFCombinerColor1 (void);
+     const MFColor4f           *getMFCombinerColor1 (void) const;
+#ifndef OSG_2_PREP
+           MFColor4f           *getMFCombinerColor1 (void);
+#endif
+
+           SFUInt8             *editSFPerStageConstants(void);
+     const SFUInt8             *getSFPerStageConstants(void) const;
+#ifndef OSG_2_PREP
+           SFUInt8             *getSFPerStageConstants(void);
+#endif
+
+
+           Color4f             &editColor0         (void);
      const Color4f             &getColor0         (void) const;
-           Color4f             &getColor1         (void);
+#ifndef OSG_2_PREP
+           Color4f             &getColor0         (void);
+#endif
+
+           Color4f             &editColor1         (void);
      const Color4f             &getColor1         (void) const;
-           bool                &getColorSumClamp  (void);
+#ifndef OSG_2_PREP
+           Color4f             &getColor1         (void);
+#endif
+
+           bool                &editColorSumClamp  (void);
      const bool                &getColorSumClamp  (void) const;
-           UInt8               &getPerStageConstants(void);
+#ifndef OSG_2_PREP
+           bool                &getColorSumClamp  (void);
+#endif
+
+           UInt8               &editPerStageConstants(void);
      const UInt8               &getPerStageConstants(void) const;
+#ifndef OSG_2_PREP
+           UInt8               &getPerStageConstants(void);
+#endif
+
+           GLenum              &editVariableArgb   (const UInt32 index);
+     const GLenum              &getVariableArgb   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableArgb   (const UInt32 index);
            MFGLenum            &getVariableArgb   (void);
-     const MFGLenum            &getVariableArgb   (void) const;
+#endif
+
+           GLenum              &editVariableBrgb   (const UInt32 index);
+     const GLenum              &getVariableBrgb   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableBrgb   (const UInt32 index);
            MFGLenum            &getVariableBrgb   (void);
-     const MFGLenum            &getVariableBrgb   (void) const;
+#endif
+
+           GLenum              &editVariableCrgb   (const UInt32 index);
+     const GLenum              &getVariableCrgb   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableCrgb   (const UInt32 index);
            MFGLenum            &getVariableCrgb   (void);
-     const MFGLenum            &getVariableCrgb   (void) const;
+#endif
+
+           GLenum              &editVariableDrgb   (const UInt32 index);
+     const GLenum              &getVariableDrgb   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableDrgb   (const UInt32 index);
            MFGLenum            &getVariableDrgb   (void);
-     const MFGLenum            &getVariableDrgb   (void) const;
+#endif
+
+           GLenum              &editVariableAalpha (const UInt32 index);
+     const GLenum              &getVariableAalpha (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableAalpha (const UInt32 index);
            MFGLenum            &getVariableAalpha (void);
-     const MFGLenum            &getVariableAalpha (void) const;
+#endif
+
+           GLenum              &editVariableBalpha (const UInt32 index);
+     const GLenum              &getVariableBalpha (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableBalpha (const UInt32 index);
            MFGLenum            &getVariableBalpha (void);
-     const MFGLenum            &getVariableBalpha (void) const;
+#endif
+
+           GLenum              &editVariableCalpha (const UInt32 index);
+     const GLenum              &getVariableCalpha (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableCalpha (const UInt32 index);
            MFGLenum            &getVariableCalpha (void);
-     const MFGLenum            &getVariableCalpha (void) const;
+#endif
+
+           GLenum              &editVariableDalpha (const UInt32 index);
+     const GLenum              &getVariableDalpha (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableDalpha (const UInt32 index);
            MFGLenum            &getVariableDalpha (void);
-     const MFGLenum            &getVariableDalpha (void) const;
+#endif
+
+           GLenum              &editOutputABrgb    (const UInt32 index);
+     const GLenum              &getOutputABrgb    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getOutputABrgb    (const UInt32 index);
            MFGLenum            &getOutputABrgb    (void);
-     const MFGLenum            &getOutputABrgb    (void) const;
+#endif
+
+           GLenum              &editOutputCDrgb    (const UInt32 index);
+     const GLenum              &getOutputCDrgb    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getOutputCDrgb    (const UInt32 index);
            MFGLenum            &getOutputCDrgb    (void);
-     const MFGLenum            &getOutputCDrgb    (void) const;
+#endif
+
+           GLenum              &editOutputSumrgb   (const UInt32 index);
+     const GLenum              &getOutputSumrgb   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getOutputSumrgb   (const UInt32 index);
            MFGLenum            &getOutputSumrgb   (void);
-     const MFGLenum            &getOutputSumrgb   (void) const;
+#endif
+
+           GLenum              &editScalergb       (const UInt32 index);
+     const GLenum              &getScalergb       (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getScalergb       (const UInt32 index);
            MFGLenum            &getScalergb       (void);
-     const MFGLenum            &getScalergb       (void) const;
+#endif
+
+           GLenum              &editBiasrgb        (const UInt32 index);
+     const GLenum              &getBiasrgb        (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getBiasrgb        (const UInt32 index);
            MFGLenum            &getBiasrgb        (void);
-     const MFGLenum            &getBiasrgb        (void) const;
+#endif
+
+           GLenum              &editOutputABalpha  (const UInt32 index);
+     const GLenum              &getOutputABalpha  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getOutputABalpha  (const UInt32 index);
            MFGLenum            &getOutputABalpha  (void);
-     const MFGLenum            &getOutputABalpha  (void) const;
+#endif
+
+           GLenum              &editOutputCDalpha  (const UInt32 index);
+     const GLenum              &getOutputCDalpha  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getOutputCDalpha  (const UInt32 index);
            MFGLenum            &getOutputCDalpha  (void);
-     const MFGLenum            &getOutputCDalpha  (void) const;
+#endif
+
+           GLenum              &editOutputSumalpha (const UInt32 index);
+     const GLenum              &getOutputSumalpha (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getOutputSumalpha (const UInt32 index);
            MFGLenum            &getOutputSumalpha (void);
-     const MFGLenum            &getOutputSumalpha (void) const;
+#endif
+
+           UInt8               &editDotABrgb       (const UInt32 index);
+     const UInt8               &getDotABrgb       (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt8               &getDotABrgb       (const UInt32 index);
            MFUInt8             &getDotABrgb       (void);
-     const MFUInt8             &getDotABrgb       (void) const;
+#endif
+
+           UInt8               &editDotCDrgb       (const UInt32 index);
+     const UInt8               &getDotCDrgb       (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt8               &getDotCDrgb       (const UInt32 index);
            MFUInt8             &getDotCDrgb       (void);
-     const MFUInt8             &getDotCDrgb       (void) const;
+#endif
+
+           UInt8               &editMuxSumrgb      (const UInt32 index);
+     const UInt8               &getMuxSumrgb      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt8               &getMuxSumrgb      (const UInt32 index);
            MFUInt8             &getMuxSumrgb      (void);
-     const MFUInt8             &getMuxSumrgb      (void) const;
+#endif
+
+           GLenum              &editScalealpha     (const UInt32 index);
+     const GLenum              &getScalealpha     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getScalealpha     (const UInt32 index);
            MFGLenum            &getScalealpha     (void);
-     const MFGLenum            &getScalealpha     (void) const;
+#endif
+
+           GLenum              &editBiasalpha      (const UInt32 index);
+     const GLenum              &getBiasalpha      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getBiasalpha      (const UInt32 index);
            MFGLenum            &getBiasalpha      (void);
-     const MFGLenum            &getBiasalpha      (void) const;
+#endif
+
+           UInt8               &editMuxSumalpha    (const UInt32 index);
+     const UInt8               &getMuxSumalpha    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt8               &getMuxSumalpha    (const UInt32 index);
            MFUInt8             &getMuxSumalpha    (void);
-     const MFUInt8             &getMuxSumalpha    (void) const;
+#endif
+
+           GLenum              &editVariableE      (const UInt32 index);
+     const GLenum              &getVariableE      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableE      (const UInt32 index);
            MFGLenum            &getVariableE      (void);
-     const MFGLenum            &getVariableE      (void) const;
+#endif
+
+           GLenum              &editVariableF      (const UInt32 index);
+     const GLenum              &getVariableF      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableF      (const UInt32 index);
            MFGLenum            &getVariableF      (void);
-     const MFGLenum            &getVariableF      (void) const;
+#endif
+
+           GLenum              &editVariableG      (const UInt32 index);
+     const GLenum              &getVariableG      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getVariableG      (const UInt32 index);
            MFGLenum            &getVariableG      (void);
-     const MFGLenum            &getVariableG      (void) const;
+#endif
+
+           Color4f             &editCombinerColor0 (const UInt32 index);
+     const Color4f             &getCombinerColor0 (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Color4f             &getCombinerColor0 (const UInt32 index);
            MFColor4f           &getCombinerColor0 (void);
-     const MFColor4f           &getCombinerColor0 (void) const;
+#endif
+
+           Color4f             &editCombinerColor1 (const UInt32 index);
+     const Color4f             &getCombinerColor1 (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Color4f             &getCombinerColor1 (const UInt32 index);
            MFColor4f           &getCombinerColor1 (void);
-     const MFColor4f           &getCombinerColor1 (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

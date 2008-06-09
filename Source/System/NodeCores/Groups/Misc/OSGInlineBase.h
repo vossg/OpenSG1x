@@ -125,14 +125,32 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFString            *getMFUrl            (void);
-           SFBool              *getSFLoaded         (void);
 
-           bool                &getLoaded         (void);
+           MFString            *editMFUrl            (void);
+     const MFString            *getMFUrl            (void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFUrl            (void);
+#endif
+
+           SFBool              *editSFLoaded         (void);
+     const SFBool              *getSFLoaded         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFLoaded         (void);
+#endif
+
+
+           bool                &editLoaded         (void);
      const bool                &getLoaded         (void) const;
+#ifndef OSG_2_PREP
+           bool                &getLoaded         (void);
+#endif
+
+           std::string         &editUrl            (const UInt32 index);
+     const std::string         &getUrl            (const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getUrl            (const UInt32 index);
            MFString            &getUrl            (void);
-     const MFString            &getUrl            (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

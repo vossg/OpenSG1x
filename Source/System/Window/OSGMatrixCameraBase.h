@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING MatrixCameraBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMatrix            *getSFProjectionMatrix(void);
-           SFMatrix            *getSFModelviewMatrix(void);
 
-           Matrix              &getProjectionMatrix(void);
+           SFMatrix            *editSFProjectionMatrix(void);
+     const SFMatrix            *getSFProjectionMatrix(void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFProjectionMatrix(void);
+#endif
+
+           SFMatrix            *editSFModelviewMatrix(void);
+     const SFMatrix            *getSFModelviewMatrix(void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFModelviewMatrix(void);
+#endif
+
+
+           Matrix              &editProjectionMatrix(void);
      const Matrix              &getProjectionMatrix(void) const;
-           Matrix              &getModelviewMatrix(void);
+#ifndef OSG_2_PREP
+           Matrix              &getProjectionMatrix(void);
+#endif
+
+           Matrix              &editModelviewMatrix(void);
      const Matrix              &getModelviewMatrix(void) const;
+#ifndef OSG_2_PREP
+           Matrix              &getModelviewMatrix(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

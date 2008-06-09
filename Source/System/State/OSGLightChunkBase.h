@@ -149,37 +149,127 @@ class OSG_SYSTEMLIB_DLLMAPPING LightChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor4f           *getSFDiffuse        (void);
-           SFColor4f           *getSFAmbient        (void);
-           SFColor4f           *getSFSpecular       (void);
-           SFVec4f             *getSFPosition       (void);
-           SFVec3f             *getSFDirection      (void);
-           SFReal32            *getSFExponent       (void);
-           SFReal32            *getSFCutoff         (void);
-           SFReal32            *getSFConstantAttenuation(void);
-           SFReal32            *getSFLinearAttenuation(void);
-           SFReal32            *getSFQuadraticAttenuation(void);
 
-           Color4f             &getDiffuse        (void);
+           SFColor4f           *editSFDiffuse        (void);
+     const SFColor4f           *getSFDiffuse        (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFDiffuse        (void);
+#endif
+
+           SFColor4f           *editSFAmbient        (void);
+     const SFColor4f           *getSFAmbient        (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFAmbient        (void);
+#endif
+
+           SFColor4f           *editSFSpecular       (void);
+     const SFColor4f           *getSFSpecular       (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFSpecular       (void);
+#endif
+
+           SFVec4f             *editSFPosition       (void);
+     const SFVec4f             *getSFPosition       (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFPosition       (void);
+#endif
+
+           SFVec3f             *editSFDirection      (void);
+     const SFVec3f             *getSFDirection      (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFDirection      (void);
+#endif
+
+           SFReal32            *editSFExponent       (void);
+     const SFReal32            *getSFExponent       (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFExponent       (void);
+#endif
+
+           SFReal32            *editSFCutoff         (void);
+     const SFReal32            *getSFCutoff         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFCutoff         (void);
+#endif
+
+           SFReal32            *editSFConstantAttenuation(void);
+     const SFReal32            *getSFConstantAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFConstantAttenuation(void);
+#endif
+
+           SFReal32            *editSFLinearAttenuation(void);
+     const SFReal32            *getSFLinearAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFLinearAttenuation(void);
+#endif
+
+           SFReal32            *editSFQuadraticAttenuation(void);
+     const SFReal32            *getSFQuadraticAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFQuadraticAttenuation(void);
+#endif
+
+
+           Color4f             &editDiffuse        (void);
      const Color4f             &getDiffuse        (void) const;
-           Color4f             &getAmbient        (void);
+#ifndef OSG_2_PREP
+           Color4f             &getDiffuse        (void);
+#endif
+
+           Color4f             &editAmbient        (void);
      const Color4f             &getAmbient        (void) const;
-           Color4f             &getSpecular       (void);
+#ifndef OSG_2_PREP
+           Color4f             &getAmbient        (void);
+#endif
+
+           Color4f             &editSpecular       (void);
      const Color4f             &getSpecular       (void) const;
-           Vec4f               &getPosition       (void);
+#ifndef OSG_2_PREP
+           Color4f             &getSpecular       (void);
+#endif
+
+           Vec4f               &editPosition       (void);
      const Vec4f               &getPosition       (void) const;
-           Vec3f               &getDirection      (void);
+#ifndef OSG_2_PREP
+           Vec4f               &getPosition       (void);
+#endif
+
+           Vec3f               &editDirection      (void);
      const Vec3f               &getDirection      (void) const;
-           Real32              &getExponent       (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getDirection      (void);
+#endif
+
+           Real32              &editExponent       (void);
      const Real32              &getExponent       (void) const;
-           Real32              &getCutoff         (void);
+#ifndef OSG_2_PREP
+           Real32              &getExponent       (void);
+#endif
+
+           Real32              &editCutoff         (void);
      const Real32              &getCutoff         (void) const;
-           Real32              &getConstantAttenuation(void);
+#ifndef OSG_2_PREP
+           Real32              &getCutoff         (void);
+#endif
+
+           Real32              &editConstantAttenuation(void);
      const Real32              &getConstantAttenuation(void) const;
-           Real32              &getLinearAttenuation(void);
+#ifndef OSG_2_PREP
+           Real32              &getConstantAttenuation(void);
+#endif
+
+           Real32              &editLinearAttenuation(void);
      const Real32              &getLinearAttenuation(void) const;
-           Real32              &getQuadraticAttenuation(void);
+#ifndef OSG_2_PREP
+           Real32              &getLinearAttenuation(void);
+#endif
+
+           Real32              &editQuadraticAttenuation(void);
      const Real32              &getQuadraticAttenuation(void) const;
+#ifndef OSG_2_PREP
+           Real32              &getQuadraticAttenuation(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

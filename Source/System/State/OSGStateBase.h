@@ -122,11 +122,20 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFStateChunkPtr     *getMFChunks         (void);
 
+           MFStateChunkPtr     *editMFChunks         (void);
+     const MFStateChunkPtr     *getMFChunks         (void) const;
+#ifndef OSG_2_PREP
+           MFStateChunkPtr     *getMFChunks         (void);
+#endif
+
+
+           StateChunkPtr       &editChunks         (const UInt32 index);
+     const StateChunkPtr       &getChunks         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            StateChunkPtr       &getChunks         (const UInt32 index);
            MFStateChunkPtr     &getChunks         (void);
-     const MFStateChunkPtr     &getChunks         (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

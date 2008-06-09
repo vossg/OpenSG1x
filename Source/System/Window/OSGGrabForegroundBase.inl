@@ -98,22 +98,54 @@ GrabForegroundPtr GrabForegroundBase::createEmpty(void)
 
 //! Get the GrabForeground::_sfImage field.
 inline
-SFImagePtr *GrabForegroundBase::getSFImage(void)
+const SFImagePtr *GrabForegroundBase::getSFImage(void) const
 {
     return &_sfImage;
 }
 
+//! Get the GrabForeground::_sfImage field.
+inline
+SFImagePtr *GrabForegroundBase::editSFImage(void)
+{
+    return &_sfImage;
+}
+
+#ifndef OSG_2_PREP
+//! Get the GrabForeground::_sfImage field.
+inline
+SFImagePtr *GrabForegroundBase::getSFImage(void)
+{
+    return &_sfImage;
+}
+#endif
+
+//! Get the GrabForeground::_sfAutoResize field.
+inline
+const SFBool *GrabForegroundBase::getSFAutoResize(void) const
+{
+    return &_sfAutoResize;
+}
+
+//! Get the GrabForeground::_sfAutoResize field.
+inline
+SFBool *GrabForegroundBase::editSFAutoResize(void)
+{
+    return &_sfAutoResize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the GrabForeground::_sfAutoResize field.
 inline
 SFBool *GrabForegroundBase::getSFAutoResize(void)
 {
     return &_sfAutoResize;
 }
+#endif
 
 
 //! Get the value of the GrabForeground::_sfImage field.
 inline
-ImagePtr &GrabForegroundBase::getImage(void)
+ImagePtr &GrabForegroundBase::editImage(void)
 {
     return _sfImage.getValue();
 }
@@ -125,6 +157,15 @@ const ImagePtr &GrabForegroundBase::getImage(void) const
     return _sfImage.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the GrabForeground::_sfImage field.
+inline
+ImagePtr &GrabForegroundBase::getImage(void)
+{
+    return _sfImage.getValue();
+}
+#endif
+
 //! Set the value of the GrabForeground::_sfImage field.
 inline
 void GrabForegroundBase::setImage(const ImagePtr &value)
@@ -134,7 +175,7 @@ void GrabForegroundBase::setImage(const ImagePtr &value)
 
 //! Get the value of the GrabForeground::_sfAutoResize field.
 inline
-bool &GrabForegroundBase::getAutoResize(void)
+bool &GrabForegroundBase::editAutoResize(void)
 {
     return _sfAutoResize.getValue();
 }
@@ -145,6 +186,15 @@ const bool &GrabForegroundBase::getAutoResize(void) const
 {
     return _sfAutoResize.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the GrabForeground::_sfAutoResize field.
+inline
+bool &GrabForegroundBase::getAutoResize(void)
+{
+    return _sfAutoResize.getValue();
+}
+#endif
 
 //! Set the value of the GrabForeground::_sfAutoResize field.
 inline

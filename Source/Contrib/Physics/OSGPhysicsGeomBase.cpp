@@ -128,42 +128,42 @@ FieldDescription *PhysicsGeomBase::_desc[] =
                      "body", 
                      BodyFieldId, BodyFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFBody)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::editSFBody)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFPosition)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::editSFPosition)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "rotation", 
                      RotationFieldId, RotationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFRotation)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::editSFRotation)),
     new FieldDescription(SFQuaternion::getClassType(), 
                      "quaternion", 
                      QuaternionFieldId, QuaternionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFQuaternion)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::editSFQuaternion)),
     new FieldDescription(SFUInt64::getClassType(), 
                      "categoryBits", 
                      CategoryBitsFieldId, CategoryBitsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFCategoryBits)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::editSFCategoryBits)),
     new FieldDescription(SFUInt64::getClassType(), 
                      "collideBits", 
                      CollideBitsFieldId, CollideBitsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFCollideBits)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::editSFCollideBits)),
     new FieldDescription(SFPhysicsSpacePtr::getClassType(), 
                      "space", 
                      SpaceFieldId, SpaceFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFSpace)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::editSFSpace)),
     new FieldDescription(SFBool::getClassType(), 
                      "enable", 
                      EnableFieldId, EnableFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::getSFEnable))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsGeomBase::editSFEnable))
 };
 
 
@@ -529,7 +529,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsGeomBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsGeomBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSGEOMBASE_INLINE_CVSID;
 

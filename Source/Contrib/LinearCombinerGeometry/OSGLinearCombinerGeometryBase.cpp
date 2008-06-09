@@ -116,32 +116,32 @@ FieldDescription *LinearCombinerGeometryBase::_desc[] =
                      "weights", 
                      WeightsFieldId, WeightsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getMFWeights)),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::editMFWeights)),
     new FieldDescription(MFGeoPositionsPtr::getClassType(), 
                      "srcpositions", 
                      SrcpositionsFieldId, SrcpositionsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getMFSrcpositions)),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::editMFSrcpositions)),
     new FieldDescription(MFVolume::getClassType(), 
                      "srcvolumes", 
                      SrcvolumesFieldId, SrcvolumesFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getMFSrcvolumes)),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::editMFSrcvolumes)),
     new FieldDescription(SFBool::getClassType(), 
                      "recalconrender", 
                      RecalconrenderFieldId, RecalconrenderFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getSFRecalconrender)),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::editSFRecalconrender)),
     new FieldDescription(SFBool::getClassType(), 
                      "allgeometries3f", 
                      Allgeometries3fFieldId, Allgeometries3fFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getSFAllgeometries3f)),
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::editSFAllgeometries3f)),
     new FieldDescription(SFBool::getClassType(), 
                      "positionsdirty", 
                      PositionsdirtyFieldId, PositionsdirtyFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::getSFPositionsdirty))
+                     reinterpret_cast<FieldAccessMethod>(&LinearCombinerGeometryBase::editSFPositionsdirty))
 };
 
 
@@ -464,7 +464,7 @@ DataType FieldDataTraits<LinearCombinerGeometryPtr>::_type("LinearCombinerGeomet
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLINEARCOMBINERGEOMETRYBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINEARCOMBINERGEOMETRYBASE_INLINE_CVSID;
 

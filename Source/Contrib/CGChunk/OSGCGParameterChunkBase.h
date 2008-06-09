@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING CGParameterChunkBase : public ShaderParameterChu
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFCGChunkPtr        *getSFCGChunk        (void);
 
-           CGChunkPtr          &getCGChunk        (void);
+           SFCGChunkPtr        *editSFCGChunk        (void);
+     const SFCGChunkPtr        *getSFCGChunk        (void) const;
+#ifndef OSG_2_PREP
+           SFCGChunkPtr        *getSFCGChunk        (void);
+#endif
+
+
+           CGChunkPtr          &editCGChunk        (void);
      const CGChunkPtr          &getCGChunk        (void) const;
+#ifndef OSG_2_PREP
+           CGChunkPtr          &getCGChunk        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<CGParameterChunkPtr> CGParameterChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.7 2008/06/05 05:02:14 vossg Exp $"
+#define OSGCGPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGParameterChunkBase.h,v 1.8 2008/06/09 07:31:37 vossg Exp $"
 
 #endif /* _OSGCGPARAMETERCHUNKBASE_H_ */

@@ -98,127 +98,399 @@ FBOViewportPtr FBOViewportBase::createEmpty(void)
 
 //! Get the FBOViewport::_sfEnabled field.
 inline
-SFBool *FBOViewportBase::getSFEnabled(void)
+const SFBool *FBOViewportBase::getSFEnabled(void) const
 {
     return &_sfEnabled;
 }
 
+//! Get the FBOViewport::_sfEnabled field.
+inline
+SFBool *FBOViewportBase::editSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+
+#ifndef OSG_2_PREP
+//! Get the FBOViewport::_sfEnabled field.
+inline
+SFBool *FBOViewportBase::getSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+#endif
+
+//! Get the FBOViewport::_mfExcludeNodes field.
+inline
+const MFNodePtr *FBOViewportBase::getMFExcludeNodes(void) const
+{
+    return &_mfExcludeNodes;
+}
+
+//! Get the FBOViewport::_mfExcludeNodes field.
+inline
+MFNodePtr *FBOViewportBase::editMFExcludeNodes(void)
+{
+    return &_mfExcludeNodes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_mfExcludeNodes field.
 inline
 MFNodePtr *FBOViewportBase::getMFExcludeNodes(void)
 {
     return &_mfExcludeNodes;
 }
+#endif
 
+//! Get the FBOViewport::_mfRenderNodes field.
+inline
+const MFNodePtr *FBOViewportBase::getMFRenderNodes(void) const
+{
+    return &_mfRenderNodes;
+}
+
+//! Get the FBOViewport::_mfRenderNodes field.
+inline
+MFNodePtr *FBOViewportBase::editMFRenderNodes(void)
+{
+    return &_mfRenderNodes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_mfRenderNodes field.
 inline
 MFNodePtr *FBOViewportBase::getMFRenderNodes(void)
 {
     return &_mfRenderNodes;
 }
+#endif
 
+//! Get the FBOViewport::_mfTextures field.
+inline
+const MFTextureChunkPtr *FBOViewportBase::getMFTextures(void) const
+{
+    return &_mfTextures;
+}
+
+//! Get the FBOViewport::_mfTextures field.
+inline
+MFTextureChunkPtr *FBOViewportBase::editMFTextures(void)
+{
+    return &_mfTextures;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_mfTextures field.
 inline
 MFTextureChunkPtr *FBOViewportBase::getMFTextures(void)
 {
     return &_mfTextures;
 }
+#endif
 
+//! Get the FBOViewport::_sfFboOn field.
+inline
+const SFBool *FBOViewportBase::getSFFboOn(void) const
+{
+    return &_sfFboOn;
+}
+
+//! Get the FBOViewport::_sfFboOn field.
+inline
+SFBool *FBOViewportBase::editSFFboOn(void)
+{
+    return &_sfFboOn;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfFboOn field.
 inline
 SFBool *FBOViewportBase::getSFFboOn(void)
 {
     return &_sfFboOn;
 }
+#endif
 
+//! Get the FBOViewport::_sfStorageWidth field.
+inline
+const SFInt32 *FBOViewportBase::getSFStorageWidth(void) const
+{
+    return &_sfStorageWidth;
+}
+
+//! Get the FBOViewport::_sfStorageWidth field.
+inline
+SFInt32 *FBOViewportBase::editSFStorageWidth(void)
+{
+    return &_sfStorageWidth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfStorageWidth field.
 inline
 SFInt32 *FBOViewportBase::getSFStorageWidth(void)
 {
     return &_sfStorageWidth;
 }
+#endif
 
+//! Get the FBOViewport::_sfStorageHeight field.
+inline
+const SFInt32 *FBOViewportBase::getSFStorageHeight(void) const
+{
+    return &_sfStorageHeight;
+}
+
+//! Get the FBOViewport::_sfStorageHeight field.
+inline
+SFInt32 *FBOViewportBase::editSFStorageHeight(void)
+{
+    return &_sfStorageHeight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfStorageHeight field.
 inline
 SFInt32 *FBOViewportBase::getSFStorageHeight(void)
 {
     return &_sfStorageHeight;
 }
+#endif
 
+//! Get the FBOViewport::_sfGenCubemaps field.
+inline
+const SFBool *FBOViewportBase::getSFGenCubemaps(void) const
+{
+    return &_sfGenCubemaps;
+}
+
+//! Get the FBOViewport::_sfGenCubemaps field.
+inline
+SFBool *FBOViewportBase::editSFGenCubemaps(void)
+{
+    return &_sfGenCubemaps;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfGenCubemaps field.
 inline
 SFBool *FBOViewportBase::getSFGenCubemaps(void)
 {
     return &_sfGenCubemaps;
 }
+#endif
 
+//! Get the FBOViewport::_sfGenDepthmaps field.
+inline
+const SFBool *FBOViewportBase::getSFGenDepthmaps(void) const
+{
+    return &_sfGenDepthmaps;
+}
+
+//! Get the FBOViewport::_sfGenDepthmaps field.
+inline
+SFBool *FBOViewportBase::editSFGenDepthmaps(void)
+{
+    return &_sfGenDepthmaps;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfGenDepthmaps field.
 inline
 SFBool *FBOViewportBase::getSFGenDepthmaps(void)
 {
     return &_sfGenDepthmaps;
 }
+#endif
 
+//! Get the FBOViewport::_sfFrameBufferIndex field.
+inline
+const SFUInt32 *FBOViewportBase::getSFFrameBufferIndex(void) const
+{
+    return &_sfFrameBufferIndex;
+}
+
+//! Get the FBOViewport::_sfFrameBufferIndex field.
+inline
+SFUInt32 *FBOViewportBase::editSFFrameBufferIndex(void)
+{
+    return &_sfFrameBufferIndex;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfFrameBufferIndex field.
 inline
 SFUInt32 *FBOViewportBase::getSFFrameBufferIndex(void)
 {
     return &_sfFrameBufferIndex;
 }
+#endif
 
+//! Get the FBOViewport::_sfDepthBufferIndex field.
+inline
+const SFUInt32 *FBOViewportBase::getSFDepthBufferIndex(void) const
+{
+    return &_sfDepthBufferIndex;
+}
+
+//! Get the FBOViewport::_sfDepthBufferIndex field.
+inline
+SFUInt32 *FBOViewportBase::editSFDepthBufferIndex(void)
+{
+    return &_sfDepthBufferIndex;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfDepthBufferIndex field.
 inline
 SFUInt32 *FBOViewportBase::getSFDepthBufferIndex(void)
 {
     return &_sfDepthBufferIndex;
 }
+#endif
 
+//! Get the FBOViewport::_sfStencilBufferIndex field.
+inline
+const SFUInt32 *FBOViewportBase::getSFStencilBufferIndex(void) const
+{
+    return &_sfStencilBufferIndex;
+}
+
+//! Get the FBOViewport::_sfStencilBufferIndex field.
+inline
+SFUInt32 *FBOViewportBase::editSFStencilBufferIndex(void)
+{
+    return &_sfStencilBufferIndex;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfStencilBufferIndex field.
 inline
 SFUInt32 *FBOViewportBase::getSFStencilBufferIndex(void)
 {
     return &_sfStencilBufferIndex;
 }
+#endif
 
+//! Get the FBOViewport::_sfDirty field.
+inline
+const SFBool *FBOViewportBase::getSFDirty(void) const
+{
+    return &_sfDirty;
+}
+
+//! Get the FBOViewport::_sfDirty field.
+inline
+SFBool *FBOViewportBase::editSFDirty(void)
+{
+    return &_sfDirty;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfDirty field.
 inline
 SFBool *FBOViewportBase::getSFDirty(void)
 {
     return &_sfDirty;
 }
+#endif
 
+//! Get the FBOViewport::_sfReadBuffer field.
+inline
+const SFBool *FBOViewportBase::getSFReadBuffer(void) const
+{
+    return &_sfReadBuffer;
+}
+
+//! Get the FBOViewport::_sfReadBuffer field.
+inline
+SFBool *FBOViewportBase::editSFReadBuffer(void)
+{
+    return &_sfReadBuffer;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfReadBuffer field.
 inline
 SFBool *FBOViewportBase::getSFReadBuffer(void)
 {
     return &_sfReadBuffer;
 }
+#endif
 
+//! Get the FBOViewport::_sfIgnoreCameraDecorators field.
+inline
+const SFBool *FBOViewportBase::getSFIgnoreCameraDecorators(void) const
+{
+    return &_sfIgnoreCameraDecorators;
+}
+
+//! Get the FBOViewport::_sfIgnoreCameraDecorators field.
+inline
+SFBool *FBOViewportBase::editSFIgnoreCameraDecorators(void)
+{
+    return &_sfIgnoreCameraDecorators;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfIgnoreCameraDecorators field.
 inline
 SFBool *FBOViewportBase::getSFIgnoreCameraDecorators(void)
 {
     return &_sfIgnoreCameraDecorators;
 }
+#endif
 
+//! Get the FBOViewport::_sfFboOffIgnoreStorageSize field.
+inline
+const SFBool *FBOViewportBase::getSFFboOffIgnoreStorageSize(void) const
+{
+    return &_sfFboOffIgnoreStorageSize;
+}
+
+//! Get the FBOViewport::_sfFboOffIgnoreStorageSize field.
+inline
+SFBool *FBOViewportBase::editSFFboOffIgnoreStorageSize(void)
+{
+    return &_sfFboOffIgnoreStorageSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_sfFboOffIgnoreStorageSize field.
 inline
 SFBool *FBOViewportBase::getSFFboOffIgnoreStorageSize(void)
 {
     return &_sfFboOffIgnoreStorageSize;
 }
+#endif
 
+//! Get the FBOViewport::_mfZOffset field.
+inline
+const MFInt32 *FBOViewportBase::getMFZOffset(void) const
+{
+    return &_mfZOffset;
+}
+
+//! Get the FBOViewport::_mfZOffset field.
+inline
+MFInt32 *FBOViewportBase::editMFZOffset(void)
+{
+    return &_mfZOffset;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FBOViewport::_mfZOffset field.
 inline
 MFInt32 *FBOViewportBase::getMFZOffset(void)
 {
     return &_mfZOffset;
 }
+#endif
 
 
 //! Get the value of the FBOViewport::_sfEnabled field.
 inline
-bool &FBOViewportBase::getEnabled(void)
+bool &FBOViewportBase::editEnabled(void)
 {
     return _sfEnabled.getValue();
 }
@@ -230,6 +502,15 @@ const bool &FBOViewportBase::getEnabled(void) const
     return _sfEnabled.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfEnabled field.
+inline
+bool &FBOViewportBase::getEnabled(void)
+{
+    return _sfEnabled.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfEnabled field.
 inline
 void FBOViewportBase::setEnabled(const bool &value)
@@ -239,7 +520,7 @@ void FBOViewportBase::setEnabled(const bool &value)
 
 //! Get the value of the FBOViewport::_sfFboOn field.
 inline
-bool &FBOViewportBase::getFboOn(void)
+bool &FBOViewportBase::editFboOn(void)
 {
     return _sfFboOn.getValue();
 }
@@ -251,6 +532,15 @@ const bool &FBOViewportBase::getFboOn(void) const
     return _sfFboOn.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfFboOn field.
+inline
+bool &FBOViewportBase::getFboOn(void)
+{
+    return _sfFboOn.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfFboOn field.
 inline
 void FBOViewportBase::setFboOn(const bool &value)
@@ -260,7 +550,7 @@ void FBOViewportBase::setFboOn(const bool &value)
 
 //! Get the value of the FBOViewport::_sfStorageWidth field.
 inline
-Int32 &FBOViewportBase::getStorageWidth(void)
+Int32 &FBOViewportBase::editStorageWidth(void)
 {
     return _sfStorageWidth.getValue();
 }
@@ -272,6 +562,15 @@ const Int32 &FBOViewportBase::getStorageWidth(void) const
     return _sfStorageWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfStorageWidth field.
+inline
+Int32 &FBOViewportBase::getStorageWidth(void)
+{
+    return _sfStorageWidth.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfStorageWidth field.
 inline
 void FBOViewportBase::setStorageWidth(const Int32 &value)
@@ -281,7 +580,7 @@ void FBOViewportBase::setStorageWidth(const Int32 &value)
 
 //! Get the value of the FBOViewport::_sfStorageHeight field.
 inline
-Int32 &FBOViewportBase::getStorageHeight(void)
+Int32 &FBOViewportBase::editStorageHeight(void)
 {
     return _sfStorageHeight.getValue();
 }
@@ -293,6 +592,15 @@ const Int32 &FBOViewportBase::getStorageHeight(void) const
     return _sfStorageHeight.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfStorageHeight field.
+inline
+Int32 &FBOViewportBase::getStorageHeight(void)
+{
+    return _sfStorageHeight.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfStorageHeight field.
 inline
 void FBOViewportBase::setStorageHeight(const Int32 &value)
@@ -302,7 +610,7 @@ void FBOViewportBase::setStorageHeight(const Int32 &value)
 
 //! Get the value of the FBOViewport::_sfGenCubemaps field.
 inline
-bool &FBOViewportBase::getGenCubemaps(void)
+bool &FBOViewportBase::editGenCubemaps(void)
 {
     return _sfGenCubemaps.getValue();
 }
@@ -314,6 +622,15 @@ const bool &FBOViewportBase::getGenCubemaps(void) const
     return _sfGenCubemaps.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfGenCubemaps field.
+inline
+bool &FBOViewportBase::getGenCubemaps(void)
+{
+    return _sfGenCubemaps.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfGenCubemaps field.
 inline
 void FBOViewportBase::setGenCubemaps(const bool &value)
@@ -323,7 +640,7 @@ void FBOViewportBase::setGenCubemaps(const bool &value)
 
 //! Get the value of the FBOViewport::_sfGenDepthmaps field.
 inline
-bool &FBOViewportBase::getGenDepthmaps(void)
+bool &FBOViewportBase::editGenDepthmaps(void)
 {
     return _sfGenDepthmaps.getValue();
 }
@@ -335,6 +652,15 @@ const bool &FBOViewportBase::getGenDepthmaps(void) const
     return _sfGenDepthmaps.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfGenDepthmaps field.
+inline
+bool &FBOViewportBase::getGenDepthmaps(void)
+{
+    return _sfGenDepthmaps.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfGenDepthmaps field.
 inline
 void FBOViewportBase::setGenDepthmaps(const bool &value)
@@ -344,7 +670,7 @@ void FBOViewportBase::setGenDepthmaps(const bool &value)
 
 //! Get the value of the FBOViewport::_sfFrameBufferIndex field.
 inline
-UInt32 &FBOViewportBase::getFrameBufferIndex(void)
+UInt32 &FBOViewportBase::editFrameBufferIndex(void)
 {
     return _sfFrameBufferIndex.getValue();
 }
@@ -356,6 +682,15 @@ const UInt32 &FBOViewportBase::getFrameBufferIndex(void) const
     return _sfFrameBufferIndex.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfFrameBufferIndex field.
+inline
+UInt32 &FBOViewportBase::getFrameBufferIndex(void)
+{
+    return _sfFrameBufferIndex.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfFrameBufferIndex field.
 inline
 void FBOViewportBase::setFrameBufferIndex(const UInt32 &value)
@@ -365,7 +700,7 @@ void FBOViewportBase::setFrameBufferIndex(const UInt32 &value)
 
 //! Get the value of the FBOViewport::_sfDepthBufferIndex field.
 inline
-UInt32 &FBOViewportBase::getDepthBufferIndex(void)
+UInt32 &FBOViewportBase::editDepthBufferIndex(void)
 {
     return _sfDepthBufferIndex.getValue();
 }
@@ -377,6 +712,15 @@ const UInt32 &FBOViewportBase::getDepthBufferIndex(void) const
     return _sfDepthBufferIndex.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfDepthBufferIndex field.
+inline
+UInt32 &FBOViewportBase::getDepthBufferIndex(void)
+{
+    return _sfDepthBufferIndex.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfDepthBufferIndex field.
 inline
 void FBOViewportBase::setDepthBufferIndex(const UInt32 &value)
@@ -386,7 +730,7 @@ void FBOViewportBase::setDepthBufferIndex(const UInt32 &value)
 
 //! Get the value of the FBOViewport::_sfStencilBufferIndex field.
 inline
-UInt32 &FBOViewportBase::getStencilBufferIndex(void)
+UInt32 &FBOViewportBase::editStencilBufferIndex(void)
 {
     return _sfStencilBufferIndex.getValue();
 }
@@ -398,6 +742,15 @@ const UInt32 &FBOViewportBase::getStencilBufferIndex(void) const
     return _sfStencilBufferIndex.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfStencilBufferIndex field.
+inline
+UInt32 &FBOViewportBase::getStencilBufferIndex(void)
+{
+    return _sfStencilBufferIndex.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfStencilBufferIndex field.
 inline
 void FBOViewportBase::setStencilBufferIndex(const UInt32 &value)
@@ -407,7 +760,7 @@ void FBOViewportBase::setStencilBufferIndex(const UInt32 &value)
 
 //! Get the value of the FBOViewport::_sfDirty field.
 inline
-bool &FBOViewportBase::getDirty(void)
+bool &FBOViewportBase::editDirty(void)
 {
     return _sfDirty.getValue();
 }
@@ -419,6 +772,15 @@ const bool &FBOViewportBase::getDirty(void) const
     return _sfDirty.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfDirty field.
+inline
+bool &FBOViewportBase::getDirty(void)
+{
+    return _sfDirty.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfDirty field.
 inline
 void FBOViewportBase::setDirty(const bool &value)
@@ -428,7 +790,7 @@ void FBOViewportBase::setDirty(const bool &value)
 
 //! Get the value of the FBOViewport::_sfReadBuffer field.
 inline
-bool &FBOViewportBase::getReadBuffer(void)
+bool &FBOViewportBase::editReadBuffer(void)
 {
     return _sfReadBuffer.getValue();
 }
@@ -440,6 +802,15 @@ const bool &FBOViewportBase::getReadBuffer(void) const
     return _sfReadBuffer.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfReadBuffer field.
+inline
+bool &FBOViewportBase::getReadBuffer(void)
+{
+    return _sfReadBuffer.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfReadBuffer field.
 inline
 void FBOViewportBase::setReadBuffer(const bool &value)
@@ -449,7 +820,7 @@ void FBOViewportBase::setReadBuffer(const bool &value)
 
 //! Get the value of the FBOViewport::_sfIgnoreCameraDecorators field.
 inline
-bool &FBOViewportBase::getIgnoreCameraDecorators(void)
+bool &FBOViewportBase::editIgnoreCameraDecorators(void)
 {
     return _sfIgnoreCameraDecorators.getValue();
 }
@@ -461,6 +832,15 @@ const bool &FBOViewportBase::getIgnoreCameraDecorators(void) const
     return _sfIgnoreCameraDecorators.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfIgnoreCameraDecorators field.
+inline
+bool &FBOViewportBase::getIgnoreCameraDecorators(void)
+{
+    return _sfIgnoreCameraDecorators.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfIgnoreCameraDecorators field.
 inline
 void FBOViewportBase::setIgnoreCameraDecorators(const bool &value)
@@ -470,7 +850,7 @@ void FBOViewportBase::setIgnoreCameraDecorators(const bool &value)
 
 //! Get the value of the FBOViewport::_sfFboOffIgnoreStorageSize field.
 inline
-bool &FBOViewportBase::getFboOffIgnoreStorageSize(void)
+bool &FBOViewportBase::editFboOffIgnoreStorageSize(void)
 {
     return _sfFboOffIgnoreStorageSize.getValue();
 }
@@ -482,6 +862,15 @@ const bool &FBOViewportBase::getFboOffIgnoreStorageSize(void) const
     return _sfFboOffIgnoreStorageSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FBOViewport::_sfFboOffIgnoreStorageSize field.
+inline
+bool &FBOViewportBase::getFboOffIgnoreStorageSize(void)
+{
+    return _sfFboOffIgnoreStorageSize.getValue();
+}
+#endif
+
 //! Set the value of the FBOViewport::_sfFboOffIgnoreStorageSize field.
 inline
 void FBOViewportBase::setFboOffIgnoreStorageSize(const bool &value)
@@ -490,6 +879,21 @@ void FBOViewportBase::setFboOffIgnoreStorageSize(const bool &value)
 }
 
 
+//! Get the value of the \a index element the FBOViewport::_mfExcludeNodes field.
+inline
+NodePtr &FBOViewportBase::editExcludeNodes(const UInt32 index)
+{
+    return _mfExcludeNodes[index];
+}
+
+//! Get the value of the \a index element the FBOViewport::_mfExcludeNodes field.
+inline
+const NodePtr &FBOViewportBase::getExcludeNodes(const UInt32 index) const
+{
+    return _mfExcludeNodes[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the FBOViewport::_mfExcludeNodes field.
 inline
 NodePtr &FBOViewportBase::getExcludeNodes(const UInt32 index)
@@ -504,13 +908,23 @@ MFNodePtr &FBOViewportBase::getExcludeNodes(void)
     return _mfExcludeNodes;
 }
 
-//! Get the FBOViewport::_mfExcludeNodes field.
+#endif
+
+//! Get the value of the \a index element the FBOViewport::_mfRenderNodes field.
 inline
-const MFNodePtr &FBOViewportBase::getExcludeNodes(void) const
+NodePtr &FBOViewportBase::editRenderNodes(const UInt32 index)
 {
-    return _mfExcludeNodes;
+    return _mfRenderNodes[index];
 }
 
+//! Get the value of the \a index element the FBOViewport::_mfRenderNodes field.
+inline
+const NodePtr &FBOViewportBase::getRenderNodes(const UInt32 index) const
+{
+    return _mfRenderNodes[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the FBOViewport::_mfRenderNodes field.
 inline
 NodePtr &FBOViewportBase::getRenderNodes(const UInt32 index)
@@ -525,13 +939,23 @@ MFNodePtr &FBOViewportBase::getRenderNodes(void)
     return _mfRenderNodes;
 }
 
-//! Get the FBOViewport::_mfRenderNodes field.
+#endif
+
+//! Get the value of the \a index element the FBOViewport::_mfTextures field.
 inline
-const MFNodePtr &FBOViewportBase::getRenderNodes(void) const
+TextureChunkPtr &FBOViewportBase::editTextures(const UInt32 index)
 {
-    return _mfRenderNodes;
+    return _mfTextures[index];
 }
 
+//! Get the value of the \a index element the FBOViewport::_mfTextures field.
+inline
+const TextureChunkPtr &FBOViewportBase::getTextures(const UInt32 index) const
+{
+    return _mfTextures[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the FBOViewport::_mfTextures field.
 inline
 TextureChunkPtr &FBOViewportBase::getTextures(const UInt32 index)
@@ -546,13 +970,23 @@ MFTextureChunkPtr &FBOViewportBase::getTextures(void)
     return _mfTextures;
 }
 
-//! Get the FBOViewport::_mfTextures field.
+#endif
+
+//! Get the value of the \a index element the FBOViewport::_mfZOffset field.
 inline
-const MFTextureChunkPtr &FBOViewportBase::getTextures(void) const
+Int32 &FBOViewportBase::editZOffset(const UInt32 index)
 {
-    return _mfTextures;
+    return _mfZOffset[index];
 }
 
+//! Get the value of the \a index element the FBOViewport::_mfZOffset field.
+inline
+const Int32 &FBOViewportBase::getZOffset(const UInt32 index) const
+{
+    return _mfZOffset[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the FBOViewport::_mfZOffset field.
 inline
 Int32 &FBOViewportBase::getZOffset(const UInt32 index)
@@ -567,14 +1001,9 @@ MFInt32 &FBOViewportBase::getZOffset(void)
     return _mfZOffset;
 }
 
-//! Get the FBOViewport::_mfZOffset field.
-inline
-const MFInt32 &FBOViewportBase::getZOffset(void) const
-{
-    return _mfZOffset;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.5 2008/06/05 05:02:30 vossg Exp $"
+#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.6 2008/06/09 07:31:55 vossg Exp $"
 

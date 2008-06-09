@@ -98,22 +98,54 @@ PerspectiveCameraPtr PerspectiveCameraBase::createEmpty(void)
 
 //! Get the PerspectiveCamera::_sfFov field.
 inline
-SFReal32 *PerspectiveCameraBase::getSFFov(void)
+const SFReal32 *PerspectiveCameraBase::getSFFov(void) const
 {
     return &_sfFov;
 }
 
+//! Get the PerspectiveCamera::_sfFov field.
+inline
+SFReal32 *PerspectiveCameraBase::editSFFov(void)
+{
+    return &_sfFov;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PerspectiveCamera::_sfFov field.
+inline
+SFReal32 *PerspectiveCameraBase::getSFFov(void)
+{
+    return &_sfFov;
+}
+#endif
+
+//! Get the PerspectiveCamera::_sfAspect field.
+inline
+const SFReal32 *PerspectiveCameraBase::getSFAspect(void) const
+{
+    return &_sfAspect;
+}
+
+//! Get the PerspectiveCamera::_sfAspect field.
+inline
+SFReal32 *PerspectiveCameraBase::editSFAspect(void)
+{
+    return &_sfAspect;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PerspectiveCamera::_sfAspect field.
 inline
 SFReal32 *PerspectiveCameraBase::getSFAspect(void)
 {
     return &_sfAspect;
 }
+#endif
 
 
 //! Get the value of the PerspectiveCamera::_sfFov field.
 inline
-Real32 &PerspectiveCameraBase::getFov(void)
+Real32 &PerspectiveCameraBase::editFov(void)
 {
     return _sfFov.getValue();
 }
@@ -125,6 +157,15 @@ const Real32 &PerspectiveCameraBase::getFov(void) const
     return _sfFov.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PerspectiveCamera::_sfFov field.
+inline
+Real32 &PerspectiveCameraBase::getFov(void)
+{
+    return _sfFov.getValue();
+}
+#endif
+
 //! Set the value of the PerspectiveCamera::_sfFov field.
 inline
 void PerspectiveCameraBase::setFov(const Real32 &value)
@@ -134,7 +175,7 @@ void PerspectiveCameraBase::setFov(const Real32 &value)
 
 //! Get the value of the PerspectiveCamera::_sfAspect field.
 inline
-Real32 &PerspectiveCameraBase::getAspect(void)
+Real32 &PerspectiveCameraBase::editAspect(void)
 {
     return _sfAspect.getValue();
 }
@@ -145,6 +186,15 @@ const Real32 &PerspectiveCameraBase::getAspect(void) const
 {
     return _sfAspect.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the PerspectiveCamera::_sfAspect field.
+inline
+Real32 &PerspectiveCameraBase::getAspect(void)
+{
+    return _sfAspect.getValue();
+}
+#endif
 
 //! Set the value of the PerspectiveCamera::_sfAspect field.
 inline

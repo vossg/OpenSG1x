@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING StateSortingGroupBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFSorting        (void);
 
-           bool                &getSorting        (void);
+           SFBool              *editSFSorting        (void);
+     const SFBool              *getSFSorting        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSorting        (void);
+#endif
+
+
+           bool                &editSorting        (void);
      const bool                &getSorting        (void) const;
+#ifndef OSG_2_PREP
+           bool                &getSorting        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<StateSortingGroupPtr> StateSortingGroupRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATESORTINGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupBase.h,v 1.7 2008/06/05 05:02:28 vossg Exp $"
+#define OSGSTATESORTINGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupBase.h,v 1.8 2008/06/09 07:31:51 vossg Exp $"
 
 #endif /* _OSGSTATESORTINGGROUPBASE_H_ */

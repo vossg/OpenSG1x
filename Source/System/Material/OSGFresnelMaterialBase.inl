@@ -98,92 +98,284 @@ FresnelMaterialPtr FresnelMaterialBase::createEmpty(void)
 
 //! Get the FresnelMaterial::_sfAmbient field.
 inline
-SFColor3f *FresnelMaterialBase::getSFAmbient(void)
+const SFColor3f *FresnelMaterialBase::getSFAmbient(void) const
 {
     return &_sfAmbient;
 }
 
+//! Get the FresnelMaterial::_sfAmbient field.
+inline
+SFColor3f *FresnelMaterialBase::editSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+
+#ifndef OSG_2_PREP
+//! Get the FresnelMaterial::_sfAmbient field.
+inline
+SFColor3f *FresnelMaterialBase::getSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+#endif
+
+//! Get the FresnelMaterial::_sfDiffuse field.
+inline
+const SFColor3f *FresnelMaterialBase::getSFDiffuse(void) const
+{
+    return &_sfDiffuse;
+}
+
+//! Get the FresnelMaterial::_sfDiffuse field.
+inline
+SFColor3f *FresnelMaterialBase::editSFDiffuse(void)
+{
+    return &_sfDiffuse;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfDiffuse field.
 inline
 SFColor3f *FresnelMaterialBase::getSFDiffuse(void)
 {
     return &_sfDiffuse;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfSpecular field.
+inline
+const SFColor3f *FresnelMaterialBase::getSFSpecular(void) const
+{
+    return &_sfSpecular;
+}
+
+//! Get the FresnelMaterial::_sfSpecular field.
+inline
+SFColor3f *FresnelMaterialBase::editSFSpecular(void)
+{
+    return &_sfSpecular;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfSpecular field.
 inline
 SFColor3f *FresnelMaterialBase::getSFSpecular(void)
 {
     return &_sfSpecular;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfShininess field.
+inline
+const SFReal32 *FresnelMaterialBase::getSFShininess(void) const
+{
+    return &_sfShininess;
+}
+
+//! Get the FresnelMaterial::_sfShininess field.
+inline
+SFReal32 *FresnelMaterialBase::editSFShininess(void)
+{
+    return &_sfShininess;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfShininess field.
 inline
 SFReal32 *FresnelMaterialBase::getSFShininess(void)
 {
     return &_sfShininess;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfEmission field.
+inline
+const SFColor3f *FresnelMaterialBase::getSFEmission(void) const
+{
+    return &_sfEmission;
+}
+
+//! Get the FresnelMaterial::_sfEmission field.
+inline
+SFColor3f *FresnelMaterialBase::editSFEmission(void)
+{
+    return &_sfEmission;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfEmission field.
 inline
 SFColor3f *FresnelMaterialBase::getSFEmission(void)
 {
     return &_sfEmission;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfTransparency field.
+inline
+const SFReal32 *FresnelMaterialBase::getSFTransparency(void) const
+{
+    return &_sfTransparency;
+}
+
+//! Get the FresnelMaterial::_sfTransparency field.
+inline
+SFReal32 *FresnelMaterialBase::editSFTransparency(void)
+{
+    return &_sfTransparency;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfTransparency field.
 inline
 SFReal32 *FresnelMaterialBase::getSFTransparency(void)
 {
     return &_sfTransparency;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfLit field.
+inline
+const SFBool *FresnelMaterialBase::getSFLit(void) const
+{
+    return &_sfLit;
+}
+
+//! Get the FresnelMaterial::_sfLit field.
+inline
+SFBool *FresnelMaterialBase::editSFLit(void)
+{
+    return &_sfLit;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfLit field.
 inline
 SFBool *FresnelMaterialBase::getSFLit(void)
 {
     return &_sfLit;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfColorMaterial field.
+inline
+const SFGLenum *FresnelMaterialBase::getSFColorMaterial(void) const
+{
+    return &_sfColorMaterial;
+}
+
+//! Get the FresnelMaterial::_sfColorMaterial field.
+inline
+SFGLenum *FresnelMaterialBase::editSFColorMaterial(void)
+{
+    return &_sfColorMaterial;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfColorMaterial field.
 inline
 SFGLenum *FresnelMaterialBase::getSFColorMaterial(void)
 {
     return &_sfColorMaterial;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfIndex field.
+inline
+const SFReal32 *FresnelMaterialBase::getSFIndex(void) const
+{
+    return &_sfIndex;
+}
+
+//! Get the FresnelMaterial::_sfIndex field.
+inline
+SFReal32 *FresnelMaterialBase::editSFIndex(void)
+{
+    return &_sfIndex;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfIndex field.
 inline
 SFReal32 *FresnelMaterialBase::getSFIndex(void)
 {
     return &_sfIndex;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfScale field.
+inline
+const SFReal32 *FresnelMaterialBase::getSFScale(void) const
+{
+    return &_sfScale;
+}
+
+//! Get the FresnelMaterial::_sfScale field.
+inline
+SFReal32 *FresnelMaterialBase::editSFScale(void)
+{
+    return &_sfScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfScale field.
 inline
 SFReal32 *FresnelMaterialBase::getSFScale(void)
 {
     return &_sfScale;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfBias field.
+inline
+const SFReal32 *FresnelMaterialBase::getSFBias(void) const
+{
+    return &_sfBias;
+}
+
+//! Get the FresnelMaterial::_sfBias field.
+inline
+SFReal32 *FresnelMaterialBase::editSFBias(void)
+{
+    return &_sfBias;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfBias field.
 inline
 SFReal32 *FresnelMaterialBase::getSFBias(void)
 {
     return &_sfBias;
 }
+#endif
 
+//! Get the FresnelMaterial::_sfImage field.
+inline
+const SFImagePtr *FresnelMaterialBase::getSFImage(void) const
+{
+    return &_sfImage;
+}
+
+//! Get the FresnelMaterial::_sfImage field.
+inline
+SFImagePtr *FresnelMaterialBase::editSFImage(void)
+{
+    return &_sfImage;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FresnelMaterial::_sfImage field.
 inline
 SFImagePtr *FresnelMaterialBase::getSFImage(void)
 {
     return &_sfImage;
 }
+#endif
 
 
 //! Get the value of the FresnelMaterial::_sfAmbient field.
 inline
-Color3f &FresnelMaterialBase::getAmbient(void)
+Color3f &FresnelMaterialBase::editAmbient(void)
 {
     return _sfAmbient.getValue();
 }
@@ -195,6 +387,15 @@ const Color3f &FresnelMaterialBase::getAmbient(void) const
     return _sfAmbient.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfAmbient field.
+inline
+Color3f &FresnelMaterialBase::getAmbient(void)
+{
+    return _sfAmbient.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfAmbient field.
 inline
 void FresnelMaterialBase::setAmbient(const Color3f &value)
@@ -204,7 +405,7 @@ void FresnelMaterialBase::setAmbient(const Color3f &value)
 
 //! Get the value of the FresnelMaterial::_sfDiffuse field.
 inline
-Color3f &FresnelMaterialBase::getDiffuse(void)
+Color3f &FresnelMaterialBase::editDiffuse(void)
 {
     return _sfDiffuse.getValue();
 }
@@ -216,6 +417,15 @@ const Color3f &FresnelMaterialBase::getDiffuse(void) const
     return _sfDiffuse.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfDiffuse field.
+inline
+Color3f &FresnelMaterialBase::getDiffuse(void)
+{
+    return _sfDiffuse.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfDiffuse field.
 inline
 void FresnelMaterialBase::setDiffuse(const Color3f &value)
@@ -225,7 +435,7 @@ void FresnelMaterialBase::setDiffuse(const Color3f &value)
 
 //! Get the value of the FresnelMaterial::_sfSpecular field.
 inline
-Color3f &FresnelMaterialBase::getSpecular(void)
+Color3f &FresnelMaterialBase::editSpecular(void)
 {
     return _sfSpecular.getValue();
 }
@@ -237,6 +447,15 @@ const Color3f &FresnelMaterialBase::getSpecular(void) const
     return _sfSpecular.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfSpecular field.
+inline
+Color3f &FresnelMaterialBase::getSpecular(void)
+{
+    return _sfSpecular.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfSpecular field.
 inline
 void FresnelMaterialBase::setSpecular(const Color3f &value)
@@ -246,7 +465,7 @@ void FresnelMaterialBase::setSpecular(const Color3f &value)
 
 //! Get the value of the FresnelMaterial::_sfShininess field.
 inline
-Real32 &FresnelMaterialBase::getShininess(void)
+Real32 &FresnelMaterialBase::editShininess(void)
 {
     return _sfShininess.getValue();
 }
@@ -258,6 +477,15 @@ const Real32 &FresnelMaterialBase::getShininess(void) const
     return _sfShininess.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfShininess field.
+inline
+Real32 &FresnelMaterialBase::getShininess(void)
+{
+    return _sfShininess.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfShininess field.
 inline
 void FresnelMaterialBase::setShininess(const Real32 &value)
@@ -267,7 +495,7 @@ void FresnelMaterialBase::setShininess(const Real32 &value)
 
 //! Get the value of the FresnelMaterial::_sfEmission field.
 inline
-Color3f &FresnelMaterialBase::getEmission(void)
+Color3f &FresnelMaterialBase::editEmission(void)
 {
     return _sfEmission.getValue();
 }
@@ -279,6 +507,15 @@ const Color3f &FresnelMaterialBase::getEmission(void) const
     return _sfEmission.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfEmission field.
+inline
+Color3f &FresnelMaterialBase::getEmission(void)
+{
+    return _sfEmission.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfEmission field.
 inline
 void FresnelMaterialBase::setEmission(const Color3f &value)
@@ -288,7 +525,7 @@ void FresnelMaterialBase::setEmission(const Color3f &value)
 
 //! Get the value of the FresnelMaterial::_sfTransparency field.
 inline
-Real32 &FresnelMaterialBase::getTransparency(void)
+Real32 &FresnelMaterialBase::editTransparency(void)
 {
     return _sfTransparency.getValue();
 }
@@ -300,6 +537,15 @@ const Real32 &FresnelMaterialBase::getTransparency(void) const
     return _sfTransparency.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfTransparency field.
+inline
+Real32 &FresnelMaterialBase::getTransparency(void)
+{
+    return _sfTransparency.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfTransparency field.
 inline
 void FresnelMaterialBase::setTransparency(const Real32 &value)
@@ -309,7 +555,7 @@ void FresnelMaterialBase::setTransparency(const Real32 &value)
 
 //! Get the value of the FresnelMaterial::_sfLit field.
 inline
-bool &FresnelMaterialBase::getLit(void)
+bool &FresnelMaterialBase::editLit(void)
 {
     return _sfLit.getValue();
 }
@@ -321,6 +567,15 @@ const bool &FresnelMaterialBase::getLit(void) const
     return _sfLit.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfLit field.
+inline
+bool &FresnelMaterialBase::getLit(void)
+{
+    return _sfLit.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfLit field.
 inline
 void FresnelMaterialBase::setLit(const bool &value)
@@ -330,7 +585,7 @@ void FresnelMaterialBase::setLit(const bool &value)
 
 //! Get the value of the FresnelMaterial::_sfColorMaterial field.
 inline
-GLenum &FresnelMaterialBase::getColorMaterial(void)
+GLenum &FresnelMaterialBase::editColorMaterial(void)
 {
     return _sfColorMaterial.getValue();
 }
@@ -342,6 +597,15 @@ const GLenum &FresnelMaterialBase::getColorMaterial(void) const
     return _sfColorMaterial.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfColorMaterial field.
+inline
+GLenum &FresnelMaterialBase::getColorMaterial(void)
+{
+    return _sfColorMaterial.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfColorMaterial field.
 inline
 void FresnelMaterialBase::setColorMaterial(const GLenum &value)
@@ -351,7 +615,7 @@ void FresnelMaterialBase::setColorMaterial(const GLenum &value)
 
 //! Get the value of the FresnelMaterial::_sfIndex field.
 inline
-Real32 &FresnelMaterialBase::getIndex(void)
+Real32 &FresnelMaterialBase::editIndex(void)
 {
     return _sfIndex.getValue();
 }
@@ -363,6 +627,15 @@ const Real32 &FresnelMaterialBase::getIndex(void) const
     return _sfIndex.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfIndex field.
+inline
+Real32 &FresnelMaterialBase::getIndex(void)
+{
+    return _sfIndex.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfIndex field.
 inline
 void FresnelMaterialBase::setIndex(const Real32 &value)
@@ -372,7 +645,7 @@ void FresnelMaterialBase::setIndex(const Real32 &value)
 
 //! Get the value of the FresnelMaterial::_sfScale field.
 inline
-Real32 &FresnelMaterialBase::getScale(void)
+Real32 &FresnelMaterialBase::editScale(void)
 {
     return _sfScale.getValue();
 }
@@ -384,6 +657,15 @@ const Real32 &FresnelMaterialBase::getScale(void) const
     return _sfScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfScale field.
+inline
+Real32 &FresnelMaterialBase::getScale(void)
+{
+    return _sfScale.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfScale field.
 inline
 void FresnelMaterialBase::setScale(const Real32 &value)
@@ -393,7 +675,7 @@ void FresnelMaterialBase::setScale(const Real32 &value)
 
 //! Get the value of the FresnelMaterial::_sfBias field.
 inline
-Real32 &FresnelMaterialBase::getBias(void)
+Real32 &FresnelMaterialBase::editBias(void)
 {
     return _sfBias.getValue();
 }
@@ -405,6 +687,15 @@ const Real32 &FresnelMaterialBase::getBias(void) const
     return _sfBias.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfBias field.
+inline
+Real32 &FresnelMaterialBase::getBias(void)
+{
+    return _sfBias.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfBias field.
 inline
 void FresnelMaterialBase::setBias(const Real32 &value)
@@ -414,7 +705,7 @@ void FresnelMaterialBase::setBias(const Real32 &value)
 
 //! Get the value of the FresnelMaterial::_sfImage field.
 inline
-ImagePtr &FresnelMaterialBase::getImage(void)
+ImagePtr &FresnelMaterialBase::editImage(void)
 {
     return _sfImage.getValue();
 }
@@ -426,6 +717,15 @@ const ImagePtr &FresnelMaterialBase::getImage(void) const
     return _sfImage.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FresnelMaterial::_sfImage field.
+inline
+ImagePtr &FresnelMaterialBase::getImage(void)
+{
+    return _sfImage.getValue();
+}
+#endif
+
 //! Set the value of the FresnelMaterial::_sfImage field.
 inline
 void FresnelMaterialBase::setImage(const ImagePtr &value)
@@ -436,5 +736,5 @@ void FresnelMaterialBase::setImage(const ImagePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFRESNELMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGFresnelMaterialBase.inl,v 1.6 2008/06/05 05:02:25 vossg Exp $"
+#define OSGFRESNELMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGFresnelMaterialBase.inl,v 1.7 2008/06/09 07:31:48 vossg Exp $"
 

@@ -128,42 +128,42 @@ FieldDescription *TextureBackgroundBase::_desc[] =
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFColor)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::editSFColor)),
     new FieldDescription(SFTextureChunkPtr::getClassType(), 
                      "texture", 
                      TextureFieldId, TextureFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFTexture)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::editSFTexture)),
     new FieldDescription(MFPnt2f::getClassType(), 
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getMFTexCoords)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::editMFTexCoords)),
     new FieldDescription(SFReal32::getClassType(), 
                      "radialDistortion", 
                      RadialDistortionFieldId, RadialDistortionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFRadialDistortion)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::editSFRadialDistortion)),
     new FieldDescription(SFVec2f::getClassType(), 
                      "centerOfDistortion", 
                      CenterOfDistortionFieldId, CenterOfDistortionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFCenterOfDistortion)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::editSFCenterOfDistortion)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "hor", 
                      HorFieldId, HorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFHor)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::editSFHor)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "vert", 
                      VertFieldId, VertFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFVert)),
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::editSFVert)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::getSFClearStencilBit))
+                     reinterpret_cast<FieldAccessMethod>(&TextureBackgroundBase::editSFClearStencilBit))
 };
 
 
@@ -531,7 +531,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(TextureBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.9 2008/06/05 05:02:31 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.10 2008/06/09 07:31:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

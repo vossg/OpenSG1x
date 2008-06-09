@@ -129,42 +129,42 @@ FieldDescription *SimpleMaterialBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFAmbient)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::editSFAmbient)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFDiffuse)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::editSFDiffuse)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFSpecular)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::editSFSpecular)),
     new FieldDescription(SFReal32::getClassType(), 
                      "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFShininess)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::editSFShininess)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFEmission)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::editSFEmission)),
     new FieldDescription(SFReal32::getClassType(), 
                      "transparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFTransparency)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::editSFTransparency)),
     new FieldDescription(SFBool::getClassType(), 
                      "lit", 
                      LitFieldId, LitFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFLit)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::editSFLit)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::getSFColorMaterial))
+                     reinterpret_cast<FieldAccessMethod>(&SimpleMaterialBase::editSFColorMaterial))
 };
 
 
@@ -521,7 +521,7 @@ DataType FieldDataTraits<SimpleMaterialPtr>::_type("SimpleMaterialPtr", "ChunkMa
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLEMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLEMATERIALBASE_INLINE_CVSID;
 

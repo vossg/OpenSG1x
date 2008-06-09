@@ -98,78 +98,238 @@ ShadowMapViewportPtr ShadowMapViewportBase::createEmpty(void)
 
 //! Get the ShadowMapViewport::_sfOffBias field.
 inline
-SFReal32 *ShadowMapViewportBase::getSFOffBias(void)
+const SFReal32 *ShadowMapViewportBase::getSFOffBias(void) const
 {
     return &_sfOffBias;
 }
 
+//! Get the ShadowMapViewport::_sfOffBias field.
+inline
+SFReal32 *ShadowMapViewportBase::editSFOffBias(void)
+{
+    return &_sfOffBias;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShadowMapViewport::_sfOffBias field.
+inline
+SFReal32 *ShadowMapViewportBase::getSFOffBias(void)
+{
+    return &_sfOffBias;
+}
+#endif
+
+//! Get the ShadowMapViewport::_sfOffFactor field.
+inline
+const SFReal32 *ShadowMapViewportBase::getSFOffFactor(void) const
+{
+    return &_sfOffFactor;
+}
+
+//! Get the ShadowMapViewport::_sfOffFactor field.
+inline
+SFReal32 *ShadowMapViewportBase::editSFOffFactor(void)
+{
+    return &_sfOffFactor;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_sfOffFactor field.
 inline
 SFReal32 *ShadowMapViewportBase::getSFOffFactor(void)
 {
     return &_sfOffFactor;
 }
+#endif
 
+//! Get the ShadowMapViewport::_sfSceneRoot field.
+inline
+const SFNodePtr *ShadowMapViewportBase::getSFSceneRoot(void) const
+{
+    return &_sfSceneRoot;
+}
+
+//! Get the ShadowMapViewport::_sfSceneRoot field.
+inline
+SFNodePtr *ShadowMapViewportBase::editSFSceneRoot(void)
+{
+    return &_sfSceneRoot;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_sfSceneRoot field.
 inline
 SFNodePtr *ShadowMapViewportBase::getSFSceneRoot(void)
 {
     return &_sfSceneRoot;
 }
+#endif
 
+//! Get the ShadowMapViewport::_sfShadowColor field.
+inline
+const SFColor4f *ShadowMapViewportBase::getSFShadowColor(void) const
+{
+    return &_sfShadowColor;
+}
+
+//! Get the ShadowMapViewport::_sfShadowColor field.
+inline
+SFColor4f *ShadowMapViewportBase::editSFShadowColor(void)
+{
+    return &_sfShadowColor;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_sfShadowColor field.
 inline
 SFColor4f *ShadowMapViewportBase::getSFShadowColor(void)
 {
     return &_sfShadowColor;
 }
+#endif
 
+//! Get the ShadowMapViewport::_sfMapSize field.
+inline
+const SFUInt32 *ShadowMapViewportBase::getSFMapSize(void) const
+{
+    return &_sfMapSize;
+}
+
+//! Get the ShadowMapViewport::_sfMapSize field.
+inline
+SFUInt32 *ShadowMapViewportBase::editSFMapSize(void)
+{
+    return &_sfMapSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_sfMapSize field.
 inline
 SFUInt32 *ShadowMapViewportBase::getSFMapSize(void)
 {
     return &_sfMapSize;
 }
+#endif
 
+//! Get the ShadowMapViewport::_mfLightNodes field.
+inline
+const MFNodePtr *ShadowMapViewportBase::getMFLightNodes(void) const
+{
+    return &_mfLightNodes;
+}
+
+//! Get the ShadowMapViewport::_mfLightNodes field.
+inline
+MFNodePtr *ShadowMapViewportBase::editMFLightNodes(void)
+{
+    return &_mfLightNodes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_mfLightNodes field.
 inline
 MFNodePtr *ShadowMapViewportBase::getMFLightNodes(void)
 {
     return &_mfLightNodes;
 }
+#endif
 
+//! Get the ShadowMapViewport::_mfExcludeNodes field.
+inline
+const MFNodePtr *ShadowMapViewportBase::getMFExcludeNodes(void) const
+{
+    return &_mfExcludeNodes;
+}
+
+//! Get the ShadowMapViewport::_mfExcludeNodes field.
+inline
+MFNodePtr *ShadowMapViewportBase::editMFExcludeNodes(void)
+{
+    return &_mfExcludeNodes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_mfExcludeNodes field.
 inline
 MFNodePtr *ShadowMapViewportBase::getMFExcludeNodes(void)
 {
     return &_mfExcludeNodes;
 }
+#endif
 
+//! Get the ShadowMapViewport::_sfShadowOn field.
+inline
+const SFBool *ShadowMapViewportBase::getSFShadowOn(void) const
+{
+    return &_sfShadowOn;
+}
+
+//! Get the ShadowMapViewport::_sfShadowOn field.
+inline
+SFBool *ShadowMapViewportBase::editSFShadowOn(void)
+{
+    return &_sfShadowOn;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_sfShadowOn field.
 inline
 SFBool *ShadowMapViewportBase::getSFShadowOn(void)
 {
     return &_sfShadowOn;
 }
+#endif
 
+//! Get the ShadowMapViewport::_sfMapAutoUpdate field.
+inline
+const SFBool *ShadowMapViewportBase::getSFMapAutoUpdate(void) const
+{
+    return &_sfMapAutoUpdate;
+}
+
+//! Get the ShadowMapViewport::_sfMapAutoUpdate field.
+inline
+SFBool *ShadowMapViewportBase::editSFMapAutoUpdate(void)
+{
+    return &_sfMapAutoUpdate;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_sfMapAutoUpdate field.
 inline
 SFBool *ShadowMapViewportBase::getSFMapAutoUpdate(void)
 {
     return &_sfMapAutoUpdate;
 }
+#endif
 
+//! Get the ShadowMapViewport::_sfShadowMapTextureIndex field.
+inline
+const SFUInt32 *ShadowMapViewportBase::getSFShadowMapTextureIndex(void) const
+{
+    return &_sfShadowMapTextureIndex;
+}
+
+//! Get the ShadowMapViewport::_sfShadowMapTextureIndex field.
+inline
+SFUInt32 *ShadowMapViewportBase::editSFShadowMapTextureIndex(void)
+{
+    return &_sfShadowMapTextureIndex;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ShadowMapViewport::_sfShadowMapTextureIndex field.
 inline
 SFUInt32 *ShadowMapViewportBase::getSFShadowMapTextureIndex(void)
 {
     return &_sfShadowMapTextureIndex;
 }
+#endif
 
 
 //! Get the value of the ShadowMapViewport::_sfOffBias field.
 inline
-Real32 &ShadowMapViewportBase::getOffBias(void)
+Real32 &ShadowMapViewportBase::editOffBias(void)
 {
     return _sfOffBias.getValue();
 }
@@ -181,6 +341,15 @@ const Real32 &ShadowMapViewportBase::getOffBias(void) const
     return _sfOffBias.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShadowMapViewport::_sfOffBias field.
+inline
+Real32 &ShadowMapViewportBase::getOffBias(void)
+{
+    return _sfOffBias.getValue();
+}
+#endif
+
 //! Set the value of the ShadowMapViewport::_sfOffBias field.
 inline
 void ShadowMapViewportBase::setOffBias(const Real32 &value)
@@ -190,7 +359,7 @@ void ShadowMapViewportBase::setOffBias(const Real32 &value)
 
 //! Get the value of the ShadowMapViewport::_sfOffFactor field.
 inline
-Real32 &ShadowMapViewportBase::getOffFactor(void)
+Real32 &ShadowMapViewportBase::editOffFactor(void)
 {
     return _sfOffFactor.getValue();
 }
@@ -202,6 +371,15 @@ const Real32 &ShadowMapViewportBase::getOffFactor(void) const
     return _sfOffFactor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShadowMapViewport::_sfOffFactor field.
+inline
+Real32 &ShadowMapViewportBase::getOffFactor(void)
+{
+    return _sfOffFactor.getValue();
+}
+#endif
+
 //! Set the value of the ShadowMapViewport::_sfOffFactor field.
 inline
 void ShadowMapViewportBase::setOffFactor(const Real32 &value)
@@ -211,7 +389,7 @@ void ShadowMapViewportBase::setOffFactor(const Real32 &value)
 
 //! Get the value of the ShadowMapViewport::_sfSceneRoot field.
 inline
-NodePtr &ShadowMapViewportBase::getSceneRoot(void)
+NodePtr &ShadowMapViewportBase::editSceneRoot(void)
 {
     return _sfSceneRoot.getValue();
 }
@@ -223,6 +401,15 @@ const NodePtr &ShadowMapViewportBase::getSceneRoot(void) const
     return _sfSceneRoot.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShadowMapViewport::_sfSceneRoot field.
+inline
+NodePtr &ShadowMapViewportBase::getSceneRoot(void)
+{
+    return _sfSceneRoot.getValue();
+}
+#endif
+
 //! Set the value of the ShadowMapViewport::_sfSceneRoot field.
 inline
 void ShadowMapViewportBase::setSceneRoot(const NodePtr &value)
@@ -232,7 +419,7 @@ void ShadowMapViewportBase::setSceneRoot(const NodePtr &value)
 
 //! Get the value of the ShadowMapViewport::_sfShadowColor field.
 inline
-Color4f &ShadowMapViewportBase::getShadowColor(void)
+Color4f &ShadowMapViewportBase::editShadowColor(void)
 {
     return _sfShadowColor.getValue();
 }
@@ -244,6 +431,15 @@ const Color4f &ShadowMapViewportBase::getShadowColor(void) const
     return _sfShadowColor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShadowMapViewport::_sfShadowColor field.
+inline
+Color4f &ShadowMapViewportBase::getShadowColor(void)
+{
+    return _sfShadowColor.getValue();
+}
+#endif
+
 //! Set the value of the ShadowMapViewport::_sfShadowColor field.
 inline
 void ShadowMapViewportBase::setShadowColor(const Color4f &value)
@@ -253,7 +449,7 @@ void ShadowMapViewportBase::setShadowColor(const Color4f &value)
 
 //! Get the value of the ShadowMapViewport::_sfMapSize field.
 inline
-UInt32 &ShadowMapViewportBase::getMapSize(void)
+UInt32 &ShadowMapViewportBase::editMapSize(void)
 {
     return _sfMapSize.getValue();
 }
@@ -265,6 +461,15 @@ const UInt32 &ShadowMapViewportBase::getMapSize(void) const
     return _sfMapSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShadowMapViewport::_sfMapSize field.
+inline
+UInt32 &ShadowMapViewportBase::getMapSize(void)
+{
+    return _sfMapSize.getValue();
+}
+#endif
+
 //! Set the value of the ShadowMapViewport::_sfMapSize field.
 inline
 void ShadowMapViewportBase::setMapSize(const UInt32 &value)
@@ -274,7 +479,7 @@ void ShadowMapViewportBase::setMapSize(const UInt32 &value)
 
 //! Get the value of the ShadowMapViewport::_sfShadowOn field.
 inline
-bool &ShadowMapViewportBase::getShadowOn(void)
+bool &ShadowMapViewportBase::editShadowOn(void)
 {
     return _sfShadowOn.getValue();
 }
@@ -286,6 +491,15 @@ const bool &ShadowMapViewportBase::getShadowOn(void) const
     return _sfShadowOn.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShadowMapViewport::_sfShadowOn field.
+inline
+bool &ShadowMapViewportBase::getShadowOn(void)
+{
+    return _sfShadowOn.getValue();
+}
+#endif
+
 //! Set the value of the ShadowMapViewport::_sfShadowOn field.
 inline
 void ShadowMapViewportBase::setShadowOn(const bool &value)
@@ -295,7 +509,7 @@ void ShadowMapViewportBase::setShadowOn(const bool &value)
 
 //! Get the value of the ShadowMapViewport::_sfMapAutoUpdate field.
 inline
-bool &ShadowMapViewportBase::getMapAutoUpdate(void)
+bool &ShadowMapViewportBase::editMapAutoUpdate(void)
 {
     return _sfMapAutoUpdate.getValue();
 }
@@ -307,6 +521,15 @@ const bool &ShadowMapViewportBase::getMapAutoUpdate(void) const
     return _sfMapAutoUpdate.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShadowMapViewport::_sfMapAutoUpdate field.
+inline
+bool &ShadowMapViewportBase::getMapAutoUpdate(void)
+{
+    return _sfMapAutoUpdate.getValue();
+}
+#endif
+
 //! Set the value of the ShadowMapViewport::_sfMapAutoUpdate field.
 inline
 void ShadowMapViewportBase::setMapAutoUpdate(const bool &value)
@@ -316,7 +539,7 @@ void ShadowMapViewportBase::setMapAutoUpdate(const bool &value)
 
 //! Get the value of the ShadowMapViewport::_sfShadowMapTextureIndex field.
 inline
-UInt32 &ShadowMapViewportBase::getShadowMapTextureIndex(void)
+UInt32 &ShadowMapViewportBase::editShadowMapTextureIndex(void)
 {
     return _sfShadowMapTextureIndex.getValue();
 }
@@ -328,6 +551,15 @@ const UInt32 &ShadowMapViewportBase::getShadowMapTextureIndex(void) const
     return _sfShadowMapTextureIndex.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShadowMapViewport::_sfShadowMapTextureIndex field.
+inline
+UInt32 &ShadowMapViewportBase::getShadowMapTextureIndex(void)
+{
+    return _sfShadowMapTextureIndex.getValue();
+}
+#endif
+
 //! Set the value of the ShadowMapViewport::_sfShadowMapTextureIndex field.
 inline
 void ShadowMapViewportBase::setShadowMapTextureIndex(const UInt32 &value)
@@ -336,6 +568,21 @@ void ShadowMapViewportBase::setShadowMapTextureIndex(const UInt32 &value)
 }
 
 
+//! Get the value of the \a index element the ShadowMapViewport::_mfLightNodes field.
+inline
+NodePtr &ShadowMapViewportBase::editLightNodes(const UInt32 index)
+{
+    return _mfLightNodes[index];
+}
+
+//! Get the value of the \a index element the ShadowMapViewport::_mfLightNodes field.
+inline
+const NodePtr &ShadowMapViewportBase::getLightNodes(const UInt32 index) const
+{
+    return _mfLightNodes[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ShadowMapViewport::_mfLightNodes field.
 inline
 NodePtr &ShadowMapViewportBase::getLightNodes(const UInt32 index)
@@ -350,13 +597,23 @@ MFNodePtr &ShadowMapViewportBase::getLightNodes(void)
     return _mfLightNodes;
 }
 
-//! Get the ShadowMapViewport::_mfLightNodes field.
+#endif
+
+//! Get the value of the \a index element the ShadowMapViewport::_mfExcludeNodes field.
 inline
-const MFNodePtr &ShadowMapViewportBase::getLightNodes(void) const
+NodePtr &ShadowMapViewportBase::editExcludeNodes(const UInt32 index)
 {
-    return _mfLightNodes;
+    return _mfExcludeNodes[index];
 }
 
+//! Get the value of the \a index element the ShadowMapViewport::_mfExcludeNodes field.
+inline
+const NodePtr &ShadowMapViewportBase::getExcludeNodes(const UInt32 index) const
+{
+    return _mfExcludeNodes[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ShadowMapViewport::_mfExcludeNodes field.
 inline
 NodePtr &ShadowMapViewportBase::getExcludeNodes(const UInt32 index)
@@ -371,14 +628,9 @@ MFNodePtr &ShadowMapViewportBase::getExcludeNodes(void)
     return _mfExcludeNodes;
 }
 
-//! Get the ShadowMapViewport::_mfExcludeNodes field.
-inline
-const MFNodePtr &ShadowMapViewportBase::getExcludeNodes(void) const
-{
-    return _mfExcludeNodes;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.13 2008/06/05 05:02:23 vossg Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.14 2008/06/09 07:31:45 vossg Exp $"
 

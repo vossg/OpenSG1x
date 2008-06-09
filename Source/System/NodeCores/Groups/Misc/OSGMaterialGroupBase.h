@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialGroupBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMaterialPtr       *getSFMaterial       (void);
 
-           MaterialPtr         &getMaterial       (void);
+           SFMaterialPtr       *editSFMaterial       (void);
+     const SFMaterialPtr       *getSFMaterial       (void) const;
+#ifndef OSG_2_PREP
+           SFMaterialPtr       *getSFMaterial       (void);
+#endif
+
+
+           MaterialPtr         &editMaterial       (void);
      const MaterialPtr         &getMaterial       (void) const;
+#ifndef OSG_2_PREP
+           MaterialPtr         &getMaterial       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

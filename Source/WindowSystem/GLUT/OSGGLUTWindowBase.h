@@ -122,10 +122,19 @@ class OSG_WINDOWGLUTLIB_DLLMAPPING GLUTWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFInt32             *getSFId             (void);
 
-           Int32               &getId             (void);
+           SFInt32             *editSFId             (void);
+     const SFInt32             *getSFId             (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFId             (void);
+#endif
+
+
+           Int32               &editId             (void);
      const Int32               &getId             (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getId             (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

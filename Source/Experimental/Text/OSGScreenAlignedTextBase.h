@@ -125,10 +125,20 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor4f           *getSFColor          (void);
 
-           Color4f             &getColor          (void);
+           SFColor4f           *editSFColor          (void);
+     const SFColor4f           *getSFColor          (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFColor          (void);
+#endif
+
+
+           Color4f             &editColor          (void);
      const Color4f             &getColor          (void) const;
+#ifndef OSG_2_PREP
+           Color4f             &getColor          (void);
+#endif
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -201,10 +211,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenAlignedTextBase : public AbstractText
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFImagePtr          *editSFRenderImage    (void);
+     const SFImagePtr          *getSFRenderImage    (void) const;
+#ifndef OSG_2_PREP
            SFImagePtr          *getSFRenderImage    (void);
+#endif
 
-           ImagePtr            &getRenderImage    (void);
+           ImagePtr            &editRenderImage    (void);
      const ImagePtr            &getRenderImage    (void) const;
+#ifndef OSG_2_PREP
+           ImagePtr            &getRenderImage    (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

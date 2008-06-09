@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING OffCenterPerspectiveCameraBase : public Perspecti
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec2f             *getSFPrincipalPoint (void);
 
-           Vec2f               &getPrincipalPoint (void);
+           SFVec2f             *editSFPrincipalPoint (void);
+     const SFVec2f             *getSFPrincipalPoint (void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFPrincipalPoint (void);
+#endif
+
+
+           Vec2f               &editPrincipalPoint (void);
      const Vec2f               &getPrincipalPoint (void) const;
+#ifndef OSG_2_PREP
+           Vec2f               &getPrincipalPoint (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<OffCenterPerspectiveCameraPtr> OffCenterPerspectiveCameraRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGOFFCENTERPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraBase.h,v 1.3 2008/06/05 05:02:30 vossg Exp $"
+#define OSGOFFCENTERPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraBase.h,v 1.4 2008/06/09 07:31:55 vossg Exp $"
 
 #endif /* _OSGOFFCENTERPERSPECTIVECAMERABASE_H_ */

@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ResolutionDisplayFilterBase : public DisplayFilte
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFDownScale      (void);
 
-           Real32              &getDownScale      (void);
+           SFReal32            *editSFDownScale      (void);
+     const SFReal32            *getSFDownScale      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFDownScale      (void);
+#endif
+
+
+           Real32              &editDownScale      (void);
      const Real32              &getDownScale      (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getDownScale      (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

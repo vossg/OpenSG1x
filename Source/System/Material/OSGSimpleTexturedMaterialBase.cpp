@@ -113,27 +113,27 @@ FieldDescription *SimpleTexturedMaterialBase::_desc[] =
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFImage)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::editSFImage)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "minFilter", 
                      MinFilterFieldId, MinFilterFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFMinFilter)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::editSFMinFilter)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "magFilter", 
                      MagFilterFieldId, MagFilterFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFMagFilter)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::editSFMagFilter)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "envMode", 
                      EnvModeFieldId, EnvModeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFEnvMode)),
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::editSFEnvMode)),
     new FieldDescription(SFBool::getClassType(), 
                      "envMap", 
                      EnvMapFieldId, EnvMapFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::getSFEnvMap))
+                     reinterpret_cast<FieldAccessMethod>(&SimpleTexturedMaterialBase::editSFEnvMap))
 };
 
 
@@ -430,7 +430,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SimpleTexturedMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSIMPLETEXTUREDMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSIMPLETEXTUREDMATERIALBASE_INLINE_CVSID;
 

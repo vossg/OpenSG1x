@@ -140,20 +140,59 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt16            *getSFWidth          (void);
-           SFUInt16            *getSFHeight         (void);
-           MFViewportPtr       *getMFPort           (void);
-           SFBool              *getSFResizePending  (void);
 
-           UInt16              &getWidth          (void);
+           SFUInt16            *editSFWidth          (void);
+     const SFUInt16            *getSFWidth          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt16            *getSFWidth          (void);
+#endif
+
+           SFUInt16            *editSFHeight         (void);
+     const SFUInt16            *getSFHeight         (void) const;
+#ifndef OSG_2_PREP
+           SFUInt16            *getSFHeight         (void);
+#endif
+
+           MFViewportPtr       *editMFPort           (void);
+     const MFViewportPtr       *getMFPort           (void) const;
+#ifndef OSG_2_PREP
+           MFViewportPtr       *getMFPort           (void);
+#endif
+
+           SFBool              *editSFResizePending  (void);
+     const SFBool              *getSFResizePending  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFResizePending  (void);
+#endif
+
+
+           UInt16              &editWidth          (void);
      const UInt16              &getWidth          (void) const;
-           UInt16              &getHeight         (void);
+#ifndef OSG_2_PREP
+           UInt16              &getWidth          (void);
+#endif
+
+           UInt16              &editHeight         (void);
      const UInt16              &getHeight         (void) const;
-           bool                &getResizePending  (void);
+#ifndef OSG_2_PREP
+           UInt16              &getHeight         (void);
+#endif
+
+           bool                &editResizePending  (void);
      const bool                &getResizePending  (void) const;
+#ifndef OSG_2_PREP
+           bool                &getResizePending  (void);
+#endif
+
+
+           ViewportPtr         &editPort           (const UInt32 index);
+     const ViewportPtr         &getPort           (const UInt32 index) const;
+#ifndef OSG_2_PREP
            ViewportPtr         &getPort           (const UInt32 index);
            MFViewportPtr       &getPort           (void);
-     const MFViewportPtr       &getPort           (void) const;
+#endif
+
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -217,18 +256,39 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFUInt32            *editSFGlObjectEventCounter(void);
+     const SFUInt32            *getSFGlObjectEventCounter(void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFGlObjectEventCounter(void);
+#endif
+           MFUInt32            *editMFGlObjectLastRefresh(void);
+     const MFUInt32            *getMFGlObjectLastRefresh(void) const;
+#ifndef OSG_2_PREP
            MFUInt32            *getMFGlObjectLastRefresh(void);
+#endif
+           MFUInt32            *editMFGlObjectLastReinitialize(void);
+     const MFUInt32            *getMFGlObjectLastReinitialize(void) const;
+#ifndef OSG_2_PREP
            MFUInt32            *getMFGlObjectLastReinitialize(void);
+#endif
 
-           UInt32              &getGlObjectEventCounter(void);
+           UInt32              &editGlObjectEventCounter(void);
      const UInt32              &getGlObjectEventCounter(void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getGlObjectEventCounter(void);
+#endif
+           UInt32              &editGlObjectLastRefresh(UInt32 index);
+     const UInt32              &getGlObjectLastRefresh(UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getGlObjectLastRefresh(UInt32 index);
            MFUInt32            &getGlObjectLastRefresh(void);
-     const MFUInt32            &getGlObjectLastRefresh(void) const;
+#endif
+           UInt32              &editGlObjectLastReinitialize(UInt32 index);
+     const UInt32              &getGlObjectLastReinitialize(UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getGlObjectLastReinitialize(UInt32 index);
            MFUInt32            &getGlObjectLastReinitialize(void);
-     const MFUInt32            &getGlObjectLastReinitialize(void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

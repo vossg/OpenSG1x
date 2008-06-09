@@ -134,22 +134,67 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleTexturedMaterialBase : public SimpleMateria
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImagePtr          *getSFImage          (void);
-           SFGLenum            *getSFMinFilter      (void);
-           SFGLenum            *getSFMagFilter      (void);
-           SFGLenum            *getSFEnvMode        (void);
-           SFBool              *getSFEnvMap         (void);
 
-           ImagePtr            &getImage          (void);
+           SFImagePtr          *editSFImage          (void);
+     const SFImagePtr          *getSFImage          (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFImage          (void);
+#endif
+
+           SFGLenum            *editSFMinFilter      (void);
+     const SFGLenum            *getSFMinFilter      (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFMinFilter      (void);
+#endif
+
+           SFGLenum            *editSFMagFilter      (void);
+     const SFGLenum            *getSFMagFilter      (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFMagFilter      (void);
+#endif
+
+           SFGLenum            *editSFEnvMode        (void);
+     const SFGLenum            *getSFEnvMode        (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvMode        (void);
+#endif
+
+           SFBool              *editSFEnvMap         (void);
+     const SFBool              *getSFEnvMap         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnvMap         (void);
+#endif
+
+
+           ImagePtr            &editImage          (void);
      const ImagePtr            &getImage          (void) const;
-           GLenum              &getMinFilter      (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getImage          (void);
+#endif
+
+           GLenum              &editMinFilter      (void);
      const GLenum              &getMinFilter      (void) const;
-           GLenum              &getMagFilter      (void);
+#ifndef OSG_2_PREP
+           GLenum              &getMinFilter      (void);
+#endif
+
+           GLenum              &editMagFilter      (void);
      const GLenum              &getMagFilter      (void) const;
-           GLenum              &getEnvMode        (void);
+#ifndef OSG_2_PREP
+           GLenum              &getMagFilter      (void);
+#endif
+
+           GLenum              &editEnvMode        (void);
      const GLenum              &getEnvMode        (void) const;
-           bool                &getEnvMap         (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvMode        (void);
+#endif
+
+           bool                &editEnvMap         (void);
      const bool                &getEnvMap         (void) const;
+#ifndef OSG_2_PREP
+           bool                &getEnvMap         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

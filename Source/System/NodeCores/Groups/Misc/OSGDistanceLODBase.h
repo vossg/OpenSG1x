@@ -125,14 +125,32 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFPnt3f             *getSFCenter         (void);
-           MFReal32            *getMFRange          (void);
 
-           Pnt3f               &getCenter         (void);
+           SFPnt3f             *editSFCenter         (void);
+     const SFPnt3f             *getSFCenter         (void) const;
+#ifndef OSG_2_PREP
+           SFPnt3f             *getSFCenter         (void);
+#endif
+
+           MFReal32            *editMFRange          (void);
+     const MFReal32            *getMFRange          (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFRange          (void);
+#endif
+
+
+           Pnt3f               &editCenter         (void);
      const Pnt3f               &getCenter         (void) const;
+#ifndef OSG_2_PREP
+           Pnt3f               &getCenter         (void);
+#endif
+
+           Real32              &editRange          (const UInt32 index);
+     const Real32              &getRange          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getRange          (const UInt32 index);
            MFReal32            &getRange          (void);
-     const MFReal32            &getRange          (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

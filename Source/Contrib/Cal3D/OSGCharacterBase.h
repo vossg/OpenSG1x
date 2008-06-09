@@ -143,31 +143,103 @@ class OSG_CONTRIBLIB_DLLMAPPING CharacterBase : public Drawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFCharacterModelPtr *getSFModel          (void);
-           SFUInt32            *getSFCurrentAnimation(void);
-           SFReal32            *getSFBlendTime      (void);
-           SFReal32            *getSFDelta          (void);
-           SFReal32            *getSFTimeScale      (void);
-           SFBool              *getSFDrawSkeleton   (void);
-           SFBool              *getSFUseShaderForGeometry(void);
-           SFDynamicVolume     *getSFModelVolume    (void);
 
-           CharacterModelPtr   &getModel          (void);
+           SFCharacterModelPtr *editSFModel          (void);
+     const SFCharacterModelPtr *getSFModel          (void) const;
+#ifndef OSG_2_PREP
+           SFCharacterModelPtr *getSFModel          (void);
+#endif
+
+           SFUInt32            *editSFCurrentAnimation(void);
+     const SFUInt32            *getSFCurrentAnimation(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFCurrentAnimation(void);
+#endif
+
+           SFReal32            *editSFBlendTime      (void);
+     const SFReal32            *getSFBlendTime      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFBlendTime      (void);
+#endif
+
+           SFReal32            *editSFDelta          (void);
+     const SFReal32            *getSFDelta          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFDelta          (void);
+#endif
+
+           SFReal32            *editSFTimeScale      (void);
+     const SFReal32            *getSFTimeScale      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFTimeScale      (void);
+#endif
+
+           SFBool              *editSFDrawSkeleton   (void);
+     const SFBool              *getSFDrawSkeleton   (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDrawSkeleton   (void);
+#endif
+
+           SFBool              *editSFUseShaderForGeometry(void);
+     const SFBool              *getSFUseShaderForGeometry(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUseShaderForGeometry(void);
+#endif
+
+           SFDynamicVolume     *editSFModelVolume    (void);
+     const SFDynamicVolume     *getSFModelVolume    (void) const;
+#ifndef OSG_2_PREP
+           SFDynamicVolume     *getSFModelVolume    (void);
+#endif
+
+
+           CharacterModelPtr   &editModel          (void);
      const CharacterModelPtr   &getModel          (void) const;
-           UInt32              &getCurrentAnimation(void);
+#ifndef OSG_2_PREP
+           CharacterModelPtr   &getModel          (void);
+#endif
+
+           UInt32              &editCurrentAnimation(void);
      const UInt32              &getCurrentAnimation(void) const;
-           Real32              &getBlendTime      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getCurrentAnimation(void);
+#endif
+
+           Real32              &editBlendTime      (void);
      const Real32              &getBlendTime      (void) const;
-           Real32              &getDelta          (void);
+#ifndef OSG_2_PREP
+           Real32              &getBlendTime      (void);
+#endif
+
+           Real32              &editDelta          (void);
      const Real32              &getDelta          (void) const;
-           Real32              &getTimeScale      (void);
+#ifndef OSG_2_PREP
+           Real32              &getDelta          (void);
+#endif
+
+           Real32              &editTimeScale      (void);
      const Real32              &getTimeScale      (void) const;
-           bool                &getDrawSkeleton   (void);
+#ifndef OSG_2_PREP
+           Real32              &getTimeScale      (void);
+#endif
+
+           bool                &editDrawSkeleton   (void);
      const bool                &getDrawSkeleton   (void) const;
-           bool                &getUseShaderForGeometry(void);
+#ifndef OSG_2_PREP
+           bool                &getDrawSkeleton   (void);
+#endif
+
+           bool                &editUseShaderForGeometry(void);
      const bool                &getUseShaderForGeometry(void) const;
-           DynamicVolume       &getModelVolume    (void);
+#ifndef OSG_2_PREP
+           bool                &getUseShaderForGeometry(void);
+#endif
+
+           DynamicVolume       &editModelVolume    (void);
      const DynamicVolume       &getModelVolume    (void) const;
+#ifndef OSG_2_PREP
+           DynamicVolume       &getModelVolume    (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -309,6 +381,6 @@ typedef RefPtr<CharacterPtr> CharacterRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERBASE_HEADER_CVSID "@(#)$Id: OSGCharacterBase.h,v 1.3 2008/06/05 05:02:15 vossg Exp $"
+#define OSGCHARACTERBASE_HEADER_CVSID "@(#)$Id: OSGCharacterBase.h,v 1.4 2008/06/09 07:31:37 vossg Exp $"
 
 #endif /* _OSGCHARACTERBASE_H_ */

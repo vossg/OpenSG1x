@@ -92,12 +92,12 @@ FieldDescription *SwitchMaterialBase::_desc[] =
                      "materials", 
                      MaterialsFieldId, MaterialsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SwitchMaterialBase::getMFMaterials)),
+                     reinterpret_cast<FieldAccessMethod>(&SwitchMaterialBase::editMFMaterials)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "choice", 
                      ChoiceFieldId, ChoiceFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SwitchMaterialBase::getSFChoice))
+                     reinterpret_cast<FieldAccessMethod>(&SwitchMaterialBase::editSFChoice))
 };
 
 
@@ -329,7 +329,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SwitchMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterialBase.cpp,v 1.3 2008/06/05 05:02:25 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterialBase.cpp,v 1.4 2008/06/09 07:31:48 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSWITCHMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSWITCHMATERIALBASE_INLINE_CVSID;
 

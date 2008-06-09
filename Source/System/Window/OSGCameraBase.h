@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    virtual       SFNodePtr           *getSFBeacon         (void);
-    virtual       SFReal32            *getSFNear           (void);
-    virtual       SFReal32            *getSFFar            (void);
 
-    virtual       NodePtr             &getBeacon         (void);
+    virtual       SFNodePtr           *editSFBeacon         (void);
+    virtual const SFNodePtr           *getSFBeacon         (void) const;
+#ifndef OSG_2_PREP
+    virtual       SFNodePtr           *getSFBeacon         (void);
+#endif
+
+    virtual       SFReal32            *editSFNear           (void);
+    virtual const SFReal32            *getSFNear           (void) const;
+#ifndef OSG_2_PREP
+    virtual       SFReal32            *getSFNear           (void);
+#endif
+
+    virtual       SFReal32            *editSFFar            (void);
+    virtual const SFReal32            *getSFFar            (void) const;
+#ifndef OSG_2_PREP
+    virtual       SFReal32            *getSFFar            (void);
+#endif
+
+
+    virtual       NodePtr             &editBeacon         (void);
     virtual const NodePtr             &getBeacon         (void) const;
-    virtual       Real32              &getNear           (void);
+#ifndef OSG_2_PREP
+    virtual       NodePtr             &getBeacon         (void);
+#endif
+
+    virtual       Real32              &editNear           (void);
     virtual const Real32              &getNear           (void) const;
-    virtual       Real32              &getFar            (void);
+#ifndef OSG_2_PREP
+    virtual       Real32              &getNear           (void);
+#endif
+
+    virtual       Real32              &editFar            (void);
     virtual const Real32              &getFar            (void) const;
+#ifndef OSG_2_PREP
+    virtual       Real32              &getFar            (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

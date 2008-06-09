@@ -98,50 +98,146 @@ DVRVolumeTexturePtr DVRVolumeTextureBase::createEmpty(void)
 
 //! Get the DVRVolumeTexture::_sfImage field.
 inline
-SFImagePtr *DVRVolumeTextureBase::getSFImage(void)
+const SFImagePtr *DVRVolumeTextureBase::getSFImage(void) const
 {
     return &_sfImage;
 }
 
+//! Get the DVRVolumeTexture::_sfImage field.
+inline
+SFImagePtr *DVRVolumeTextureBase::editSFImage(void)
+{
+    return &_sfImage;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DVRVolumeTexture::_sfImage field.
+inline
+SFImagePtr *DVRVolumeTextureBase::getSFImage(void)
+{
+    return &_sfImage;
+}
+#endif
+
+//! Get the DVRVolumeTexture::_mfHistogram field.
+inline
+const MFReal32 *DVRVolumeTextureBase::getMFHistogram(void) const
+{
+    return &_mfHistogram;
+}
+
+//! Get the DVRVolumeTexture::_mfHistogram field.
+inline
+MFReal32 *DVRVolumeTextureBase::editMFHistogram(void)
+{
+    return &_mfHistogram;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRVolumeTexture::_mfHistogram field.
 inline
 MFReal32 *DVRVolumeTextureBase::getMFHistogram(void)
 {
     return &_mfHistogram;
 }
+#endif
 
+//! Get the DVRVolumeTexture::_sfMaxVal field.
+inline
+const SFReal32 *DVRVolumeTextureBase::getSFMaxVal(void) const
+{
+    return &_sfMaxVal;
+}
+
+//! Get the DVRVolumeTexture::_sfMaxVal field.
+inline
+SFReal32 *DVRVolumeTextureBase::editSFMaxVal(void)
+{
+    return &_sfMaxVal;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRVolumeTexture::_sfMaxVal field.
 inline
 SFReal32 *DVRVolumeTextureBase::getSFMaxVal(void)
 {
     return &_sfMaxVal;
 }
+#endif
 
+//! Get the DVRVolumeTexture::_sfSliceThickness field.
+inline
+const SFVec3f *DVRVolumeTextureBase::getSFSliceThickness(void) const
+{
+    return &_sfSliceThickness;
+}
+
+//! Get the DVRVolumeTexture::_sfSliceThickness field.
+inline
+SFVec3f *DVRVolumeTextureBase::editSFSliceThickness(void)
+{
+    return &_sfSliceThickness;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRVolumeTexture::_sfSliceThickness field.
 inline
 SFVec3f *DVRVolumeTextureBase::getSFSliceThickness(void)
 {
     return &_sfSliceThickness;
 }
+#endif
 
+//! Get the DVRVolumeTexture::_sfResolution field.
+inline
+const SFVec3f *DVRVolumeTextureBase::getSFResolution(void) const
+{
+    return &_sfResolution;
+}
+
+//! Get the DVRVolumeTexture::_sfResolution field.
+inline
+SFVec3f *DVRVolumeTextureBase::editSFResolution(void)
+{
+    return &_sfResolution;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRVolumeTexture::_sfResolution field.
 inline
 SFVec3f *DVRVolumeTextureBase::getSFResolution(void)
 {
     return &_sfResolution;
 }
+#endif
 
+//! Get the DVRVolumeTexture::_sfFileName field.
+inline
+const SFString *DVRVolumeTextureBase::getSFFileName(void) const
+{
+    return &_sfFileName;
+}
+
+//! Get the DVRVolumeTexture::_sfFileName field.
+inline
+SFString *DVRVolumeTextureBase::editSFFileName(void)
+{
+    return &_sfFileName;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRVolumeTexture::_sfFileName field.
 inline
 SFString *DVRVolumeTextureBase::getSFFileName(void)
 {
     return &_sfFileName;
 }
+#endif
 
 
 //! Get the value of the DVRVolumeTexture::_sfImage field.
 inline
-ImagePtr &DVRVolumeTextureBase::getImage(void)
+ImagePtr &DVRVolumeTextureBase::editImage(void)
 {
     return _sfImage.getValue();
 }
@@ -153,6 +249,15 @@ const ImagePtr &DVRVolumeTextureBase::getImage(void) const
     return _sfImage.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRVolumeTexture::_sfImage field.
+inline
+ImagePtr &DVRVolumeTextureBase::getImage(void)
+{
+    return _sfImage.getValue();
+}
+#endif
+
 //! Set the value of the DVRVolumeTexture::_sfImage field.
 inline
 void DVRVolumeTextureBase::setImage(const ImagePtr &value)
@@ -162,7 +267,7 @@ void DVRVolumeTextureBase::setImage(const ImagePtr &value)
 
 //! Get the value of the DVRVolumeTexture::_sfMaxVal field.
 inline
-Real32 &DVRVolumeTextureBase::getMaxVal(void)
+Real32 &DVRVolumeTextureBase::editMaxVal(void)
 {
     return _sfMaxVal.getValue();
 }
@@ -174,6 +279,15 @@ const Real32 &DVRVolumeTextureBase::getMaxVal(void) const
     return _sfMaxVal.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRVolumeTexture::_sfMaxVal field.
+inline
+Real32 &DVRVolumeTextureBase::getMaxVal(void)
+{
+    return _sfMaxVal.getValue();
+}
+#endif
+
 //! Set the value of the DVRVolumeTexture::_sfMaxVal field.
 inline
 void DVRVolumeTextureBase::setMaxVal(const Real32 &value)
@@ -183,7 +297,7 @@ void DVRVolumeTextureBase::setMaxVal(const Real32 &value)
 
 //! Get the value of the DVRVolumeTexture::_sfSliceThickness field.
 inline
-Vec3f &DVRVolumeTextureBase::getSliceThickness(void)
+Vec3f &DVRVolumeTextureBase::editSliceThickness(void)
 {
     return _sfSliceThickness.getValue();
 }
@@ -195,6 +309,15 @@ const Vec3f &DVRVolumeTextureBase::getSliceThickness(void) const
     return _sfSliceThickness.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRVolumeTexture::_sfSliceThickness field.
+inline
+Vec3f &DVRVolumeTextureBase::getSliceThickness(void)
+{
+    return _sfSliceThickness.getValue();
+}
+#endif
+
 //! Set the value of the DVRVolumeTexture::_sfSliceThickness field.
 inline
 void DVRVolumeTextureBase::setSliceThickness(const Vec3f &value)
@@ -204,7 +327,7 @@ void DVRVolumeTextureBase::setSliceThickness(const Vec3f &value)
 
 //! Get the value of the DVRVolumeTexture::_sfResolution field.
 inline
-Vec3f &DVRVolumeTextureBase::getResolution(void)
+Vec3f &DVRVolumeTextureBase::editResolution(void)
 {
     return _sfResolution.getValue();
 }
@@ -216,6 +339,15 @@ const Vec3f &DVRVolumeTextureBase::getResolution(void) const
     return _sfResolution.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRVolumeTexture::_sfResolution field.
+inline
+Vec3f &DVRVolumeTextureBase::getResolution(void)
+{
+    return _sfResolution.getValue();
+}
+#endif
+
 //! Set the value of the DVRVolumeTexture::_sfResolution field.
 inline
 void DVRVolumeTextureBase::setResolution(const Vec3f &value)
@@ -225,7 +357,7 @@ void DVRVolumeTextureBase::setResolution(const Vec3f &value)
 
 //! Get the value of the DVRVolumeTexture::_sfFileName field.
 inline
-std::string &DVRVolumeTextureBase::getFileName(void)
+std::string &DVRVolumeTextureBase::editFileName(void)
 {
     return _sfFileName.getValue();
 }
@@ -237,6 +369,15 @@ const std::string &DVRVolumeTextureBase::getFileName(void) const
     return _sfFileName.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRVolumeTexture::_sfFileName field.
+inline
+std::string &DVRVolumeTextureBase::getFileName(void)
+{
+    return _sfFileName.getValue();
+}
+#endif
+
 //! Set the value of the DVRVolumeTexture::_sfFileName field.
 inline
 void DVRVolumeTextureBase::setFileName(const std::string &value)
@@ -245,6 +386,21 @@ void DVRVolumeTextureBase::setFileName(const std::string &value)
 }
 
 
+//! Get the value of the \a index element the DVRVolumeTexture::_mfHistogram field.
+inline
+Real32 &DVRVolumeTextureBase::editHistogram(const UInt32 index)
+{
+    return _mfHistogram[index];
+}
+
+//! Get the value of the \a index element the DVRVolumeTexture::_mfHistogram field.
+inline
+const Real32 &DVRVolumeTextureBase::getHistogram(const UInt32 index) const
+{
+    return _mfHistogram[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the DVRVolumeTexture::_mfHistogram field.
 inline
 Real32 &DVRVolumeTextureBase::getHistogram(const UInt32 index)
@@ -259,12 +415,7 @@ MFReal32 &DVRVolumeTextureBase::getHistogram(void)
     return _mfHistogram;
 }
 
-//! Get the DVRVolumeTexture::_mfHistogram field.
-inline
-const MFReal32 &DVRVolumeTextureBase::getHistogram(void) const
-{
-    return _mfHistogram;
-}
+#endif
 
 OSG_END_NAMESPACE
 

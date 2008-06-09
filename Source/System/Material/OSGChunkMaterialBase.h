@@ -125,15 +125,33 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterialBase : public Material
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFStateChunkPtr     *getMFChunks         (void);
-           MFInt32             *getMFSlots          (void);
 
+           MFStateChunkPtr     *editMFChunks         (void);
+     const MFStateChunkPtr     *getMFChunks         (void) const;
+#ifndef OSG_2_PREP
+           MFStateChunkPtr     *getMFChunks         (void);
+#endif
+
+           MFInt32             *editMFSlots          (void);
+     const MFInt32             *getMFSlots          (void) const;
+#ifndef OSG_2_PREP
+           MFInt32             *getMFSlots          (void);
+#endif
+
+
+           StateChunkPtr       &editChunks         (const UInt32 index);
+     const StateChunkPtr       &getChunks         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            StateChunkPtr       &getChunks         (const UInt32 index);
            MFStateChunkPtr     &getChunks         (void);
-     const MFStateChunkPtr     &getChunks         (void) const;
+#endif
+
+           Int32               &editSlots          (const UInt32 index);
+     const Int32               &getSlots          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Int32               &getSlots          (const UInt32 index);
            MFInt32             &getSlots          (void);
-     const MFInt32             &getSlots          (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

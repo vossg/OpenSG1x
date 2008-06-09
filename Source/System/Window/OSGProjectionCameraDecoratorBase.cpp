@@ -122,37 +122,37 @@ FieldDescription *ProjectionCameraDecoratorBase::_desc[] =
                      "user", 
                      UserFieldId, UserFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFUser)),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::editSFUser)),
     new FieldDescription(MFPnt3f::getClassType(), 
                      "surface", 
                      SurfaceFieldId, SurfaceFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getMFSurface)),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::editMFSurface)),
     new FieldDescription(SFPlane::getClassType(), 
                      "left", 
                      LeftFieldId, LeftFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFLeft)),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::editSFLeft)),
     new FieldDescription(SFPlane::getClassType(), 
                      "bottom", 
                      BottomFieldId, BottomFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFBottom)),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::editSFBottom)),
     new FieldDescription(SFPlane::getClassType(), 
                      "normal", 
                      NormalFieldId, NormalFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFNormal)),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::editSFNormal)),
     new FieldDescription(SFReal32::getClassType(), 
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFWidth)),
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::editSFWidth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "height", 
                      HeightFieldId, HeightFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::getSFHeight))
+                     reinterpret_cast<FieldAccessMethod>(&ProjectionCameraDecoratorBase::editSFHeight))
 };
 
 
@@ -499,7 +499,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ProjectionCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAP
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROJECTIONCAMERADECORATORBASE_INLINE_CVSID;
 

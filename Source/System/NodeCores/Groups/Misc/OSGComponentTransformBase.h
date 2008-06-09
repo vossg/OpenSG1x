@@ -134,22 +134,67 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransformBase : public Transform
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFCenter         (void);
-           SFQuaternion        *getSFRotation       (void);
-           SFVec3f             *getSFScale          (void);
-           SFQuaternion        *getSFScaleOrientation(void);
-           SFVec3f             *getSFTranslation    (void);
 
-           Vec3f               &getCenter         (void);
+           SFVec3f             *editSFCenter         (void);
+     const SFVec3f             *getSFCenter         (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFCenter         (void);
+#endif
+
+           SFQuaternion        *editSFRotation       (void);
+     const SFQuaternion        *getSFRotation       (void) const;
+#ifndef OSG_2_PREP
+           SFQuaternion        *getSFRotation       (void);
+#endif
+
+           SFVec3f             *editSFScale          (void);
+     const SFVec3f             *getSFScale          (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFScale          (void);
+#endif
+
+           SFQuaternion        *editSFScaleOrientation(void);
+     const SFQuaternion        *getSFScaleOrientation(void) const;
+#ifndef OSG_2_PREP
+           SFQuaternion        *getSFScaleOrientation(void);
+#endif
+
+           SFVec3f             *editSFTranslation    (void);
+     const SFVec3f             *getSFTranslation    (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFTranslation    (void);
+#endif
+
+
+           Vec3f               &editCenter         (void);
      const Vec3f               &getCenter         (void) const;
-           Quaternion          &getRotation       (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getCenter         (void);
+#endif
+
+           Quaternion          &editRotation       (void);
      const Quaternion          &getRotation       (void) const;
-           Vec3f               &getScale          (void);
+#ifndef OSG_2_PREP
+           Quaternion          &getRotation       (void);
+#endif
+
+           Vec3f               &editScale          (void);
      const Vec3f               &getScale          (void) const;
-           Quaternion          &getScaleOrientation(void);
+#ifndef OSG_2_PREP
+           Vec3f               &getScale          (void);
+#endif
+
+           Quaternion          &editScaleOrientation(void);
      const Quaternion          &getScaleOrientation(void) const;
-           Vec3f               &getTranslation    (void);
+#ifndef OSG_2_PREP
+           Quaternion          &getScaleOrientation(void);
+#endif
+
+           Vec3f               &editTranslation    (void);
      const Vec3f               &getTranslation    (void) const;
+#ifndef OSG_2_PREP
+           Vec3f               &getTranslation    (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

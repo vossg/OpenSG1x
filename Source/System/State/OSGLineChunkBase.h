@@ -131,19 +131,55 @@ class OSG_SYSTEMLIB_DLLMAPPING LineChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFWidth          (void);
-           SFInt32             *getSFStippleRepeat  (void);
-           SFUInt16            *getSFStipplePattern (void);
-           SFBool              *getSFSmooth         (void);
 
-           Real32              &getWidth          (void);
+           SFReal32            *editSFWidth          (void);
+     const SFReal32            *getSFWidth          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFWidth          (void);
+#endif
+
+           SFInt32             *editSFStippleRepeat  (void);
+     const SFInt32             *getSFStippleRepeat  (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFStippleRepeat  (void);
+#endif
+
+           SFUInt16            *editSFStipplePattern (void);
+     const SFUInt16            *getSFStipplePattern (void) const;
+#ifndef OSG_2_PREP
+           SFUInt16            *getSFStipplePattern (void);
+#endif
+
+           SFBool              *editSFSmooth         (void);
+     const SFBool              *getSFSmooth         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSmooth         (void);
+#endif
+
+
+           Real32              &editWidth          (void);
      const Real32              &getWidth          (void) const;
-           Int32               &getStippleRepeat  (void);
+#ifndef OSG_2_PREP
+           Real32              &getWidth          (void);
+#endif
+
+           Int32               &editStippleRepeat  (void);
      const Int32               &getStippleRepeat  (void) const;
-           UInt16              &getStipplePattern (void);
+#ifndef OSG_2_PREP
+           Int32               &getStippleRepeat  (void);
+#endif
+
+           UInt16              &editStipplePattern (void);
      const UInt16              &getStipplePattern (void) const;
-           bool                &getSmooth         (void);
+#ifndef OSG_2_PREP
+           UInt16              &getStipplePattern (void);
+#endif
+
+           bool                &editSmooth         (void);
      const bool                &getSmooth         (void) const;
+#ifndef OSG_2_PREP
+           bool                &getSmooth         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

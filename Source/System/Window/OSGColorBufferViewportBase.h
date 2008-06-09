@@ -131,19 +131,55 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorBufferViewportBase : public Viewport
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFRed            (void);
-           SFBool              *getSFBlue           (void);
-           SFBool              *getSFGreen          (void);
-           SFBool              *getSFAlpha          (void);
 
-           bool                &getRed            (void);
+           SFBool              *editSFRed            (void);
+     const SFBool              *getSFRed            (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFRed            (void);
+#endif
+
+           SFBool              *editSFBlue           (void);
+     const SFBool              *getSFBlue           (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBlue           (void);
+#endif
+
+           SFBool              *editSFGreen          (void);
+     const SFBool              *getSFGreen          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFGreen          (void);
+#endif
+
+           SFBool              *editSFAlpha          (void);
+     const SFBool              *getSFAlpha          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAlpha          (void);
+#endif
+
+
+           bool                &editRed            (void);
      const bool                &getRed            (void) const;
-           bool                &getBlue           (void);
+#ifndef OSG_2_PREP
+           bool                &getRed            (void);
+#endif
+
+           bool                &editBlue           (void);
      const bool                &getBlue           (void) const;
-           bool                &getGreen          (void);
+#ifndef OSG_2_PREP
+           bool                &getBlue           (void);
+#endif
+
+           bool                &editGreen          (void);
      const bool                &getGreen          (void) const;
-           bool                &getAlpha          (void);
+#ifndef OSG_2_PREP
+           bool                &getGreen          (void);
+#endif
+
+           bool                &editAlpha          (void);
      const bool                &getAlpha          (void) const;
+#ifndef OSG_2_PREP
+           bool                &getAlpha          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

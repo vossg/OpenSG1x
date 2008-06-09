@@ -98,15 +98,31 @@ PhysicsTriMeshGeomPtr PhysicsTriMeshGeomBase::createEmpty(void)
 
 //! Get the PhysicsTriMeshGeom::_sfGeometryNode field.
 inline
-SFNodePtr *PhysicsTriMeshGeomBase::getSFGeometryNode(void)
+const SFNodePtr *PhysicsTriMeshGeomBase::getSFGeometryNode(void) const
 {
     return &_sfGeometryNode;
 }
 
+//! Get the PhysicsTriMeshGeom::_sfGeometryNode field.
+inline
+SFNodePtr *PhysicsTriMeshGeomBase::editSFGeometryNode(void)
+{
+    return &_sfGeometryNode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsTriMeshGeom::_sfGeometryNode field.
+inline
+SFNodePtr *PhysicsTriMeshGeomBase::getSFGeometryNode(void)
+{
+    return &_sfGeometryNode;
+}
+#endif
+
 
 //! Get the value of the PhysicsTriMeshGeom::_sfGeometryNode field.
 inline
-NodePtr &PhysicsTriMeshGeomBase::getGeometryNode(void)
+NodePtr &PhysicsTriMeshGeomBase::editGeometryNode(void)
 {
     return _sfGeometryNode.getValue();
 }
@@ -118,6 +134,15 @@ const NodePtr &PhysicsTriMeshGeomBase::getGeometryNode(void) const
     return _sfGeometryNode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsTriMeshGeom::_sfGeometryNode field.
+inline
+NodePtr &PhysicsTriMeshGeomBase::getGeometryNode(void)
+{
+    return _sfGeometryNode.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsTriMeshGeom::_sfGeometryNode field.
 inline
 void PhysicsTriMeshGeomBase::setGeometryNode(const NodePtr &value)
@@ -128,5 +153,5 @@ void PhysicsTriMeshGeomBase::setGeometryNode(const NodePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSTRIMESHGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomBase.inl,v 1.3 2008/06/05 05:02:17 vossg Exp $"
+#define OSGPHYSICSTRIMESHGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

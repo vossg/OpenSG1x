@@ -98,15 +98,31 @@ DirectionalLightPtr DirectionalLightBase::createEmpty(void)
 
 //! Get the DirectionalLight::_sfDirection field.
 inline
-SFVec3f *DirectionalLightBase::getSFDirection(void)
+const SFVec3f *DirectionalLightBase::getSFDirection(void) const
 {
     return &_sfDirection;
 }
 
+//! Get the DirectionalLight::_sfDirection field.
+inline
+SFVec3f *DirectionalLightBase::editSFDirection(void)
+{
+    return &_sfDirection;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DirectionalLight::_sfDirection field.
+inline
+SFVec3f *DirectionalLightBase::getSFDirection(void)
+{
+    return &_sfDirection;
+}
+#endif
+
 
 //! Get the value of the DirectionalLight::_sfDirection field.
 inline
-Vec3f &DirectionalLightBase::getDirection(void)
+Vec3f &DirectionalLightBase::editDirection(void)
 {
     return _sfDirection.getValue();
 }
@@ -117,6 +133,15 @@ const Vec3f &DirectionalLightBase::getDirection(void) const
 {
     return _sfDirection.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the DirectionalLight::_sfDirection field.
+inline
+Vec3f &DirectionalLightBase::getDirection(void)
+{
+    return _sfDirection.getValue();
+}
+#endif
 
 //! Set the value of the DirectionalLight::_sfDirection field.
 inline

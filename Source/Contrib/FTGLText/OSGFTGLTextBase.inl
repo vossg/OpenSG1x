@@ -98,29 +98,77 @@ FTGLTextPtr FTGLTextBase::createEmpty(void)
 
 //! Get the FTGLText::_sfText field.
 inline
-SFString *FTGLTextBase::getSFText(void)
+const SFString *FTGLTextBase::getSFText(void) const
 {
     return &_sfText;
 }
 
+//! Get the FTGLText::_sfText field.
+inline
+SFString *FTGLTextBase::editSFText(void)
+{
+    return &_sfText;
+}
+
+#ifndef OSG_2_PREP
+//! Get the FTGLText::_sfText field.
+inline
+SFString *FTGLTextBase::getSFText(void)
+{
+    return &_sfText;
+}
+#endif
+
+//! Get the FTGLText::_sfFont field.
+inline
+const SFFTGLFontPtr *FTGLTextBase::getSFFont(void) const
+{
+    return &_sfFont;
+}
+
+//! Get the FTGLText::_sfFont field.
+inline
+SFFTGLFontPtr *FTGLTextBase::editSFFont(void)
+{
+    return &_sfFont;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FTGLText::_sfFont field.
 inline
 SFFTGLFontPtr *FTGLTextBase::getSFFont(void)
 {
     return &_sfFont;
 }
+#endif
 
+//! Get the FTGLText::_sfPosition field.
+inline
+const SFPnt3f *FTGLTextBase::getSFPosition(void) const
+{
+    return &_sfPosition;
+}
+
+//! Get the FTGLText::_sfPosition field.
+inline
+SFPnt3f *FTGLTextBase::editSFPosition(void)
+{
+    return &_sfPosition;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FTGLText::_sfPosition field.
 inline
 SFPnt3f *FTGLTextBase::getSFPosition(void)
 {
     return &_sfPosition;
 }
+#endif
 
 
 //! Get the value of the FTGLText::_sfText field.
 inline
-std::string &FTGLTextBase::getText(void)
+std::string &FTGLTextBase::editText(void)
 {
     return _sfText.getValue();
 }
@@ -132,6 +180,15 @@ const std::string &FTGLTextBase::getText(void) const
     return _sfText.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLText::_sfText field.
+inline
+std::string &FTGLTextBase::getText(void)
+{
+    return _sfText.getValue();
+}
+#endif
+
 //! Set the value of the FTGLText::_sfText field.
 inline
 void FTGLTextBase::setText(const std::string &value)
@@ -141,7 +198,7 @@ void FTGLTextBase::setText(const std::string &value)
 
 //! Get the value of the FTGLText::_sfFont field.
 inline
-FTGLFontPtr &FTGLTextBase::getFont(void)
+FTGLFontPtr &FTGLTextBase::editFont(void)
 {
     return _sfFont.getValue();
 }
@@ -153,6 +210,15 @@ const FTGLFontPtr &FTGLTextBase::getFont(void) const
     return _sfFont.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLText::_sfFont field.
+inline
+FTGLFontPtr &FTGLTextBase::getFont(void)
+{
+    return _sfFont.getValue();
+}
+#endif
+
 //! Set the value of the FTGLText::_sfFont field.
 inline
 void FTGLTextBase::setFont(const FTGLFontPtr &value)
@@ -162,7 +228,7 @@ void FTGLTextBase::setFont(const FTGLFontPtr &value)
 
 //! Get the value of the FTGLText::_sfPosition field.
 inline
-Pnt3f &FTGLTextBase::getPosition(void)
+Pnt3f &FTGLTextBase::editPosition(void)
 {
     return _sfPosition.getValue();
 }
@@ -174,6 +240,15 @@ const Pnt3f &FTGLTextBase::getPosition(void) const
     return _sfPosition.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the FTGLText::_sfPosition field.
+inline
+Pnt3f &FTGLTextBase::getPosition(void)
+{
+    return _sfPosition.getValue();
+}
+#endif
+
 //! Set the value of the FTGLText::_sfPosition field.
 inline
 void FTGLTextBase::setPosition(const Pnt3f &value)
@@ -184,5 +259,5 @@ void FTGLTextBase::setPosition(const Pnt3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLTEXTBASE_INLINE_CVSID "@(#)$Id: OSGFTGLTextBase.inl,v 1.7 2008/06/05 05:02:15 vossg Exp $"
+#define OSGFTGLTEXTBASE_INLINE_CVSID "@(#)$Id: OSGFTGLTextBase.inl,v 1.8 2008/06/09 07:31:38 vossg Exp $"
 

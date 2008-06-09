@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsTriMeshGeomBase : public PhysicsGeom
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFNodePtr           *getSFGeometryNode   (void);
 
-           NodePtr             &getGeometryNode   (void);
+           SFNodePtr           *editSFGeometryNode   (void);
+     const SFNodePtr           *getSFGeometryNode   (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFGeometryNode   (void);
+#endif
+
+
+           NodePtr             &editGeometryNode   (void);
      const NodePtr             &getGeometryNode   (void) const;
+#ifndef OSG_2_PREP
+           NodePtr             &getGeometryNode   (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsTriMeshGeomPtr> PhysicsTriMeshGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSTRIMESHGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomBase.h,v 1.3 2008/06/05 05:02:17 vossg Exp $"
+#define OSGPHYSICSTRIMESHGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSTRIMESHGEOMBASE_H_ */

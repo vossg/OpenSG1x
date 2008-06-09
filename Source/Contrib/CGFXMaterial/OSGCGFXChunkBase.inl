@@ -98,15 +98,31 @@ CGFXChunkPtr CGFXChunkBase::createEmpty(void)
 
 //! Get the CGFXChunk::_sfGLId field.
 inline
-SFUInt32 *CGFXChunkBase::getSFGLId(void)
+const SFUInt32 *CGFXChunkBase::getSFGLId(void) const
 {
     return &_sfGLId;
 }
 
+//! Get the CGFXChunk::_sfGLId field.
+inline
+SFUInt32 *CGFXChunkBase::editSFGLId(void)
+{
+    return &_sfGLId;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CGFXChunk::_sfGLId field.
+inline
+SFUInt32 *CGFXChunkBase::getSFGLId(void)
+{
+    return &_sfGLId;
+}
+#endif
+
 
 //! Get the value of the CGFXChunk::_sfGLId field.
 inline
-UInt32 &CGFXChunkBase::getGLId(void)
+UInt32 &CGFXChunkBase::editGLId(void)
 {
     return _sfGLId.getValue();
 }
@@ -118,6 +134,15 @@ const UInt32 &CGFXChunkBase::getGLId(void) const
     return _sfGLId.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CGFXChunk::_sfGLId field.
+inline
+UInt32 &CGFXChunkBase::getGLId(void)
+{
+    return _sfGLId.getValue();
+}
+#endif
+
 //! Set the value of the CGFXChunk::_sfGLId field.
 inline
 void CGFXChunkBase::setGLId(const UInt32 &value)
@@ -128,5 +153,5 @@ void CGFXChunkBase::setGLId(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGFXChunkBase.inl,v 1.4 2008/06/05 05:02:14 vossg Exp $"
+#define OSGCGFXCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGFXChunkBase.inl,v 1.5 2008/06/09 07:31:37 vossg Exp $"
 

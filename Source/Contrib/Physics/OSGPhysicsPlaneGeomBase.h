@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsPlaneGeomBase : public PhysicsGeom
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec4f             *getSFParams         (void);
 
-           Vec4f               &getParams         (void);
+           SFVec4f             *editSFParams         (void);
+     const SFVec4f             *getSFParams         (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFParams         (void);
+#endif
+
+
+           Vec4f               &editParams         (void);
      const Vec4f               &getParams         (void) const;
+#ifndef OSG_2_PREP
+           Vec4f               &getParams         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsPlaneGeomPtr> PhysicsPlaneGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSPLANEGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsPlaneGeomBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSPLANEGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsPlaneGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSPLANEGEOMBASE_H_ */

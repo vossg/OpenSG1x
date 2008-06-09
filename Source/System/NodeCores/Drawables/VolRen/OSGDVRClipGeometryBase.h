@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRClipGeometryBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFNodePtr           *getSFGeometryNode   (void);
-           SFNodePtr           *getSFBeacon         (void);
 
-           NodePtr             &getGeometryNode   (void);
+           SFNodePtr           *editSFGeometryNode   (void);
+     const SFNodePtr           *getSFGeometryNode   (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFGeometryNode   (void);
+#endif
+
+           SFNodePtr           *editSFBeacon         (void);
+     const SFNodePtr           *getSFBeacon         (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFBeacon         (void);
+#endif
+
+
+           NodePtr             &editGeometryNode   (void);
      const NodePtr             &getGeometryNode   (void) const;
-           NodePtr             &getBeacon         (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getGeometryNode   (void);
+#endif
+
+           NodePtr             &editBeacon         (void);
      const NodePtr             &getBeacon         (void) const;
+#ifndef OSG_2_PREP
+           NodePtr             &getBeacon         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

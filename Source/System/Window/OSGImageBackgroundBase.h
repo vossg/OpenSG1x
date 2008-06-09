@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor3f           *getSFColor          (void);
-           SFImagePtr          *getSFImage          (void);
-           SFBool              *getSFScale          (void);
 
-           Color3f             &getColor          (void);
+           SFColor3f           *editSFColor          (void);
+     const SFColor3f           *getSFColor          (void) const;
+#ifndef OSG_2_PREP
+           SFColor3f           *getSFColor          (void);
+#endif
+
+           SFImagePtr          *editSFImage          (void);
+     const SFImagePtr          *getSFImage          (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFImage          (void);
+#endif
+
+           SFBool              *editSFScale          (void);
+     const SFBool              *getSFScale          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFScale          (void);
+#endif
+
+
+           Color3f             &editColor          (void);
      const Color3f             &getColor          (void) const;
-           ImagePtr            &getImage          (void);
+#ifndef OSG_2_PREP
+           Color3f             &getColor          (void);
+#endif
+
+           ImagePtr            &editImage          (void);
      const ImagePtr            &getImage          (void) const;
-           bool                &getScale          (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getImage          (void);
+#endif
+
+           bool                &editScale          (void);
      const bool                &getScale          (void) const;
+#ifndef OSG_2_PREP
+           bool                &getScale          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

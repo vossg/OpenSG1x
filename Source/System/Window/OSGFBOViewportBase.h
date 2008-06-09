@@ -170,53 +170,182 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFEnabled        (void);
-           MFNodePtr           *getMFExcludeNodes   (void);
-           MFNodePtr           *getMFRenderNodes    (void);
-           MFTextureChunkPtr   *getMFTextures       (void);
-           SFBool              *getSFFboOn          (void);
-           SFInt32             *getSFStorageWidth   (void);
-           SFInt32             *getSFStorageHeight  (void);
-           SFBool              *getSFGenCubemaps    (void);
-           SFBool              *getSFGenDepthmaps   (void);
-           SFBool              *getSFDirty          (void);
-           SFBool              *getSFReadBuffer     (void);
-           SFBool              *getSFIgnoreCameraDecorators(void);
-           SFBool              *getSFFboOffIgnoreStorageSize(void);
-           MFInt32             *getMFZOffset        (void);
 
-           bool                &getEnabled        (void);
+           SFBool              *editSFEnabled        (void);
+     const SFBool              *getSFEnabled        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnabled        (void);
+#endif
+
+           MFNodePtr           *editMFExcludeNodes   (void);
+     const MFNodePtr           *getMFExcludeNodes   (void) const;
+#ifndef OSG_2_PREP
+           MFNodePtr           *getMFExcludeNodes   (void);
+#endif
+
+           MFNodePtr           *editMFRenderNodes    (void);
+     const MFNodePtr           *getMFRenderNodes    (void) const;
+#ifndef OSG_2_PREP
+           MFNodePtr           *getMFRenderNodes    (void);
+#endif
+
+           MFTextureChunkPtr   *editMFTextures       (void);
+     const MFTextureChunkPtr   *getMFTextures       (void) const;
+#ifndef OSG_2_PREP
+           MFTextureChunkPtr   *getMFTextures       (void);
+#endif
+
+           SFBool              *editSFFboOn          (void);
+     const SFBool              *getSFFboOn          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFFboOn          (void);
+#endif
+
+           SFInt32             *editSFStorageWidth   (void);
+     const SFInt32             *getSFStorageWidth   (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFStorageWidth   (void);
+#endif
+
+           SFInt32             *editSFStorageHeight  (void);
+     const SFInt32             *getSFStorageHeight  (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFStorageHeight  (void);
+#endif
+
+           SFBool              *editSFGenCubemaps    (void);
+     const SFBool              *getSFGenCubemaps    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFGenCubemaps    (void);
+#endif
+
+           SFBool              *editSFGenDepthmaps   (void);
+     const SFBool              *getSFGenDepthmaps   (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFGenDepthmaps   (void);
+#endif
+
+           SFBool              *editSFDirty          (void);
+     const SFBool              *getSFDirty          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDirty          (void);
+#endif
+
+           SFBool              *editSFReadBuffer     (void);
+     const SFBool              *getSFReadBuffer     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFReadBuffer     (void);
+#endif
+
+           SFBool              *editSFIgnoreCameraDecorators(void);
+     const SFBool              *getSFIgnoreCameraDecorators(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFIgnoreCameraDecorators(void);
+#endif
+
+           SFBool              *editSFFboOffIgnoreStorageSize(void);
+     const SFBool              *getSFFboOffIgnoreStorageSize(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFFboOffIgnoreStorageSize(void);
+#endif
+
+           MFInt32             *editMFZOffset        (void);
+     const MFInt32             *getMFZOffset        (void) const;
+#ifndef OSG_2_PREP
+           MFInt32             *getMFZOffset        (void);
+#endif
+
+
+           bool                &editEnabled        (void);
      const bool                &getEnabled        (void) const;
-           bool                &getFboOn          (void);
+#ifndef OSG_2_PREP
+           bool                &getEnabled        (void);
+#endif
+
+           bool                &editFboOn          (void);
      const bool                &getFboOn          (void) const;
-           Int32               &getStorageWidth   (void);
+#ifndef OSG_2_PREP
+           bool                &getFboOn          (void);
+#endif
+
+           Int32               &editStorageWidth   (void);
      const Int32               &getStorageWidth   (void) const;
-           Int32               &getStorageHeight  (void);
+#ifndef OSG_2_PREP
+           Int32               &getStorageWidth   (void);
+#endif
+
+           Int32               &editStorageHeight  (void);
      const Int32               &getStorageHeight  (void) const;
-           bool                &getGenCubemaps    (void);
+#ifndef OSG_2_PREP
+           Int32               &getStorageHeight  (void);
+#endif
+
+           bool                &editGenCubemaps    (void);
      const bool                &getGenCubemaps    (void) const;
-           bool                &getGenDepthmaps   (void);
+#ifndef OSG_2_PREP
+           bool                &getGenCubemaps    (void);
+#endif
+
+           bool                &editGenDepthmaps   (void);
      const bool                &getGenDepthmaps   (void) const;
-           bool                &getDirty          (void);
+#ifndef OSG_2_PREP
+           bool                &getGenDepthmaps   (void);
+#endif
+
+
+
+
+           bool                &editDirty          (void);
      const bool                &getDirty          (void) const;
-           bool                &getReadBuffer     (void);
+#ifndef OSG_2_PREP
+           bool                &getDirty          (void);
+#endif
+
+           bool                &editReadBuffer     (void);
      const bool                &getReadBuffer     (void) const;
-           bool                &getIgnoreCameraDecorators(void);
+#ifndef OSG_2_PREP
+           bool                &getReadBuffer     (void);
+#endif
+
+           bool                &editIgnoreCameraDecorators(void);
      const bool                &getIgnoreCameraDecorators(void) const;
-           bool                &getFboOffIgnoreStorageSize(void);
+#ifndef OSG_2_PREP
+           bool                &getIgnoreCameraDecorators(void);
+#endif
+
+           bool                &editFboOffIgnoreStorageSize(void);
      const bool                &getFboOffIgnoreStorageSize(void) const;
+#ifndef OSG_2_PREP
+           bool                &getFboOffIgnoreStorageSize(void);
+#endif
+
+           NodePtr             &editExcludeNodes   (const UInt32 index);
+     const NodePtr             &getExcludeNodes   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            NodePtr             &getExcludeNodes   (const UInt32 index);
            MFNodePtr           &getExcludeNodes   (void);
-     const MFNodePtr           &getExcludeNodes   (void) const;
+#endif
+
+           NodePtr             &editRenderNodes    (const UInt32 index);
+     const NodePtr             &getRenderNodes    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            NodePtr             &getRenderNodes    (const UInt32 index);
            MFNodePtr           &getRenderNodes    (void);
-     const MFNodePtr           &getRenderNodes    (void) const;
+#endif
+
+           TextureChunkPtr     &editTextures       (const UInt32 index);
+     const TextureChunkPtr     &getTextures       (const UInt32 index) const;
+#ifndef OSG_2_PREP
            TextureChunkPtr     &getTextures       (const UInt32 index);
            MFTextureChunkPtr   &getTextures       (void);
-     const MFTextureChunkPtr   &getTextures       (void) const;
+#endif
+
+           Int32               &editZOffset        (const UInt32 index);
+     const Int32               &getZOffset        (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Int32               &getZOffset        (const UInt32 index);
            MFInt32             &getZOffset        (void);
-     const MFInt32             &getZOffset        (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -313,16 +442,37 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFUInt32            *editSFFrameBufferIndex(void);
+     const SFUInt32            *getSFFrameBufferIndex(void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFFrameBufferIndex(void);
+#endif
+           SFUInt32            *editSFDepthBufferIndex(void);
+     const SFUInt32            *getSFDepthBufferIndex(void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFDepthBufferIndex(void);
+#endif
+           SFUInt32            *editSFStencilBufferIndex(void);
+     const SFUInt32            *getSFStencilBufferIndex(void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFStencilBufferIndex(void);
+#endif
 
-           UInt32              &getFrameBufferIndex(void);
+           UInt32              &editFrameBufferIndex(void);
      const UInt32              &getFrameBufferIndex(void) const;
-           UInt32              &getDepthBufferIndex(void);
+#ifndef OSG_2_PREP
+           UInt32              &getFrameBufferIndex(void);
+#endif
+           UInt32              &editDepthBufferIndex(void);
      const UInt32              &getDepthBufferIndex(void) const;
-           UInt32              &getStencilBufferIndex(void);
+#ifndef OSG_2_PREP
+           UInt32              &getDepthBufferIndex(void);
+#endif
+           UInt32              &editStencilBufferIndex(void);
      const UInt32              &getStencilBufferIndex(void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getStencilBufferIndex(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -394,6 +544,6 @@ typedef RefPtr<FBOViewportPtr> FBOViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.5 2008/06/05 05:02:30 vossg Exp $"
+#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.6 2008/06/09 07:31:55 vossg Exp $"
 
 #endif /* _OSGFBOVIEWPORTBASE_H_ */

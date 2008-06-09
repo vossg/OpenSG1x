@@ -98,15 +98,31 @@ ShaderParameterVec4fPtr ShaderParameterVec4fBase::createEmpty(void)
 
 //! Get the ShaderParameterVec4f::_sfValue field.
 inline
-SFVec4f *ShaderParameterVec4fBase::getSFValue(void)
+const SFVec4f *ShaderParameterVec4fBase::getSFValue(void) const
 {
     return &_sfValue;
 }
 
+//! Get the ShaderParameterVec4f::_sfValue field.
+inline
+SFVec4f *ShaderParameterVec4fBase::editSFValue(void)
+{
+    return &_sfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterVec4f::_sfValue field.
+inline
+SFVec4f *ShaderParameterVec4fBase::getSFValue(void)
+{
+    return &_sfValue;
+}
+#endif
+
 
 //! Get the value of the ShaderParameterVec4f::_sfValue field.
 inline
-Vec4f &ShaderParameterVec4fBase::getValue(void)
+Vec4f &ShaderParameterVec4fBase::editValue(void)
 {
     return _sfValue.getValue();
 }
@@ -118,6 +134,15 @@ const Vec4f &ShaderParameterVec4fBase::getValue(void) const
     return _sfValue.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShaderParameterVec4f::_sfValue field.
+inline
+Vec4f &ShaderParameterVec4fBase::getValue(void)
+{
+    return _sfValue.getValue();
+}
+#endif
+
 //! Set the value of the ShaderParameterVec4f::_sfValue field.
 inline
 void ShaderParameterVec4fBase::setValue(const Vec4f &value)
@@ -128,5 +153,5 @@ void ShaderParameterVec4fBase::setValue(const Vec4f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERVEC4FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterVec4fBase.inl,v 1.6 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERVEC4FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterVec4fBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
 

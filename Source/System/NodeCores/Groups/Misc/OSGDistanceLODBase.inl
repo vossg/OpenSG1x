@@ -98,22 +98,54 @@ DistanceLODPtr DistanceLODBase::createEmpty(void)
 
 //! Get the DistanceLOD::_sfCenter field.
 inline
-SFPnt3f *DistanceLODBase::getSFCenter(void)
+const SFPnt3f *DistanceLODBase::getSFCenter(void) const
 {
     return &_sfCenter;
 }
 
+//! Get the DistanceLOD::_sfCenter field.
+inline
+SFPnt3f *DistanceLODBase::editSFCenter(void)
+{
+    return &_sfCenter;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DistanceLOD::_sfCenter field.
+inline
+SFPnt3f *DistanceLODBase::getSFCenter(void)
+{
+    return &_sfCenter;
+}
+#endif
+
+//! Get the DistanceLOD::_mfRange field.
+inline
+const MFReal32 *DistanceLODBase::getMFRange(void) const
+{
+    return &_mfRange;
+}
+
+//! Get the DistanceLOD::_mfRange field.
+inline
+MFReal32 *DistanceLODBase::editMFRange(void)
+{
+    return &_mfRange;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DistanceLOD::_mfRange field.
 inline
 MFReal32 *DistanceLODBase::getMFRange(void)
 {
     return &_mfRange;
 }
+#endif
 
 
 //! Get the value of the DistanceLOD::_sfCenter field.
 inline
-Pnt3f &DistanceLODBase::getCenter(void)
+Pnt3f &DistanceLODBase::editCenter(void)
 {
     return _sfCenter.getValue();
 }
@@ -125,6 +157,15 @@ const Pnt3f &DistanceLODBase::getCenter(void) const
     return _sfCenter.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DistanceLOD::_sfCenter field.
+inline
+Pnt3f &DistanceLODBase::getCenter(void)
+{
+    return _sfCenter.getValue();
+}
+#endif
+
 //! Set the value of the DistanceLOD::_sfCenter field.
 inline
 void DistanceLODBase::setCenter(const Pnt3f &value)
@@ -133,6 +174,21 @@ void DistanceLODBase::setCenter(const Pnt3f &value)
 }
 
 
+//! Get the value of the \a index element the DistanceLOD::_mfRange field.
+inline
+Real32 &DistanceLODBase::editRange(const UInt32 index)
+{
+    return _mfRange[index];
+}
+
+//! Get the value of the \a index element the DistanceLOD::_mfRange field.
+inline
+const Real32 &DistanceLODBase::getRange(const UInt32 index) const
+{
+    return _mfRange[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the DistanceLOD::_mfRange field.
 inline
 Real32 &DistanceLODBase::getRange(const UInt32 index)
@@ -147,12 +203,7 @@ MFReal32 &DistanceLODBase::getRange(void)
     return _mfRange;
 }
 
-//! Get the DistanceLOD::_mfRange field.
-inline
-const MFReal32 &DistanceLODBase::getRange(void) const
-{
-    return _mfRange;
-}
+#endif
 
 OSG_END_NAMESPACE
 

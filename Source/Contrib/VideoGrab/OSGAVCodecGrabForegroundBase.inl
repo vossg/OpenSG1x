@@ -98,57 +98,169 @@ AVCodecGrabForegroundPtr AVCodecGrabForegroundBase::createEmpty(void)
 
 //! Get the AVCodecGrabForeground::_sfActive field.
 inline
-SFBool *AVCodecGrabForegroundBase::getSFActive(void)
+const SFBool *AVCodecGrabForegroundBase::getSFActive(void) const
 {
     return &_sfActive;
 }
 
+//! Get the AVCodecGrabForeground::_sfActive field.
+inline
+SFBool *AVCodecGrabForegroundBase::editSFActive(void)
+{
+    return &_sfActive;
+}
+
+#ifndef OSG_2_PREP
+//! Get the AVCodecGrabForeground::_sfActive field.
+inline
+SFBool *AVCodecGrabForegroundBase::getSFActive(void)
+{
+    return &_sfActive;
+}
+#endif
+
+//! Get the AVCodecGrabForeground::_sfName field.
+inline
+const SFString *AVCodecGrabForegroundBase::getSFName(void) const
+{
+    return &_sfName;
+}
+
+//! Get the AVCodecGrabForeground::_sfName field.
+inline
+SFString *AVCodecGrabForegroundBase::editSFName(void)
+{
+    return &_sfName;
+}
+
+#ifndef OSG_2_PREP
 //! Get the AVCodecGrabForeground::_sfName field.
 inline
 SFString *AVCodecGrabForegroundBase::getSFName(void)
 {
     return &_sfName;
 }
+#endif
 
+//! Get the AVCodecGrabForeground::_sfKbit field.
+inline
+const SFUInt32 *AVCodecGrabForegroundBase::getSFKbit(void) const
+{
+    return &_sfKbit;
+}
+
+//! Get the AVCodecGrabForeground::_sfKbit field.
+inline
+SFUInt32 *AVCodecGrabForegroundBase::editSFKbit(void)
+{
+    return &_sfKbit;
+}
+
+#ifndef OSG_2_PREP
 //! Get the AVCodecGrabForeground::_sfKbit field.
 inline
 SFUInt32 *AVCodecGrabForegroundBase::getSFKbit(void)
 {
     return &_sfKbit;
 }
+#endif
 
+//! Get the AVCodecGrabForeground::_sfFps field.
+inline
+const SFUInt32 *AVCodecGrabForegroundBase::getSFFps(void) const
+{
+    return &_sfFps;
+}
+
+//! Get the AVCodecGrabForeground::_sfFps field.
+inline
+SFUInt32 *AVCodecGrabForegroundBase::editSFFps(void)
+{
+    return &_sfFps;
+}
+
+#ifndef OSG_2_PREP
 //! Get the AVCodecGrabForeground::_sfFps field.
 inline
 SFUInt32 *AVCodecGrabForegroundBase::getSFFps(void)
 {
     return &_sfFps;
 }
+#endif
 
+//! Get the AVCodecGrabForeground::_sfCodecid field.
+inline
+const SFUInt32 *AVCodecGrabForegroundBase::getSFCodecid(void) const
+{
+    return &_sfCodecid;
+}
+
+//! Get the AVCodecGrabForeground::_sfCodecid field.
+inline
+SFUInt32 *AVCodecGrabForegroundBase::editSFCodecid(void)
+{
+    return &_sfCodecid;
+}
+
+#ifndef OSG_2_PREP
 //! Get the AVCodecGrabForeground::_sfCodecid field.
 inline
 SFUInt32 *AVCodecGrabForegroundBase::getSFCodecid(void)
 {
     return &_sfCodecid;
 }
+#endif
 
+//! Get the AVCodecGrabForeground::_sfFlip field.
+inline
+const SFBool *AVCodecGrabForegroundBase::getSFFlip(void) const
+{
+    return &_sfFlip;
+}
+
+//! Get the AVCodecGrabForeground::_sfFlip field.
+inline
+SFBool *AVCodecGrabForegroundBase::editSFFlip(void)
+{
+    return &_sfFlip;
+}
+
+#ifndef OSG_2_PREP
 //! Get the AVCodecGrabForeground::_sfFlip field.
 inline
 SFBool *AVCodecGrabForegroundBase::getSFFlip(void)
 {
     return &_sfFlip;
 }
+#endif
 
+//! Get the AVCodecGrabForeground::_sfAutoWrite field.
+inline
+const SFBool *AVCodecGrabForegroundBase::getSFAutoWrite(void) const
+{
+    return &_sfAutoWrite;
+}
+
+//! Get the AVCodecGrabForeground::_sfAutoWrite field.
+inline
+SFBool *AVCodecGrabForegroundBase::editSFAutoWrite(void)
+{
+    return &_sfAutoWrite;
+}
+
+#ifndef OSG_2_PREP
 //! Get the AVCodecGrabForeground::_sfAutoWrite field.
 inline
 SFBool *AVCodecGrabForegroundBase::getSFAutoWrite(void)
 {
     return &_sfAutoWrite;
 }
+#endif
 
 
 //! Get the value of the AVCodecGrabForeground::_sfActive field.
 inline
-bool &AVCodecGrabForegroundBase::getActive(void)
+bool &AVCodecGrabForegroundBase::editActive(void)
 {
     return _sfActive.getValue();
 }
@@ -160,6 +272,15 @@ const bool &AVCodecGrabForegroundBase::getActive(void) const
     return _sfActive.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the AVCodecGrabForeground::_sfActive field.
+inline
+bool &AVCodecGrabForegroundBase::getActive(void)
+{
+    return _sfActive.getValue();
+}
+#endif
+
 //! Set the value of the AVCodecGrabForeground::_sfActive field.
 inline
 void AVCodecGrabForegroundBase::setActive(const bool &value)
@@ -169,7 +290,7 @@ void AVCodecGrabForegroundBase::setActive(const bool &value)
 
 //! Get the value of the AVCodecGrabForeground::_sfName field.
 inline
-std::string &AVCodecGrabForegroundBase::getName(void)
+std::string &AVCodecGrabForegroundBase::editName(void)
 {
     return _sfName.getValue();
 }
@@ -181,6 +302,15 @@ const std::string &AVCodecGrabForegroundBase::getName(void) const
     return _sfName.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the AVCodecGrabForeground::_sfName field.
+inline
+std::string &AVCodecGrabForegroundBase::getName(void)
+{
+    return _sfName.getValue();
+}
+#endif
+
 //! Set the value of the AVCodecGrabForeground::_sfName field.
 inline
 void AVCodecGrabForegroundBase::setName(const std::string &value)
@@ -190,7 +320,7 @@ void AVCodecGrabForegroundBase::setName(const std::string &value)
 
 //! Get the value of the AVCodecGrabForeground::_sfKbit field.
 inline
-UInt32 &AVCodecGrabForegroundBase::getKbit(void)
+UInt32 &AVCodecGrabForegroundBase::editKbit(void)
 {
     return _sfKbit.getValue();
 }
@@ -202,6 +332,15 @@ const UInt32 &AVCodecGrabForegroundBase::getKbit(void) const
     return _sfKbit.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the AVCodecGrabForeground::_sfKbit field.
+inline
+UInt32 &AVCodecGrabForegroundBase::getKbit(void)
+{
+    return _sfKbit.getValue();
+}
+#endif
+
 //! Set the value of the AVCodecGrabForeground::_sfKbit field.
 inline
 void AVCodecGrabForegroundBase::setKbit(const UInt32 &value)
@@ -211,7 +350,7 @@ void AVCodecGrabForegroundBase::setKbit(const UInt32 &value)
 
 //! Get the value of the AVCodecGrabForeground::_sfFps field.
 inline
-UInt32 &AVCodecGrabForegroundBase::getFps(void)
+UInt32 &AVCodecGrabForegroundBase::editFps(void)
 {
     return _sfFps.getValue();
 }
@@ -223,6 +362,15 @@ const UInt32 &AVCodecGrabForegroundBase::getFps(void) const
     return _sfFps.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the AVCodecGrabForeground::_sfFps field.
+inline
+UInt32 &AVCodecGrabForegroundBase::getFps(void)
+{
+    return _sfFps.getValue();
+}
+#endif
+
 //! Set the value of the AVCodecGrabForeground::_sfFps field.
 inline
 void AVCodecGrabForegroundBase::setFps(const UInt32 &value)
@@ -232,7 +380,7 @@ void AVCodecGrabForegroundBase::setFps(const UInt32 &value)
 
 //! Get the value of the AVCodecGrabForeground::_sfCodecid field.
 inline
-UInt32 &AVCodecGrabForegroundBase::getCodecid(void)
+UInt32 &AVCodecGrabForegroundBase::editCodecid(void)
 {
     return _sfCodecid.getValue();
 }
@@ -244,6 +392,15 @@ const UInt32 &AVCodecGrabForegroundBase::getCodecid(void) const
     return _sfCodecid.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the AVCodecGrabForeground::_sfCodecid field.
+inline
+UInt32 &AVCodecGrabForegroundBase::getCodecid(void)
+{
+    return _sfCodecid.getValue();
+}
+#endif
+
 //! Set the value of the AVCodecGrabForeground::_sfCodecid field.
 inline
 void AVCodecGrabForegroundBase::setCodecid(const UInt32 &value)
@@ -253,7 +410,7 @@ void AVCodecGrabForegroundBase::setCodecid(const UInt32 &value)
 
 //! Get the value of the AVCodecGrabForeground::_sfFlip field.
 inline
-bool &AVCodecGrabForegroundBase::getFlip(void)
+bool &AVCodecGrabForegroundBase::editFlip(void)
 {
     return _sfFlip.getValue();
 }
@@ -265,6 +422,15 @@ const bool &AVCodecGrabForegroundBase::getFlip(void) const
     return _sfFlip.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the AVCodecGrabForeground::_sfFlip field.
+inline
+bool &AVCodecGrabForegroundBase::getFlip(void)
+{
+    return _sfFlip.getValue();
+}
+#endif
+
 //! Set the value of the AVCodecGrabForeground::_sfFlip field.
 inline
 void AVCodecGrabForegroundBase::setFlip(const bool &value)
@@ -274,7 +440,7 @@ void AVCodecGrabForegroundBase::setFlip(const bool &value)
 
 //! Get the value of the AVCodecGrabForeground::_sfAutoWrite field.
 inline
-bool &AVCodecGrabForegroundBase::getAutoWrite(void)
+bool &AVCodecGrabForegroundBase::editAutoWrite(void)
 {
     return _sfAutoWrite.getValue();
 }
@@ -285,6 +451,15 @@ const bool &AVCodecGrabForegroundBase::getAutoWrite(void) const
 {
     return _sfAutoWrite.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the AVCodecGrabForeground::_sfAutoWrite field.
+inline
+bool &AVCodecGrabForegroundBase::getAutoWrite(void)
+{
+    return _sfAutoWrite.getValue();
+}
+#endif
 
 //! Set the value of the AVCodecGrabForeground::_sfAutoWrite field.
 inline

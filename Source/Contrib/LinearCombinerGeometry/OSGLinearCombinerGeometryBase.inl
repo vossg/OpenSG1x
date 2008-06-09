@@ -98,50 +98,146 @@ LinearCombinerGeometryPtr LinearCombinerGeometryBase::createEmpty(void)
 
 //! Get the LinearCombinerGeometry::_mfWeights field.
 inline
-MFReal32 *LinearCombinerGeometryBase::getMFWeights(void)
+const MFReal32 *LinearCombinerGeometryBase::getMFWeights(void) const
 {
     return &_mfWeights;
 }
 
+//! Get the LinearCombinerGeometry::_mfWeights field.
+inline
+MFReal32 *LinearCombinerGeometryBase::editMFWeights(void)
+{
+    return &_mfWeights;
+}
+
+#ifndef OSG_2_PREP
+//! Get the LinearCombinerGeometry::_mfWeights field.
+inline
+MFReal32 *LinearCombinerGeometryBase::getMFWeights(void)
+{
+    return &_mfWeights;
+}
+#endif
+
+//! Get the LinearCombinerGeometry::_mfSrcpositions field.
+inline
+const MFGeoPositionsPtr *LinearCombinerGeometryBase::getMFSrcpositions(void) const
+{
+    return &_mfSrcpositions;
+}
+
+//! Get the LinearCombinerGeometry::_mfSrcpositions field.
+inline
+MFGeoPositionsPtr *LinearCombinerGeometryBase::editMFSrcpositions(void)
+{
+    return &_mfSrcpositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LinearCombinerGeometry::_mfSrcpositions field.
 inline
 MFGeoPositionsPtr *LinearCombinerGeometryBase::getMFSrcpositions(void)
 {
     return &_mfSrcpositions;
 }
+#endif
 
+//! Get the LinearCombinerGeometry::_mfSrcvolumes field.
+inline
+const MFVolume *LinearCombinerGeometryBase::getMFSrcvolumes(void) const
+{
+    return &_mfSrcvolumes;
+}
+
+//! Get the LinearCombinerGeometry::_mfSrcvolumes field.
+inline
+MFVolume *LinearCombinerGeometryBase::editMFSrcvolumes(void)
+{
+    return &_mfSrcvolumes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LinearCombinerGeometry::_mfSrcvolumes field.
 inline
 MFVolume *LinearCombinerGeometryBase::getMFSrcvolumes(void)
 {
     return &_mfSrcvolumes;
 }
+#endif
 
+//! Get the LinearCombinerGeometry::_sfRecalconrender field.
+inline
+const SFBool *LinearCombinerGeometryBase::getSFRecalconrender(void) const
+{
+    return &_sfRecalconrender;
+}
+
+//! Get the LinearCombinerGeometry::_sfRecalconrender field.
+inline
+SFBool *LinearCombinerGeometryBase::editSFRecalconrender(void)
+{
+    return &_sfRecalconrender;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LinearCombinerGeometry::_sfRecalconrender field.
 inline
 SFBool *LinearCombinerGeometryBase::getSFRecalconrender(void)
 {
     return &_sfRecalconrender;
 }
+#endif
 
+//! Get the LinearCombinerGeometry::_sfAllgeometries3f field.
+inline
+const SFBool *LinearCombinerGeometryBase::getSFAllgeometries3f(void) const
+{
+    return &_sfAllgeometries3f;
+}
+
+//! Get the LinearCombinerGeometry::_sfAllgeometries3f field.
+inline
+SFBool *LinearCombinerGeometryBase::editSFAllgeometries3f(void)
+{
+    return &_sfAllgeometries3f;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LinearCombinerGeometry::_sfAllgeometries3f field.
 inline
 SFBool *LinearCombinerGeometryBase::getSFAllgeometries3f(void)
 {
     return &_sfAllgeometries3f;
 }
+#endif
 
+//! Get the LinearCombinerGeometry::_sfPositionsdirty field.
+inline
+const SFBool *LinearCombinerGeometryBase::getSFPositionsdirty(void) const
+{
+    return &_sfPositionsdirty;
+}
+
+//! Get the LinearCombinerGeometry::_sfPositionsdirty field.
+inline
+SFBool *LinearCombinerGeometryBase::editSFPositionsdirty(void)
+{
+    return &_sfPositionsdirty;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LinearCombinerGeometry::_sfPositionsdirty field.
 inline
 SFBool *LinearCombinerGeometryBase::getSFPositionsdirty(void)
 {
     return &_sfPositionsdirty;
 }
+#endif
 
 
 //! Get the value of the LinearCombinerGeometry::_sfRecalconrender field.
 inline
-bool &LinearCombinerGeometryBase::getRecalconrender(void)
+bool &LinearCombinerGeometryBase::editRecalconrender(void)
 {
     return _sfRecalconrender.getValue();
 }
@@ -153,6 +249,15 @@ const bool &LinearCombinerGeometryBase::getRecalconrender(void) const
     return _sfRecalconrender.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LinearCombinerGeometry::_sfRecalconrender field.
+inline
+bool &LinearCombinerGeometryBase::getRecalconrender(void)
+{
+    return _sfRecalconrender.getValue();
+}
+#endif
+
 //! Set the value of the LinearCombinerGeometry::_sfRecalconrender field.
 inline
 void LinearCombinerGeometryBase::setRecalconrender(const bool &value)
@@ -162,7 +267,7 @@ void LinearCombinerGeometryBase::setRecalconrender(const bool &value)
 
 //! Get the value of the LinearCombinerGeometry::_sfAllgeometries3f field.
 inline
-bool &LinearCombinerGeometryBase::getAllgeometries3f(void)
+bool &LinearCombinerGeometryBase::editAllgeometries3f(void)
 {
     return _sfAllgeometries3f.getValue();
 }
@@ -174,6 +279,15 @@ const bool &LinearCombinerGeometryBase::getAllgeometries3f(void) const
     return _sfAllgeometries3f.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LinearCombinerGeometry::_sfAllgeometries3f field.
+inline
+bool &LinearCombinerGeometryBase::getAllgeometries3f(void)
+{
+    return _sfAllgeometries3f.getValue();
+}
+#endif
+
 //! Set the value of the LinearCombinerGeometry::_sfAllgeometries3f field.
 inline
 void LinearCombinerGeometryBase::setAllgeometries3f(const bool &value)
@@ -183,7 +297,7 @@ void LinearCombinerGeometryBase::setAllgeometries3f(const bool &value)
 
 //! Get the value of the LinearCombinerGeometry::_sfPositionsdirty field.
 inline
-bool &LinearCombinerGeometryBase::getPositionsdirty(void)
+bool &LinearCombinerGeometryBase::editPositionsdirty(void)
 {
     return _sfPositionsdirty.getValue();
 }
@@ -195,6 +309,15 @@ const bool &LinearCombinerGeometryBase::getPositionsdirty(void) const
     return _sfPositionsdirty.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LinearCombinerGeometry::_sfPositionsdirty field.
+inline
+bool &LinearCombinerGeometryBase::getPositionsdirty(void)
+{
+    return _sfPositionsdirty.getValue();
+}
+#endif
+
 //! Set the value of the LinearCombinerGeometry::_sfPositionsdirty field.
 inline
 void LinearCombinerGeometryBase::setPositionsdirty(const bool &value)
@@ -203,6 +326,21 @@ void LinearCombinerGeometryBase::setPositionsdirty(const bool &value)
 }
 
 
+//! Get the value of the \a index element the LinearCombinerGeometry::_mfWeights field.
+inline
+Real32 &LinearCombinerGeometryBase::editWeights(const UInt32 index)
+{
+    return _mfWeights[index];
+}
+
+//! Get the value of the \a index element the LinearCombinerGeometry::_mfWeights field.
+inline
+const Real32 &LinearCombinerGeometryBase::getWeights(const UInt32 index) const
+{
+    return _mfWeights[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the LinearCombinerGeometry::_mfWeights field.
 inline
 Real32 &LinearCombinerGeometryBase::getWeights(const UInt32 index)
@@ -217,13 +355,23 @@ MFReal32 &LinearCombinerGeometryBase::getWeights(void)
     return _mfWeights;
 }
 
-//! Get the LinearCombinerGeometry::_mfWeights field.
+#endif
+
+//! Get the value of the \a index element the LinearCombinerGeometry::_mfSrcpositions field.
 inline
-const MFReal32 &LinearCombinerGeometryBase::getWeights(void) const
+GeoPositionsPtr &LinearCombinerGeometryBase::editSrcpositions(const UInt32 index)
 {
-    return _mfWeights;
+    return _mfSrcpositions[index];
 }
 
+//! Get the value of the \a index element the LinearCombinerGeometry::_mfSrcpositions field.
+inline
+const GeoPositionsPtr &LinearCombinerGeometryBase::getSrcpositions(const UInt32 index) const
+{
+    return _mfSrcpositions[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the LinearCombinerGeometry::_mfSrcpositions field.
 inline
 GeoPositionsPtr &LinearCombinerGeometryBase::getSrcpositions(const UInt32 index)
@@ -238,13 +386,23 @@ MFGeoPositionsPtr &LinearCombinerGeometryBase::getSrcpositions(void)
     return _mfSrcpositions;
 }
 
-//! Get the LinearCombinerGeometry::_mfSrcpositions field.
+#endif
+
+//! Get the value of the \a index element the LinearCombinerGeometry::_mfSrcvolumes field.
 inline
-const MFGeoPositionsPtr &LinearCombinerGeometryBase::getSrcpositions(void) const
+Volume &LinearCombinerGeometryBase::editSrcvolumes(const UInt32 index)
 {
-    return _mfSrcpositions;
+    return _mfSrcvolumes[index];
 }
 
+//! Get the value of the \a index element the LinearCombinerGeometry::_mfSrcvolumes field.
+inline
+const Volume &LinearCombinerGeometryBase::getSrcvolumes(const UInt32 index) const
+{
+    return _mfSrcvolumes[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the LinearCombinerGeometry::_mfSrcvolumes field.
 inline
 Volume &LinearCombinerGeometryBase::getSrcvolumes(const UInt32 index)
@@ -259,12 +417,7 @@ MFVolume &LinearCombinerGeometryBase::getSrcvolumes(void)
     return _mfSrcvolumes;
 }
 
-//! Get the LinearCombinerGeometry::_mfSrcvolumes field.
-inline
-const MFVolume &LinearCombinerGeometryBase::getSrcvolumes(void) const
-{
-    return _mfSrcvolumes;
-}
+#endif
 
 OSG_END_NAMESPACE
 

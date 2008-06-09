@@ -98,17 +98,17 @@ FieldDescription *DistortionDisplayFilterBase::_desc[] =
                      "rows", 
                      RowsFieldId, RowsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::getSFRows)),
+                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::editSFRows)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "columns", 
                      ColumnsFieldId, ColumnsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::getSFColumns)),
+                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::editSFColumns)),
     new FieldDescription(MFVec2f::getClassType(), 
                      "positions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::getMFPositions))
+                     reinterpret_cast<FieldAccessMethod>(&DistortionDisplayFilterBase::editMFPositions))
 };
 
 
@@ -363,7 +363,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DistortionDisplayFilterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPI
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDISTORTIONDISPLAYFILTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISTORTIONDISPLAYFILTERBASE_INLINE_CVSID;
 

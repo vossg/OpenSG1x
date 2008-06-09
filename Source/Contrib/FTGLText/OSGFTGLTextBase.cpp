@@ -98,17 +98,17 @@ FieldDescription *FTGLTextBase::_desc[] =
                      "text", 
                      TextFieldId, TextFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::getSFText)),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::editSFText)),
     new FieldDescription(SFFTGLFontPtr::getClassType(), 
                      "font", 
                      FontFieldId, FontFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::getSFFont)),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::editSFFont)),
     new FieldDescription(SFPnt3f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::getSFPosition))
+                     reinterpret_cast<FieldAccessMethod>(&FTGLTextBase::editSFPosition))
 };
 
 
@@ -359,7 +359,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(FTGLTextPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLTextBase.cpp,v 1.8 2008/06/05 05:02:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLTextBase.cpp,v 1.9 2008/06/09 07:31:38 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLTEXTBASE_INLINE_CVSID;
 

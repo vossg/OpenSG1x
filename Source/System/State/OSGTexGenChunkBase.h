@@ -155,43 +155,151 @@ class OSG_SYSTEMLIB_DLLMAPPING TexGenChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFGLenum            *getSFGenFuncS       (void);
-           SFGLenum            *getSFGenFuncT       (void);
-           SFGLenum            *getSFGenFuncR       (void);
-           SFGLenum            *getSFGenFuncQ       (void);
-           SFVec4f             *getSFGenFuncSPlane  (void);
-           SFVec4f             *getSFGenFuncTPlane  (void);
-           SFVec4f             *getSFGenFuncRPlane  (void);
-           SFVec4f             *getSFGenFuncQPlane  (void);
-           SFNodePtr           *getSFSBeacon        (void);
-           SFNodePtr           *getSFTBeacon        (void);
-           SFNodePtr           *getSFRBeacon        (void);
-           SFNodePtr           *getSFQBeacon        (void);
 
-           GLenum              &getGenFuncS       (void);
+           SFGLenum            *editSFGenFuncS       (void);
+     const SFGLenum            *getSFGenFuncS       (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFGenFuncS       (void);
+#endif
+
+           SFGLenum            *editSFGenFuncT       (void);
+     const SFGLenum            *getSFGenFuncT       (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFGenFuncT       (void);
+#endif
+
+           SFGLenum            *editSFGenFuncR       (void);
+     const SFGLenum            *getSFGenFuncR       (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFGenFuncR       (void);
+#endif
+
+           SFGLenum            *editSFGenFuncQ       (void);
+     const SFGLenum            *getSFGenFuncQ       (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFGenFuncQ       (void);
+#endif
+
+           SFVec4f             *editSFGenFuncSPlane  (void);
+     const SFVec4f             *getSFGenFuncSPlane  (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFGenFuncSPlane  (void);
+#endif
+
+           SFVec4f             *editSFGenFuncTPlane  (void);
+     const SFVec4f             *getSFGenFuncTPlane  (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFGenFuncTPlane  (void);
+#endif
+
+           SFVec4f             *editSFGenFuncRPlane  (void);
+     const SFVec4f             *getSFGenFuncRPlane  (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFGenFuncRPlane  (void);
+#endif
+
+           SFVec4f             *editSFGenFuncQPlane  (void);
+     const SFVec4f             *getSFGenFuncQPlane  (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFGenFuncQPlane  (void);
+#endif
+
+           SFNodePtr           *editSFSBeacon        (void);
+     const SFNodePtr           *getSFSBeacon        (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFSBeacon        (void);
+#endif
+
+           SFNodePtr           *editSFTBeacon        (void);
+     const SFNodePtr           *getSFTBeacon        (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFTBeacon        (void);
+#endif
+
+           SFNodePtr           *editSFRBeacon        (void);
+     const SFNodePtr           *getSFRBeacon        (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFRBeacon        (void);
+#endif
+
+           SFNodePtr           *editSFQBeacon        (void);
+     const SFNodePtr           *getSFQBeacon        (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFQBeacon        (void);
+#endif
+
+
+           GLenum              &editGenFuncS       (void);
      const GLenum              &getGenFuncS       (void) const;
-           GLenum              &getGenFuncT       (void);
+#ifndef OSG_2_PREP
+           GLenum              &getGenFuncS       (void);
+#endif
+
+           GLenum              &editGenFuncT       (void);
      const GLenum              &getGenFuncT       (void) const;
-           GLenum              &getGenFuncR       (void);
+#ifndef OSG_2_PREP
+           GLenum              &getGenFuncT       (void);
+#endif
+
+           GLenum              &editGenFuncR       (void);
      const GLenum              &getGenFuncR       (void) const;
-           GLenum              &getGenFuncQ       (void);
+#ifndef OSG_2_PREP
+           GLenum              &getGenFuncR       (void);
+#endif
+
+           GLenum              &editGenFuncQ       (void);
      const GLenum              &getGenFuncQ       (void) const;
-           Vec4f               &getGenFuncSPlane  (void);
+#ifndef OSG_2_PREP
+           GLenum              &getGenFuncQ       (void);
+#endif
+
+           Vec4f               &editGenFuncSPlane  (void);
      const Vec4f               &getGenFuncSPlane  (void) const;
-           Vec4f               &getGenFuncTPlane  (void);
+#ifndef OSG_2_PREP
+           Vec4f               &getGenFuncSPlane  (void);
+#endif
+
+           Vec4f               &editGenFuncTPlane  (void);
      const Vec4f               &getGenFuncTPlane  (void) const;
-           Vec4f               &getGenFuncRPlane  (void);
+#ifndef OSG_2_PREP
+           Vec4f               &getGenFuncTPlane  (void);
+#endif
+
+           Vec4f               &editGenFuncRPlane  (void);
      const Vec4f               &getGenFuncRPlane  (void) const;
-           Vec4f               &getGenFuncQPlane  (void);
+#ifndef OSG_2_PREP
+           Vec4f               &getGenFuncRPlane  (void);
+#endif
+
+           Vec4f               &editGenFuncQPlane  (void);
      const Vec4f               &getGenFuncQPlane  (void) const;
-           NodePtr             &getSBeacon        (void);
+#ifndef OSG_2_PREP
+           Vec4f               &getGenFuncQPlane  (void);
+#endif
+
+           NodePtr             &editSBeacon        (void);
      const NodePtr             &getSBeacon        (void) const;
-           NodePtr             &getTBeacon        (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getSBeacon        (void);
+#endif
+
+           NodePtr             &editTBeacon        (void);
      const NodePtr             &getTBeacon        (void) const;
-           NodePtr             &getRBeacon        (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getTBeacon        (void);
+#endif
+
+           NodePtr             &editRBeacon        (void);
      const NodePtr             &getRBeacon        (void) const;
-           NodePtr             &getQBeacon        (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getRBeacon        (void);
+#endif
+
+           NodePtr             &editQBeacon        (void);
      const NodePtr             &getQBeacon        (void) const;
+#ifndef OSG_2_PREP
+           NodePtr             &getQBeacon        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

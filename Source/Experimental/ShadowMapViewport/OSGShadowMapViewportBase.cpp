@@ -140,52 +140,52 @@ FieldDescription *ShadowMapViewportBase::_desc[] =
                      "offBias", 
                      OffBiasFieldId, OffBiasFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFOffBias)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editSFOffBias)),
     new FieldDescription(SFReal32::getClassType(), 
                      "offFactor", 
                      OffFactorFieldId, OffFactorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFOffFactor)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editSFOffFactor)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "sceneRoot", 
                      SceneRootFieldId, SceneRootFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFSceneRoot)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editSFSceneRoot)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "shadowColor", 
                      ShadowColorFieldId, ShadowColorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFShadowColor)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editSFShadowColor)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "mapSize", 
                      MapSizeFieldId, MapSizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFMapSize)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editSFMapSize)),
     new FieldDescription(MFNodePtr::getClassType(), 
                      "lightNodes", 
                      LightNodesFieldId, LightNodesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getMFLightNodes)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editMFLightNodes)),
     new FieldDescription(MFNodePtr::getClassType(), 
                      "excludeNodes", 
                      ExcludeNodesFieldId, ExcludeNodesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getMFExcludeNodes)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editMFExcludeNodes)),
     new FieldDescription(SFBool::getClassType(), 
                      "shadowOn", 
                      ShadowOnFieldId, ShadowOnFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFShadowOn)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editSFShadowOn)),
     new FieldDescription(SFBool::getClassType(), 
                      "mapAutoUpdate", 
                      MapAutoUpdateFieldId, MapAutoUpdateFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFMapAutoUpdate)),
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editSFMapAutoUpdate)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "shadowMapTextureIndex", 
                      ShadowMapTextureIndexFieldId, ShadowMapTextureIndexFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::getSFShadowMapTextureIndex))
+                     reinterpret_cast<FieldAccessMethod>(&ShadowMapViewportBase::editSFShadowMapTextureIndex))
 };
 
 
@@ -605,7 +605,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShadowMapViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.14 2008/06/05 05:02:23 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewportBase.cpp,v 1.15 2008/06/09 07:31:45 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

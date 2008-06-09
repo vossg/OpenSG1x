@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureTransformChunkBase : public TransformChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFUseCameraBeacon(void);
 
-           bool                &getUseCameraBeacon(void);
+           SFBool              *editSFUseCameraBeacon(void);
+     const SFBool              *getSFUseCameraBeacon(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUseCameraBeacon(void);
+#endif
+
+
+           bool                &editUseCameraBeacon(void);
      const bool                &getUseCameraBeacon(void) const;
+#ifndef OSG_2_PREP
+           bool                &getUseCameraBeacon(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

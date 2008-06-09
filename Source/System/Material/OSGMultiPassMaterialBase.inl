@@ -98,13 +98,44 @@ MultiPassMaterialPtr MultiPassMaterialBase::createEmpty(void)
 
 //! Get the MultiPassMaterial::_mfMaterials field.
 inline
-MFMaterialPtr *MultiPassMaterialBase::getMFMaterials(void)
+const MFMaterialPtr *MultiPassMaterialBase::getMFMaterials(void) const
 {
     return &_mfMaterials;
 }
 
+//! Get the MultiPassMaterial::_mfMaterials field.
+inline
+MFMaterialPtr *MultiPassMaterialBase::editMFMaterials(void)
+{
+    return &_mfMaterials;
+}
+
+#ifndef OSG_2_PREP
+//! Get the MultiPassMaterial::_mfMaterials field.
+inline
+MFMaterialPtr *MultiPassMaterialBase::getMFMaterials(void)
+{
+    return &_mfMaterials;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the MultiPassMaterial::_mfMaterials field.
+inline
+MaterialPtr &MultiPassMaterialBase::editMaterials(const UInt32 index)
+{
+    return _mfMaterials[index];
+}
+
+//! Get the value of the \a index element the MultiPassMaterial::_mfMaterials field.
+inline
+const MaterialPtr &MultiPassMaterialBase::getMaterials(const UInt32 index) const
+{
+    return _mfMaterials[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the MultiPassMaterial::_mfMaterials field.
 inline
 MaterialPtr &MultiPassMaterialBase::getMaterials(const UInt32 index)
@@ -119,14 +150,9 @@ MFMaterialPtr &MultiPassMaterialBase::getMaterials(void)
     return _mfMaterials;
 }
 
-//! Get the MultiPassMaterial::_mfMaterials field.
-inline
-const MFMaterialPtr &MultiPassMaterialBase::getMaterials(void) const
-{
-    return _mfMaterials;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGMultiPassMaterialBase.inl,v 1.6 2008/06/05 05:02:25 vossg Exp $"
+#define OSGMULTIPASSMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGMultiPassMaterialBase.inl,v 1.7 2008/06/09 07:31:48 vossg Exp $"
 

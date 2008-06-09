@@ -128,42 +128,42 @@ FieldDescription *CharacterBase::_desc[] =
                      "model", 
                      ModelFieldId, ModelFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFModel)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::editSFModel)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "currentAnimation", 
                      CurrentAnimationFieldId, CurrentAnimationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFCurrentAnimation)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::editSFCurrentAnimation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "blendTime", 
                      BlendTimeFieldId, BlendTimeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFBlendTime)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::editSFBlendTime)),
     new FieldDescription(SFReal32::getClassType(), 
                      "delta", 
                      DeltaFieldId, DeltaFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFDelta)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::editSFDelta)),
     new FieldDescription(SFReal32::getClassType(), 
                      "timeScale", 
                      TimeScaleFieldId, TimeScaleFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFTimeScale)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::editSFTimeScale)),
     new FieldDescription(SFBool::getClassType(), 
                      "drawSkeleton", 
                      DrawSkeletonFieldId, DrawSkeletonFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFDrawSkeleton)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::editSFDrawSkeleton)),
     new FieldDescription(SFBool::getClassType(), 
                      "useShaderForGeometry", 
                      UseShaderForGeometryFieldId, UseShaderForGeometryFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFUseShaderForGeometry)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::editSFUseShaderForGeometry)),
     new FieldDescription(SFDynamicVolume::getClassType(), 
                      "modelVolume", 
                      ModelVolumeFieldId, ModelVolumeFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::getSFModelVolume))
+                     reinterpret_cast<FieldAccessMethod>(&CharacterBase::editSFModelVolume))
 };
 
 
@@ -520,7 +520,7 @@ DataType FieldDataTraits<CharacterPtr>::_type("CharacterPtr", "DrawablePtr");
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterBase.cpp,v 1.3 2008/06/05 05:02:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterBase.cpp,v 1.4 2008/06/09 07:31:37 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERBASE_INLINE_CVSID;
 

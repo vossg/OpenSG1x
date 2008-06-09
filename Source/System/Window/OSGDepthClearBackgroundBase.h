@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthClearBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFClearDepth     (void);
-           SFReal32            *getSFDepth          (void);
-           SFInt32             *getSFClearStencilBit(void);
 
-           bool                &getClearDepth     (void);
+           SFBool              *editSFClearDepth     (void);
+     const SFBool              *getSFClearDepth     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFClearDepth     (void);
+#endif
+
+           SFReal32            *editSFDepth          (void);
+     const SFReal32            *getSFDepth          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFDepth          (void);
+#endif
+
+           SFInt32             *editSFClearStencilBit(void);
+     const SFInt32             *getSFClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFClearStencilBit(void);
+#endif
+
+
+           bool                &editClearDepth     (void);
      const bool                &getClearDepth     (void) const;
-           Real32              &getDepth          (void);
+#ifndef OSG_2_PREP
+           bool                &getClearDepth     (void);
+#endif
+
+           Real32              &editDepth          (void);
      const Real32              &getDepth          (void) const;
-           Int32               &getClearStencilBit(void);
+#ifndef OSG_2_PREP
+           Real32              &getDepth          (void);
+#endif
+
+           Int32               &editClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           Int32               &getClearStencilBit(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -269,6 +296,6 @@ typedef RefPtr<DepthClearBackgroundPtr> DepthClearBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.10 2008/06/05 05:02:30 vossg Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.h,v 1.11 2008/06/09 07:31:55 vossg Exp $"
 
 #endif /* _OSGDEPTHCLEARBACKGROUNDBASE_H_ */

@@ -98,17 +98,17 @@ FieldDescription *WIN32WindowBase::_desc[] =
                      "hwnd", 
                      HwndFieldId, HwndFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::getSFHwnd)),
+                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::editSFHwnd)),
     new FieldDescription(SFHDC::getClassType(), 
                      "hdc", 
                      HdcFieldId, HdcFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::getSFHdc)),
+                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::editSFHdc)),
     new FieldDescription(SFHGLRC::getClassType(), 
                      "hglrc", 
                      HglrcFieldId, HglrcFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::getSFHglrc))
+                     reinterpret_cast<FieldAccessMethod>(&WIN32WindowBase::editSFHglrc))
 };
 
 
@@ -359,7 +359,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(WIN32WindowPtr, OSG_WINDOWWIN32LIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWIN32WINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWIN32WINDOWBASE_INLINE_CVSID;
 

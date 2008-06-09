@@ -104,22 +104,22 @@ FieldDescription *ColorMaskChunkBase::_desc[] =
                      "maskR", 
                      MaskRFieldId, MaskRFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::getSFMaskR)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::editSFMaskR)),
     new FieldDescription(SFBool::getClassType(), 
                      "maskG", 
                      MaskGFieldId, MaskGFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::getSFMaskG)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::editSFMaskG)),
     new FieldDescription(SFBool::getClassType(), 
                      "maskB", 
                      MaskBFieldId, MaskBFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::getSFMaskB)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::editSFMaskB)),
     new FieldDescription(SFBool::getClassType(), 
                      "maskA", 
                      MaskAFieldId, MaskAFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::getSFMaskA))
+                     reinterpret_cast<FieldAccessMethod>(&ColorMaskChunkBase::editSFMaskA))
 };
 
 
@@ -393,7 +393,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ColorMaskChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGColorMaskChunkBase.cpp,v 1.5 2008/06/05 05:02:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGColorMaskChunkBase.cpp,v 1.6 2008/06/09 07:31:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORMASKCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORMASKCHUNKBASE_INLINE_CVSID;
 

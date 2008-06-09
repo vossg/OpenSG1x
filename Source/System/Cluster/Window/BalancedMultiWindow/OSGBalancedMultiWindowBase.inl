@@ -98,43 +98,123 @@ BalancedMultiWindowPtr BalancedMultiWindowBase::createEmpty(void)
 
 //! Get the BalancedMultiWindow::_sfBalance field.
 inline
-SFBool *BalancedMultiWindowBase::getSFBalance(void)
+const SFBool *BalancedMultiWindowBase::getSFBalance(void) const
 {
     return &_sfBalance;
 }
 
+//! Get the BalancedMultiWindow::_sfBalance field.
+inline
+SFBool *BalancedMultiWindowBase::editSFBalance(void)
+{
+    return &_sfBalance;
+}
+
+#ifndef OSG_2_PREP
+//! Get the BalancedMultiWindow::_sfBalance field.
+inline
+SFBool *BalancedMultiWindowBase::getSFBalance(void)
+{
+    return &_sfBalance;
+}
+#endif
+
+//! Get the BalancedMultiWindow::_sfBestCut field.
+inline
+const SFBool *BalancedMultiWindowBase::getSFBestCut(void) const
+{
+    return &_sfBestCut;
+}
+
+//! Get the BalancedMultiWindow::_sfBestCut field.
+inline
+SFBool *BalancedMultiWindowBase::editSFBestCut(void)
+{
+    return &_sfBestCut;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BalancedMultiWindow::_sfBestCut field.
 inline
 SFBool *BalancedMultiWindowBase::getSFBestCut(void)
 {
     return &_sfBestCut;
 }
+#endif
 
+//! Get the BalancedMultiWindow::_sfShowBalancing field.
+inline
+const SFBool *BalancedMultiWindowBase::getSFShowBalancing(void) const
+{
+    return &_sfShowBalancing;
+}
+
+//! Get the BalancedMultiWindow::_sfShowBalancing field.
+inline
+SFBool *BalancedMultiWindowBase::editSFShowBalancing(void)
+{
+    return &_sfShowBalancing;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BalancedMultiWindow::_sfShowBalancing field.
 inline
 SFBool *BalancedMultiWindowBase::getSFShowBalancing(void)
 {
     return &_sfShowBalancing;
 }
+#endif
 
+//! Get the BalancedMultiWindow::_sfTileSize field.
+inline
+const SFUInt32 *BalancedMultiWindowBase::getSFTileSize(void) const
+{
+    return &_sfTileSize;
+}
+
+//! Get the BalancedMultiWindow::_sfTileSize field.
+inline
+SFUInt32 *BalancedMultiWindowBase::editSFTileSize(void)
+{
+    return &_sfTileSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BalancedMultiWindow::_sfTileSize field.
 inline
 SFUInt32 *BalancedMultiWindowBase::getSFTileSize(void)
 {
     return &_sfTileSize;
 }
+#endif
 
+//! Get the BalancedMultiWindow::_sfShort field.
+inline
+const SFBool *BalancedMultiWindowBase::getSFShort(void) const
+{
+    return &_sfShort;
+}
+
+//! Get the BalancedMultiWindow::_sfShort field.
+inline
+SFBool *BalancedMultiWindowBase::editSFShort(void)
+{
+    return &_sfShort;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BalancedMultiWindow::_sfShort field.
 inline
 SFBool *BalancedMultiWindowBase::getSFShort(void)
 {
     return &_sfShort;
 }
+#endif
 
 
 //! Get the value of the BalancedMultiWindow::_sfBalance field.
 inline
-bool &BalancedMultiWindowBase::getBalance(void)
+bool &BalancedMultiWindowBase::editBalance(void)
 {
     return _sfBalance.getValue();
 }
@@ -146,6 +226,15 @@ const bool &BalancedMultiWindowBase::getBalance(void) const
     return _sfBalance.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the BalancedMultiWindow::_sfBalance field.
+inline
+bool &BalancedMultiWindowBase::getBalance(void)
+{
+    return _sfBalance.getValue();
+}
+#endif
+
 //! Set the value of the BalancedMultiWindow::_sfBalance field.
 inline
 void BalancedMultiWindowBase::setBalance(const bool &value)
@@ -155,7 +244,7 @@ void BalancedMultiWindowBase::setBalance(const bool &value)
 
 //! Get the value of the BalancedMultiWindow::_sfBestCut field.
 inline
-bool &BalancedMultiWindowBase::getBestCut(void)
+bool &BalancedMultiWindowBase::editBestCut(void)
 {
     return _sfBestCut.getValue();
 }
@@ -167,6 +256,15 @@ const bool &BalancedMultiWindowBase::getBestCut(void) const
     return _sfBestCut.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the BalancedMultiWindow::_sfBestCut field.
+inline
+bool &BalancedMultiWindowBase::getBestCut(void)
+{
+    return _sfBestCut.getValue();
+}
+#endif
+
 //! Set the value of the BalancedMultiWindow::_sfBestCut field.
 inline
 void BalancedMultiWindowBase::setBestCut(const bool &value)
@@ -176,7 +274,7 @@ void BalancedMultiWindowBase::setBestCut(const bool &value)
 
 //! Get the value of the BalancedMultiWindow::_sfShowBalancing field.
 inline
-bool &BalancedMultiWindowBase::getShowBalancing(void)
+bool &BalancedMultiWindowBase::editShowBalancing(void)
 {
     return _sfShowBalancing.getValue();
 }
@@ -188,6 +286,15 @@ const bool &BalancedMultiWindowBase::getShowBalancing(void) const
     return _sfShowBalancing.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the BalancedMultiWindow::_sfShowBalancing field.
+inline
+bool &BalancedMultiWindowBase::getShowBalancing(void)
+{
+    return _sfShowBalancing.getValue();
+}
+#endif
+
 //! Set the value of the BalancedMultiWindow::_sfShowBalancing field.
 inline
 void BalancedMultiWindowBase::setShowBalancing(const bool &value)
@@ -197,7 +304,7 @@ void BalancedMultiWindowBase::setShowBalancing(const bool &value)
 
 //! Get the value of the BalancedMultiWindow::_sfTileSize field.
 inline
-UInt32 &BalancedMultiWindowBase::getTileSize(void)
+UInt32 &BalancedMultiWindowBase::editTileSize(void)
 {
     return _sfTileSize.getValue();
 }
@@ -209,6 +316,15 @@ const UInt32 &BalancedMultiWindowBase::getTileSize(void) const
     return _sfTileSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the BalancedMultiWindow::_sfTileSize field.
+inline
+UInt32 &BalancedMultiWindowBase::getTileSize(void)
+{
+    return _sfTileSize.getValue();
+}
+#endif
+
 //! Set the value of the BalancedMultiWindow::_sfTileSize field.
 inline
 void BalancedMultiWindowBase::setTileSize(const UInt32 &value)
@@ -218,7 +334,7 @@ void BalancedMultiWindowBase::setTileSize(const UInt32 &value)
 
 //! Get the value of the BalancedMultiWindow::_sfShort field.
 inline
-bool &BalancedMultiWindowBase::getShort(void)
+bool &BalancedMultiWindowBase::editShort(void)
 {
     return _sfShort.getValue();
 }
@@ -229,6 +345,15 @@ const bool &BalancedMultiWindowBase::getShort(void) const
 {
     return _sfShort.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the BalancedMultiWindow::_sfShort field.
+inline
+bool &BalancedMultiWindowBase::getShort(void)
+{
+    return _sfShort.getValue();
+}
+#endif
 
 //! Set the value of the BalancedMultiWindow::_sfShort field.
 inline

@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBoolBase : public ShaderParameter
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFValue          (void);
 
-           bool                &getValue          (void);
+           SFBool              *editSFValue          (void);
+     const SFBool              *getSFValue          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFValue          (void);
+#endif
+
+
+           bool                &editValue          (void);
      const bool                &getValue          (void) const;
+#ifndef OSG_2_PREP
+           bool                &getValue          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<ShaderParameterBoolPtr> ShaderParameterBoolRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.7 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERBOOLBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBoolBase.h,v 1.8 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERBOOLBASE_H_ */

@@ -134,22 +134,67 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFHServers       (void);
-           SFUInt32            *getSFVServers       (void);
-           SFBool              *getSFManageClientViewports(void);
-           SFInt32             *getSFXOverlap       (void);
-           SFInt32             *getSFYOverlap       (void);
 
-           UInt32              &getHServers       (void);
+           SFUInt32            *editSFHServers       (void);
+     const SFUInt32            *getSFHServers       (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFHServers       (void);
+#endif
+
+           SFUInt32            *editSFVServers       (void);
+     const SFUInt32            *getSFVServers       (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFVServers       (void);
+#endif
+
+           SFBool              *editSFManageClientViewports(void);
+     const SFBool              *getSFManageClientViewports(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFManageClientViewports(void);
+#endif
+
+           SFInt32             *editSFXOverlap       (void);
+     const SFInt32             *getSFXOverlap       (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFXOverlap       (void);
+#endif
+
+           SFInt32             *editSFYOverlap       (void);
+     const SFInt32             *getSFYOverlap       (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFYOverlap       (void);
+#endif
+
+
+           UInt32              &editHServers       (void);
      const UInt32              &getHServers       (void) const;
-           UInt32              &getVServers       (void);
+#ifndef OSG_2_PREP
+           UInt32              &getHServers       (void);
+#endif
+
+           UInt32              &editVServers       (void);
      const UInt32              &getVServers       (void) const;
-           bool                &getManageClientViewports(void);
+#ifndef OSG_2_PREP
+           UInt32              &getVServers       (void);
+#endif
+
+           bool                &editManageClientViewports(void);
      const bool                &getManageClientViewports(void) const;
-           Int32               &getXOverlap       (void);
+#ifndef OSG_2_PREP
+           bool                &getManageClientViewports(void);
+#endif
+
+           Int32               &editXOverlap       (void);
      const Int32               &getXOverlap       (void) const;
-           Int32               &getYOverlap       (void);
+#ifndef OSG_2_PREP
+           Int32               &getXOverlap       (void);
+#endif
+
+           Int32               &editYOverlap       (void);
      const Int32               &getYOverlap       (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getYOverlap       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

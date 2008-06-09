@@ -146,36 +146,117 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibrationBase : public AttachmentContain
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFEnabled        (void);
-           SFString            *getSFServer         (void);
-           SFMatrix            *getSFColorMatrix    (void);
-           SFReal32            *getSFGamma          (void);
-           MFColor3f           *getMFGammaRamp      (void);
-           SFUInt32            *getSFGridWidth      (void);
-           SFUInt32            *getSFGridHeight     (void);
-           MFVec2f             *getMFGrid           (void);
-           SFReal32            *getSFScaleDown      (void);
 
-           bool                &getEnabled        (void);
+           SFBool              *editSFEnabled        (void);
+     const SFBool              *getSFEnabled        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnabled        (void);
+#endif
+
+           SFString            *editSFServer         (void);
+     const SFString            *getSFServer         (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFServer         (void);
+#endif
+
+           SFMatrix            *editSFColorMatrix    (void);
+     const SFMatrix            *getSFColorMatrix    (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFColorMatrix    (void);
+#endif
+
+           SFReal32            *editSFGamma          (void);
+     const SFReal32            *getSFGamma          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFGamma          (void);
+#endif
+
+           MFColor3f           *editMFGammaRamp      (void);
+     const MFColor3f           *getMFGammaRamp      (void) const;
+#ifndef OSG_2_PREP
+           MFColor3f           *getMFGammaRamp      (void);
+#endif
+
+           SFUInt32            *editSFGridWidth      (void);
+     const SFUInt32            *getSFGridWidth      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFGridWidth      (void);
+#endif
+
+           SFUInt32            *editSFGridHeight     (void);
+     const SFUInt32            *getSFGridHeight     (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFGridHeight     (void);
+#endif
+
+           MFVec2f             *editMFGrid           (void);
+     const MFVec2f             *getMFGrid           (void) const;
+#ifndef OSG_2_PREP
+           MFVec2f             *getMFGrid           (void);
+#endif
+
+           SFReal32            *editSFScaleDown      (void);
+     const SFReal32            *getSFScaleDown      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFScaleDown      (void);
+#endif
+
+
+           bool                &editEnabled        (void);
      const bool                &getEnabled        (void) const;
-           std::string         &getServer         (void);
+#ifndef OSG_2_PREP
+           bool                &getEnabled        (void);
+#endif
+
+           std::string         &editServer         (void);
      const std::string         &getServer         (void) const;
-           Matrix              &getColorMatrix    (void);
+#ifndef OSG_2_PREP
+           std::string         &getServer         (void);
+#endif
+
+           Matrix              &editColorMatrix    (void);
      const Matrix              &getColorMatrix    (void) const;
-           Real32              &getGamma          (void);
+#ifndef OSG_2_PREP
+           Matrix              &getColorMatrix    (void);
+#endif
+
+           Real32              &editGamma          (void);
      const Real32              &getGamma          (void) const;
-           UInt32              &getGridWidth      (void);
+#ifndef OSG_2_PREP
+           Real32              &getGamma          (void);
+#endif
+
+           UInt32              &editGridWidth      (void);
      const UInt32              &getGridWidth      (void) const;
-           UInt32              &getGridHeight     (void);
+#ifndef OSG_2_PREP
+           UInt32              &getGridWidth      (void);
+#endif
+
+           UInt32              &editGridHeight     (void);
      const UInt32              &getGridHeight     (void) const;
-           Real32              &getScaleDown      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getGridHeight     (void);
+#endif
+
+           Real32              &editScaleDown      (void);
      const Real32              &getScaleDown      (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getScaleDown      (void);
+#endif
+
+           Color3f             &editGammaRamp      (const UInt32 index);
+     const Color3f             &getGammaRamp      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Color3f             &getGammaRamp      (const UInt32 index);
            MFColor3f           &getGammaRamp      (void);
-     const MFColor3f           &getGammaRamp      (void) const;
+#endif
+
+           Vec2f               &editGrid           (const UInt32 index);
+     const Vec2f               &getGrid           (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec2f               &getGrid           (const UInt32 index);
            MFVec2f             &getGrid           (void);
-     const MFVec2f             &getGrid           (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

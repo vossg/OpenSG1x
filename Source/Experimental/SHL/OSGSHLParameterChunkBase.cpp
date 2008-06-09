@@ -86,7 +86,7 @@ FieldDescription *SHLParameterChunkBase::_desc[] =
                      "SHLChunk", 
                      SHLChunkFieldId, SHLChunkFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SHLParameterChunkBase::getSFSHLChunk))
+                     reinterpret_cast<FieldAccessMethod>(&SHLParameterChunkBase::editSFSHLChunk))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SHLParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.8 2008/06/05 05:02:21 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.9 2008/06/09 07:31:44 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 

@@ -98,71 +98,215 @@ DisplayCalibrationPtr DisplayCalibrationBase::createEmpty(void)
 
 //! Get the DisplayCalibration::_sfEnabled field.
 inline
-SFBool *DisplayCalibrationBase::getSFEnabled(void)
+const SFBool *DisplayCalibrationBase::getSFEnabled(void) const
 {
     return &_sfEnabled;
 }
 
+//! Get the DisplayCalibration::_sfEnabled field.
+inline
+SFBool *DisplayCalibrationBase::editSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DisplayCalibration::_sfEnabled field.
+inline
+SFBool *DisplayCalibrationBase::getSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+#endif
+
+//! Get the DisplayCalibration::_sfServer field.
+inline
+const SFString *DisplayCalibrationBase::getSFServer(void) const
+{
+    return &_sfServer;
+}
+
+//! Get the DisplayCalibration::_sfServer field.
+inline
+SFString *DisplayCalibrationBase::editSFServer(void)
+{
+    return &_sfServer;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayCalibration::_sfServer field.
 inline
 SFString *DisplayCalibrationBase::getSFServer(void)
 {
     return &_sfServer;
 }
+#endif
 
+//! Get the DisplayCalibration::_sfColorMatrix field.
+inline
+const SFMatrix *DisplayCalibrationBase::getSFColorMatrix(void) const
+{
+    return &_sfColorMatrix;
+}
+
+//! Get the DisplayCalibration::_sfColorMatrix field.
+inline
+SFMatrix *DisplayCalibrationBase::editSFColorMatrix(void)
+{
+    return &_sfColorMatrix;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayCalibration::_sfColorMatrix field.
 inline
 SFMatrix *DisplayCalibrationBase::getSFColorMatrix(void)
 {
     return &_sfColorMatrix;
 }
+#endif
 
+//! Get the DisplayCalibration::_sfGamma field.
+inline
+const SFReal32 *DisplayCalibrationBase::getSFGamma(void) const
+{
+    return &_sfGamma;
+}
+
+//! Get the DisplayCalibration::_sfGamma field.
+inline
+SFReal32 *DisplayCalibrationBase::editSFGamma(void)
+{
+    return &_sfGamma;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayCalibration::_sfGamma field.
 inline
 SFReal32 *DisplayCalibrationBase::getSFGamma(void)
 {
     return &_sfGamma;
 }
+#endif
 
+//! Get the DisplayCalibration::_mfGammaRamp field.
+inline
+const MFColor3f *DisplayCalibrationBase::getMFGammaRamp(void) const
+{
+    return &_mfGammaRamp;
+}
+
+//! Get the DisplayCalibration::_mfGammaRamp field.
+inline
+MFColor3f *DisplayCalibrationBase::editMFGammaRamp(void)
+{
+    return &_mfGammaRamp;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayCalibration::_mfGammaRamp field.
 inline
 MFColor3f *DisplayCalibrationBase::getMFGammaRamp(void)
 {
     return &_mfGammaRamp;
 }
+#endif
 
+//! Get the DisplayCalibration::_sfGridWidth field.
+inline
+const SFUInt32 *DisplayCalibrationBase::getSFGridWidth(void) const
+{
+    return &_sfGridWidth;
+}
+
+//! Get the DisplayCalibration::_sfGridWidth field.
+inline
+SFUInt32 *DisplayCalibrationBase::editSFGridWidth(void)
+{
+    return &_sfGridWidth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayCalibration::_sfGridWidth field.
 inline
 SFUInt32 *DisplayCalibrationBase::getSFGridWidth(void)
 {
     return &_sfGridWidth;
 }
+#endif
 
+//! Get the DisplayCalibration::_sfGridHeight field.
+inline
+const SFUInt32 *DisplayCalibrationBase::getSFGridHeight(void) const
+{
+    return &_sfGridHeight;
+}
+
+//! Get the DisplayCalibration::_sfGridHeight field.
+inline
+SFUInt32 *DisplayCalibrationBase::editSFGridHeight(void)
+{
+    return &_sfGridHeight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayCalibration::_sfGridHeight field.
 inline
 SFUInt32 *DisplayCalibrationBase::getSFGridHeight(void)
 {
     return &_sfGridHeight;
 }
+#endif
 
+//! Get the DisplayCalibration::_mfGrid field.
+inline
+const MFVec2f *DisplayCalibrationBase::getMFGrid(void) const
+{
+    return &_mfGrid;
+}
+
+//! Get the DisplayCalibration::_mfGrid field.
+inline
+MFVec2f *DisplayCalibrationBase::editMFGrid(void)
+{
+    return &_mfGrid;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayCalibration::_mfGrid field.
 inline
 MFVec2f *DisplayCalibrationBase::getMFGrid(void)
 {
     return &_mfGrid;
 }
+#endif
 
+//! Get the DisplayCalibration::_sfScaleDown field.
+inline
+const SFReal32 *DisplayCalibrationBase::getSFScaleDown(void) const
+{
+    return &_sfScaleDown;
+}
+
+//! Get the DisplayCalibration::_sfScaleDown field.
+inline
+SFReal32 *DisplayCalibrationBase::editSFScaleDown(void)
+{
+    return &_sfScaleDown;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DisplayCalibration::_sfScaleDown field.
 inline
 SFReal32 *DisplayCalibrationBase::getSFScaleDown(void)
 {
     return &_sfScaleDown;
 }
+#endif
 
 
 //! Get the value of the DisplayCalibration::_sfEnabled field.
 inline
-bool &DisplayCalibrationBase::getEnabled(void)
+bool &DisplayCalibrationBase::editEnabled(void)
 {
     return _sfEnabled.getValue();
 }
@@ -174,6 +318,15 @@ const bool &DisplayCalibrationBase::getEnabled(void) const
     return _sfEnabled.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayCalibration::_sfEnabled field.
+inline
+bool &DisplayCalibrationBase::getEnabled(void)
+{
+    return _sfEnabled.getValue();
+}
+#endif
+
 //! Set the value of the DisplayCalibration::_sfEnabled field.
 inline
 void DisplayCalibrationBase::setEnabled(const bool &value)
@@ -183,7 +336,7 @@ void DisplayCalibrationBase::setEnabled(const bool &value)
 
 //! Get the value of the DisplayCalibration::_sfServer field.
 inline
-std::string &DisplayCalibrationBase::getServer(void)
+std::string &DisplayCalibrationBase::editServer(void)
 {
     return _sfServer.getValue();
 }
@@ -195,6 +348,15 @@ const std::string &DisplayCalibrationBase::getServer(void) const
     return _sfServer.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayCalibration::_sfServer field.
+inline
+std::string &DisplayCalibrationBase::getServer(void)
+{
+    return _sfServer.getValue();
+}
+#endif
+
 //! Set the value of the DisplayCalibration::_sfServer field.
 inline
 void DisplayCalibrationBase::setServer(const std::string &value)
@@ -204,7 +366,7 @@ void DisplayCalibrationBase::setServer(const std::string &value)
 
 //! Get the value of the DisplayCalibration::_sfColorMatrix field.
 inline
-Matrix &DisplayCalibrationBase::getColorMatrix(void)
+Matrix &DisplayCalibrationBase::editColorMatrix(void)
 {
     return _sfColorMatrix.getValue();
 }
@@ -216,6 +378,15 @@ const Matrix &DisplayCalibrationBase::getColorMatrix(void) const
     return _sfColorMatrix.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayCalibration::_sfColorMatrix field.
+inline
+Matrix &DisplayCalibrationBase::getColorMatrix(void)
+{
+    return _sfColorMatrix.getValue();
+}
+#endif
+
 //! Set the value of the DisplayCalibration::_sfColorMatrix field.
 inline
 void DisplayCalibrationBase::setColorMatrix(const Matrix &value)
@@ -225,7 +396,7 @@ void DisplayCalibrationBase::setColorMatrix(const Matrix &value)
 
 //! Get the value of the DisplayCalibration::_sfGamma field.
 inline
-Real32 &DisplayCalibrationBase::getGamma(void)
+Real32 &DisplayCalibrationBase::editGamma(void)
 {
     return _sfGamma.getValue();
 }
@@ -237,6 +408,15 @@ const Real32 &DisplayCalibrationBase::getGamma(void) const
     return _sfGamma.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayCalibration::_sfGamma field.
+inline
+Real32 &DisplayCalibrationBase::getGamma(void)
+{
+    return _sfGamma.getValue();
+}
+#endif
+
 //! Set the value of the DisplayCalibration::_sfGamma field.
 inline
 void DisplayCalibrationBase::setGamma(const Real32 &value)
@@ -246,7 +426,7 @@ void DisplayCalibrationBase::setGamma(const Real32 &value)
 
 //! Get the value of the DisplayCalibration::_sfGridWidth field.
 inline
-UInt32 &DisplayCalibrationBase::getGridWidth(void)
+UInt32 &DisplayCalibrationBase::editGridWidth(void)
 {
     return _sfGridWidth.getValue();
 }
@@ -258,6 +438,15 @@ const UInt32 &DisplayCalibrationBase::getGridWidth(void) const
     return _sfGridWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayCalibration::_sfGridWidth field.
+inline
+UInt32 &DisplayCalibrationBase::getGridWidth(void)
+{
+    return _sfGridWidth.getValue();
+}
+#endif
+
 //! Set the value of the DisplayCalibration::_sfGridWidth field.
 inline
 void DisplayCalibrationBase::setGridWidth(const UInt32 &value)
@@ -267,7 +456,7 @@ void DisplayCalibrationBase::setGridWidth(const UInt32 &value)
 
 //! Get the value of the DisplayCalibration::_sfGridHeight field.
 inline
-UInt32 &DisplayCalibrationBase::getGridHeight(void)
+UInt32 &DisplayCalibrationBase::editGridHeight(void)
 {
     return _sfGridHeight.getValue();
 }
@@ -279,6 +468,15 @@ const UInt32 &DisplayCalibrationBase::getGridHeight(void) const
     return _sfGridHeight.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayCalibration::_sfGridHeight field.
+inline
+UInt32 &DisplayCalibrationBase::getGridHeight(void)
+{
+    return _sfGridHeight.getValue();
+}
+#endif
+
 //! Set the value of the DisplayCalibration::_sfGridHeight field.
 inline
 void DisplayCalibrationBase::setGridHeight(const UInt32 &value)
@@ -288,7 +486,7 @@ void DisplayCalibrationBase::setGridHeight(const UInt32 &value)
 
 //! Get the value of the DisplayCalibration::_sfScaleDown field.
 inline
-Real32 &DisplayCalibrationBase::getScaleDown(void)
+Real32 &DisplayCalibrationBase::editScaleDown(void)
 {
     return _sfScaleDown.getValue();
 }
@@ -300,6 +498,15 @@ const Real32 &DisplayCalibrationBase::getScaleDown(void) const
     return _sfScaleDown.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayCalibration::_sfScaleDown field.
+inline
+Real32 &DisplayCalibrationBase::getScaleDown(void)
+{
+    return _sfScaleDown.getValue();
+}
+#endif
+
 //! Set the value of the DisplayCalibration::_sfScaleDown field.
 inline
 void DisplayCalibrationBase::setScaleDown(const Real32 &value)
@@ -308,6 +515,21 @@ void DisplayCalibrationBase::setScaleDown(const Real32 &value)
 }
 
 
+//! Get the value of the \a index element the DisplayCalibration::_mfGammaRamp field.
+inline
+Color3f &DisplayCalibrationBase::editGammaRamp(const UInt32 index)
+{
+    return _mfGammaRamp[index];
+}
+
+//! Get the value of the \a index element the DisplayCalibration::_mfGammaRamp field.
+inline
+const Color3f &DisplayCalibrationBase::getGammaRamp(const UInt32 index) const
+{
+    return _mfGammaRamp[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the DisplayCalibration::_mfGammaRamp field.
 inline
 Color3f &DisplayCalibrationBase::getGammaRamp(const UInt32 index)
@@ -322,13 +544,23 @@ MFColor3f &DisplayCalibrationBase::getGammaRamp(void)
     return _mfGammaRamp;
 }
 
-//! Get the DisplayCalibration::_mfGammaRamp field.
+#endif
+
+//! Get the value of the \a index element the DisplayCalibration::_mfGrid field.
 inline
-const MFColor3f &DisplayCalibrationBase::getGammaRamp(void) const
+Vec2f &DisplayCalibrationBase::editGrid(const UInt32 index)
 {
-    return _mfGammaRamp;
+    return _mfGrid[index];
 }
 
+//! Get the value of the \a index element the DisplayCalibration::_mfGrid field.
+inline
+const Vec2f &DisplayCalibrationBase::getGrid(const UInt32 index) const
+{
+    return _mfGrid[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the DisplayCalibration::_mfGrid field.
 inline
 Vec2f &DisplayCalibrationBase::getGrid(const UInt32 index)
@@ -343,12 +575,7 @@ MFVec2f &DisplayCalibrationBase::getGrid(void)
     return _mfGrid;
 }
 
-//! Get the DisplayCalibration::_mfGrid field.
-inline
-const MFVec2f &DisplayCalibrationBase::getGrid(void) const
-{
-    return _mfGrid;
-}
+#endif
 
 OSG_END_NAMESPACE
 

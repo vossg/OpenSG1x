@@ -98,15 +98,31 @@ TransformPtr TransformBase::createEmpty(void)
 
 //! Get the Transform::_sfMatrix field.
 inline
-SFMatrix *TransformBase::getSFMatrix(void)
+const SFMatrix *TransformBase::getSFMatrix(void) const
 {
     return &_sfMatrix;
 }
 
+//! Get the Transform::_sfMatrix field.
+inline
+SFMatrix *TransformBase::editSFMatrix(void)
+{
+    return &_sfMatrix;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Transform::_sfMatrix field.
+inline
+SFMatrix *TransformBase::getSFMatrix(void)
+{
+    return &_sfMatrix;
+}
+#endif
+
 
 //! Get the value of the Transform::_sfMatrix field.
 inline
-Matrix &TransformBase::getMatrix(void)
+Matrix &TransformBase::editMatrix(void)
 {
     return _sfMatrix.getValue();
 }
@@ -117,6 +133,15 @@ const Matrix &TransformBase::getMatrix(void) const
 {
     return _sfMatrix.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the Transform::_sfMatrix field.
+inline
+Matrix &TransformBase::getMatrix(void)
+{
+    return _sfMatrix.getValue();
+}
+#endif
 
 //! Set the value of the Transform::_sfMatrix field.
 inline

@@ -98,55 +98,182 @@ BlendShapeDeformerPtr BlendShapeDeformerBase::createEmpty(void)
 
 //! Get the BlendShapeDeformer::_mfWeight field.
 inline
-MFReal32 *BlendShapeDeformerBase::getMFWeight(void)
+const MFReal32 *BlendShapeDeformerBase::getMFWeight(void) const
 {
     return &_mfWeight;
 }
 
+//! Get the BlendShapeDeformer::_mfWeight field.
+inline
+MFReal32 *BlendShapeDeformerBase::editMFWeight(void)
+{
+    return &_mfWeight;
+}
+
+#ifndef OSG_2_PREP
+//! Get the BlendShapeDeformer::_mfWeight field.
+inline
+MFReal32 *BlendShapeDeformerBase::getMFWeight(void)
+{
+    return &_mfWeight;
+}
+#endif
+
+//! Get the BlendShapeDeformer::_mfVertexIndices field.
+inline
+const MFUInt32 *BlendShapeDeformerBase::getMFVertexIndices(void) const
+{
+    return &_mfVertexIndices;
+}
+
+//! Get the BlendShapeDeformer::_mfVertexIndices field.
+inline
+MFUInt32 *BlendShapeDeformerBase::editMFVertexIndices(void)
+{
+    return &_mfVertexIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BlendShapeDeformer::_mfVertexIndices field.
 inline
 MFUInt32 *BlendShapeDeformerBase::getMFVertexIndices(void)
 {
     return &_mfVertexIndices;
 }
+#endif
 
+//! Get the BlendShapeDeformer::_mfTargetIndices field.
+inline
+const MFUInt16 *BlendShapeDeformerBase::getMFTargetIndices(void) const
+{
+    return &_mfTargetIndices;
+}
+
+//! Get the BlendShapeDeformer::_mfTargetIndices field.
+inline
+MFUInt16 *BlendShapeDeformerBase::editMFTargetIndices(void)
+{
+    return &_mfTargetIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BlendShapeDeformer::_mfTargetIndices field.
 inline
 MFUInt16 *BlendShapeDeformerBase::getMFTargetIndices(void)
 {
     return &_mfTargetIndices;
 }
+#endif
 
+//! Get the BlendShapeDeformer::_mfTargetVertices field.
+inline
+const MFPnt3f *BlendShapeDeformerBase::getMFTargetVertices(void) const
+{
+    return &_mfTargetVertices;
+}
+
+//! Get the BlendShapeDeformer::_mfTargetVertices field.
+inline
+MFPnt3f *BlendShapeDeformerBase::editMFTargetVertices(void)
+{
+    return &_mfTargetVertices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BlendShapeDeformer::_mfTargetVertices field.
 inline
 MFPnt3f *BlendShapeDeformerBase::getMFTargetVertices(void)
 {
     return &_mfTargetVertices;
 }
+#endif
 
+//! Get the BlendShapeDeformer::_mfNormalIndices field.
+inline
+const MFUInt32 *BlendShapeDeformerBase::getMFNormalIndices(void) const
+{
+    return &_mfNormalIndices;
+}
+
+//! Get the BlendShapeDeformer::_mfNormalIndices field.
+inline
+MFUInt32 *BlendShapeDeformerBase::editMFNormalIndices(void)
+{
+    return &_mfNormalIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BlendShapeDeformer::_mfNormalIndices field.
 inline
 MFUInt32 *BlendShapeDeformerBase::getMFNormalIndices(void)
 {
     return &_mfNormalIndices;
 }
+#endif
 
+//! Get the BlendShapeDeformer::_mfNormalTargetIndices field.
+inline
+const MFUInt16 *BlendShapeDeformerBase::getMFNormalTargetIndices(void) const
+{
+    return &_mfNormalTargetIndices;
+}
+
+//! Get the BlendShapeDeformer::_mfNormalTargetIndices field.
+inline
+MFUInt16 *BlendShapeDeformerBase::editMFNormalTargetIndices(void)
+{
+    return &_mfNormalTargetIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BlendShapeDeformer::_mfNormalTargetIndices field.
 inline
 MFUInt16 *BlendShapeDeformerBase::getMFNormalTargetIndices(void)
 {
     return &_mfNormalTargetIndices;
 }
+#endif
 
+//! Get the BlendShapeDeformer::_mfTargetNormals field.
+inline
+const MFVec3f *BlendShapeDeformerBase::getMFTargetNormals(void) const
+{
+    return &_mfTargetNormals;
+}
+
+//! Get the BlendShapeDeformer::_mfTargetNormals field.
+inline
+MFVec3f *BlendShapeDeformerBase::editMFTargetNormals(void)
+{
+    return &_mfTargetNormals;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BlendShapeDeformer::_mfTargetNormals field.
 inline
 MFVec3f *BlendShapeDeformerBase::getMFTargetNormals(void)
 {
     return &_mfTargetNormals;
 }
+#endif
 
 
 
+//! Get the value of the \a index element the BlendShapeDeformer::_mfWeight field.
+inline
+Real32 &BlendShapeDeformerBase::editWeight(const UInt32 index)
+{
+    return _mfWeight[index];
+}
+
+//! Get the value of the \a index element the BlendShapeDeformer::_mfWeight field.
+inline
+const Real32 &BlendShapeDeformerBase::getWeight(const UInt32 index) const
+{
+    return _mfWeight[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the BlendShapeDeformer::_mfWeight field.
 inline
 Real32 &BlendShapeDeformerBase::getWeight(const UInt32 index)
@@ -161,13 +288,23 @@ MFReal32 &BlendShapeDeformerBase::getWeight(void)
     return _mfWeight;
 }
 
-//! Get the BlendShapeDeformer::_mfWeight field.
+#endif
+
+//! Get the value of the \a index element the BlendShapeDeformer::_mfVertexIndices field.
 inline
-const MFReal32 &BlendShapeDeformerBase::getWeight(void) const
+UInt32 &BlendShapeDeformerBase::editVertexIndices(const UInt32 index)
 {
-    return _mfWeight;
+    return _mfVertexIndices[index];
 }
 
+//! Get the value of the \a index element the BlendShapeDeformer::_mfVertexIndices field.
+inline
+const UInt32 &BlendShapeDeformerBase::getVertexIndices(const UInt32 index) const
+{
+    return _mfVertexIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the BlendShapeDeformer::_mfVertexIndices field.
 inline
 UInt32 &BlendShapeDeformerBase::getVertexIndices(const UInt32 index)
@@ -182,13 +319,23 @@ MFUInt32 &BlendShapeDeformerBase::getVertexIndices(void)
     return _mfVertexIndices;
 }
 
-//! Get the BlendShapeDeformer::_mfVertexIndices field.
+#endif
+
+//! Get the value of the \a index element the BlendShapeDeformer::_mfTargetIndices field.
 inline
-const MFUInt32 &BlendShapeDeformerBase::getVertexIndices(void) const
+UInt16 &BlendShapeDeformerBase::editTargetIndices(const UInt32 index)
 {
-    return _mfVertexIndices;
+    return _mfTargetIndices[index];
 }
 
+//! Get the value of the \a index element the BlendShapeDeformer::_mfTargetIndices field.
+inline
+const UInt16 &BlendShapeDeformerBase::getTargetIndices(const UInt32 index) const
+{
+    return _mfTargetIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the BlendShapeDeformer::_mfTargetIndices field.
 inline
 UInt16 &BlendShapeDeformerBase::getTargetIndices(const UInt32 index)
@@ -203,13 +350,23 @@ MFUInt16 &BlendShapeDeformerBase::getTargetIndices(void)
     return _mfTargetIndices;
 }
 
-//! Get the BlendShapeDeformer::_mfTargetIndices field.
+#endif
+
+//! Get the value of the \a index element the BlendShapeDeformer::_mfTargetVertices field.
 inline
-const MFUInt16 &BlendShapeDeformerBase::getTargetIndices(void) const
+Pnt3f &BlendShapeDeformerBase::editTargetVertices(const UInt32 index)
 {
-    return _mfTargetIndices;
+    return _mfTargetVertices[index];
 }
 
+//! Get the value of the \a index element the BlendShapeDeformer::_mfTargetVertices field.
+inline
+const Pnt3f &BlendShapeDeformerBase::getTargetVertices(const UInt32 index) const
+{
+    return _mfTargetVertices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the BlendShapeDeformer::_mfTargetVertices field.
 inline
 Pnt3f &BlendShapeDeformerBase::getTargetVertices(const UInt32 index)
@@ -224,13 +381,23 @@ MFPnt3f &BlendShapeDeformerBase::getTargetVertices(void)
     return _mfTargetVertices;
 }
 
-//! Get the BlendShapeDeformer::_mfTargetVertices field.
+#endif
+
+//! Get the value of the \a index element the BlendShapeDeformer::_mfNormalIndices field.
 inline
-const MFPnt3f &BlendShapeDeformerBase::getTargetVertices(void) const
+UInt32 &BlendShapeDeformerBase::editNormalIndices(const UInt32 index)
 {
-    return _mfTargetVertices;
+    return _mfNormalIndices[index];
 }
 
+//! Get the value of the \a index element the BlendShapeDeformer::_mfNormalIndices field.
+inline
+const UInt32 &BlendShapeDeformerBase::getNormalIndices(const UInt32 index) const
+{
+    return _mfNormalIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the BlendShapeDeformer::_mfNormalIndices field.
 inline
 UInt32 &BlendShapeDeformerBase::getNormalIndices(const UInt32 index)
@@ -245,13 +412,23 @@ MFUInt32 &BlendShapeDeformerBase::getNormalIndices(void)
     return _mfNormalIndices;
 }
 
-//! Get the BlendShapeDeformer::_mfNormalIndices field.
+#endif
+
+//! Get the value of the \a index element the BlendShapeDeformer::_mfNormalTargetIndices field.
 inline
-const MFUInt32 &BlendShapeDeformerBase::getNormalIndices(void) const
+UInt16 &BlendShapeDeformerBase::editNormalTargetIndices(const UInt32 index)
 {
-    return _mfNormalIndices;
+    return _mfNormalTargetIndices[index];
 }
 
+//! Get the value of the \a index element the BlendShapeDeformer::_mfNormalTargetIndices field.
+inline
+const UInt16 &BlendShapeDeformerBase::getNormalTargetIndices(const UInt32 index) const
+{
+    return _mfNormalTargetIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the BlendShapeDeformer::_mfNormalTargetIndices field.
 inline
 UInt16 &BlendShapeDeformerBase::getNormalTargetIndices(const UInt32 index)
@@ -266,13 +443,23 @@ MFUInt16 &BlendShapeDeformerBase::getNormalTargetIndices(void)
     return _mfNormalTargetIndices;
 }
 
-//! Get the BlendShapeDeformer::_mfNormalTargetIndices field.
+#endif
+
+//! Get the value of the \a index element the BlendShapeDeformer::_mfTargetNormals field.
 inline
-const MFUInt16 &BlendShapeDeformerBase::getNormalTargetIndices(void) const
+Vec3f &BlendShapeDeformerBase::editTargetNormals(const UInt32 index)
 {
-    return _mfNormalTargetIndices;
+    return _mfTargetNormals[index];
 }
 
+//! Get the value of the \a index element the BlendShapeDeformer::_mfTargetNormals field.
+inline
+const Vec3f &BlendShapeDeformerBase::getTargetNormals(const UInt32 index) const
+{
+    return _mfTargetNormals[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the BlendShapeDeformer::_mfTargetNormals field.
 inline
 Vec3f &BlendShapeDeformerBase::getTargetNormals(const UInt32 index)
@@ -287,12 +474,7 @@ MFVec3f &BlendShapeDeformerBase::getTargetNormals(void)
     return _mfTargetNormals;
 }
 
-//! Get the BlendShapeDeformer::_mfTargetNormals field.
-inline
-const MFVec3f &BlendShapeDeformerBase::getTargetNormals(void) const
-{
-    return _mfTargetNormals;
-}
+#endif
 
 OSG_END_NAMESPACE
 

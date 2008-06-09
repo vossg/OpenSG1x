@@ -71,22 +71,38 @@ OSG::UInt32 CameraDecoratorBase::getClassTypeId(void)
 /*------------------------- decorator get ------------------------------*/
 
 inline
-SFCameraPtr *CameraDecoratorBase::getSFDecoratee(void)
+const SFCameraPtr *CameraDecoratorBase::getSFDecoratee(void) const
 {
     return &_sfDecoratee;
 }
 
 inline
-CameraPtr &CameraDecoratorBase::getDecoratee(void)
+SFCameraPtr *CameraDecoratorBase::editSFDecoratee(void)
 {
-    return _sfDecoratee.getValue();
+    return &_sfDecoratee;
 }
+
+#ifndef OSG_2_PREP
+inline
+SFCameraPtr *CameraDecoratorBase::getSFDecoratee(void)
+{
+    return &_sfDecoratee;
+}
+#endif
 
 inline
 const CameraPtr &CameraDecoratorBase::getDecoratee(void) const
 {
     return _sfDecoratee.getValue();
 }
+
+#ifndef OSG_2_PREP
+inline
+CameraPtr &CameraDecoratorBase::getDecoratee(void)
+{
+    return _sfDecoratee.getValue();
+}
+#endif
 
 inline
 void CameraDecoratorBase::setDecoratee(const CameraPtr &value)
@@ -95,28 +111,70 @@ void CameraDecoratorBase::setDecoratee(const CameraPtr &value)
 }
 
 inline
-SFNodePtr *CameraDecoratorBase::getSFBeacon(void)
+const SFNodePtr *CameraDecoratorBase::getSFBeacon(void) const
 {
     return getDecoratee()->getSFBeacon();
 }
 
 inline
-SFReal32 *CameraDecoratorBase::getSFNear(void)
+SFNodePtr *CameraDecoratorBase::editSFBeacon(void)
+{
+    return getDecoratee()->editSFBeacon();
+}
+
+#ifndef OSG_2_PREP
+inline
+SFNodePtr *CameraDecoratorBase::getSFBeacon(void)
+{
+    return getDecoratee()->getSFBeacon();
+}
+#endif
+
+inline
+const SFReal32 *CameraDecoratorBase::getSFNear(void) const
 {
     return getDecoratee()->getSFNear();
 }
 
 inline
-SFReal32 *CameraDecoratorBase::getSFFar(void)
+SFReal32 *CameraDecoratorBase::editSFNear(void)
+{
+    return getDecoratee()->editSFNear();
+}
+
+#ifndef OSG_2_PREP
+inline
+SFReal32 *CameraDecoratorBase::getSFNear(void)
+{
+    return getDecoratee()->getSFNear();
+}
+#endif
+
+inline
+const SFReal32 *CameraDecoratorBase::getSFFar(void) const
 {
     return getDecoratee()->getSFFar();
 }
 
+inline
+SFReal32 *CameraDecoratorBase::editSFFar(void)
+{
+    return getDecoratee()->editSFFar();
+}
+
+#ifndef OSG_2_PREP
+inline
+SFReal32 *CameraDecoratorBase::getSFFar(void)
+{
+    return getDecoratee()->getSFFar();
+}
+#endif
+
 
 inline
-NodePtr &CameraDecoratorBase::getBeacon(void)
+NodePtr &CameraDecoratorBase::editBeacon(void)
 {
-    return getDecoratee()->getBeacon();
+    return getDecoratee()->editBeacon();
 }
 
 inline
@@ -124,6 +182,14 @@ const NodePtr &CameraDecoratorBase::getBeacon(void) const
 {
     return getDecoratee()->getBeacon();
 }
+
+#ifndef OSG_2_PREP
+inline
+NodePtr &CameraDecoratorBase::getBeacon(void)
+{
+    return getDecoratee()->getBeacon();
+}
+#endif
 
 inline
 void CameraDecoratorBase::setBeacon(const NodePtr &value)
@@ -134,9 +200,9 @@ void CameraDecoratorBase::setBeacon(const NodePtr &value)
 }
 
 inline
-Real32 &CameraDecoratorBase::getNear(void)
+Real32 &CameraDecoratorBase::editNear(void)
 {
-    return getDecoratee()->getNear();
+    return getDecoratee()->editNear();
 }
 
 inline
@@ -144,6 +210,14 @@ const Real32 &CameraDecoratorBase::getNear(void) const
 {
     return getDecoratee()->getNear();
 }
+
+#ifndef OSG_2_PREP
+inline
+Real32 &CameraDecoratorBase::getNear(void)
+{
+    return getDecoratee()->getNear();
+}
+#endif
 
 inline
 void CameraDecoratorBase::setNear(const Real32 &value)
@@ -154,9 +228,9 @@ void CameraDecoratorBase::setNear(const Real32 &value)
 }
 
 inline
-Real32 &CameraDecoratorBase::getFar(void)
+Real32 &CameraDecoratorBase::editFar(void)
 {
-    return getDecoratee()->getFar();
+    return getDecoratee()->editFar();
 }
 
 inline
@@ -164,6 +238,14 @@ const Real32 &CameraDecoratorBase::getFar(void) const
 {
     return getDecoratee()->getFar();
 }
+
+#ifndef OSG_2_PREP
+inline
+Real32 &CameraDecoratorBase::getFar(void)
+{
+    return getDecoratee()->getFar();
+}
+#endif
 
 inline
 void CameraDecoratorBase::setFar(const Real32 &value)

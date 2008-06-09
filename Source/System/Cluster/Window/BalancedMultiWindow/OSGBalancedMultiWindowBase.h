@@ -134,22 +134,67 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindowBase : public MultiDisplayWind
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFBalance        (void);
-           SFBool              *getSFBestCut        (void);
-           SFBool              *getSFShowBalancing  (void);
-           SFUInt32            *getSFTileSize       (void);
-           SFBool              *getSFShort          (void);
 
-           bool                &getBalance        (void);
+           SFBool              *editSFBalance        (void);
+     const SFBool              *getSFBalance        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBalance        (void);
+#endif
+
+           SFBool              *editSFBestCut        (void);
+     const SFBool              *getSFBestCut        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBestCut        (void);
+#endif
+
+           SFBool              *editSFShowBalancing  (void);
+     const SFBool              *getSFShowBalancing  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFShowBalancing  (void);
+#endif
+
+           SFUInt32            *editSFTileSize       (void);
+     const SFUInt32            *getSFTileSize       (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFTileSize       (void);
+#endif
+
+           SFBool              *editSFShort          (void);
+     const SFBool              *getSFShort          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFShort          (void);
+#endif
+
+
+           bool                &editBalance        (void);
      const bool                &getBalance        (void) const;
-           bool                &getBestCut        (void);
+#ifndef OSG_2_PREP
+           bool                &getBalance        (void);
+#endif
+
+           bool                &editBestCut        (void);
      const bool                &getBestCut        (void) const;
-           bool                &getShowBalancing  (void);
+#ifndef OSG_2_PREP
+           bool                &getBestCut        (void);
+#endif
+
+           bool                &editShowBalancing  (void);
      const bool                &getShowBalancing  (void) const;
-           UInt32              &getTileSize       (void);
+#ifndef OSG_2_PREP
+           bool                &getShowBalancing  (void);
+#endif
+
+           UInt32              &editTileSize       (void);
      const UInt32              &getTileSize       (void) const;
-           bool                &getShort          (void);
+#ifndef OSG_2_PREP
+           UInt32              &getTileSize       (void);
+#endif
+
+           bool                &editShort          (void);
      const bool                &getShort          (void) const;
+#ifndef OSG_2_PREP
+           bool                &getShort          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

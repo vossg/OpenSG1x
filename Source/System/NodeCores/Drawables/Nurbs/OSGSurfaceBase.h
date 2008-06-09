@@ -167,33 +167,113 @@ class OSG_SYSTEMLIB_DLLMAPPING SurfaceBase : public Geometry
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFDimU           (void);
-           SFUInt32            *getSFDimV           (void);
-           MFReal32            *getMFKnotsU         (void);
-           MFReal32            *getMFKnotsV         (void);
-           SFGeoPositionsPtr   *getSFControlPoints  (void);
-           SFReal32            *getSFError          (void);
-           SFBool              *getSFIsDelaunay     (void);
-           SFGeoTexCoordsPtr   *getSFTextureControlPoints(void);
 
-           UInt32              &getDimU           (void);
+           SFUInt32            *editSFDimU           (void);
+     const SFUInt32            *getSFDimU           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFDimU           (void);
+#endif
+
+           SFUInt32            *editSFDimV           (void);
+     const SFUInt32            *getSFDimV           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFDimV           (void);
+#endif
+
+           MFReal32            *editMFKnotsU         (void);
+     const MFReal32            *getMFKnotsU         (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFKnotsU         (void);
+#endif
+
+           MFReal32            *editMFKnotsV         (void);
+     const MFReal32            *getMFKnotsV         (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFKnotsV         (void);
+#endif
+
+           SFGeoPositionsPtr   *editSFControlPoints  (void);
+     const SFGeoPositionsPtr   *getSFControlPoints  (void) const;
+#ifndef OSG_2_PREP
+           SFGeoPositionsPtr   *getSFControlPoints  (void);
+#endif
+
+           SFReal32            *editSFError          (void);
+     const SFReal32            *getSFError          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFError          (void);
+#endif
+
+           SFBool              *editSFIsDelaunay     (void);
+     const SFBool              *getSFIsDelaunay     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFIsDelaunay     (void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTextureControlPoints(void);
+     const SFGeoTexCoordsPtr   *getSFTextureControlPoints(void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTextureControlPoints(void);
+#endif
+
+
+           UInt32              &editDimU           (void);
      const UInt32              &getDimU           (void) const;
-           UInt32              &getDimV           (void);
+#ifndef OSG_2_PREP
+           UInt32              &getDimU           (void);
+#endif
+
+           UInt32              &editDimV           (void);
      const UInt32              &getDimV           (void) const;
-           GeoPositionsPtr     &getControlPoints  (void);
+#ifndef OSG_2_PREP
+           UInt32              &getDimV           (void);
+#endif
+
+           GeoPositionsPtr     &editControlPoints  (void);
      const GeoPositionsPtr     &getControlPoints  (void) const;
-           Real32              &getError          (void);
+#ifndef OSG_2_PREP
+           GeoPositionsPtr     &getControlPoints  (void);
+#endif
+
+           Real32              &editError          (void);
      const Real32              &getError          (void) const;
-           bool                &getIsDelaunay     (void);
+#ifndef OSG_2_PREP
+           Real32              &getError          (void);
+#endif
+
+
+           bool                &editIsDelaunay     (void);
      const bool                &getIsDelaunay     (void) const;
-           GeoTexCoordsPtr     &getTextureControlPoints(void);
+#ifndef OSG_2_PREP
+           bool                &getIsDelaunay     (void);
+#endif
+
+           GeoTexCoordsPtr     &editTextureControlPoints(void);
      const GeoTexCoordsPtr     &getTextureControlPoints(void) const;
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTextureControlPoints(void);
+#endif
+
+
+
+           Real32              &editKnotsU         (const UInt32 index);
+     const Real32              &getKnotsU         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getKnotsU         (const UInt32 index);
            MFReal32            &getKnotsU         (void);
-     const MFReal32            &getKnotsU         (void) const;
+#endif
+
+           Real32              &editKnotsV         (const UInt32 index);
+     const Real32              &getKnotsV         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getKnotsV         (const UInt32 index);
            MFReal32            &getKnotsV         (void);
-     const MFReal32            &getKnotsV         (void) const;
+#endif
+
+
+
+
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -285,36 +365,92 @@ class OSG_SYSTEMLIB_DLLMAPPING SurfaceBase : public Geometry
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFUInt32            *editSFNumCurves      (void);
+     const SFUInt32            *getSFNumCurves      (void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFNumCurves      (void);
+#endif
+           MFUInt32            *editMFKnotLengths    (void);
+     const MFUInt32            *getMFKnotLengths    (void) const;
+#ifndef OSG_2_PREP
            MFUInt32            *getMFKnotLengths    (void);
+#endif
+           MFUInt32            *editMFDimensions     (void);
+     const MFUInt32            *getMFDimensions     (void) const;
+#ifndef OSG_2_PREP
            MFUInt32            *getMFDimensions     (void);
+#endif
+           MFPnt3f             *editMFCurveControlPoints(void);
+     const MFPnt3f             *getMFCurveControlPoints(void) const;
+#ifndef OSG_2_PREP
            MFPnt3f             *getMFCurveControlPoints(void);
+#endif
+           MFReal32            *editMFKnots          (void);
+     const MFReal32            *getMFKnots          (void) const;
+#ifndef OSG_2_PREP
            MFReal32            *getMFKnots          (void);
+#endif
+           MFUInt32            *editMFCurvesPerLoop  (void);
+     const MFUInt32            *getMFCurvesPerLoop  (void) const;
+#ifndef OSG_2_PREP
            MFUInt32            *getMFCurvesPerLoop  (void);
+#endif
+           SFUInt32            *editSFDirtyMask      (void);
+     const SFUInt32            *getSFDirtyMask      (void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFDirtyMask      (void);
+#endif
+           SFInt32             *editSFSurfaceGLId    (void);
+     const SFInt32             *getSFSurfaceGLId    (void) const;
+#ifndef OSG_2_PREP
            SFInt32             *getSFSurfaceGLId    (void);
+#endif
 
-           UInt32              &getNumCurves      (void);
+           UInt32              &editNumCurves      (void);
      const UInt32              &getNumCurves      (void) const;
-           UInt32              &getDirtyMask      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getNumCurves      (void);
+#endif
+           UInt32              &editDirtyMask      (void);
      const UInt32              &getDirtyMask      (void) const;
-           Int32               &getSurfaceGLId    (void);
+#ifndef OSG_2_PREP
+           UInt32              &getDirtyMask      (void);
+#endif
+           Int32               &editSurfaceGLId    (void);
      const Int32               &getSurfaceGLId    (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getSurfaceGLId    (void);
+#endif
+           UInt32              &editKnotLengths    (UInt32 index);
+     const UInt32              &getKnotLengths    (UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getKnotLengths    (UInt32 index);
            MFUInt32            &getKnotLengths    (void);
-     const MFUInt32            &getKnotLengths    (void) const;
+#endif
+           UInt32              &editDimensions     (UInt32 index);
+     const UInt32              &getDimensions     (UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getDimensions     (UInt32 index);
            MFUInt32            &getDimensions     (void);
-     const MFUInt32            &getDimensions     (void) const;
+#endif
+           Pnt3f               &editCurveControlPoints(UInt32 index);
+     const Pnt3f               &getCurveControlPoints(UInt32 index) const;
+#ifndef OSG_2_PREP
            Pnt3f               &getCurveControlPoints(UInt32 index);
            MFPnt3f             &getCurveControlPoints(void);
-     const MFPnt3f             &getCurveControlPoints(void) const;
+#endif
+           Real32              &editKnots          (UInt32 index);
+     const Real32              &getKnots          (UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getKnots          (UInt32 index);
            MFReal32            &getKnots          (void);
-     const MFReal32            &getKnots          (void) const;
+#endif
+           UInt32              &editCurvesPerLoop  (UInt32 index);
+     const UInt32              &getCurvesPerLoop  (UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getCurvesPerLoop  (UInt32 index);
            MFUInt32            &getCurvesPerLoop  (void);
-     const MFUInt32            &getCurvesPerLoop  (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

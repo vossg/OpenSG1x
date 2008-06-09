@@ -98,197 +98,629 @@ RenderOptionsPtr RenderOptionsBase::createEmpty(void)
 
 //! Get the RenderOptions::_sfStatistic field.
 inline
-SFBool *RenderOptionsBase::getSFStatistic(void)
+const SFBool *RenderOptionsBase::getSFStatistic(void) const
 {
     return &_sfStatistic;
 }
 
+//! Get the RenderOptions::_sfStatistic field.
+inline
+SFBool *RenderOptionsBase::editSFStatistic(void)
+{
+    return &_sfStatistic;
+}
+
+#ifndef OSG_2_PREP
+//! Get the RenderOptions::_sfStatistic field.
+inline
+SFBool *RenderOptionsBase::getSFStatistic(void)
+{
+    return &_sfStatistic;
+}
+#endif
+
+//! Get the RenderOptions::_sfPolygonMode field.
+inline
+const SFGLenum *RenderOptionsBase::getSFPolygonMode(void) const
+{
+    return &_sfPolygonMode;
+}
+
+//! Get the RenderOptions::_sfPolygonMode field.
+inline
+SFGLenum *RenderOptionsBase::editSFPolygonMode(void)
+{
+    return &_sfPolygonMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfPolygonMode field.
 inline
 SFGLenum *RenderOptionsBase::getSFPolygonMode(void)
 {
     return &_sfPolygonMode;
 }
+#endif
 
+//! Get the RenderOptions::_sfTwoSidedLighting field.
+inline
+const SFBool *RenderOptionsBase::getSFTwoSidedLighting(void) const
+{
+    return &_sfTwoSidedLighting;
+}
+
+//! Get the RenderOptions::_sfTwoSidedLighting field.
+inline
+SFBool *RenderOptionsBase::editSFTwoSidedLighting(void)
+{
+    return &_sfTwoSidedLighting;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfTwoSidedLighting field.
 inline
 SFBool *RenderOptionsBase::getSFTwoSidedLighting(void)
 {
     return &_sfTwoSidedLighting;
 }
+#endif
 
+//! Get the RenderOptions::_sfSpecTexLighting field.
+inline
+const SFBool *RenderOptionsBase::getSFSpecTexLighting(void) const
+{
+    return &_sfSpecTexLighting;
+}
+
+//! Get the RenderOptions::_sfSpecTexLighting field.
+inline
+SFBool *RenderOptionsBase::editSFSpecTexLighting(void)
+{
+    return &_sfSpecTexLighting;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfSpecTexLighting field.
 inline
 SFBool *RenderOptionsBase::getSFSpecTexLighting(void)
 {
     return &_sfSpecTexLighting;
 }
+#endif
 
+//! Get the RenderOptions::_sfSortTrans field.
+inline
+const SFBool *RenderOptionsBase::getSFSortTrans(void) const
+{
+    return &_sfSortTrans;
+}
+
+//! Get the RenderOptions::_sfSortTrans field.
+inline
+SFBool *RenderOptionsBase::editSFSortTrans(void)
+{
+    return &_sfSortTrans;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfSortTrans field.
 inline
 SFBool *RenderOptionsBase::getSFSortTrans(void)
 {
     return &_sfSortTrans;
 }
+#endif
 
+//! Get the RenderOptions::_sfZWriteTrans field.
+inline
+const SFBool *RenderOptionsBase::getSFZWriteTrans(void) const
+{
+    return &_sfZWriteTrans;
+}
+
+//! Get the RenderOptions::_sfZWriteTrans field.
+inline
+SFBool *RenderOptionsBase::editSFZWriteTrans(void)
+{
+    return &_sfZWriteTrans;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfZWriteTrans field.
 inline
 SFBool *RenderOptionsBase::getSFZWriteTrans(void)
 {
     return &_sfZWriteTrans;
 }
+#endif
 
+//! Get the RenderOptions::_sfLocalLights field.
+inline
+const SFBool *RenderOptionsBase::getSFLocalLights(void) const
+{
+    return &_sfLocalLights;
+}
+
+//! Get the RenderOptions::_sfLocalLights field.
+inline
+SFBool *RenderOptionsBase::editSFLocalLights(void)
+{
+    return &_sfLocalLights;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfLocalLights field.
 inline
 SFBool *RenderOptionsBase::getSFLocalLights(void)
 {
     return &_sfLocalLights;
 }
+#endif
 
+//! Get the RenderOptions::_sfCorrectTwoSidedLighting field.
+inline
+const SFBool *RenderOptionsBase::getSFCorrectTwoSidedLighting(void) const
+{
+    return &_sfCorrectTwoSidedLighting;
+}
+
+//! Get the RenderOptions::_sfCorrectTwoSidedLighting field.
+inline
+SFBool *RenderOptionsBase::editSFCorrectTwoSidedLighting(void)
+{
+    return &_sfCorrectTwoSidedLighting;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfCorrectTwoSidedLighting field.
 inline
 SFBool *RenderOptionsBase::getSFCorrectTwoSidedLighting(void)
 {
     return &_sfCorrectTwoSidedLighting;
 }
+#endif
 
+//! Get the RenderOptions::_sfOcclusionCulling field.
+inline
+const SFBool *RenderOptionsBase::getSFOcclusionCulling(void) const
+{
+    return &_sfOcclusionCulling;
+}
+
+//! Get the RenderOptions::_sfOcclusionCulling field.
+inline
+SFBool *RenderOptionsBase::editSFOcclusionCulling(void)
+{
+    return &_sfOcclusionCulling;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfOcclusionCulling field.
 inline
 SFBool *RenderOptionsBase::getSFOcclusionCulling(void)
 {
     return &_sfOcclusionCulling;
 }
+#endif
 
+//! Get the RenderOptions::_sfOcclusionCullingMode field.
+inline
+const SFInt32 *RenderOptionsBase::getSFOcclusionCullingMode(void) const
+{
+    return &_sfOcclusionCullingMode;
+}
+
+//! Get the RenderOptions::_sfOcclusionCullingMode field.
+inline
+SFInt32 *RenderOptionsBase::editSFOcclusionCullingMode(void)
+{
+    return &_sfOcclusionCullingMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfOcclusionCullingMode field.
 inline
 SFInt32 *RenderOptionsBase::getSFOcclusionCullingMode(void)
 {
     return &_sfOcclusionCullingMode;
 }
+#endif
 
+//! Get the RenderOptions::_sfOcclusionCullingPixels field.
+inline
+const SFUInt32 *RenderOptionsBase::getSFOcclusionCullingPixels(void) const
+{
+    return &_sfOcclusionCullingPixels;
+}
+
+//! Get the RenderOptions::_sfOcclusionCullingPixels field.
+inline
+SFUInt32 *RenderOptionsBase::editSFOcclusionCullingPixels(void)
+{
+    return &_sfOcclusionCullingPixels;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfOcclusionCullingPixels field.
 inline
 SFUInt32 *RenderOptionsBase::getSFOcclusionCullingPixels(void)
 {
     return &_sfOcclusionCullingPixels;
 }
+#endif
 
+//! Get the RenderOptions::_sfAntialiasing field.
+inline
+const SFBool *RenderOptionsBase::getSFAntialiasing(void) const
+{
+    return &_sfAntialiasing;
+}
+
+//! Get the RenderOptions::_sfAntialiasing field.
+inline
+SFBool *RenderOptionsBase::editSFAntialiasing(void)
+{
+    return &_sfAntialiasing;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfAntialiasing field.
 inline
 SFBool *RenderOptionsBase::getSFAntialiasing(void)
 {
     return &_sfAntialiasing;
 }
+#endif
 
+//! Get the RenderOptions::_sfAntialiasingDistance field.
+inline
+const SFReal32 *RenderOptionsBase::getSFAntialiasingDistance(void) const
+{
+    return &_sfAntialiasingDistance;
+}
+
+//! Get the RenderOptions::_sfAntialiasingDistance field.
+inline
+SFReal32 *RenderOptionsBase::editSFAntialiasingDistance(void)
+{
+    return &_sfAntialiasingDistance;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfAntialiasingDistance field.
 inline
 SFReal32 *RenderOptionsBase::getSFAntialiasingDistance(void)
 {
     return &_sfAntialiasingDistance;
 }
+#endif
 
+//! Get the RenderOptions::_sfAntialiasingScale field.
+inline
+const SFReal32 *RenderOptionsBase::getSFAntialiasingScale(void) const
+{
+    return &_sfAntialiasingScale;
+}
+
+//! Get the RenderOptions::_sfAntialiasingScale field.
+inline
+SFReal32 *RenderOptionsBase::editSFAntialiasingScale(void)
+{
+    return &_sfAntialiasingScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfAntialiasingScale field.
 inline
 SFReal32 *RenderOptionsBase::getSFAntialiasingScale(void)
 {
     return &_sfAntialiasingScale;
 }
+#endif
 
+//! Get the RenderOptions::_sfAntialiasingTrigger field.
+inline
+const SFUInt32 *RenderOptionsBase::getSFAntialiasingTrigger(void) const
+{
+    return &_sfAntialiasingTrigger;
+}
+
+//! Get the RenderOptions::_sfAntialiasingTrigger field.
+inline
+SFUInt32 *RenderOptionsBase::editSFAntialiasingTrigger(void)
+{
+    return &_sfAntialiasingTrigger;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfAntialiasingTrigger field.
 inline
 SFUInt32 *RenderOptionsBase::getSFAntialiasingTrigger(void)
 {
     return &_sfAntialiasingTrigger;
 }
+#endif
 
+//! Get the RenderOptions::_sfFrustumCulling field.
+inline
+const SFBool *RenderOptionsBase::getSFFrustumCulling(void) const
+{
+    return &_sfFrustumCulling;
+}
+
+//! Get the RenderOptions::_sfFrustumCulling field.
+inline
+SFBool *RenderOptionsBase::editSFFrustumCulling(void)
+{
+    return &_sfFrustumCulling;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfFrustumCulling field.
 inline
 SFBool *RenderOptionsBase::getSFFrustumCulling(void)
 {
     return &_sfFrustumCulling;
 }
+#endif
 
+//! Get the RenderOptions::_sfBackfaceCulling field.
+inline
+const SFBool *RenderOptionsBase::getSFBackfaceCulling(void) const
+{
+    return &_sfBackfaceCulling;
+}
+
+//! Get the RenderOptions::_sfBackfaceCulling field.
+inline
+SFBool *RenderOptionsBase::editSFBackfaceCulling(void)
+{
+    return &_sfBackfaceCulling;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfBackfaceCulling field.
 inline
 SFBool *RenderOptionsBase::getSFBackfaceCulling(void)
 {
     return &_sfBackfaceCulling;
 }
+#endif
 
+//! Get the RenderOptions::_sfSmallFeatureCulling field.
+inline
+const SFBool *RenderOptionsBase::getSFSmallFeatureCulling(void) const
+{
+    return &_sfSmallFeatureCulling;
+}
+
+//! Get the RenderOptions::_sfSmallFeatureCulling field.
+inline
+SFBool *RenderOptionsBase::editSFSmallFeatureCulling(void)
+{
+    return &_sfSmallFeatureCulling;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfSmallFeatureCulling field.
 inline
 SFBool *RenderOptionsBase::getSFSmallFeatureCulling(void)
 {
     return &_sfSmallFeatureCulling;
 }
+#endif
 
+//! Get the RenderOptions::_sfSmallFeaturePixels field.
+inline
+const SFReal32 *RenderOptionsBase::getSFSmallFeaturePixels(void) const
+{
+    return &_sfSmallFeaturePixels;
+}
+
+//! Get the RenderOptions::_sfSmallFeaturePixels field.
+inline
+SFReal32 *RenderOptionsBase::editSFSmallFeaturePixels(void)
+{
+    return &_sfSmallFeaturePixels;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfSmallFeaturePixels field.
 inline
 SFReal32 *RenderOptionsBase::getSFSmallFeaturePixels(void)
 {
     return &_sfSmallFeaturePixels;
 }
+#endif
 
+//! Get the RenderOptions::_sfSmallFeatureThreshold field.
+inline
+const SFUInt32 *RenderOptionsBase::getSFSmallFeatureThreshold(void) const
+{
+    return &_sfSmallFeatureThreshold;
+}
+
+//! Get the RenderOptions::_sfSmallFeatureThreshold field.
+inline
+SFUInt32 *RenderOptionsBase::editSFSmallFeatureThreshold(void)
+{
+    return &_sfSmallFeatureThreshold;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfSmallFeatureThreshold field.
 inline
 SFUInt32 *RenderOptionsBase::getSFSmallFeatureThreshold(void)
 {
     return &_sfSmallFeatureThreshold;
 }
+#endif
 
+//! Get the RenderOptions::_sfFirstFrame field.
+inline
+const SFBool *RenderOptionsBase::getSFFirstFrame(void) const
+{
+    return &_sfFirstFrame;
+}
+
+//! Get the RenderOptions::_sfFirstFrame field.
+inline
+SFBool *RenderOptionsBase::editSFFirstFrame(void)
+{
+    return &_sfFirstFrame;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfFirstFrame field.
 inline
 SFBool *RenderOptionsBase::getSFFirstFrame(void)
 {
     return &_sfFirstFrame;
 }
+#endif
 
+//! Get the RenderOptions::_sfDepthOnlyPass field.
+inline
+const SFBool *RenderOptionsBase::getSFDepthOnlyPass(void) const
+{
+    return &_sfDepthOnlyPass;
+}
+
+//! Get the RenderOptions::_sfDepthOnlyPass field.
+inline
+SFBool *RenderOptionsBase::editSFDepthOnlyPass(void)
+{
+    return &_sfDepthOnlyPass;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfDepthOnlyPass field.
 inline
 SFBool *RenderOptionsBase::getSFDepthOnlyPass(void)
 {
     return &_sfDepthOnlyPass;
 }
+#endif
 
+//! Get the RenderOptions::_sfLightModelAmbient field.
+inline
+const SFColor4f *RenderOptionsBase::getSFLightModelAmbient(void) const
+{
+    return &_sfLightModelAmbient;
+}
+
+//! Get the RenderOptions::_sfLightModelAmbient field.
+inline
+SFColor4f *RenderOptionsBase::editSFLightModelAmbient(void)
+{
+    return &_sfLightModelAmbient;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfLightModelAmbient field.
 inline
 SFColor4f *RenderOptionsBase::getSFLightModelAmbient(void)
 {
     return &_sfLightModelAmbient;
 }
+#endif
 
+//! Get the RenderOptions::_sfFogColor field.
+inline
+const SFColor4f *RenderOptionsBase::getSFFogColor(void) const
+{
+    return &_sfFogColor;
+}
+
+//! Get the RenderOptions::_sfFogColor field.
+inline
+SFColor4f *RenderOptionsBase::editSFFogColor(void)
+{
+    return &_sfFogColor;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfFogColor field.
 inline
 SFColor4f *RenderOptionsBase::getSFFogColor(void)
 {
     return &_sfFogColor;
 }
+#endif
 
+//! Get the RenderOptions::_sfFogRange field.
+inline
+const SFVec2f *RenderOptionsBase::getSFFogRange(void) const
+{
+    return &_sfFogRange;
+}
+
+//! Get the RenderOptions::_sfFogRange field.
+inline
+SFVec2f *RenderOptionsBase::editSFFogRange(void)
+{
+    return &_sfFogRange;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfFogRange field.
 inline
 SFVec2f *RenderOptionsBase::getSFFogRange(void)
 {
     return &_sfFogRange;
 }
+#endif
 
+//! Get the RenderOptions::_sfFogDensity field.
+inline
+const SFReal32 *RenderOptionsBase::getSFFogDensity(void) const
+{
+    return &_sfFogDensity;
+}
+
+//! Get the RenderOptions::_sfFogDensity field.
+inline
+SFReal32 *RenderOptionsBase::editSFFogDensity(void)
+{
+    return &_sfFogDensity;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfFogDensity field.
 inline
 SFReal32 *RenderOptionsBase::getSFFogDensity(void)
 {
     return &_sfFogDensity;
 }
+#endif
 
+//! Get the RenderOptions::_sfFogMode field.
+inline
+const SFInt32 *RenderOptionsBase::getSFFogMode(void) const
+{
+    return &_sfFogMode;
+}
+
+//! Get the RenderOptions::_sfFogMode field.
+inline
+SFInt32 *RenderOptionsBase::editSFFogMode(void)
+{
+    return &_sfFogMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the RenderOptions::_sfFogMode field.
 inline
 SFInt32 *RenderOptionsBase::getSFFogMode(void)
 {
     return &_sfFogMode;
 }
+#endif
 
 
 //! Get the value of the RenderOptions::_sfStatistic field.
 inline
-bool &RenderOptionsBase::getStatistic(void)
+bool &RenderOptionsBase::editStatistic(void)
 {
     return _sfStatistic.getValue();
 }
@@ -300,6 +732,15 @@ const bool &RenderOptionsBase::getStatistic(void) const
     return _sfStatistic.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfStatistic field.
+inline
+bool &RenderOptionsBase::getStatistic(void)
+{
+    return _sfStatistic.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfStatistic field.
 inline
 void RenderOptionsBase::setStatistic(const bool &value)
@@ -309,7 +750,7 @@ void RenderOptionsBase::setStatistic(const bool &value)
 
 //! Get the value of the RenderOptions::_sfPolygonMode field.
 inline
-GLenum &RenderOptionsBase::getPolygonMode(void)
+GLenum &RenderOptionsBase::editPolygonMode(void)
 {
     return _sfPolygonMode.getValue();
 }
@@ -321,6 +762,15 @@ const GLenum &RenderOptionsBase::getPolygonMode(void) const
     return _sfPolygonMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfPolygonMode field.
+inline
+GLenum &RenderOptionsBase::getPolygonMode(void)
+{
+    return _sfPolygonMode.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfPolygonMode field.
 inline
 void RenderOptionsBase::setPolygonMode(const GLenum &value)
@@ -330,7 +780,7 @@ void RenderOptionsBase::setPolygonMode(const GLenum &value)
 
 //! Get the value of the RenderOptions::_sfTwoSidedLighting field.
 inline
-bool &RenderOptionsBase::getTwoSidedLighting(void)
+bool &RenderOptionsBase::editTwoSidedLighting(void)
 {
     return _sfTwoSidedLighting.getValue();
 }
@@ -342,6 +792,15 @@ const bool &RenderOptionsBase::getTwoSidedLighting(void) const
     return _sfTwoSidedLighting.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfTwoSidedLighting field.
+inline
+bool &RenderOptionsBase::getTwoSidedLighting(void)
+{
+    return _sfTwoSidedLighting.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfTwoSidedLighting field.
 inline
 void RenderOptionsBase::setTwoSidedLighting(const bool &value)
@@ -351,7 +810,7 @@ void RenderOptionsBase::setTwoSidedLighting(const bool &value)
 
 //! Get the value of the RenderOptions::_sfSpecTexLighting field.
 inline
-bool &RenderOptionsBase::getSpecTexLighting(void)
+bool &RenderOptionsBase::editSpecTexLighting(void)
 {
     return _sfSpecTexLighting.getValue();
 }
@@ -363,6 +822,15 @@ const bool &RenderOptionsBase::getSpecTexLighting(void) const
     return _sfSpecTexLighting.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfSpecTexLighting field.
+inline
+bool &RenderOptionsBase::getSpecTexLighting(void)
+{
+    return _sfSpecTexLighting.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfSpecTexLighting field.
 inline
 void RenderOptionsBase::setSpecTexLighting(const bool &value)
@@ -372,7 +840,7 @@ void RenderOptionsBase::setSpecTexLighting(const bool &value)
 
 //! Get the value of the RenderOptions::_sfSortTrans field.
 inline
-bool &RenderOptionsBase::getSortTrans(void)
+bool &RenderOptionsBase::editSortTrans(void)
 {
     return _sfSortTrans.getValue();
 }
@@ -384,6 +852,15 @@ const bool &RenderOptionsBase::getSortTrans(void) const
     return _sfSortTrans.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfSortTrans field.
+inline
+bool &RenderOptionsBase::getSortTrans(void)
+{
+    return _sfSortTrans.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfSortTrans field.
 inline
 void RenderOptionsBase::setSortTrans(const bool &value)
@@ -393,7 +870,7 @@ void RenderOptionsBase::setSortTrans(const bool &value)
 
 //! Get the value of the RenderOptions::_sfZWriteTrans field.
 inline
-bool &RenderOptionsBase::getZWriteTrans(void)
+bool &RenderOptionsBase::editZWriteTrans(void)
 {
     return _sfZWriteTrans.getValue();
 }
@@ -405,6 +882,15 @@ const bool &RenderOptionsBase::getZWriteTrans(void) const
     return _sfZWriteTrans.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfZWriteTrans field.
+inline
+bool &RenderOptionsBase::getZWriteTrans(void)
+{
+    return _sfZWriteTrans.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfZWriteTrans field.
 inline
 void RenderOptionsBase::setZWriteTrans(const bool &value)
@@ -414,7 +900,7 @@ void RenderOptionsBase::setZWriteTrans(const bool &value)
 
 //! Get the value of the RenderOptions::_sfLocalLights field.
 inline
-bool &RenderOptionsBase::getLocalLights(void)
+bool &RenderOptionsBase::editLocalLights(void)
 {
     return _sfLocalLights.getValue();
 }
@@ -426,6 +912,15 @@ const bool &RenderOptionsBase::getLocalLights(void) const
     return _sfLocalLights.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfLocalLights field.
+inline
+bool &RenderOptionsBase::getLocalLights(void)
+{
+    return _sfLocalLights.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfLocalLights field.
 inline
 void RenderOptionsBase::setLocalLights(const bool &value)
@@ -435,7 +930,7 @@ void RenderOptionsBase::setLocalLights(const bool &value)
 
 //! Get the value of the RenderOptions::_sfCorrectTwoSidedLighting field.
 inline
-bool &RenderOptionsBase::getCorrectTwoSidedLighting(void)
+bool &RenderOptionsBase::editCorrectTwoSidedLighting(void)
 {
     return _sfCorrectTwoSidedLighting.getValue();
 }
@@ -447,6 +942,15 @@ const bool &RenderOptionsBase::getCorrectTwoSidedLighting(void) const
     return _sfCorrectTwoSidedLighting.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfCorrectTwoSidedLighting field.
+inline
+bool &RenderOptionsBase::getCorrectTwoSidedLighting(void)
+{
+    return _sfCorrectTwoSidedLighting.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfCorrectTwoSidedLighting field.
 inline
 void RenderOptionsBase::setCorrectTwoSidedLighting(const bool &value)
@@ -456,7 +960,7 @@ void RenderOptionsBase::setCorrectTwoSidedLighting(const bool &value)
 
 //! Get the value of the RenderOptions::_sfOcclusionCulling field.
 inline
-bool &RenderOptionsBase::getOcclusionCulling(void)
+bool &RenderOptionsBase::editOcclusionCulling(void)
 {
     return _sfOcclusionCulling.getValue();
 }
@@ -468,6 +972,15 @@ const bool &RenderOptionsBase::getOcclusionCulling(void) const
     return _sfOcclusionCulling.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfOcclusionCulling field.
+inline
+bool &RenderOptionsBase::getOcclusionCulling(void)
+{
+    return _sfOcclusionCulling.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfOcclusionCulling field.
 inline
 void RenderOptionsBase::setOcclusionCulling(const bool &value)
@@ -477,7 +990,7 @@ void RenderOptionsBase::setOcclusionCulling(const bool &value)
 
 //! Get the value of the RenderOptions::_sfOcclusionCullingMode field.
 inline
-Int32 &RenderOptionsBase::getOcclusionCullingMode(void)
+Int32 &RenderOptionsBase::editOcclusionCullingMode(void)
 {
     return _sfOcclusionCullingMode.getValue();
 }
@@ -489,6 +1002,15 @@ const Int32 &RenderOptionsBase::getOcclusionCullingMode(void) const
     return _sfOcclusionCullingMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfOcclusionCullingMode field.
+inline
+Int32 &RenderOptionsBase::getOcclusionCullingMode(void)
+{
+    return _sfOcclusionCullingMode.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfOcclusionCullingMode field.
 inline
 void RenderOptionsBase::setOcclusionCullingMode(const Int32 &value)
@@ -498,7 +1020,7 @@ void RenderOptionsBase::setOcclusionCullingMode(const Int32 &value)
 
 //! Get the value of the RenderOptions::_sfOcclusionCullingPixels field.
 inline
-UInt32 &RenderOptionsBase::getOcclusionCullingPixels(void)
+UInt32 &RenderOptionsBase::editOcclusionCullingPixels(void)
 {
     return _sfOcclusionCullingPixels.getValue();
 }
@@ -510,6 +1032,15 @@ const UInt32 &RenderOptionsBase::getOcclusionCullingPixels(void) const
     return _sfOcclusionCullingPixels.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfOcclusionCullingPixels field.
+inline
+UInt32 &RenderOptionsBase::getOcclusionCullingPixels(void)
+{
+    return _sfOcclusionCullingPixels.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfOcclusionCullingPixels field.
 inline
 void RenderOptionsBase::setOcclusionCullingPixels(const UInt32 &value)
@@ -519,7 +1050,7 @@ void RenderOptionsBase::setOcclusionCullingPixels(const UInt32 &value)
 
 //! Get the value of the RenderOptions::_sfAntialiasing field.
 inline
-bool &RenderOptionsBase::getAntialiasing(void)
+bool &RenderOptionsBase::editAntialiasing(void)
 {
     return _sfAntialiasing.getValue();
 }
@@ -531,6 +1062,15 @@ const bool &RenderOptionsBase::getAntialiasing(void) const
     return _sfAntialiasing.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfAntialiasing field.
+inline
+bool &RenderOptionsBase::getAntialiasing(void)
+{
+    return _sfAntialiasing.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfAntialiasing field.
 inline
 void RenderOptionsBase::setAntialiasing(const bool &value)
@@ -540,7 +1080,7 @@ void RenderOptionsBase::setAntialiasing(const bool &value)
 
 //! Get the value of the RenderOptions::_sfAntialiasingDistance field.
 inline
-Real32 &RenderOptionsBase::getAntialiasingDistance(void)
+Real32 &RenderOptionsBase::editAntialiasingDistance(void)
 {
     return _sfAntialiasingDistance.getValue();
 }
@@ -552,6 +1092,15 @@ const Real32 &RenderOptionsBase::getAntialiasingDistance(void) const
     return _sfAntialiasingDistance.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfAntialiasingDistance field.
+inline
+Real32 &RenderOptionsBase::getAntialiasingDistance(void)
+{
+    return _sfAntialiasingDistance.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfAntialiasingDistance field.
 inline
 void RenderOptionsBase::setAntialiasingDistance(const Real32 &value)
@@ -561,7 +1110,7 @@ void RenderOptionsBase::setAntialiasingDistance(const Real32 &value)
 
 //! Get the value of the RenderOptions::_sfAntialiasingScale field.
 inline
-Real32 &RenderOptionsBase::getAntialiasingScale(void)
+Real32 &RenderOptionsBase::editAntialiasingScale(void)
 {
     return _sfAntialiasingScale.getValue();
 }
@@ -573,6 +1122,15 @@ const Real32 &RenderOptionsBase::getAntialiasingScale(void) const
     return _sfAntialiasingScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfAntialiasingScale field.
+inline
+Real32 &RenderOptionsBase::getAntialiasingScale(void)
+{
+    return _sfAntialiasingScale.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfAntialiasingScale field.
 inline
 void RenderOptionsBase::setAntialiasingScale(const Real32 &value)
@@ -582,7 +1140,7 @@ void RenderOptionsBase::setAntialiasingScale(const Real32 &value)
 
 //! Get the value of the RenderOptions::_sfAntialiasingTrigger field.
 inline
-UInt32 &RenderOptionsBase::getAntialiasingTrigger(void)
+UInt32 &RenderOptionsBase::editAntialiasingTrigger(void)
 {
     return _sfAntialiasingTrigger.getValue();
 }
@@ -594,6 +1152,15 @@ const UInt32 &RenderOptionsBase::getAntialiasingTrigger(void) const
     return _sfAntialiasingTrigger.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfAntialiasingTrigger field.
+inline
+UInt32 &RenderOptionsBase::getAntialiasingTrigger(void)
+{
+    return _sfAntialiasingTrigger.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfAntialiasingTrigger field.
 inline
 void RenderOptionsBase::setAntialiasingTrigger(const UInt32 &value)
@@ -603,7 +1170,7 @@ void RenderOptionsBase::setAntialiasingTrigger(const UInt32 &value)
 
 //! Get the value of the RenderOptions::_sfFrustumCulling field.
 inline
-bool &RenderOptionsBase::getFrustumCulling(void)
+bool &RenderOptionsBase::editFrustumCulling(void)
 {
     return _sfFrustumCulling.getValue();
 }
@@ -615,6 +1182,15 @@ const bool &RenderOptionsBase::getFrustumCulling(void) const
     return _sfFrustumCulling.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfFrustumCulling field.
+inline
+bool &RenderOptionsBase::getFrustumCulling(void)
+{
+    return _sfFrustumCulling.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfFrustumCulling field.
 inline
 void RenderOptionsBase::setFrustumCulling(const bool &value)
@@ -624,7 +1200,7 @@ void RenderOptionsBase::setFrustumCulling(const bool &value)
 
 //! Get the value of the RenderOptions::_sfBackfaceCulling field.
 inline
-bool &RenderOptionsBase::getBackfaceCulling(void)
+bool &RenderOptionsBase::editBackfaceCulling(void)
 {
     return _sfBackfaceCulling.getValue();
 }
@@ -636,6 +1212,15 @@ const bool &RenderOptionsBase::getBackfaceCulling(void) const
     return _sfBackfaceCulling.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfBackfaceCulling field.
+inline
+bool &RenderOptionsBase::getBackfaceCulling(void)
+{
+    return _sfBackfaceCulling.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfBackfaceCulling field.
 inline
 void RenderOptionsBase::setBackfaceCulling(const bool &value)
@@ -645,7 +1230,7 @@ void RenderOptionsBase::setBackfaceCulling(const bool &value)
 
 //! Get the value of the RenderOptions::_sfSmallFeatureCulling field.
 inline
-bool &RenderOptionsBase::getSmallFeatureCulling(void)
+bool &RenderOptionsBase::editSmallFeatureCulling(void)
 {
     return _sfSmallFeatureCulling.getValue();
 }
@@ -657,6 +1242,15 @@ const bool &RenderOptionsBase::getSmallFeatureCulling(void) const
     return _sfSmallFeatureCulling.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfSmallFeatureCulling field.
+inline
+bool &RenderOptionsBase::getSmallFeatureCulling(void)
+{
+    return _sfSmallFeatureCulling.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfSmallFeatureCulling field.
 inline
 void RenderOptionsBase::setSmallFeatureCulling(const bool &value)
@@ -666,7 +1260,7 @@ void RenderOptionsBase::setSmallFeatureCulling(const bool &value)
 
 //! Get the value of the RenderOptions::_sfSmallFeaturePixels field.
 inline
-Real32 &RenderOptionsBase::getSmallFeaturePixels(void)
+Real32 &RenderOptionsBase::editSmallFeaturePixels(void)
 {
     return _sfSmallFeaturePixels.getValue();
 }
@@ -678,6 +1272,15 @@ const Real32 &RenderOptionsBase::getSmallFeaturePixels(void) const
     return _sfSmallFeaturePixels.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfSmallFeaturePixels field.
+inline
+Real32 &RenderOptionsBase::getSmallFeaturePixels(void)
+{
+    return _sfSmallFeaturePixels.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfSmallFeaturePixels field.
 inline
 void RenderOptionsBase::setSmallFeaturePixels(const Real32 &value)
@@ -687,7 +1290,7 @@ void RenderOptionsBase::setSmallFeaturePixels(const Real32 &value)
 
 //! Get the value of the RenderOptions::_sfSmallFeatureThreshold field.
 inline
-UInt32 &RenderOptionsBase::getSmallFeatureThreshold(void)
+UInt32 &RenderOptionsBase::editSmallFeatureThreshold(void)
 {
     return _sfSmallFeatureThreshold.getValue();
 }
@@ -699,6 +1302,15 @@ const UInt32 &RenderOptionsBase::getSmallFeatureThreshold(void) const
     return _sfSmallFeatureThreshold.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfSmallFeatureThreshold field.
+inline
+UInt32 &RenderOptionsBase::getSmallFeatureThreshold(void)
+{
+    return _sfSmallFeatureThreshold.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfSmallFeatureThreshold field.
 inline
 void RenderOptionsBase::setSmallFeatureThreshold(const UInt32 &value)
@@ -708,7 +1320,7 @@ void RenderOptionsBase::setSmallFeatureThreshold(const UInt32 &value)
 
 //! Get the value of the RenderOptions::_sfFirstFrame field.
 inline
-bool &RenderOptionsBase::getFirstFrame(void)
+bool &RenderOptionsBase::editFirstFrame(void)
 {
     return _sfFirstFrame.getValue();
 }
@@ -720,6 +1332,15 @@ const bool &RenderOptionsBase::getFirstFrame(void) const
     return _sfFirstFrame.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfFirstFrame field.
+inline
+bool &RenderOptionsBase::getFirstFrame(void)
+{
+    return _sfFirstFrame.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfFirstFrame field.
 inline
 void RenderOptionsBase::setFirstFrame(const bool &value)
@@ -729,7 +1350,7 @@ void RenderOptionsBase::setFirstFrame(const bool &value)
 
 //! Get the value of the RenderOptions::_sfDepthOnlyPass field.
 inline
-bool &RenderOptionsBase::getDepthOnlyPass(void)
+bool &RenderOptionsBase::editDepthOnlyPass(void)
 {
     return _sfDepthOnlyPass.getValue();
 }
@@ -741,6 +1362,15 @@ const bool &RenderOptionsBase::getDepthOnlyPass(void) const
     return _sfDepthOnlyPass.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfDepthOnlyPass field.
+inline
+bool &RenderOptionsBase::getDepthOnlyPass(void)
+{
+    return _sfDepthOnlyPass.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfDepthOnlyPass field.
 inline
 void RenderOptionsBase::setDepthOnlyPass(const bool &value)
@@ -750,7 +1380,7 @@ void RenderOptionsBase::setDepthOnlyPass(const bool &value)
 
 //! Get the value of the RenderOptions::_sfLightModelAmbient field.
 inline
-Color4f &RenderOptionsBase::getLightModelAmbient(void)
+Color4f &RenderOptionsBase::editLightModelAmbient(void)
 {
     return _sfLightModelAmbient.getValue();
 }
@@ -762,6 +1392,15 @@ const Color4f &RenderOptionsBase::getLightModelAmbient(void) const
     return _sfLightModelAmbient.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfLightModelAmbient field.
+inline
+Color4f &RenderOptionsBase::getLightModelAmbient(void)
+{
+    return _sfLightModelAmbient.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfLightModelAmbient field.
 inline
 void RenderOptionsBase::setLightModelAmbient(const Color4f &value)
@@ -771,7 +1410,7 @@ void RenderOptionsBase::setLightModelAmbient(const Color4f &value)
 
 //! Get the value of the RenderOptions::_sfFogColor field.
 inline
-Color4f &RenderOptionsBase::getFogColor(void)
+Color4f &RenderOptionsBase::editFogColor(void)
 {
     return _sfFogColor.getValue();
 }
@@ -783,6 +1422,15 @@ const Color4f &RenderOptionsBase::getFogColor(void) const
     return _sfFogColor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfFogColor field.
+inline
+Color4f &RenderOptionsBase::getFogColor(void)
+{
+    return _sfFogColor.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfFogColor field.
 inline
 void RenderOptionsBase::setFogColor(const Color4f &value)
@@ -792,7 +1440,7 @@ void RenderOptionsBase::setFogColor(const Color4f &value)
 
 //! Get the value of the RenderOptions::_sfFogRange field.
 inline
-Vec2f &RenderOptionsBase::getFogRange(void)
+Vec2f &RenderOptionsBase::editFogRange(void)
 {
     return _sfFogRange.getValue();
 }
@@ -804,6 +1452,15 @@ const Vec2f &RenderOptionsBase::getFogRange(void) const
     return _sfFogRange.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfFogRange field.
+inline
+Vec2f &RenderOptionsBase::getFogRange(void)
+{
+    return _sfFogRange.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfFogRange field.
 inline
 void RenderOptionsBase::setFogRange(const Vec2f &value)
@@ -813,7 +1470,7 @@ void RenderOptionsBase::setFogRange(const Vec2f &value)
 
 //! Get the value of the RenderOptions::_sfFogDensity field.
 inline
-Real32 &RenderOptionsBase::getFogDensity(void)
+Real32 &RenderOptionsBase::editFogDensity(void)
 {
     return _sfFogDensity.getValue();
 }
@@ -825,6 +1482,15 @@ const Real32 &RenderOptionsBase::getFogDensity(void) const
     return _sfFogDensity.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfFogDensity field.
+inline
+Real32 &RenderOptionsBase::getFogDensity(void)
+{
+    return _sfFogDensity.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfFogDensity field.
 inline
 void RenderOptionsBase::setFogDensity(const Real32 &value)
@@ -834,7 +1500,7 @@ void RenderOptionsBase::setFogDensity(const Real32 &value)
 
 //! Get the value of the RenderOptions::_sfFogMode field.
 inline
-Int32 &RenderOptionsBase::getFogMode(void)
+Int32 &RenderOptionsBase::editFogMode(void)
 {
     return _sfFogMode.getValue();
 }
@@ -846,6 +1512,15 @@ const Int32 &RenderOptionsBase::getFogMode(void) const
     return _sfFogMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfFogMode field.
+inline
+Int32 &RenderOptionsBase::getFogMode(void)
+{
+    return _sfFogMode.getValue();
+}
+#endif
+
 //! Set the value of the RenderOptions::_sfFogMode field.
 inline
 void RenderOptionsBase::setFogMode(const Int32 &value)
@@ -856,5 +1531,5 @@ void RenderOptionsBase::setFogMode(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.10 2008/06/05 05:02:24 vossg Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.11 2008/06/09 07:31:46 vossg Exp $"
 

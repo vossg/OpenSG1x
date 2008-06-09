@@ -134,24 +134,69 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public MultiPassMaterial
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFEffectFile     (void);
-           SFString            *getSFEffectString   (void);
-           SFInt32             *getSFTechnique      (void);
-           MFShaderParameterPtr *getMFParameters     (void);
-           MFImagePtr          *getMFImages         (void);
 
-           std::string         &getEffectFile     (void);
+           SFString            *editSFEffectFile     (void);
+     const SFString            *getSFEffectFile     (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFEffectFile     (void);
+#endif
+
+           SFString            *editSFEffectString   (void);
+     const SFString            *getSFEffectString   (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFEffectString   (void);
+#endif
+
+           SFInt32             *editSFTechnique      (void);
+     const SFInt32             *getSFTechnique      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFTechnique      (void);
+#endif
+
+           MFShaderParameterPtr *editMFParameters     (void);
+     const MFShaderParameterPtr *getMFParameters     (void) const;
+#ifndef OSG_2_PREP
+           MFShaderParameterPtr *getMFParameters     (void);
+#endif
+
+           MFImagePtr          *editMFImages         (void);
+     const MFImagePtr          *getMFImages         (void) const;
+#ifndef OSG_2_PREP
+           MFImagePtr          *getMFImages         (void);
+#endif
+
+
+           std::string         &editEffectFile     (void);
      const std::string         &getEffectFile     (void) const;
-           std::string         &getEffectString   (void);
+#ifndef OSG_2_PREP
+           std::string         &getEffectFile     (void);
+#endif
+
+           std::string         &editEffectString   (void);
      const std::string         &getEffectString   (void) const;
-           Int32               &getTechnique      (void);
+#ifndef OSG_2_PREP
+           std::string         &getEffectString   (void);
+#endif
+
+           Int32               &editTechnique      (void);
      const Int32               &getTechnique      (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getTechnique      (void);
+#endif
+
+           ShaderParameterPtr  &editParameters     (const UInt32 index);
+     const ShaderParameterPtr  &getParameters     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            ShaderParameterPtr  &getParameters     (const UInt32 index);
            MFShaderParameterPtr &getParameters     (void);
-     const MFShaderParameterPtr &getParameters     (void) const;
+#endif
+
+           ImagePtr            &editImages         (const UInt32 index);
+     const ImagePtr            &getImages         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            ImagePtr            &getImages         (const UInt32 index);
            MFImagePtr          &getImages         (void);
-     const MFImagePtr          &getImages         (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -285,6 +330,6 @@ typedef RefPtr<CGFXMaterialPtr> CGFXMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.5 2008/06/05 05:02:14 vossg Exp $"
+#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.6 2008/06/09 07:31:37 vossg Exp $"
 
 #endif /* _OSGCGFXMATERIALBASE_H_ */

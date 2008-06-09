@@ -86,7 +86,7 @@ FieldDescription *CarbonWindowBase::_desc[] =
                      "context", 
                      ContextFieldId, ContextFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&CarbonWindowBase::getSFContext))
+                     reinterpret_cast<FieldAccessMethod>(&CarbonWindowBase::editSFContext))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CarbonWindowPtr, OSG_WINDOWCARBONLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCarbonWindowBase.cpp,v 1.2 2008/06/05 05:02:32 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCarbonWindowBase.cpp,v 1.3 2008/06/09 07:31:58 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCARBONWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCARBONWINDOWBASE_INLINE_CVSID;
 

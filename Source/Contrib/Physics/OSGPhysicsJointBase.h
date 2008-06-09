@@ -131,19 +131,55 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsJointBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec2f             *getSFParam          (void);
-           SFPhysicsWorldPtr   *getSFWorld          (void);
-           SFPhysicsBodyPtr    *getSFFirstBody      (void);
-           SFPhysicsBodyPtr    *getSFSecondBody     (void);
 
-           Vec2f               &getParam          (void);
+           SFVec2f             *editSFParam          (void);
+     const SFVec2f             *getSFParam          (void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFParam          (void);
+#endif
+
+           SFPhysicsWorldPtr   *editSFWorld          (void);
+     const SFPhysicsWorldPtr   *getSFWorld          (void) const;
+#ifndef OSG_2_PREP
+           SFPhysicsWorldPtr   *getSFWorld          (void);
+#endif
+
+           SFPhysicsBodyPtr    *editSFFirstBody      (void);
+     const SFPhysicsBodyPtr    *getSFFirstBody      (void) const;
+#ifndef OSG_2_PREP
+           SFPhysicsBodyPtr    *getSFFirstBody      (void);
+#endif
+
+           SFPhysicsBodyPtr    *editSFSecondBody     (void);
+     const SFPhysicsBodyPtr    *getSFSecondBody     (void) const;
+#ifndef OSG_2_PREP
+           SFPhysicsBodyPtr    *getSFSecondBody     (void);
+#endif
+
+
+           Vec2f               &editParam          (void);
      const Vec2f               &getParam          (void) const;
-           PhysicsWorldPtr     &getWorld          (void);
+#ifndef OSG_2_PREP
+           Vec2f               &getParam          (void);
+#endif
+
+           PhysicsWorldPtr     &editWorld          (void);
      const PhysicsWorldPtr     &getWorld          (void) const;
-           PhysicsBodyPtr      &getFirstBody      (void);
+#ifndef OSG_2_PREP
+           PhysicsWorldPtr     &getWorld          (void);
+#endif
+
+           PhysicsBodyPtr      &editFirstBody      (void);
      const PhysicsBodyPtr      &getFirstBody      (void) const;
-           PhysicsBodyPtr      &getSecondBody     (void);
+#ifndef OSG_2_PREP
+           PhysicsBodyPtr      &getFirstBody      (void);
+#endif
+
+           PhysicsBodyPtr      &editSecondBody     (void);
      const PhysicsBodyPtr      &getSecondBody     (void) const;
+#ifndef OSG_2_PREP
+           PhysicsBodyPtr      &getSecondBody     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,6 +313,6 @@ typedef RefPtr<PhysicsJointPtr> PhysicsJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsJointBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsJointBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSJOINTBASE_H_ */

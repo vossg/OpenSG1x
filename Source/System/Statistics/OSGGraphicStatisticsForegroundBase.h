@@ -167,26 +167,90 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFString            *getMFDescription    (void);
-           SFReal32            *getSFLineWidth      (void);
-           SFColor3f           *getSFBackgroundColor(void);
-           SFBool              *getSFTextEnabled    (void);
-           SFBool              *getSFBackgroundEnabled(void);
-           SFBool              *getSFBorderEnabled  (void);
 
-           Real32              &getLineWidth      (void);
+           MFString            *editMFDescription    (void);
+     const MFString            *getMFDescription    (void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFDescription    (void);
+#endif
+
+           SFReal32            *editSFLineWidth      (void);
+     const SFReal32            *getSFLineWidth      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFLineWidth      (void);
+#endif
+
+           SFColor3f           *editSFBackgroundColor(void);
+     const SFColor3f           *getSFBackgroundColor(void) const;
+#ifndef OSG_2_PREP
+           SFColor3f           *getSFBackgroundColor(void);
+#endif
+
+           SFBool              *editSFTextEnabled    (void);
+     const SFBool              *getSFTextEnabled    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFTextEnabled    (void);
+#endif
+
+           SFBool              *editSFBackgroundEnabled(void);
+     const SFBool              *getSFBackgroundEnabled(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBackgroundEnabled(void);
+#endif
+
+           SFBool              *editSFBorderEnabled  (void);
+     const SFBool              *getSFBorderEnabled  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBorderEnabled  (void);
+#endif
+
+
+           Real32              &editLineWidth      (void);
      const Real32              &getLineWidth      (void) const;
-           Color3f             &getBackgroundColor(void);
+#ifndef OSG_2_PREP
+           Real32              &getLineWidth      (void);
+#endif
+
+           Color3f             &editBackgroundColor(void);
      const Color3f             &getBackgroundColor(void) const;
-           bool                &getTextEnabled    (void);
+#ifndef OSG_2_PREP
+           Color3f             &getBackgroundColor(void);
+#endif
+
+           bool                &editTextEnabled    (void);
      const bool                &getTextEnabled    (void) const;
-           bool                &getBackgroundEnabled(void);
+#ifndef OSG_2_PREP
+           bool                &getTextEnabled    (void);
+#endif
+
+           bool                &editBackgroundEnabled(void);
      const bool                &getBackgroundEnabled(void) const;
-           bool                &getBorderEnabled  (void);
+#ifndef OSG_2_PREP
+           bool                &getBackgroundEnabled(void);
+#endif
+
+           bool                &editBorderEnabled  (void);
      const bool                &getBorderEnabled  (void) const;
+#ifndef OSG_2_PREP
+           bool                &getBorderEnabled  (void);
+#endif
+
+
+
+
+
+
+
+
+
+
+
+           std::string         &editDescription    (const UInt32 index);
+     const std::string         &getDescription    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getDescription    (const UInt32 index);
            MFString            &getDescription    (void);
-     const MFString            &getDescription    (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,47 +341,117 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           MFUInt32            *editMFDisplayType    (void);
+     const MFUInt32            *getMFDisplayType    (void) const;
+#ifndef OSG_2_PREP
            MFUInt32            *getMFDisplayType    (void);
+#endif
+           MFVec2f             *editMFSize           (void);
+     const MFVec2f             *getMFSize           (void) const;
+#ifndef OSG_2_PREP
            MFVec2f             *getMFSize           (void);
+#endif
+           MFVec2f             *editMFPos            (void);
+     const MFVec2f             *getMFPos            (void) const;
+#ifndef OSG_2_PREP
            MFVec2f             *getMFPos            (void);
+#endif
+           MFColor4f           *editMFColorMax       (void);
+     const MFColor4f           *getMFColorMax       (void) const;
+#ifndef OSG_2_PREP
            MFColor4f           *getMFColorMax       (void);
+#endif
+           MFColor4f           *editMFColorMin       (void);
+     const MFColor4f           *getMFColorMin       (void) const;
+#ifndef OSG_2_PREP
            MFColor4f           *getMFColorMin       (void);
+#endif
+           MFColor4f           *editMFColorCurrent   (void);
+     const MFColor4f           *getMFColorCurrent   (void) const;
+#ifndef OSG_2_PREP
            MFColor4f           *getMFColorCurrent   (void);
+#endif
+           MFReal32            *editMFMinValue       (void);
+     const MFReal32            *getMFMinValue       (void) const;
+#ifndef OSG_2_PREP
            MFReal32            *getMFMinValue       (void);
+#endif
+           MFReal32            *editMFMaxValue       (void);
+     const MFReal32            *getMFMaxValue       (void) const;
+#ifndef OSG_2_PREP
            MFReal32            *getMFMaxValue       (void);
+#endif
+           MFUInt32            *editMFFlags          (void);
+     const MFUInt32            *getMFFlags          (void) const;
+#ifndef OSG_2_PREP
            MFUInt32            *getMFFlags          (void);
+#endif
+           MFUInt32            *editMFHistorySize    (void);
+     const MFUInt32            *getMFHistorySize    (void) const;
+#ifndef OSG_2_PREP
            MFUInt32            *getMFHistorySize    (void);
+#endif
 
+           UInt32              &editDisplayType    (UInt32 index);
+     const UInt32              &getDisplayType    (UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getDisplayType    (UInt32 index);
            MFUInt32            &getDisplayType    (void);
-     const MFUInt32            &getDisplayType    (void) const;
+#endif
+           Vec2f               &editSize           (UInt32 index);
+     const Vec2f               &getSize           (UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec2f               &getSize           (UInt32 index);
            MFVec2f             &getSize           (void);
-     const MFVec2f             &getSize           (void) const;
+#endif
+           Vec2f               &editPos            (UInt32 index);
+     const Vec2f               &getPos            (UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec2f               &getPos            (UInt32 index);
            MFVec2f             &getPos            (void);
-     const MFVec2f             &getPos            (void) const;
+#endif
+           Color4f             &editColorMax       (UInt32 index);
+     const Color4f             &getColorMax       (UInt32 index) const;
+#ifndef OSG_2_PREP
            Color4f             &getColorMax       (UInt32 index);
            MFColor4f           &getColorMax       (void);
-     const MFColor4f           &getColorMax       (void) const;
+#endif
+           Color4f             &editColorMin       (UInt32 index);
+     const Color4f             &getColorMin       (UInt32 index) const;
+#ifndef OSG_2_PREP
            Color4f             &getColorMin       (UInt32 index);
            MFColor4f           &getColorMin       (void);
-     const MFColor4f           &getColorMin       (void) const;
+#endif
+           Color4f             &editColorCurrent   (UInt32 index);
+     const Color4f             &getColorCurrent   (UInt32 index) const;
+#ifndef OSG_2_PREP
            Color4f             &getColorCurrent   (UInt32 index);
            MFColor4f           &getColorCurrent   (void);
-     const MFColor4f           &getColorCurrent   (void) const;
+#endif
+           Real32              &editMinValue       (UInt32 index);
+     const Real32              &getMinValue       (UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getMinValue       (UInt32 index);
            MFReal32            &getMinValue       (void);
-     const MFReal32            &getMinValue       (void) const;
+#endif
+           Real32              &editMaxValue       (UInt32 index);
+     const Real32              &getMaxValue       (UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getMaxValue       (UInt32 index);
            MFReal32            &getMaxValue       (void);
-     const MFReal32            &getMaxValue       (void) const;
+#endif
+           UInt32              &editFlags          (UInt32 index);
+     const UInt32              &getFlags          (UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getFlags          (UInt32 index);
            MFUInt32            &getFlags          (void);
-     const MFUInt32            &getFlags          (void) const;
+#endif
+           UInt32              &editHistorySize    (UInt32 index);
+     const UInt32              &getHistorySize    (UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getHistorySize    (UInt32 index);
            MFUInt32            &getHistorySize    (void);
-     const MFUInt32            &getHistorySize    (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

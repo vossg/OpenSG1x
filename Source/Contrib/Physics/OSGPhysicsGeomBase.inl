@@ -98,64 +98,192 @@ PhysicsGeomPtr PhysicsGeomBase::createEmpty(void)
 
 //! Get the PhysicsGeom::_sfBody field.
 inline
-SFPhysicsBodyPtr *PhysicsGeomBase::getSFBody(void)
+const SFPhysicsBodyPtr *PhysicsGeomBase::getSFBody(void) const
 {
     return &_sfBody;
 }
 
+//! Get the PhysicsGeom::_sfBody field.
+inline
+SFPhysicsBodyPtr *PhysicsGeomBase::editSFBody(void)
+{
+    return &_sfBody;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsGeom::_sfBody field.
+inline
+SFPhysicsBodyPtr *PhysicsGeomBase::getSFBody(void)
+{
+    return &_sfBody;
+}
+#endif
+
+//! Get the PhysicsGeom::_sfPosition field.
+inline
+const SFVec3f *PhysicsGeomBase::getSFPosition(void) const
+{
+    return &_sfPosition;
+}
+
+//! Get the PhysicsGeom::_sfPosition field.
+inline
+SFVec3f *PhysicsGeomBase::editSFPosition(void)
+{
+    return &_sfPosition;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsGeom::_sfPosition field.
 inline
 SFVec3f *PhysicsGeomBase::getSFPosition(void)
 {
     return &_sfPosition;
 }
+#endif
 
+//! Get the PhysicsGeom::_sfRotation field.
+inline
+const SFMatrix *PhysicsGeomBase::getSFRotation(void) const
+{
+    return &_sfRotation;
+}
+
+//! Get the PhysicsGeom::_sfRotation field.
+inline
+SFMatrix *PhysicsGeomBase::editSFRotation(void)
+{
+    return &_sfRotation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsGeom::_sfRotation field.
 inline
 SFMatrix *PhysicsGeomBase::getSFRotation(void)
 {
     return &_sfRotation;
 }
+#endif
 
+//! Get the PhysicsGeom::_sfQuaternion field.
+inline
+const SFQuaternion *PhysicsGeomBase::getSFQuaternion(void) const
+{
+    return &_sfQuaternion;
+}
+
+//! Get the PhysicsGeom::_sfQuaternion field.
+inline
+SFQuaternion *PhysicsGeomBase::editSFQuaternion(void)
+{
+    return &_sfQuaternion;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsGeom::_sfQuaternion field.
 inline
 SFQuaternion *PhysicsGeomBase::getSFQuaternion(void)
 {
     return &_sfQuaternion;
 }
+#endif
 
+//! Get the PhysicsGeom::_sfCategoryBits field.
+inline
+const SFUInt64 *PhysicsGeomBase::getSFCategoryBits(void) const
+{
+    return &_sfCategoryBits;
+}
+
+//! Get the PhysicsGeom::_sfCategoryBits field.
+inline
+SFUInt64 *PhysicsGeomBase::editSFCategoryBits(void)
+{
+    return &_sfCategoryBits;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsGeom::_sfCategoryBits field.
 inline
 SFUInt64 *PhysicsGeomBase::getSFCategoryBits(void)
 {
     return &_sfCategoryBits;
 }
+#endif
 
+//! Get the PhysicsGeom::_sfCollideBits field.
+inline
+const SFUInt64 *PhysicsGeomBase::getSFCollideBits(void) const
+{
+    return &_sfCollideBits;
+}
+
+//! Get the PhysicsGeom::_sfCollideBits field.
+inline
+SFUInt64 *PhysicsGeomBase::editSFCollideBits(void)
+{
+    return &_sfCollideBits;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsGeom::_sfCollideBits field.
 inline
 SFUInt64 *PhysicsGeomBase::getSFCollideBits(void)
 {
     return &_sfCollideBits;
 }
+#endif
 
+//! Get the PhysicsGeom::_sfSpace field.
+inline
+const SFPhysicsSpacePtr *PhysicsGeomBase::getSFSpace(void) const
+{
+    return &_sfSpace;
+}
+
+//! Get the PhysicsGeom::_sfSpace field.
+inline
+SFPhysicsSpacePtr *PhysicsGeomBase::editSFSpace(void)
+{
+    return &_sfSpace;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsGeom::_sfSpace field.
 inline
 SFPhysicsSpacePtr *PhysicsGeomBase::getSFSpace(void)
 {
     return &_sfSpace;
 }
+#endif
 
+//! Get the PhysicsGeom::_sfEnable field.
+inline
+const SFBool *PhysicsGeomBase::getSFEnable(void) const
+{
+    return &_sfEnable;
+}
+
+//! Get the PhysicsGeom::_sfEnable field.
+inline
+SFBool *PhysicsGeomBase::editSFEnable(void)
+{
+    return &_sfEnable;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsGeom::_sfEnable field.
 inline
 SFBool *PhysicsGeomBase::getSFEnable(void)
 {
     return &_sfEnable;
 }
+#endif
 
 
 //! Get the value of the PhysicsGeom::_sfBody field.
 inline
-PhysicsBodyPtr &PhysicsGeomBase::getBody(void)
+PhysicsBodyPtr &PhysicsGeomBase::editBody(void)
 {
     return _sfBody.getValue();
 }
@@ -167,6 +295,15 @@ const PhysicsBodyPtr &PhysicsGeomBase::getBody(void) const
     return _sfBody.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsGeom::_sfBody field.
+inline
+PhysicsBodyPtr &PhysicsGeomBase::getBody(void)
+{
+    return _sfBody.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsGeom::_sfBody field.
 inline
 void PhysicsGeomBase::setBody(const PhysicsBodyPtr &value)
@@ -176,7 +313,7 @@ void PhysicsGeomBase::setBody(const PhysicsBodyPtr &value)
 
 //! Get the value of the PhysicsGeom::_sfPosition field.
 inline
-Vec3f &PhysicsGeomBase::getPosition(void)
+Vec3f &PhysicsGeomBase::editPosition(void)
 {
     return _sfPosition.getValue();
 }
@@ -188,6 +325,15 @@ const Vec3f &PhysicsGeomBase::getPosition(void) const
     return _sfPosition.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsGeom::_sfPosition field.
+inline
+Vec3f &PhysicsGeomBase::getPosition(void)
+{
+    return _sfPosition.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsGeom::_sfPosition field.
 inline
 void PhysicsGeomBase::setPosition(const Vec3f &value)
@@ -197,7 +343,7 @@ void PhysicsGeomBase::setPosition(const Vec3f &value)
 
 //! Get the value of the PhysicsGeom::_sfRotation field.
 inline
-Matrix &PhysicsGeomBase::getRotation(void)
+Matrix &PhysicsGeomBase::editRotation(void)
 {
     return _sfRotation.getValue();
 }
@@ -209,6 +355,15 @@ const Matrix &PhysicsGeomBase::getRotation(void) const
     return _sfRotation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsGeom::_sfRotation field.
+inline
+Matrix &PhysicsGeomBase::getRotation(void)
+{
+    return _sfRotation.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsGeom::_sfRotation field.
 inline
 void PhysicsGeomBase::setRotation(const Matrix &value)
@@ -218,7 +373,7 @@ void PhysicsGeomBase::setRotation(const Matrix &value)
 
 //! Get the value of the PhysicsGeom::_sfQuaternion field.
 inline
-Quaternion &PhysicsGeomBase::getQuaternion(void)
+Quaternion &PhysicsGeomBase::editQuaternion(void)
 {
     return _sfQuaternion.getValue();
 }
@@ -230,6 +385,15 @@ const Quaternion &PhysicsGeomBase::getQuaternion(void) const
     return _sfQuaternion.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsGeom::_sfQuaternion field.
+inline
+Quaternion &PhysicsGeomBase::getQuaternion(void)
+{
+    return _sfQuaternion.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsGeom::_sfQuaternion field.
 inline
 void PhysicsGeomBase::setQuaternion(const Quaternion &value)
@@ -239,7 +403,7 @@ void PhysicsGeomBase::setQuaternion(const Quaternion &value)
 
 //! Get the value of the PhysicsGeom::_sfCategoryBits field.
 inline
-UInt64 &PhysicsGeomBase::getCategoryBits(void)
+UInt64 &PhysicsGeomBase::editCategoryBits(void)
 {
     return _sfCategoryBits.getValue();
 }
@@ -251,6 +415,15 @@ const UInt64 &PhysicsGeomBase::getCategoryBits(void) const
     return _sfCategoryBits.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsGeom::_sfCategoryBits field.
+inline
+UInt64 &PhysicsGeomBase::getCategoryBits(void)
+{
+    return _sfCategoryBits.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsGeom::_sfCategoryBits field.
 inline
 void PhysicsGeomBase::setCategoryBits(const UInt64 &value)
@@ -260,7 +433,7 @@ void PhysicsGeomBase::setCategoryBits(const UInt64 &value)
 
 //! Get the value of the PhysicsGeom::_sfCollideBits field.
 inline
-UInt64 &PhysicsGeomBase::getCollideBits(void)
+UInt64 &PhysicsGeomBase::editCollideBits(void)
 {
     return _sfCollideBits.getValue();
 }
@@ -272,6 +445,15 @@ const UInt64 &PhysicsGeomBase::getCollideBits(void) const
     return _sfCollideBits.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsGeom::_sfCollideBits field.
+inline
+UInt64 &PhysicsGeomBase::getCollideBits(void)
+{
+    return _sfCollideBits.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsGeom::_sfCollideBits field.
 inline
 void PhysicsGeomBase::setCollideBits(const UInt64 &value)
@@ -281,7 +463,7 @@ void PhysicsGeomBase::setCollideBits(const UInt64 &value)
 
 //! Get the value of the PhysicsGeom::_sfSpace field.
 inline
-PhysicsSpacePtr &PhysicsGeomBase::getSpace(void)
+PhysicsSpacePtr &PhysicsGeomBase::editSpace(void)
 {
     return _sfSpace.getValue();
 }
@@ -293,6 +475,15 @@ const PhysicsSpacePtr &PhysicsGeomBase::getSpace(void) const
     return _sfSpace.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsGeom::_sfSpace field.
+inline
+PhysicsSpacePtr &PhysicsGeomBase::getSpace(void)
+{
+    return _sfSpace.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsGeom::_sfSpace field.
 inline
 void PhysicsGeomBase::setSpace(const PhysicsSpacePtr &value)
@@ -302,7 +493,7 @@ void PhysicsGeomBase::setSpace(const PhysicsSpacePtr &value)
 
 //! Get the value of the PhysicsGeom::_sfEnable field.
 inline
-bool &PhysicsGeomBase::getEnable(void)
+bool &PhysicsGeomBase::editEnable(void)
 {
     return _sfEnable.getValue();
 }
@@ -314,6 +505,15 @@ const bool &PhysicsGeomBase::getEnable(void) const
     return _sfEnable.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsGeom::_sfEnable field.
+inline
+bool &PhysicsGeomBase::getEnable(void)
+{
+    return _sfEnable.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsGeom::_sfEnable field.
 inline
 void PhysicsGeomBase::setEnable(const bool &value)
@@ -324,5 +524,5 @@ void PhysicsGeomBase::setEnable(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsGeomBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsGeomBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

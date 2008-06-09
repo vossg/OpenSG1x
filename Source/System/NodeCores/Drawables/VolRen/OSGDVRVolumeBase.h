@@ -176,43 +176,158 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFDVRAppearancePtr  *getSFAppearance     (void);
-           SFDVRGeometryPtr    *getSFGeometry       (void);
-           SFDVRShaderPtr      *getSFShader         (void);
-           SFString            *getSFFileName       (void);
-           SFReal32            *getSFSampling       (void);
-           SFReal32            *getSFSamplingInteractive(void);
-           SFReal32            *getSFBaseAlpha      (void);
-           SFBool              *getSFDoTextures     (void);
-           SFUInt32            *getSFBrickOverlap   (void);
-           SFQBit              *getSFTextures2D     (void);
-           SFUInt16            *getSFBrickStaticMemoryMB(void);
-           SFChunkMaterialPtr  *getSFTextureStorage (void);
 
-           DVRAppearancePtr    &getAppearance     (void);
+           SFDVRAppearancePtr  *editSFAppearance     (void);
+     const SFDVRAppearancePtr  *getSFAppearance     (void) const;
+#ifndef OSG_2_PREP
+           SFDVRAppearancePtr  *getSFAppearance     (void);
+#endif
+
+           SFDVRGeometryPtr    *editSFGeometry       (void);
+     const SFDVRGeometryPtr    *getSFGeometry       (void) const;
+#ifndef OSG_2_PREP
+           SFDVRGeometryPtr    *getSFGeometry       (void);
+#endif
+
+           SFDVRShaderPtr      *editSFShader         (void);
+     const SFDVRShaderPtr      *getSFShader         (void) const;
+#ifndef OSG_2_PREP
+           SFDVRShaderPtr      *getSFShader         (void);
+#endif
+
+           SFString            *editSFFileName       (void);
+     const SFString            *getSFFileName       (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFFileName       (void);
+#endif
+
+           SFReal32            *editSFSampling       (void);
+     const SFReal32            *getSFSampling       (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSampling       (void);
+#endif
+
+           SFReal32            *editSFSamplingInteractive(void);
+     const SFReal32            *getSFSamplingInteractive(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSamplingInteractive(void);
+#endif
+
+           SFReal32            *editSFBaseAlpha      (void);
+     const SFReal32            *getSFBaseAlpha      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFBaseAlpha      (void);
+#endif
+
+           SFBool              *editSFDoTextures     (void);
+     const SFBool              *getSFDoTextures     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDoTextures     (void);
+#endif
+
+           SFUInt32            *editSFBrickOverlap   (void);
+     const SFUInt32            *getSFBrickOverlap   (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFBrickOverlap   (void);
+#endif
+
+           SFQBit              *editSFTextures2D     (void);
+     const SFQBit              *getSFTextures2D     (void) const;
+#ifndef OSG_2_PREP
+           SFQBit              *getSFTextures2D     (void);
+#endif
+
+           SFUInt16            *editSFBrickStaticMemoryMB(void);
+     const SFUInt16            *getSFBrickStaticMemoryMB(void) const;
+#ifndef OSG_2_PREP
+           SFUInt16            *getSFBrickStaticMemoryMB(void);
+#endif
+
+           SFChunkMaterialPtr  *editSFTextureStorage (void);
+     const SFChunkMaterialPtr  *getSFTextureStorage (void) const;
+#ifndef OSG_2_PREP
+           SFChunkMaterialPtr  *getSFTextureStorage (void);
+#endif
+
+
+           DVRAppearancePtr    &editAppearance     (void);
      const DVRAppearancePtr    &getAppearance     (void) const;
-           DVRGeometryPtr      &getGeometry       (void);
+#ifndef OSG_2_PREP
+           DVRAppearancePtr    &getAppearance     (void);
+#endif
+
+           DVRGeometryPtr      &editGeometry       (void);
      const DVRGeometryPtr      &getGeometry       (void) const;
-           DVRShaderPtr        &getShader         (void);
+#ifndef OSG_2_PREP
+           DVRGeometryPtr      &getGeometry       (void);
+#endif
+
+           DVRShaderPtr        &editShader         (void);
      const DVRShaderPtr        &getShader         (void) const;
-           std::string         &getFileName       (void);
+#ifndef OSG_2_PREP
+           DVRShaderPtr        &getShader         (void);
+#endif
+
+           std::string         &editFileName       (void);
      const std::string         &getFileName       (void) const;
-           Real32              &getSampling       (void);
+#ifndef OSG_2_PREP
+           std::string         &getFileName       (void);
+#endif
+
+           Real32              &editSampling       (void);
      const Real32              &getSampling       (void) const;
-           Real32              &getSamplingInteractive(void);
+#ifndef OSG_2_PREP
+           Real32              &getSampling       (void);
+#endif
+
+           Real32              &editSamplingInteractive(void);
      const Real32              &getSamplingInteractive(void) const;
-           Real32              &getBaseAlpha      (void);
+#ifndef OSG_2_PREP
+           Real32              &getSamplingInteractive(void);
+#endif
+
+           Real32              &editBaseAlpha      (void);
      const Real32              &getBaseAlpha      (void) const;
-           bool                &getDoTextures     (void);
+#ifndef OSG_2_PREP
+           Real32              &getBaseAlpha      (void);
+#endif
+
+           bool                &editDoTextures     (void);
      const bool                &getDoTextures     (void) const;
-           UInt32              &getBrickOverlap   (void);
+#ifndef OSG_2_PREP
+           bool                &getDoTextures     (void);
+#endif
+
+           UInt32              &editBrickOverlap   (void);
      const UInt32              &getBrickOverlap   (void) const;
-           QBit                &getTextures2D     (void);
+#ifndef OSG_2_PREP
+           UInt32              &getBrickOverlap   (void);
+#endif
+
+           QBit                &editTextures2D     (void);
      const QBit                &getTextures2D     (void) const;
-           UInt16              &getBrickStaticMemoryMB(void);
+#ifndef OSG_2_PREP
+           QBit                &getTextures2D     (void);
+#endif
+
+           UInt16              &editBrickStaticMemoryMB(void);
      const UInt16              &getBrickStaticMemoryMB(void) const;
-           ChunkMaterialPtr    &getTextureStorage (void);
+#ifndef OSG_2_PREP
+           UInt16              &getBrickStaticMemoryMB(void);
+#endif
+
+
+
+
+
+
+
+           ChunkMaterialPtr    &editTextureStorage (void);
      const ChunkMaterialPtr    &getTextureStorage (void) const;
+#ifndef OSG_2_PREP
+           ChunkMaterialPtr    &getTextureStorage (void);
+#endif
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -313,29 +428,78 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeBase : public NodeCore
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFMaterialPtr       *editSFRenderMaterial (void);
+     const SFMaterialPtr       *getSFRenderMaterial (void) const;
+#ifndef OSG_2_PREP
            SFMaterialPtr       *getSFRenderMaterial (void);
+#endif
+           SFUInt16            *editSFBrickingMode   (void);
+     const SFUInt16            *getSFBrickingMode   (void) const;
+#ifndef OSG_2_PREP
            SFUInt16            *getSFBrickingMode   (void);
+#endif
+           SFVec3f             *editSFBrickStaticSubdivision(void);
+     const SFVec3f             *getSFBrickStaticSubdivision(void) const;
+#ifndef OSG_2_PREP
            SFVec3f             *getSFBrickStaticSubdivision(void);
+#endif
+           SFVec3f             *editSFBrickMaxSize   (void);
+     const SFVec3f             *getSFBrickMaxSize   (void) const;
+#ifndef OSG_2_PREP
            SFVec3f             *getSFBrickMaxSize   (void);
+#endif
+           SFBool              *editSFShowBricks     (void);
+     const SFBool              *getSFShowBricks     (void) const;
+#ifndef OSG_2_PREP
            SFBool              *getSFShowBricks     (void);
+#endif
+           SFUInt32            *editSFDrawStyle      (void);
+     const SFUInt32            *getSFDrawStyle      (void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFDrawStyle      (void);
+#endif
+           MFString            *editMFDrawStyleNames (void);
+     const MFString            *getMFDrawStyleNames (void) const;
+#ifndef OSG_2_PREP
            MFString            *getMFDrawStyleNames (void);
+#endif
 
-           MaterialPtr         &getRenderMaterial (void);
+           MaterialPtr         &editRenderMaterial (void);
      const MaterialPtr         &getRenderMaterial (void) const;
-           UInt16              &getBrickingMode   (void);
+#ifndef OSG_2_PREP
+           MaterialPtr         &getRenderMaterial (void);
+#endif
+           UInt16              &editBrickingMode   (void);
      const UInt16              &getBrickingMode   (void) const;
-           Vec3f               &getBrickStaticSubdivision(void);
+#ifndef OSG_2_PREP
+           UInt16              &getBrickingMode   (void);
+#endif
+           Vec3f               &editBrickStaticSubdivision(void);
      const Vec3f               &getBrickStaticSubdivision(void) const;
-           Vec3f               &getBrickMaxSize   (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getBrickStaticSubdivision(void);
+#endif
+           Vec3f               &editBrickMaxSize   (void);
      const Vec3f               &getBrickMaxSize   (void) const;
-           bool                &getShowBricks     (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getBrickMaxSize   (void);
+#endif
+           bool                &editShowBricks     (void);
      const bool                &getShowBricks     (void) const;
-           UInt32              &getDrawStyle      (void);
+#ifndef OSG_2_PREP
+           bool                &getShowBricks     (void);
+#endif
+           UInt32              &editDrawStyle      (void);
      const UInt32              &getDrawStyle      (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getDrawStyle      (void);
+#endif
+           std::string         &editDrawStyleNames (UInt32 index);
+     const std::string         &getDrawStyleNames (UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getDrawStyleNames (UInt32 index);
            MFString            &getDrawStyleNames (void);
-     const MFString            &getDrawStyleNames (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -110,27 +110,27 @@ FieldDescription *CGFXMaterialBase::_desc[] =
                      "effectFile", 
                      EffectFileFieldId, EffectFileFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFEffectFile)),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editSFEffectFile)),
     new FieldDescription(SFString::getClassType(), 
                      "effectString", 
                      EffectStringFieldId, EffectStringFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFEffectString)),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editSFEffectString)),
     new FieldDescription(SFInt32::getClassType(), 
                      "technique", 
                      TechniqueFieldId, TechniqueFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getSFTechnique)),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editSFTechnique)),
     new FieldDescription(MFShaderParameterPtr::getClassType(), 
                      "parameters", 
                      ParametersFieldId, ParametersFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getMFParameters)),
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editMFParameters)),
     new FieldDescription(MFImagePtr::getClassType(), 
                      "images", 
                      ImagesFieldId, ImagesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::getMFImages))
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editMFImages))
 };
 
 
@@ -426,7 +426,7 @@ DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "ChunkMateri
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.3 2008/06/05 05:02:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.4 2008/06/09 07:31:37 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIALBASE_INLINE_CVSID;
 

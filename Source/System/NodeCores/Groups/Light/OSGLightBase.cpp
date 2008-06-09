@@ -140,52 +140,52 @@ FieldDescription *LightBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFAmbient)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFAmbient)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFDiffuse)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFDiffuse)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFSpecular)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFSpecular)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFBeacon)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFBeacon)),
     new FieldDescription(SFBool::getClassType(), 
                      "on", 
                      OnFieldId, OnFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFOn)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFOn)),
     new FieldDescription(SFReal32::getClassType(), 
                      "constantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFConstantAttenuation)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFConstantAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "linearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFLinearAttenuation)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFLinearAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "quadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFQuadraticAttenuation)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFQuadraticAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "shadowIntensity", 
                      ShadowIntensityFieldId, ShadowIntensityFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFShadowIntensity)),
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFShadowIntensity)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "shadowMode", 
                      ShadowModeFieldId, ShadowModeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightBase::getSFShadowMode))
+                     reinterpret_cast<FieldAccessMethod>(&LightBase::editSFShadowMode))
 };
 
 
@@ -579,7 +579,7 @@ DataType FieldDataTraits<LightPtr>::_type("LightPtr", "GroupPtr");
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTBASE_INLINE_CVSID;
 

@@ -143,31 +143,103 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleMaterialBase : public ChunkMaterial
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor3f           *getSFAmbient        (void);
-           SFColor3f           *getSFDiffuse        (void);
-           SFColor3f           *getSFSpecular       (void);
-           SFReal32            *getSFShininess      (void);
-           SFColor3f           *getSFEmission       (void);
-           SFReal32            *getSFTransparency   (void);
-           SFBool              *getSFLit            (void);
-           SFGLenum            *getSFColorMaterial  (void);
 
-           Color3f             &getAmbient        (void);
+           SFColor3f           *editSFAmbient        (void);
+     const SFColor3f           *getSFAmbient        (void) const;
+#ifndef OSG_2_PREP
+           SFColor3f           *getSFAmbient        (void);
+#endif
+
+           SFColor3f           *editSFDiffuse        (void);
+     const SFColor3f           *getSFDiffuse        (void) const;
+#ifndef OSG_2_PREP
+           SFColor3f           *getSFDiffuse        (void);
+#endif
+
+           SFColor3f           *editSFSpecular       (void);
+     const SFColor3f           *getSFSpecular       (void) const;
+#ifndef OSG_2_PREP
+           SFColor3f           *getSFSpecular       (void);
+#endif
+
+           SFReal32            *editSFShininess      (void);
+     const SFReal32            *getSFShininess      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFShininess      (void);
+#endif
+
+           SFColor3f           *editSFEmission       (void);
+     const SFColor3f           *getSFEmission       (void) const;
+#ifndef OSG_2_PREP
+           SFColor3f           *getSFEmission       (void);
+#endif
+
+           SFReal32            *editSFTransparency   (void);
+     const SFReal32            *getSFTransparency   (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFTransparency   (void);
+#endif
+
+           SFBool              *editSFLit            (void);
+     const SFBool              *getSFLit            (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFLit            (void);
+#endif
+
+           SFGLenum            *editSFColorMaterial  (void);
+     const SFGLenum            *getSFColorMaterial  (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFColorMaterial  (void);
+#endif
+
+
+           Color3f             &editAmbient        (void);
      const Color3f             &getAmbient        (void) const;
-           Color3f             &getDiffuse        (void);
+#ifndef OSG_2_PREP
+           Color3f             &getAmbient        (void);
+#endif
+
+           Color3f             &editDiffuse        (void);
      const Color3f             &getDiffuse        (void) const;
-           Color3f             &getSpecular       (void);
+#ifndef OSG_2_PREP
+           Color3f             &getDiffuse        (void);
+#endif
+
+           Color3f             &editSpecular       (void);
      const Color3f             &getSpecular       (void) const;
-           Real32              &getShininess      (void);
+#ifndef OSG_2_PREP
+           Color3f             &getSpecular       (void);
+#endif
+
+           Real32              &editShininess      (void);
      const Real32              &getShininess      (void) const;
-           Color3f             &getEmission       (void);
+#ifndef OSG_2_PREP
+           Real32              &getShininess      (void);
+#endif
+
+           Color3f             &editEmission       (void);
      const Color3f             &getEmission       (void) const;
-           Real32              &getTransparency   (void);
+#ifndef OSG_2_PREP
+           Color3f             &getEmission       (void);
+#endif
+
+           Real32              &editTransparency   (void);
      const Real32              &getTransparency   (void) const;
-           bool                &getLit            (void);
+#ifndef OSG_2_PREP
+           Real32              &getTransparency   (void);
+#endif
+
+           bool                &editLit            (void);
      const bool                &getLit            (void) const;
-           GLenum              &getColorMaterial  (void);
+#ifndef OSG_2_PREP
+           bool                &getLit            (void);
+#endif
+
+           GLenum              &editColorMaterial  (void);
      const GLenum              &getColorMaterial  (void) const;
+#ifndef OSG_2_PREP
+           GLenum              &getColorMaterial  (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -152,42 +152,141 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMaterialPtr       *getSFMaterial       (void);
-           MFVec3f             *getMFTexCoords      (void);
-           MFPnt2f             *getMFPositions      (void);
-           SFBool              *getSFNormalizedX    (void);
-           SFBool              *getSFNormalizedY    (void);
-           SFUInt16            *getSFAspectHeight   (void);
-           SFUInt16            *getSFAspectWidth    (void);
-           SFReal32            *getSFScale          (void);
-           SFInt32             *getSFClearStencilBit(void);
-           SFBool              *getSFCleanup        (void);
-           SFBool              *getSFTile           (void);
 
-           MaterialPtr         &getMaterial       (void);
+           SFMaterialPtr       *editSFMaterial       (void);
+     const SFMaterialPtr       *getSFMaterial       (void) const;
+#ifndef OSG_2_PREP
+           SFMaterialPtr       *getSFMaterial       (void);
+#endif
+
+           MFVec3f             *editMFTexCoords      (void);
+     const MFVec3f             *getMFTexCoords      (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFTexCoords      (void);
+#endif
+
+           MFPnt2f             *editMFPositions      (void);
+     const MFPnt2f             *getMFPositions      (void) const;
+#ifndef OSG_2_PREP
+           MFPnt2f             *getMFPositions      (void);
+#endif
+
+           SFBool              *editSFNormalizedX    (void);
+     const SFBool              *getSFNormalizedX    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFNormalizedX    (void);
+#endif
+
+           SFBool              *editSFNormalizedY    (void);
+     const SFBool              *getSFNormalizedY    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFNormalizedY    (void);
+#endif
+
+           SFUInt16            *editSFAspectHeight   (void);
+     const SFUInt16            *getSFAspectHeight   (void) const;
+#ifndef OSG_2_PREP
+           SFUInt16            *getSFAspectHeight   (void);
+#endif
+
+           SFUInt16            *editSFAspectWidth    (void);
+     const SFUInt16            *getSFAspectWidth    (void) const;
+#ifndef OSG_2_PREP
+           SFUInt16            *getSFAspectWidth    (void);
+#endif
+
+           SFReal32            *editSFScale          (void);
+     const SFReal32            *getSFScale          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFScale          (void);
+#endif
+
+           SFInt32             *editSFClearStencilBit(void);
+     const SFInt32             *getSFClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFClearStencilBit(void);
+#endif
+
+           SFBool              *editSFCleanup        (void);
+     const SFBool              *getSFCleanup        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFCleanup        (void);
+#endif
+
+           SFBool              *editSFTile           (void);
+     const SFBool              *getSFTile           (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFTile           (void);
+#endif
+
+
+           MaterialPtr         &editMaterial       (void);
      const MaterialPtr         &getMaterial       (void) const;
-           bool                &getNormalizedX    (void);
+#ifndef OSG_2_PREP
+           MaterialPtr         &getMaterial       (void);
+#endif
+
+           bool                &editNormalizedX    (void);
      const bool                &getNormalizedX    (void) const;
-           bool                &getNormalizedY    (void);
+#ifndef OSG_2_PREP
+           bool                &getNormalizedX    (void);
+#endif
+
+           bool                &editNormalizedY    (void);
      const bool                &getNormalizedY    (void) const;
-           UInt16              &getAspectHeight   (void);
+#ifndef OSG_2_PREP
+           bool                &getNormalizedY    (void);
+#endif
+
+           UInt16              &editAspectHeight   (void);
      const UInt16              &getAspectHeight   (void) const;
-           UInt16              &getAspectWidth    (void);
+#ifndef OSG_2_PREP
+           UInt16              &getAspectHeight   (void);
+#endif
+
+           UInt16              &editAspectWidth    (void);
      const UInt16              &getAspectWidth    (void) const;
-           Real32              &getScale          (void);
+#ifndef OSG_2_PREP
+           UInt16              &getAspectWidth    (void);
+#endif
+
+           Real32              &editScale          (void);
      const Real32              &getScale          (void) const;
-           Int32               &getClearStencilBit(void);
+#ifndef OSG_2_PREP
+           Real32              &getScale          (void);
+#endif
+
+           Int32               &editClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
-           bool                &getCleanup        (void);
+#ifndef OSG_2_PREP
+           Int32               &getClearStencilBit(void);
+#endif
+
+           bool                &editCleanup        (void);
      const bool                &getCleanup        (void) const;
-           bool                &getTile           (void);
+#ifndef OSG_2_PREP
+           bool                &getCleanup        (void);
+#endif
+
+           bool                &editTile           (void);
      const bool                &getTile           (void) const;
+#ifndef OSG_2_PREP
+           bool                &getTile           (void);
+#endif
+
+           Vec3f               &editTexCoords      (const UInt32 index);
+     const Vec3f               &getTexCoords      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getTexCoords      (const UInt32 index);
            MFVec3f             &getTexCoords      (void);
-     const MFVec3f             &getTexCoords      (void) const;
+#endif
+
+           Pnt2f               &editPositions      (const UInt32 index);
+     const Pnt2f               &getPositions      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Pnt2f               &getPositions      (const UInt32 index);
            MFPnt2f             &getPositions      (void);
-     const MFPnt2f             &getPositions      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -333,6 +432,6 @@ typedef RefPtr<PolygonBackgroundPtr> PolygonBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.10 2008/06/05 05:02:30 vossg Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.11 2008/06/09 07:31:55 vossg Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUNDBASE_H_ */

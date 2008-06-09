@@ -152,41 +152,140 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFGLenum            *getSFCullFace       (void);
-           SFGLenum            *getSFFrontFace      (void);
-           SFGLenum            *getSFFrontMode      (void);
-           SFGLenum            *getSFBackMode       (void);
-           SFBool              *getSFSmooth         (void);
-           SFReal32            *getSFOffsetFactor   (void);
-           SFReal32            *getSFOffsetBias     (void);
-           SFBool              *getSFOffsetPoint    (void);
-           SFBool              *getSFOffsetLine     (void);
-           SFBool              *getSFOffsetFill     (void);
-           MFInt32             *getMFStipple        (void);
 
-           GLenum              &getCullFace       (void);
+           SFGLenum            *editSFCullFace       (void);
+     const SFGLenum            *getSFCullFace       (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFCullFace       (void);
+#endif
+
+           SFGLenum            *editSFFrontFace      (void);
+     const SFGLenum            *getSFFrontFace      (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFFrontFace      (void);
+#endif
+
+           SFGLenum            *editSFFrontMode      (void);
+     const SFGLenum            *getSFFrontMode      (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFFrontMode      (void);
+#endif
+
+           SFGLenum            *editSFBackMode       (void);
+     const SFGLenum            *getSFBackMode       (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFBackMode       (void);
+#endif
+
+           SFBool              *editSFSmooth         (void);
+     const SFBool              *getSFSmooth         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSmooth         (void);
+#endif
+
+           SFReal32            *editSFOffsetFactor   (void);
+     const SFReal32            *getSFOffsetFactor   (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOffsetFactor   (void);
+#endif
+
+           SFReal32            *editSFOffsetBias     (void);
+     const SFReal32            *getSFOffsetBias     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOffsetBias     (void);
+#endif
+
+           SFBool              *editSFOffsetPoint    (void);
+     const SFBool              *getSFOffsetPoint    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFOffsetPoint    (void);
+#endif
+
+           SFBool              *editSFOffsetLine     (void);
+     const SFBool              *getSFOffsetLine     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFOffsetLine     (void);
+#endif
+
+           SFBool              *editSFOffsetFill     (void);
+     const SFBool              *getSFOffsetFill     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFOffsetFill     (void);
+#endif
+
+           MFInt32             *editMFStipple        (void);
+     const MFInt32             *getMFStipple        (void) const;
+#ifndef OSG_2_PREP
+           MFInt32             *getMFStipple        (void);
+#endif
+
+
+           GLenum              &editCullFace       (void);
      const GLenum              &getCullFace       (void) const;
-           GLenum              &getFrontFace      (void);
+#ifndef OSG_2_PREP
+           GLenum              &getCullFace       (void);
+#endif
+
+           GLenum              &editFrontFace      (void);
      const GLenum              &getFrontFace      (void) const;
-           GLenum              &getFrontMode      (void);
+#ifndef OSG_2_PREP
+           GLenum              &getFrontFace      (void);
+#endif
+
+           GLenum              &editFrontMode      (void);
      const GLenum              &getFrontMode      (void) const;
-           GLenum              &getBackMode       (void);
+#ifndef OSG_2_PREP
+           GLenum              &getFrontMode      (void);
+#endif
+
+           GLenum              &editBackMode       (void);
      const GLenum              &getBackMode       (void) const;
-           bool                &getSmooth         (void);
+#ifndef OSG_2_PREP
+           GLenum              &getBackMode       (void);
+#endif
+
+           bool                &editSmooth         (void);
      const bool                &getSmooth         (void) const;
-           Real32              &getOffsetFactor   (void);
+#ifndef OSG_2_PREP
+           bool                &getSmooth         (void);
+#endif
+
+           Real32              &editOffsetFactor   (void);
      const Real32              &getOffsetFactor   (void) const;
-           Real32              &getOffsetBias     (void);
+#ifndef OSG_2_PREP
+           Real32              &getOffsetFactor   (void);
+#endif
+
+           Real32              &editOffsetBias     (void);
      const Real32              &getOffsetBias     (void) const;
-           bool                &getOffsetPoint    (void);
+#ifndef OSG_2_PREP
+           Real32              &getOffsetBias     (void);
+#endif
+
+           bool                &editOffsetPoint    (void);
      const bool                &getOffsetPoint    (void) const;
-           bool                &getOffsetLine     (void);
+#ifndef OSG_2_PREP
+           bool                &getOffsetPoint    (void);
+#endif
+
+           bool                &editOffsetLine     (void);
      const bool                &getOffsetLine     (void) const;
-           bool                &getOffsetFill     (void);
+#ifndef OSG_2_PREP
+           bool                &getOffsetLine     (void);
+#endif
+
+           bool                &editOffsetFill     (void);
      const bool                &getOffsetFill     (void) const;
+#ifndef OSG_2_PREP
+           bool                &getOffsetFill     (void);
+#endif
+
+           Int32               &editStipple        (const UInt32 index);
+     const Int32               &getStipple        (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Int32               &getStipple        (const UInt32 index);
            MFInt32             &getStipple        (void);
-     const MFInt32             &getStipple        (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

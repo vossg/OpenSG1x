@@ -98,17 +98,17 @@ FieldDescription *BinarySwapComposerBase::_desc[] =
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::getSFShort)),
+                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::editSFShort)),
     new FieldDescription(SFBool::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::getSFAlpha)),
+                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::editSFAlpha)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "tileSize", 
                      TileSizeFieldId, TileSizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::getSFTileSize))
+                     reinterpret_cast<FieldAccessMethod>(&BinarySwapComposerBase::editSFTileSize))
 };
 
 
@@ -350,7 +350,7 @@ DataType FieldDataTraits<BinarySwapComposerPtr>::_type("BinarySwapComposerPtr", 
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBINARYSWAPCOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBINARYSWAPCOMPOSERBASE_INLINE_CVSID;
 

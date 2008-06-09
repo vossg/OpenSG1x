@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFInt32             *getSFChoice         (void);
 
-           Int32               &getChoice         (void);
+           SFInt32             *editSFChoice         (void);
+     const SFInt32             *getSFChoice         (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFChoice         (void);
+#endif
+
+
+           Int32               &editChoice         (void);
      const Int32               &getChoice         (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getChoice         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

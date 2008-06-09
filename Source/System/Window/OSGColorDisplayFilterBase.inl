@@ -98,50 +98,146 @@ ColorDisplayFilterPtr ColorDisplayFilterBase::createEmpty(void)
 
 //! Get the ColorDisplayFilter::_sfGamma field.
 inline
-SFReal32 *ColorDisplayFilterBase::getSFGamma(void)
+const SFReal32 *ColorDisplayFilterBase::getSFGamma(void) const
 {
     return &_sfGamma;
 }
 
+//! Get the ColorDisplayFilter::_sfGamma field.
+inline
+SFReal32 *ColorDisplayFilterBase::editSFGamma(void)
+{
+    return &_sfGamma;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ColorDisplayFilter::_sfGamma field.
+inline
+SFReal32 *ColorDisplayFilterBase::getSFGamma(void)
+{
+    return &_sfGamma;
+}
+#endif
+
+//! Get the ColorDisplayFilter::_sfMatrix field.
+inline
+const SFMatrix *ColorDisplayFilterBase::getSFMatrix(void) const
+{
+    return &_sfMatrix;
+}
+
+//! Get the ColorDisplayFilter::_sfMatrix field.
+inline
+SFMatrix *ColorDisplayFilterBase::editSFMatrix(void)
+{
+    return &_sfMatrix;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ColorDisplayFilter::_sfMatrix field.
 inline
 SFMatrix *ColorDisplayFilterBase::getSFMatrix(void)
 {
     return &_sfMatrix;
 }
+#endif
 
+//! Get the ColorDisplayFilter::_sfWidth field.
+inline
+const SFUInt32 *ColorDisplayFilterBase::getSFWidth(void) const
+{
+    return &_sfWidth;
+}
+
+//! Get the ColorDisplayFilter::_sfWidth field.
+inline
+SFUInt32 *ColorDisplayFilterBase::editSFWidth(void)
+{
+    return &_sfWidth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ColorDisplayFilter::_sfWidth field.
 inline
 SFUInt32 *ColorDisplayFilterBase::getSFWidth(void)
 {
     return &_sfWidth;
 }
+#endif
 
+//! Get the ColorDisplayFilter::_sfHeight field.
+inline
+const SFUInt32 *ColorDisplayFilterBase::getSFHeight(void) const
+{
+    return &_sfHeight;
+}
+
+//! Get the ColorDisplayFilter::_sfHeight field.
+inline
+SFUInt32 *ColorDisplayFilterBase::editSFHeight(void)
+{
+    return &_sfHeight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ColorDisplayFilter::_sfHeight field.
 inline
 SFUInt32 *ColorDisplayFilterBase::getSFHeight(void)
 {
     return &_sfHeight;
 }
+#endif
 
+//! Get the ColorDisplayFilter::_sfDepth field.
+inline
+const SFUInt32 *ColorDisplayFilterBase::getSFDepth(void) const
+{
+    return &_sfDepth;
+}
+
+//! Get the ColorDisplayFilter::_sfDepth field.
+inline
+SFUInt32 *ColorDisplayFilterBase::editSFDepth(void)
+{
+    return &_sfDepth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ColorDisplayFilter::_sfDepth field.
 inline
 SFUInt32 *ColorDisplayFilterBase::getSFDepth(void)
 {
     return &_sfDepth;
 }
+#endif
 
+//! Get the ColorDisplayFilter::_mfTable field.
+inline
+const MFColor3f *ColorDisplayFilterBase::getMFTable(void) const
+{
+    return &_mfTable;
+}
+
+//! Get the ColorDisplayFilter::_mfTable field.
+inline
+MFColor3f *ColorDisplayFilterBase::editMFTable(void)
+{
+    return &_mfTable;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ColorDisplayFilter::_mfTable field.
 inline
 MFColor3f *ColorDisplayFilterBase::getMFTable(void)
 {
     return &_mfTable;
 }
+#endif
 
 
 //! Get the value of the ColorDisplayFilter::_sfGamma field.
 inline
-Real32 &ColorDisplayFilterBase::getGamma(void)
+Real32 &ColorDisplayFilterBase::editGamma(void)
 {
     return _sfGamma.getValue();
 }
@@ -153,6 +249,15 @@ const Real32 &ColorDisplayFilterBase::getGamma(void) const
     return _sfGamma.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ColorDisplayFilter::_sfGamma field.
+inline
+Real32 &ColorDisplayFilterBase::getGamma(void)
+{
+    return _sfGamma.getValue();
+}
+#endif
+
 //! Set the value of the ColorDisplayFilter::_sfGamma field.
 inline
 void ColorDisplayFilterBase::setGamma(const Real32 &value)
@@ -162,7 +267,7 @@ void ColorDisplayFilterBase::setGamma(const Real32 &value)
 
 //! Get the value of the ColorDisplayFilter::_sfMatrix field.
 inline
-Matrix &ColorDisplayFilterBase::getMatrix(void)
+Matrix &ColorDisplayFilterBase::editMatrix(void)
 {
     return _sfMatrix.getValue();
 }
@@ -174,6 +279,15 @@ const Matrix &ColorDisplayFilterBase::getMatrix(void) const
     return _sfMatrix.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ColorDisplayFilter::_sfMatrix field.
+inline
+Matrix &ColorDisplayFilterBase::getMatrix(void)
+{
+    return _sfMatrix.getValue();
+}
+#endif
+
 //! Set the value of the ColorDisplayFilter::_sfMatrix field.
 inline
 void ColorDisplayFilterBase::setMatrix(const Matrix &value)
@@ -183,7 +297,7 @@ void ColorDisplayFilterBase::setMatrix(const Matrix &value)
 
 //! Get the value of the ColorDisplayFilter::_sfWidth field.
 inline
-UInt32 &ColorDisplayFilterBase::getWidth(void)
+UInt32 &ColorDisplayFilterBase::editWidth(void)
 {
     return _sfWidth.getValue();
 }
@@ -195,6 +309,15 @@ const UInt32 &ColorDisplayFilterBase::getWidth(void) const
     return _sfWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ColorDisplayFilter::_sfWidth field.
+inline
+UInt32 &ColorDisplayFilterBase::getWidth(void)
+{
+    return _sfWidth.getValue();
+}
+#endif
+
 //! Set the value of the ColorDisplayFilter::_sfWidth field.
 inline
 void ColorDisplayFilterBase::setWidth(const UInt32 &value)
@@ -204,7 +327,7 @@ void ColorDisplayFilterBase::setWidth(const UInt32 &value)
 
 //! Get the value of the ColorDisplayFilter::_sfHeight field.
 inline
-UInt32 &ColorDisplayFilterBase::getHeight(void)
+UInt32 &ColorDisplayFilterBase::editHeight(void)
 {
     return _sfHeight.getValue();
 }
@@ -216,6 +339,15 @@ const UInt32 &ColorDisplayFilterBase::getHeight(void) const
     return _sfHeight.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ColorDisplayFilter::_sfHeight field.
+inline
+UInt32 &ColorDisplayFilterBase::getHeight(void)
+{
+    return _sfHeight.getValue();
+}
+#endif
+
 //! Set the value of the ColorDisplayFilter::_sfHeight field.
 inline
 void ColorDisplayFilterBase::setHeight(const UInt32 &value)
@@ -225,7 +357,7 @@ void ColorDisplayFilterBase::setHeight(const UInt32 &value)
 
 //! Get the value of the ColorDisplayFilter::_sfDepth field.
 inline
-UInt32 &ColorDisplayFilterBase::getDepth(void)
+UInt32 &ColorDisplayFilterBase::editDepth(void)
 {
     return _sfDepth.getValue();
 }
@@ -237,6 +369,15 @@ const UInt32 &ColorDisplayFilterBase::getDepth(void) const
     return _sfDepth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ColorDisplayFilter::_sfDepth field.
+inline
+UInt32 &ColorDisplayFilterBase::getDepth(void)
+{
+    return _sfDepth.getValue();
+}
+#endif
+
 //! Set the value of the ColorDisplayFilter::_sfDepth field.
 inline
 void ColorDisplayFilterBase::setDepth(const UInt32 &value)
@@ -245,6 +386,21 @@ void ColorDisplayFilterBase::setDepth(const UInt32 &value)
 }
 
 
+//! Get the value of the \a index element the ColorDisplayFilter::_mfTable field.
+inline
+Color3f &ColorDisplayFilterBase::editTable(const UInt32 index)
+{
+    return _mfTable[index];
+}
+
+//! Get the value of the \a index element the ColorDisplayFilter::_mfTable field.
+inline
+const Color3f &ColorDisplayFilterBase::getTable(const UInt32 index) const
+{
+    return _mfTable[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ColorDisplayFilter::_mfTable field.
 inline
 Color3f &ColorDisplayFilterBase::getTable(const UInt32 index)
@@ -259,12 +415,7 @@ MFColor3f &ColorDisplayFilterBase::getTable(void)
     return _mfTable;
 }
 
-//! Get the ColorDisplayFilter::_mfTable field.
-inline
-const MFColor3f &ColorDisplayFilterBase::getTable(void) const
-{
-    return _mfTable;
-}
+#endif
 
 OSG_END_NAMESPACE
 

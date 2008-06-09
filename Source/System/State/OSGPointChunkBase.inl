@@ -98,78 +98,238 @@ PointChunkPtr PointChunkBase::createEmpty(void)
 
 //! Get the PointChunk::_sfSize field.
 inline
-SFReal32 *PointChunkBase::getSFSize(void)
+const SFReal32 *PointChunkBase::getSFSize(void) const
 {
     return &_sfSize;
 }
 
+//! Get the PointChunk::_sfSize field.
+inline
+SFReal32 *PointChunkBase::editSFSize(void)
+{
+    return &_sfSize;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PointChunk::_sfSize field.
+inline
+SFReal32 *PointChunkBase::getSFSize(void)
+{
+    return &_sfSize;
+}
+#endif
+
+//! Get the PointChunk::_sfSmooth field.
+inline
+const SFBool *PointChunkBase::getSFSmooth(void) const
+{
+    return &_sfSmooth;
+}
+
+//! Get the PointChunk::_sfSmooth field.
+inline
+SFBool *PointChunkBase::editSFSmooth(void)
+{
+    return &_sfSmooth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfSmooth field.
 inline
 SFBool *PointChunkBase::getSFSmooth(void)
 {
     return &_sfSmooth;
 }
+#endif
 
+//! Get the PointChunk::_sfMinSize field.
+inline
+const SFReal32 *PointChunkBase::getSFMinSize(void) const
+{
+    return &_sfMinSize;
+}
+
+//! Get the PointChunk::_sfMinSize field.
+inline
+SFReal32 *PointChunkBase::editSFMinSize(void)
+{
+    return &_sfMinSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfMinSize field.
 inline
 SFReal32 *PointChunkBase::getSFMinSize(void)
 {
     return &_sfMinSize;
 }
+#endif
 
+//! Get the PointChunk::_sfMaxSize field.
+inline
+const SFReal32 *PointChunkBase::getSFMaxSize(void) const
+{
+    return &_sfMaxSize;
+}
+
+//! Get the PointChunk::_sfMaxSize field.
+inline
+SFReal32 *PointChunkBase::editSFMaxSize(void)
+{
+    return &_sfMaxSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfMaxSize field.
 inline
 SFReal32 *PointChunkBase::getSFMaxSize(void)
 {
     return &_sfMaxSize;
 }
+#endif
 
+//! Get the PointChunk::_sfConstantAttenuation field.
+inline
+const SFReal32 *PointChunkBase::getSFConstantAttenuation(void) const
+{
+    return &_sfConstantAttenuation;
+}
+
+//! Get the PointChunk::_sfConstantAttenuation field.
+inline
+SFReal32 *PointChunkBase::editSFConstantAttenuation(void)
+{
+    return &_sfConstantAttenuation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfConstantAttenuation field.
 inline
 SFReal32 *PointChunkBase::getSFConstantAttenuation(void)
 {
     return &_sfConstantAttenuation;
 }
+#endif
 
+//! Get the PointChunk::_sfLinearAttenuation field.
+inline
+const SFReal32 *PointChunkBase::getSFLinearAttenuation(void) const
+{
+    return &_sfLinearAttenuation;
+}
+
+//! Get the PointChunk::_sfLinearAttenuation field.
+inline
+SFReal32 *PointChunkBase::editSFLinearAttenuation(void)
+{
+    return &_sfLinearAttenuation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfLinearAttenuation field.
 inline
 SFReal32 *PointChunkBase::getSFLinearAttenuation(void)
 {
     return &_sfLinearAttenuation;
 }
+#endif
 
+//! Get the PointChunk::_sfQuadraticAttenuation field.
+inline
+const SFReal32 *PointChunkBase::getSFQuadraticAttenuation(void) const
+{
+    return &_sfQuadraticAttenuation;
+}
+
+//! Get the PointChunk::_sfQuadraticAttenuation field.
+inline
+SFReal32 *PointChunkBase::editSFQuadraticAttenuation(void)
+{
+    return &_sfQuadraticAttenuation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfQuadraticAttenuation field.
 inline
 SFReal32 *PointChunkBase::getSFQuadraticAttenuation(void)
 {
     return &_sfQuadraticAttenuation;
 }
+#endif
 
+//! Get the PointChunk::_sfFadeThreshold field.
+inline
+const SFReal32 *PointChunkBase::getSFFadeThreshold(void) const
+{
+    return &_sfFadeThreshold;
+}
+
+//! Get the PointChunk::_sfFadeThreshold field.
+inline
+SFReal32 *PointChunkBase::editSFFadeThreshold(void)
+{
+    return &_sfFadeThreshold;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfFadeThreshold field.
 inline
 SFReal32 *PointChunkBase::getSFFadeThreshold(void)
 {
     return &_sfFadeThreshold;
 }
+#endif
 
+//! Get the PointChunk::_sfSprite field.
+inline
+const SFBool *PointChunkBase::getSFSprite(void) const
+{
+    return &_sfSprite;
+}
+
+//! Get the PointChunk::_sfSprite field.
+inline
+SFBool *PointChunkBase::editSFSprite(void)
+{
+    return &_sfSprite;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfSprite field.
 inline
 SFBool *PointChunkBase::getSFSprite(void)
 {
     return &_sfSprite;
 }
+#endif
 
+//! Get the PointChunk::_sfRMode field.
+inline
+const SFGLenum *PointChunkBase::getSFRMode(void) const
+{
+    return &_sfRMode;
+}
+
+//! Get the PointChunk::_sfRMode field.
+inline
+SFGLenum *PointChunkBase::editSFRMode(void)
+{
+    return &_sfRMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PointChunk::_sfRMode field.
 inline
 SFGLenum *PointChunkBase::getSFRMode(void)
 {
     return &_sfRMode;
 }
+#endif
 
 
 //! Get the value of the PointChunk::_sfSize field.
 inline
-Real32 &PointChunkBase::getSize(void)
+Real32 &PointChunkBase::editSize(void)
 {
     return _sfSize.getValue();
 }
@@ -181,6 +341,15 @@ const Real32 &PointChunkBase::getSize(void) const
     return _sfSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfSize field.
+inline
+Real32 &PointChunkBase::getSize(void)
+{
+    return _sfSize.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfSize field.
 inline
 void PointChunkBase::setSize(const Real32 &value)
@@ -190,7 +359,7 @@ void PointChunkBase::setSize(const Real32 &value)
 
 //! Get the value of the PointChunk::_sfSmooth field.
 inline
-bool &PointChunkBase::getSmooth(void)
+bool &PointChunkBase::editSmooth(void)
 {
     return _sfSmooth.getValue();
 }
@@ -202,6 +371,15 @@ const bool &PointChunkBase::getSmooth(void) const
     return _sfSmooth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfSmooth field.
+inline
+bool &PointChunkBase::getSmooth(void)
+{
+    return _sfSmooth.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfSmooth field.
 inline
 void PointChunkBase::setSmooth(const bool &value)
@@ -211,7 +389,7 @@ void PointChunkBase::setSmooth(const bool &value)
 
 //! Get the value of the PointChunk::_sfMinSize field.
 inline
-Real32 &PointChunkBase::getMinSize(void)
+Real32 &PointChunkBase::editMinSize(void)
 {
     return _sfMinSize.getValue();
 }
@@ -223,6 +401,15 @@ const Real32 &PointChunkBase::getMinSize(void) const
     return _sfMinSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfMinSize field.
+inline
+Real32 &PointChunkBase::getMinSize(void)
+{
+    return _sfMinSize.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfMinSize field.
 inline
 void PointChunkBase::setMinSize(const Real32 &value)
@@ -232,7 +419,7 @@ void PointChunkBase::setMinSize(const Real32 &value)
 
 //! Get the value of the PointChunk::_sfMaxSize field.
 inline
-Real32 &PointChunkBase::getMaxSize(void)
+Real32 &PointChunkBase::editMaxSize(void)
 {
     return _sfMaxSize.getValue();
 }
@@ -244,6 +431,15 @@ const Real32 &PointChunkBase::getMaxSize(void) const
     return _sfMaxSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfMaxSize field.
+inline
+Real32 &PointChunkBase::getMaxSize(void)
+{
+    return _sfMaxSize.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfMaxSize field.
 inline
 void PointChunkBase::setMaxSize(const Real32 &value)
@@ -253,7 +449,7 @@ void PointChunkBase::setMaxSize(const Real32 &value)
 
 //! Get the value of the PointChunk::_sfConstantAttenuation field.
 inline
-Real32 &PointChunkBase::getConstantAttenuation(void)
+Real32 &PointChunkBase::editConstantAttenuation(void)
 {
     return _sfConstantAttenuation.getValue();
 }
@@ -265,6 +461,15 @@ const Real32 &PointChunkBase::getConstantAttenuation(void) const
     return _sfConstantAttenuation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfConstantAttenuation field.
+inline
+Real32 &PointChunkBase::getConstantAttenuation(void)
+{
+    return _sfConstantAttenuation.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfConstantAttenuation field.
 inline
 void PointChunkBase::setConstantAttenuation(const Real32 &value)
@@ -274,7 +479,7 @@ void PointChunkBase::setConstantAttenuation(const Real32 &value)
 
 //! Get the value of the PointChunk::_sfLinearAttenuation field.
 inline
-Real32 &PointChunkBase::getLinearAttenuation(void)
+Real32 &PointChunkBase::editLinearAttenuation(void)
 {
     return _sfLinearAttenuation.getValue();
 }
@@ -286,6 +491,15 @@ const Real32 &PointChunkBase::getLinearAttenuation(void) const
     return _sfLinearAttenuation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfLinearAttenuation field.
+inline
+Real32 &PointChunkBase::getLinearAttenuation(void)
+{
+    return _sfLinearAttenuation.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfLinearAttenuation field.
 inline
 void PointChunkBase::setLinearAttenuation(const Real32 &value)
@@ -295,7 +509,7 @@ void PointChunkBase::setLinearAttenuation(const Real32 &value)
 
 //! Get the value of the PointChunk::_sfQuadraticAttenuation field.
 inline
-Real32 &PointChunkBase::getQuadraticAttenuation(void)
+Real32 &PointChunkBase::editQuadraticAttenuation(void)
 {
     return _sfQuadraticAttenuation.getValue();
 }
@@ -307,6 +521,15 @@ const Real32 &PointChunkBase::getQuadraticAttenuation(void) const
     return _sfQuadraticAttenuation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfQuadraticAttenuation field.
+inline
+Real32 &PointChunkBase::getQuadraticAttenuation(void)
+{
+    return _sfQuadraticAttenuation.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfQuadraticAttenuation field.
 inline
 void PointChunkBase::setQuadraticAttenuation(const Real32 &value)
@@ -316,7 +539,7 @@ void PointChunkBase::setQuadraticAttenuation(const Real32 &value)
 
 //! Get the value of the PointChunk::_sfFadeThreshold field.
 inline
-Real32 &PointChunkBase::getFadeThreshold(void)
+Real32 &PointChunkBase::editFadeThreshold(void)
 {
     return _sfFadeThreshold.getValue();
 }
@@ -328,6 +551,15 @@ const Real32 &PointChunkBase::getFadeThreshold(void) const
     return _sfFadeThreshold.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfFadeThreshold field.
+inline
+Real32 &PointChunkBase::getFadeThreshold(void)
+{
+    return _sfFadeThreshold.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfFadeThreshold field.
 inline
 void PointChunkBase::setFadeThreshold(const Real32 &value)
@@ -337,7 +569,7 @@ void PointChunkBase::setFadeThreshold(const Real32 &value)
 
 //! Get the value of the PointChunk::_sfSprite field.
 inline
-bool &PointChunkBase::getSprite(void)
+bool &PointChunkBase::editSprite(void)
 {
     return _sfSprite.getValue();
 }
@@ -349,6 +581,15 @@ const bool &PointChunkBase::getSprite(void) const
     return _sfSprite.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfSprite field.
+inline
+bool &PointChunkBase::getSprite(void)
+{
+    return _sfSprite.getValue();
+}
+#endif
+
 //! Set the value of the PointChunk::_sfSprite field.
 inline
 void PointChunkBase::setSprite(const bool &value)
@@ -358,7 +599,7 @@ void PointChunkBase::setSprite(const bool &value)
 
 //! Get the value of the PointChunk::_sfRMode field.
 inline
-GLenum &PointChunkBase::getRMode(void)
+GLenum &PointChunkBase::editRMode(void)
 {
     return _sfRMode.getValue();
 }
@@ -369,6 +610,15 @@ const GLenum &PointChunkBase::getRMode(void) const
 {
     return _sfRMode.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the PointChunk::_sfRMode field.
+inline
+GLenum &PointChunkBase::getRMode(void)
+{
+    return _sfRMode.getValue();
+}
+#endif
 
 //! Set the value of the PointChunk::_sfRMode field.
 inline

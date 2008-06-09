@@ -137,26 +137,80 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRVolumeTextureBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImagePtr          *getSFImage          (void);
-           MFReal32            *getMFHistogram      (void);
-           SFReal32            *getSFMaxVal         (void);
-           SFVec3f             *getSFSliceThickness (void);
-           SFVec3f             *getSFResolution     (void);
-           SFString            *getSFFileName       (void);
 
-           ImagePtr            &getImage          (void);
+           SFImagePtr          *editSFImage          (void);
+     const SFImagePtr          *getSFImage          (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFImage          (void);
+#endif
+
+           MFReal32            *editMFHistogram      (void);
+     const MFReal32            *getMFHistogram      (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFHistogram      (void);
+#endif
+
+           SFReal32            *editSFMaxVal         (void);
+     const SFReal32            *getSFMaxVal         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFMaxVal         (void);
+#endif
+
+           SFVec3f             *editSFSliceThickness (void);
+     const SFVec3f             *getSFSliceThickness (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFSliceThickness (void);
+#endif
+
+           SFVec3f             *editSFResolution     (void);
+     const SFVec3f             *getSFResolution     (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFResolution     (void);
+#endif
+
+           SFString            *editSFFileName       (void);
+     const SFString            *getSFFileName       (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFFileName       (void);
+#endif
+
+
+           ImagePtr            &editImage          (void);
      const ImagePtr            &getImage          (void) const;
-           Real32              &getMaxVal         (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getImage          (void);
+#endif
+
+           Real32              &editMaxVal         (void);
      const Real32              &getMaxVal         (void) const;
-           Vec3f               &getSliceThickness (void);
+#ifndef OSG_2_PREP
+           Real32              &getMaxVal         (void);
+#endif
+
+           Vec3f               &editSliceThickness (void);
      const Vec3f               &getSliceThickness (void) const;
-           Vec3f               &getResolution     (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getSliceThickness (void);
+#endif
+
+           Vec3f               &editResolution     (void);
      const Vec3f               &getResolution     (void) const;
-           std::string         &getFileName       (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getResolution     (void);
+#endif
+
+           std::string         &editFileName       (void);
      const std::string         &getFileName       (void) const;
+#ifndef OSG_2_PREP
+           std::string         &getFileName       (void);
+#endif
+
+           Real32              &editHistogram      (const UInt32 index);
+     const Real32              &getHistogram      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getHistogram      (const UInt32 index);
            MFReal32            &getHistogram      (void);
-     const MFReal32            &getHistogram      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

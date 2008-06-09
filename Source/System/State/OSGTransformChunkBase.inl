@@ -98,15 +98,31 @@ TransformChunkPtr TransformChunkBase::createEmpty(void)
 
 //! Get the TransformChunk::_sfMatrix field.
 inline
-SFMatrix *TransformChunkBase::getSFMatrix(void)
+const SFMatrix *TransformChunkBase::getSFMatrix(void) const
 {
     return &_sfMatrix;
 }
 
+//! Get the TransformChunk::_sfMatrix field.
+inline
+SFMatrix *TransformChunkBase::editSFMatrix(void)
+{
+    return &_sfMatrix;
+}
+
+#ifndef OSG_2_PREP
+//! Get the TransformChunk::_sfMatrix field.
+inline
+SFMatrix *TransformChunkBase::getSFMatrix(void)
+{
+    return &_sfMatrix;
+}
+#endif
+
 
 //! Get the value of the TransformChunk::_sfMatrix field.
 inline
-Matrix &TransformChunkBase::getMatrix(void)
+Matrix &TransformChunkBase::editMatrix(void)
 {
     return _sfMatrix.getValue();
 }
@@ -117,6 +133,15 @@ const Matrix &TransformChunkBase::getMatrix(void) const
 {
     return _sfMatrix.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the TransformChunk::_sfMatrix field.
+inline
+Matrix &TransformChunkBase::getMatrix(void)
+{
+    return _sfMatrix.getValue();
+}
+#endif
 
 //! Set the value of the TransformChunk::_sfMatrix field.
 inline

@@ -86,7 +86,7 @@ FieldDescription *SharedFontStyleWrapperBase::_desc[] =
                      "FStyleContainer", 
                      FStyleContainerFieldId, FStyleContainerFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SharedFontStyleWrapperBase::getSFFStyleContainer))
+                     reinterpret_cast<FieldAccessMethod>(&SharedFontStyleWrapperBase::editSFFStyleContainer))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SharedFontStyleWrapperPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapperBase.cpp,v 1.8 2008/06/05 05:02:23 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapperBase.cpp,v 1.9 2008/06/09 07:31:46 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID;
 

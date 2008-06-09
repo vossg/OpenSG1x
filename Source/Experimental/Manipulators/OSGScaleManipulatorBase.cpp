@@ -239,7 +239,7 @@ DataType FieldDataTraits<ScaleManipulatorPtr>::_type("ScaleManipulatorPtr", "Man
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulatorBase.cpp,v 1.6 2008/06/05 05:02:21 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScaleManipulatorBase.cpp,v 1.7 2008/06/09 07:31:43 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSCALEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCALEMANIPULATORBASE_INLINE_CVSID;
 

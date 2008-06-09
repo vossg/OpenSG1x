@@ -86,7 +86,7 @@ FieldDescription *CoreGLWindowBase::_desc[] =
                      "context", 
                      ContextFieldId, ContextFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&CoreGLWindowBase::getSFContext))
+                     reinterpret_cast<FieldAccessMethod>(&CoreGLWindowBase::editSFContext))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CoreGLWindowPtr, OSG_WINDOWCOREGLLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCoreGLWindowBase.cpp,v 1.2 2008/06/05 05:02:33 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCoreGLWindowBase.cpp,v 1.3 2008/06/09 07:31:58 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOREGLWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOREGLWINDOWBASE_INLINE_CVSID;
 

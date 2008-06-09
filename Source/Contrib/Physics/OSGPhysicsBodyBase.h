@@ -170,58 +170,211 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsBodyBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFPosition       (void);
-           SFMatrix            *getSFRotation       (void);
-           SFQuaternion        *getSFQuaternion     (void);
-           SFVec3f             *getSFLinearVel      (void);
-           SFVec3f             *getSFAngularVel     (void);
-           SFVec3f             *getSFForce          (void);
-           SFVec3f             *getSFTorque         (void);
-           SFBool              *getSFEnable         (void);
-           SFInt32             *getSFAutoDisableFlag(void);
-           SFReal32            *getSFAutoDisableLinearThreshol(void);
-           SFReal32            *getSFAutoDisableAngularThreshol(void);
-           SFInt32             *getSFAutoDisableSteps(void);
-           SFReal32            *getSFAutoDisableTime(void);
-           SFInt32             *getSFFiniteRotationMode(void);
-           SFVec3f             *getSFFiniteRotationAxis(void);
-           SFBool              *getSFGravityMode    (void);
-           SFPhysicsWorldPtr   *getSFWorld          (void);
 
-           Vec3f               &getPosition       (void);
+           SFVec3f             *editSFPosition       (void);
+     const SFVec3f             *getSFPosition       (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFPosition       (void);
+#endif
+
+           SFMatrix            *editSFRotation       (void);
+     const SFMatrix            *getSFRotation       (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFRotation       (void);
+#endif
+
+           SFQuaternion        *editSFQuaternion     (void);
+     const SFQuaternion        *getSFQuaternion     (void) const;
+#ifndef OSG_2_PREP
+           SFQuaternion        *getSFQuaternion     (void);
+#endif
+
+           SFVec3f             *editSFLinearVel      (void);
+     const SFVec3f             *getSFLinearVel      (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFLinearVel      (void);
+#endif
+
+           SFVec3f             *editSFAngularVel     (void);
+     const SFVec3f             *getSFAngularVel     (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFAngularVel     (void);
+#endif
+
+           SFVec3f             *editSFForce          (void);
+     const SFVec3f             *getSFForce          (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFForce          (void);
+#endif
+
+           SFVec3f             *editSFTorque         (void);
+     const SFVec3f             *getSFTorque         (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFTorque         (void);
+#endif
+
+           SFBool              *editSFEnable         (void);
+     const SFBool              *getSFEnable         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnable         (void);
+#endif
+
+           SFInt32             *editSFAutoDisableFlag(void);
+     const SFInt32             *getSFAutoDisableFlag(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFAutoDisableFlag(void);
+#endif
+
+           SFReal32            *editSFAutoDisableLinearThreshol(void);
+     const SFReal32            *getSFAutoDisableLinearThreshol(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAutoDisableLinearThreshol(void);
+#endif
+
+           SFReal32            *editSFAutoDisableAngularThreshol(void);
+     const SFReal32            *getSFAutoDisableAngularThreshol(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAutoDisableAngularThreshol(void);
+#endif
+
+           SFInt32             *editSFAutoDisableSteps(void);
+     const SFInt32             *getSFAutoDisableSteps(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFAutoDisableSteps(void);
+#endif
+
+           SFReal32            *editSFAutoDisableTime(void);
+     const SFReal32            *getSFAutoDisableTime(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAutoDisableTime(void);
+#endif
+
+           SFInt32             *editSFFiniteRotationMode(void);
+     const SFInt32             *getSFFiniteRotationMode(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFFiniteRotationMode(void);
+#endif
+
+           SFVec3f             *editSFFiniteRotationAxis(void);
+     const SFVec3f             *getSFFiniteRotationAxis(void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFFiniteRotationAxis(void);
+#endif
+
+           SFBool              *editSFGravityMode    (void);
+     const SFBool              *getSFGravityMode    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFGravityMode    (void);
+#endif
+
+           SFPhysicsWorldPtr   *editSFWorld          (void);
+     const SFPhysicsWorldPtr   *getSFWorld          (void) const;
+#ifndef OSG_2_PREP
+           SFPhysicsWorldPtr   *getSFWorld          (void);
+#endif
+
+
+           Vec3f               &editPosition       (void);
      const Vec3f               &getPosition       (void) const;
-           Matrix              &getRotation       (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getPosition       (void);
+#endif
+
+           Matrix              &editRotation       (void);
      const Matrix              &getRotation       (void) const;
-           Quaternion          &getQuaternion     (void);
+#ifndef OSG_2_PREP
+           Matrix              &getRotation       (void);
+#endif
+
+           Quaternion          &editQuaternion     (void);
      const Quaternion          &getQuaternion     (void) const;
-           Vec3f               &getLinearVel      (void);
+#ifndef OSG_2_PREP
+           Quaternion          &getQuaternion     (void);
+#endif
+
+           Vec3f               &editLinearVel      (void);
      const Vec3f               &getLinearVel      (void) const;
-           Vec3f               &getAngularVel     (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getLinearVel      (void);
+#endif
+
+           Vec3f               &editAngularVel     (void);
      const Vec3f               &getAngularVel     (void) const;
-           Vec3f               &getForce          (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getAngularVel     (void);
+#endif
+
+           Vec3f               &editForce          (void);
      const Vec3f               &getForce          (void) const;
-           Vec3f               &getTorque         (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getForce          (void);
+#endif
+
+           Vec3f               &editTorque         (void);
      const Vec3f               &getTorque         (void) const;
-           bool                &getEnable         (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getTorque         (void);
+#endif
+
+           bool                &editEnable         (void);
      const bool                &getEnable         (void) const;
-           Int32               &getAutoDisableFlag(void);
+#ifndef OSG_2_PREP
+           bool                &getEnable         (void);
+#endif
+
+           Int32               &editAutoDisableFlag(void);
      const Int32               &getAutoDisableFlag(void) const;
-           Real32              &getAutoDisableLinearThreshol(void);
+#ifndef OSG_2_PREP
+           Int32               &getAutoDisableFlag(void);
+#endif
+
+           Real32              &editAutoDisableLinearThreshol(void);
      const Real32              &getAutoDisableLinearThreshol(void) const;
-           Real32              &getAutoDisableAngularThreshol(void);
+#ifndef OSG_2_PREP
+           Real32              &getAutoDisableLinearThreshol(void);
+#endif
+
+           Real32              &editAutoDisableAngularThreshol(void);
      const Real32              &getAutoDisableAngularThreshol(void) const;
-           Int32               &getAutoDisableSteps(void);
+#ifndef OSG_2_PREP
+           Real32              &getAutoDisableAngularThreshol(void);
+#endif
+
+           Int32               &editAutoDisableSteps(void);
      const Int32               &getAutoDisableSteps(void) const;
-           Real32              &getAutoDisableTime(void);
+#ifndef OSG_2_PREP
+           Int32               &getAutoDisableSteps(void);
+#endif
+
+           Real32              &editAutoDisableTime(void);
      const Real32              &getAutoDisableTime(void) const;
-           Int32               &getFiniteRotationMode(void);
+#ifndef OSG_2_PREP
+           Real32              &getAutoDisableTime(void);
+#endif
+
+           Int32               &editFiniteRotationMode(void);
      const Int32               &getFiniteRotationMode(void) const;
-           Vec3f               &getFiniteRotationAxis(void);
+#ifndef OSG_2_PREP
+           Int32               &getFiniteRotationMode(void);
+#endif
+
+           Vec3f               &editFiniteRotationAxis(void);
      const Vec3f               &getFiniteRotationAxis(void) const;
-           bool                &getGravityMode    (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getFiniteRotationAxis(void);
+#endif
+
+           bool                &editGravityMode    (void);
      const bool                &getGravityMode    (void) const;
-           PhysicsWorldPtr     &getWorld          (void);
+#ifndef OSG_2_PREP
+           bool                &getGravityMode    (void);
+#endif
+
+           PhysicsWorldPtr     &editWorld          (void);
      const PhysicsWorldPtr     &getWorld          (void) const;
+#ifndef OSG_2_PREP
+           PhysicsWorldPtr     &getWorld          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -381,6 +534,6 @@ typedef RefPtr<PhysicsBodyPtr> PhysicsBodyRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBODYBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBodyBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSBODYBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBodyBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSBODYBASE_H_ */

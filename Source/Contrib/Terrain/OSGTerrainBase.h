@@ -191,63 +191,231 @@ class OSG_CONTRIBLIB_DLLMAPPING TerrainBase : public Geometry
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImagePtr          *getSFHeightData     (void);
-           SFReal32            *getSFHeightScale    (void);
-           MFReal32            *getMFHeightError    (void);
-           MFReal32            *getMFHeightQuad     (void);
-           SFReal32            *getSFDetail         (void);
-           SFInt32             *getSFBorderDetail   (void);
-           SFReal32            *getSFVertexSpacing  (void);
-           SFBool              *getSFGeoMorphing    (void);
-           SFPnt3f             *getSFEyePoint       (void);
-           SFBool              *getSFEyePointValid  (void);
-           SFReal32            *getSFOriginX        (void);
-           SFReal32            *getSFOriginY        (void);
-           SFReal32            *getSFOriginTexX     (void);
-           SFReal32            *getSFOriginTexY     (void);
-           SFReal32            *getSFTexSpacing     (void);
-           SFReal32            *getSFTexYSpacing    (void);
-           SFBool              *getSFUpdateTerrain  (void);
-           SFBool              *getSFPerPixelLighting(void);
 
-           ImagePtr            &getHeightData     (void);
+           SFImagePtr          *editSFHeightData     (void);
+     const SFImagePtr          *getSFHeightData     (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFHeightData     (void);
+#endif
+
+           SFReal32            *editSFHeightScale    (void);
+     const SFReal32            *getSFHeightScale    (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFHeightScale    (void);
+#endif
+
+           MFReal32            *editMFHeightError    (void);
+     const MFReal32            *getMFHeightError    (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFHeightError    (void);
+#endif
+
+           MFReal32            *editMFHeightQuad     (void);
+     const MFReal32            *getMFHeightQuad     (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFHeightQuad     (void);
+#endif
+
+           SFReal32            *editSFDetail         (void);
+     const SFReal32            *getSFDetail         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFDetail         (void);
+#endif
+
+           SFInt32             *editSFBorderDetail   (void);
+     const SFInt32             *getSFBorderDetail   (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFBorderDetail   (void);
+#endif
+
+           SFReal32            *editSFVertexSpacing  (void);
+     const SFReal32            *getSFVertexSpacing  (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFVertexSpacing  (void);
+#endif
+
+           SFBool              *editSFGeoMorphing    (void);
+     const SFBool              *getSFGeoMorphing    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFGeoMorphing    (void);
+#endif
+
+           SFPnt3f             *editSFEyePoint       (void);
+     const SFPnt3f             *getSFEyePoint       (void) const;
+#ifndef OSG_2_PREP
+           SFPnt3f             *getSFEyePoint       (void);
+#endif
+
+           SFBool              *editSFEyePointValid  (void);
+     const SFBool              *getSFEyePointValid  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEyePointValid  (void);
+#endif
+
+           SFReal32            *editSFOriginX        (void);
+     const SFReal32            *getSFOriginX        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOriginX        (void);
+#endif
+
+           SFReal32            *editSFOriginY        (void);
+     const SFReal32            *getSFOriginY        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOriginY        (void);
+#endif
+
+           SFReal32            *editSFOriginTexX     (void);
+     const SFReal32            *getSFOriginTexX     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOriginTexX     (void);
+#endif
+
+           SFReal32            *editSFOriginTexY     (void);
+     const SFReal32            *getSFOriginTexY     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOriginTexY     (void);
+#endif
+
+           SFReal32            *editSFTexSpacing     (void);
+     const SFReal32            *getSFTexSpacing     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFTexSpacing     (void);
+#endif
+
+           SFReal32            *editSFTexYSpacing    (void);
+     const SFReal32            *getSFTexYSpacing    (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFTexYSpacing    (void);
+#endif
+
+           SFBool              *editSFUpdateTerrain  (void);
+     const SFBool              *getSFUpdateTerrain  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUpdateTerrain  (void);
+#endif
+
+           SFBool              *editSFPerPixelLighting(void);
+     const SFBool              *getSFPerPixelLighting(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFPerPixelLighting(void);
+#endif
+
+
+           ImagePtr            &editHeightData     (void);
      const ImagePtr            &getHeightData     (void) const;
-           Real32              &getHeightScale    (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getHeightData     (void);
+#endif
+
+           Real32              &editHeightScale    (void);
      const Real32              &getHeightScale    (void) const;
-           Real32              &getDetail         (void);
+#ifndef OSG_2_PREP
+           Real32              &getHeightScale    (void);
+#endif
+
+
+
+           Real32              &editDetail         (void);
      const Real32              &getDetail         (void) const;
-           Int32               &getBorderDetail   (void);
+#ifndef OSG_2_PREP
+           Real32              &getDetail         (void);
+#endif
+
+           Int32               &editBorderDetail   (void);
      const Int32               &getBorderDetail   (void) const;
-           Real32              &getVertexSpacing  (void);
+#ifndef OSG_2_PREP
+           Int32               &getBorderDetail   (void);
+#endif
+
+           Real32              &editVertexSpacing  (void);
      const Real32              &getVertexSpacing  (void) const;
-           bool                &getGeoMorphing    (void);
+#ifndef OSG_2_PREP
+           Real32              &getVertexSpacing  (void);
+#endif
+
+
+           bool                &editGeoMorphing    (void);
      const bool                &getGeoMorphing    (void) const;
-           Pnt3f               &getEyePoint       (void);
+#ifndef OSG_2_PREP
+           bool                &getGeoMorphing    (void);
+#endif
+
+
+
+           Pnt3f               &editEyePoint       (void);
      const Pnt3f               &getEyePoint       (void) const;
-           bool                &getEyePointValid  (void);
+#ifndef OSG_2_PREP
+           Pnt3f               &getEyePoint       (void);
+#endif
+
+
+           bool                &editEyePointValid  (void);
      const bool                &getEyePointValid  (void) const;
-           Real32              &getOriginX        (void);
+#ifndef OSG_2_PREP
+           bool                &getEyePointValid  (void);
+#endif
+
+           Real32              &editOriginX        (void);
      const Real32              &getOriginX        (void) const;
-           Real32              &getOriginY        (void);
+#ifndef OSG_2_PREP
+           Real32              &getOriginX        (void);
+#endif
+
+           Real32              &editOriginY        (void);
      const Real32              &getOriginY        (void) const;
-           Real32              &getOriginTexX     (void);
+#ifndef OSG_2_PREP
+           Real32              &getOriginY        (void);
+#endif
+
+           Real32              &editOriginTexX     (void);
      const Real32              &getOriginTexX     (void) const;
-           Real32              &getOriginTexY     (void);
+#ifndef OSG_2_PREP
+           Real32              &getOriginTexX     (void);
+#endif
+
+           Real32              &editOriginTexY     (void);
      const Real32              &getOriginTexY     (void) const;
-           Real32              &getTexSpacing     (void);
+#ifndef OSG_2_PREP
+           Real32              &getOriginTexY     (void);
+#endif
+
+           Real32              &editTexSpacing     (void);
      const Real32              &getTexSpacing     (void) const;
-           Real32              &getTexYSpacing    (void);
+#ifndef OSG_2_PREP
+           Real32              &getTexSpacing     (void);
+#endif
+
+           Real32              &editTexYSpacing    (void);
      const Real32              &getTexYSpacing    (void) const;
-           bool                &getUpdateTerrain  (void);
+#ifndef OSG_2_PREP
+           Real32              &getTexYSpacing    (void);
+#endif
+
+           bool                &editUpdateTerrain  (void);
      const bool                &getUpdateTerrain  (void) const;
-           bool                &getPerPixelLighting(void);
+#ifndef OSG_2_PREP
+           bool                &getUpdateTerrain  (void);
+#endif
+
+           bool                &editPerPixelLighting(void);
      const bool                &getPerPixelLighting(void) const;
+#ifndef OSG_2_PREP
+           bool                &getPerPixelLighting(void);
+#endif
+
+           Real32              &editHeightError    (const UInt32 index);
+     const Real32              &getHeightError    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getHeightError    (const UInt32 index);
            MFReal32            &getHeightError    (void);
-     const MFReal32            &getHeightError    (void) const;
+#endif
+
+           Real32              &editHeightQuad     (const UInt32 index);
+     const Real32              &getHeightQuad     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getHeightQuad     (const UInt32 index);
            MFReal32            &getHeightQuad     (void);
-     const MFReal32            &getHeightQuad     (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -357,25 +525,67 @@ class OSG_CONTRIBLIB_DLLMAPPING TerrainBase : public Geometry
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFUInt32            *editSFWidth          (void);
+     const SFUInt32            *getSFWidth          (void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFWidth          (void);
+#endif
+           SFUInt32            *editSFLevel          (void);
+     const SFUInt32            *getSFLevel          (void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFLevel          (void);
+#endif
+           SFGeoPositionsPtr   *editSFHeightVertices (void);
+     const SFGeoPositionsPtr   *getSFHeightVertices (void) const;
+#ifndef OSG_2_PREP
            SFGeoPositionsPtr   *getSFHeightVertices (void);
+#endif
+           SFPnt3f             *editSFBoundMin       (void);
+     const SFPnt3f             *getSFBoundMin       (void) const;
+#ifndef OSG_2_PREP
            SFPnt3f             *getSFBoundMin       (void);
+#endif
+           SFPnt3f             *editSFBoundMax       (void);
+     const SFPnt3f             *getSFBoundMax       (void) const;
+#ifndef OSG_2_PREP
            SFPnt3f             *getSFBoundMax       (void);
+#endif
+           SFReal32            *editSFEyeHeight      (void);
+     const SFReal32            *getSFEyeHeight      (void) const;
+#ifndef OSG_2_PREP
            SFReal32            *getSFEyeHeight      (void);
+#endif
 
-           UInt32              &getWidth          (void);
+           UInt32              &editWidth          (void);
      const UInt32              &getWidth          (void) const;
-           UInt32              &getLevel          (void);
+#ifndef OSG_2_PREP
+           UInt32              &getWidth          (void);
+#endif
+           UInt32              &editLevel          (void);
      const UInt32              &getLevel          (void) const;
-           GeoPositionsPtr     &getHeightVertices (void);
+#ifndef OSG_2_PREP
+           UInt32              &getLevel          (void);
+#endif
+           GeoPositionsPtr     &editHeightVertices (void);
      const GeoPositionsPtr     &getHeightVertices (void) const;
-           Pnt3f               &getBoundMin       (void);
+#ifndef OSG_2_PREP
+           GeoPositionsPtr     &getHeightVertices (void);
+#endif
+           Pnt3f               &editBoundMin       (void);
      const Pnt3f               &getBoundMin       (void) const;
-           Pnt3f               &getBoundMax       (void);
+#ifndef OSG_2_PREP
+           Pnt3f               &getBoundMin       (void);
+#endif
+           Pnt3f               &editBoundMax       (void);
      const Pnt3f               &getBoundMax       (void) const;
-           Real32              &getEyeHeight      (void);
+#ifndef OSG_2_PREP
+           Pnt3f               &getBoundMax       (void);
+#endif
+           Real32              &editEyeHeight      (void);
      const Real32              &getEyeHeight      (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getEyeHeight      (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -450,6 +660,6 @@ typedef RefPtr<TerrainPtr> TerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.8 2008/06/05 05:02:18 vossg Exp $"
+#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.9 2008/06/09 07:31:43 vossg Exp $"
 
 #endif /* _OSGTERRAINBASE_H_ */

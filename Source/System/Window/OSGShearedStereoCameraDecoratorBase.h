@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING ShearedStereoCameraDecoratorBase : public StereoC
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFZeroParallaxDistance(void);
-           SFReal32            *getSFOverlap        (void);
 
-           Real32              &getZeroParallaxDistance(void);
+           SFReal32            *editSFZeroParallaxDistance(void);
+     const SFReal32            *getSFZeroParallaxDistance(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFZeroParallaxDistance(void);
+#endif
+
+           SFReal32            *editSFOverlap        (void);
+     const SFReal32            *getSFOverlap        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOverlap        (void);
+#endif
+
+
+           Real32              &editZeroParallaxDistance(void);
      const Real32              &getZeroParallaxDistance(void) const;
-           Real32              &getOverlap        (void);
+#ifndef OSG_2_PREP
+           Real32              &getZeroParallaxDistance(void);
+#endif
+
+           Real32              &editOverlap        (void);
      const Real32              &getOverlap        (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getOverlap        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -98,17 +98,17 @@ FieldDescription *XWindowBase::_desc[] =
                      "display", 
                      DisplayFieldId, DisplayFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::getSFDisplay)),
+                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::editSFDisplay)),
     new FieldDescription(SFX11Window::getClassType(), 
                      "window", 
                      WindowFieldId, WindowFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::getSFWindow)),
+                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::editSFWindow)),
     new FieldDescription(SFGLXContext::getClassType(), 
                      "context", 
                      ContextFieldId, ContextFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::getSFContext))
+                     reinterpret_cast<FieldAccessMethod>(&XWindowBase::editSFContext))
 };
 
 
@@ -359,7 +359,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(XWindowPtr, OSG_WINDOWXLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGXWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGXWINDOWBASE_INLINE_CVSID;
 

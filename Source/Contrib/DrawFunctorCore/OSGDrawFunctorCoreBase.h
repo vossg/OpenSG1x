@@ -125,13 +125,31 @@ class OSG_CONTRIBLIB_DLLMAPPING DrawFunctorCoreBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVolumeFunctor     *getSFVolumeUpdate   (void);
-           SFDrawFunctor       *getSFDraw           (void);
 
-           VolumeFunctor       &getVolumeUpdate   (void);
+           SFVolumeFunctor     *editSFVolumeUpdate   (void);
+     const SFVolumeFunctor     *getSFVolumeUpdate   (void) const;
+#ifndef OSG_2_PREP
+           SFVolumeFunctor     *getSFVolumeUpdate   (void);
+#endif
+
+           SFDrawFunctor       *editSFDraw           (void);
+     const SFDrawFunctor       *getSFDraw           (void) const;
+#ifndef OSG_2_PREP
+           SFDrawFunctor       *getSFDraw           (void);
+#endif
+
+
+           VolumeFunctor       &editVolumeUpdate   (void);
      const VolumeFunctor       &getVolumeUpdate   (void) const;
-           DrawFunctor         &getDraw           (void);
+#ifndef OSG_2_PREP
+           VolumeFunctor       &getVolumeUpdate   (void);
+#endif
+
+           DrawFunctor         &editDraw           (void);
      const DrawFunctor         &getDraw           (void) const;
+#ifndef OSG_2_PREP
+           DrawFunctor         &getDraw           (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

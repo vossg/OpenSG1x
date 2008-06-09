@@ -140,52 +140,52 @@ FieldDescription *LightChunkBase::_desc[] =
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFDiffuse)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFDiffuse)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFAmbient)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFAmbient)),
     new FieldDescription(SFColor4f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFSpecular)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFSpecular)),
     new FieldDescription(SFVec4f::getClassType(), 
                      "position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFPosition)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFPosition)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "direction", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFDirection)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFDirection)),
     new FieldDescription(SFReal32::getClassType(), 
                      "exponent", 
                      ExponentFieldId, ExponentFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFExponent)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFExponent)),
     new FieldDescription(SFReal32::getClassType(), 
                      "cutoff", 
                      CutoffFieldId, CutoffFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFCutoff)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFCutoff)),
     new FieldDescription(SFReal32::getClassType(), 
                      "constantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFConstantAttenuation)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFConstantAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "linearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFLinearAttenuation)),
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFLinearAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "quadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::getSFQuadraticAttenuation))
+                     reinterpret_cast<FieldAccessMethod>(&LightChunkBase::editSFQuadraticAttenuation))
 };
 
 
@@ -597,7 +597,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(LightChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTCHUNKBASE_INLINE_CVSID;
 

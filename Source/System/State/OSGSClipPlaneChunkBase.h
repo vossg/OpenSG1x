@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SClipPlaneChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec4f             *getSFEquation       (void);
 
-           Vec4f               &getEquation       (void);
+           SFVec4f             *editSFEquation       (void);
+     const SFVec4f             *getSFEquation       (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFEquation       (void);
+#endif
+
+
+           Vec4f               &editEquation       (void);
      const Vec4f               &getEquation       (void) const;
+#ifndef OSG_2_PREP
+           Vec4f               &getEquation       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<SClipPlaneChunkPtr> SClipPlaneChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSCLIPPLANECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSClipPlaneChunkBase.h,v 1.2 2008/06/05 05:02:29 vossg Exp $"
+#define OSGSCLIPPLANECHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSClipPlaneChunkBase.h,v 1.3 2008/06/09 07:31:53 vossg Exp $"
 
 #endif /* _OSGSCLIPPLANECHUNKBASE_H_ */

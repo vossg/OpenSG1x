@@ -104,22 +104,22 @@ FieldDescription *PipelineComposerBase::_desc[] =
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::getSFShort)),
+                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::editSFShort)),
     new FieldDescription(SFBool::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::getSFAlpha)),
+                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::editSFAlpha)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "tileSize", 
                      TileSizeFieldId, TileSizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::getSFTileSize)),
+                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::editSFTileSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "pipelined", 
                      PipelinedFieldId, PipelinedFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::getSFPipelined))
+                     reinterpret_cast<FieldAccessMethod>(&PipelineComposerBase::editSFPipelined))
 };
 
 
@@ -384,7 +384,7 @@ DataType FieldDataTraits<PipelineComposerPtr>::_type("PipelineComposerPtr", "Ima
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPIPELINECOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPIPELINECOMPOSERBASE_INLINE_CVSID;
 

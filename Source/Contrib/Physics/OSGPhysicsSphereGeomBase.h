@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsSphereGeomBase : public PhysicsGeom
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFRadius         (void);
 
-           Real32              &getRadius         (void);
+           SFReal32            *editSFRadius         (void);
+     const SFReal32            *getSFRadius         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFRadius         (void);
+#endif
+
+
+           Real32              &editRadius         (void);
      const Real32              &getRadius         (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getRadius         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsSphereGeomPtr> PhysicsSphereGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSPHEREGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSphereGeomBase.h,v 1.3 2008/06/05 05:02:17 vossg Exp $"
+#define OSGPHYSICSSPHEREGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSphereGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSSPHEREGEOMBASE_H_ */

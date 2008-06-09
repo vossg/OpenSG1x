@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec4f             *getSFEquation       (void);
-           SFBool              *getSFOn             (void);
-           SFNodePtr           *getSFBeacon         (void);
 
-           Vec4f               &getEquation       (void);
+           SFVec4f             *editSFEquation       (void);
+     const SFVec4f             *getSFEquation       (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFEquation       (void);
+#endif
+
+           SFBool              *editSFOn             (void);
+     const SFBool              *getSFOn             (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFOn             (void);
+#endif
+
+           SFNodePtr           *editSFBeacon         (void);
+     const SFNodePtr           *getSFBeacon         (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFBeacon         (void);
+#endif
+
+
+           Vec4f               &editEquation       (void);
      const Vec4f               &getEquation       (void) const;
-           bool                &getOn             (void);
+#ifndef OSG_2_PREP
+           Vec4f               &getEquation       (void);
+#endif
+
+           bool                &editOn             (void);
      const bool                &getOn             (void) const;
-           NodePtr             &getBeacon         (void);
+#ifndef OSG_2_PREP
+           bool                &getOn             (void);
+#endif
+
+           NodePtr             &editBeacon         (void);
      const NodePtr             &getBeacon         (void) const;
+#ifndef OSG_2_PREP
+           NodePtr             &getBeacon         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -269,6 +296,6 @@ typedef RefPtr<ClipPlanePtr> ClipPlaneRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANEBASE_HEADER_CVSID "@(#)$Id: OSGClipPlaneBase.h,v 1.2 2008/06/05 05:02:27 vossg Exp $"
+#define OSGCLIPPLANEBASE_HEADER_CVSID "@(#)$Id: OSGClipPlaneBase.h,v 1.3 2008/06/09 07:31:51 vossg Exp $"
 
 #endif /* _OSGCLIPPLANEBASE_H_ */

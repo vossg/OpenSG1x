@@ -98,20 +98,67 @@ ImageForegroundPtr ImageForegroundBase::createEmpty(void)
 
 //! Get the ImageForeground::_mfImages field.
 inline
-MFImagePtr *ImageForegroundBase::getMFImages(void)
+const MFImagePtr *ImageForegroundBase::getMFImages(void) const
 {
     return &_mfImages;
 }
 
+//! Get the ImageForeground::_mfImages field.
+inline
+MFImagePtr *ImageForegroundBase::editMFImages(void)
+{
+    return &_mfImages;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ImageForeground::_mfImages field.
+inline
+MFImagePtr *ImageForegroundBase::getMFImages(void)
+{
+    return &_mfImages;
+}
+#endif
+
+//! Get the ImageForeground::_mfPositions field.
+inline
+const MFPnt2f *ImageForegroundBase::getMFPositions(void) const
+{
+    return &_mfPositions;
+}
+
+//! Get the ImageForeground::_mfPositions field.
+inline
+MFPnt2f *ImageForegroundBase::editMFPositions(void)
+{
+    return &_mfPositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ImageForeground::_mfPositions field.
 inline
 MFPnt2f *ImageForegroundBase::getMFPositions(void)
 {
     return &_mfPositions;
 }
+#endif
 
 
 
+//! Get the value of the \a index element the ImageForeground::_mfImages field.
+inline
+ImagePtr &ImageForegroundBase::editImages(const UInt32 index)
+{
+    return _mfImages[index];
+}
+
+//! Get the value of the \a index element the ImageForeground::_mfImages field.
+inline
+const ImagePtr &ImageForegroundBase::getImages(const UInt32 index) const
+{
+    return _mfImages[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ImageForeground::_mfImages field.
 inline
 ImagePtr &ImageForegroundBase::getImages(const UInt32 index)
@@ -126,13 +173,23 @@ MFImagePtr &ImageForegroundBase::getImages(void)
     return _mfImages;
 }
 
-//! Get the ImageForeground::_mfImages field.
+#endif
+
+//! Get the value of the \a index element the ImageForeground::_mfPositions field.
 inline
-const MFImagePtr &ImageForegroundBase::getImages(void) const
+Pnt2f &ImageForegroundBase::editPositions(const UInt32 index)
 {
-    return _mfImages;
+    return _mfPositions[index];
 }
 
+//! Get the value of the \a index element the ImageForeground::_mfPositions field.
+inline
+const Pnt2f &ImageForegroundBase::getPositions(const UInt32 index) const
+{
+    return _mfPositions[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ImageForeground::_mfPositions field.
 inline
 Pnt2f &ImageForegroundBase::getPositions(const UInt32 index)
@@ -147,12 +204,7 @@ MFPnt2f &ImageForegroundBase::getPositions(void)
     return _mfPositions;
 }
 
-//! Get the ImageForeground::_mfPositions field.
-inline
-const MFPnt2f &ImageForegroundBase::getPositions(void) const
-{
-    return _mfPositions;
-}
+#endif
 
 OSG_END_NAMESPACE
 

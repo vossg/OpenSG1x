@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING GrabForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImagePtr          *getSFImage          (void);
-           SFBool              *getSFAutoResize     (void);
 
-           ImagePtr            &getImage          (void);
+           SFImagePtr          *editSFImage          (void);
+     const SFImagePtr          *getSFImage          (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFImage          (void);
+#endif
+
+           SFBool              *editSFAutoResize     (void);
+     const SFBool              *getSFAutoResize     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAutoResize     (void);
+#endif
+
+
+           ImagePtr            &editImage          (void);
      const ImagePtr            &getImage          (void) const;
-           bool                &getAutoResize     (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getImage          (void);
+#endif
+
+           bool                &editAutoResize     (void);
      const bool                &getAutoResize     (void) const;
+#ifndef OSG_2_PREP
+           bool                &getAutoResize     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

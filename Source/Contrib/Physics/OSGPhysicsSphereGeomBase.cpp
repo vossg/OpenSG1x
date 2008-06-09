@@ -86,7 +86,7 @@ FieldDescription *PhysicsSphereGeomBase::_desc[] =
                      "radius", 
                      RadiusFieldId, RadiusFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsSphereGeomBase::getSFRadius))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsSphereGeomBase::editSFRadius))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsSphereGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSphereGeomBase.cpp,v 1.3 2008/06/05 05:02:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSphereGeomBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSSPHEREGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSSPHEREGEOMBASE_INLINE_CVSID;
 

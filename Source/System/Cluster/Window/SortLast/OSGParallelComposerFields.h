@@ -102,6 +102,6 @@ struct FieldDataTraits<ParallelComposerPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGPARALLELCOMPOSERFIELDS_HEADER_CVSID "@(#)$Id: OSGParallelComposerFields.h,v 1.2 2008/06/05 05:02:25 vossg Exp $"
+#define OSGPARALLELCOMPOSERFIELDS_HEADER_CVSID "@(#)$Id: OSGParallelComposerFields.h,v 1.3 2008/06/09 07:31:47 vossg Exp $"
 
 #endif /* _OSGPARALLELCOMPOSERFIELDS_H_ */

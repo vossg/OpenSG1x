@@ -239,7 +239,7 @@ DataType FieldDataTraits<LightEnvPtr>::_type("LightEnvPtr", "NodeCorePtr");
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightEnvBase.cpp,v 1.7 2008/06/05 05:02:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightEnvBase.cpp,v 1.8 2008/06/09 07:31:50 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTENVBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTENVBASE_INLINE_CVSID;
 

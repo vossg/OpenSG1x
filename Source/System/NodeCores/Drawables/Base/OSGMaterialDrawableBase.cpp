@@ -86,7 +86,7 @@ FieldDescription *MaterialDrawableBase::_desc[] =
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&MaterialDrawableBase::getSFMaterial))
+                     reinterpret_cast<FieldAccessMethod>(&MaterialDrawableBase::editSFMaterial))
 };
 
 
@@ -282,7 +282,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(MaterialDrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawableBase.cpp,v 1.10 2008/06/05 05:02:26 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawableBase.cpp,v 1.11 2008/06/09 07:31:49 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 

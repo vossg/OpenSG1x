@@ -184,15 +184,29 @@ class OSG_SYSTEMLIB_DLLMAPPING StringAttributeMapBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           MFString            *editMFKeys           (void);
+     const MFString            *getMFKeys           (void) const;
+#ifndef OSG_2_PREP
            MFString            *getMFKeys           (void);
+#endif
+           MFString            *editMFValues         (void);
+     const MFString            *getMFValues         (void) const;
+#ifndef OSG_2_PREP
            MFString            *getMFValues         (void);
+#endif
 
+           std::string         &editKeys           (UInt32 index);
+     const std::string         &getKeys           (UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getKeys           (UInt32 index);
            MFString            &getKeys           (void);
-     const MFString            &getKeys           (void) const;
+#endif
+           std::string         &editValues         (UInt32 index);
+     const std::string         &getValues         (UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getValues         (UInt32 index);
            MFString            &getValues         (void);
-     const MFString            &getValues         (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -261,6 +275,6 @@ typedef RefPtr<StringAttributeMapPtr> StringAttributeMapRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID "@(#)$Id: OSGStringAttributeMapBase.h,v 1.3 2008/06/05 05:02:25 vossg Exp $"
+#define OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID "@(#)$Id: OSGStringAttributeMapBase.h,v 1.4 2008/06/09 07:31:47 vossg Exp $"
 
 #endif /* _OSGSTRINGATTRIBUTEMAPBASE_H_ */

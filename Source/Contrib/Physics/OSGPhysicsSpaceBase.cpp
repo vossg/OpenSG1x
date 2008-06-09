@@ -86,7 +86,7 @@ FieldDescription *PhysicsSpaceBase::_desc[] =
                      "cleanup", 
                      CleanupFieldId, CleanupFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsSpaceBase::getSFCleanup))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsSpaceBase::editSFCleanup))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSpaceBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSpaceBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSSPACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSSPACEBASE_INLINE_CVSID;
 

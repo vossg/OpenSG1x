@@ -98,29 +98,77 @@ ClipPlanePtr ClipPlaneBase::createEmpty(void)
 
 //! Get the ClipPlane::_sfEquation field.
 inline
-SFVec4f *ClipPlaneBase::getSFEquation(void)
+const SFVec4f *ClipPlaneBase::getSFEquation(void) const
 {
     return &_sfEquation;
 }
 
+//! Get the ClipPlane::_sfEquation field.
+inline
+SFVec4f *ClipPlaneBase::editSFEquation(void)
+{
+    return &_sfEquation;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ClipPlane::_sfEquation field.
+inline
+SFVec4f *ClipPlaneBase::getSFEquation(void)
+{
+    return &_sfEquation;
+}
+#endif
+
+//! Get the ClipPlane::_sfOn field.
+inline
+const SFBool *ClipPlaneBase::getSFOn(void) const
+{
+    return &_sfOn;
+}
+
+//! Get the ClipPlane::_sfOn field.
+inline
+SFBool *ClipPlaneBase::editSFOn(void)
+{
+    return &_sfOn;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ClipPlane::_sfOn field.
 inline
 SFBool *ClipPlaneBase::getSFOn(void)
 {
     return &_sfOn;
 }
+#endif
 
+//! Get the ClipPlane::_sfBeacon field.
+inline
+const SFNodePtr *ClipPlaneBase::getSFBeacon(void) const
+{
+    return &_sfBeacon;
+}
+
+//! Get the ClipPlane::_sfBeacon field.
+inline
+SFNodePtr *ClipPlaneBase::editSFBeacon(void)
+{
+    return &_sfBeacon;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ClipPlane::_sfBeacon field.
 inline
 SFNodePtr *ClipPlaneBase::getSFBeacon(void)
 {
     return &_sfBeacon;
 }
+#endif
 
 
 //! Get the value of the ClipPlane::_sfEquation field.
 inline
-Vec4f &ClipPlaneBase::getEquation(void)
+Vec4f &ClipPlaneBase::editEquation(void)
 {
     return _sfEquation.getValue();
 }
@@ -132,6 +180,15 @@ const Vec4f &ClipPlaneBase::getEquation(void) const
     return _sfEquation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ClipPlane::_sfEquation field.
+inline
+Vec4f &ClipPlaneBase::getEquation(void)
+{
+    return _sfEquation.getValue();
+}
+#endif
+
 //! Set the value of the ClipPlane::_sfEquation field.
 inline
 void ClipPlaneBase::setEquation(const Vec4f &value)
@@ -141,7 +198,7 @@ void ClipPlaneBase::setEquation(const Vec4f &value)
 
 //! Get the value of the ClipPlane::_sfOn field.
 inline
-bool &ClipPlaneBase::getOn(void)
+bool &ClipPlaneBase::editOn(void)
 {
     return _sfOn.getValue();
 }
@@ -153,6 +210,15 @@ const bool &ClipPlaneBase::getOn(void) const
     return _sfOn.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ClipPlane::_sfOn field.
+inline
+bool &ClipPlaneBase::getOn(void)
+{
+    return _sfOn.getValue();
+}
+#endif
+
 //! Set the value of the ClipPlane::_sfOn field.
 inline
 void ClipPlaneBase::setOn(const bool &value)
@@ -162,7 +228,7 @@ void ClipPlaneBase::setOn(const bool &value)
 
 //! Get the value of the ClipPlane::_sfBeacon field.
 inline
-NodePtr &ClipPlaneBase::getBeacon(void)
+NodePtr &ClipPlaneBase::editBeacon(void)
 {
     return _sfBeacon.getValue();
 }
@@ -174,6 +240,15 @@ const NodePtr &ClipPlaneBase::getBeacon(void) const
     return _sfBeacon.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ClipPlane::_sfBeacon field.
+inline
+NodePtr &ClipPlaneBase::getBeacon(void)
+{
+    return _sfBeacon.getValue();
+}
+#endif
+
 //! Set the value of the ClipPlane::_sfBeacon field.
 inline
 void ClipPlaneBase::setBeacon(const NodePtr &value)
@@ -184,5 +259,5 @@ void ClipPlaneBase::setBeacon(const NodePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCLIPPLANEBASE_INLINE_CVSID "@(#)$Id: OSGClipPlaneBase.inl,v 1.2 2008/06/05 05:02:27 vossg Exp $"
+#define OSGCLIPPLANEBASE_INLINE_CVSID "@(#)$Id: OSGClipPlaneBase.inl,v 1.3 2008/06/09 07:31:51 vossg Exp $"
 

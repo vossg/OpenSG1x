@@ -86,7 +86,7 @@ FieldDescription *PhysicsRayGeomBase::_desc[] =
                      "lenght", 
                      LenghtFieldId, LenghtFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsRayGeomBase::getSFLenght))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsRayGeomBase::editSFLenght))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsRayGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsRayGeomBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsRayGeomBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSRAYGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSRAYGEOMBASE_INLINE_CVSID;
 

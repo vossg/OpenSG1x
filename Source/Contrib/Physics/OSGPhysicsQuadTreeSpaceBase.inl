@@ -100,5 +100,5 @@ PhysicsQuadTreeSpacePtr PhysicsQuadTreeSpaceBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSQUADTREESPACEBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsQuadTreeSpaceBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSQUADTREESPACEBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsQuadTreeSpaceBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

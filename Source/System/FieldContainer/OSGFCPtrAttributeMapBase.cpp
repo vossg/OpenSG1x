@@ -92,12 +92,12 @@ FieldDescription *FCPtrAttributeMapBase::_desc[] =
                      "keys", 
                      KeysFieldId, KeysFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FCPtrAttributeMapBase::getMFKeys)),
+                     reinterpret_cast<FieldAccessMethod>(&FCPtrAttributeMapBase::editMFKeys)),
     new FieldDescription(MFFieldContainerPtr::getClassType(), 
                      "values", 
                      ValuesFieldId, ValuesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FCPtrAttributeMapBase::getMFValues))
+                     reinterpret_cast<FieldAccessMethod>(&FCPtrAttributeMapBase::editMFValues))
 };
 
 
@@ -331,7 +331,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(FCPtrAttributeMapPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFCPtrAttributeMapBase.cpp,v 1.3 2008/06/05 05:02:25 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFCPtrAttributeMapBase.cpp,v 1.4 2008/06/09 07:31:47 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFCPTRATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID;
 

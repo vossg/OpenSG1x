@@ -98,15 +98,31 @@ SwitchPtr SwitchBase::createEmpty(void)
 
 //! Get the Switch::_sfChoice field.
 inline
-SFInt32 *SwitchBase::getSFChoice(void)
+const SFInt32 *SwitchBase::getSFChoice(void) const
 {
     return &_sfChoice;
 }
 
+//! Get the Switch::_sfChoice field.
+inline
+SFInt32 *SwitchBase::editSFChoice(void)
+{
+    return &_sfChoice;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Switch::_sfChoice field.
+inline
+SFInt32 *SwitchBase::getSFChoice(void)
+{
+    return &_sfChoice;
+}
+#endif
+
 
 //! Get the value of the Switch::_sfChoice field.
 inline
-Int32 &SwitchBase::getChoice(void)
+Int32 &SwitchBase::editChoice(void)
 {
     return _sfChoice.getValue();
 }
@@ -117,6 +133,15 @@ const Int32 &SwitchBase::getChoice(void) const
 {
     return _sfChoice.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the Switch::_sfChoice field.
+inline
+Int32 &SwitchBase::getChoice(void)
+{
+    return _sfChoice.getValue();
+}
+#endif
 
 //! Set the value of the Switch::_sfChoice field.
 inline

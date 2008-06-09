@@ -98,15 +98,31 @@ OffCenterPerspectiveCameraPtr OffCenterPerspectiveCameraBase::createEmpty(void)
 
 //! Get the OffCenterPerspectiveCamera::_sfPrincipalPoint field.
 inline
-SFVec2f *OffCenterPerspectiveCameraBase::getSFPrincipalPoint(void)
+const SFVec2f *OffCenterPerspectiveCameraBase::getSFPrincipalPoint(void) const
 {
     return &_sfPrincipalPoint;
 }
 
+//! Get the OffCenterPerspectiveCamera::_sfPrincipalPoint field.
+inline
+SFVec2f *OffCenterPerspectiveCameraBase::editSFPrincipalPoint(void)
+{
+    return &_sfPrincipalPoint;
+}
+
+#ifndef OSG_2_PREP
+//! Get the OffCenterPerspectiveCamera::_sfPrincipalPoint field.
+inline
+SFVec2f *OffCenterPerspectiveCameraBase::getSFPrincipalPoint(void)
+{
+    return &_sfPrincipalPoint;
+}
+#endif
+
 
 //! Get the value of the OffCenterPerspectiveCamera::_sfPrincipalPoint field.
 inline
-Vec2f &OffCenterPerspectiveCameraBase::getPrincipalPoint(void)
+Vec2f &OffCenterPerspectiveCameraBase::editPrincipalPoint(void)
 {
     return _sfPrincipalPoint.getValue();
 }
@@ -118,6 +134,15 @@ const Vec2f &OffCenterPerspectiveCameraBase::getPrincipalPoint(void) const
     return _sfPrincipalPoint.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the OffCenterPerspectiveCamera::_sfPrincipalPoint field.
+inline
+Vec2f &OffCenterPerspectiveCameraBase::getPrincipalPoint(void)
+{
+    return _sfPrincipalPoint.getValue();
+}
+#endif
+
 //! Set the value of the OffCenterPerspectiveCamera::_sfPrincipalPoint field.
 inline
 void OffCenterPerspectiveCameraBase::setPrincipalPoint(const Vec2f &value)
@@ -128,5 +153,5 @@ void OffCenterPerspectiveCameraBase::setPrincipalPoint(const Vec2f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGOFFCENTERPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraBase.inl,v 1.3 2008/06/05 05:02:30 vossg Exp $"
+#define OSGOFFCENTERPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraBase.inl,v 1.4 2008/06/09 07:31:55 vossg Exp $"
 

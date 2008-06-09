@@ -98,43 +98,123 @@ DVRIsoSurfacePtr DVRIsoSurfaceBase::createEmpty(void)
 
 //! Get the DVRIsoSurface::_sfIsoValue field.
 inline
-SFReal32 *DVRIsoSurfaceBase::getSFIsoValue(void)
+const SFReal32 *DVRIsoSurfaceBase::getSFIsoValue(void) const
 {
     return &_sfIsoValue;
 }
 
+//! Get the DVRIsoSurface::_sfIsoValue field.
+inline
+SFReal32 *DVRIsoSurfaceBase::editSFIsoValue(void)
+{
+    return &_sfIsoValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DVRIsoSurface::_sfIsoValue field.
+inline
+SFReal32 *DVRIsoSurfaceBase::getSFIsoValue(void)
+{
+    return &_sfIsoValue;
+}
+#endif
+
+//! Get the DVRIsoSurface::_sfIsoThickness field.
+inline
+const SFReal32 *DVRIsoSurfaceBase::getSFIsoThickness(void) const
+{
+    return &_sfIsoThickness;
+}
+
+//! Get the DVRIsoSurface::_sfIsoThickness field.
+inline
+SFReal32 *DVRIsoSurfaceBase::editSFIsoThickness(void)
+{
+    return &_sfIsoThickness;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRIsoSurface::_sfIsoThickness field.
 inline
 SFReal32 *DVRIsoSurfaceBase::getSFIsoThickness(void)
 {
     return &_sfIsoThickness;
 }
+#endif
 
+//! Get the DVRIsoSurface::_sfIsoOpacity field.
+inline
+const SFReal32 *DVRIsoSurfaceBase::getSFIsoOpacity(void) const
+{
+    return &_sfIsoOpacity;
+}
+
+//! Get the DVRIsoSurface::_sfIsoOpacity field.
+inline
+SFReal32 *DVRIsoSurfaceBase::editSFIsoOpacity(void)
+{
+    return &_sfIsoOpacity;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRIsoSurface::_sfIsoOpacity field.
 inline
 SFReal32 *DVRIsoSurfaceBase::getSFIsoOpacity(void)
 {
     return &_sfIsoOpacity;
 }
+#endif
 
+//! Get the DVRIsoSurface::_sfAlphaMode field.
+inline
+const SFUInt32 *DVRIsoSurfaceBase::getSFAlphaMode(void) const
+{
+    return &_sfAlphaMode;
+}
+
+//! Get the DVRIsoSurface::_sfAlphaMode field.
+inline
+SFUInt32 *DVRIsoSurfaceBase::editSFAlphaMode(void)
+{
+    return &_sfAlphaMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRIsoSurface::_sfAlphaMode field.
 inline
 SFUInt32 *DVRIsoSurfaceBase::getSFAlphaMode(void)
 {
     return &_sfAlphaMode;
 }
+#endif
 
+//! Get the DVRIsoSurface::_sfSpecularLighting field.
+inline
+const SFBool *DVRIsoSurfaceBase::getSFSpecularLighting(void) const
+{
+    return &_sfSpecularLighting;
+}
+
+//! Get the DVRIsoSurface::_sfSpecularLighting field.
+inline
+SFBool *DVRIsoSurfaceBase::editSFSpecularLighting(void)
+{
+    return &_sfSpecularLighting;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRIsoSurface::_sfSpecularLighting field.
 inline
 SFBool *DVRIsoSurfaceBase::getSFSpecularLighting(void)
 {
     return &_sfSpecularLighting;
 }
+#endif
 
 
 //! Get the value of the DVRIsoSurface::_sfIsoValue field.
 inline
-Real32 &DVRIsoSurfaceBase::getIsoValue(void)
+Real32 &DVRIsoSurfaceBase::editIsoValue(void)
 {
     return _sfIsoValue.getValue();
 }
@@ -146,6 +226,15 @@ const Real32 &DVRIsoSurfaceBase::getIsoValue(void) const
     return _sfIsoValue.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRIsoSurface::_sfIsoValue field.
+inline
+Real32 &DVRIsoSurfaceBase::getIsoValue(void)
+{
+    return _sfIsoValue.getValue();
+}
+#endif
+
 //! Set the value of the DVRIsoSurface::_sfIsoValue field.
 inline
 void DVRIsoSurfaceBase::setIsoValue(const Real32 &value)
@@ -155,7 +244,7 @@ void DVRIsoSurfaceBase::setIsoValue(const Real32 &value)
 
 //! Get the value of the DVRIsoSurface::_sfIsoThickness field.
 inline
-Real32 &DVRIsoSurfaceBase::getIsoThickness(void)
+Real32 &DVRIsoSurfaceBase::editIsoThickness(void)
 {
     return _sfIsoThickness.getValue();
 }
@@ -167,6 +256,15 @@ const Real32 &DVRIsoSurfaceBase::getIsoThickness(void) const
     return _sfIsoThickness.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRIsoSurface::_sfIsoThickness field.
+inline
+Real32 &DVRIsoSurfaceBase::getIsoThickness(void)
+{
+    return _sfIsoThickness.getValue();
+}
+#endif
+
 //! Set the value of the DVRIsoSurface::_sfIsoThickness field.
 inline
 void DVRIsoSurfaceBase::setIsoThickness(const Real32 &value)
@@ -176,7 +274,7 @@ void DVRIsoSurfaceBase::setIsoThickness(const Real32 &value)
 
 //! Get the value of the DVRIsoSurface::_sfIsoOpacity field.
 inline
-Real32 &DVRIsoSurfaceBase::getIsoOpacity(void)
+Real32 &DVRIsoSurfaceBase::editIsoOpacity(void)
 {
     return _sfIsoOpacity.getValue();
 }
@@ -188,6 +286,15 @@ const Real32 &DVRIsoSurfaceBase::getIsoOpacity(void) const
     return _sfIsoOpacity.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRIsoSurface::_sfIsoOpacity field.
+inline
+Real32 &DVRIsoSurfaceBase::getIsoOpacity(void)
+{
+    return _sfIsoOpacity.getValue();
+}
+#endif
+
 //! Set the value of the DVRIsoSurface::_sfIsoOpacity field.
 inline
 void DVRIsoSurfaceBase::setIsoOpacity(const Real32 &value)
@@ -197,7 +304,7 @@ void DVRIsoSurfaceBase::setIsoOpacity(const Real32 &value)
 
 //! Get the value of the DVRIsoSurface::_sfAlphaMode field.
 inline
-UInt32 &DVRIsoSurfaceBase::getAlphaMode(void)
+UInt32 &DVRIsoSurfaceBase::editAlphaMode(void)
 {
     return _sfAlphaMode.getValue();
 }
@@ -209,6 +316,15 @@ const UInt32 &DVRIsoSurfaceBase::getAlphaMode(void) const
     return _sfAlphaMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRIsoSurface::_sfAlphaMode field.
+inline
+UInt32 &DVRIsoSurfaceBase::getAlphaMode(void)
+{
+    return _sfAlphaMode.getValue();
+}
+#endif
+
 //! Set the value of the DVRIsoSurface::_sfAlphaMode field.
 inline
 void DVRIsoSurfaceBase::setAlphaMode(const UInt32 &value)
@@ -218,7 +334,7 @@ void DVRIsoSurfaceBase::setAlphaMode(const UInt32 &value)
 
 //! Get the value of the DVRIsoSurface::_sfSpecularLighting field.
 inline
-bool &DVRIsoSurfaceBase::getSpecularLighting(void)
+bool &DVRIsoSurfaceBase::editSpecularLighting(void)
 {
     return _sfSpecularLighting.getValue();
 }
@@ -229,6 +345,15 @@ const bool &DVRIsoSurfaceBase::getSpecularLighting(void) const
 {
     return _sfSpecularLighting.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the DVRIsoSurface::_sfSpecularLighting field.
+inline
+bool &DVRIsoSurfaceBase::getSpecularLighting(void)
+{
+    return _sfSpecularLighting.getValue();
+}
+#endif
 
 //! Set the value of the DVRIsoSurface::_sfSpecularLighting field.
 inline

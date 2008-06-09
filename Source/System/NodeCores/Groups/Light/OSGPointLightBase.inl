@@ -98,15 +98,31 @@ PointLightPtr PointLightBase::createEmpty(void)
 
 //! Get the PointLight::_sfPosition field.
 inline
-SFPnt3f *PointLightBase::getSFPosition(void)
+const SFPnt3f *PointLightBase::getSFPosition(void) const
 {
     return &_sfPosition;
 }
 
+//! Get the PointLight::_sfPosition field.
+inline
+SFPnt3f *PointLightBase::editSFPosition(void)
+{
+    return &_sfPosition;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PointLight::_sfPosition field.
+inline
+SFPnt3f *PointLightBase::getSFPosition(void)
+{
+    return &_sfPosition;
+}
+#endif
+
 
 //! Get the value of the PointLight::_sfPosition field.
 inline
-Pnt3f &PointLightBase::getPosition(void)
+Pnt3f &PointLightBase::editPosition(void)
 {
     return _sfPosition.getValue();
 }
@@ -117,6 +133,15 @@ const Pnt3f &PointLightBase::getPosition(void) const
 {
     return _sfPosition.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the PointLight::_sfPosition field.
+inline
+Pnt3f &PointLightBase::getPosition(void)
+{
+    return _sfPosition.getValue();
+}
+#endif
 
 //! Set the value of the PointLight::_sfPosition field.
 inline

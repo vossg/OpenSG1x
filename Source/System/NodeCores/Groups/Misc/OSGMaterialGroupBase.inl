@@ -98,15 +98,31 @@ MaterialGroupPtr MaterialGroupBase::createEmpty(void)
 
 //! Get the MaterialGroup::_sfMaterial field.
 inline
-SFMaterialPtr *MaterialGroupBase::getSFMaterial(void)
+const SFMaterialPtr *MaterialGroupBase::getSFMaterial(void) const
 {
     return &_sfMaterial;
 }
 
+//! Get the MaterialGroup::_sfMaterial field.
+inline
+SFMaterialPtr *MaterialGroupBase::editSFMaterial(void)
+{
+    return &_sfMaterial;
+}
+
+#ifndef OSG_2_PREP
+//! Get the MaterialGroup::_sfMaterial field.
+inline
+SFMaterialPtr *MaterialGroupBase::getSFMaterial(void)
+{
+    return &_sfMaterial;
+}
+#endif
+
 
 //! Get the value of the MaterialGroup::_sfMaterial field.
 inline
-MaterialPtr &MaterialGroupBase::getMaterial(void)
+MaterialPtr &MaterialGroupBase::editMaterial(void)
 {
     return _sfMaterial.getValue();
 }
@@ -117,6 +133,15 @@ const MaterialPtr &MaterialGroupBase::getMaterial(void) const
 {
     return _sfMaterial.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialGroup::_sfMaterial field.
+inline
+MaterialPtr &MaterialGroupBase::getMaterial(void)
+{
+    return _sfMaterial.getValue();
+}
+#endif
 
 //! Set the value of the MaterialGroup::_sfMaterial field.
 inline

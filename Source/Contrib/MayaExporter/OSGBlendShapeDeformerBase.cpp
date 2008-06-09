@@ -122,37 +122,37 @@ FieldDescription *BlendShapeDeformerBase::_desc[] =
                      "weight", 
                      WeightFieldId, WeightFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFWeight)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::editMFWeight)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "vertexIndices", 
                      VertexIndicesFieldId, VertexIndicesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFVertexIndices)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::editMFVertexIndices)),
     new FieldDescription(MFUInt16::getClassType(), 
                      "targetIndices", 
                      TargetIndicesFieldId, TargetIndicesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFTargetIndices)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::editMFTargetIndices)),
     new FieldDescription(MFPnt3f::getClassType(), 
                      "targetVertices", 
                      TargetVerticesFieldId, TargetVerticesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFTargetVertices)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::editMFTargetVertices)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "normalIndices", 
                      NormalIndicesFieldId, NormalIndicesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFNormalIndices)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::editMFNormalIndices)),
     new FieldDescription(MFUInt16::getClassType(), 
                      "normalTargetIndices", 
                      NormalTargetIndicesFieldId, NormalTargetIndicesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFNormalTargetIndices)),
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::editMFNormalTargetIndices)),
     new FieldDescription(MFVec3f::getClassType(), 
                      "targetNormals", 
                      TargetNormalsFieldId, TargetNormalsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::getMFTargetNormals))
+                     reinterpret_cast<FieldAccessMethod>(&BlendShapeDeformerBase::editMFTargetNormals))
 };
 
 
@@ -523,7 +523,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(BlendShapeDeformerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBLENDSHAPEDEFORMERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBLENDSHAPEDEFORMERBASE_INLINE_CVSID;
 

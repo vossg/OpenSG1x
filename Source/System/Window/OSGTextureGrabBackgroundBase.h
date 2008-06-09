@@ -131,19 +131,55 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureGrabBackgroundBase : public SolidBackgroun
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFTextureChunkPtr   *getSFTexture        (void);
-           SFBool              *getSFAutoResize     (void);
-           SFGLenum            *getSFBindTarget     (void);
-           SFGLenum            *getSFCopyTarget     (void);
 
-           TextureChunkPtr     &getTexture        (void);
+           SFTextureChunkPtr   *editSFTexture        (void);
+     const SFTextureChunkPtr   *getSFTexture        (void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFTexture        (void);
+#endif
+
+           SFBool              *editSFAutoResize     (void);
+     const SFBool              *getSFAutoResize     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAutoResize     (void);
+#endif
+
+           SFGLenum            *editSFBindTarget     (void);
+     const SFGLenum            *getSFBindTarget     (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFBindTarget     (void);
+#endif
+
+           SFGLenum            *editSFCopyTarget     (void);
+     const SFGLenum            *getSFCopyTarget     (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFCopyTarget     (void);
+#endif
+
+
+           TextureChunkPtr     &editTexture        (void);
      const TextureChunkPtr     &getTexture        (void) const;
-           bool                &getAutoResize     (void);
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getTexture        (void);
+#endif
+
+           bool                &editAutoResize     (void);
      const bool                &getAutoResize     (void) const;
-           GLenum              &getBindTarget     (void);
+#ifndef OSG_2_PREP
+           bool                &getAutoResize     (void);
+#endif
+
+           GLenum              &editBindTarget     (void);
      const GLenum              &getBindTarget     (void) const;
-           GLenum              &getCopyTarget     (void);
+#ifndef OSG_2_PREP
+           GLenum              &getBindTarget     (void);
+#endif
+
+           GLenum              &editCopyTarget     (void);
      const GLenum              &getCopyTarget     (void) const;
+#ifndef OSG_2_PREP
+           GLenum              &getCopyTarget     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

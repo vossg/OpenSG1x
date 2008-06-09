@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsSliderJointBase : public PhysicsJoint
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFAxis           (void);
 
-           Vec3f               &getAxis           (void);
+           SFVec3f             *editSFAxis           (void);
+     const SFVec3f             *getSFAxis           (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFAxis           (void);
+#endif
+
+
+           Vec3f               &editAxis           (void);
      const Vec3f               &getAxis           (void) const;
+#ifndef OSG_2_PREP
+           Vec3f               &getAxis           (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsSliderJointPtr> PhysicsSliderJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSLIDERJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJointBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSSLIDERJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJointBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSSLIDERJOINTBASE_H_ */

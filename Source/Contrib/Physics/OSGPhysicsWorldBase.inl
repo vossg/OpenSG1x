@@ -98,85 +98,261 @@ PhysicsWorldPtr PhysicsWorldBase::createEmpty(void)
 
 //! Get the PhysicsWorld::_sfErp field.
 inline
-SFReal32 *PhysicsWorldBase::getSFErp(void)
+const SFReal32 *PhysicsWorldBase::getSFErp(void) const
 {
     return &_sfErp;
 }
 
+//! Get the PhysicsWorld::_sfErp field.
+inline
+SFReal32 *PhysicsWorldBase::editSFErp(void)
+{
+    return &_sfErp;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsWorld::_sfErp field.
+inline
+SFReal32 *PhysicsWorldBase::getSFErp(void)
+{
+    return &_sfErp;
+}
+#endif
+
+//! Get the PhysicsWorld::_sfGravity field.
+inline
+const SFVec3f *PhysicsWorldBase::getSFGravity(void) const
+{
+    return &_sfGravity;
+}
+
+//! Get the PhysicsWorld::_sfGravity field.
+inline
+SFVec3f *PhysicsWorldBase::editSFGravity(void)
+{
+    return &_sfGravity;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfGravity field.
 inline
 SFVec3f *PhysicsWorldBase::getSFGravity(void)
 {
     return &_sfGravity;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfCfm field.
+inline
+const SFReal32 *PhysicsWorldBase::getSFCfm(void) const
+{
+    return &_sfCfm;
+}
+
+//! Get the PhysicsWorld::_sfCfm field.
+inline
+SFReal32 *PhysicsWorldBase::editSFCfm(void)
+{
+    return &_sfCfm;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfCfm field.
 inline
 SFReal32 *PhysicsWorldBase::getSFCfm(void)
 {
     return &_sfCfm;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfAutoDisableFlag field.
+inline
+const SFInt32 *PhysicsWorldBase::getSFAutoDisableFlag(void) const
+{
+    return &_sfAutoDisableFlag;
+}
+
+//! Get the PhysicsWorld::_sfAutoDisableFlag field.
+inline
+SFInt32 *PhysicsWorldBase::editSFAutoDisableFlag(void)
+{
+    return &_sfAutoDisableFlag;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfAutoDisableFlag field.
 inline
 SFInt32 *PhysicsWorldBase::getSFAutoDisableFlag(void)
 {
     return &_sfAutoDisableFlag;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfAutoDisableLinearThreshold field.
+inline
+const SFReal32 *PhysicsWorldBase::getSFAutoDisableLinearThreshold(void) const
+{
+    return &_sfAutoDisableLinearThreshold;
+}
+
+//! Get the PhysicsWorld::_sfAutoDisableLinearThreshold field.
+inline
+SFReal32 *PhysicsWorldBase::editSFAutoDisableLinearThreshold(void)
+{
+    return &_sfAutoDisableLinearThreshold;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfAutoDisableLinearThreshold field.
 inline
 SFReal32 *PhysicsWorldBase::getSFAutoDisableLinearThreshold(void)
 {
     return &_sfAutoDisableLinearThreshold;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfAutoDisableAngularThreshold field.
+inline
+const SFReal32 *PhysicsWorldBase::getSFAutoDisableAngularThreshold(void) const
+{
+    return &_sfAutoDisableAngularThreshold;
+}
+
+//! Get the PhysicsWorld::_sfAutoDisableAngularThreshold field.
+inline
+SFReal32 *PhysicsWorldBase::editSFAutoDisableAngularThreshold(void)
+{
+    return &_sfAutoDisableAngularThreshold;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfAutoDisableAngularThreshold field.
 inline
 SFReal32 *PhysicsWorldBase::getSFAutoDisableAngularThreshold(void)
 {
     return &_sfAutoDisableAngularThreshold;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfAutoDisableSteps field.
+inline
+const SFInt32 *PhysicsWorldBase::getSFAutoDisableSteps(void) const
+{
+    return &_sfAutoDisableSteps;
+}
+
+//! Get the PhysicsWorld::_sfAutoDisableSteps field.
+inline
+SFInt32 *PhysicsWorldBase::editSFAutoDisableSteps(void)
+{
+    return &_sfAutoDisableSteps;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfAutoDisableSteps field.
 inline
 SFInt32 *PhysicsWorldBase::getSFAutoDisableSteps(void)
 {
     return &_sfAutoDisableSteps;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfAutoDisableTime field.
+inline
+const SFReal32 *PhysicsWorldBase::getSFAutoDisableTime(void) const
+{
+    return &_sfAutoDisableTime;
+}
+
+//! Get the PhysicsWorld::_sfAutoDisableTime field.
+inline
+SFReal32 *PhysicsWorldBase::editSFAutoDisableTime(void)
+{
+    return &_sfAutoDisableTime;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfAutoDisableTime field.
 inline
 SFReal32 *PhysicsWorldBase::getSFAutoDisableTime(void)
 {
     return &_sfAutoDisableTime;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfWorldQuickStepNumIterations field.
+inline
+const SFInt32 *PhysicsWorldBase::getSFWorldQuickStepNumIterations(void) const
+{
+    return &_sfWorldQuickStepNumIterations;
+}
+
+//! Get the PhysicsWorld::_sfWorldQuickStepNumIterations field.
+inline
+SFInt32 *PhysicsWorldBase::editSFWorldQuickStepNumIterations(void)
+{
+    return &_sfWorldQuickStepNumIterations;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfWorldQuickStepNumIterations field.
 inline
 SFInt32 *PhysicsWorldBase::getSFWorldQuickStepNumIterations(void)
 {
     return &_sfWorldQuickStepNumIterations;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfWorldContactMaxCorrectingVel field.
+inline
+const SFReal32 *PhysicsWorldBase::getSFWorldContactMaxCorrectingVel(void) const
+{
+    return &_sfWorldContactMaxCorrectingVel;
+}
+
+//! Get the PhysicsWorld::_sfWorldContactMaxCorrectingVel field.
+inline
+SFReal32 *PhysicsWorldBase::editSFWorldContactMaxCorrectingVel(void)
+{
+    return &_sfWorldContactMaxCorrectingVel;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfWorldContactMaxCorrectingVel field.
 inline
 SFReal32 *PhysicsWorldBase::getSFWorldContactMaxCorrectingVel(void)
 {
     return &_sfWorldContactMaxCorrectingVel;
 }
+#endif
 
+//! Get the PhysicsWorld::_sfWorldContactSurfaceLayer field.
+inline
+const SFReal32 *PhysicsWorldBase::getSFWorldContactSurfaceLayer(void) const
+{
+    return &_sfWorldContactSurfaceLayer;
+}
+
+//! Get the PhysicsWorld::_sfWorldContactSurfaceLayer field.
+inline
+SFReal32 *PhysicsWorldBase::editSFWorldContactSurfaceLayer(void)
+{
+    return &_sfWorldContactSurfaceLayer;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsWorld::_sfWorldContactSurfaceLayer field.
 inline
 SFReal32 *PhysicsWorldBase::getSFWorldContactSurfaceLayer(void)
 {
     return &_sfWorldContactSurfaceLayer;
 }
+#endif
 
 
 //! Get the value of the PhysicsWorld::_sfErp field.
 inline
-Real32 &PhysicsWorldBase::getErp(void)
+Real32 &PhysicsWorldBase::editErp(void)
 {
     return _sfErp.getValue();
 }
@@ -188,6 +364,15 @@ const Real32 &PhysicsWorldBase::getErp(void) const
     return _sfErp.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfErp field.
+inline
+Real32 &PhysicsWorldBase::getErp(void)
+{
+    return _sfErp.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfErp field.
 inline
 void PhysicsWorldBase::setErp(const Real32 &value)
@@ -197,7 +382,7 @@ void PhysicsWorldBase::setErp(const Real32 &value)
 
 //! Get the value of the PhysicsWorld::_sfGravity field.
 inline
-Vec3f &PhysicsWorldBase::getGravity(void)
+Vec3f &PhysicsWorldBase::editGravity(void)
 {
     return _sfGravity.getValue();
 }
@@ -209,6 +394,15 @@ const Vec3f &PhysicsWorldBase::getGravity(void) const
     return _sfGravity.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfGravity field.
+inline
+Vec3f &PhysicsWorldBase::getGravity(void)
+{
+    return _sfGravity.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfGravity field.
 inline
 void PhysicsWorldBase::setGravity(const Vec3f &value)
@@ -218,7 +412,7 @@ void PhysicsWorldBase::setGravity(const Vec3f &value)
 
 //! Get the value of the PhysicsWorld::_sfCfm field.
 inline
-Real32 &PhysicsWorldBase::getCfm(void)
+Real32 &PhysicsWorldBase::editCfm(void)
 {
     return _sfCfm.getValue();
 }
@@ -230,6 +424,15 @@ const Real32 &PhysicsWorldBase::getCfm(void) const
     return _sfCfm.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfCfm field.
+inline
+Real32 &PhysicsWorldBase::getCfm(void)
+{
+    return _sfCfm.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfCfm field.
 inline
 void PhysicsWorldBase::setCfm(const Real32 &value)
@@ -239,7 +442,7 @@ void PhysicsWorldBase::setCfm(const Real32 &value)
 
 //! Get the value of the PhysicsWorld::_sfAutoDisableFlag field.
 inline
-Int32 &PhysicsWorldBase::getAutoDisableFlag(void)
+Int32 &PhysicsWorldBase::editAutoDisableFlag(void)
 {
     return _sfAutoDisableFlag.getValue();
 }
@@ -251,6 +454,15 @@ const Int32 &PhysicsWorldBase::getAutoDisableFlag(void) const
     return _sfAutoDisableFlag.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfAutoDisableFlag field.
+inline
+Int32 &PhysicsWorldBase::getAutoDisableFlag(void)
+{
+    return _sfAutoDisableFlag.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfAutoDisableFlag field.
 inline
 void PhysicsWorldBase::setAutoDisableFlag(const Int32 &value)
@@ -260,7 +472,7 @@ void PhysicsWorldBase::setAutoDisableFlag(const Int32 &value)
 
 //! Get the value of the PhysicsWorld::_sfAutoDisableLinearThreshold field.
 inline
-Real32 &PhysicsWorldBase::getAutoDisableLinearThreshold(void)
+Real32 &PhysicsWorldBase::editAutoDisableLinearThreshold(void)
 {
     return _sfAutoDisableLinearThreshold.getValue();
 }
@@ -272,6 +484,15 @@ const Real32 &PhysicsWorldBase::getAutoDisableLinearThreshold(void) const
     return _sfAutoDisableLinearThreshold.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfAutoDisableLinearThreshold field.
+inline
+Real32 &PhysicsWorldBase::getAutoDisableLinearThreshold(void)
+{
+    return _sfAutoDisableLinearThreshold.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfAutoDisableLinearThreshold field.
 inline
 void PhysicsWorldBase::setAutoDisableLinearThreshold(const Real32 &value)
@@ -281,7 +502,7 @@ void PhysicsWorldBase::setAutoDisableLinearThreshold(const Real32 &value)
 
 //! Get the value of the PhysicsWorld::_sfAutoDisableAngularThreshold field.
 inline
-Real32 &PhysicsWorldBase::getAutoDisableAngularThreshold(void)
+Real32 &PhysicsWorldBase::editAutoDisableAngularThreshold(void)
 {
     return _sfAutoDisableAngularThreshold.getValue();
 }
@@ -293,6 +514,15 @@ const Real32 &PhysicsWorldBase::getAutoDisableAngularThreshold(void) const
     return _sfAutoDisableAngularThreshold.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfAutoDisableAngularThreshold field.
+inline
+Real32 &PhysicsWorldBase::getAutoDisableAngularThreshold(void)
+{
+    return _sfAutoDisableAngularThreshold.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfAutoDisableAngularThreshold field.
 inline
 void PhysicsWorldBase::setAutoDisableAngularThreshold(const Real32 &value)
@@ -302,7 +532,7 @@ void PhysicsWorldBase::setAutoDisableAngularThreshold(const Real32 &value)
 
 //! Get the value of the PhysicsWorld::_sfAutoDisableSteps field.
 inline
-Int32 &PhysicsWorldBase::getAutoDisableSteps(void)
+Int32 &PhysicsWorldBase::editAutoDisableSteps(void)
 {
     return _sfAutoDisableSteps.getValue();
 }
@@ -314,6 +544,15 @@ const Int32 &PhysicsWorldBase::getAutoDisableSteps(void) const
     return _sfAutoDisableSteps.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfAutoDisableSteps field.
+inline
+Int32 &PhysicsWorldBase::getAutoDisableSteps(void)
+{
+    return _sfAutoDisableSteps.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfAutoDisableSteps field.
 inline
 void PhysicsWorldBase::setAutoDisableSteps(const Int32 &value)
@@ -323,7 +562,7 @@ void PhysicsWorldBase::setAutoDisableSteps(const Int32 &value)
 
 //! Get the value of the PhysicsWorld::_sfAutoDisableTime field.
 inline
-Real32 &PhysicsWorldBase::getAutoDisableTime(void)
+Real32 &PhysicsWorldBase::editAutoDisableTime(void)
 {
     return _sfAutoDisableTime.getValue();
 }
@@ -335,6 +574,15 @@ const Real32 &PhysicsWorldBase::getAutoDisableTime(void) const
     return _sfAutoDisableTime.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfAutoDisableTime field.
+inline
+Real32 &PhysicsWorldBase::getAutoDisableTime(void)
+{
+    return _sfAutoDisableTime.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfAutoDisableTime field.
 inline
 void PhysicsWorldBase::setAutoDisableTime(const Real32 &value)
@@ -344,7 +592,7 @@ void PhysicsWorldBase::setAutoDisableTime(const Real32 &value)
 
 //! Get the value of the PhysicsWorld::_sfWorldQuickStepNumIterations field.
 inline
-Int32 &PhysicsWorldBase::getWorldQuickStepNumIterations(void)
+Int32 &PhysicsWorldBase::editWorldQuickStepNumIterations(void)
 {
     return _sfWorldQuickStepNumIterations.getValue();
 }
@@ -356,6 +604,15 @@ const Int32 &PhysicsWorldBase::getWorldQuickStepNumIterations(void) const
     return _sfWorldQuickStepNumIterations.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfWorldQuickStepNumIterations field.
+inline
+Int32 &PhysicsWorldBase::getWorldQuickStepNumIterations(void)
+{
+    return _sfWorldQuickStepNumIterations.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfWorldQuickStepNumIterations field.
 inline
 void PhysicsWorldBase::setWorldQuickStepNumIterations(const Int32 &value)
@@ -365,7 +622,7 @@ void PhysicsWorldBase::setWorldQuickStepNumIterations(const Int32 &value)
 
 //! Get the value of the PhysicsWorld::_sfWorldContactMaxCorrectingVel field.
 inline
-Real32 &PhysicsWorldBase::getWorldContactMaxCorrectingVel(void)
+Real32 &PhysicsWorldBase::editWorldContactMaxCorrectingVel(void)
 {
     return _sfWorldContactMaxCorrectingVel.getValue();
 }
@@ -377,6 +634,15 @@ const Real32 &PhysicsWorldBase::getWorldContactMaxCorrectingVel(void) const
     return _sfWorldContactMaxCorrectingVel.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfWorldContactMaxCorrectingVel field.
+inline
+Real32 &PhysicsWorldBase::getWorldContactMaxCorrectingVel(void)
+{
+    return _sfWorldContactMaxCorrectingVel.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfWorldContactMaxCorrectingVel field.
 inline
 void PhysicsWorldBase::setWorldContactMaxCorrectingVel(const Real32 &value)
@@ -386,7 +652,7 @@ void PhysicsWorldBase::setWorldContactMaxCorrectingVel(const Real32 &value)
 
 //! Get the value of the PhysicsWorld::_sfWorldContactSurfaceLayer field.
 inline
-Real32 &PhysicsWorldBase::getWorldContactSurfaceLayer(void)
+Real32 &PhysicsWorldBase::editWorldContactSurfaceLayer(void)
 {
     return _sfWorldContactSurfaceLayer.getValue();
 }
@@ -398,6 +664,15 @@ const Real32 &PhysicsWorldBase::getWorldContactSurfaceLayer(void) const
     return _sfWorldContactSurfaceLayer.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsWorld::_sfWorldContactSurfaceLayer field.
+inline
+Real32 &PhysicsWorldBase::getWorldContactSurfaceLayer(void)
+{
+    return _sfWorldContactSurfaceLayer.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsWorld::_sfWorldContactSurfaceLayer field.
 inline
 void PhysicsWorldBase::setWorldContactSurfaceLayer(const Real32 &value)
@@ -408,5 +683,5 @@ void PhysicsWorldBase::setWorldContactSurfaceLayer(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSWORLDBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsWorldBase.inl,v 1.3 2008/06/05 05:02:17 vossg Exp $"
+#define OSGPHYSICSWORLDBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsWorldBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

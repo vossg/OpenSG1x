@@ -122,11 +122,20 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMIntBase : public ShaderParameter
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFInt32             *getMFValue          (void);
 
+           MFInt32             *editMFValue          (void);
+     const MFInt32             *getMFValue          (void) const;
+#ifndef OSG_2_PREP
+           MFInt32             *getMFValue          (void);
+#endif
+
+
+           Int32               &editValue          (const UInt32 index);
+     const Int32               &getValue          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Int32               &getValue          (const UInt32 index);
            MFInt32             &getValue          (void);
-     const MFInt32             &getValue          (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<ShaderParameterMIntPtr> ShaderParameterMIntRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMINTBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMIntBase.h,v 1.2 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERMINTBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMIntBase.h,v 1.3 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERMINTBASE_H_ */

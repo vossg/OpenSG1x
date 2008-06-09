@@ -98,15 +98,31 @@ PhysicsCCylinderGeomPtr PhysicsCCylinderGeomBase::createEmpty(void)
 
 //! Get the PhysicsCCylinderGeom::_sfParams field.
 inline
-SFVec2f *PhysicsCCylinderGeomBase::getSFParams(void)
+const SFVec2f *PhysicsCCylinderGeomBase::getSFParams(void) const
 {
     return &_sfParams;
 }
 
+//! Get the PhysicsCCylinderGeom::_sfParams field.
+inline
+SFVec2f *PhysicsCCylinderGeomBase::editSFParams(void)
+{
+    return &_sfParams;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsCCylinderGeom::_sfParams field.
+inline
+SFVec2f *PhysicsCCylinderGeomBase::getSFParams(void)
+{
+    return &_sfParams;
+}
+#endif
+
 
 //! Get the value of the PhysicsCCylinderGeom::_sfParams field.
 inline
-Vec2f &PhysicsCCylinderGeomBase::getParams(void)
+Vec2f &PhysicsCCylinderGeomBase::editParams(void)
 {
     return _sfParams.getValue();
 }
@@ -118,6 +134,15 @@ const Vec2f &PhysicsCCylinderGeomBase::getParams(void) const
     return _sfParams.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsCCylinderGeom::_sfParams field.
+inline
+Vec2f &PhysicsCCylinderGeomBase::getParams(void)
+{
+    return _sfParams.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsCCylinderGeom::_sfParams field.
 inline
 void PhysicsCCylinderGeomBase::setParams(const Vec2f &value)
@@ -128,5 +153,5 @@ void PhysicsCCylinderGeomBase::setParams(const Vec2f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSCCYLINDERGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsCCylinderGeomBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSCCYLINDERGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsCCylinderGeomBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

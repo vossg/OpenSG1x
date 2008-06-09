@@ -179,77 +179,257 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFColor4f           *getMFSkyColor       (void);
-           MFReal32            *getMFSkyAngle       (void);
-           MFColor4f           *getMFGroundColor    (void);
-           MFReal32            *getMFGroundAngle    (void);
-           SFUInt32            *getSFSphereRes      (void);
-           SFTextureChunkPtr   *getSFBackTexture    (void);
-           SFTextureChunkPtr   *getSFBottomTexture  (void);
-           SFTextureChunkPtr   *getSFFrontTexture   (void);
-           SFTextureChunkPtr   *getSFLeftTexture    (void);
-           SFTextureChunkPtr   *getSFRightTexture   (void);
-           SFTextureChunkPtr   *getSFTopTexture     (void);
-           SFBool              *getSFBoxInside      (void);
-           MFVec3f             *getMFTopTexCoord    (void);
-           MFVec3f             *getMFBottomTexCoord (void);
-           MFVec3f             *getMFRightTexCoord  (void);
-           MFVec3f             *getMFLeftTexCoord   (void);
-           MFVec3f             *getMFFrontTexCoord  (void);
-           MFVec3f             *getMFBackTexCoord   (void);
-           SFNodePtr           *getSFBeacon         (void);
-           SFInt32             *getSFClearStencilBit(void);
 
-           UInt32              &getSphereRes      (void);
+           MFColor4f           *editMFSkyColor       (void);
+     const MFColor4f           *getMFSkyColor       (void) const;
+#ifndef OSG_2_PREP
+           MFColor4f           *getMFSkyColor       (void);
+#endif
+
+           MFReal32            *editMFSkyAngle       (void);
+     const MFReal32            *getMFSkyAngle       (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFSkyAngle       (void);
+#endif
+
+           MFColor4f           *editMFGroundColor    (void);
+     const MFColor4f           *getMFGroundColor    (void) const;
+#ifndef OSG_2_PREP
+           MFColor4f           *getMFGroundColor    (void);
+#endif
+
+           MFReal32            *editMFGroundAngle    (void);
+     const MFReal32            *getMFGroundAngle    (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFGroundAngle    (void);
+#endif
+
+           SFUInt32            *editSFSphereRes      (void);
+     const SFUInt32            *getSFSphereRes      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFSphereRes      (void);
+#endif
+
+           SFTextureChunkPtr   *editSFBackTexture    (void);
+     const SFTextureChunkPtr   *getSFBackTexture    (void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFBackTexture    (void);
+#endif
+
+           SFTextureChunkPtr   *editSFBottomTexture  (void);
+     const SFTextureChunkPtr   *getSFBottomTexture  (void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFBottomTexture  (void);
+#endif
+
+           SFTextureChunkPtr   *editSFFrontTexture   (void);
+     const SFTextureChunkPtr   *getSFFrontTexture   (void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFFrontTexture   (void);
+#endif
+
+           SFTextureChunkPtr   *editSFLeftTexture    (void);
+     const SFTextureChunkPtr   *getSFLeftTexture    (void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFLeftTexture    (void);
+#endif
+
+           SFTextureChunkPtr   *editSFRightTexture   (void);
+     const SFTextureChunkPtr   *getSFRightTexture   (void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFRightTexture   (void);
+#endif
+
+           SFTextureChunkPtr   *editSFTopTexture     (void);
+     const SFTextureChunkPtr   *getSFTopTexture     (void) const;
+#ifndef OSG_2_PREP
+           SFTextureChunkPtr   *getSFTopTexture     (void);
+#endif
+
+           SFBool              *editSFBoxInside      (void);
+     const SFBool              *getSFBoxInside      (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBoxInside      (void);
+#endif
+
+           MFVec3f             *editMFTopTexCoord    (void);
+     const MFVec3f             *getMFTopTexCoord    (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFTopTexCoord    (void);
+#endif
+
+           MFVec3f             *editMFBottomTexCoord (void);
+     const MFVec3f             *getMFBottomTexCoord (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFBottomTexCoord (void);
+#endif
+
+           MFVec3f             *editMFRightTexCoord  (void);
+     const MFVec3f             *getMFRightTexCoord  (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFRightTexCoord  (void);
+#endif
+
+           MFVec3f             *editMFLeftTexCoord   (void);
+     const MFVec3f             *getMFLeftTexCoord   (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFLeftTexCoord   (void);
+#endif
+
+           MFVec3f             *editMFFrontTexCoord  (void);
+     const MFVec3f             *getMFFrontTexCoord  (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFFrontTexCoord  (void);
+#endif
+
+           MFVec3f             *editMFBackTexCoord   (void);
+     const MFVec3f             *getMFBackTexCoord   (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFBackTexCoord   (void);
+#endif
+
+           SFNodePtr           *editSFBeacon         (void);
+     const SFNodePtr           *getSFBeacon         (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFBeacon         (void);
+#endif
+
+           SFInt32             *editSFClearStencilBit(void);
+     const SFInt32             *getSFClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFClearStencilBit(void);
+#endif
+
+
+           UInt32              &editSphereRes      (void);
      const UInt32              &getSphereRes      (void) const;
-           TextureChunkPtr     &getBackTexture    (void);
+#ifndef OSG_2_PREP
+           UInt32              &getSphereRes      (void);
+#endif
+
+           TextureChunkPtr     &editBackTexture    (void);
      const TextureChunkPtr     &getBackTexture    (void) const;
-           TextureChunkPtr     &getBottomTexture  (void);
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getBackTexture    (void);
+#endif
+
+           TextureChunkPtr     &editBottomTexture  (void);
      const TextureChunkPtr     &getBottomTexture  (void) const;
-           TextureChunkPtr     &getFrontTexture   (void);
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getBottomTexture  (void);
+#endif
+
+           TextureChunkPtr     &editFrontTexture   (void);
      const TextureChunkPtr     &getFrontTexture   (void) const;
-           TextureChunkPtr     &getLeftTexture    (void);
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getFrontTexture   (void);
+#endif
+
+           TextureChunkPtr     &editLeftTexture    (void);
      const TextureChunkPtr     &getLeftTexture    (void) const;
-           TextureChunkPtr     &getRightTexture   (void);
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getLeftTexture    (void);
+#endif
+
+           TextureChunkPtr     &editRightTexture   (void);
      const TextureChunkPtr     &getRightTexture   (void) const;
-           TextureChunkPtr     &getTopTexture     (void);
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getRightTexture   (void);
+#endif
+
+           TextureChunkPtr     &editTopTexture     (void);
      const TextureChunkPtr     &getTopTexture     (void) const;
-           bool                &getBoxInside      (void);
+#ifndef OSG_2_PREP
+           TextureChunkPtr     &getTopTexture     (void);
+#endif
+
+           bool                &editBoxInside      (void);
      const bool                &getBoxInside      (void) const;
-           NodePtr             &getBeacon         (void);
+#ifndef OSG_2_PREP
+           bool                &getBoxInside      (void);
+#endif
+
+           NodePtr             &editBeacon         (void);
      const NodePtr             &getBeacon         (void) const;
-           Int32               &getClearStencilBit(void);
+#ifndef OSG_2_PREP
+           NodePtr             &getBeacon         (void);
+#endif
+
+           Int32               &editClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           Int32               &getClearStencilBit(void);
+#endif
+
+           Color4f             &editSkyColor       (const UInt32 index);
+     const Color4f             &getSkyColor       (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Color4f             &getSkyColor       (const UInt32 index);
            MFColor4f           &getSkyColor       (void);
-     const MFColor4f           &getSkyColor       (void) const;
+#endif
+
+           Real32              &editSkyAngle       (const UInt32 index);
+     const Real32              &getSkyAngle       (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getSkyAngle       (const UInt32 index);
            MFReal32            &getSkyAngle       (void);
-     const MFReal32            &getSkyAngle       (void) const;
+#endif
+
+           Color4f             &editGroundColor    (const UInt32 index);
+     const Color4f             &getGroundColor    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Color4f             &getGroundColor    (const UInt32 index);
            MFColor4f           &getGroundColor    (void);
-     const MFColor4f           &getGroundColor    (void) const;
+#endif
+
+           Real32              &editGroundAngle    (const UInt32 index);
+     const Real32              &getGroundAngle    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getGroundAngle    (const UInt32 index);
            MFReal32            &getGroundAngle    (void);
-     const MFReal32            &getGroundAngle    (void) const;
+#endif
+
+           Vec3f               &editTopTexCoord    (const UInt32 index);
+     const Vec3f               &getTopTexCoord    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getTopTexCoord    (const UInt32 index);
            MFVec3f             &getTopTexCoord    (void);
-     const MFVec3f             &getTopTexCoord    (void) const;
+#endif
+
+           Vec3f               &editBottomTexCoord (const UInt32 index);
+     const Vec3f               &getBottomTexCoord (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getBottomTexCoord (const UInt32 index);
            MFVec3f             &getBottomTexCoord (void);
-     const MFVec3f             &getBottomTexCoord (void) const;
+#endif
+
+           Vec3f               &editRightTexCoord  (const UInt32 index);
+     const Vec3f               &getRightTexCoord  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getRightTexCoord  (const UInt32 index);
            MFVec3f             &getRightTexCoord  (void);
-     const MFVec3f             &getRightTexCoord  (void) const;
+#endif
+
+           Vec3f               &editLeftTexCoord   (const UInt32 index);
+     const Vec3f               &getLeftTexCoord   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getLeftTexCoord   (const UInt32 index);
            MFVec3f             &getLeftTexCoord   (void);
-     const MFVec3f             &getLeftTexCoord   (void) const;
+#endif
+
+           Vec3f               &editFrontTexCoord  (const UInt32 index);
+     const Vec3f               &getFrontTexCoord  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getFrontTexCoord  (const UInt32 index);
            MFVec3f             &getFrontTexCoord  (void);
-     const MFVec3f             &getFrontTexCoord  (void) const;
+#endif
+
+           Vec3f               &editBackTexCoord   (const UInt32 index);
+     const Vec3f               &getBackTexCoord   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getBackTexCoord   (const UInt32 index);
            MFVec3f             &getBackTexCoord   (void);
-     const MFVec3f             &getBackTexCoord   (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

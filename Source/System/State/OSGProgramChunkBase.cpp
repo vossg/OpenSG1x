@@ -104,22 +104,22 @@ FieldDescription *ProgramChunkBase::_desc[] =
                      "program", 
                      ProgramFieldId, ProgramFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::getSFProgram)),
+                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::editSFProgram)),
     new FieldDescription(MFVec4f::getClassType(), 
                      "paramValues", 
                      ParamValuesFieldId, ParamValuesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::getMFParamValues)),
+                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::editMFParamValues)),
     new FieldDescription(MFString::getClassType(), 
                      "paramNames", 
                      ParamNamesFieldId, ParamNamesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::getMFParamNames)),
+                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::editMFParamNames)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::getSFGLId))
+                     reinterpret_cast<FieldAccessMethod>(&ProgramChunkBase::editSFGLId))
 };
 
 
@@ -392,7 +392,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ProgramChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPROGRAMCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPROGRAMCHUNKBASE_INLINE_CVSID;
 

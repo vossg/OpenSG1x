@@ -98,15 +98,31 @@ PhysicsHashSpacePtr PhysicsHashSpaceBase::createEmpty(void)
 
 //! Get the PhysicsHashSpace::_sfLevels field.
 inline
-SFVec2f *PhysicsHashSpaceBase::getSFLevels(void)
+const SFVec2f *PhysicsHashSpaceBase::getSFLevels(void) const
 {
     return &_sfLevels;
 }
 
+//! Get the PhysicsHashSpace::_sfLevels field.
+inline
+SFVec2f *PhysicsHashSpaceBase::editSFLevels(void)
+{
+    return &_sfLevels;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsHashSpace::_sfLevels field.
+inline
+SFVec2f *PhysicsHashSpaceBase::getSFLevels(void)
+{
+    return &_sfLevels;
+}
+#endif
+
 
 //! Get the value of the PhysicsHashSpace::_sfLevels field.
 inline
-Vec2f &PhysicsHashSpaceBase::getLevels(void)
+Vec2f &PhysicsHashSpaceBase::editLevels(void)
 {
     return _sfLevels.getValue();
 }
@@ -118,6 +134,15 @@ const Vec2f &PhysicsHashSpaceBase::getLevels(void) const
     return _sfLevels.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsHashSpace::_sfLevels field.
+inline
+Vec2f &PhysicsHashSpaceBase::getLevels(void)
+{
+    return _sfLevels.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsHashSpace::_sfLevels field.
 inline
 void PhysicsHashSpaceBase::setLevels(const Vec2f &value)
@@ -128,5 +153,5 @@ void PhysicsHashSpaceBase::setLevels(const Vec2f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHASHSPACEBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHashSpaceBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSHASHSPACEBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHashSpaceBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

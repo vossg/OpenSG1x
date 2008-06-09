@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFEnabled        (void);
 
-           bool                &getEnabled        (void);
+           SFBool              *editSFEnabled        (void);
+     const SFBool              *getSFEnabled        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnabled        (void);
+#endif
+
+
+           bool                &editEnabled        (void);
      const bool                &getEnabled        (void) const;
+#ifndef OSG_2_PREP
+           bool                &getEnabled        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

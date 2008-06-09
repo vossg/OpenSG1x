@@ -161,51 +161,177 @@ class OSG_CONTRIBLIB_DLLMAPPING TiledTerrainBase : public MaterialGroup
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFImagePtr          *getMFHeightTiles    (void);
-           MFMaterialPtr       *getMFHeightTextures (void);
-           SFUInt32            *getSFSizeX          (void);
-           SFUInt32            *getSFSizeY          (void);
-           SFReal32            *getSFHeightScale    (void);
-           SFReal32            *getSFVertexSpacing  (void);
-           SFBool              *getSFGeoMorphing    (void);
-           SFReal32            *getSFDetail         (void);
-           SFInt32             *getSFCurrentX       (void);
-           SFInt32             *getSFCurrentY       (void);
-           SFInt32             *getSFSizeROI        (void);
-           SFBool              *getSFUpdate         (void);
-           SFBool              *getSFUpdateTerrain  (void);
-           SFBool              *getSFPerPixelLighting(void);
 
-           UInt32              &getSizeX          (void);
+           MFImagePtr          *editMFHeightTiles    (void);
+     const MFImagePtr          *getMFHeightTiles    (void) const;
+#ifndef OSG_2_PREP
+           MFImagePtr          *getMFHeightTiles    (void);
+#endif
+
+           MFMaterialPtr       *editMFHeightTextures (void);
+     const MFMaterialPtr       *getMFHeightTextures (void) const;
+#ifndef OSG_2_PREP
+           MFMaterialPtr       *getMFHeightTextures (void);
+#endif
+
+           SFUInt32            *editSFSizeX          (void);
+     const SFUInt32            *getSFSizeX          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFSizeX          (void);
+#endif
+
+           SFUInt32            *editSFSizeY          (void);
+     const SFUInt32            *getSFSizeY          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFSizeY          (void);
+#endif
+
+           SFReal32            *editSFHeightScale    (void);
+     const SFReal32            *getSFHeightScale    (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFHeightScale    (void);
+#endif
+
+           SFReal32            *editSFVertexSpacing  (void);
+     const SFReal32            *getSFVertexSpacing  (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFVertexSpacing  (void);
+#endif
+
+           SFBool              *editSFGeoMorphing    (void);
+     const SFBool              *getSFGeoMorphing    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFGeoMorphing    (void);
+#endif
+
+           SFReal32            *editSFDetail         (void);
+     const SFReal32            *getSFDetail         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFDetail         (void);
+#endif
+
+           SFInt32             *editSFCurrentX       (void);
+     const SFInt32             *getSFCurrentX       (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFCurrentX       (void);
+#endif
+
+           SFInt32             *editSFCurrentY       (void);
+     const SFInt32             *getSFCurrentY       (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFCurrentY       (void);
+#endif
+
+           SFInt32             *editSFSizeROI        (void);
+     const SFInt32             *getSFSizeROI        (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFSizeROI        (void);
+#endif
+
+           SFBool              *editSFUpdate         (void);
+     const SFBool              *getSFUpdate         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUpdate         (void);
+#endif
+
+           SFBool              *editSFUpdateTerrain  (void);
+     const SFBool              *getSFUpdateTerrain  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUpdateTerrain  (void);
+#endif
+
+           SFBool              *editSFPerPixelLighting(void);
+     const SFBool              *getSFPerPixelLighting(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFPerPixelLighting(void);
+#endif
+
+
+           UInt32              &editSizeX          (void);
      const UInt32              &getSizeX          (void) const;
-           UInt32              &getSizeY          (void);
+#ifndef OSG_2_PREP
+           UInt32              &getSizeX          (void);
+#endif
+
+           UInt32              &editSizeY          (void);
      const UInt32              &getSizeY          (void) const;
-           Real32              &getHeightScale    (void);
+#ifndef OSG_2_PREP
+           UInt32              &getSizeY          (void);
+#endif
+
+           Real32              &editHeightScale    (void);
      const Real32              &getHeightScale    (void) const;
-           Real32              &getVertexSpacing  (void);
+#ifndef OSG_2_PREP
+           Real32              &getHeightScale    (void);
+#endif
+
+           Real32              &editVertexSpacing  (void);
      const Real32              &getVertexSpacing  (void) const;
-           bool                &getGeoMorphing    (void);
+#ifndef OSG_2_PREP
+           Real32              &getVertexSpacing  (void);
+#endif
+
+           bool                &editGeoMorphing    (void);
      const bool                &getGeoMorphing    (void) const;
-           Real32              &getDetail         (void);
+#ifndef OSG_2_PREP
+           bool                &getGeoMorphing    (void);
+#endif
+
+           Real32              &editDetail         (void);
      const Real32              &getDetail         (void) const;
-           Int32               &getCurrentX       (void);
+#ifndef OSG_2_PREP
+           Real32              &getDetail         (void);
+#endif
+
+           Int32               &editCurrentX       (void);
      const Int32               &getCurrentX       (void) const;
-           Int32               &getCurrentY       (void);
+#ifndef OSG_2_PREP
+           Int32               &getCurrentX       (void);
+#endif
+
+           Int32               &editCurrentY       (void);
      const Int32               &getCurrentY       (void) const;
-           Int32               &getSizeROI        (void);
+#ifndef OSG_2_PREP
+           Int32               &getCurrentY       (void);
+#endif
+
+           Int32               &editSizeROI        (void);
      const Int32               &getSizeROI        (void) const;
-           bool                &getUpdate         (void);
+#ifndef OSG_2_PREP
+           Int32               &getSizeROI        (void);
+#endif
+
+           bool                &editUpdate         (void);
      const bool                &getUpdate         (void) const;
-           bool                &getUpdateTerrain  (void);
+#ifndef OSG_2_PREP
+           bool                &getUpdate         (void);
+#endif
+
+           bool                &editUpdateTerrain  (void);
      const bool                &getUpdateTerrain  (void) const;
-           bool                &getPerPixelLighting(void);
+#ifndef OSG_2_PREP
+           bool                &getUpdateTerrain  (void);
+#endif
+
+           bool                &editPerPixelLighting(void);
      const bool                &getPerPixelLighting(void) const;
+#ifndef OSG_2_PREP
+           bool                &getPerPixelLighting(void);
+#endif
+
+           ImagePtr            &editHeightTiles    (const UInt32 index);
+     const ImagePtr            &getHeightTiles    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            ImagePtr            &getHeightTiles    (const UInt32 index);
            MFImagePtr          &getHeightTiles    (void);
-     const MFImagePtr          &getHeightTiles    (void) const;
+#endif
+
+           MaterialPtr         &editHeightTextures (const UInt32 index);
+     const MaterialPtr         &getHeightTextures (const UInt32 index) const;
+#ifndef OSG_2_PREP
            MaterialPtr         &getHeightTextures (const UInt32 index);
            MFMaterialPtr       &getHeightTextures (void);
-     const MFMaterialPtr       &getHeightTextures (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -357,6 +483,6 @@ typedef RefPtr<TiledTerrainPtr> TiledTerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.8 2008/06/05 05:02:18 vossg Exp $"
+#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.9 2008/06/09 07:31:43 vossg Exp $"
 
 #endif /* _OSGTILEDTERRAINBASE_H_ */

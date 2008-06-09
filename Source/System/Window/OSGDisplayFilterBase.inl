@@ -72,15 +72,31 @@ OSG::UInt32 DisplayFilterBase::getClassTypeId(void)
 
 //! Get the DisplayFilter::_sfEnabled field.
 inline
-SFBool *DisplayFilterBase::getSFEnabled(void)
+const SFBool *DisplayFilterBase::getSFEnabled(void) const
 {
     return &_sfEnabled;
 }
 
+//! Get the DisplayFilter::_sfEnabled field.
+inline
+SFBool *DisplayFilterBase::editSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DisplayFilter::_sfEnabled field.
+inline
+SFBool *DisplayFilterBase::getSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+#endif
+
 
 //! Get the value of the DisplayFilter::_sfEnabled field.
 inline
-bool &DisplayFilterBase::getEnabled(void)
+bool &DisplayFilterBase::editEnabled(void)
 {
     return _sfEnabled.getValue();
 }
@@ -91,6 +107,15 @@ const bool &DisplayFilterBase::getEnabled(void) const
 {
     return _sfEnabled.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the DisplayFilter::_sfEnabled field.
+inline
+bool &DisplayFilterBase::getEnabled(void)
+{
+    return _sfEnabled.getValue();
+}
+#endif
 
 //! Set the value of the DisplayFilter::_sfEnabled field.
 inline

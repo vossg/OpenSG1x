@@ -128,16 +128,43 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsHinge2JointBase : public PhysicsJoint
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFAnchor         (void);
-           SFVec3f             *getSFAxis1          (void);
-           SFVec3f             *getSFAxis2          (void);
 
-           Vec3f               &getAnchor         (void);
+           SFVec3f             *editSFAnchor         (void);
+     const SFVec3f             *getSFAnchor         (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFAnchor         (void);
+#endif
+
+           SFVec3f             *editSFAxis1          (void);
+     const SFVec3f             *getSFAxis1          (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFAxis1          (void);
+#endif
+
+           SFVec3f             *editSFAxis2          (void);
+     const SFVec3f             *getSFAxis2          (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFAxis2          (void);
+#endif
+
+
+           Vec3f               &editAnchor         (void);
      const Vec3f               &getAnchor         (void) const;
-           Vec3f               &getAxis1          (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getAnchor         (void);
+#endif
+
+           Vec3f               &editAxis1          (void);
      const Vec3f               &getAxis1          (void) const;
-           Vec3f               &getAxis2          (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getAxis1          (void);
+#endif
+
+           Vec3f               &editAxis2          (void);
      const Vec3f               &getAxis2          (void) const;
+#ifndef OSG_2_PREP
+           Vec3f               &getAxis2          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -269,6 +296,6 @@ typedef RefPtr<PhysicsHinge2JointPtr> PhysicsHinge2JointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHINGE2JOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHinge2JointBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSHINGE2JOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHinge2JointBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSHINGE2JOINTBASE_H_ */

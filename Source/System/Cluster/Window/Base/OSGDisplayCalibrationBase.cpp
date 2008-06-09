@@ -134,47 +134,47 @@ FieldDescription *DisplayCalibrationBase::_desc[] =
                      "enabled", 
                      EnabledFieldId, EnabledFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFEnabled)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editSFEnabled)),
     new FieldDescription(SFString::getClassType(), 
                      "server", 
                      ServerFieldId, ServerFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFServer)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editSFServer)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "colorMatrix", 
                      ColorMatrixFieldId, ColorMatrixFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFColorMatrix)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editSFColorMatrix)),
     new FieldDescription(SFReal32::getClassType(), 
                      "gamma", 
                      GammaFieldId, GammaFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFGamma)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editSFGamma)),
     new FieldDescription(MFColor3f::getClassType(), 
                      "gammaRamp", 
                      GammaRampFieldId, GammaRampFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getMFGammaRamp)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editMFGammaRamp)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "gridWidth", 
                      GridWidthFieldId, GridWidthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFGridWidth)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editSFGridWidth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "gridHeight", 
                      GridHeightFieldId, GridHeightFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFGridHeight)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editSFGridHeight)),
     new FieldDescription(MFVec2f::getClassType(), 
                      "grid", 
                      GridFieldId, GridFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getMFGrid)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editMFGrid)),
     new FieldDescription(SFReal32::getClassType(), 
                      "scaleDown", 
                      ScaleDownFieldId, ScaleDownFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::getSFScaleDown))
+                     reinterpret_cast<FieldAccessMethod>(&DisplayCalibrationBase::editSFScaleDown))
 };
 
 
@@ -571,7 +571,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DisplayCalibrationPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDISPLAYCALIBRATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISPLAYCALIBRATIONBASE_INLINE_CVSID;
 

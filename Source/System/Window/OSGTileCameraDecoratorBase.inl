@@ -98,50 +98,146 @@ TileCameraDecoratorPtr TileCameraDecoratorBase::createEmpty(void)
 
 //! Get the TileCameraDecorator::_sfLeft field.
 inline
-SFReal32 *TileCameraDecoratorBase::getSFLeft(void)
+const SFReal32 *TileCameraDecoratorBase::getSFLeft(void) const
 {
     return &_sfLeft;
 }
 
+//! Get the TileCameraDecorator::_sfLeft field.
+inline
+SFReal32 *TileCameraDecoratorBase::editSFLeft(void)
+{
+    return &_sfLeft;
+}
+
+#ifndef OSG_2_PREP
+//! Get the TileCameraDecorator::_sfLeft field.
+inline
+SFReal32 *TileCameraDecoratorBase::getSFLeft(void)
+{
+    return &_sfLeft;
+}
+#endif
+
+//! Get the TileCameraDecorator::_sfRight field.
+inline
+const SFReal32 *TileCameraDecoratorBase::getSFRight(void) const
+{
+    return &_sfRight;
+}
+
+//! Get the TileCameraDecorator::_sfRight field.
+inline
+SFReal32 *TileCameraDecoratorBase::editSFRight(void)
+{
+    return &_sfRight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TileCameraDecorator::_sfRight field.
 inline
 SFReal32 *TileCameraDecoratorBase::getSFRight(void)
 {
     return &_sfRight;
 }
+#endif
 
+//! Get the TileCameraDecorator::_sfBottom field.
+inline
+const SFReal32 *TileCameraDecoratorBase::getSFBottom(void) const
+{
+    return &_sfBottom;
+}
+
+//! Get the TileCameraDecorator::_sfBottom field.
+inline
+SFReal32 *TileCameraDecoratorBase::editSFBottom(void)
+{
+    return &_sfBottom;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TileCameraDecorator::_sfBottom field.
 inline
 SFReal32 *TileCameraDecoratorBase::getSFBottom(void)
 {
     return &_sfBottom;
 }
+#endif
 
+//! Get the TileCameraDecorator::_sfTop field.
+inline
+const SFReal32 *TileCameraDecoratorBase::getSFTop(void) const
+{
+    return &_sfTop;
+}
+
+//! Get the TileCameraDecorator::_sfTop field.
+inline
+SFReal32 *TileCameraDecoratorBase::editSFTop(void)
+{
+    return &_sfTop;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TileCameraDecorator::_sfTop field.
 inline
 SFReal32 *TileCameraDecoratorBase::getSFTop(void)
 {
     return &_sfTop;
 }
+#endif
 
+//! Get the TileCameraDecorator::_sfFullWidth field.
+inline
+const SFUInt32 *TileCameraDecoratorBase::getSFFullWidth(void) const
+{
+    return &_sfFullWidth;
+}
+
+//! Get the TileCameraDecorator::_sfFullWidth field.
+inline
+SFUInt32 *TileCameraDecoratorBase::editSFFullWidth(void)
+{
+    return &_sfFullWidth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TileCameraDecorator::_sfFullWidth field.
 inline
 SFUInt32 *TileCameraDecoratorBase::getSFFullWidth(void)
 {
     return &_sfFullWidth;
 }
+#endif
 
+//! Get the TileCameraDecorator::_sfFullHeight field.
+inline
+const SFUInt32 *TileCameraDecoratorBase::getSFFullHeight(void) const
+{
+    return &_sfFullHeight;
+}
+
+//! Get the TileCameraDecorator::_sfFullHeight field.
+inline
+SFUInt32 *TileCameraDecoratorBase::editSFFullHeight(void)
+{
+    return &_sfFullHeight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TileCameraDecorator::_sfFullHeight field.
 inline
 SFUInt32 *TileCameraDecoratorBase::getSFFullHeight(void)
 {
     return &_sfFullHeight;
 }
+#endif
 
 
 //! Get the value of the TileCameraDecorator::_sfLeft field.
 inline
-Real32 &TileCameraDecoratorBase::getLeft(void)
+Real32 &TileCameraDecoratorBase::editLeft(void)
 {
     return _sfLeft.getValue();
 }
@@ -153,6 +249,15 @@ const Real32 &TileCameraDecoratorBase::getLeft(void) const
     return _sfLeft.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TileCameraDecorator::_sfLeft field.
+inline
+Real32 &TileCameraDecoratorBase::getLeft(void)
+{
+    return _sfLeft.getValue();
+}
+#endif
+
 //! Set the value of the TileCameraDecorator::_sfLeft field.
 inline
 void TileCameraDecoratorBase::setLeft(const Real32 &value)
@@ -162,7 +267,7 @@ void TileCameraDecoratorBase::setLeft(const Real32 &value)
 
 //! Get the value of the TileCameraDecorator::_sfRight field.
 inline
-Real32 &TileCameraDecoratorBase::getRight(void)
+Real32 &TileCameraDecoratorBase::editRight(void)
 {
     return _sfRight.getValue();
 }
@@ -174,6 +279,15 @@ const Real32 &TileCameraDecoratorBase::getRight(void) const
     return _sfRight.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TileCameraDecorator::_sfRight field.
+inline
+Real32 &TileCameraDecoratorBase::getRight(void)
+{
+    return _sfRight.getValue();
+}
+#endif
+
 //! Set the value of the TileCameraDecorator::_sfRight field.
 inline
 void TileCameraDecoratorBase::setRight(const Real32 &value)
@@ -183,7 +297,7 @@ void TileCameraDecoratorBase::setRight(const Real32 &value)
 
 //! Get the value of the TileCameraDecorator::_sfBottom field.
 inline
-Real32 &TileCameraDecoratorBase::getBottom(void)
+Real32 &TileCameraDecoratorBase::editBottom(void)
 {
     return _sfBottom.getValue();
 }
@@ -195,6 +309,15 @@ const Real32 &TileCameraDecoratorBase::getBottom(void) const
     return _sfBottom.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TileCameraDecorator::_sfBottom field.
+inline
+Real32 &TileCameraDecoratorBase::getBottom(void)
+{
+    return _sfBottom.getValue();
+}
+#endif
+
 //! Set the value of the TileCameraDecorator::_sfBottom field.
 inline
 void TileCameraDecoratorBase::setBottom(const Real32 &value)
@@ -204,7 +327,7 @@ void TileCameraDecoratorBase::setBottom(const Real32 &value)
 
 //! Get the value of the TileCameraDecorator::_sfTop field.
 inline
-Real32 &TileCameraDecoratorBase::getTop(void)
+Real32 &TileCameraDecoratorBase::editTop(void)
 {
     return _sfTop.getValue();
 }
@@ -216,6 +339,15 @@ const Real32 &TileCameraDecoratorBase::getTop(void) const
     return _sfTop.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TileCameraDecorator::_sfTop field.
+inline
+Real32 &TileCameraDecoratorBase::getTop(void)
+{
+    return _sfTop.getValue();
+}
+#endif
+
 //! Set the value of the TileCameraDecorator::_sfTop field.
 inline
 void TileCameraDecoratorBase::setTop(const Real32 &value)
@@ -225,7 +357,7 @@ void TileCameraDecoratorBase::setTop(const Real32 &value)
 
 //! Get the value of the TileCameraDecorator::_sfFullWidth field.
 inline
-UInt32 &TileCameraDecoratorBase::getFullWidth(void)
+UInt32 &TileCameraDecoratorBase::editFullWidth(void)
 {
     return _sfFullWidth.getValue();
 }
@@ -237,6 +369,15 @@ const UInt32 &TileCameraDecoratorBase::getFullWidth(void) const
     return _sfFullWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TileCameraDecorator::_sfFullWidth field.
+inline
+UInt32 &TileCameraDecoratorBase::getFullWidth(void)
+{
+    return _sfFullWidth.getValue();
+}
+#endif
+
 //! Set the value of the TileCameraDecorator::_sfFullWidth field.
 inline
 void TileCameraDecoratorBase::setFullWidth(const UInt32 &value)
@@ -246,7 +387,7 @@ void TileCameraDecoratorBase::setFullWidth(const UInt32 &value)
 
 //! Get the value of the TileCameraDecorator::_sfFullHeight field.
 inline
-UInt32 &TileCameraDecoratorBase::getFullHeight(void)
+UInt32 &TileCameraDecoratorBase::editFullHeight(void)
 {
     return _sfFullHeight.getValue();
 }
@@ -257,6 +398,15 @@ const UInt32 &TileCameraDecoratorBase::getFullHeight(void) const
 {
     return _sfFullHeight.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the TileCameraDecorator::_sfFullHeight field.
+inline
+UInt32 &TileCameraDecoratorBase::getFullHeight(void)
+{
+    return _sfFullHeight.getValue();
+}
+#endif
 
 //! Set the value of the TileCameraDecorator::_sfFullHeight field.
 inline

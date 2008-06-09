@@ -98,64 +98,192 @@ PhongMaterialPtr PhongMaterialBase::createEmpty(void)
 
 //! Get the PhongMaterial::_sfAmbient field.
 inline
-SFColor3f *PhongMaterialBase::getSFAmbient(void)
+const SFColor3f *PhongMaterialBase::getSFAmbient(void) const
 {
     return &_sfAmbient;
 }
 
+//! Get the PhongMaterial::_sfAmbient field.
+inline
+SFColor3f *PhongMaterialBase::editSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhongMaterial::_sfAmbient field.
+inline
+SFColor3f *PhongMaterialBase::getSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+#endif
+
+//! Get the PhongMaterial::_sfDiffuse field.
+inline
+const SFColor3f *PhongMaterialBase::getSFDiffuse(void) const
+{
+    return &_sfDiffuse;
+}
+
+//! Get the PhongMaterial::_sfDiffuse field.
+inline
+SFColor3f *PhongMaterialBase::editSFDiffuse(void)
+{
+    return &_sfDiffuse;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhongMaterial::_sfDiffuse field.
 inline
 SFColor3f *PhongMaterialBase::getSFDiffuse(void)
 {
     return &_sfDiffuse;
 }
+#endif
 
+//! Get the PhongMaterial::_sfSpecular field.
+inline
+const SFColor3f *PhongMaterialBase::getSFSpecular(void) const
+{
+    return &_sfSpecular;
+}
+
+//! Get the PhongMaterial::_sfSpecular field.
+inline
+SFColor3f *PhongMaterialBase::editSFSpecular(void)
+{
+    return &_sfSpecular;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhongMaterial::_sfSpecular field.
 inline
 SFColor3f *PhongMaterialBase::getSFSpecular(void)
 {
     return &_sfSpecular;
 }
+#endif
 
+//! Get the PhongMaterial::_sfShininess field.
+inline
+const SFReal32 *PhongMaterialBase::getSFShininess(void) const
+{
+    return &_sfShininess;
+}
+
+//! Get the PhongMaterial::_sfShininess field.
+inline
+SFReal32 *PhongMaterialBase::editSFShininess(void)
+{
+    return &_sfShininess;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhongMaterial::_sfShininess field.
 inline
 SFReal32 *PhongMaterialBase::getSFShininess(void)
 {
     return &_sfShininess;
 }
+#endif
 
+//! Get the PhongMaterial::_sfEmission field.
+inline
+const SFColor3f *PhongMaterialBase::getSFEmission(void) const
+{
+    return &_sfEmission;
+}
+
+//! Get the PhongMaterial::_sfEmission field.
+inline
+SFColor3f *PhongMaterialBase::editSFEmission(void)
+{
+    return &_sfEmission;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhongMaterial::_sfEmission field.
 inline
 SFColor3f *PhongMaterialBase::getSFEmission(void)
 {
     return &_sfEmission;
 }
+#endif
 
+//! Get the PhongMaterial::_sfTransparency field.
+inline
+const SFReal32 *PhongMaterialBase::getSFTransparency(void) const
+{
+    return &_sfTransparency;
+}
+
+//! Get the PhongMaterial::_sfTransparency field.
+inline
+SFReal32 *PhongMaterialBase::editSFTransparency(void)
+{
+    return &_sfTransparency;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhongMaterial::_sfTransparency field.
 inline
 SFReal32 *PhongMaterialBase::getSFTransparency(void)
 {
     return &_sfTransparency;
 }
+#endif
 
+//! Get the PhongMaterial::_sfLit field.
+inline
+const SFBool *PhongMaterialBase::getSFLit(void) const
+{
+    return &_sfLit;
+}
+
+//! Get the PhongMaterial::_sfLit field.
+inline
+SFBool *PhongMaterialBase::editSFLit(void)
+{
+    return &_sfLit;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhongMaterial::_sfLit field.
 inline
 SFBool *PhongMaterialBase::getSFLit(void)
 {
     return &_sfLit;
 }
+#endif
 
+//! Get the PhongMaterial::_sfColorMaterial field.
+inline
+const SFGLenum *PhongMaterialBase::getSFColorMaterial(void) const
+{
+    return &_sfColorMaterial;
+}
+
+//! Get the PhongMaterial::_sfColorMaterial field.
+inline
+SFGLenum *PhongMaterialBase::editSFColorMaterial(void)
+{
+    return &_sfColorMaterial;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhongMaterial::_sfColorMaterial field.
 inline
 SFGLenum *PhongMaterialBase::getSFColorMaterial(void)
 {
     return &_sfColorMaterial;
 }
+#endif
 
 
 //! Get the value of the PhongMaterial::_sfAmbient field.
 inline
-Color3f &PhongMaterialBase::getAmbient(void)
+Color3f &PhongMaterialBase::editAmbient(void)
 {
     return _sfAmbient.getValue();
 }
@@ -167,6 +295,15 @@ const Color3f &PhongMaterialBase::getAmbient(void) const
     return _sfAmbient.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhongMaterial::_sfAmbient field.
+inline
+Color3f &PhongMaterialBase::getAmbient(void)
+{
+    return _sfAmbient.getValue();
+}
+#endif
+
 //! Set the value of the PhongMaterial::_sfAmbient field.
 inline
 void PhongMaterialBase::setAmbient(const Color3f &value)
@@ -176,7 +313,7 @@ void PhongMaterialBase::setAmbient(const Color3f &value)
 
 //! Get the value of the PhongMaterial::_sfDiffuse field.
 inline
-Color3f &PhongMaterialBase::getDiffuse(void)
+Color3f &PhongMaterialBase::editDiffuse(void)
 {
     return _sfDiffuse.getValue();
 }
@@ -188,6 +325,15 @@ const Color3f &PhongMaterialBase::getDiffuse(void) const
     return _sfDiffuse.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhongMaterial::_sfDiffuse field.
+inline
+Color3f &PhongMaterialBase::getDiffuse(void)
+{
+    return _sfDiffuse.getValue();
+}
+#endif
+
 //! Set the value of the PhongMaterial::_sfDiffuse field.
 inline
 void PhongMaterialBase::setDiffuse(const Color3f &value)
@@ -197,7 +343,7 @@ void PhongMaterialBase::setDiffuse(const Color3f &value)
 
 //! Get the value of the PhongMaterial::_sfSpecular field.
 inline
-Color3f &PhongMaterialBase::getSpecular(void)
+Color3f &PhongMaterialBase::editSpecular(void)
 {
     return _sfSpecular.getValue();
 }
@@ -209,6 +355,15 @@ const Color3f &PhongMaterialBase::getSpecular(void) const
     return _sfSpecular.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhongMaterial::_sfSpecular field.
+inline
+Color3f &PhongMaterialBase::getSpecular(void)
+{
+    return _sfSpecular.getValue();
+}
+#endif
+
 //! Set the value of the PhongMaterial::_sfSpecular field.
 inline
 void PhongMaterialBase::setSpecular(const Color3f &value)
@@ -218,7 +373,7 @@ void PhongMaterialBase::setSpecular(const Color3f &value)
 
 //! Get the value of the PhongMaterial::_sfShininess field.
 inline
-Real32 &PhongMaterialBase::getShininess(void)
+Real32 &PhongMaterialBase::editShininess(void)
 {
     return _sfShininess.getValue();
 }
@@ -230,6 +385,15 @@ const Real32 &PhongMaterialBase::getShininess(void) const
     return _sfShininess.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhongMaterial::_sfShininess field.
+inline
+Real32 &PhongMaterialBase::getShininess(void)
+{
+    return _sfShininess.getValue();
+}
+#endif
+
 //! Set the value of the PhongMaterial::_sfShininess field.
 inline
 void PhongMaterialBase::setShininess(const Real32 &value)
@@ -239,7 +403,7 @@ void PhongMaterialBase::setShininess(const Real32 &value)
 
 //! Get the value of the PhongMaterial::_sfEmission field.
 inline
-Color3f &PhongMaterialBase::getEmission(void)
+Color3f &PhongMaterialBase::editEmission(void)
 {
     return _sfEmission.getValue();
 }
@@ -251,6 +415,15 @@ const Color3f &PhongMaterialBase::getEmission(void) const
     return _sfEmission.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhongMaterial::_sfEmission field.
+inline
+Color3f &PhongMaterialBase::getEmission(void)
+{
+    return _sfEmission.getValue();
+}
+#endif
+
 //! Set the value of the PhongMaterial::_sfEmission field.
 inline
 void PhongMaterialBase::setEmission(const Color3f &value)
@@ -260,7 +433,7 @@ void PhongMaterialBase::setEmission(const Color3f &value)
 
 //! Get the value of the PhongMaterial::_sfTransparency field.
 inline
-Real32 &PhongMaterialBase::getTransparency(void)
+Real32 &PhongMaterialBase::editTransparency(void)
 {
     return _sfTransparency.getValue();
 }
@@ -272,6 +445,15 @@ const Real32 &PhongMaterialBase::getTransparency(void) const
     return _sfTransparency.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhongMaterial::_sfTransparency field.
+inline
+Real32 &PhongMaterialBase::getTransparency(void)
+{
+    return _sfTransparency.getValue();
+}
+#endif
+
 //! Set the value of the PhongMaterial::_sfTransparency field.
 inline
 void PhongMaterialBase::setTransparency(const Real32 &value)
@@ -281,7 +463,7 @@ void PhongMaterialBase::setTransparency(const Real32 &value)
 
 //! Get the value of the PhongMaterial::_sfLit field.
 inline
-bool &PhongMaterialBase::getLit(void)
+bool &PhongMaterialBase::editLit(void)
 {
     return _sfLit.getValue();
 }
@@ -293,6 +475,15 @@ const bool &PhongMaterialBase::getLit(void) const
     return _sfLit.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhongMaterial::_sfLit field.
+inline
+bool &PhongMaterialBase::getLit(void)
+{
+    return _sfLit.getValue();
+}
+#endif
+
 //! Set the value of the PhongMaterial::_sfLit field.
 inline
 void PhongMaterialBase::setLit(const bool &value)
@@ -302,7 +493,7 @@ void PhongMaterialBase::setLit(const bool &value)
 
 //! Get the value of the PhongMaterial::_sfColorMaterial field.
 inline
-GLenum &PhongMaterialBase::getColorMaterial(void)
+GLenum &PhongMaterialBase::editColorMaterial(void)
 {
     return _sfColorMaterial.getValue();
 }
@@ -313,6 +504,15 @@ const GLenum &PhongMaterialBase::getColorMaterial(void) const
 {
     return _sfColorMaterial.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the PhongMaterial::_sfColorMaterial field.
+inline
+GLenum &PhongMaterialBase::getColorMaterial(void)
+{
+    return _sfColorMaterial.getValue();
+}
+#endif
 
 //! Set the value of the PhongMaterial::_sfColorMaterial field.
 inline

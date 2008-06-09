@@ -104,22 +104,22 @@ FieldDescription *PhysicsJointBase::_desc[] =
                      "param", 
                      ParamFieldId, ParamFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsJointBase::getSFParam)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsJointBase::editSFParam)),
     new FieldDescription(SFPhysicsWorldPtr::getClassType(), 
                      "world", 
                      WorldFieldId, WorldFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsJointBase::getSFWorld)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsJointBase::editSFWorld)),
     new FieldDescription(SFPhysicsBodyPtr::getClassType(), 
                      "firstBody", 
                      FirstBodyFieldId, FirstBodyFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsJointBase::getSFFirstBody)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsJointBase::editSFFirstBody)),
     new FieldDescription(SFPhysicsBodyPtr::getClassType(), 
                      "secondBody", 
                      SecondBodyFieldId, SecondBodyFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsJointBase::getSFSecondBody))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsJointBase::editSFSecondBody))
 };
 
 
@@ -393,7 +393,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsJointBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSJOINTBASE_INLINE_CVSID;
 

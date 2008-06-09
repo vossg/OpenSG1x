@@ -116,32 +116,32 @@ FieldDescription *ColorDisplayFilterBase::_desc[] =
                      "gamma", 
                      GammaFieldId, GammaFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::getSFGamma)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::editSFGamma)),
     new FieldDescription(SFMatrix::getClassType(), 
                      "matrix", 
                      MatrixFieldId, MatrixFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::getSFMatrix)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::editSFMatrix)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::getSFWidth)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::editSFWidth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "height", 
                      HeightFieldId, HeightFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::getSFHeight)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::editSFHeight)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "depth", 
                      DepthFieldId, DepthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::getSFDepth)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::editSFDepth)),
     new FieldDescription(MFColor3f::getClassType(), 
                      "table", 
                      TableFieldId, TableFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::getMFTable))
+                     reinterpret_cast<FieldAccessMethod>(&ColorDisplayFilterBase::editMFTable))
 };
 
 
@@ -465,7 +465,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ColorDisplayFilterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORDISPLAYFILTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORDISPLAYFILTERBASE_INLINE_CVSID;
 

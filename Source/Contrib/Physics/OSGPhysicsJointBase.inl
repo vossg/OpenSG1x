@@ -98,36 +98,100 @@ PhysicsJointPtr PhysicsJointBase::createEmpty(void)
 
 //! Get the PhysicsJoint::_sfParam field.
 inline
-SFVec2f *PhysicsJointBase::getSFParam(void)
+const SFVec2f *PhysicsJointBase::getSFParam(void) const
 {
     return &_sfParam;
 }
 
+//! Get the PhysicsJoint::_sfParam field.
+inline
+SFVec2f *PhysicsJointBase::editSFParam(void)
+{
+    return &_sfParam;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsJoint::_sfParam field.
+inline
+SFVec2f *PhysicsJointBase::getSFParam(void)
+{
+    return &_sfParam;
+}
+#endif
+
+//! Get the PhysicsJoint::_sfWorld field.
+inline
+const SFPhysicsWorldPtr *PhysicsJointBase::getSFWorld(void) const
+{
+    return &_sfWorld;
+}
+
+//! Get the PhysicsJoint::_sfWorld field.
+inline
+SFPhysicsWorldPtr *PhysicsJointBase::editSFWorld(void)
+{
+    return &_sfWorld;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsJoint::_sfWorld field.
 inline
 SFPhysicsWorldPtr *PhysicsJointBase::getSFWorld(void)
 {
     return &_sfWorld;
 }
+#endif
 
+//! Get the PhysicsJoint::_sfFirstBody field.
+inline
+const SFPhysicsBodyPtr *PhysicsJointBase::getSFFirstBody(void) const
+{
+    return &_sfFirstBody;
+}
+
+//! Get the PhysicsJoint::_sfFirstBody field.
+inline
+SFPhysicsBodyPtr *PhysicsJointBase::editSFFirstBody(void)
+{
+    return &_sfFirstBody;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsJoint::_sfFirstBody field.
 inline
 SFPhysicsBodyPtr *PhysicsJointBase::getSFFirstBody(void)
 {
     return &_sfFirstBody;
 }
+#endif
 
+//! Get the PhysicsJoint::_sfSecondBody field.
+inline
+const SFPhysicsBodyPtr *PhysicsJointBase::getSFSecondBody(void) const
+{
+    return &_sfSecondBody;
+}
+
+//! Get the PhysicsJoint::_sfSecondBody field.
+inline
+SFPhysicsBodyPtr *PhysicsJointBase::editSFSecondBody(void)
+{
+    return &_sfSecondBody;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsJoint::_sfSecondBody field.
 inline
 SFPhysicsBodyPtr *PhysicsJointBase::getSFSecondBody(void)
 {
     return &_sfSecondBody;
 }
+#endif
 
 
 //! Get the value of the PhysicsJoint::_sfParam field.
 inline
-Vec2f &PhysicsJointBase::getParam(void)
+Vec2f &PhysicsJointBase::editParam(void)
 {
     return _sfParam.getValue();
 }
@@ -139,6 +203,15 @@ const Vec2f &PhysicsJointBase::getParam(void) const
     return _sfParam.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsJoint::_sfParam field.
+inline
+Vec2f &PhysicsJointBase::getParam(void)
+{
+    return _sfParam.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsJoint::_sfParam field.
 inline
 void PhysicsJointBase::setParam(const Vec2f &value)
@@ -148,7 +221,7 @@ void PhysicsJointBase::setParam(const Vec2f &value)
 
 //! Get the value of the PhysicsJoint::_sfWorld field.
 inline
-PhysicsWorldPtr &PhysicsJointBase::getWorld(void)
+PhysicsWorldPtr &PhysicsJointBase::editWorld(void)
 {
     return _sfWorld.getValue();
 }
@@ -160,6 +233,15 @@ const PhysicsWorldPtr &PhysicsJointBase::getWorld(void) const
     return _sfWorld.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsJoint::_sfWorld field.
+inline
+PhysicsWorldPtr &PhysicsJointBase::getWorld(void)
+{
+    return _sfWorld.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsJoint::_sfWorld field.
 inline
 void PhysicsJointBase::setWorld(const PhysicsWorldPtr &value)
@@ -169,7 +251,7 @@ void PhysicsJointBase::setWorld(const PhysicsWorldPtr &value)
 
 //! Get the value of the PhysicsJoint::_sfFirstBody field.
 inline
-PhysicsBodyPtr &PhysicsJointBase::getFirstBody(void)
+PhysicsBodyPtr &PhysicsJointBase::editFirstBody(void)
 {
     return _sfFirstBody.getValue();
 }
@@ -181,6 +263,15 @@ const PhysicsBodyPtr &PhysicsJointBase::getFirstBody(void) const
     return _sfFirstBody.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsJoint::_sfFirstBody field.
+inline
+PhysicsBodyPtr &PhysicsJointBase::getFirstBody(void)
+{
+    return _sfFirstBody.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsJoint::_sfFirstBody field.
 inline
 void PhysicsJointBase::setFirstBody(const PhysicsBodyPtr &value)
@@ -190,7 +281,7 @@ void PhysicsJointBase::setFirstBody(const PhysicsBodyPtr &value)
 
 //! Get the value of the PhysicsJoint::_sfSecondBody field.
 inline
-PhysicsBodyPtr &PhysicsJointBase::getSecondBody(void)
+PhysicsBodyPtr &PhysicsJointBase::editSecondBody(void)
 {
     return _sfSecondBody.getValue();
 }
@@ -202,6 +293,15 @@ const PhysicsBodyPtr &PhysicsJointBase::getSecondBody(void) const
     return _sfSecondBody.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsJoint::_sfSecondBody field.
+inline
+PhysicsBodyPtr &PhysicsJointBase::getSecondBody(void)
+{
+    return _sfSecondBody.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsJoint::_sfSecondBody field.
 inline
 void PhysicsJointBase::setSecondBody(const PhysicsBodyPtr &value)
@@ -212,5 +312,5 @@ void PhysicsJointBase::setSecondBody(const PhysicsBodyPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsJointBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsJointBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

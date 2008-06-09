@@ -128,17 +128,44 @@ class OSG_CONTRIBLIB_DLLMAPPING DeformableGeometryBase : public Geometry
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFDeformerPtr       *getMFDeformers      (void);
-           SFGeoPositionsPtr   *getSFBasePositions  (void);
-           SFGeoNormalsPtr     *getSFBaseNormals    (void);
 
-           GeoPositionsPtr     &getBasePositions  (void);
+           MFDeformerPtr       *editMFDeformers      (void);
+     const MFDeformerPtr       *getMFDeformers      (void) const;
+#ifndef OSG_2_PREP
+           MFDeformerPtr       *getMFDeformers      (void);
+#endif
+
+           SFGeoPositionsPtr   *editSFBasePositions  (void);
+     const SFGeoPositionsPtr   *getSFBasePositions  (void) const;
+#ifndef OSG_2_PREP
+           SFGeoPositionsPtr   *getSFBasePositions  (void);
+#endif
+
+           SFGeoNormalsPtr     *editSFBaseNormals    (void);
+     const SFGeoNormalsPtr     *getSFBaseNormals    (void) const;
+#ifndef OSG_2_PREP
+           SFGeoNormalsPtr     *getSFBaseNormals    (void);
+#endif
+
+
+           GeoPositionsPtr     &editBasePositions  (void);
      const GeoPositionsPtr     &getBasePositions  (void) const;
-           GeoNormalsPtr       &getBaseNormals    (void);
+#ifndef OSG_2_PREP
+           GeoPositionsPtr     &getBasePositions  (void);
+#endif
+
+           GeoNormalsPtr       &editBaseNormals    (void);
      const GeoNormalsPtr       &getBaseNormals    (void) const;
+#ifndef OSG_2_PREP
+           GeoNormalsPtr       &getBaseNormals    (void);
+#endif
+
+           DeformerPtr         &editDeformers      (const UInt32 index);
+     const DeformerPtr         &getDeformers      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            DeformerPtr         &getDeformers      (const UInt32 index);
            MFDeformerPtr       &getDeformers      (void);
-     const MFDeformerPtr       &getDeformers      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

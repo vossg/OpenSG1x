@@ -98,15 +98,31 @@ ShaderParameterIntPtr ShaderParameterIntBase::createEmpty(void)
 
 //! Get the ShaderParameterInt::_sfValue field.
 inline
-SFInt32 *ShaderParameterIntBase::getSFValue(void)
+const SFInt32 *ShaderParameterIntBase::getSFValue(void) const
 {
     return &_sfValue;
 }
 
+//! Get the ShaderParameterInt::_sfValue field.
+inline
+SFInt32 *ShaderParameterIntBase::editSFValue(void)
+{
+    return &_sfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterInt::_sfValue field.
+inline
+SFInt32 *ShaderParameterIntBase::getSFValue(void)
+{
+    return &_sfValue;
+}
+#endif
+
 
 //! Get the value of the ShaderParameterInt::_sfValue field.
 inline
-Int32 &ShaderParameterIntBase::getValue(void)
+Int32 &ShaderParameterIntBase::editValue(void)
 {
     return _sfValue.getValue();
 }
@@ -118,6 +134,15 @@ const Int32 &ShaderParameterIntBase::getValue(void) const
     return _sfValue.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShaderParameterInt::_sfValue field.
+inline
+Int32 &ShaderParameterIntBase::getValue(void)
+{
+    return _sfValue.getValue();
+}
+#endif
+
 //! Set the value of the ShaderParameterInt::_sfValue field.
 inline
 void ShaderParameterIntBase::setValue(const Int32 &value)
@@ -128,5 +153,5 @@ void ShaderParameterIntBase::setValue(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERINTBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterIntBase.inl,v 1.6 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERINTBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterIntBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
 

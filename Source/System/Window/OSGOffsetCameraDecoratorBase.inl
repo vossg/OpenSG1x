@@ -98,36 +98,100 @@ OffsetCameraDecoratorPtr OffsetCameraDecoratorBase::createEmpty(void)
 
 //! Get the OffsetCameraDecorator::_sfOffsetX field.
 inline
-SFReal32 *OffsetCameraDecoratorBase::getSFOffsetX(void)
+const SFReal32 *OffsetCameraDecoratorBase::getSFOffsetX(void) const
 {
     return &_sfOffsetX;
 }
 
+//! Get the OffsetCameraDecorator::_sfOffsetX field.
+inline
+SFReal32 *OffsetCameraDecoratorBase::editSFOffsetX(void)
+{
+    return &_sfOffsetX;
+}
+
+#ifndef OSG_2_PREP
+//! Get the OffsetCameraDecorator::_sfOffsetX field.
+inline
+SFReal32 *OffsetCameraDecoratorBase::getSFOffsetX(void)
+{
+    return &_sfOffsetX;
+}
+#endif
+
+//! Get the OffsetCameraDecorator::_sfOffsetY field.
+inline
+const SFReal32 *OffsetCameraDecoratorBase::getSFOffsetY(void) const
+{
+    return &_sfOffsetY;
+}
+
+//! Get the OffsetCameraDecorator::_sfOffsetY field.
+inline
+SFReal32 *OffsetCameraDecoratorBase::editSFOffsetY(void)
+{
+    return &_sfOffsetY;
+}
+
+#ifndef OSG_2_PREP
 //! Get the OffsetCameraDecorator::_sfOffsetY field.
 inline
 SFReal32 *OffsetCameraDecoratorBase::getSFOffsetY(void)
 {
     return &_sfOffsetY;
 }
+#endif
 
+//! Get the OffsetCameraDecorator::_sfFullWidth field.
+inline
+const SFUInt32 *OffsetCameraDecoratorBase::getSFFullWidth(void) const
+{
+    return &_sfFullWidth;
+}
+
+//! Get the OffsetCameraDecorator::_sfFullWidth field.
+inline
+SFUInt32 *OffsetCameraDecoratorBase::editSFFullWidth(void)
+{
+    return &_sfFullWidth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the OffsetCameraDecorator::_sfFullWidth field.
 inline
 SFUInt32 *OffsetCameraDecoratorBase::getSFFullWidth(void)
 {
     return &_sfFullWidth;
 }
+#endif
 
+//! Get the OffsetCameraDecorator::_sfFullHeight field.
+inline
+const SFUInt32 *OffsetCameraDecoratorBase::getSFFullHeight(void) const
+{
+    return &_sfFullHeight;
+}
+
+//! Get the OffsetCameraDecorator::_sfFullHeight field.
+inline
+SFUInt32 *OffsetCameraDecoratorBase::editSFFullHeight(void)
+{
+    return &_sfFullHeight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the OffsetCameraDecorator::_sfFullHeight field.
 inline
 SFUInt32 *OffsetCameraDecoratorBase::getSFFullHeight(void)
 {
     return &_sfFullHeight;
 }
+#endif
 
 
 //! Get the value of the OffsetCameraDecorator::_sfOffsetX field.
 inline
-Real32 &OffsetCameraDecoratorBase::getOffsetX(void)
+Real32 &OffsetCameraDecoratorBase::editOffsetX(void)
 {
     return _sfOffsetX.getValue();
 }
@@ -139,6 +203,15 @@ const Real32 &OffsetCameraDecoratorBase::getOffsetX(void) const
     return _sfOffsetX.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the OffsetCameraDecorator::_sfOffsetX field.
+inline
+Real32 &OffsetCameraDecoratorBase::getOffsetX(void)
+{
+    return _sfOffsetX.getValue();
+}
+#endif
+
 //! Set the value of the OffsetCameraDecorator::_sfOffsetX field.
 inline
 void OffsetCameraDecoratorBase::setOffsetX(const Real32 &value)
@@ -148,7 +221,7 @@ void OffsetCameraDecoratorBase::setOffsetX(const Real32 &value)
 
 //! Get the value of the OffsetCameraDecorator::_sfOffsetY field.
 inline
-Real32 &OffsetCameraDecoratorBase::getOffsetY(void)
+Real32 &OffsetCameraDecoratorBase::editOffsetY(void)
 {
     return _sfOffsetY.getValue();
 }
@@ -160,6 +233,15 @@ const Real32 &OffsetCameraDecoratorBase::getOffsetY(void) const
     return _sfOffsetY.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the OffsetCameraDecorator::_sfOffsetY field.
+inline
+Real32 &OffsetCameraDecoratorBase::getOffsetY(void)
+{
+    return _sfOffsetY.getValue();
+}
+#endif
+
 //! Set the value of the OffsetCameraDecorator::_sfOffsetY field.
 inline
 void OffsetCameraDecoratorBase::setOffsetY(const Real32 &value)
@@ -169,7 +251,7 @@ void OffsetCameraDecoratorBase::setOffsetY(const Real32 &value)
 
 //! Get the value of the OffsetCameraDecorator::_sfFullWidth field.
 inline
-UInt32 &OffsetCameraDecoratorBase::getFullWidth(void)
+UInt32 &OffsetCameraDecoratorBase::editFullWidth(void)
 {
     return _sfFullWidth.getValue();
 }
@@ -181,6 +263,15 @@ const UInt32 &OffsetCameraDecoratorBase::getFullWidth(void) const
     return _sfFullWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the OffsetCameraDecorator::_sfFullWidth field.
+inline
+UInt32 &OffsetCameraDecoratorBase::getFullWidth(void)
+{
+    return _sfFullWidth.getValue();
+}
+#endif
+
 //! Set the value of the OffsetCameraDecorator::_sfFullWidth field.
 inline
 void OffsetCameraDecoratorBase::setFullWidth(const UInt32 &value)
@@ -190,7 +281,7 @@ void OffsetCameraDecoratorBase::setFullWidth(const UInt32 &value)
 
 //! Get the value of the OffsetCameraDecorator::_sfFullHeight field.
 inline
-UInt32 &OffsetCameraDecoratorBase::getFullHeight(void)
+UInt32 &OffsetCameraDecoratorBase::editFullHeight(void)
 {
     return _sfFullHeight.getValue();
 }
@@ -202,6 +293,15 @@ const UInt32 &OffsetCameraDecoratorBase::getFullHeight(void) const
     return _sfFullHeight.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the OffsetCameraDecorator::_sfFullHeight field.
+inline
+UInt32 &OffsetCameraDecoratorBase::getFullHeight(void)
+{
+    return _sfFullHeight.getValue();
+}
+#endif
+
 //! Set the value of the OffsetCameraDecorator::_sfFullHeight field.
 inline
 void OffsetCameraDecoratorBase::setFullHeight(const UInt32 &value)
@@ -212,5 +312,5 @@ void OffsetCameraDecoratorBase::setFullHeight(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGOFFSETCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGOffsetCameraDecoratorBase.inl,v 1.2 2008/06/05 05:02:30 vossg Exp $"
+#define OSGOFFSETCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGOffsetCameraDecoratorBase.inl,v 1.3 2008/06/09 07:31:55 vossg Exp $"
 

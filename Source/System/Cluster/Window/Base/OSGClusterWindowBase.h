@@ -167,56 +167,192 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFString            *getMFServers        (void);
-           SFString            *getSFConnectionType (void);
-           SFString            *getSFConnectionInterface(void);
-           SFString            *getSFConnectionDestination(void);
-           SFString            *getSFConnectionParams(void);
-           SFUInt32            *getSFServicePort    (void);
-           SFString            *getSFServiceAddress (void);
-           SFString            *getSFServiceInterface(void);
-           SFWindowPtr         *getSFClientWindow   (void);
-           SFUInt32            *getSFInterleave     (void);
-           SFUInt32            *getSFFrameCount     (void);
-           SFImageComposerPtr  *getSFComposer       (void);
-           MFString            *getMFAutostart      (void);
-           MFDisplayCalibrationPtr *getMFCalibration    (void);
-           MFDisplayFilterForegroundPtr *getMFFilter         (void);
 
-           std::string         &getConnectionType (void);
+           MFString            *editMFServers        (void);
+     const MFString            *getMFServers        (void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFServers        (void);
+#endif
+
+           SFString            *editSFConnectionType (void);
+     const SFString            *getSFConnectionType (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFConnectionType (void);
+#endif
+
+           SFString            *editSFConnectionInterface(void);
+     const SFString            *getSFConnectionInterface(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFConnectionInterface(void);
+#endif
+
+           SFString            *editSFConnectionDestination(void);
+     const SFString            *getSFConnectionDestination(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFConnectionDestination(void);
+#endif
+
+           SFString            *editSFConnectionParams(void);
+     const SFString            *getSFConnectionParams(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFConnectionParams(void);
+#endif
+
+           SFUInt32            *editSFServicePort    (void);
+     const SFUInt32            *getSFServicePort    (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFServicePort    (void);
+#endif
+
+           SFString            *editSFServiceAddress (void);
+     const SFString            *getSFServiceAddress (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFServiceAddress (void);
+#endif
+
+           SFString            *editSFServiceInterface(void);
+     const SFString            *getSFServiceInterface(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFServiceInterface(void);
+#endif
+
+           SFWindowPtr         *editSFClientWindow   (void);
+     const SFWindowPtr         *getSFClientWindow   (void) const;
+#ifndef OSG_2_PREP
+           SFWindowPtr         *getSFClientWindow   (void);
+#endif
+
+           SFUInt32            *editSFInterleave     (void);
+     const SFUInt32            *getSFInterleave     (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFInterleave     (void);
+#endif
+
+           SFUInt32            *editSFFrameCount     (void);
+     const SFUInt32            *getSFFrameCount     (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFrameCount     (void);
+#endif
+
+           SFImageComposerPtr  *editSFComposer       (void);
+     const SFImageComposerPtr  *getSFComposer       (void) const;
+#ifndef OSG_2_PREP
+           SFImageComposerPtr  *getSFComposer       (void);
+#endif
+
+           MFString            *editMFAutostart      (void);
+     const MFString            *getMFAutostart      (void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFAutostart      (void);
+#endif
+
+           MFDisplayCalibrationPtr *editMFCalibration    (void);
+     const MFDisplayCalibrationPtr *getMFCalibration    (void) const;
+#ifndef OSG_2_PREP
+           MFDisplayCalibrationPtr *getMFCalibration    (void);
+#endif
+
+           MFDisplayFilterForegroundPtr *editMFFilter         (void);
+     const MFDisplayFilterForegroundPtr *getMFFilter         (void) const;
+#ifndef OSG_2_PREP
+           MFDisplayFilterForegroundPtr *getMFFilter         (void);
+#endif
+
+
+           std::string         &editConnectionType (void);
      const std::string         &getConnectionType (void) const;
-           std::string         &getConnectionInterface(void);
+#ifndef OSG_2_PREP
+           std::string         &getConnectionType (void);
+#endif
+
+           std::string         &editConnectionInterface(void);
      const std::string         &getConnectionInterface(void) const;
-           std::string         &getConnectionDestination(void);
+#ifndef OSG_2_PREP
+           std::string         &getConnectionInterface(void);
+#endif
+
+           std::string         &editConnectionDestination(void);
      const std::string         &getConnectionDestination(void) const;
-           std::string         &getConnectionParams(void);
+#ifndef OSG_2_PREP
+           std::string         &getConnectionDestination(void);
+#endif
+
+           std::string         &editConnectionParams(void);
      const std::string         &getConnectionParams(void) const;
-           UInt32              &getServicePort    (void);
+#ifndef OSG_2_PREP
+           std::string         &getConnectionParams(void);
+#endif
+
+           UInt32              &editServicePort    (void);
      const UInt32              &getServicePort    (void) const;
-           std::string         &getServiceAddress (void);
+#ifndef OSG_2_PREP
+           UInt32              &getServicePort    (void);
+#endif
+
+           std::string         &editServiceAddress (void);
      const std::string         &getServiceAddress (void) const;
-           std::string         &getServiceInterface(void);
+#ifndef OSG_2_PREP
+           std::string         &getServiceAddress (void);
+#endif
+
+           std::string         &editServiceInterface(void);
      const std::string         &getServiceInterface(void) const;
-           WindowPtr           &getClientWindow   (void);
+#ifndef OSG_2_PREP
+           std::string         &getServiceInterface(void);
+#endif
+
+           WindowPtr           &editClientWindow   (void);
      const WindowPtr           &getClientWindow   (void) const;
-           UInt32              &getInterleave     (void);
+#ifndef OSG_2_PREP
+           WindowPtr           &getClientWindow   (void);
+#endif
+
+           UInt32              &editInterleave     (void);
      const UInt32              &getInterleave     (void) const;
-           UInt32              &getFrameCount     (void);
+#ifndef OSG_2_PREP
+           UInt32              &getInterleave     (void);
+#endif
+
+           UInt32              &editFrameCount     (void);
      const UInt32              &getFrameCount     (void) const;
-           ImageComposerPtr    &getComposer       (void);
+#ifndef OSG_2_PREP
+           UInt32              &getFrameCount     (void);
+#endif
+
+           ImageComposerPtr    &editComposer       (void);
      const ImageComposerPtr    &getComposer       (void) const;
+#ifndef OSG_2_PREP
+           ImageComposerPtr    &getComposer       (void);
+#endif
+
+
+           std::string         &editServers        (const UInt32 index);
+     const std::string         &getServers        (const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getServers        (const UInt32 index);
            MFString            &getServers        (void);
-     const MFString            &getServers        (void) const;
+#endif
+
+           std::string         &editAutostart      (const UInt32 index);
+     const std::string         &getAutostart      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getAutostart      (const UInt32 index);
            MFString            &getAutostart      (void);
-     const MFString            &getAutostart      (void) const;
+#endif
+
+           DisplayCalibrationPtr &editCalibration    (const UInt32 index);
+     const DisplayCalibrationPtr &getCalibration    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            DisplayCalibrationPtr &getCalibration    (const UInt32 index);
            MFDisplayCalibrationPtr &getCalibration    (void);
-     const MFDisplayCalibrationPtr &getCalibration    (void) const;
+#endif
+
+           DisplayFilterForegroundPtr &editFilter         (const UInt32 index);
+     const DisplayFilterForegroundPtr &getFilter         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            DisplayFilterForegroundPtr &getFilter         (const UInt32 index);
            MFDisplayFilterForegroundPtr &getFilter         (void);
-     const MFDisplayFilterForegroundPtr &getFilter         (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -313,10 +449,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFBool              *editSFDirty          (void);
+     const SFBool              *getSFDirty          (void) const;
+#ifndef OSG_2_PREP
            SFBool              *getSFDirty          (void);
+#endif
 
-           bool                &getDirty          (void);
+           bool                &editDirty          (void);
      const bool                &getDirty          (void) const;
+#ifndef OSG_2_PREP
+           bool                &getDirty          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

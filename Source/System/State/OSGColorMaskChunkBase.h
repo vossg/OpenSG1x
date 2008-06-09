@@ -131,19 +131,55 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorMaskChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFMaskR          (void);
-           SFBool              *getSFMaskG          (void);
-           SFBool              *getSFMaskB          (void);
-           SFBool              *getSFMaskA          (void);
 
-           bool                &getMaskR          (void);
+           SFBool              *editSFMaskR          (void);
+     const SFBool              *getSFMaskR          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFMaskR          (void);
+#endif
+
+           SFBool              *editSFMaskG          (void);
+     const SFBool              *getSFMaskG          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFMaskG          (void);
+#endif
+
+           SFBool              *editSFMaskB          (void);
+     const SFBool              *getSFMaskB          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFMaskB          (void);
+#endif
+
+           SFBool              *editSFMaskA          (void);
+     const SFBool              *getSFMaskA          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFMaskA          (void);
+#endif
+
+
+           bool                &editMaskR          (void);
      const bool                &getMaskR          (void) const;
-           bool                &getMaskG          (void);
+#ifndef OSG_2_PREP
+           bool                &getMaskR          (void);
+#endif
+
+           bool                &editMaskG          (void);
      const bool                &getMaskG          (void) const;
-           bool                &getMaskB          (void);
+#ifndef OSG_2_PREP
+           bool                &getMaskG          (void);
+#endif
+
+           bool                &editMaskB          (void);
      const bool                &getMaskB          (void) const;
-           bool                &getMaskA          (void);
+#ifndef OSG_2_PREP
+           bool                &getMaskB          (void);
+#endif
+
+           bool                &editMaskA          (void);
      const bool                &getMaskA          (void) const;
+#ifndef OSG_2_PREP
+           bool                &getMaskA          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,6 +313,6 @@ typedef RefPtr<ColorMaskChunkPtr> ColorMaskChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCOLORMASKCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkBase.h,v 1.5 2008/06/05 05:02:28 vossg Exp $"
+#define OSGCOLORMASKCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGColorMaskChunkBase.h,v 1.6 2008/06/09 07:31:52 vossg Exp $"
 
 #endif /* _OSGCOLORMASKCHUNKBASE_H_ */

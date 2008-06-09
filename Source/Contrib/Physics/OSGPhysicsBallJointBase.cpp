@@ -86,7 +86,7 @@ FieldDescription *PhysicsBallJointBase::_desc[] =
                      "anchor", 
                      AnchorFieldId, AnchorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsBallJointBase::getSFAnchor))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsBallJointBase::editSFAnchor))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsBallJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBallJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsBallJointBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSBALLJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSBALLJOINTBASE_INLINE_CVSID;
 

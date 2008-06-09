@@ -116,32 +116,32 @@ FieldDescription *DVRVolumeTextureBase::_desc[] =
                      "image", 
                      ImageFieldId, ImageFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFImage)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::editSFImage)),
     new FieldDescription(MFReal32::getClassType(), 
                      "histogram", 
                      HistogramFieldId, HistogramFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getMFHistogram)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::editMFHistogram)),
     new FieldDescription(SFReal32::getClassType(), 
                      "maxVal", 
                      MaxValFieldId, MaxValFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFMaxVal)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::editSFMaxVal)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "sliceThickness", 
                      SliceThicknessFieldId, SliceThicknessFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFSliceThickness)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::editSFSliceThickness)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "resolution", 
                      ResolutionFieldId, ResolutionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFResolution)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::editSFResolution)),
     new FieldDescription(SFString::getClassType(), 
                      "fileName", 
                      FileNameFieldId, FileNameFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::getSFFileName))
+                     reinterpret_cast<FieldAccessMethod>(&DVRVolumeTextureBase::editSFFileName))
 };
 
 
@@ -456,7 +456,7 @@ DataType FieldDataTraits<DVRVolumeTexturePtr>::_type("DVRVolumeTexturePtr", "Att
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRVOLUMETEXTUREBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRVOLUMETEXTUREBASE_INLINE_CVSID;
 

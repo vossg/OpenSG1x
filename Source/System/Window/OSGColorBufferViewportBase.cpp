@@ -108,22 +108,22 @@ FieldDescription *ColorBufferViewportBase::_desc[] =
                      "red", 
                      RedFieldId, RedFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::getSFRed)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::editSFRed)),
     new FieldDescription(SFBool::getClassType(), 
                      "blue", 
                      BlueFieldId, BlueFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::getSFBlue)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::editSFBlue)),
     new FieldDescription(SFBool::getClassType(), 
                      "green", 
                      GreenFieldId, GreenFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::getSFGreen)),
+                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::editSFGreen)),
     new FieldDescription(SFBool::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::getSFAlpha))
+                     reinterpret_cast<FieldAccessMethod>(&ColorBufferViewportBase::editSFAlpha))
 };
 
 
@@ -397,7 +397,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ColorBufferViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOLORBUFFERVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOLORBUFFERVIEWPORTBASE_INLINE_CVSID;
 

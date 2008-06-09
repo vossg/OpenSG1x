@@ -98,15 +98,31 @@ ShaderParameterMatrixPtr ShaderParameterMatrixBase::createEmpty(void)
 
 //! Get the ShaderParameterMatrix::_sfValue field.
 inline
-SFMatrix *ShaderParameterMatrixBase::getSFValue(void)
+const SFMatrix *ShaderParameterMatrixBase::getSFValue(void) const
 {
     return &_sfValue;
 }
 
+//! Get the ShaderParameterMatrix::_sfValue field.
+inline
+SFMatrix *ShaderParameterMatrixBase::editSFValue(void)
+{
+    return &_sfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterMatrix::_sfValue field.
+inline
+SFMatrix *ShaderParameterMatrixBase::getSFValue(void)
+{
+    return &_sfValue;
+}
+#endif
+
 
 //! Get the value of the ShaderParameterMatrix::_sfValue field.
 inline
-Matrix &ShaderParameterMatrixBase::getValue(void)
+Matrix &ShaderParameterMatrixBase::editValue(void)
 {
     return _sfValue.getValue();
 }
@@ -118,6 +134,15 @@ const Matrix &ShaderParameterMatrixBase::getValue(void) const
     return _sfValue.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShaderParameterMatrix::_sfValue field.
+inline
+Matrix &ShaderParameterMatrixBase::getValue(void)
+{
+    return _sfValue.getValue();
+}
+#endif
+
 //! Set the value of the ShaderParameterMatrix::_sfValue field.
 inline
 void ShaderParameterMatrixBase::setValue(const Matrix &value)
@@ -128,5 +153,5 @@ void ShaderParameterMatrixBase::setValue(const Matrix &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMATRIXBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.inl,v 1.6 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERMATRIXBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
 

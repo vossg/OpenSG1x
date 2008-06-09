@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderChunkBase : public ShaderParameterChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFVertexProgram  (void);
-           SFString            *getSFFragmentProgram(void);
-           SFString            *getSFGeometryProgram(void);
 
-           std::string         &getVertexProgram  (void);
+           SFString            *editSFVertexProgram  (void);
+     const SFString            *getSFVertexProgram  (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFVertexProgram  (void);
+#endif
+
+           SFString            *editSFFragmentProgram(void);
+     const SFString            *getSFFragmentProgram(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFFragmentProgram(void);
+#endif
+
+           SFString            *editSFGeometryProgram(void);
+     const SFString            *getSFGeometryProgram(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFGeometryProgram(void);
+#endif
+
+
+           std::string         &editVertexProgram  (void);
      const std::string         &getVertexProgram  (void) const;
-           std::string         &getFragmentProgram(void);
+#ifndef OSG_2_PREP
+           std::string         &getVertexProgram  (void);
+#endif
+
+           std::string         &editFragmentProgram(void);
      const std::string         &getFragmentProgram(void) const;
-           std::string         &getGeometryProgram(void);
+#ifndef OSG_2_PREP
+           std::string         &getFragmentProgram(void);
+#endif
+
+           std::string         &editGeometryProgram(void);
      const std::string         &getGeometryProgram(void) const;
+#ifndef OSG_2_PREP
+           std::string         &getGeometryProgram(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +280,6 @@ typedef RefPtr<ShaderChunkPtr> ShaderChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.9 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderChunkBase.h,v 1.10 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHADERCHUNKBASE_H_ */

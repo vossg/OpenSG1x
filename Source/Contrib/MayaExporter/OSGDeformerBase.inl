@@ -72,15 +72,31 @@ OSG::UInt32 DeformerBase::getClassTypeId(void)
 
 //! Get the Deformer::_sfGeometry field.
 inline
-SFNodePtr *DeformerBase::getSFGeometry(void)
+const SFNodePtr *DeformerBase::getSFGeometry(void) const
 {
     return &_sfGeometry;
 }
 
+//! Get the Deformer::_sfGeometry field.
+inline
+SFNodePtr *DeformerBase::editSFGeometry(void)
+{
+    return &_sfGeometry;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Deformer::_sfGeometry field.
+inline
+SFNodePtr *DeformerBase::getSFGeometry(void)
+{
+    return &_sfGeometry;
+}
+#endif
+
 
 //! Get the value of the Deformer::_sfGeometry field.
 inline
-NodePtr &DeformerBase::getGeometry(void)
+NodePtr &DeformerBase::editGeometry(void)
 {
     return _sfGeometry.getValue();
 }
@@ -91,6 +107,15 @@ const NodePtr &DeformerBase::getGeometry(void) const
 {
     return _sfGeometry.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the Deformer::_sfGeometry field.
+inline
+NodePtr &DeformerBase::getGeometry(void)
+{
+    return _sfGeometry.getValue();
+}
+#endif
 
 //! Set the value of the Deformer::_sfGeometry field.
 inline

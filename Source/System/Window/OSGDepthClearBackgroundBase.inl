@@ -98,29 +98,77 @@ DepthClearBackgroundPtr DepthClearBackgroundBase::createEmpty(void)
 
 //! Get the DepthClearBackground::_sfClearDepth field.
 inline
-SFBool *DepthClearBackgroundBase::getSFClearDepth(void)
+const SFBool *DepthClearBackgroundBase::getSFClearDepth(void) const
 {
     return &_sfClearDepth;
 }
 
+//! Get the DepthClearBackground::_sfClearDepth field.
+inline
+SFBool *DepthClearBackgroundBase::editSFClearDepth(void)
+{
+    return &_sfClearDepth;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DepthClearBackground::_sfClearDepth field.
+inline
+SFBool *DepthClearBackgroundBase::getSFClearDepth(void)
+{
+    return &_sfClearDepth;
+}
+#endif
+
+//! Get the DepthClearBackground::_sfDepth field.
+inline
+const SFReal32 *DepthClearBackgroundBase::getSFDepth(void) const
+{
+    return &_sfDepth;
+}
+
+//! Get the DepthClearBackground::_sfDepth field.
+inline
+SFReal32 *DepthClearBackgroundBase::editSFDepth(void)
+{
+    return &_sfDepth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DepthClearBackground::_sfDepth field.
 inline
 SFReal32 *DepthClearBackgroundBase::getSFDepth(void)
 {
     return &_sfDepth;
 }
+#endif
 
+//! Get the DepthClearBackground::_sfClearStencilBit field.
+inline
+const SFInt32 *DepthClearBackgroundBase::getSFClearStencilBit(void) const
+{
+    return &_sfClearStencilBit;
+}
+
+//! Get the DepthClearBackground::_sfClearStencilBit field.
+inline
+SFInt32 *DepthClearBackgroundBase::editSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DepthClearBackground::_sfClearStencilBit field.
 inline
 SFInt32 *DepthClearBackgroundBase::getSFClearStencilBit(void)
 {
     return &_sfClearStencilBit;
 }
+#endif
 
 
 //! Get the value of the DepthClearBackground::_sfClearDepth field.
 inline
-bool &DepthClearBackgroundBase::getClearDepth(void)
+bool &DepthClearBackgroundBase::editClearDepth(void)
 {
     return _sfClearDepth.getValue();
 }
@@ -132,6 +180,15 @@ const bool &DepthClearBackgroundBase::getClearDepth(void) const
     return _sfClearDepth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DepthClearBackground::_sfClearDepth field.
+inline
+bool &DepthClearBackgroundBase::getClearDepth(void)
+{
+    return _sfClearDepth.getValue();
+}
+#endif
+
 //! Set the value of the DepthClearBackground::_sfClearDepth field.
 inline
 void DepthClearBackgroundBase::setClearDepth(const bool &value)
@@ -141,7 +198,7 @@ void DepthClearBackgroundBase::setClearDepth(const bool &value)
 
 //! Get the value of the DepthClearBackground::_sfDepth field.
 inline
-Real32 &DepthClearBackgroundBase::getDepth(void)
+Real32 &DepthClearBackgroundBase::editDepth(void)
 {
     return _sfDepth.getValue();
 }
@@ -153,6 +210,15 @@ const Real32 &DepthClearBackgroundBase::getDepth(void) const
     return _sfDepth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DepthClearBackground::_sfDepth field.
+inline
+Real32 &DepthClearBackgroundBase::getDepth(void)
+{
+    return _sfDepth.getValue();
+}
+#endif
+
 //! Set the value of the DepthClearBackground::_sfDepth field.
 inline
 void DepthClearBackgroundBase::setDepth(const Real32 &value)
@@ -162,7 +228,7 @@ void DepthClearBackgroundBase::setDepth(const Real32 &value)
 
 //! Get the value of the DepthClearBackground::_sfClearStencilBit field.
 inline
-Int32 &DepthClearBackgroundBase::getClearStencilBit(void)
+Int32 &DepthClearBackgroundBase::editClearStencilBit(void)
 {
     return _sfClearStencilBit.getValue();
 }
@@ -174,6 +240,15 @@ const Int32 &DepthClearBackgroundBase::getClearStencilBit(void) const
     return _sfClearStencilBit.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DepthClearBackground::_sfClearStencilBit field.
+inline
+Int32 &DepthClearBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+#endif
+
 //! Set the value of the DepthClearBackground::_sfClearStencilBit field.
 inline
 void DepthClearBackgroundBase::setClearStencilBit(const Int32 &value)
@@ -184,5 +259,5 @@ void DepthClearBackgroundBase::setClearStencilBit(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.inl,v 1.9 2008/06/05 05:02:30 vossg Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.inl,v 1.10 2008/06/09 07:31:55 vossg Exp $"
 

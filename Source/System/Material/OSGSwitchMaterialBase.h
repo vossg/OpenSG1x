@@ -125,14 +125,32 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchMaterialBase : public Material
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFMaterialPtr       *getMFMaterials      (void);
-           SFUInt32            *getSFChoice         (void);
 
-           UInt32              &getChoice         (void);
+           MFMaterialPtr       *editMFMaterials      (void);
+     const MFMaterialPtr       *getMFMaterials      (void) const;
+#ifndef OSG_2_PREP
+           MFMaterialPtr       *getMFMaterials      (void);
+#endif
+
+           SFUInt32            *editSFChoice         (void);
+     const SFUInt32            *getSFChoice         (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFChoice         (void);
+#endif
+
+
+           UInt32              &editChoice         (void);
      const UInt32              &getChoice         (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getChoice         (void);
+#endif
+
+           MaterialPtr         &editMaterials      (const UInt32 index);
+     const MaterialPtr         &getMaterials      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            MaterialPtr         &getMaterials      (const UInt32 index);
            MFMaterialPtr       &getMaterials      (void);
-     const MFMaterialPtr       &getMaterials      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -261,6 +279,6 @@ typedef RefPtr<SwitchMaterialPtr> SwitchMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSwitchMaterialBase.h,v 1.3 2008/06/05 05:02:25 vossg Exp $"
+#define OSGSWITCHMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSwitchMaterialBase.h,v 1.4 2008/06/09 07:31:48 vossg Exp $"
 
 #endif /* _OSGSWITCHMATERIALBASE_H_ */

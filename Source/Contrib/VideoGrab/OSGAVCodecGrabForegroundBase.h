@@ -140,28 +140,91 @@ class OSG_CONTRIBLIB_DLLMAPPING AVCodecGrabForegroundBase : public GrabForegroun
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFActive         (void);
-           SFString            *getSFName           (void);
-           SFUInt32            *getSFKbit           (void);
-           SFUInt32            *getSFFps            (void);
-           SFUInt32            *getSFCodecid        (void);
-           SFBool              *getSFFlip           (void);
-           SFBool              *getSFAutoWrite      (void);
 
-           bool                &getActive         (void);
+           SFBool              *editSFActive         (void);
+     const SFBool              *getSFActive         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFActive         (void);
+#endif
+
+           SFString            *editSFName           (void);
+     const SFString            *getSFName           (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFName           (void);
+#endif
+
+           SFUInt32            *editSFKbit           (void);
+     const SFUInt32            *getSFKbit           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFKbit           (void);
+#endif
+
+           SFUInt32            *editSFFps            (void);
+     const SFUInt32            *getSFFps            (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFps            (void);
+#endif
+
+           SFUInt32            *editSFCodecid        (void);
+     const SFUInt32            *getSFCodecid        (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFCodecid        (void);
+#endif
+
+           SFBool              *editSFFlip           (void);
+     const SFBool              *getSFFlip           (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFFlip           (void);
+#endif
+
+           SFBool              *editSFAutoWrite      (void);
+     const SFBool              *getSFAutoWrite      (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAutoWrite      (void);
+#endif
+
+
+           bool                &editActive         (void);
      const bool                &getActive         (void) const;
-           std::string         &getName           (void);
+#ifndef OSG_2_PREP
+           bool                &getActive         (void);
+#endif
+
+           std::string         &editName           (void);
      const std::string         &getName           (void) const;
-           UInt32              &getKbit           (void);
+#ifndef OSG_2_PREP
+           std::string         &getName           (void);
+#endif
+
+           UInt32              &editKbit           (void);
      const UInt32              &getKbit           (void) const;
-           UInt32              &getFps            (void);
+#ifndef OSG_2_PREP
+           UInt32              &getKbit           (void);
+#endif
+
+           UInt32              &editFps            (void);
      const UInt32              &getFps            (void) const;
-           UInt32              &getCodecid        (void);
+#ifndef OSG_2_PREP
+           UInt32              &getFps            (void);
+#endif
+
+           UInt32              &editCodecid        (void);
      const UInt32              &getCodecid        (void) const;
-           bool                &getFlip           (void);
+#ifndef OSG_2_PREP
+           UInt32              &getCodecid        (void);
+#endif
+
+           bool                &editFlip           (void);
      const bool                &getFlip           (void) const;
-           bool                &getAutoWrite      (void);
+#ifndef OSG_2_PREP
+           bool                &getFlip           (void);
+#endif
+
+           bool                &editAutoWrite      (void);
      const bool                &getAutoWrite      (void) const;
+#ifndef OSG_2_PREP
+           bool                &getAutoWrite      (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

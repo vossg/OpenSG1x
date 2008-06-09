@@ -98,15 +98,31 @@ SharedFontStyleWrapperPtr SharedFontStyleWrapperBase::createEmpty(void)
 
 //! Get the SharedFontStyleWrapper::_sfFStyleContainer field.
 inline
-SFSharedFontStylePtr *SharedFontStyleWrapperBase::getSFFStyleContainer(void)
+const SFSharedFontStylePtr *SharedFontStyleWrapperBase::getSFFStyleContainer(void) const
 {
     return &_sfFStyleContainer;
 }
 
+//! Get the SharedFontStyleWrapper::_sfFStyleContainer field.
+inline
+SFSharedFontStylePtr *SharedFontStyleWrapperBase::editSFFStyleContainer(void)
+{
+    return &_sfFStyleContainer;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SharedFontStyleWrapper::_sfFStyleContainer field.
+inline
+SFSharedFontStylePtr *SharedFontStyleWrapperBase::getSFFStyleContainer(void)
+{
+    return &_sfFStyleContainer;
+}
+#endif
+
 
 //! Get the value of the SharedFontStyleWrapper::_sfFStyleContainer field.
 inline
-SharedFontStylePtr &SharedFontStyleWrapperBase::getFStyleContainer(void)
+SharedFontStylePtr &SharedFontStyleWrapperBase::editFStyleContainer(void)
 {
     return _sfFStyleContainer.getValue();
 }
@@ -118,6 +134,15 @@ const SharedFontStylePtr &SharedFontStyleWrapperBase::getFStyleContainer(void) c
     return _sfFStyleContainer.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SharedFontStyleWrapper::_sfFStyleContainer field.
+inline
+SharedFontStylePtr &SharedFontStyleWrapperBase::getFStyleContainer(void)
+{
+    return _sfFStyleContainer.getValue();
+}
+#endif
+
 //! Set the value of the SharedFontStyleWrapper::_sfFStyleContainer field.
 inline
 void SharedFontStyleWrapperBase::setFStyleContainer(const SharedFontStylePtr &value)
@@ -128,5 +153,5 @@ void SharedFontStyleWrapperBase::setFStyleContainer(const SharedFontStylePtr &va
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.inl,v 1.8 2008/06/05 05:02:23 vossg Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.inl,v 1.9 2008/06/09 07:31:46 vossg Exp $"
 

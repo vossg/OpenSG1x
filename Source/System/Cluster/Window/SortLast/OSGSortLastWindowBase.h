@@ -128,18 +128,45 @@ class OSG_SYSTEMLIB_DLLMAPPING SortLastWindowBase : public ClusterWindow
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFNodePtr           *getMFGroupNodes     (void);
-           MFUInt32            *getMFGroupLengths   (void);
-           SFBool              *getSFGroupsChanged  (void);
 
-           bool                &getGroupsChanged  (void);
+           MFNodePtr           *editMFGroupNodes     (void);
+     const MFNodePtr           *getMFGroupNodes     (void) const;
+#ifndef OSG_2_PREP
+           MFNodePtr           *getMFGroupNodes     (void);
+#endif
+
+           MFUInt32            *editMFGroupLengths   (void);
+     const MFUInt32            *getMFGroupLengths   (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFGroupLengths   (void);
+#endif
+
+           SFBool              *editSFGroupsChanged  (void);
+     const SFBool              *getSFGroupsChanged  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFGroupsChanged  (void);
+#endif
+
+
+           bool                &editGroupsChanged  (void);
      const bool                &getGroupsChanged  (void) const;
+#ifndef OSG_2_PREP
+           bool                &getGroupsChanged  (void);
+#endif
+
+           NodePtr             &editGroupNodes     (const UInt32 index);
+     const NodePtr             &getGroupNodes     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            NodePtr             &getGroupNodes     (const UInt32 index);
            MFNodePtr           &getGroupNodes     (void);
-     const MFNodePtr           &getGroupNodes     (void) const;
+#endif
+
+           UInt32              &editGroupLengths   (const UInt32 index);
+     const UInt32              &getGroupLengths   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getGroupLengths   (const UInt32 index);
            MFUInt32            &getGroupLengths   (void);
-     const MFUInt32            &getGroupLengths   (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -98,17 +98,17 @@ FieldDescription *ClipPlaneBase::_desc[] =
                      "equation", 
                      EquationFieldId, EquationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::getSFEquation)),
+                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::editSFEquation)),
     new FieldDescription(SFBool::getClassType(), 
                      "on", 
                      OnFieldId, OnFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::getSFOn)),
+                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::editSFOn)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::getSFBeacon))
+                     reinterpret_cast<FieldAccessMethod>(&ClipPlaneBase::editSFBeacon))
 };
 
 
@@ -357,7 +357,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(ClipPlanePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneBase.cpp,v 1.2 2008/06/05 05:02:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneBase.cpp,v 1.3 2008/06/09 07:31:51 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCLIPPLANEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLIPPLANEBASE_INLINE_CVSID;
 

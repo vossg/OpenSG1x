@@ -98,15 +98,31 @@ PhysicsSliderJointPtr PhysicsSliderJointBase::createEmpty(void)
 
 //! Get the PhysicsSliderJoint::_sfAxis field.
 inline
-SFVec3f *PhysicsSliderJointBase::getSFAxis(void)
+const SFVec3f *PhysicsSliderJointBase::getSFAxis(void) const
 {
     return &_sfAxis;
 }
 
+//! Get the PhysicsSliderJoint::_sfAxis field.
+inline
+SFVec3f *PhysicsSliderJointBase::editSFAxis(void)
+{
+    return &_sfAxis;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsSliderJoint::_sfAxis field.
+inline
+SFVec3f *PhysicsSliderJointBase::getSFAxis(void)
+{
+    return &_sfAxis;
+}
+#endif
+
 
 //! Get the value of the PhysicsSliderJoint::_sfAxis field.
 inline
-Vec3f &PhysicsSliderJointBase::getAxis(void)
+Vec3f &PhysicsSliderJointBase::editAxis(void)
 {
     return _sfAxis.getValue();
 }
@@ -118,6 +134,15 @@ const Vec3f &PhysicsSliderJointBase::getAxis(void) const
     return _sfAxis.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsSliderJoint::_sfAxis field.
+inline
+Vec3f &PhysicsSliderJointBase::getAxis(void)
+{
+    return _sfAxis.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsSliderJoint::_sfAxis field.
 inline
 void PhysicsSliderJointBase::setAxis(const Vec3f &value)
@@ -128,5 +153,5 @@ void PhysicsSliderJointBase::setAxis(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSLIDERJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsSliderJointBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSSLIDERJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsSliderJointBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

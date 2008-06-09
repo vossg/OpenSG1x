@@ -155,44 +155,152 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFString            *getMFFormats        (void);
-           SFReal32            *getSFSize           (void);
-           SFColor4f           *getSFColor          (void);
-           SFColor4f           *getSFShadowColor    (void);
-           SFColor4f           *getSFBgColor        (void);
-           SFString            *getSFFamily         (void);
-           SFVec2f             *getSFShadowOffset   (void);
-           SFUInt8             *getSFHorizontalAlign(void);
-           SFUInt8             *getSFVerticalAlign  (void);
-           SFColor4f           *getSFBorderColor    (void);
-           SFVec2f             *getSFBorderOffset   (void);
-           SFVec2f             *getSFTextMargin     (void);
 
-           Real32              &getSize           (void);
+           MFString            *editMFFormats        (void);
+     const MFString            *getMFFormats        (void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFFormats        (void);
+#endif
+
+           SFReal32            *editSFSize           (void);
+     const SFReal32            *getSFSize           (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSize           (void);
+#endif
+
+           SFColor4f           *editSFColor          (void);
+     const SFColor4f           *getSFColor          (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFColor          (void);
+#endif
+
+           SFColor4f           *editSFShadowColor    (void);
+     const SFColor4f           *getSFShadowColor    (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFShadowColor    (void);
+#endif
+
+           SFColor4f           *editSFBgColor        (void);
+     const SFColor4f           *getSFBgColor        (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFBgColor        (void);
+#endif
+
+           SFString            *editSFFamily         (void);
+     const SFString            *getSFFamily         (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFFamily         (void);
+#endif
+
+           SFVec2f             *editSFShadowOffset   (void);
+     const SFVec2f             *getSFShadowOffset   (void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFShadowOffset   (void);
+#endif
+
+           SFUInt8             *editSFHorizontalAlign(void);
+     const SFUInt8             *getSFHorizontalAlign(void) const;
+#ifndef OSG_2_PREP
+           SFUInt8             *getSFHorizontalAlign(void);
+#endif
+
+           SFUInt8             *editSFVerticalAlign  (void);
+     const SFUInt8             *getSFVerticalAlign  (void) const;
+#ifndef OSG_2_PREP
+           SFUInt8             *getSFVerticalAlign  (void);
+#endif
+
+           SFColor4f           *editSFBorderColor    (void);
+     const SFColor4f           *getSFBorderColor    (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFBorderColor    (void);
+#endif
+
+           SFVec2f             *editSFBorderOffset   (void);
+     const SFVec2f             *getSFBorderOffset   (void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFBorderOffset   (void);
+#endif
+
+           SFVec2f             *editSFTextMargin     (void);
+     const SFVec2f             *getSFTextMargin     (void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFTextMargin     (void);
+#endif
+
+
+           Real32              &editSize           (void);
      const Real32              &getSize           (void) const;
-           Color4f             &getColor          (void);
+#ifndef OSG_2_PREP
+           Real32              &getSize           (void);
+#endif
+
+           Color4f             &editColor          (void);
      const Color4f             &getColor          (void) const;
-           Color4f             &getShadowColor    (void);
+#ifndef OSG_2_PREP
+           Color4f             &getColor          (void);
+#endif
+
+           Color4f             &editShadowColor    (void);
      const Color4f             &getShadowColor    (void) const;
-           Color4f             &getBgColor        (void);
+#ifndef OSG_2_PREP
+           Color4f             &getShadowColor    (void);
+#endif
+
+           Color4f             &editBgColor        (void);
      const Color4f             &getBgColor        (void) const;
-           std::string         &getFamily         (void);
+#ifndef OSG_2_PREP
+           Color4f             &getBgColor        (void);
+#endif
+
+           std::string         &editFamily         (void);
      const std::string         &getFamily         (void) const;
-           Vec2f               &getShadowOffset   (void);
+#ifndef OSG_2_PREP
+           std::string         &getFamily         (void);
+#endif
+
+           Vec2f               &editShadowOffset   (void);
      const Vec2f               &getShadowOffset   (void) const;
-           UInt8               &getHorizontalAlign(void);
+#ifndef OSG_2_PREP
+           Vec2f               &getShadowOffset   (void);
+#endif
+
+           UInt8               &editHorizontalAlign(void);
      const UInt8               &getHorizontalAlign(void) const;
-           UInt8               &getVerticalAlign  (void);
+#ifndef OSG_2_PREP
+           UInt8               &getHorizontalAlign(void);
+#endif
+
+           UInt8               &editVerticalAlign  (void);
      const UInt8               &getVerticalAlign  (void) const;
-           Color4f             &getBorderColor    (void);
+#ifndef OSG_2_PREP
+           UInt8               &getVerticalAlign  (void);
+#endif
+
+           Color4f             &editBorderColor    (void);
      const Color4f             &getBorderColor    (void) const;
-           Vec2f               &getBorderOffset   (void);
+#ifndef OSG_2_PREP
+           Color4f             &getBorderColor    (void);
+#endif
+
+           Vec2f               &editBorderOffset   (void);
      const Vec2f               &getBorderOffset   (void) const;
-           Vec2f               &getTextMargin     (void);
+#ifndef OSG_2_PREP
+           Vec2f               &getBorderOffset   (void);
+#endif
+
+           Vec2f               &editTextMargin     (void);
      const Vec2f               &getTextMargin     (void) const;
+#ifndef OSG_2_PREP
+           Vec2f               &getTextMargin     (void);
+#endif
+
+           std::string         &editFormats        (const UInt32 index);
+     const std::string         &getFormats        (const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getFormats        (const UInt32 index);
            MFString            &getFormats        (void);
-     const MFString            &getFormats        (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

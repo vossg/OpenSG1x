@@ -137,25 +137,79 @@ class OSG_SYSTEMLIB_DLLMAPPING MatrixCameraDecoratorBase : public CameraDecorato
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMatrix            *getSFPreViewing     (void);
-           SFMatrix            *getSFPostViewing    (void);
-           SFMatrix            *getSFPreProjectionTranslation(void);
-           SFMatrix            *getSFPostProjectionTranslation(void);
-           SFMatrix            *getSFPreProjection  (void);
-           SFMatrix            *getSFPostProjection (void);
 
-           Matrix              &getPreViewing     (void);
+           SFMatrix            *editSFPreViewing     (void);
+     const SFMatrix            *getSFPreViewing     (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFPreViewing     (void);
+#endif
+
+           SFMatrix            *editSFPostViewing    (void);
+     const SFMatrix            *getSFPostViewing    (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFPostViewing    (void);
+#endif
+
+           SFMatrix            *editSFPreProjectionTranslation(void);
+     const SFMatrix            *getSFPreProjectionTranslation(void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFPreProjectionTranslation(void);
+#endif
+
+           SFMatrix            *editSFPostProjectionTranslation(void);
+     const SFMatrix            *getSFPostProjectionTranslation(void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFPostProjectionTranslation(void);
+#endif
+
+           SFMatrix            *editSFPreProjection  (void);
+     const SFMatrix            *getSFPreProjection  (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFPreProjection  (void);
+#endif
+
+           SFMatrix            *editSFPostProjection (void);
+     const SFMatrix            *getSFPostProjection (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFPostProjection (void);
+#endif
+
+
+           Matrix              &editPreViewing     (void);
      const Matrix              &getPreViewing     (void) const;
-           Matrix              &getPostViewing    (void);
+#ifndef OSG_2_PREP
+           Matrix              &getPreViewing     (void);
+#endif
+
+           Matrix              &editPostViewing    (void);
      const Matrix              &getPostViewing    (void) const;
-           Matrix              &getPreProjectionTranslation(void);
+#ifndef OSG_2_PREP
+           Matrix              &getPostViewing    (void);
+#endif
+
+           Matrix              &editPreProjectionTranslation(void);
      const Matrix              &getPreProjectionTranslation(void) const;
-           Matrix              &getPostProjectionTranslation(void);
+#ifndef OSG_2_PREP
+           Matrix              &getPreProjectionTranslation(void);
+#endif
+
+           Matrix              &editPostProjectionTranslation(void);
      const Matrix              &getPostProjectionTranslation(void) const;
-           Matrix              &getPreProjection  (void);
+#ifndef OSG_2_PREP
+           Matrix              &getPostProjectionTranslation(void);
+#endif
+
+           Matrix              &editPreProjection  (void);
      const Matrix              &getPreProjection  (void) const;
-           Matrix              &getPostProjection (void);
+#ifndef OSG_2_PREP
+           Matrix              &getPreProjection  (void);
+#endif
+
+           Matrix              &editPostProjection (void);
      const Matrix              &getPostProjection (void) const;
+#ifndef OSG_2_PREP
+           Matrix              &getPostProjection (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

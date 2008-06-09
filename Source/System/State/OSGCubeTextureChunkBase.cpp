@@ -110,27 +110,27 @@ FieldDescription *CubeTextureChunkBase::_desc[] =
                      "posZImage", 
                      PosZImageFieldId, PosZImageFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFPosZImage)),
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::editSFPosZImage)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "posXImage", 
                      PosXImageFieldId, PosXImageFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFPosXImage)),
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::editSFPosXImage)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "negXImage", 
                      NegXImageFieldId, NegXImageFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFNegXImage)),
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::editSFNegXImage)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "posYImage", 
                      PosYImageFieldId, PosYImageFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFPosYImage)),
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::editSFPosYImage)),
     new FieldDescription(SFImagePtr::getClassType(), 
                      "negYImage", 
                      NegYImageFieldId, NegYImageFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::getSFNegYImage))
+                     reinterpret_cast<FieldAccessMethod>(&CubeTextureChunkBase::editSFNegYImage))
 };
 
 
@@ -427,7 +427,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CubeTextureChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCUBETEXTURECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCUBETEXTURECHUNKBASE_INLINE_CVSID;
 

@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFFov            (void);
-           SFReal32            *getSFAspect         (void);
 
-           Real32              &getFov            (void);
+           SFReal32            *editSFFov            (void);
+     const SFReal32            *getSFFov            (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFFov            (void);
+#endif
+
+           SFReal32            *editSFAspect         (void);
+     const SFReal32            *getSFAspect         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAspect         (void);
+#endif
+
+
+           Real32              &editFov            (void);
      const Real32              &getFov            (void) const;
-           Real32              &getAspect         (void);
+#ifndef OSG_2_PREP
+           Real32              &getFov            (void);
+#endif
+
+           Real32              &editAspect         (void);
      const Real32              &getAspect         (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getAspect         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

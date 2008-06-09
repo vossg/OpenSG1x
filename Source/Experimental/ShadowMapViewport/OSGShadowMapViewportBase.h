@@ -149,39 +149,129 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowMapViewportBase : public StereoBufferViewpo
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFOffBias        (void);
-           SFReal32            *getSFOffFactor      (void);
-           SFNodePtr           *getSFSceneRoot      (void);
-           SFColor4f           *getSFShadowColor    (void);
-           SFUInt32            *getSFMapSize        (void);
-           MFNodePtr           *getMFLightNodes     (void);
-           MFNodePtr           *getMFExcludeNodes   (void);
-           SFBool              *getSFShadowOn       (void);
-           SFBool              *getSFMapAutoUpdate  (void);
-           SFUInt32            *getSFShadowMapTextureIndex(void);
 
-           Real32              &getOffBias        (void);
+           SFReal32            *editSFOffBias        (void);
+     const SFReal32            *getSFOffBias        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOffBias        (void);
+#endif
+
+           SFReal32            *editSFOffFactor      (void);
+     const SFReal32            *getSFOffFactor      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOffFactor      (void);
+#endif
+
+           SFNodePtr           *editSFSceneRoot      (void);
+     const SFNodePtr           *getSFSceneRoot      (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFSceneRoot      (void);
+#endif
+
+           SFColor4f           *editSFShadowColor    (void);
+     const SFColor4f           *getSFShadowColor    (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFShadowColor    (void);
+#endif
+
+           SFUInt32            *editSFMapSize        (void);
+     const SFUInt32            *getSFMapSize        (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFMapSize        (void);
+#endif
+
+           MFNodePtr           *editMFLightNodes     (void);
+     const MFNodePtr           *getMFLightNodes     (void) const;
+#ifndef OSG_2_PREP
+           MFNodePtr           *getMFLightNodes     (void);
+#endif
+
+           MFNodePtr           *editMFExcludeNodes   (void);
+     const MFNodePtr           *getMFExcludeNodes   (void) const;
+#ifndef OSG_2_PREP
+           MFNodePtr           *getMFExcludeNodes   (void);
+#endif
+
+           SFBool              *editSFShadowOn       (void);
+     const SFBool              *getSFShadowOn       (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFShadowOn       (void);
+#endif
+
+           SFBool              *editSFMapAutoUpdate  (void);
+     const SFBool              *getSFMapAutoUpdate  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFMapAutoUpdate  (void);
+#endif
+
+           SFUInt32            *editSFShadowMapTextureIndex(void);
+     const SFUInt32            *getSFShadowMapTextureIndex(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFShadowMapTextureIndex(void);
+#endif
+
+
+           Real32              &editOffBias        (void);
      const Real32              &getOffBias        (void) const;
-           Real32              &getOffFactor      (void);
+#ifndef OSG_2_PREP
+           Real32              &getOffBias        (void);
+#endif
+
+           Real32              &editOffFactor      (void);
      const Real32              &getOffFactor      (void) const;
-           NodePtr             &getSceneRoot      (void);
+#ifndef OSG_2_PREP
+           Real32              &getOffFactor      (void);
+#endif
+
+           NodePtr             &editSceneRoot      (void);
      const NodePtr             &getSceneRoot      (void) const;
-           Color4f             &getShadowColor    (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getSceneRoot      (void);
+#endif
+
+           Color4f             &editShadowColor    (void);
      const Color4f             &getShadowColor    (void) const;
-           UInt32              &getMapSize        (void);
+#ifndef OSG_2_PREP
+           Color4f             &getShadowColor    (void);
+#endif
+
+           UInt32              &editMapSize        (void);
      const UInt32              &getMapSize        (void) const;
-           bool                &getShadowOn       (void);
+#ifndef OSG_2_PREP
+           UInt32              &getMapSize        (void);
+#endif
+
+           bool                &editShadowOn       (void);
      const bool                &getShadowOn       (void) const;
-           bool                &getMapAutoUpdate  (void);
+#ifndef OSG_2_PREP
+           bool                &getShadowOn       (void);
+#endif
+
+           bool                &editMapAutoUpdate  (void);
      const bool                &getMapAutoUpdate  (void) const;
-           UInt32              &getShadowMapTextureIndex(void);
+#ifndef OSG_2_PREP
+           bool                &getMapAutoUpdate  (void);
+#endif
+
+           UInt32              &editShadowMapTextureIndex(void);
      const UInt32              &getShadowMapTextureIndex(void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getShadowMapTextureIndex(void);
+#endif
+
+           NodePtr             &editLightNodes     (const UInt32 index);
+     const NodePtr             &getLightNodes     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
-     const MFNodePtr           &getLightNodes     (void) const;
+#endif
+
+           NodePtr             &editExcludeNodes   (const UInt32 index);
+     const NodePtr             &getExcludeNodes   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            NodePtr             &getExcludeNodes   (const UInt32 index);
            MFNodePtr           &getExcludeNodes   (void);
-     const MFNodePtr           &getExcludeNodes   (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -325,6 +415,6 @@ typedef RefPtr<ShadowMapViewportPtr> ShadowMapViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.14 2008/06/05 05:02:23 vossg Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowMapViewportBase.h,v 1.15 2008/06/09 07:31:45 vossg Exp $"
 
 #endif /* _OSGSHADOWMAPVIEWPORTBASE_H_ */

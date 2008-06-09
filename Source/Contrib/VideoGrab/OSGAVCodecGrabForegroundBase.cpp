@@ -122,37 +122,37 @@ FieldDescription *AVCodecGrabForegroundBase::_desc[] =
                      "active", 
                      ActiveFieldId, ActiveFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFActive)),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::editSFActive)),
     new FieldDescription(SFString::getClassType(), 
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFName)),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::editSFName)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "kbit", 
                      KbitFieldId, KbitFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFKbit)),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::editSFKbit)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fps", 
                      FpsFieldId, FpsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFFps)),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::editSFFps)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "codecid", 
                      CodecidFieldId, CodecidFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFCodecid)),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::editSFCodecid)),
     new FieldDescription(SFBool::getClassType(), 
                      "flip", 
                      FlipFieldId, FlipFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFFlip)),
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::editSFFlip)),
     new FieldDescription(SFBool::getClassType(), 
                      "autoWrite", 
                      AutoWriteFieldId, AutoWriteFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::getSFAutoWrite))
+                     reinterpret_cast<FieldAccessMethod>(&AVCodecGrabForegroundBase::editSFAutoWrite))
 };
 
 
@@ -495,7 +495,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(AVCodecGrabForegroundPtr, OSG_CONTRIBLIB_DLLTMPLMAPPIN
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGAVCODECGRABFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGAVCODECGRABFOREGROUNDBASE_INLINE_CVSID;
 

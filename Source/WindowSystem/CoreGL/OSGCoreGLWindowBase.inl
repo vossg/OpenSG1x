@@ -98,15 +98,31 @@ CoreGLWindowPtr CoreGLWindowBase::createEmpty(void)
 
 //! Get the CoreGLWindow::_sfContext field.
 inline
-SFCGLContextObj *CoreGLWindowBase::getSFContext(void)
+const SFCGLContextObj *CoreGLWindowBase::getSFContext(void) const
 {
     return &_sfContext;
 }
 
+//! Get the CoreGLWindow::_sfContext field.
+inline
+SFCGLContextObj *CoreGLWindowBase::editSFContext(void)
+{
+    return &_sfContext;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CoreGLWindow::_sfContext field.
+inline
+SFCGLContextObj *CoreGLWindowBase::getSFContext(void)
+{
+    return &_sfContext;
+}
+#endif
+
 
 //! Get the value of the CoreGLWindow::_sfContext field.
 inline
-CGLContextObj &CoreGLWindowBase::getContext(void)
+CGLContextObj &CoreGLWindowBase::editContext(void)
 {
     return _sfContext.getValue();
 }
@@ -118,6 +134,15 @@ const CGLContextObj &CoreGLWindowBase::getContext(void) const
     return _sfContext.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CoreGLWindow::_sfContext field.
+inline
+CGLContextObj &CoreGLWindowBase::getContext(void)
+{
+    return _sfContext.getValue();
+}
+#endif
+
 //! Set the value of the CoreGLWindow::_sfContext field.
 inline
 void CoreGLWindowBase::setContext(const CGLContextObj &value)
@@ -128,5 +153,5 @@ void CoreGLWindowBase::setContext(const CGLContextObj &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCOREGLWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCoreGLWindowBase.inl,v 1.2 2008/06/05 05:02:33 vossg Exp $"
+#define OSGCOREGLWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCoreGLWindowBase.inl,v 1.3 2008/06/09 07:31:58 vossg Exp $"
 

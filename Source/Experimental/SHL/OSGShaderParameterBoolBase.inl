@@ -98,15 +98,31 @@ ShaderParameterBoolPtr ShaderParameterBoolBase::createEmpty(void)
 
 //! Get the ShaderParameterBool::_sfValue field.
 inline
-SFBool *ShaderParameterBoolBase::getSFValue(void)
+const SFBool *ShaderParameterBoolBase::getSFValue(void) const
 {
     return &_sfValue;
 }
 
+//! Get the ShaderParameterBool::_sfValue field.
+inline
+SFBool *ShaderParameterBoolBase::editSFValue(void)
+{
+    return &_sfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterBool::_sfValue field.
+inline
+SFBool *ShaderParameterBoolBase::getSFValue(void)
+{
+    return &_sfValue;
+}
+#endif
+
 
 //! Get the value of the ShaderParameterBool::_sfValue field.
 inline
-bool &ShaderParameterBoolBase::getValue(void)
+bool &ShaderParameterBoolBase::editValue(void)
 {
     return _sfValue.getValue();
 }
@@ -118,6 +134,15 @@ const bool &ShaderParameterBoolBase::getValue(void) const
     return _sfValue.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShaderParameterBool::_sfValue field.
+inline
+bool &ShaderParameterBoolBase::getValue(void)
+{
+    return _sfValue.getValue();
+}
+#endif
+
 //! Set the value of the ShaderParameterBool::_sfValue field.
 inline
 void ShaderParameterBoolBase::setValue(const bool &value)
@@ -128,5 +153,5 @@ void ShaderParameterBoolBase::setValue(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBOOLBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBoolBase.inl,v 1.6 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERBOOLBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBoolBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
 

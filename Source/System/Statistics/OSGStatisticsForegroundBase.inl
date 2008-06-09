@@ -72,22 +72,54 @@ OSG::UInt32 StatisticsForegroundBase::getClassTypeId(void)
 
 //! Get the StatisticsForeground::_mfElementIDs field.
 inline
-MFInt32 *StatisticsForegroundBase::getMFElementIDs(void)
+const MFInt32 *StatisticsForegroundBase::getMFElementIDs(void) const
 {
     return &_mfElementIDs;
 }
 
+//! Get the StatisticsForeground::_mfElementIDs field.
+inline
+MFInt32 *StatisticsForegroundBase::editMFElementIDs(void)
+{
+    return &_mfElementIDs;
+}
+
+#ifndef OSG_2_PREP
+//! Get the StatisticsForeground::_mfElementIDs field.
+inline
+MFInt32 *StatisticsForegroundBase::getMFElementIDs(void)
+{
+    return &_mfElementIDs;
+}
+#endif
+
+//! Get the StatisticsForeground::_sfCollector field.
+inline
+const SFStatCollector *StatisticsForegroundBase::getSFCollector(void) const
+{
+    return &_sfCollector;
+}
+
+//! Get the StatisticsForeground::_sfCollector field.
+inline
+SFStatCollector *StatisticsForegroundBase::editSFCollector(void)
+{
+    return &_sfCollector;
+}
+
+#ifndef OSG_2_PREP
 //! Get the StatisticsForeground::_sfCollector field.
 inline
 SFStatCollector *StatisticsForegroundBase::getSFCollector(void)
 {
     return &_sfCollector;
 }
+#endif
 
 
 //! Get the value of the StatisticsForeground::_sfCollector field.
 inline
-StatCollector &StatisticsForegroundBase::getCollector(void)
+StatCollector &StatisticsForegroundBase::editCollector(void)
 {
     return _sfCollector.getValue();
 }
@@ -99,6 +131,15 @@ const StatCollector &StatisticsForegroundBase::getCollector(void) const
     return _sfCollector.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the StatisticsForeground::_sfCollector field.
+inline
+StatCollector &StatisticsForegroundBase::getCollector(void)
+{
+    return _sfCollector.getValue();
+}
+#endif
+
 //! Set the value of the StatisticsForeground::_sfCollector field.
 inline
 void StatisticsForegroundBase::setCollector(const StatCollector &value)
@@ -107,6 +148,21 @@ void StatisticsForegroundBase::setCollector(const StatCollector &value)
 }
 
 
+//! Get the value of the \a index element the StatisticsForeground::_mfElementIDs field.
+inline
+Int32 &StatisticsForegroundBase::editElementIDs(const UInt32 index)
+{
+    return _mfElementIDs[index];
+}
+
+//! Get the value of the \a index element the StatisticsForeground::_mfElementIDs field.
+inline
+const Int32 &StatisticsForegroundBase::getElementIDs(const UInt32 index) const
+{
+    return _mfElementIDs[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the StatisticsForeground::_mfElementIDs field.
 inline
 Int32 &StatisticsForegroundBase::getElementIDs(const UInt32 index)
@@ -121,12 +177,7 @@ MFInt32 &StatisticsForegroundBase::getElementIDs(void)
     return _mfElementIDs;
 }
 
-//! Get the StatisticsForeground::_mfElementIDs field.
-inline
-const MFInt32 &StatisticsForegroundBase::getElementIDs(void) const
-{
-    return _mfElementIDs;
-}
+#endif
 
 OSG_END_NAMESPACE
 

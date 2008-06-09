@@ -98,15 +98,31 @@ SClipPlaneChunkPtr SClipPlaneChunkBase::createEmpty(void)
 
 //! Get the SClipPlaneChunk::_sfEquation field.
 inline
-SFVec4f *SClipPlaneChunkBase::getSFEquation(void)
+const SFVec4f *SClipPlaneChunkBase::getSFEquation(void) const
 {
     return &_sfEquation;
 }
 
+//! Get the SClipPlaneChunk::_sfEquation field.
+inline
+SFVec4f *SClipPlaneChunkBase::editSFEquation(void)
+{
+    return &_sfEquation;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SClipPlaneChunk::_sfEquation field.
+inline
+SFVec4f *SClipPlaneChunkBase::getSFEquation(void)
+{
+    return &_sfEquation;
+}
+#endif
+
 
 //! Get the value of the SClipPlaneChunk::_sfEquation field.
 inline
-Vec4f &SClipPlaneChunkBase::getEquation(void)
+Vec4f &SClipPlaneChunkBase::editEquation(void)
 {
     return _sfEquation.getValue();
 }
@@ -118,6 +134,15 @@ const Vec4f &SClipPlaneChunkBase::getEquation(void) const
     return _sfEquation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SClipPlaneChunk::_sfEquation field.
+inline
+Vec4f &SClipPlaneChunkBase::getEquation(void)
+{
+    return _sfEquation.getValue();
+}
+#endif
+
 //! Set the value of the SClipPlaneChunk::_sfEquation field.
 inline
 void SClipPlaneChunkBase::setEquation(const Vec4f &value)
@@ -128,5 +153,5 @@ void SClipPlaneChunkBase::setEquation(const Vec4f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSCLIPPLANECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSClipPlaneChunkBase.inl,v 1.2 2008/06/05 05:02:29 vossg Exp $"
+#define OSGSCLIPPLANECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSClipPlaneChunkBase.inl,v 1.3 2008/06/09 07:31:53 vossg Exp $"
 

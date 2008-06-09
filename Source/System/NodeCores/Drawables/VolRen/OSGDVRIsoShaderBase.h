@@ -184,13 +184,27 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRIsoShaderBase : public DVRShader
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFInt8              *editSFShadeMode      (void);
+     const SFInt8              *getSFShadeMode      (void) const;
+#ifndef OSG_2_PREP
            SFInt8              *getSFShadeMode      (void);
+#endif
+           SFInt8              *editSFActiveShadeMode(void);
+     const SFInt8              *getSFActiveShadeMode(void) const;
+#ifndef OSG_2_PREP
            SFInt8              *getSFActiveShadeMode(void);
+#endif
 
-           Int8                &getShadeMode      (void);
+           Int8                &editShadeMode      (void);
      const Int8                &getShadeMode      (void) const;
-           Int8                &getActiveShadeMode(void);
+#ifndef OSG_2_PREP
+           Int8                &getShadeMode      (void);
+#endif
+           Int8                &editActiveShadeMode(void);
      const Int8                &getActiveShadeMode(void) const;
+#ifndef OSG_2_PREP
+           Int8                &getActiveShadeMode(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

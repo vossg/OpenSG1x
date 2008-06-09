@@ -140,30 +140,93 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFCgFrontEnd     (void);
-           SFBool              *getSFPointSize      (void);
-           MFGLenum            *getMFProgramParameterNames(void);
-           MFUInt32            *getMFProgramParameterValues(void);
-           SFUInt32            *getSFGLId           (void);
-           SFInt32             *getSFIgnoreGLForAspect(void);
-           SFBool              *getSFUnknownParameterWarning(void);
 
-           bool                &getCgFrontEnd     (void);
+           SFBool              *editSFCgFrontEnd     (void);
+     const SFBool              *getSFCgFrontEnd     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFCgFrontEnd     (void);
+#endif
+
+           SFBool              *editSFPointSize      (void);
+     const SFBool              *getSFPointSize      (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFPointSize      (void);
+#endif
+
+           MFGLenum            *editMFProgramParameterNames(void);
+     const MFGLenum            *getMFProgramParameterNames(void) const;
+#ifndef OSG_2_PREP
+           MFGLenum            *getMFProgramParameterNames(void);
+#endif
+
+           MFUInt32            *editMFProgramParameterValues(void);
+     const MFUInt32            *getMFProgramParameterValues(void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFProgramParameterValues(void);
+#endif
+
+           SFUInt32            *editSFGLId           (void);
+     const SFUInt32            *getSFGLId           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFGLId           (void);
+#endif
+
+           SFInt32             *editSFIgnoreGLForAspect(void);
+     const SFInt32             *getSFIgnoreGLForAspect(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFIgnoreGLForAspect(void);
+#endif
+
+           SFBool              *editSFUnknownParameterWarning(void);
+     const SFBool              *getSFUnknownParameterWarning(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUnknownParameterWarning(void);
+#endif
+
+
+           bool                &editCgFrontEnd     (void);
      const bool                &getCgFrontEnd     (void) const;
-           bool                &getPointSize      (void);
+#ifndef OSG_2_PREP
+           bool                &getCgFrontEnd     (void);
+#endif
+
+           bool                &editPointSize      (void);
      const bool                &getPointSize      (void) const;
-           UInt32              &getGLId           (void);
+#ifndef OSG_2_PREP
+           bool                &getPointSize      (void);
+#endif
+
+           UInt32              &editGLId           (void);
      const UInt32              &getGLId           (void) const;
-           Int32               &getIgnoreGLForAspect(void);
+#ifndef OSG_2_PREP
+           UInt32              &getGLId           (void);
+#endif
+
+           Int32               &editIgnoreGLForAspect(void);
      const Int32               &getIgnoreGLForAspect(void) const;
-           bool                &getUnknownParameterWarning(void);
+#ifndef OSG_2_PREP
+           Int32               &getIgnoreGLForAspect(void);
+#endif
+
+           bool                &editUnknownParameterWarning(void);
      const bool                &getUnknownParameterWarning(void) const;
+#ifndef OSG_2_PREP
+           bool                &getUnknownParameterWarning(void);
+#endif
+
+           GLenum              &editProgramParameterNames(const UInt32 index);
+     const GLenum              &getProgramParameterNames(const UInt32 index) const;
+#ifndef OSG_2_PREP
            GLenum              &getProgramParameterNames(const UInt32 index);
            MFGLenum            &getProgramParameterNames(void);
-     const MFGLenum            &getProgramParameterNames(void) const;
+#endif
+
+           UInt32              &editProgramParameterValues(const UInt32 index);
+     const UInt32              &getProgramParameterValues(const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getProgramParameterValues(const UInt32 index);
            MFUInt32            &getProgramParameterValues(void);
-     const MFUInt32            &getProgramParameterValues(void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -301,6 +364,6 @@ typedef RefPtr<SHLChunkPtr> SHLChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.16 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.17 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

@@ -98,15 +98,31 @@ StateSortingGroupPtr StateSortingGroupBase::createEmpty(void)
 
 //! Get the StateSortingGroup::_sfSorting field.
 inline
-SFBool *StateSortingGroupBase::getSFSorting(void)
+const SFBool *StateSortingGroupBase::getSFSorting(void) const
 {
     return &_sfSorting;
 }
 
+//! Get the StateSortingGroup::_sfSorting field.
+inline
+SFBool *StateSortingGroupBase::editSFSorting(void)
+{
+    return &_sfSorting;
+}
+
+#ifndef OSG_2_PREP
+//! Get the StateSortingGroup::_sfSorting field.
+inline
+SFBool *StateSortingGroupBase::getSFSorting(void)
+{
+    return &_sfSorting;
+}
+#endif
+
 
 //! Get the value of the StateSortingGroup::_sfSorting field.
 inline
-bool &StateSortingGroupBase::getSorting(void)
+bool &StateSortingGroupBase::editSorting(void)
 {
     return _sfSorting.getValue();
 }
@@ -118,6 +134,15 @@ const bool &StateSortingGroupBase::getSorting(void) const
     return _sfSorting.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the StateSortingGroup::_sfSorting field.
+inline
+bool &StateSortingGroupBase::getSorting(void)
+{
+    return _sfSorting.getValue();
+}
+#endif
+
 //! Set the value of the StateSortingGroup::_sfSorting field.
 inline
 void StateSortingGroupBase::setSorting(const bool &value)
@@ -128,5 +153,5 @@ void StateSortingGroupBase::setSorting(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSTATESORTINGGROUPBASE_INLINE_CVSID "@(#)$Id: OSGStateSortingGroupBase.inl,v 1.6 2008/06/05 05:02:28 vossg Exp $"
+#define OSGSTATESORTINGGROUPBASE_INLINE_CVSID "@(#)$Id: OSGStateSortingGroupBase.inl,v 1.7 2008/06/09 07:31:51 vossg Exp $"
 

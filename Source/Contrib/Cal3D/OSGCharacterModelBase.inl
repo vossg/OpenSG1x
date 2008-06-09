@@ -98,36 +98,100 @@ CharacterModelPtr CharacterModelBase::createEmpty(void)
 
 //! Get the CharacterModel::_sfConfigFile field.
 inline
-SFString *CharacterModelBase::getSFConfigFile(void)
+const SFString *CharacterModelBase::getSFConfigFile(void) const
 {
     return &_sfConfigFile;
 }
 
+//! Get the CharacterModel::_sfConfigFile field.
+inline
+SFString *CharacterModelBase::editSFConfigFile(void)
+{
+    return &_sfConfigFile;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CharacterModel::_sfConfigFile field.
+inline
+SFString *CharacterModelBase::getSFConfigFile(void)
+{
+    return &_sfConfigFile;
+}
+#endif
+
+//! Get the CharacterModel::_sfNumAnimations field.
+inline
+const SFUInt32 *CharacterModelBase::getSFNumAnimations(void) const
+{
+    return &_sfNumAnimations;
+}
+
+//! Get the CharacterModel::_sfNumAnimations field.
+inline
+SFUInt32 *CharacterModelBase::editSFNumAnimations(void)
+{
+    return &_sfNumAnimations;
+}
+
+#ifndef OSG_2_PREP
 //! Get the CharacterModel::_sfNumAnimations field.
 inline
 SFUInt32 *CharacterModelBase::getSFNumAnimations(void)
 {
     return &_sfNumAnimations;
 }
+#endif
 
+//! Get the CharacterModel::_sfShader field.
+inline
+const SFSHLChunkPtr *CharacterModelBase::getSFShader(void) const
+{
+    return &_sfShader;
+}
+
+//! Get the CharacterModel::_sfShader field.
+inline
+SFSHLChunkPtr *CharacterModelBase::editSFShader(void)
+{
+    return &_sfShader;
+}
+
+#ifndef OSG_2_PREP
 //! Get the CharacterModel::_sfShader field.
 inline
 SFSHLChunkPtr *CharacterModelBase::getSFShader(void)
 {
     return &_sfShader;
 }
+#endif
 
+//! Get the CharacterModel::_mfMaterials field.
+inline
+const MFChunkMaterialPtr *CharacterModelBase::getMFMaterials(void) const
+{
+    return &_mfMaterials;
+}
+
+//! Get the CharacterModel::_mfMaterials field.
+inline
+MFChunkMaterialPtr *CharacterModelBase::editMFMaterials(void)
+{
+    return &_mfMaterials;
+}
+
+#ifndef OSG_2_PREP
 //! Get the CharacterModel::_mfMaterials field.
 inline
 MFChunkMaterialPtr *CharacterModelBase::getMFMaterials(void)
 {
     return &_mfMaterials;
 }
+#endif
 
 
 //! Get the value of the CharacterModel::_sfConfigFile field.
 inline
-std::string &CharacterModelBase::getConfigFile(void)
+std::string &CharacterModelBase::editConfigFile(void)
 {
     return _sfConfigFile.getValue();
 }
@@ -139,6 +203,15 @@ const std::string &CharacterModelBase::getConfigFile(void) const
     return _sfConfigFile.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CharacterModel::_sfConfigFile field.
+inline
+std::string &CharacterModelBase::getConfigFile(void)
+{
+    return _sfConfigFile.getValue();
+}
+#endif
+
 //! Set the value of the CharacterModel::_sfConfigFile field.
 inline
 void CharacterModelBase::setConfigFile(const std::string &value)
@@ -148,7 +221,7 @@ void CharacterModelBase::setConfigFile(const std::string &value)
 
 //! Get the value of the CharacterModel::_sfNumAnimations field.
 inline
-UInt32 &CharacterModelBase::getNumAnimations(void)
+UInt32 &CharacterModelBase::editNumAnimations(void)
 {
     return _sfNumAnimations.getValue();
 }
@@ -160,6 +233,15 @@ const UInt32 &CharacterModelBase::getNumAnimations(void) const
     return _sfNumAnimations.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CharacterModel::_sfNumAnimations field.
+inline
+UInt32 &CharacterModelBase::getNumAnimations(void)
+{
+    return _sfNumAnimations.getValue();
+}
+#endif
+
 //! Set the value of the CharacterModel::_sfNumAnimations field.
 inline
 void CharacterModelBase::setNumAnimations(const UInt32 &value)
@@ -169,7 +251,7 @@ void CharacterModelBase::setNumAnimations(const UInt32 &value)
 
 //! Get the value of the CharacterModel::_sfShader field.
 inline
-SHLChunkPtr &CharacterModelBase::getShader(void)
+SHLChunkPtr &CharacterModelBase::editShader(void)
 {
     return _sfShader.getValue();
 }
@@ -181,6 +263,15 @@ const SHLChunkPtr &CharacterModelBase::getShader(void) const
     return _sfShader.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CharacterModel::_sfShader field.
+inline
+SHLChunkPtr &CharacterModelBase::getShader(void)
+{
+    return _sfShader.getValue();
+}
+#endif
+
 //! Set the value of the CharacterModel::_sfShader field.
 inline
 void CharacterModelBase::setShader(const SHLChunkPtr &value)
@@ -189,6 +280,21 @@ void CharacterModelBase::setShader(const SHLChunkPtr &value)
 }
 
 
+//! Get the value of the \a index element the CharacterModel::_mfMaterials field.
+inline
+ChunkMaterialPtr &CharacterModelBase::editMaterials(const UInt32 index)
+{
+    return _mfMaterials[index];
+}
+
+//! Get the value of the \a index element the CharacterModel::_mfMaterials field.
+inline
+const ChunkMaterialPtr &CharacterModelBase::getMaterials(const UInt32 index) const
+{
+    return _mfMaterials[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the CharacterModel::_mfMaterials field.
 inline
 ChunkMaterialPtr &CharacterModelBase::getMaterials(const UInt32 index)
@@ -203,14 +309,9 @@ MFChunkMaterialPtr &CharacterModelBase::getMaterials(void)
     return _mfMaterials;
 }
 
-//! Get the CharacterModel::_mfMaterials field.
-inline
-const MFChunkMaterialPtr &CharacterModelBase::getMaterials(void) const
-{
-    return _mfMaterials;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERMODELBASE_INLINE_CVSID "@(#)$Id: OSGCharacterModelBase.inl,v 1.3 2008/06/05 05:02:15 vossg Exp $"
+#define OSGCHARACTERMODELBASE_INLINE_CVSID "@(#)$Id: OSGCharacterModelBase.inl,v 1.4 2008/06/09 07:31:37 vossg Exp $"
 

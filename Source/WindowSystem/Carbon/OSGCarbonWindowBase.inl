@@ -98,15 +98,31 @@ CarbonWindowPtr CarbonWindowBase::createEmpty(void)
 
 //! Get the CarbonWindow::_sfContext field.
 inline
-SFAGLContext *CarbonWindowBase::getSFContext(void)
+const SFAGLContext *CarbonWindowBase::getSFContext(void) const
 {
     return &_sfContext;
 }
 
+//! Get the CarbonWindow::_sfContext field.
+inline
+SFAGLContext *CarbonWindowBase::editSFContext(void)
+{
+    return &_sfContext;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CarbonWindow::_sfContext field.
+inline
+SFAGLContext *CarbonWindowBase::getSFContext(void)
+{
+    return &_sfContext;
+}
+#endif
+
 
 //! Get the value of the CarbonWindow::_sfContext field.
 inline
-AGLContext &CarbonWindowBase::getContext(void)
+AGLContext &CarbonWindowBase::editContext(void)
 {
     return _sfContext.getValue();
 }
@@ -118,6 +134,15 @@ const AGLContext &CarbonWindowBase::getContext(void) const
     return _sfContext.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CarbonWindow::_sfContext field.
+inline
+AGLContext &CarbonWindowBase::getContext(void)
+{
+    return _sfContext.getValue();
+}
+#endif
+
 //! Set the value of the CarbonWindow::_sfContext field.
 inline
 void CarbonWindowBase::setContext(const AGLContext &value)
@@ -128,5 +153,5 @@ void CarbonWindowBase::setContext(const AGLContext &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCARBONWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCarbonWindowBase.inl,v 1.2 2008/06/05 05:02:32 vossg Exp $"
+#define OSGCARBONWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCarbonWindowBase.inl,v 1.3 2008/06/09 07:31:58 vossg Exp $"
 

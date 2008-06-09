@@ -98,15 +98,31 @@ PhysicsSpacePtr PhysicsSpaceBase::createEmpty(void)
 
 //! Get the PhysicsSpace::_sfCleanup field.
 inline
-SFBool *PhysicsSpaceBase::getSFCleanup(void)
+const SFBool *PhysicsSpaceBase::getSFCleanup(void) const
 {
     return &_sfCleanup;
 }
 
+//! Get the PhysicsSpace::_sfCleanup field.
+inline
+SFBool *PhysicsSpaceBase::editSFCleanup(void)
+{
+    return &_sfCleanup;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsSpace::_sfCleanup field.
+inline
+SFBool *PhysicsSpaceBase::getSFCleanup(void)
+{
+    return &_sfCleanup;
+}
+#endif
+
 
 //! Get the value of the PhysicsSpace::_sfCleanup field.
 inline
-bool &PhysicsSpaceBase::getCleanup(void)
+bool &PhysicsSpaceBase::editCleanup(void)
 {
     return _sfCleanup.getValue();
 }
@@ -118,6 +134,15 @@ const bool &PhysicsSpaceBase::getCleanup(void) const
     return _sfCleanup.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsSpace::_sfCleanup field.
+inline
+bool &PhysicsSpaceBase::getCleanup(void)
+{
+    return _sfCleanup.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsSpace::_sfCleanup field.
 inline
 void PhysicsSpaceBase::setCleanup(const bool &value)
@@ -128,5 +153,5 @@ void PhysicsSpaceBase::setCleanup(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSPACEBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsSpaceBase.inl,v 1.3 2008/06/05 05:02:17 vossg Exp $"
+#define OSGPHYSICSSPACEBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsSpaceBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

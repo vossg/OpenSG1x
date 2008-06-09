@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsCCylinderGeomBase : public PhysicsGeom
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec2f             *getSFParams         (void);
 
-           Vec2f               &getParams         (void);
+           SFVec2f             *editSFParams         (void);
+     const SFVec2f             *getSFParams         (void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFParams         (void);
+#endif
+
+
+           Vec2f               &editParams         (void);
      const Vec2f               &getParams         (void) const;
+#ifndef OSG_2_PREP
+           Vec2f               &getParams         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsCCylinderGeomPtr> PhysicsCCylinderGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSCCYLINDERGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsCCylinderGeomBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSCCYLINDERGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsCCylinderGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSCCYLINDERGEOMBASE_H_ */

@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING OrthographicCameraBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFVerticalSize   (void);
-           SFReal32            *getSFAspect         (void);
 
-           Real32              &getVerticalSize   (void);
+           SFReal32            *editSFVerticalSize   (void);
+     const SFReal32            *getSFVerticalSize   (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFVerticalSize   (void);
+#endif
+
+           SFReal32            *editSFAspect         (void);
+     const SFReal32            *getSFAspect         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAspect         (void);
+#endif
+
+
+           Real32              &editVerticalSize   (void);
      const Real32              &getVerticalSize   (void) const;
-           Real32              &getAspect         (void);
+#ifndef OSG_2_PREP
+           Real32              &getVerticalSize   (void);
+#endif
+
+           Real32              &editAspect         (void);
      const Real32              &getAspect         (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getAspect         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -261,6 +279,6 @@ typedef RefPtr<OrthographicCameraPtr> OrthographicCameraRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID "@(#)$Id: OSGOrthographicCameraBase.h,v 1.3 2008/06/05 05:02:30 vossg Exp $"
+#define OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID "@(#)$Id: OSGOrthographicCameraBase.h,v 1.4 2008/06/09 07:31:55 vossg Exp $"
 
 #endif /* _OSGORTHOGRAPHICCAMERABASE_H_ */

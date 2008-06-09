@@ -98,22 +98,54 @@ MatrixCameraPtr MatrixCameraBase::createEmpty(void)
 
 //! Get the MatrixCamera::_sfProjectionMatrix field.
 inline
-SFMatrix *MatrixCameraBase::getSFProjectionMatrix(void)
+const SFMatrix *MatrixCameraBase::getSFProjectionMatrix(void) const
 {
     return &_sfProjectionMatrix;
 }
 
+//! Get the MatrixCamera::_sfProjectionMatrix field.
+inline
+SFMatrix *MatrixCameraBase::editSFProjectionMatrix(void)
+{
+    return &_sfProjectionMatrix;
+}
+
+#ifndef OSG_2_PREP
+//! Get the MatrixCamera::_sfProjectionMatrix field.
+inline
+SFMatrix *MatrixCameraBase::getSFProjectionMatrix(void)
+{
+    return &_sfProjectionMatrix;
+}
+#endif
+
+//! Get the MatrixCamera::_sfModelviewMatrix field.
+inline
+const SFMatrix *MatrixCameraBase::getSFModelviewMatrix(void) const
+{
+    return &_sfModelviewMatrix;
+}
+
+//! Get the MatrixCamera::_sfModelviewMatrix field.
+inline
+SFMatrix *MatrixCameraBase::editSFModelviewMatrix(void)
+{
+    return &_sfModelviewMatrix;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MatrixCamera::_sfModelviewMatrix field.
 inline
 SFMatrix *MatrixCameraBase::getSFModelviewMatrix(void)
 {
     return &_sfModelviewMatrix;
 }
+#endif
 
 
 //! Get the value of the MatrixCamera::_sfProjectionMatrix field.
 inline
-Matrix &MatrixCameraBase::getProjectionMatrix(void)
+Matrix &MatrixCameraBase::editProjectionMatrix(void)
 {
     return _sfProjectionMatrix.getValue();
 }
@@ -125,6 +157,15 @@ const Matrix &MatrixCameraBase::getProjectionMatrix(void) const
     return _sfProjectionMatrix.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MatrixCamera::_sfProjectionMatrix field.
+inline
+Matrix &MatrixCameraBase::getProjectionMatrix(void)
+{
+    return _sfProjectionMatrix.getValue();
+}
+#endif
+
 //! Set the value of the MatrixCamera::_sfProjectionMatrix field.
 inline
 void MatrixCameraBase::setProjectionMatrix(const Matrix &value)
@@ -134,7 +175,7 @@ void MatrixCameraBase::setProjectionMatrix(const Matrix &value)
 
 //! Get the value of the MatrixCamera::_sfModelviewMatrix field.
 inline
-Matrix &MatrixCameraBase::getModelviewMatrix(void)
+Matrix &MatrixCameraBase::editModelviewMatrix(void)
 {
     return _sfModelviewMatrix.getValue();
 }
@@ -145,6 +186,15 @@ const Matrix &MatrixCameraBase::getModelviewMatrix(void) const
 {
     return _sfModelviewMatrix.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the MatrixCamera::_sfModelviewMatrix field.
+inline
+Matrix &MatrixCameraBase::getModelviewMatrix(void)
+{
+    return _sfModelviewMatrix.getValue();
+}
+#endif
 
 //! Set the value of the MatrixCamera::_sfModelviewMatrix field.
 inline

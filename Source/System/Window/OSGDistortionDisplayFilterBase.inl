@@ -98,29 +98,77 @@ DistortionDisplayFilterPtr DistortionDisplayFilterBase::createEmpty(void)
 
 //! Get the DistortionDisplayFilter::_sfRows field.
 inline
-SFUInt32 *DistortionDisplayFilterBase::getSFRows(void)
+const SFUInt32 *DistortionDisplayFilterBase::getSFRows(void) const
 {
     return &_sfRows;
 }
 
+//! Get the DistortionDisplayFilter::_sfRows field.
+inline
+SFUInt32 *DistortionDisplayFilterBase::editSFRows(void)
+{
+    return &_sfRows;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DistortionDisplayFilter::_sfRows field.
+inline
+SFUInt32 *DistortionDisplayFilterBase::getSFRows(void)
+{
+    return &_sfRows;
+}
+#endif
+
+//! Get the DistortionDisplayFilter::_sfColumns field.
+inline
+const SFUInt32 *DistortionDisplayFilterBase::getSFColumns(void) const
+{
+    return &_sfColumns;
+}
+
+//! Get the DistortionDisplayFilter::_sfColumns field.
+inline
+SFUInt32 *DistortionDisplayFilterBase::editSFColumns(void)
+{
+    return &_sfColumns;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DistortionDisplayFilter::_sfColumns field.
 inline
 SFUInt32 *DistortionDisplayFilterBase::getSFColumns(void)
 {
     return &_sfColumns;
 }
+#endif
 
+//! Get the DistortionDisplayFilter::_mfPositions field.
+inline
+const MFVec2f *DistortionDisplayFilterBase::getMFPositions(void) const
+{
+    return &_mfPositions;
+}
+
+//! Get the DistortionDisplayFilter::_mfPositions field.
+inline
+MFVec2f *DistortionDisplayFilterBase::editMFPositions(void)
+{
+    return &_mfPositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DistortionDisplayFilter::_mfPositions field.
 inline
 MFVec2f *DistortionDisplayFilterBase::getMFPositions(void)
 {
     return &_mfPositions;
 }
+#endif
 
 
 //! Get the value of the DistortionDisplayFilter::_sfRows field.
 inline
-UInt32 &DistortionDisplayFilterBase::getRows(void)
+UInt32 &DistortionDisplayFilterBase::editRows(void)
 {
     return _sfRows.getValue();
 }
@@ -132,6 +180,15 @@ const UInt32 &DistortionDisplayFilterBase::getRows(void) const
     return _sfRows.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DistortionDisplayFilter::_sfRows field.
+inline
+UInt32 &DistortionDisplayFilterBase::getRows(void)
+{
+    return _sfRows.getValue();
+}
+#endif
+
 //! Set the value of the DistortionDisplayFilter::_sfRows field.
 inline
 void DistortionDisplayFilterBase::setRows(const UInt32 &value)
@@ -141,7 +198,7 @@ void DistortionDisplayFilterBase::setRows(const UInt32 &value)
 
 //! Get the value of the DistortionDisplayFilter::_sfColumns field.
 inline
-UInt32 &DistortionDisplayFilterBase::getColumns(void)
+UInt32 &DistortionDisplayFilterBase::editColumns(void)
 {
     return _sfColumns.getValue();
 }
@@ -153,6 +210,15 @@ const UInt32 &DistortionDisplayFilterBase::getColumns(void) const
     return _sfColumns.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DistortionDisplayFilter::_sfColumns field.
+inline
+UInt32 &DistortionDisplayFilterBase::getColumns(void)
+{
+    return _sfColumns.getValue();
+}
+#endif
+
 //! Set the value of the DistortionDisplayFilter::_sfColumns field.
 inline
 void DistortionDisplayFilterBase::setColumns(const UInt32 &value)
@@ -161,6 +227,21 @@ void DistortionDisplayFilterBase::setColumns(const UInt32 &value)
 }
 
 
+//! Get the value of the \a index element the DistortionDisplayFilter::_mfPositions field.
+inline
+Vec2f &DistortionDisplayFilterBase::editPositions(const UInt32 index)
+{
+    return _mfPositions[index];
+}
+
+//! Get the value of the \a index element the DistortionDisplayFilter::_mfPositions field.
+inline
+const Vec2f &DistortionDisplayFilterBase::getPositions(const UInt32 index) const
+{
+    return _mfPositions[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the DistortionDisplayFilter::_mfPositions field.
 inline
 Vec2f &DistortionDisplayFilterBase::getPositions(const UInt32 index)
@@ -175,12 +256,7 @@ MFVec2f &DistortionDisplayFilterBase::getPositions(void)
     return _mfPositions;
 }
 
-//! Get the DistortionDisplayFilter::_mfPositions field.
-inline
-const MFVec2f &DistortionDisplayFilterBase::getPositions(void) const
-{
-    return _mfPositions;
-}
+#endif
 
 OSG_END_NAMESPACE
 

@@ -146,40 +146,121 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRLookupTableBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt8             *getSFDimension      (void);
-           MFUInt32            *getMFSize           (void);
-           SFUInt8             *getSFChannel        (void);
-           MFUInt8             *getMFData           (void);
-           MFReal32            *getMFDataR          (void);
-           MFReal32            *getMFDataG          (void);
-           MFReal32            *getMFDataB          (void);
-           MFReal32            *getMFDataA          (void);
-           SFBool              *getSFTouched        (void);
 
-           UInt8               &getDimension      (void);
+           SFUInt8             *editSFDimension      (void);
+     const SFUInt8             *getSFDimension      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt8             *getSFDimension      (void);
+#endif
+
+           MFUInt32            *editMFSize           (void);
+     const MFUInt32            *getMFSize           (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFSize           (void);
+#endif
+
+           SFUInt8             *editSFChannel        (void);
+     const SFUInt8             *getSFChannel        (void) const;
+#ifndef OSG_2_PREP
+           SFUInt8             *getSFChannel        (void);
+#endif
+
+           MFUInt8             *editMFData           (void);
+     const MFUInt8             *getMFData           (void) const;
+#ifndef OSG_2_PREP
+           MFUInt8             *getMFData           (void);
+#endif
+
+           MFReal32            *editMFDataR          (void);
+     const MFReal32            *getMFDataR          (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFDataR          (void);
+#endif
+
+           MFReal32            *editMFDataG          (void);
+     const MFReal32            *getMFDataG          (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFDataG          (void);
+#endif
+
+           MFReal32            *editMFDataB          (void);
+     const MFReal32            *getMFDataB          (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFDataB          (void);
+#endif
+
+           MFReal32            *editMFDataA          (void);
+     const MFReal32            *getMFDataA          (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFDataA          (void);
+#endif
+
+           SFBool              *editSFTouched        (void);
+     const SFBool              *getSFTouched        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFTouched        (void);
+#endif
+
+
+           UInt8               &editDimension      (void);
      const UInt8               &getDimension      (void) const;
-           UInt8               &getChannel        (void);
+#ifndef OSG_2_PREP
+           UInt8               &getDimension      (void);
+#endif
+
+           UInt8               &editChannel        (void);
      const UInt8               &getChannel        (void) const;
-           bool                &getTouched        (void);
+#ifndef OSG_2_PREP
+           UInt8               &getChannel        (void);
+#endif
+
+           bool                &editTouched        (void);
      const bool                &getTouched        (void) const;
+#ifndef OSG_2_PREP
+           bool                &getTouched        (void);
+#endif
+
+           UInt32              &editSize           (const UInt32 index);
+     const UInt32              &getSize           (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getSize           (const UInt32 index);
            MFUInt32            &getSize           (void);
-     const MFUInt32            &getSize           (void) const;
+#endif
+
+           UInt8               &editData           (const UInt32 index);
+     const UInt8               &getData           (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt8               &getData           (const UInt32 index);
            MFUInt8             &getData           (void);
-     const MFUInt8             &getData           (void) const;
+#endif
+
+           Real32              &editDataR          (const UInt32 index);
+     const Real32              &getDataR          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getDataR          (const UInt32 index);
            MFReal32            &getDataR          (void);
-     const MFReal32            &getDataR          (void) const;
+#endif
+
+           Real32              &editDataG          (const UInt32 index);
+     const Real32              &getDataG          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getDataG          (const UInt32 index);
            MFReal32            &getDataG          (void);
-     const MFReal32            &getDataG          (void) const;
+#endif
+
+           Real32              &editDataB          (const UInt32 index);
+     const Real32              &getDataB          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getDataB          (const UInt32 index);
            MFReal32            &getDataB          (void);
-     const MFReal32            &getDataB          (void) const;
+#endif
+
+           Real32              &editDataA          (const UInt32 index);
+     const Real32              &getDataA          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getDataA          (const UInt32 index);
            MFReal32            &getDataA          (void);
-     const MFReal32            &getDataA          (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -134,23 +134,68 @@ class OSG_SYSTEMLIB_DLLMAPPING SortFirstWindowBase : public ClusterWindow
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFCompression    (void);
-           SFUInt32            *getSFSubtileSize    (void);
-           SFBool              *getSFCompose        (void);
-           MFUInt32            *getMFRegion         (void);
-           SFBool              *getSFUseFaceDistribution(void);
 
-           std::string         &getCompression    (void);
+           SFString            *editSFCompression    (void);
+     const SFString            *getSFCompression    (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFCompression    (void);
+#endif
+
+           SFUInt32            *editSFSubtileSize    (void);
+     const SFUInt32            *getSFSubtileSize    (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFSubtileSize    (void);
+#endif
+
+           SFBool              *editSFCompose        (void);
+     const SFBool              *getSFCompose        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFCompose        (void);
+#endif
+
+           MFUInt32            *editMFRegion         (void);
+     const MFUInt32            *getMFRegion         (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFRegion         (void);
+#endif
+
+           SFBool              *editSFUseFaceDistribution(void);
+     const SFBool              *getSFUseFaceDistribution(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFUseFaceDistribution(void);
+#endif
+
+
+           std::string         &editCompression    (void);
      const std::string         &getCompression    (void) const;
-           UInt32              &getSubtileSize    (void);
+#ifndef OSG_2_PREP
+           std::string         &getCompression    (void);
+#endif
+
+           UInt32              &editSubtileSize    (void);
      const UInt32              &getSubtileSize    (void) const;
-           bool                &getCompose        (void);
+#ifndef OSG_2_PREP
+           UInt32              &getSubtileSize    (void);
+#endif
+
+           bool                &editCompose        (void);
      const bool                &getCompose        (void) const;
-           bool                &getUseFaceDistribution(void);
+#ifndef OSG_2_PREP
+           bool                &getCompose        (void);
+#endif
+
+           bool                &editUseFaceDistribution(void);
      const bool                &getUseFaceDistribution(void) const;
+#ifndef OSG_2_PREP
+           bool                &getUseFaceDistribution(void);
+#endif
+
+           UInt32              &editRegion         (const UInt32 index);
+     const UInt32              &getRegion         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getRegion         (const UInt32 index);
            MFUInt32            &getRegion         (void);
-     const MFUInt32            &getRegion         (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -98,106 +98,330 @@ MaterialChunkPtr MaterialChunkBase::createEmpty(void)
 
 //! Get the MaterialChunk::_sfDiffuse field.
 inline
-SFColor4f *MaterialChunkBase::getSFDiffuse(void)
+const SFColor4f *MaterialChunkBase::getSFDiffuse(void) const
 {
     return &_sfDiffuse;
 }
 
+//! Get the MaterialChunk::_sfDiffuse field.
+inline
+SFColor4f *MaterialChunkBase::editSFDiffuse(void)
+{
+    return &_sfDiffuse;
+}
+
+#ifndef OSG_2_PREP
+//! Get the MaterialChunk::_sfDiffuse field.
+inline
+SFColor4f *MaterialChunkBase::getSFDiffuse(void)
+{
+    return &_sfDiffuse;
+}
+#endif
+
+//! Get the MaterialChunk::_sfAmbient field.
+inline
+const SFColor4f *MaterialChunkBase::getSFAmbient(void) const
+{
+    return &_sfAmbient;
+}
+
+//! Get the MaterialChunk::_sfAmbient field.
+inline
+SFColor4f *MaterialChunkBase::editSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfAmbient field.
 inline
 SFColor4f *MaterialChunkBase::getSFAmbient(void)
 {
     return &_sfAmbient;
 }
+#endif
 
+//! Get the MaterialChunk::_sfSpecular field.
+inline
+const SFColor4f *MaterialChunkBase::getSFSpecular(void) const
+{
+    return &_sfSpecular;
+}
+
+//! Get the MaterialChunk::_sfSpecular field.
+inline
+SFColor4f *MaterialChunkBase::editSFSpecular(void)
+{
+    return &_sfSpecular;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfSpecular field.
 inline
 SFColor4f *MaterialChunkBase::getSFSpecular(void)
 {
     return &_sfSpecular;
 }
+#endif
 
+//! Get the MaterialChunk::_sfEmission field.
+inline
+const SFColor4f *MaterialChunkBase::getSFEmission(void) const
+{
+    return &_sfEmission;
+}
+
+//! Get the MaterialChunk::_sfEmission field.
+inline
+SFColor4f *MaterialChunkBase::editSFEmission(void)
+{
+    return &_sfEmission;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfEmission field.
 inline
 SFColor4f *MaterialChunkBase::getSFEmission(void)
 {
     return &_sfEmission;
 }
+#endif
 
+//! Get the MaterialChunk::_sfShininess field.
+inline
+const SFReal32 *MaterialChunkBase::getSFShininess(void) const
+{
+    return &_sfShininess;
+}
+
+//! Get the MaterialChunk::_sfShininess field.
+inline
+SFReal32 *MaterialChunkBase::editSFShininess(void)
+{
+    return &_sfShininess;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfShininess field.
 inline
 SFReal32 *MaterialChunkBase::getSFShininess(void)
 {
     return &_sfShininess;
 }
+#endif
 
+//! Get the MaterialChunk::_sfLit field.
+inline
+const SFBool *MaterialChunkBase::getSFLit(void) const
+{
+    return &_sfLit;
+}
+
+//! Get the MaterialChunk::_sfLit field.
+inline
+SFBool *MaterialChunkBase::editSFLit(void)
+{
+    return &_sfLit;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfLit field.
 inline
 SFBool *MaterialChunkBase::getSFLit(void)
 {
     return &_sfLit;
 }
+#endif
 
+//! Get the MaterialChunk::_sfColorMaterial field.
+inline
+const SFGLenum *MaterialChunkBase::getSFColorMaterial(void) const
+{
+    return &_sfColorMaterial;
+}
+
+//! Get the MaterialChunk::_sfColorMaterial field.
+inline
+SFGLenum *MaterialChunkBase::editSFColorMaterial(void)
+{
+    return &_sfColorMaterial;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfColorMaterial field.
 inline
 SFGLenum *MaterialChunkBase::getSFColorMaterial(void)
 {
     return &_sfColorMaterial;
 }
+#endif
 
+//! Get the MaterialChunk::_sfBackMaterial field.
+inline
+const SFBool *MaterialChunkBase::getSFBackMaterial(void) const
+{
+    return &_sfBackMaterial;
+}
+
+//! Get the MaterialChunk::_sfBackMaterial field.
+inline
+SFBool *MaterialChunkBase::editSFBackMaterial(void)
+{
+    return &_sfBackMaterial;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfBackMaterial field.
 inline
 SFBool *MaterialChunkBase::getSFBackMaterial(void)
 {
     return &_sfBackMaterial;
 }
+#endif
 
+//! Get the MaterialChunk::_sfBackDiffuse field.
+inline
+const SFColor4f *MaterialChunkBase::getSFBackDiffuse(void) const
+{
+    return &_sfBackDiffuse;
+}
+
+//! Get the MaterialChunk::_sfBackDiffuse field.
+inline
+SFColor4f *MaterialChunkBase::editSFBackDiffuse(void)
+{
+    return &_sfBackDiffuse;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfBackDiffuse field.
 inline
 SFColor4f *MaterialChunkBase::getSFBackDiffuse(void)
 {
     return &_sfBackDiffuse;
 }
+#endif
 
+//! Get the MaterialChunk::_sfBackAmbient field.
+inline
+const SFColor4f *MaterialChunkBase::getSFBackAmbient(void) const
+{
+    return &_sfBackAmbient;
+}
+
+//! Get the MaterialChunk::_sfBackAmbient field.
+inline
+SFColor4f *MaterialChunkBase::editSFBackAmbient(void)
+{
+    return &_sfBackAmbient;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfBackAmbient field.
 inline
 SFColor4f *MaterialChunkBase::getSFBackAmbient(void)
 {
     return &_sfBackAmbient;
 }
+#endif
 
+//! Get the MaterialChunk::_sfBackSpecular field.
+inline
+const SFColor4f *MaterialChunkBase::getSFBackSpecular(void) const
+{
+    return &_sfBackSpecular;
+}
+
+//! Get the MaterialChunk::_sfBackSpecular field.
+inline
+SFColor4f *MaterialChunkBase::editSFBackSpecular(void)
+{
+    return &_sfBackSpecular;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfBackSpecular field.
 inline
 SFColor4f *MaterialChunkBase::getSFBackSpecular(void)
 {
     return &_sfBackSpecular;
 }
+#endif
 
+//! Get the MaterialChunk::_sfBackEmission field.
+inline
+const SFColor4f *MaterialChunkBase::getSFBackEmission(void) const
+{
+    return &_sfBackEmission;
+}
+
+//! Get the MaterialChunk::_sfBackEmission field.
+inline
+SFColor4f *MaterialChunkBase::editSFBackEmission(void)
+{
+    return &_sfBackEmission;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfBackEmission field.
 inline
 SFColor4f *MaterialChunkBase::getSFBackEmission(void)
 {
     return &_sfBackEmission;
 }
+#endif
 
+//! Get the MaterialChunk::_sfBackShininess field.
+inline
+const SFReal32 *MaterialChunkBase::getSFBackShininess(void) const
+{
+    return &_sfBackShininess;
+}
+
+//! Get the MaterialChunk::_sfBackShininess field.
+inline
+SFReal32 *MaterialChunkBase::editSFBackShininess(void)
+{
+    return &_sfBackShininess;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfBackShininess field.
 inline
 SFReal32 *MaterialChunkBase::getSFBackShininess(void)
 {
     return &_sfBackShininess;
 }
+#endif
 
+//! Get the MaterialChunk::_sfBackColorMaterial field.
+inline
+const SFGLenum *MaterialChunkBase::getSFBackColorMaterial(void) const
+{
+    return &_sfBackColorMaterial;
+}
+
+//! Get the MaterialChunk::_sfBackColorMaterial field.
+inline
+SFGLenum *MaterialChunkBase::editSFBackColorMaterial(void)
+{
+    return &_sfBackColorMaterial;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MaterialChunk::_sfBackColorMaterial field.
 inline
 SFGLenum *MaterialChunkBase::getSFBackColorMaterial(void)
 {
     return &_sfBackColorMaterial;
 }
+#endif
 
 
 //! Get the value of the MaterialChunk::_sfDiffuse field.
 inline
-Color4f &MaterialChunkBase::getDiffuse(void)
+Color4f &MaterialChunkBase::editDiffuse(void)
 {
     return _sfDiffuse.getValue();
 }
@@ -209,6 +433,15 @@ const Color4f &MaterialChunkBase::getDiffuse(void) const
     return _sfDiffuse.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfDiffuse field.
+inline
+Color4f &MaterialChunkBase::getDiffuse(void)
+{
+    return _sfDiffuse.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfDiffuse field.
 inline
 void MaterialChunkBase::setDiffuse(const Color4f &value)
@@ -218,7 +451,7 @@ void MaterialChunkBase::setDiffuse(const Color4f &value)
 
 //! Get the value of the MaterialChunk::_sfAmbient field.
 inline
-Color4f &MaterialChunkBase::getAmbient(void)
+Color4f &MaterialChunkBase::editAmbient(void)
 {
     return _sfAmbient.getValue();
 }
@@ -230,6 +463,15 @@ const Color4f &MaterialChunkBase::getAmbient(void) const
     return _sfAmbient.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfAmbient field.
+inline
+Color4f &MaterialChunkBase::getAmbient(void)
+{
+    return _sfAmbient.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfAmbient field.
 inline
 void MaterialChunkBase::setAmbient(const Color4f &value)
@@ -239,7 +481,7 @@ void MaterialChunkBase::setAmbient(const Color4f &value)
 
 //! Get the value of the MaterialChunk::_sfSpecular field.
 inline
-Color4f &MaterialChunkBase::getSpecular(void)
+Color4f &MaterialChunkBase::editSpecular(void)
 {
     return _sfSpecular.getValue();
 }
@@ -251,6 +493,15 @@ const Color4f &MaterialChunkBase::getSpecular(void) const
     return _sfSpecular.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfSpecular field.
+inline
+Color4f &MaterialChunkBase::getSpecular(void)
+{
+    return _sfSpecular.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfSpecular field.
 inline
 void MaterialChunkBase::setSpecular(const Color4f &value)
@@ -260,7 +511,7 @@ void MaterialChunkBase::setSpecular(const Color4f &value)
 
 //! Get the value of the MaterialChunk::_sfEmission field.
 inline
-Color4f &MaterialChunkBase::getEmission(void)
+Color4f &MaterialChunkBase::editEmission(void)
 {
     return _sfEmission.getValue();
 }
@@ -272,6 +523,15 @@ const Color4f &MaterialChunkBase::getEmission(void) const
     return _sfEmission.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfEmission field.
+inline
+Color4f &MaterialChunkBase::getEmission(void)
+{
+    return _sfEmission.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfEmission field.
 inline
 void MaterialChunkBase::setEmission(const Color4f &value)
@@ -281,7 +541,7 @@ void MaterialChunkBase::setEmission(const Color4f &value)
 
 //! Get the value of the MaterialChunk::_sfShininess field.
 inline
-Real32 &MaterialChunkBase::getShininess(void)
+Real32 &MaterialChunkBase::editShininess(void)
 {
     return _sfShininess.getValue();
 }
@@ -293,6 +553,15 @@ const Real32 &MaterialChunkBase::getShininess(void) const
     return _sfShininess.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfShininess field.
+inline
+Real32 &MaterialChunkBase::getShininess(void)
+{
+    return _sfShininess.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfShininess field.
 inline
 void MaterialChunkBase::setShininess(const Real32 &value)
@@ -302,7 +571,7 @@ void MaterialChunkBase::setShininess(const Real32 &value)
 
 //! Get the value of the MaterialChunk::_sfLit field.
 inline
-bool &MaterialChunkBase::getLit(void)
+bool &MaterialChunkBase::editLit(void)
 {
     return _sfLit.getValue();
 }
@@ -314,6 +583,15 @@ const bool &MaterialChunkBase::getLit(void) const
     return _sfLit.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfLit field.
+inline
+bool &MaterialChunkBase::getLit(void)
+{
+    return _sfLit.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfLit field.
 inline
 void MaterialChunkBase::setLit(const bool &value)
@@ -323,7 +601,7 @@ void MaterialChunkBase::setLit(const bool &value)
 
 //! Get the value of the MaterialChunk::_sfColorMaterial field.
 inline
-GLenum &MaterialChunkBase::getColorMaterial(void)
+GLenum &MaterialChunkBase::editColorMaterial(void)
 {
     return _sfColorMaterial.getValue();
 }
@@ -335,6 +613,15 @@ const GLenum &MaterialChunkBase::getColorMaterial(void) const
     return _sfColorMaterial.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfColorMaterial field.
+inline
+GLenum &MaterialChunkBase::getColorMaterial(void)
+{
+    return _sfColorMaterial.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfColorMaterial field.
 inline
 void MaterialChunkBase::setColorMaterial(const GLenum &value)
@@ -344,7 +631,7 @@ void MaterialChunkBase::setColorMaterial(const GLenum &value)
 
 //! Get the value of the MaterialChunk::_sfBackMaterial field.
 inline
-bool &MaterialChunkBase::getBackMaterial(void)
+bool &MaterialChunkBase::editBackMaterial(void)
 {
     return _sfBackMaterial.getValue();
 }
@@ -356,6 +643,15 @@ const bool &MaterialChunkBase::getBackMaterial(void) const
     return _sfBackMaterial.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfBackMaterial field.
+inline
+bool &MaterialChunkBase::getBackMaterial(void)
+{
+    return _sfBackMaterial.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfBackMaterial field.
 inline
 void MaterialChunkBase::setBackMaterial(const bool &value)
@@ -365,7 +661,7 @@ void MaterialChunkBase::setBackMaterial(const bool &value)
 
 //! Get the value of the MaterialChunk::_sfBackDiffuse field.
 inline
-Color4f &MaterialChunkBase::getBackDiffuse(void)
+Color4f &MaterialChunkBase::editBackDiffuse(void)
 {
     return _sfBackDiffuse.getValue();
 }
@@ -377,6 +673,15 @@ const Color4f &MaterialChunkBase::getBackDiffuse(void) const
     return _sfBackDiffuse.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfBackDiffuse field.
+inline
+Color4f &MaterialChunkBase::getBackDiffuse(void)
+{
+    return _sfBackDiffuse.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfBackDiffuse field.
 inline
 void MaterialChunkBase::setBackDiffuse(const Color4f &value)
@@ -386,7 +691,7 @@ void MaterialChunkBase::setBackDiffuse(const Color4f &value)
 
 //! Get the value of the MaterialChunk::_sfBackAmbient field.
 inline
-Color4f &MaterialChunkBase::getBackAmbient(void)
+Color4f &MaterialChunkBase::editBackAmbient(void)
 {
     return _sfBackAmbient.getValue();
 }
@@ -398,6 +703,15 @@ const Color4f &MaterialChunkBase::getBackAmbient(void) const
     return _sfBackAmbient.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfBackAmbient field.
+inline
+Color4f &MaterialChunkBase::getBackAmbient(void)
+{
+    return _sfBackAmbient.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfBackAmbient field.
 inline
 void MaterialChunkBase::setBackAmbient(const Color4f &value)
@@ -407,7 +721,7 @@ void MaterialChunkBase::setBackAmbient(const Color4f &value)
 
 //! Get the value of the MaterialChunk::_sfBackSpecular field.
 inline
-Color4f &MaterialChunkBase::getBackSpecular(void)
+Color4f &MaterialChunkBase::editBackSpecular(void)
 {
     return _sfBackSpecular.getValue();
 }
@@ -419,6 +733,15 @@ const Color4f &MaterialChunkBase::getBackSpecular(void) const
     return _sfBackSpecular.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfBackSpecular field.
+inline
+Color4f &MaterialChunkBase::getBackSpecular(void)
+{
+    return _sfBackSpecular.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfBackSpecular field.
 inline
 void MaterialChunkBase::setBackSpecular(const Color4f &value)
@@ -428,7 +751,7 @@ void MaterialChunkBase::setBackSpecular(const Color4f &value)
 
 //! Get the value of the MaterialChunk::_sfBackEmission field.
 inline
-Color4f &MaterialChunkBase::getBackEmission(void)
+Color4f &MaterialChunkBase::editBackEmission(void)
 {
     return _sfBackEmission.getValue();
 }
@@ -440,6 +763,15 @@ const Color4f &MaterialChunkBase::getBackEmission(void) const
     return _sfBackEmission.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfBackEmission field.
+inline
+Color4f &MaterialChunkBase::getBackEmission(void)
+{
+    return _sfBackEmission.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfBackEmission field.
 inline
 void MaterialChunkBase::setBackEmission(const Color4f &value)
@@ -449,7 +781,7 @@ void MaterialChunkBase::setBackEmission(const Color4f &value)
 
 //! Get the value of the MaterialChunk::_sfBackShininess field.
 inline
-Real32 &MaterialChunkBase::getBackShininess(void)
+Real32 &MaterialChunkBase::editBackShininess(void)
 {
     return _sfBackShininess.getValue();
 }
@@ -461,6 +793,15 @@ const Real32 &MaterialChunkBase::getBackShininess(void) const
     return _sfBackShininess.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfBackShininess field.
+inline
+Real32 &MaterialChunkBase::getBackShininess(void)
+{
+    return _sfBackShininess.getValue();
+}
+#endif
+
 //! Set the value of the MaterialChunk::_sfBackShininess field.
 inline
 void MaterialChunkBase::setBackShininess(const Real32 &value)
@@ -470,7 +811,7 @@ void MaterialChunkBase::setBackShininess(const Real32 &value)
 
 //! Get the value of the MaterialChunk::_sfBackColorMaterial field.
 inline
-GLenum &MaterialChunkBase::getBackColorMaterial(void)
+GLenum &MaterialChunkBase::editBackColorMaterial(void)
 {
     return _sfBackColorMaterial.getValue();
 }
@@ -481,6 +822,15 @@ const GLenum &MaterialChunkBase::getBackColorMaterial(void) const
 {
     return _sfBackColorMaterial.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialChunk::_sfBackColorMaterial field.
+inline
+GLenum &MaterialChunkBase::getBackColorMaterial(void)
+{
+    return _sfBackColorMaterial.getValue();
+}
+#endif
 
 //! Set the value of the MaterialChunk::_sfBackColorMaterial field.
 inline

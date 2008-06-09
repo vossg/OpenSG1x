@@ -98,29 +98,77 @@ DVRClipObjectsPtr DVRClipObjectsBase::createEmpty(void)
 
 //! Get the DVRClipObjects::_mfClipObjects field.
 inline
-MFDVRClipGeometryPtr *DVRClipObjectsBase::getMFClipObjects(void)
+const MFDVRClipGeometryPtr *DVRClipObjectsBase::getMFClipObjects(void) const
 {
     return &_mfClipObjects;
 }
 
+//! Get the DVRClipObjects::_mfClipObjects field.
+inline
+MFDVRClipGeometryPtr *DVRClipObjectsBase::editMFClipObjects(void)
+{
+    return &_mfClipObjects;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DVRClipObjects::_mfClipObjects field.
+inline
+MFDVRClipGeometryPtr *DVRClipObjectsBase::getMFClipObjects(void)
+{
+    return &_mfClipObjects;
+}
+#endif
+
+//! Get the DVRClipObjects::_sfClipMode field.
+inline
+const SFInt32 *DVRClipObjectsBase::getSFClipMode(void) const
+{
+    return &_sfClipMode;
+}
+
+//! Get the DVRClipObjects::_sfClipMode field.
+inline
+SFInt32 *DVRClipObjectsBase::editSFClipMode(void)
+{
+    return &_sfClipMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRClipObjects::_sfClipMode field.
 inline
 SFInt32 *DVRClipObjectsBase::getSFClipMode(void)
 {
     return &_sfClipMode;
 }
+#endif
 
+//! Get the DVRClipObjects::_sfDoContours field.
+inline
+const SFBool *DVRClipObjectsBase::getSFDoContours(void) const
+{
+    return &_sfDoContours;
+}
+
+//! Get the DVRClipObjects::_sfDoContours field.
+inline
+SFBool *DVRClipObjectsBase::editSFDoContours(void)
+{
+    return &_sfDoContours;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRClipObjects::_sfDoContours field.
 inline
 SFBool *DVRClipObjectsBase::getSFDoContours(void)
 {
     return &_sfDoContours;
 }
+#endif
 
 
 //! Get the value of the DVRClipObjects::_sfClipMode field.
 inline
-Int32 &DVRClipObjectsBase::getClipMode(void)
+Int32 &DVRClipObjectsBase::editClipMode(void)
 {
     return _sfClipMode.getValue();
 }
@@ -132,6 +180,15 @@ const Int32 &DVRClipObjectsBase::getClipMode(void) const
     return _sfClipMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRClipObjects::_sfClipMode field.
+inline
+Int32 &DVRClipObjectsBase::getClipMode(void)
+{
+    return _sfClipMode.getValue();
+}
+#endif
+
 //! Set the value of the DVRClipObjects::_sfClipMode field.
 inline
 void DVRClipObjectsBase::setClipMode(const Int32 &value)
@@ -141,7 +198,7 @@ void DVRClipObjectsBase::setClipMode(const Int32 &value)
 
 //! Get the value of the DVRClipObjects::_sfDoContours field.
 inline
-bool &DVRClipObjectsBase::getDoContours(void)
+bool &DVRClipObjectsBase::editDoContours(void)
 {
     return _sfDoContours.getValue();
 }
@@ -153,6 +210,15 @@ const bool &DVRClipObjectsBase::getDoContours(void) const
     return _sfDoContours.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRClipObjects::_sfDoContours field.
+inline
+bool &DVRClipObjectsBase::getDoContours(void)
+{
+    return _sfDoContours.getValue();
+}
+#endif
+
 //! Set the value of the DVRClipObjects::_sfDoContours field.
 inline
 void DVRClipObjectsBase::setDoContours(const bool &value)
@@ -161,6 +227,21 @@ void DVRClipObjectsBase::setDoContours(const bool &value)
 }
 
 
+//! Get the value of the \a index element the DVRClipObjects::_mfClipObjects field.
+inline
+DVRClipGeometryPtr &DVRClipObjectsBase::editClipObjects(const UInt32 index)
+{
+    return _mfClipObjects[index];
+}
+
+//! Get the value of the \a index element the DVRClipObjects::_mfClipObjects field.
+inline
+const DVRClipGeometryPtr &DVRClipObjectsBase::getClipObjects(const UInt32 index) const
+{
+    return _mfClipObjects[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the DVRClipObjects::_mfClipObjects field.
 inline
 DVRClipGeometryPtr &DVRClipObjectsBase::getClipObjects(const UInt32 index)
@@ -175,12 +256,7 @@ MFDVRClipGeometryPtr &DVRClipObjectsBase::getClipObjects(void)
     return _mfClipObjects;
 }
 
-//! Get the DVRClipObjects::_mfClipObjects field.
-inline
-const MFDVRClipGeometryPtr &DVRClipObjectsBase::getClipObjects(void) const
-{
-    return _mfClipObjects;
-}
+#endif
 
 OSG_END_NAMESPACE
 

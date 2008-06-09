@@ -128,13 +128,32 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRClipObjectsBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFInt32             *getSFClipMode       (void);
-           SFBool              *getSFDoContours     (void);
 
-           Int32               &getClipMode       (void);
+           SFInt32             *editSFClipMode       (void);
+     const SFInt32             *getSFClipMode       (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFClipMode       (void);
+#endif
+
+           SFBool              *editSFDoContours     (void);
+     const SFBool              *getSFDoContours     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDoContours     (void);
+#endif
+
+
+           Int32               &editClipMode       (void);
      const Int32               &getClipMode       (void) const;
-           bool                &getDoContours     (void);
+#ifndef OSG_2_PREP
+           Int32               &getClipMode       (void);
+#endif
+
+           bool                &editDoContours     (void);
      const bool                &getDoContours     (void) const;
+#ifndef OSG_2_PREP
+           bool                &getDoContours     (void);
+#endif
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -209,11 +228,18 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRClipObjectsBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           MFDVRClipGeometryPtr *editMFClipObjects    (void);
+     const MFDVRClipGeometryPtr *getMFClipObjects    (void) const;
+#ifndef OSG_2_PREP
            MFDVRClipGeometryPtr *getMFClipObjects    (void);
+#endif
 
+           DVRClipGeometryPtr  &editClipObjects    (UInt32 index);
+     const DVRClipGeometryPtr  &getClipObjects    (UInt32 index) const;
+#ifndef OSG_2_PREP
            DVRClipGeometryPtr  &getClipObjects    (UInt32 index);
            MFDVRClipGeometryPtr &getClipObjects    (void);
-     const MFDVRClipGeometryPtr &getClipObjects    (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

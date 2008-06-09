@@ -104,22 +104,22 @@ FieldDescription *OffsetCameraDecoratorBase::_desc[] =
                      "offsetX", 
                      OffsetXFieldId, OffsetXFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::getSFOffsetX)),
+                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::editSFOffsetX)),
     new FieldDescription(SFReal32::getClassType(), 
                      "offsetY", 
                      OffsetYFieldId, OffsetYFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::getSFOffsetY)),
+                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::editSFOffsetY)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fullWidth", 
                      FullWidthFieldId, FullWidthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::getSFFullWidth)),
+                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::editSFFullWidth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fullHeight", 
                      FullHeightFieldId, FullHeightFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::getSFFullHeight))
+                     reinterpret_cast<FieldAccessMethod>(&OffsetCameraDecoratorBase::editSFFullHeight))
 };
 
 
@@ -393,7 +393,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(OffsetCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffsetCameraDecoratorBase.cpp,v 1.2 2008/06/05 05:02:30 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffsetCameraDecoratorBase.cpp,v 1.3 2008/06/09 07:31:55 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFSETCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFSETCAMERADECORATORBASE_INLINE_CVSID;
 

@@ -184,15 +184,29 @@ class OSG_SYSTEMLIB_DLLMAPPING FCPtrAttributeMapBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           MFString            *editMFKeys           (void);
+     const MFString            *getMFKeys           (void) const;
+#ifndef OSG_2_PREP
            MFString            *getMFKeys           (void);
+#endif
+           MFFieldContainerPtr *editMFValues         (void);
+     const MFFieldContainerPtr *getMFValues         (void) const;
+#ifndef OSG_2_PREP
            MFFieldContainerPtr *getMFValues         (void);
+#endif
 
+           std::string         &editKeys           (UInt32 index);
+     const std::string         &getKeys           (UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getKeys           (UInt32 index);
            MFString            &getKeys           (void);
-     const MFString            &getKeys           (void) const;
+#endif
+           FieldContainerPtr   &editValues         (UInt32 index);
+     const FieldContainerPtr   &getValues         (UInt32 index) const;
+#ifndef OSG_2_PREP
            FieldContainerPtr   &getValues         (UInt32 index);
            MFFieldContainerPtr &getValues         (void);
-     const MFFieldContainerPtr &getValues         (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -261,6 +275,6 @@ typedef RefPtr<FCPtrAttributeMapPtr> FCPtrAttributeMapRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFCPTRATTRIBUTEMAPBASE_HEADER_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.h,v 1.3 2008/06/05 05:02:25 vossg Exp $"
+#define OSGFCPTRATTRIBUTEMAPBASE_HEADER_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.h,v 1.4 2008/06/09 07:31:47 vossg Exp $"
 
 #endif /* _OSGFCPTRATTRIBUTEMAPBASE_H_ */

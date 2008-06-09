@@ -128,42 +128,42 @@ FieldDescription *SkinDeformerBase::_desc[] =
                      "influences", 
                      InfluencesFieldId, InfluencesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFInfluences)),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::editMFInfluences)),
     new FieldDescription(MFMatrix::getClassType(), 
                      "baseMatrices", 
                      BaseMatricesFieldId, BaseMatricesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFBaseMatrices)),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::editMFBaseMatrices)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "vertexIndices", 
                      VertexIndicesFieldId, VertexIndicesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFVertexIndices)),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::editMFVertexIndices)),
     new FieldDescription(MFUInt16::getClassType(), 
                      "influenceIndices", 
                      InfluenceIndicesFieldId, InfluenceIndicesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFInfluenceIndices)),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::editMFInfluenceIndices)),
     new FieldDescription(MFReal32::getClassType(), 
                      "influenceWeights", 
                      InfluenceWeightsFieldId, InfluenceWeightsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFInfluenceWeights)),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::editMFInfluenceWeights)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "normalIndices", 
                      NormalIndicesFieldId, NormalIndicesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFNormalIndices)),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::editMFNormalIndices)),
     new FieldDescription(MFUInt16::getClassType(), 
                      "normalInfluenceIndices", 
                      NormalInfluenceIndicesFieldId, NormalInfluenceIndicesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFNormalInfluenceIndices)),
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::editMFNormalInfluenceIndices)),
     new FieldDescription(MFReal32::getClassType(), 
                      "normalInfluenceWeights", 
                      NormalInfluenceWeightsFieldId, NormalInfluenceWeightsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::getMFNormalInfluenceWeights))
+                     reinterpret_cast<FieldAccessMethod>(&SkinDeformerBase::editMFNormalInfluenceWeights))
 };
 
 
@@ -561,7 +561,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SkinDeformerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSKINDEFORMERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSKINDEFORMERBASE_INLINE_CVSID;
 

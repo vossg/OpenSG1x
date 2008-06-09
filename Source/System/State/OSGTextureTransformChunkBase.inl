@@ -98,15 +98,31 @@ TextureTransformChunkPtr TextureTransformChunkBase::createEmpty(void)
 
 //! Get the TextureTransformChunk::_sfUseCameraBeacon field.
 inline
-SFBool *TextureTransformChunkBase::getSFUseCameraBeacon(void)
+const SFBool *TextureTransformChunkBase::getSFUseCameraBeacon(void) const
 {
     return &_sfUseCameraBeacon;
 }
 
+//! Get the TextureTransformChunk::_sfUseCameraBeacon field.
+inline
+SFBool *TextureTransformChunkBase::editSFUseCameraBeacon(void)
+{
+    return &_sfUseCameraBeacon;
+}
+
+#ifndef OSG_2_PREP
+//! Get the TextureTransformChunk::_sfUseCameraBeacon field.
+inline
+SFBool *TextureTransformChunkBase::getSFUseCameraBeacon(void)
+{
+    return &_sfUseCameraBeacon;
+}
+#endif
+
 
 //! Get the value of the TextureTransformChunk::_sfUseCameraBeacon field.
 inline
-bool &TextureTransformChunkBase::getUseCameraBeacon(void)
+bool &TextureTransformChunkBase::editUseCameraBeacon(void)
 {
     return _sfUseCameraBeacon.getValue();
 }
@@ -117,6 +133,15 @@ const bool &TextureTransformChunkBase::getUseCameraBeacon(void) const
 {
     return _sfUseCameraBeacon.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the TextureTransformChunk::_sfUseCameraBeacon field.
+inline
+bool &TextureTransformChunkBase::getUseCameraBeacon(void)
+{
+    return _sfUseCameraBeacon.getValue();
+}
+#endif
 
 //! Set the value of the TextureTransformChunk::_sfUseCameraBeacon field.
 inline

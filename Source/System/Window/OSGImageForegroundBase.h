@@ -125,15 +125,33 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFImagePtr          *getMFImages         (void);
-           MFPnt2f             *getMFPositions      (void);
 
+           MFImagePtr          *editMFImages         (void);
+     const MFImagePtr          *getMFImages         (void) const;
+#ifndef OSG_2_PREP
+           MFImagePtr          *getMFImages         (void);
+#endif
+
+           MFPnt2f             *editMFPositions      (void);
+     const MFPnt2f             *getMFPositions      (void) const;
+#ifndef OSG_2_PREP
+           MFPnt2f             *getMFPositions      (void);
+#endif
+
+
+           ImagePtr            &editImages         (const UInt32 index);
+     const ImagePtr            &getImages         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            ImagePtr            &getImages         (const UInt32 index);
            MFImagePtr          &getImages         (void);
-     const MFImagePtr          &getImages         (void) const;
+#endif
+
+           Pnt2f               &editPositions      (const UInt32 index);
+     const Pnt2f               &getPositions      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Pnt2f               &getPositions      (const UInt32 index);
            MFPnt2f             &getPositions      (void);
-     const MFPnt2f             &getPositions      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

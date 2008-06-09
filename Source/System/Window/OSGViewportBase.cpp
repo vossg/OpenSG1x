@@ -146,57 +146,57 @@ FieldDescription *ViewportBase::_desc[] =
                      "left", 
                      LeftFieldId, LeftFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFLeft)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFLeft)),
     new FieldDescription(SFReal32::getClassType(), 
                      "right", 
                      RightFieldId, RightFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFRight)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFRight)),
     new FieldDescription(SFReal32::getClassType(), 
                      "bottom", 
                      BottomFieldId, BottomFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFBottom)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFBottom)),
     new FieldDescription(SFReal32::getClassType(), 
                      "top", 
                      TopFieldId, TopFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFTop)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFTop)),
     new FieldDescription(SFWindowPtr::getClassType(), 
                      "parent", 
                      ParentFieldId, ParentFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFParent)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFParent)),
     new FieldDescription(SFCameraPtr::getClassType(), 
                      "camera", 
                      CameraFieldId, CameraFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFCamera)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFCamera)),
     new FieldDescription(SFNodePtr::getClassType(), 
                      "root", 
                      RootFieldId, RootFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFRoot)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFRoot)),
     new FieldDescription(SFBackgroundPtr::getClassType(), 
                      "background", 
                      BackgroundFieldId, BackgroundFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFBackground)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFBackground)),
     new FieldDescription(MFForegroundPtr::getClassType(), 
                      "foregrounds", 
                      ForegroundsFieldId, ForegroundsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getMFForegrounds)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editMFForegrounds)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "travMask", 
                      TravMaskFieldId, TravMaskFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFTravMask)),
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFTravMask)),
     new FieldDescription(SFReal32::getClassType(), 
                      "drawTime", 
                      DrawTimeFieldId, DrawTimeFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::getSFDrawTime))
+                     reinterpret_cast<FieldAccessMethod>(&ViewportBase::editSFDrawTime))
 };
 
 
@@ -635,7 +635,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGVIEWPORTBASE_INLINE_CVSID;
 

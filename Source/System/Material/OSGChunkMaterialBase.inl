@@ -98,20 +98,67 @@ ChunkMaterialPtr ChunkMaterialBase::createEmpty(void)
 
 //! Get the ChunkMaterial::_mfChunks field.
 inline
-MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
+const MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void) const
 {
     return &_mfChunks;
 }
 
+//! Get the ChunkMaterial::_mfChunks field.
+inline
+MFStateChunkPtr *ChunkMaterialBase::editMFChunks(void)
+{
+    return &_mfChunks;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ChunkMaterial::_mfChunks field.
+inline
+MFStateChunkPtr *ChunkMaterialBase::getMFChunks(void)
+{
+    return &_mfChunks;
+}
+#endif
+
+//! Get the ChunkMaterial::_mfSlots field.
+inline
+const MFInt32 *ChunkMaterialBase::getMFSlots(void) const
+{
+    return &_mfSlots;
+}
+
+//! Get the ChunkMaterial::_mfSlots field.
+inline
+MFInt32 *ChunkMaterialBase::editMFSlots(void)
+{
+    return &_mfSlots;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ChunkMaterial::_mfSlots field.
 inline
 MFInt32 *ChunkMaterialBase::getMFSlots(void)
 {
     return &_mfSlots;
 }
+#endif
 
 
 
+//! Get the value of the \a index element the ChunkMaterial::_mfChunks field.
+inline
+StateChunkPtr &ChunkMaterialBase::editChunks(const UInt32 index)
+{
+    return _mfChunks[index];
+}
+
+//! Get the value of the \a index element the ChunkMaterial::_mfChunks field.
+inline
+const StateChunkPtr &ChunkMaterialBase::getChunks(const UInt32 index) const
+{
+    return _mfChunks[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ChunkMaterial::_mfChunks field.
 inline
 StateChunkPtr &ChunkMaterialBase::getChunks(const UInt32 index)
@@ -126,13 +173,23 @@ MFStateChunkPtr &ChunkMaterialBase::getChunks(void)
     return _mfChunks;
 }
 
-//! Get the ChunkMaterial::_mfChunks field.
+#endif
+
+//! Get the value of the \a index element the ChunkMaterial::_mfSlots field.
 inline
-const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
+Int32 &ChunkMaterialBase::editSlots(const UInt32 index)
 {
-    return _mfChunks;
+    return _mfSlots[index];
 }
 
+//! Get the value of the \a index element the ChunkMaterial::_mfSlots field.
+inline
+const Int32 &ChunkMaterialBase::getSlots(const UInt32 index) const
+{
+    return _mfSlots[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ChunkMaterial::_mfSlots field.
 inline
 Int32 &ChunkMaterialBase::getSlots(const UInt32 index)
@@ -147,12 +204,7 @@ MFInt32 &ChunkMaterialBase::getSlots(void)
     return _mfSlots;
 }
 
-//! Get the ChunkMaterial::_mfSlots field.
-inline
-const MFInt32 &ChunkMaterialBase::getSlots(void) const
-{
-    return _mfSlots;
-}
+#endif
 
 OSG_END_NAMESPACE
 

@@ -155,41 +155,141 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFEnabled        (void);
-           SFString            *getSFUrl            (void);
-           SFNodePtr           *getSFRoot           (void);
-           SFUInt32            *getSFState          (void);
-           SFBool              *getSFConcurrentLoad (void);
-           SFDynamicVolume     *getSFVolume         (void);
-           SFUInt32            *getSFIndices        (void);
-           SFUInt32            *getSFTriangles      (void);
-           SFUInt32            *getSFPositions      (void);
-           SFUInt32            *getSFGeometries     (void);
-           MFUInt8             *getMFInline         (void);
 
-           bool                &getEnabled        (void);
+           SFBool              *editSFEnabled        (void);
+     const SFBool              *getSFEnabled        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnabled        (void);
+#endif
+
+           SFString            *editSFUrl            (void);
+     const SFString            *getSFUrl            (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFUrl            (void);
+#endif
+
+           SFNodePtr           *editSFRoot           (void);
+     const SFNodePtr           *getSFRoot           (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFRoot           (void);
+#endif
+
+           SFUInt32            *editSFState          (void);
+     const SFUInt32            *getSFState          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFState          (void);
+#endif
+
+           SFBool              *editSFConcurrentLoad (void);
+     const SFBool              *getSFConcurrentLoad (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFConcurrentLoad (void);
+#endif
+
+           SFDynamicVolume     *editSFVolume         (void);
+     const SFDynamicVolume     *getSFVolume         (void) const;
+#ifndef OSG_2_PREP
+           SFDynamicVolume     *getSFVolume         (void);
+#endif
+
+           SFUInt32            *editSFIndices        (void);
+     const SFUInt32            *getSFIndices        (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFIndices        (void);
+#endif
+
+           SFUInt32            *editSFTriangles      (void);
+     const SFUInt32            *getSFTriangles      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFTriangles      (void);
+#endif
+
+           SFUInt32            *editSFPositions      (void);
+     const SFUInt32            *getSFPositions      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFPositions      (void);
+#endif
+
+           SFUInt32            *editSFGeometries     (void);
+     const SFUInt32            *getSFGeometries     (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFGeometries     (void);
+#endif
+
+           MFUInt8             *editMFInline         (void);
+     const MFUInt8             *getMFInline         (void) const;
+#ifndef OSG_2_PREP
+           MFUInt8             *getMFInline         (void);
+#endif
+
+
+           bool                &editEnabled        (void);
      const bool                &getEnabled        (void) const;
-           std::string         &getUrl            (void);
+#ifndef OSG_2_PREP
+           bool                &getEnabled        (void);
+#endif
+
+           std::string         &editUrl            (void);
      const std::string         &getUrl            (void) const;
-           NodePtr             &getRoot           (void);
+#ifndef OSG_2_PREP
+           std::string         &getUrl            (void);
+#endif
+
+           NodePtr             &editRoot           (void);
      const NodePtr             &getRoot           (void) const;
-           UInt32              &getState          (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getRoot           (void);
+#endif
+
+           UInt32              &editState          (void);
      const UInt32              &getState          (void) const;
-           bool                &getConcurrentLoad (void);
+#ifndef OSG_2_PREP
+           UInt32              &getState          (void);
+#endif
+
+           bool                &editConcurrentLoad (void);
      const bool                &getConcurrentLoad (void) const;
-           DynamicVolume       &getVolume         (void);
+#ifndef OSG_2_PREP
+           bool                &getConcurrentLoad (void);
+#endif
+
+           DynamicVolume       &editVolume         (void);
      const DynamicVolume       &getVolume         (void) const;
-           UInt32              &getIndices        (void);
+#ifndef OSG_2_PREP
+           DynamicVolume       &getVolume         (void);
+#endif
+
+           UInt32              &editIndices        (void);
      const UInt32              &getIndices        (void) const;
-           UInt32              &getTriangles      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getIndices        (void);
+#endif
+
+           UInt32              &editTriangles      (void);
      const UInt32              &getTriangles      (void) const;
-           UInt32              &getPositions      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getTriangles      (void);
+#endif
+
+           UInt32              &editPositions      (void);
      const UInt32              &getPositions      (void) const;
-           UInt32              &getGeometries     (void);
+#ifndef OSG_2_PREP
+           UInt32              &getPositions      (void);
+#endif
+
+           UInt32              &editGeometries     (void);
      const UInt32              &getGeometries     (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getGeometries     (void);
+#endif
+
+
+           UInt8               &editInline         (const UInt32 index);
+     const UInt8               &getInline         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt8               &getInline         (const UInt32 index);
            MFUInt8             &getInline         (void);
-     const MFUInt8             &getInline         (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -281,10 +381,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroupBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFString            *editSFAbsoluteUrl    (void);
+     const SFString            *getSFAbsoluteUrl    (void) const;
+#ifndef OSG_2_PREP
            SFString            *getSFAbsoluteUrl    (void);
+#endif
 
-           std::string         &getAbsoluteUrl    (void);
+           std::string         &editAbsoluteUrl    (void);
      const std::string         &getAbsoluteUrl    (void) const;
+#ifndef OSG_2_PREP
+           std::string         &getAbsoluteUrl    (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

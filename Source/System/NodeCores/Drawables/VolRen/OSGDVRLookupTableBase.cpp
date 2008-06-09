@@ -134,47 +134,47 @@ FieldDescription *DVRLookupTableBase::_desc[] =
                      "dimension", 
                      DimensionFieldId, DimensionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getSFDimension)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editSFDimension)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "size", 
                      SizeFieldId, SizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFSize)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editMFSize)),
     new FieldDescription(SFUInt8::getClassType(), 
                      "channel", 
                      ChannelFieldId, ChannelFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getSFChannel)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editSFChannel)),
     new FieldDescription(MFUInt8::getClassType(), 
                      "data", 
                      DataFieldId, DataFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFData)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editMFData)),
     new FieldDescription(MFReal32::getClassType(), 
                      "dataR", 
                      DataRFieldId, DataRFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFDataR)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editMFDataR)),
     new FieldDescription(MFReal32::getClassType(), 
                      "dataG", 
                      DataGFieldId, DataGFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFDataG)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editMFDataG)),
     new FieldDescription(MFReal32::getClassType(), 
                      "dataB", 
                      DataBFieldId, DataBFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFDataB)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editMFDataB)),
     new FieldDescription(MFReal32::getClassType(), 
                      "dataA", 
                      DataAFieldId, DataAFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getMFDataA)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editMFDataA)),
     new FieldDescription(SFBool::getClassType(), 
                      "touched", 
                      TouchedFieldId, TouchedFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::getSFTouched))
+                     reinterpret_cast<FieldAccessMethod>(&DVRLookupTableBase::editSFTouched))
 };
 
 
@@ -578,7 +578,7 @@ DataType FieldDataTraits<DVRLookupTablePtr>::_type("DVRLookupTablePtr", "Attachm
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRLOOKUPTABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRLOOKUPTABLEBASE_INLINE_CVSID;
 

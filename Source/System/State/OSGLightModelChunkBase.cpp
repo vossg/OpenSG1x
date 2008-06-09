@@ -99,17 +99,17 @@ FieldDescription *LightModelChunkBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::getSFAmbient)),
+                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::editSFAmbient)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "colorControl", 
                      ColorControlFieldId, ColorControlFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::getSFColorControl)),
+                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::editSFColorControl)),
     new FieldDescription(SFBool::getClassType(), 
                      "localViewer", 
                      LocalViewerFieldId, LocalViewerFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::getSFLocalViewer))
+                     reinterpret_cast<FieldAccessMethod>(&LightModelChunkBase::editSFLocalViewer))
 };
 
 
@@ -360,7 +360,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(LightModelChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightModelChunkBase.cpp,v 1.4 2008/06/05 05:02:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLightModelChunkBase.cpp,v 1.5 2008/06/09 07:31:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTMODELCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTMODELCHUNKBASE_INLINE_CVSID;
 

@@ -98,29 +98,77 @@ ParallelComposerPtr ParallelComposerBase::createEmpty(void)
 
 //! Get the ParallelComposer::_sfShort field.
 inline
-SFBool *ParallelComposerBase::getSFShort(void)
+const SFBool *ParallelComposerBase::getSFShort(void) const
 {
     return &_sfShort;
 }
 
+//! Get the ParallelComposer::_sfShort field.
+inline
+SFBool *ParallelComposerBase::editSFShort(void)
+{
+    return &_sfShort;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ParallelComposer::_sfShort field.
+inline
+SFBool *ParallelComposerBase::getSFShort(void)
+{
+    return &_sfShort;
+}
+#endif
+
+//! Get the ParallelComposer::_sfAlpha field.
+inline
+const SFBool *ParallelComposerBase::getSFAlpha(void) const
+{
+    return &_sfAlpha;
+}
+
+//! Get the ParallelComposer::_sfAlpha field.
+inline
+SFBool *ParallelComposerBase::editSFAlpha(void)
+{
+    return &_sfAlpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ParallelComposer::_sfAlpha field.
 inline
 SFBool *ParallelComposerBase::getSFAlpha(void)
 {
     return &_sfAlpha;
 }
+#endif
 
+//! Get the ParallelComposer::_sfPcLibPath field.
+inline
+const SFString *ParallelComposerBase::getSFPcLibPath(void) const
+{
+    return &_sfPcLibPath;
+}
+
+//! Get the ParallelComposer::_sfPcLibPath field.
+inline
+SFString *ParallelComposerBase::editSFPcLibPath(void)
+{
+    return &_sfPcLibPath;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ParallelComposer::_sfPcLibPath field.
 inline
 SFString *ParallelComposerBase::getSFPcLibPath(void)
 {
     return &_sfPcLibPath;
 }
+#endif
 
 
 //! Get the value of the ParallelComposer::_sfShort field.
 inline
-bool &ParallelComposerBase::getShort(void)
+bool &ParallelComposerBase::editShort(void)
 {
     return _sfShort.getValue();
 }
@@ -132,6 +180,15 @@ const bool &ParallelComposerBase::getShort(void) const
     return _sfShort.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ParallelComposer::_sfShort field.
+inline
+bool &ParallelComposerBase::getShort(void)
+{
+    return _sfShort.getValue();
+}
+#endif
+
 //! Set the value of the ParallelComposer::_sfShort field.
 inline
 void ParallelComposerBase::setShort(const bool &value)
@@ -141,7 +198,7 @@ void ParallelComposerBase::setShort(const bool &value)
 
 //! Get the value of the ParallelComposer::_sfAlpha field.
 inline
-bool &ParallelComposerBase::getAlpha(void)
+bool &ParallelComposerBase::editAlpha(void)
 {
     return _sfAlpha.getValue();
 }
@@ -153,6 +210,15 @@ const bool &ParallelComposerBase::getAlpha(void) const
     return _sfAlpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ParallelComposer::_sfAlpha field.
+inline
+bool &ParallelComposerBase::getAlpha(void)
+{
+    return _sfAlpha.getValue();
+}
+#endif
+
 //! Set the value of the ParallelComposer::_sfAlpha field.
 inline
 void ParallelComposerBase::setAlpha(const bool &value)
@@ -162,7 +228,7 @@ void ParallelComposerBase::setAlpha(const bool &value)
 
 //! Get the value of the ParallelComposer::_sfPcLibPath field.
 inline
-std::string &ParallelComposerBase::getPcLibPath(void)
+std::string &ParallelComposerBase::editPcLibPath(void)
 {
     return _sfPcLibPath.getValue();
 }
@@ -174,6 +240,15 @@ const std::string &ParallelComposerBase::getPcLibPath(void) const
     return _sfPcLibPath.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ParallelComposer::_sfPcLibPath field.
+inline
+std::string &ParallelComposerBase::getPcLibPath(void)
+{
+    return _sfPcLibPath.getValue();
+}
+#endif
+
 //! Set the value of the ParallelComposer::_sfPcLibPath field.
 inline
 void ParallelComposerBase::setPcLibPath(const std::string &value)
@@ -184,5 +259,5 @@ void ParallelComposerBase::setPcLibPath(const std::string &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPARALLELCOMPOSERBASE_INLINE_CVSID "@(#)$Id: OSGParallelComposerBase.inl,v 1.2 2008/06/05 05:02:25 vossg Exp $"
+#define OSGPARALLELCOMPOSERBASE_INLINE_CVSID "@(#)$Id: OSGParallelComposerBase.inl,v 1.3 2008/06/09 07:31:47 vossg Exp $"
 

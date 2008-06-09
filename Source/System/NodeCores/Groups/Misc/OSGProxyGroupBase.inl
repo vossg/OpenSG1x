@@ -98,92 +98,284 @@ ProxyGroupPtr ProxyGroupBase::createEmpty(void)
 
 //! Get the ProxyGroup::_sfEnabled field.
 inline
-SFBool *ProxyGroupBase::getSFEnabled(void)
+const SFBool *ProxyGroupBase::getSFEnabled(void) const
 {
     return &_sfEnabled;
 }
 
+//! Get the ProxyGroup::_sfEnabled field.
+inline
+SFBool *ProxyGroupBase::editSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ProxyGroup::_sfEnabled field.
+inline
+SFBool *ProxyGroupBase::getSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+#endif
+
+//! Get the ProxyGroup::_sfUrl field.
+inline
+const SFString *ProxyGroupBase::getSFUrl(void) const
+{
+    return &_sfUrl;
+}
+
+//! Get the ProxyGroup::_sfUrl field.
+inline
+SFString *ProxyGroupBase::editSFUrl(void)
+{
+    return &_sfUrl;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfUrl field.
 inline
 SFString *ProxyGroupBase::getSFUrl(void)
 {
     return &_sfUrl;
 }
+#endif
 
+//! Get the ProxyGroup::_sfRoot field.
+inline
+const SFNodePtr *ProxyGroupBase::getSFRoot(void) const
+{
+    return &_sfRoot;
+}
+
+//! Get the ProxyGroup::_sfRoot field.
+inline
+SFNodePtr *ProxyGroupBase::editSFRoot(void)
+{
+    return &_sfRoot;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfRoot field.
 inline
 SFNodePtr *ProxyGroupBase::getSFRoot(void)
 {
     return &_sfRoot;
 }
+#endif
 
+//! Get the ProxyGroup::_sfState field.
+inline
+const SFUInt32 *ProxyGroupBase::getSFState(void) const
+{
+    return &_sfState;
+}
+
+//! Get the ProxyGroup::_sfState field.
+inline
+SFUInt32 *ProxyGroupBase::editSFState(void)
+{
+    return &_sfState;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfState field.
 inline
 SFUInt32 *ProxyGroupBase::getSFState(void)
 {
     return &_sfState;
 }
+#endif
 
+//! Get the ProxyGroup::_sfConcurrentLoad field.
+inline
+const SFBool *ProxyGroupBase::getSFConcurrentLoad(void) const
+{
+    return &_sfConcurrentLoad;
+}
+
+//! Get the ProxyGroup::_sfConcurrentLoad field.
+inline
+SFBool *ProxyGroupBase::editSFConcurrentLoad(void)
+{
+    return &_sfConcurrentLoad;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfConcurrentLoad field.
 inline
 SFBool *ProxyGroupBase::getSFConcurrentLoad(void)
 {
     return &_sfConcurrentLoad;
 }
+#endif
 
+//! Get the ProxyGroup::_sfVolume field.
+inline
+const SFDynamicVolume *ProxyGroupBase::getSFVolume(void) const
+{
+    return &_sfVolume;
+}
+
+//! Get the ProxyGroup::_sfVolume field.
+inline
+SFDynamicVolume *ProxyGroupBase::editSFVolume(void)
+{
+    return &_sfVolume;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfVolume field.
 inline
 SFDynamicVolume *ProxyGroupBase::getSFVolume(void)
 {
     return &_sfVolume;
 }
+#endif
 
+//! Get the ProxyGroup::_sfIndices field.
+inline
+const SFUInt32 *ProxyGroupBase::getSFIndices(void) const
+{
+    return &_sfIndices;
+}
+
+//! Get the ProxyGroup::_sfIndices field.
+inline
+SFUInt32 *ProxyGroupBase::editSFIndices(void)
+{
+    return &_sfIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfIndices field.
 inline
 SFUInt32 *ProxyGroupBase::getSFIndices(void)
 {
     return &_sfIndices;
 }
+#endif
 
+//! Get the ProxyGroup::_sfTriangles field.
+inline
+const SFUInt32 *ProxyGroupBase::getSFTriangles(void) const
+{
+    return &_sfTriangles;
+}
+
+//! Get the ProxyGroup::_sfTriangles field.
+inline
+SFUInt32 *ProxyGroupBase::editSFTriangles(void)
+{
+    return &_sfTriangles;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfTriangles field.
 inline
 SFUInt32 *ProxyGroupBase::getSFTriangles(void)
 {
     return &_sfTriangles;
 }
+#endif
 
+//! Get the ProxyGroup::_sfPositions field.
+inline
+const SFUInt32 *ProxyGroupBase::getSFPositions(void) const
+{
+    return &_sfPositions;
+}
+
+//! Get the ProxyGroup::_sfPositions field.
+inline
+SFUInt32 *ProxyGroupBase::editSFPositions(void)
+{
+    return &_sfPositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfPositions field.
 inline
 SFUInt32 *ProxyGroupBase::getSFPositions(void)
 {
     return &_sfPositions;
 }
+#endif
 
+//! Get the ProxyGroup::_sfGeometries field.
+inline
+const SFUInt32 *ProxyGroupBase::getSFGeometries(void) const
+{
+    return &_sfGeometries;
+}
+
+//! Get the ProxyGroup::_sfGeometries field.
+inline
+SFUInt32 *ProxyGroupBase::editSFGeometries(void)
+{
+    return &_sfGeometries;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfGeometries field.
 inline
 SFUInt32 *ProxyGroupBase::getSFGeometries(void)
 {
     return &_sfGeometries;
 }
+#endif
 
+//! Get the ProxyGroup::_sfAbsoluteUrl field.
+inline
+const SFString *ProxyGroupBase::getSFAbsoluteUrl(void) const
+{
+    return &_sfAbsoluteUrl;
+}
+
+//! Get the ProxyGroup::_sfAbsoluteUrl field.
+inline
+SFString *ProxyGroupBase::editSFAbsoluteUrl(void)
+{
+    return &_sfAbsoluteUrl;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_sfAbsoluteUrl field.
 inline
 SFString *ProxyGroupBase::getSFAbsoluteUrl(void)
 {
     return &_sfAbsoluteUrl;
 }
+#endif
 
+//! Get the ProxyGroup::_mfInline field.
+inline
+const MFUInt8 *ProxyGroupBase::getMFInline(void) const
+{
+    return &_mfInline;
+}
+
+//! Get the ProxyGroup::_mfInline field.
+inline
+MFUInt8 *ProxyGroupBase::editMFInline(void)
+{
+    return &_mfInline;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProxyGroup::_mfInline field.
 inline
 MFUInt8 *ProxyGroupBase::getMFInline(void)
 {
     return &_mfInline;
 }
+#endif
 
 
 //! Get the value of the ProxyGroup::_sfEnabled field.
 inline
-bool &ProxyGroupBase::getEnabled(void)
+bool &ProxyGroupBase::editEnabled(void)
 {
     return _sfEnabled.getValue();
 }
@@ -195,6 +387,15 @@ const bool &ProxyGroupBase::getEnabled(void) const
     return _sfEnabled.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfEnabled field.
+inline
+bool &ProxyGroupBase::getEnabled(void)
+{
+    return _sfEnabled.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfEnabled field.
 inline
 void ProxyGroupBase::setEnabled(const bool &value)
@@ -204,7 +405,7 @@ void ProxyGroupBase::setEnabled(const bool &value)
 
 //! Get the value of the ProxyGroup::_sfUrl field.
 inline
-std::string &ProxyGroupBase::getUrl(void)
+std::string &ProxyGroupBase::editUrl(void)
 {
     return _sfUrl.getValue();
 }
@@ -216,6 +417,15 @@ const std::string &ProxyGroupBase::getUrl(void) const
     return _sfUrl.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfUrl field.
+inline
+std::string &ProxyGroupBase::getUrl(void)
+{
+    return _sfUrl.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfUrl field.
 inline
 void ProxyGroupBase::setUrl(const std::string &value)
@@ -225,7 +435,7 @@ void ProxyGroupBase::setUrl(const std::string &value)
 
 //! Get the value of the ProxyGroup::_sfRoot field.
 inline
-NodePtr &ProxyGroupBase::getRoot(void)
+NodePtr &ProxyGroupBase::editRoot(void)
 {
     return _sfRoot.getValue();
 }
@@ -237,6 +447,15 @@ const NodePtr &ProxyGroupBase::getRoot(void) const
     return _sfRoot.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfRoot field.
+inline
+NodePtr &ProxyGroupBase::getRoot(void)
+{
+    return _sfRoot.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfRoot field.
 inline
 void ProxyGroupBase::setRoot(const NodePtr &value)
@@ -246,7 +465,7 @@ void ProxyGroupBase::setRoot(const NodePtr &value)
 
 //! Get the value of the ProxyGroup::_sfState field.
 inline
-UInt32 &ProxyGroupBase::getState(void)
+UInt32 &ProxyGroupBase::editState(void)
 {
     return _sfState.getValue();
 }
@@ -258,6 +477,15 @@ const UInt32 &ProxyGroupBase::getState(void) const
     return _sfState.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfState field.
+inline
+UInt32 &ProxyGroupBase::getState(void)
+{
+    return _sfState.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfState field.
 inline
 void ProxyGroupBase::setState(const UInt32 &value)
@@ -267,7 +495,7 @@ void ProxyGroupBase::setState(const UInt32 &value)
 
 //! Get the value of the ProxyGroup::_sfConcurrentLoad field.
 inline
-bool &ProxyGroupBase::getConcurrentLoad(void)
+bool &ProxyGroupBase::editConcurrentLoad(void)
 {
     return _sfConcurrentLoad.getValue();
 }
@@ -279,6 +507,15 @@ const bool &ProxyGroupBase::getConcurrentLoad(void) const
     return _sfConcurrentLoad.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfConcurrentLoad field.
+inline
+bool &ProxyGroupBase::getConcurrentLoad(void)
+{
+    return _sfConcurrentLoad.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfConcurrentLoad field.
 inline
 void ProxyGroupBase::setConcurrentLoad(const bool &value)
@@ -288,7 +525,7 @@ void ProxyGroupBase::setConcurrentLoad(const bool &value)
 
 //! Get the value of the ProxyGroup::_sfVolume field.
 inline
-DynamicVolume &ProxyGroupBase::getVolume(void)
+DynamicVolume &ProxyGroupBase::editVolume(void)
 {
     return _sfVolume.getValue();
 }
@@ -300,6 +537,15 @@ const DynamicVolume &ProxyGroupBase::getVolume(void) const
     return _sfVolume.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfVolume field.
+inline
+DynamicVolume &ProxyGroupBase::getVolume(void)
+{
+    return _sfVolume.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfVolume field.
 inline
 void ProxyGroupBase::setVolume(const DynamicVolume &value)
@@ -309,7 +555,7 @@ void ProxyGroupBase::setVolume(const DynamicVolume &value)
 
 //! Get the value of the ProxyGroup::_sfIndices field.
 inline
-UInt32 &ProxyGroupBase::getIndices(void)
+UInt32 &ProxyGroupBase::editIndices(void)
 {
     return _sfIndices.getValue();
 }
@@ -321,6 +567,15 @@ const UInt32 &ProxyGroupBase::getIndices(void) const
     return _sfIndices.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfIndices field.
+inline
+UInt32 &ProxyGroupBase::getIndices(void)
+{
+    return _sfIndices.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfIndices field.
 inline
 void ProxyGroupBase::setIndices(const UInt32 &value)
@@ -330,7 +585,7 @@ void ProxyGroupBase::setIndices(const UInt32 &value)
 
 //! Get the value of the ProxyGroup::_sfTriangles field.
 inline
-UInt32 &ProxyGroupBase::getTriangles(void)
+UInt32 &ProxyGroupBase::editTriangles(void)
 {
     return _sfTriangles.getValue();
 }
@@ -342,6 +597,15 @@ const UInt32 &ProxyGroupBase::getTriangles(void) const
     return _sfTriangles.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfTriangles field.
+inline
+UInt32 &ProxyGroupBase::getTriangles(void)
+{
+    return _sfTriangles.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfTriangles field.
 inline
 void ProxyGroupBase::setTriangles(const UInt32 &value)
@@ -351,7 +615,7 @@ void ProxyGroupBase::setTriangles(const UInt32 &value)
 
 //! Get the value of the ProxyGroup::_sfPositions field.
 inline
-UInt32 &ProxyGroupBase::getPositions(void)
+UInt32 &ProxyGroupBase::editPositions(void)
 {
     return _sfPositions.getValue();
 }
@@ -363,6 +627,15 @@ const UInt32 &ProxyGroupBase::getPositions(void) const
     return _sfPositions.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfPositions field.
+inline
+UInt32 &ProxyGroupBase::getPositions(void)
+{
+    return _sfPositions.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfPositions field.
 inline
 void ProxyGroupBase::setPositions(const UInt32 &value)
@@ -372,7 +645,7 @@ void ProxyGroupBase::setPositions(const UInt32 &value)
 
 //! Get the value of the ProxyGroup::_sfGeometries field.
 inline
-UInt32 &ProxyGroupBase::getGeometries(void)
+UInt32 &ProxyGroupBase::editGeometries(void)
 {
     return _sfGeometries.getValue();
 }
@@ -384,6 +657,15 @@ const UInt32 &ProxyGroupBase::getGeometries(void) const
     return _sfGeometries.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfGeometries field.
+inline
+UInt32 &ProxyGroupBase::getGeometries(void)
+{
+    return _sfGeometries.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfGeometries field.
 inline
 void ProxyGroupBase::setGeometries(const UInt32 &value)
@@ -393,7 +675,7 @@ void ProxyGroupBase::setGeometries(const UInt32 &value)
 
 //! Get the value of the ProxyGroup::_sfAbsoluteUrl field.
 inline
-std::string &ProxyGroupBase::getAbsoluteUrl(void)
+std::string &ProxyGroupBase::editAbsoluteUrl(void)
 {
     return _sfAbsoluteUrl.getValue();
 }
@@ -405,6 +687,15 @@ const std::string &ProxyGroupBase::getAbsoluteUrl(void) const
     return _sfAbsoluteUrl.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProxyGroup::_sfAbsoluteUrl field.
+inline
+std::string &ProxyGroupBase::getAbsoluteUrl(void)
+{
+    return _sfAbsoluteUrl.getValue();
+}
+#endif
+
 //! Set the value of the ProxyGroup::_sfAbsoluteUrl field.
 inline
 void ProxyGroupBase::setAbsoluteUrl(const std::string &value)
@@ -413,6 +704,21 @@ void ProxyGroupBase::setAbsoluteUrl(const std::string &value)
 }
 
 
+//! Get the value of the \a index element the ProxyGroup::_mfInline field.
+inline
+UInt8 &ProxyGroupBase::editInline(const UInt32 index)
+{
+    return _mfInline[index];
+}
+
+//! Get the value of the \a index element the ProxyGroup::_mfInline field.
+inline
+const UInt8 &ProxyGroupBase::getInline(const UInt32 index) const
+{
+    return _mfInline[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ProxyGroup::_mfInline field.
 inline
 UInt8 &ProxyGroupBase::getInline(const UInt32 index)
@@ -427,12 +733,7 @@ MFUInt8 &ProxyGroupBase::getInline(void)
     return _mfInline;
 }
 
-//! Get the ProxyGroup::_mfInline field.
-inline
-const MFUInt8 &ProxyGroupBase::getInline(void) const
-{
-    return _mfInline;
-}
+#endif
 
 OSG_END_NAMESPACE
 

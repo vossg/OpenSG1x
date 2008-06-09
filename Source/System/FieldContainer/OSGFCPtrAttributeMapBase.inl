@@ -98,20 +98,67 @@ FCPtrAttributeMapPtr FCPtrAttributeMapBase::createEmpty(void)
 
 //! Get the FCPtrAttributeMap::_mfKeys field.
 inline
-MFString *FCPtrAttributeMapBase::getMFKeys(void)
+const MFString *FCPtrAttributeMapBase::getMFKeys(void) const
 {
     return &_mfKeys;
 }
 
+//! Get the FCPtrAttributeMap::_mfKeys field.
+inline
+MFString *FCPtrAttributeMapBase::editMFKeys(void)
+{
+    return &_mfKeys;
+}
+
+#ifndef OSG_2_PREP
+//! Get the FCPtrAttributeMap::_mfKeys field.
+inline
+MFString *FCPtrAttributeMapBase::getMFKeys(void)
+{
+    return &_mfKeys;
+}
+#endif
+
+//! Get the FCPtrAttributeMap::_mfValues field.
+inline
+const MFFieldContainerPtr *FCPtrAttributeMapBase::getMFValues(void) const
+{
+    return &_mfValues;
+}
+
+//! Get the FCPtrAttributeMap::_mfValues field.
+inline
+MFFieldContainerPtr *FCPtrAttributeMapBase::editMFValues(void)
+{
+    return &_mfValues;
+}
+
+#ifndef OSG_2_PREP
 //! Get the FCPtrAttributeMap::_mfValues field.
 inline
 MFFieldContainerPtr *FCPtrAttributeMapBase::getMFValues(void)
 {
     return &_mfValues;
 }
+#endif
 
 
 
+//! Get the value of the \a index element the FCPtrAttributeMap::_mfKeys field.
+inline
+std::string &FCPtrAttributeMapBase::editKeys(const UInt32 index)
+{
+    return _mfKeys[index];
+}
+
+//! Get the value of the \a index element the FCPtrAttributeMap::_mfKeys field.
+inline
+const std::string &FCPtrAttributeMapBase::getKeys(const UInt32 index) const
+{
+    return _mfKeys[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the FCPtrAttributeMap::_mfKeys field.
 inline
 std::string &FCPtrAttributeMapBase::getKeys(const UInt32 index)
@@ -126,13 +173,23 @@ MFString &FCPtrAttributeMapBase::getKeys(void)
     return _mfKeys;
 }
 
-//! Get the FCPtrAttributeMap::_mfKeys field.
+#endif
+
+//! Get the value of the \a index element the FCPtrAttributeMap::_mfValues field.
 inline
-const MFString &FCPtrAttributeMapBase::getKeys(void) const
+FieldContainerPtr &FCPtrAttributeMapBase::editValues(const UInt32 index)
 {
-    return _mfKeys;
+    return _mfValues[index];
 }
 
+//! Get the value of the \a index element the FCPtrAttributeMap::_mfValues field.
+inline
+const FieldContainerPtr &FCPtrAttributeMapBase::getValues(const UInt32 index) const
+{
+    return _mfValues[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the FCPtrAttributeMap::_mfValues field.
 inline
 FieldContainerPtr &FCPtrAttributeMapBase::getValues(const UInt32 index)
@@ -147,14 +204,9 @@ MFFieldContainerPtr &FCPtrAttributeMapBase::getValues(void)
     return _mfValues;
 }
 
-//! Get the FCPtrAttributeMap::_mfValues field.
-inline
-const MFFieldContainerPtr &FCPtrAttributeMapBase::getValues(void) const
-{
-    return _mfValues;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.inl,v 1.3 2008/06/05 05:02:25 vossg Exp $"
+#define OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.inl,v 1.4 2008/06/09 07:31:47 vossg Exp $"
 

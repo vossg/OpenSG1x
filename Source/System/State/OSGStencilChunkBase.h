@@ -143,31 +143,103 @@ class OSG_SYSTEMLIB_DLLMAPPING StencilChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFGLenum            *getSFStencilFunc    (void);
-           SFInt32             *getSFStencilValue   (void);
-           SFUInt32            *getSFStencilMask    (void);
-           SFGLenum            *getSFStencilOpFail  (void);
-           SFGLenum            *getSFStencilOpZFail (void);
-           SFGLenum            *getSFStencilOpZPass (void);
-           SFInt32             *getSFClearBuffer    (void);
-           SFUInt32            *getSFBitMask        (void);
 
-           GLenum              &getStencilFunc    (void);
+           SFGLenum            *editSFStencilFunc    (void);
+     const SFGLenum            *getSFStencilFunc    (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFStencilFunc    (void);
+#endif
+
+           SFInt32             *editSFStencilValue   (void);
+     const SFInt32             *getSFStencilValue   (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFStencilValue   (void);
+#endif
+
+           SFUInt32            *editSFStencilMask    (void);
+     const SFUInt32            *getSFStencilMask    (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFStencilMask    (void);
+#endif
+
+           SFGLenum            *editSFStencilOpFail  (void);
+     const SFGLenum            *getSFStencilOpFail  (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFStencilOpFail  (void);
+#endif
+
+           SFGLenum            *editSFStencilOpZFail (void);
+     const SFGLenum            *getSFStencilOpZFail (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFStencilOpZFail (void);
+#endif
+
+           SFGLenum            *editSFStencilOpZPass (void);
+     const SFGLenum            *getSFStencilOpZPass (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFStencilOpZPass (void);
+#endif
+
+           SFInt32             *editSFClearBuffer    (void);
+     const SFInt32             *getSFClearBuffer    (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFClearBuffer    (void);
+#endif
+
+           SFUInt32            *editSFBitMask        (void);
+     const SFUInt32            *getSFBitMask        (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFBitMask        (void);
+#endif
+
+
+           GLenum              &editStencilFunc    (void);
      const GLenum              &getStencilFunc    (void) const;
-           Int32               &getStencilValue   (void);
+#ifndef OSG_2_PREP
+           GLenum              &getStencilFunc    (void);
+#endif
+
+           Int32               &editStencilValue   (void);
      const Int32               &getStencilValue   (void) const;
-           UInt32              &getStencilMask    (void);
+#ifndef OSG_2_PREP
+           Int32               &getStencilValue   (void);
+#endif
+
+           UInt32              &editStencilMask    (void);
      const UInt32              &getStencilMask    (void) const;
-           GLenum              &getStencilOpFail  (void);
+#ifndef OSG_2_PREP
+           UInt32              &getStencilMask    (void);
+#endif
+
+           GLenum              &editStencilOpFail  (void);
      const GLenum              &getStencilOpFail  (void) const;
-           GLenum              &getStencilOpZFail (void);
+#ifndef OSG_2_PREP
+           GLenum              &getStencilOpFail  (void);
+#endif
+
+           GLenum              &editStencilOpZFail (void);
      const GLenum              &getStencilOpZFail (void) const;
-           GLenum              &getStencilOpZPass (void);
+#ifndef OSG_2_PREP
+           GLenum              &getStencilOpZFail (void);
+#endif
+
+           GLenum              &editStencilOpZPass (void);
      const GLenum              &getStencilOpZPass (void) const;
-           Int32               &getClearBuffer    (void);
+#ifndef OSG_2_PREP
+           GLenum              &getStencilOpZPass (void);
+#endif
+
+           Int32               &editClearBuffer    (void);
      const Int32               &getClearBuffer    (void) const;
-           UInt32              &getBitMask        (void);
+#ifndef OSG_2_PREP
+           Int32               &getClearBuffer    (void);
+#endif
+
+           UInt32              &editBitMask        (void);
      const UInt32              &getBitMask        (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getBitMask        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -309,6 +381,6 @@ typedef RefPtr<StencilChunkPtr> StencilChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.8 2008/06/05 05:02:29 vossg Exp $"
+#define OSGSTENCILCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGStencilChunkBase.h,v 1.9 2008/06/09 07:31:53 vossg Exp $"
 
 #endif /* _OSGSTENCILCHUNKBASE_H_ */

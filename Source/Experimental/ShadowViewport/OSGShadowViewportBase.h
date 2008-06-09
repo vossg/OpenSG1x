@@ -176,66 +176,237 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFOffBias        (void);
-           SFReal32            *getSFOffFactor      (void);
-           SFNodePtr           *getSFSceneRoot      (void);
-           SFUInt32            *getSFMapSize        (void);
-           MFNodePtr           *getMFLightNodes     (void);
-           MFNodePtr           *getMFExcludeNodes   (void);
-           SFBool              *getSFMapAutoUpdate  (void);
-           SFUInt32            *getSFShadowMode     (void);
-           SFReal32            *getSFShadowSmoothness(void);
-           SFBool              *getSFShadowOn       (void);
-           SFBool              *getSFAutoSearchForLights(void);
-           SFReal32            *getSFGlobalShadowIntensity(void);
-           SFBool              *getSFFboOn          (void);
-           SFBool              *getSFAutoExcludeTransparentNodes(void);
-           SFBool              *getSFDisableOccludedLights(void);
-           SFBool              *getSFRed            (void);
-           SFBool              *getSFBlue           (void);
-           SFBool              *getSFGreen          (void);
-           SFBool              *getSFAlpha          (void);
 
-           Real32              &getOffBias        (void);
+           SFReal32            *editSFOffBias        (void);
+     const SFReal32            *getSFOffBias        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOffBias        (void);
+#endif
+
+           SFReal32            *editSFOffFactor      (void);
+     const SFReal32            *getSFOffFactor      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOffFactor      (void);
+#endif
+
+           SFNodePtr           *editSFSceneRoot      (void);
+     const SFNodePtr           *getSFSceneRoot      (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFSceneRoot      (void);
+#endif
+
+           SFUInt32            *editSFMapSize        (void);
+     const SFUInt32            *getSFMapSize        (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFMapSize        (void);
+#endif
+
+           MFNodePtr           *editMFLightNodes     (void);
+     const MFNodePtr           *getMFLightNodes     (void) const;
+#ifndef OSG_2_PREP
+           MFNodePtr           *getMFLightNodes     (void);
+#endif
+
+           MFNodePtr           *editMFExcludeNodes   (void);
+     const MFNodePtr           *getMFExcludeNodes   (void) const;
+#ifndef OSG_2_PREP
+           MFNodePtr           *getMFExcludeNodes   (void);
+#endif
+
+           SFBool              *editSFMapAutoUpdate  (void);
+     const SFBool              *getSFMapAutoUpdate  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFMapAutoUpdate  (void);
+#endif
+
+           SFUInt32            *editSFShadowMode     (void);
+     const SFUInt32            *getSFShadowMode     (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFShadowMode     (void);
+#endif
+
+           SFReal32            *editSFShadowSmoothness(void);
+     const SFReal32            *getSFShadowSmoothness(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFShadowSmoothness(void);
+#endif
+
+           SFBool              *editSFShadowOn       (void);
+     const SFBool              *getSFShadowOn       (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFShadowOn       (void);
+#endif
+
+           SFBool              *editSFAutoSearchForLights(void);
+     const SFBool              *getSFAutoSearchForLights(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAutoSearchForLights(void);
+#endif
+
+           SFReal32            *editSFGlobalShadowIntensity(void);
+     const SFReal32            *getSFGlobalShadowIntensity(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFGlobalShadowIntensity(void);
+#endif
+
+           SFBool              *editSFFboOn          (void);
+     const SFBool              *getSFFboOn          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFFboOn          (void);
+#endif
+
+           SFBool              *editSFAutoExcludeTransparentNodes(void);
+     const SFBool              *getSFAutoExcludeTransparentNodes(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAutoExcludeTransparentNodes(void);
+#endif
+
+           SFBool              *editSFDisableOccludedLights(void);
+     const SFBool              *getSFDisableOccludedLights(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDisableOccludedLights(void);
+#endif
+
+           SFBool              *editSFRed            (void);
+     const SFBool              *getSFRed            (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFRed            (void);
+#endif
+
+           SFBool              *editSFBlue           (void);
+     const SFBool              *getSFBlue           (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBlue           (void);
+#endif
+
+           SFBool              *editSFGreen          (void);
+     const SFBool              *getSFGreen          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFGreen          (void);
+#endif
+
+           SFBool              *editSFAlpha          (void);
+     const SFBool              *getSFAlpha          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAlpha          (void);
+#endif
+
+
+           Real32              &editOffBias        (void);
      const Real32              &getOffBias        (void) const;
-           Real32              &getOffFactor      (void);
+#ifndef OSG_2_PREP
+           Real32              &getOffBias        (void);
+#endif
+
+           Real32              &editOffFactor      (void);
      const Real32              &getOffFactor      (void) const;
-           NodePtr             &getSceneRoot      (void);
+#ifndef OSG_2_PREP
+           Real32              &getOffFactor      (void);
+#endif
+
+           NodePtr             &editSceneRoot      (void);
      const NodePtr             &getSceneRoot      (void) const;
-           UInt32              &getMapSize        (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getSceneRoot      (void);
+#endif
+
+           UInt32              &editMapSize        (void);
      const UInt32              &getMapSize        (void) const;
-           bool                &getMapAutoUpdate  (void);
+#ifndef OSG_2_PREP
+           UInt32              &getMapSize        (void);
+#endif
+
+           bool                &editMapAutoUpdate  (void);
      const bool                &getMapAutoUpdate  (void) const;
-           UInt32              &getShadowMode     (void);
+#ifndef OSG_2_PREP
+           bool                &getMapAutoUpdate  (void);
+#endif
+
+           UInt32              &editShadowMode     (void);
      const UInt32              &getShadowMode     (void) const;
-           Real32              &getShadowSmoothness(void);
+#ifndef OSG_2_PREP
+           UInt32              &getShadowMode     (void);
+#endif
+
+           Real32              &editShadowSmoothness(void);
      const Real32              &getShadowSmoothness(void) const;
-           bool                &getShadowOn       (void);
+#ifndef OSG_2_PREP
+           Real32              &getShadowSmoothness(void);
+#endif
+
+           bool                &editShadowOn       (void);
      const bool                &getShadowOn       (void) const;
-           bool                &getAutoSearchForLights(void);
+#ifndef OSG_2_PREP
+           bool                &getShadowOn       (void);
+#endif
+
+           bool                &editAutoSearchForLights(void);
      const bool                &getAutoSearchForLights(void) const;
-           Real32              &getGlobalShadowIntensity(void);
+#ifndef OSG_2_PREP
+           bool                &getAutoSearchForLights(void);
+#endif
+
+           Real32              &editGlobalShadowIntensity(void);
      const Real32              &getGlobalShadowIntensity(void) const;
-           bool                &getFboOn          (void);
+#ifndef OSG_2_PREP
+           Real32              &getGlobalShadowIntensity(void);
+#endif
+
+           bool                &editFboOn          (void);
      const bool                &getFboOn          (void) const;
-           bool                &getAutoExcludeTransparentNodes(void);
+#ifndef OSG_2_PREP
+           bool                &getFboOn          (void);
+#endif
+
+           bool                &editAutoExcludeTransparentNodes(void);
      const bool                &getAutoExcludeTransparentNodes(void) const;
-           bool                &getDisableOccludedLights(void);
+#ifndef OSG_2_PREP
+           bool                &getAutoExcludeTransparentNodes(void);
+#endif
+
+           bool                &editDisableOccludedLights(void);
      const bool                &getDisableOccludedLights(void) const;
-           bool                &getRed            (void);
+#ifndef OSG_2_PREP
+           bool                &getDisableOccludedLights(void);
+#endif
+
+           bool                &editRed            (void);
      const bool                &getRed            (void) const;
-           bool                &getBlue           (void);
+#ifndef OSG_2_PREP
+           bool                &getRed            (void);
+#endif
+
+           bool                &editBlue           (void);
      const bool                &getBlue           (void) const;
-           bool                &getGreen          (void);
+#ifndef OSG_2_PREP
+           bool                &getBlue           (void);
+#endif
+
+           bool                &editGreen          (void);
      const bool                &getGreen          (void) const;
-           bool                &getAlpha          (void);
+#ifndef OSG_2_PREP
+           bool                &getGreen          (void);
+#endif
+
+           bool                &editAlpha          (void);
      const bool                &getAlpha          (void) const;
+#ifndef OSG_2_PREP
+           bool                &getAlpha          (void);
+#endif
+
+           NodePtr             &editLightNodes     (const UInt32 index);
+     const NodePtr             &getLightNodes     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
-     const MFNodePtr           &getLightNodes     (void) const;
+#endif
+
+           NodePtr             &editExcludeNodes   (const UInt32 index);
+     const NodePtr             &getExcludeNodes   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            NodePtr             &getExcludeNodes   (const UInt32 index);
            MFNodePtr           &getExcludeNodes   (void);
-     const MFNodePtr           &getExcludeNodes   (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -397,6 +568,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.14 2008/06/05 05:02:23 vossg Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.15 2008/06/09 07:31:45 vossg Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */

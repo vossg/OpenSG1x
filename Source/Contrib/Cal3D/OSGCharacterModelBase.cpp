@@ -104,22 +104,22 @@ FieldDescription *CharacterModelBase::_desc[] =
                      "configFile", 
                      ConfigFileFieldId, ConfigFileFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::getSFConfigFile)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::editSFConfigFile)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "numAnimations", 
                      NumAnimationsFieldId, NumAnimationsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::getSFNumAnimations)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::editSFNumAnimations)),
     new FieldDescription(SFSHLChunkPtr::getClassType(), 
                      "shader", 
                      ShaderFieldId, ShaderFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::getSFShader)),
+                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::editSFShader)),
     new FieldDescription(MFChunkMaterialPtr::getClassType(), 
                      "materials", 
                      MaterialsFieldId, MaterialsFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::getMFMaterials))
+                     reinterpret_cast<FieldAccessMethod>(&CharacterModelBase::editMFMaterials))
 };
 
 
@@ -395,7 +395,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(CharacterModelPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModelBase.cpp,v 1.3 2008/06/05 05:02:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModelBase.cpp,v 1.4 2008/06/09 07:31:37 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERMODELBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERMODELBASE_INLINE_CVSID;
 

@@ -72,15 +72,31 @@ OSG::UInt32 ShaderParameterBase::getClassTypeId(void)
 
 //! Get the ShaderParameter::_sfName field.
 inline
-SFString *ShaderParameterBase::getSFName(void)
+const SFString *ShaderParameterBase::getSFName(void) const
 {
     return &_sfName;
 }
 
+//! Get the ShaderParameter::_sfName field.
+inline
+SFString *ShaderParameterBase::editSFName(void)
+{
+    return &_sfName;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameter::_sfName field.
+inline
+SFString *ShaderParameterBase::getSFName(void)
+{
+    return &_sfName;
+}
+#endif
+
 
 //! Get the value of the ShaderParameter::_sfName field.
 inline
-std::string &ShaderParameterBase::getName(void)
+std::string &ShaderParameterBase::editName(void)
 {
     return _sfName.getValue();
 }
@@ -92,6 +108,15 @@ const std::string &ShaderParameterBase::getName(void) const
     return _sfName.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShaderParameter::_sfName field.
+inline
+std::string &ShaderParameterBase::getName(void)
+{
+    return _sfName.getValue();
+}
+#endif
+
 //! Set the value of the ShaderParameter::_sfName field.
 inline
 void ShaderParameterBase::setName(const std::string &value)
@@ -102,5 +127,5 @@ void ShaderParameterBase::setName(const std::string &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBase.inl,v 1.9 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterBase.inl,v 1.10 2008/06/09 07:31:44 vossg Exp $"
 

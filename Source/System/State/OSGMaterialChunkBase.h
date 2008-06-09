@@ -161,49 +161,175 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor4f           *getSFDiffuse        (void);
-           SFColor4f           *getSFAmbient        (void);
-           SFColor4f           *getSFSpecular       (void);
-           SFColor4f           *getSFEmission       (void);
-           SFReal32            *getSFShininess      (void);
-           SFBool              *getSFLit            (void);
-           SFGLenum            *getSFColorMaterial  (void);
-           SFBool              *getSFBackMaterial   (void);
-           SFColor4f           *getSFBackDiffuse    (void);
-           SFColor4f           *getSFBackAmbient    (void);
-           SFColor4f           *getSFBackSpecular   (void);
-           SFColor4f           *getSFBackEmission   (void);
-           SFReal32            *getSFBackShininess  (void);
-           SFGLenum            *getSFBackColorMaterial(void);
 
-           Color4f             &getDiffuse        (void);
+           SFColor4f           *editSFDiffuse        (void);
+     const SFColor4f           *getSFDiffuse        (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFDiffuse        (void);
+#endif
+
+           SFColor4f           *editSFAmbient        (void);
+     const SFColor4f           *getSFAmbient        (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFAmbient        (void);
+#endif
+
+           SFColor4f           *editSFSpecular       (void);
+     const SFColor4f           *getSFSpecular       (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFSpecular       (void);
+#endif
+
+           SFColor4f           *editSFEmission       (void);
+     const SFColor4f           *getSFEmission       (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFEmission       (void);
+#endif
+
+           SFReal32            *editSFShininess      (void);
+     const SFReal32            *getSFShininess      (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFShininess      (void);
+#endif
+
+           SFBool              *editSFLit            (void);
+     const SFBool              *getSFLit            (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFLit            (void);
+#endif
+
+           SFGLenum            *editSFColorMaterial  (void);
+     const SFGLenum            *getSFColorMaterial  (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFColorMaterial  (void);
+#endif
+
+           SFBool              *editSFBackMaterial   (void);
+     const SFBool              *getSFBackMaterial   (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBackMaterial   (void);
+#endif
+
+           SFColor4f           *editSFBackDiffuse    (void);
+     const SFColor4f           *getSFBackDiffuse    (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFBackDiffuse    (void);
+#endif
+
+           SFColor4f           *editSFBackAmbient    (void);
+     const SFColor4f           *getSFBackAmbient    (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFBackAmbient    (void);
+#endif
+
+           SFColor4f           *editSFBackSpecular   (void);
+     const SFColor4f           *getSFBackSpecular   (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFBackSpecular   (void);
+#endif
+
+           SFColor4f           *editSFBackEmission   (void);
+     const SFColor4f           *getSFBackEmission   (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFBackEmission   (void);
+#endif
+
+           SFReal32            *editSFBackShininess  (void);
+     const SFReal32            *getSFBackShininess  (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFBackShininess  (void);
+#endif
+
+           SFGLenum            *editSFBackColorMaterial(void);
+     const SFGLenum            *getSFBackColorMaterial(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFBackColorMaterial(void);
+#endif
+
+
+           Color4f             &editDiffuse        (void);
      const Color4f             &getDiffuse        (void) const;
-           Color4f             &getAmbient        (void);
+#ifndef OSG_2_PREP
+           Color4f             &getDiffuse        (void);
+#endif
+
+           Color4f             &editAmbient        (void);
      const Color4f             &getAmbient        (void) const;
-           Color4f             &getSpecular       (void);
+#ifndef OSG_2_PREP
+           Color4f             &getAmbient        (void);
+#endif
+
+           Color4f             &editSpecular       (void);
      const Color4f             &getSpecular       (void) const;
-           Color4f             &getEmission       (void);
+#ifndef OSG_2_PREP
+           Color4f             &getSpecular       (void);
+#endif
+
+           Color4f             &editEmission       (void);
      const Color4f             &getEmission       (void) const;
-           Real32              &getShininess      (void);
+#ifndef OSG_2_PREP
+           Color4f             &getEmission       (void);
+#endif
+
+           Real32              &editShininess      (void);
      const Real32              &getShininess      (void) const;
-           bool                &getLit            (void);
+#ifndef OSG_2_PREP
+           Real32              &getShininess      (void);
+#endif
+
+           bool                &editLit            (void);
      const bool                &getLit            (void) const;
-           GLenum              &getColorMaterial  (void);
+#ifndef OSG_2_PREP
+           bool                &getLit            (void);
+#endif
+
+           GLenum              &editColorMaterial  (void);
      const GLenum              &getColorMaterial  (void) const;
-           bool                &getBackMaterial   (void);
+#ifndef OSG_2_PREP
+           GLenum              &getColorMaterial  (void);
+#endif
+
+           bool                &editBackMaterial   (void);
      const bool                &getBackMaterial   (void) const;
-           Color4f             &getBackDiffuse    (void);
+#ifndef OSG_2_PREP
+           bool                &getBackMaterial   (void);
+#endif
+
+           Color4f             &editBackDiffuse    (void);
      const Color4f             &getBackDiffuse    (void) const;
-           Color4f             &getBackAmbient    (void);
+#ifndef OSG_2_PREP
+           Color4f             &getBackDiffuse    (void);
+#endif
+
+           Color4f             &editBackAmbient    (void);
      const Color4f             &getBackAmbient    (void) const;
-           Color4f             &getBackSpecular   (void);
+#ifndef OSG_2_PREP
+           Color4f             &getBackAmbient    (void);
+#endif
+
+           Color4f             &editBackSpecular   (void);
      const Color4f             &getBackSpecular   (void) const;
-           Color4f             &getBackEmission   (void);
+#ifndef OSG_2_PREP
+           Color4f             &getBackSpecular   (void);
+#endif
+
+           Color4f             &editBackEmission   (void);
      const Color4f             &getBackEmission   (void) const;
-           Real32              &getBackShininess  (void);
+#ifndef OSG_2_PREP
+           Color4f             &getBackEmission   (void);
+#endif
+
+           Real32              &editBackShininess  (void);
      const Real32              &getBackShininess  (void) const;
-           GLenum              &getBackColorMaterial(void);
+#ifndef OSG_2_PREP
+           Real32              &getBackShininess  (void);
+#endif
+
+           GLenum              &editBackColorMaterial(void);
      const GLenum              &getBackColorMaterial(void) const;
+#ifndef OSG_2_PREP
+           GLenum              &getBackColorMaterial(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

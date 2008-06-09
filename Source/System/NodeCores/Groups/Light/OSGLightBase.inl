@@ -72,78 +72,238 @@ OSG::UInt32 LightBase::getClassTypeId(void)
 
 //! Get the Light::_sfAmbient field.
 inline
-SFColor4f *LightBase::getSFAmbient(void)
+const SFColor4f *LightBase::getSFAmbient(void) const
 {
     return &_sfAmbient;
 }
 
+//! Get the Light::_sfAmbient field.
+inline
+SFColor4f *LightBase::editSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Light::_sfAmbient field.
+inline
+SFColor4f *LightBase::getSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+#endif
+
+//! Get the Light::_sfDiffuse field.
+inline
+const SFColor4f *LightBase::getSFDiffuse(void) const
+{
+    return &_sfDiffuse;
+}
+
+//! Get the Light::_sfDiffuse field.
+inline
+SFColor4f *LightBase::editSFDiffuse(void)
+{
+    return &_sfDiffuse;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfDiffuse field.
 inline
 SFColor4f *LightBase::getSFDiffuse(void)
 {
     return &_sfDiffuse;
 }
+#endif
 
+//! Get the Light::_sfSpecular field.
+inline
+const SFColor4f *LightBase::getSFSpecular(void) const
+{
+    return &_sfSpecular;
+}
+
+//! Get the Light::_sfSpecular field.
+inline
+SFColor4f *LightBase::editSFSpecular(void)
+{
+    return &_sfSpecular;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfSpecular field.
 inline
 SFColor4f *LightBase::getSFSpecular(void)
 {
     return &_sfSpecular;
 }
+#endif
 
+//! Get the Light::_sfBeacon field.
+inline
+const SFNodePtr *LightBase::getSFBeacon(void) const
+{
+    return &_sfBeacon;
+}
+
+//! Get the Light::_sfBeacon field.
+inline
+SFNodePtr *LightBase::editSFBeacon(void)
+{
+    return &_sfBeacon;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfBeacon field.
 inline
 SFNodePtr *LightBase::getSFBeacon(void)
 {
     return &_sfBeacon;
 }
+#endif
 
+//! Get the Light::_sfOn field.
+inline
+const SFBool *LightBase::getSFOn(void) const
+{
+    return &_sfOn;
+}
+
+//! Get the Light::_sfOn field.
+inline
+SFBool *LightBase::editSFOn(void)
+{
+    return &_sfOn;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfOn field.
 inline
 SFBool *LightBase::getSFOn(void)
 {
     return &_sfOn;
 }
+#endif
 
+//! Get the Light::_sfConstantAttenuation field.
+inline
+const SFReal32 *LightBase::getSFConstantAttenuation(void) const
+{
+    return &_sfConstantAttenuation;
+}
+
+//! Get the Light::_sfConstantAttenuation field.
+inline
+SFReal32 *LightBase::editSFConstantAttenuation(void)
+{
+    return &_sfConstantAttenuation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfConstantAttenuation field.
 inline
 SFReal32 *LightBase::getSFConstantAttenuation(void)
 {
     return &_sfConstantAttenuation;
 }
+#endif
 
+//! Get the Light::_sfLinearAttenuation field.
+inline
+const SFReal32 *LightBase::getSFLinearAttenuation(void) const
+{
+    return &_sfLinearAttenuation;
+}
+
+//! Get the Light::_sfLinearAttenuation field.
+inline
+SFReal32 *LightBase::editSFLinearAttenuation(void)
+{
+    return &_sfLinearAttenuation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfLinearAttenuation field.
 inline
 SFReal32 *LightBase::getSFLinearAttenuation(void)
 {
     return &_sfLinearAttenuation;
 }
+#endif
 
+//! Get the Light::_sfQuadraticAttenuation field.
+inline
+const SFReal32 *LightBase::getSFQuadraticAttenuation(void) const
+{
+    return &_sfQuadraticAttenuation;
+}
+
+//! Get the Light::_sfQuadraticAttenuation field.
+inline
+SFReal32 *LightBase::editSFQuadraticAttenuation(void)
+{
+    return &_sfQuadraticAttenuation;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfQuadraticAttenuation field.
 inline
 SFReal32 *LightBase::getSFQuadraticAttenuation(void)
 {
     return &_sfQuadraticAttenuation;
 }
+#endif
 
+//! Get the Light::_sfShadowIntensity field.
+inline
+const SFReal32 *LightBase::getSFShadowIntensity(void) const
+{
+    return &_sfShadowIntensity;
+}
+
+//! Get the Light::_sfShadowIntensity field.
+inline
+SFReal32 *LightBase::editSFShadowIntensity(void)
+{
+    return &_sfShadowIntensity;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfShadowIntensity field.
 inline
 SFReal32 *LightBase::getSFShadowIntensity(void)
 {
     return &_sfShadowIntensity;
 }
+#endif
 
+//! Get the Light::_sfShadowMode field.
+inline
+const SFUInt32 *LightBase::getSFShadowMode(void) const
+{
+    return &_sfShadowMode;
+}
+
+//! Get the Light::_sfShadowMode field.
+inline
+SFUInt32 *LightBase::editSFShadowMode(void)
+{
+    return &_sfShadowMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Light::_sfShadowMode field.
 inline
 SFUInt32 *LightBase::getSFShadowMode(void)
 {
     return &_sfShadowMode;
 }
+#endif
 
 
 //! Get the value of the Light::_sfAmbient field.
 inline
-Color4f &LightBase::getAmbient(void)
+Color4f &LightBase::editAmbient(void)
 {
     return _sfAmbient.getValue();
 }
@@ -155,6 +315,15 @@ const Color4f &LightBase::getAmbient(void) const
     return _sfAmbient.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfAmbient field.
+inline
+Color4f &LightBase::getAmbient(void)
+{
+    return _sfAmbient.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfAmbient field.
 inline
 void LightBase::setAmbient(const Color4f &value)
@@ -164,7 +333,7 @@ void LightBase::setAmbient(const Color4f &value)
 
 //! Get the value of the Light::_sfDiffuse field.
 inline
-Color4f &LightBase::getDiffuse(void)
+Color4f &LightBase::editDiffuse(void)
 {
     return _sfDiffuse.getValue();
 }
@@ -176,6 +345,15 @@ const Color4f &LightBase::getDiffuse(void) const
     return _sfDiffuse.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfDiffuse field.
+inline
+Color4f &LightBase::getDiffuse(void)
+{
+    return _sfDiffuse.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfDiffuse field.
 inline
 void LightBase::setDiffuse(const Color4f &value)
@@ -185,7 +363,7 @@ void LightBase::setDiffuse(const Color4f &value)
 
 //! Get the value of the Light::_sfSpecular field.
 inline
-Color4f &LightBase::getSpecular(void)
+Color4f &LightBase::editSpecular(void)
 {
     return _sfSpecular.getValue();
 }
@@ -197,6 +375,15 @@ const Color4f &LightBase::getSpecular(void) const
     return _sfSpecular.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfSpecular field.
+inline
+Color4f &LightBase::getSpecular(void)
+{
+    return _sfSpecular.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfSpecular field.
 inline
 void LightBase::setSpecular(const Color4f &value)
@@ -206,7 +393,7 @@ void LightBase::setSpecular(const Color4f &value)
 
 //! Get the value of the Light::_sfBeacon field.
 inline
-NodePtr &LightBase::getBeacon(void)
+NodePtr &LightBase::editBeacon(void)
 {
     return _sfBeacon.getValue();
 }
@@ -218,6 +405,15 @@ const NodePtr &LightBase::getBeacon(void) const
     return _sfBeacon.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfBeacon field.
+inline
+NodePtr &LightBase::getBeacon(void)
+{
+    return _sfBeacon.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfBeacon field.
 inline
 void LightBase::setBeacon(const NodePtr &value)
@@ -227,7 +423,7 @@ void LightBase::setBeacon(const NodePtr &value)
 
 //! Get the value of the Light::_sfOn field.
 inline
-bool &LightBase::getOn(void)
+bool &LightBase::editOn(void)
 {
     return _sfOn.getValue();
 }
@@ -239,6 +435,15 @@ const bool &LightBase::getOn(void) const
     return _sfOn.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfOn field.
+inline
+bool &LightBase::getOn(void)
+{
+    return _sfOn.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfOn field.
 inline
 void LightBase::setOn(const bool &value)
@@ -248,7 +453,7 @@ void LightBase::setOn(const bool &value)
 
 //! Get the value of the Light::_sfConstantAttenuation field.
 inline
-Real32 &LightBase::getConstantAttenuation(void)
+Real32 &LightBase::editConstantAttenuation(void)
 {
     return _sfConstantAttenuation.getValue();
 }
@@ -260,6 +465,15 @@ const Real32 &LightBase::getConstantAttenuation(void) const
     return _sfConstantAttenuation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfConstantAttenuation field.
+inline
+Real32 &LightBase::getConstantAttenuation(void)
+{
+    return _sfConstantAttenuation.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfConstantAttenuation field.
 inline
 void LightBase::setConstantAttenuation(const Real32 &value)
@@ -269,7 +483,7 @@ void LightBase::setConstantAttenuation(const Real32 &value)
 
 //! Get the value of the Light::_sfLinearAttenuation field.
 inline
-Real32 &LightBase::getLinearAttenuation(void)
+Real32 &LightBase::editLinearAttenuation(void)
 {
     return _sfLinearAttenuation.getValue();
 }
@@ -281,6 +495,15 @@ const Real32 &LightBase::getLinearAttenuation(void) const
     return _sfLinearAttenuation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfLinearAttenuation field.
+inline
+Real32 &LightBase::getLinearAttenuation(void)
+{
+    return _sfLinearAttenuation.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfLinearAttenuation field.
 inline
 void LightBase::setLinearAttenuation(const Real32 &value)
@@ -290,7 +513,7 @@ void LightBase::setLinearAttenuation(const Real32 &value)
 
 //! Get the value of the Light::_sfQuadraticAttenuation field.
 inline
-Real32 &LightBase::getQuadraticAttenuation(void)
+Real32 &LightBase::editQuadraticAttenuation(void)
 {
     return _sfQuadraticAttenuation.getValue();
 }
@@ -302,6 +525,15 @@ const Real32 &LightBase::getQuadraticAttenuation(void) const
     return _sfQuadraticAttenuation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfQuadraticAttenuation field.
+inline
+Real32 &LightBase::getQuadraticAttenuation(void)
+{
+    return _sfQuadraticAttenuation.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfQuadraticAttenuation field.
 inline
 void LightBase::setQuadraticAttenuation(const Real32 &value)
@@ -311,7 +543,7 @@ void LightBase::setQuadraticAttenuation(const Real32 &value)
 
 //! Get the value of the Light::_sfShadowIntensity field.
 inline
-Real32 &LightBase::getShadowIntensity(void)
+Real32 &LightBase::editShadowIntensity(void)
 {
     return _sfShadowIntensity.getValue();
 }
@@ -323,6 +555,15 @@ const Real32 &LightBase::getShadowIntensity(void) const
     return _sfShadowIntensity.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfShadowIntensity field.
+inline
+Real32 &LightBase::getShadowIntensity(void)
+{
+    return _sfShadowIntensity.getValue();
+}
+#endif
+
 //! Set the value of the Light::_sfShadowIntensity field.
 inline
 void LightBase::setShadowIntensity(const Real32 &value)
@@ -332,7 +573,7 @@ void LightBase::setShadowIntensity(const Real32 &value)
 
 //! Get the value of the Light::_sfShadowMode field.
 inline
-UInt32 &LightBase::getShadowMode(void)
+UInt32 &LightBase::editShadowMode(void)
 {
     return _sfShadowMode.getValue();
 }
@@ -343,6 +584,15 @@ const UInt32 &LightBase::getShadowMode(void) const
 {
     return _sfShadowMode.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the Light::_sfShadowMode field.
+inline
+UInt32 &LightBase::getShadowMode(void)
+{
+    return _sfShadowMode.getValue();
+}
+#endif
 
 //! Set the value of the Light::_sfShadowMode field.
 inline

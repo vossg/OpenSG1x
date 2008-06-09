@@ -98,22 +98,54 @@ InlinePtr InlineBase::createEmpty(void)
 
 //! Get the Inline::_mfUrl field.
 inline
-MFString *InlineBase::getMFUrl(void)
+const MFString *InlineBase::getMFUrl(void) const
 {
     return &_mfUrl;
 }
 
+//! Get the Inline::_mfUrl field.
+inline
+MFString *InlineBase::editMFUrl(void)
+{
+    return &_mfUrl;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Inline::_mfUrl field.
+inline
+MFString *InlineBase::getMFUrl(void)
+{
+    return &_mfUrl;
+}
+#endif
+
+//! Get the Inline::_sfLoaded field.
+inline
+const SFBool *InlineBase::getSFLoaded(void) const
+{
+    return &_sfLoaded;
+}
+
+//! Get the Inline::_sfLoaded field.
+inline
+SFBool *InlineBase::editSFLoaded(void)
+{
+    return &_sfLoaded;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Inline::_sfLoaded field.
 inline
 SFBool *InlineBase::getSFLoaded(void)
 {
     return &_sfLoaded;
 }
+#endif
 
 
 //! Get the value of the Inline::_sfLoaded field.
 inline
-bool &InlineBase::getLoaded(void)
+bool &InlineBase::editLoaded(void)
 {
     return _sfLoaded.getValue();
 }
@@ -125,6 +157,15 @@ const bool &InlineBase::getLoaded(void) const
     return _sfLoaded.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Inline::_sfLoaded field.
+inline
+bool &InlineBase::getLoaded(void)
+{
+    return _sfLoaded.getValue();
+}
+#endif
+
 //! Set the value of the Inline::_sfLoaded field.
 inline
 void InlineBase::setLoaded(const bool &value)
@@ -133,6 +174,21 @@ void InlineBase::setLoaded(const bool &value)
 }
 
 
+//! Get the value of the \a index element the Inline::_mfUrl field.
+inline
+std::string &InlineBase::editUrl(const UInt32 index)
+{
+    return _mfUrl[index];
+}
+
+//! Get the value of the \a index element the Inline::_mfUrl field.
+inline
+const std::string &InlineBase::getUrl(const UInt32 index) const
+{
+    return _mfUrl[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Inline::_mfUrl field.
 inline
 std::string &InlineBase::getUrl(const UInt32 index)
@@ -147,12 +203,7 @@ MFString &InlineBase::getUrl(void)
     return _mfUrl;
 }
 
-//! Get the Inline::_mfUrl field.
-inline
-const MFString &InlineBase::getUrl(void) const
-{
-    return _mfUrl;
-}
+#endif
 
 OSG_END_NAMESPACE
 

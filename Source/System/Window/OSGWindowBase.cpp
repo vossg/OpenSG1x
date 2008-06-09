@@ -122,37 +122,37 @@ FieldDescription *WindowBase::_desc[] =
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getSFWidth)),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::editSFWidth)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "height", 
                      HeightFieldId, HeightFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getSFHeight)),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::editSFHeight)),
     new FieldDescription(MFViewportPtr::getClassType(), 
                      "port", 
                      PortFieldId, PortFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getMFPort)),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::editMFPort)),
     new FieldDescription(SFBool::getClassType(), 
                      "resizePending", 
                      ResizePendingFieldId, ResizePendingFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getSFResizePending)),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::editSFResizePending)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "glObjectEventCounter", 
                      GlObjectEventCounterFieldId, GlObjectEventCounterFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getSFGlObjectEventCounter)),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::editSFGlObjectEventCounter)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "glObjectLastRefresh", 
                      GlObjectLastRefreshFieldId, GlObjectLastRefreshFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getMFGlObjectLastRefresh)),
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::editMFGlObjectLastRefresh)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "glObjectLastReinitialize", 
                      GlObjectLastReinitializeFieldId, GlObjectLastReinitializeFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&WindowBase::getMFGlObjectLastReinitialize))
+                     reinterpret_cast<FieldAccessMethod>(&WindowBase::editMFGlObjectLastReinitialize))
 };
 
 
@@ -498,7 +498,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(WindowPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGWINDOWBASE_INLINE_CVSID;
 

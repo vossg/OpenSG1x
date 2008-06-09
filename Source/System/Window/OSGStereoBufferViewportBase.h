@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING StereoBufferViewportBase : public Viewport
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFLeftBuffer     (void);
-           SFBool              *getSFRightBuffer    (void);
 
-           bool                &getLeftBuffer     (void);
+           SFBool              *editSFLeftBuffer     (void);
+     const SFBool              *getSFLeftBuffer     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFLeftBuffer     (void);
+#endif
+
+           SFBool              *editSFRightBuffer    (void);
+     const SFBool              *getSFRightBuffer    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFRightBuffer    (void);
+#endif
+
+
+           bool                &editLeftBuffer     (void);
      const bool                &getLeftBuffer     (void) const;
-           bool                &getRightBuffer    (void);
+#ifndef OSG_2_PREP
+           bool                &getLeftBuffer     (void);
+#endif
+
+           bool                &editRightBuffer    (void);
      const bool                &getRightBuffer    (void) const;
+#ifndef OSG_2_PREP
+           bool                &getRightBuffer    (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

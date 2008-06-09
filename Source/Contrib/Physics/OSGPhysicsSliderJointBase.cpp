@@ -86,7 +86,7 @@ FieldDescription *PhysicsSliderJointBase::_desc[] =
                      "axis", 
                      AxisFieldId, AxisFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsSliderJointBase::getSFAxis))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsSliderJointBase::editSFAxis))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsSliderJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSliderJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSliderJointBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSSLIDERJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSSLIDERJOINTBASE_INLINE_CVSID;
 

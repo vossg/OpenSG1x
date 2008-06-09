@@ -125,14 +125,32 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFDisplayFilterPtr  *getMFFilter         (void);
-           SFString            *getSFServer         (void);
 
-           std::string         &getServer         (void);
+           MFDisplayFilterPtr  *editMFFilter         (void);
+     const MFDisplayFilterPtr  *getMFFilter         (void) const;
+#ifndef OSG_2_PREP
+           MFDisplayFilterPtr  *getMFFilter         (void);
+#endif
+
+           SFString            *editSFServer         (void);
+     const SFString            *getSFServer         (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFServer         (void);
+#endif
+
+
+           std::string         &editServer         (void);
      const std::string         &getServer         (void) const;
+#ifndef OSG_2_PREP
+           std::string         &getServer         (void);
+#endif
+
+           DisplayFilterPtr    &editFilter         (const UInt32 index);
+     const DisplayFilterPtr    &getFilter         (const UInt32 index) const;
+#ifndef OSG_2_PREP
            DisplayFilterPtr    &getFilter         (const UInt32 index);
            MFDisplayFilterPtr  &getFilter         (void);
-     const MFDisplayFilterPtr  &getFilter         (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

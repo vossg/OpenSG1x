@@ -137,25 +137,79 @@ class OSG_SYSTEMLIB_DLLMAPPING SolidBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor3f           *getSFColor          (void);
-           SFInt32             *getSFClearStencilBit(void);
-           SFReal32            *getSFAlpha          (void);
-           SFReal32            *getSFDepth          (void);
-           SFBool              *getSFClearDepth     (void);
-           SFBool              *getSFClearColor     (void);
 
-           Color3f             &getColor          (void);
+           SFColor3f           *editSFColor          (void);
+     const SFColor3f           *getSFColor          (void) const;
+#ifndef OSG_2_PREP
+           SFColor3f           *getSFColor          (void);
+#endif
+
+           SFInt32             *editSFClearStencilBit(void);
+     const SFInt32             *getSFClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFClearStencilBit(void);
+#endif
+
+           SFReal32            *editSFAlpha          (void);
+     const SFReal32            *getSFAlpha          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAlpha          (void);
+#endif
+
+           SFReal32            *editSFDepth          (void);
+     const SFReal32            *getSFDepth          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFDepth          (void);
+#endif
+
+           SFBool              *editSFClearDepth     (void);
+     const SFBool              *getSFClearDepth     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFClearDepth     (void);
+#endif
+
+           SFBool              *editSFClearColor     (void);
+     const SFBool              *getSFClearColor     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFClearColor     (void);
+#endif
+
+
+           Color3f             &editColor          (void);
      const Color3f             &getColor          (void) const;
-           Int32               &getClearStencilBit(void);
+#ifndef OSG_2_PREP
+           Color3f             &getColor          (void);
+#endif
+
+           Int32               &editClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
-           Real32              &getAlpha          (void);
+#ifndef OSG_2_PREP
+           Int32               &getClearStencilBit(void);
+#endif
+
+           Real32              &editAlpha          (void);
      const Real32              &getAlpha          (void) const;
-           Real32              &getDepth          (void);
+#ifndef OSG_2_PREP
+           Real32              &getAlpha          (void);
+#endif
+
+           Real32              &editDepth          (void);
      const Real32              &getDepth          (void) const;
-           bool                &getClearDepth     (void);
+#ifndef OSG_2_PREP
+           Real32              &getDepth          (void);
+#endif
+
+           bool                &editClearDepth     (void);
      const bool                &getClearDepth     (void) const;
-           bool                &getClearColor     (void);
+#ifndef OSG_2_PREP
+           bool                &getClearDepth     (void);
+#endif
+
+           bool                &editClearColor     (void);
      const bool                &getClearColor     (void) const;
+#ifndef OSG_2_PREP
+           bool                &getClearColor     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

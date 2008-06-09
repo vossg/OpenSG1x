@@ -98,29 +98,77 @@ BinarySwapComposerPtr BinarySwapComposerBase::createEmpty(void)
 
 //! Get the BinarySwapComposer::_sfShort field.
 inline
-SFBool *BinarySwapComposerBase::getSFShort(void)
+const SFBool *BinarySwapComposerBase::getSFShort(void) const
 {
     return &_sfShort;
 }
 
+//! Get the BinarySwapComposer::_sfShort field.
+inline
+SFBool *BinarySwapComposerBase::editSFShort(void)
+{
+    return &_sfShort;
+}
+
+#ifndef OSG_2_PREP
+//! Get the BinarySwapComposer::_sfShort field.
+inline
+SFBool *BinarySwapComposerBase::getSFShort(void)
+{
+    return &_sfShort;
+}
+#endif
+
+//! Get the BinarySwapComposer::_sfAlpha field.
+inline
+const SFBool *BinarySwapComposerBase::getSFAlpha(void) const
+{
+    return &_sfAlpha;
+}
+
+//! Get the BinarySwapComposer::_sfAlpha field.
+inline
+SFBool *BinarySwapComposerBase::editSFAlpha(void)
+{
+    return &_sfAlpha;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BinarySwapComposer::_sfAlpha field.
 inline
 SFBool *BinarySwapComposerBase::getSFAlpha(void)
 {
     return &_sfAlpha;
 }
+#endif
 
+//! Get the BinarySwapComposer::_sfTileSize field.
+inline
+const SFUInt32 *BinarySwapComposerBase::getSFTileSize(void) const
+{
+    return &_sfTileSize;
+}
+
+//! Get the BinarySwapComposer::_sfTileSize field.
+inline
+SFUInt32 *BinarySwapComposerBase::editSFTileSize(void)
+{
+    return &_sfTileSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the BinarySwapComposer::_sfTileSize field.
 inline
 SFUInt32 *BinarySwapComposerBase::getSFTileSize(void)
 {
     return &_sfTileSize;
 }
+#endif
 
 
 //! Get the value of the BinarySwapComposer::_sfShort field.
 inline
-bool &BinarySwapComposerBase::getShort(void)
+bool &BinarySwapComposerBase::editShort(void)
 {
     return _sfShort.getValue();
 }
@@ -132,6 +180,15 @@ const bool &BinarySwapComposerBase::getShort(void) const
     return _sfShort.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the BinarySwapComposer::_sfShort field.
+inline
+bool &BinarySwapComposerBase::getShort(void)
+{
+    return _sfShort.getValue();
+}
+#endif
+
 //! Set the value of the BinarySwapComposer::_sfShort field.
 inline
 void BinarySwapComposerBase::setShort(const bool &value)
@@ -141,7 +198,7 @@ void BinarySwapComposerBase::setShort(const bool &value)
 
 //! Get the value of the BinarySwapComposer::_sfAlpha field.
 inline
-bool &BinarySwapComposerBase::getAlpha(void)
+bool &BinarySwapComposerBase::editAlpha(void)
 {
     return _sfAlpha.getValue();
 }
@@ -153,6 +210,15 @@ const bool &BinarySwapComposerBase::getAlpha(void) const
     return _sfAlpha.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the BinarySwapComposer::_sfAlpha field.
+inline
+bool &BinarySwapComposerBase::getAlpha(void)
+{
+    return _sfAlpha.getValue();
+}
+#endif
+
 //! Set the value of the BinarySwapComposer::_sfAlpha field.
 inline
 void BinarySwapComposerBase::setAlpha(const bool &value)
@@ -162,7 +228,7 @@ void BinarySwapComposerBase::setAlpha(const bool &value)
 
 //! Get the value of the BinarySwapComposer::_sfTileSize field.
 inline
-UInt32 &BinarySwapComposerBase::getTileSize(void)
+UInt32 &BinarySwapComposerBase::editTileSize(void)
 {
     return _sfTileSize.getValue();
 }
@@ -173,6 +239,15 @@ const UInt32 &BinarySwapComposerBase::getTileSize(void) const
 {
     return _sfTileSize.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the BinarySwapComposer::_sfTileSize field.
+inline
+UInt32 &BinarySwapComposerBase::getTileSize(void)
+{
+    return _sfTileSize.getValue();
+}
+#endif
 
 //! Set the value of the BinarySwapComposer::_sfTileSize field.
 inline

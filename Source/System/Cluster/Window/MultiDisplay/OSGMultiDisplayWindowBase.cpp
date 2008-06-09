@@ -110,27 +110,27 @@ FieldDescription *MultiDisplayWindowBase::_desc[] =
                      "hServers", 
                      HServersFieldId, HServersFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFHServers)),
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::editSFHServers)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "vServers", 
                      VServersFieldId, VServersFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFVServers)),
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::editSFVServers)),
     new FieldDescription(SFBool::getClassType(), 
                      "manageClientViewports", 
                      ManageClientViewportsFieldId, ManageClientViewportsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFManageClientViewports)),
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::editSFManageClientViewports)),
     new FieldDescription(SFInt32::getClassType(), 
                      "xOverlap", 
                      XOverlapFieldId, XOverlapFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFXOverlap)),
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::editSFXOverlap)),
     new FieldDescription(SFInt32::getClassType(), 
                      "yOverlap", 
                      YOverlapFieldId, YOverlapFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::getSFYOverlap))
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::editSFYOverlap))
 };
 
 
@@ -418,7 +418,7 @@ DataType FieldDataTraits<MultiDisplayWindowPtr>::_type("MultiDisplayWindowPtr", 
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTIDISPLAYWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTIDISPLAYWINDOWBASE_INLINE_CVSID;
 

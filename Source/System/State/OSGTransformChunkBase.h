@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING TransformChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMatrix            *getSFMatrix         (void);
 
-           Matrix              &getMatrix         (void);
+           SFMatrix            *editSFMatrix         (void);
+     const SFMatrix            *getSFMatrix         (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFMatrix         (void);
+#endif
+
+
+           Matrix              &editMatrix         (void);
      const Matrix              &getMatrix         (void) const;
+#ifndef OSG_2_PREP
+           Matrix              &getMatrix         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

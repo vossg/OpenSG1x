@@ -98,17 +98,17 @@ FieldDescription *PhysicsUniversalJointBase::_desc[] =
                      "anchor", 
                      AnchorFieldId, AnchorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::getSFAnchor)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::editSFAnchor)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis1", 
                      Axis1FieldId, Axis1FieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::getSFAxis1)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::editSFAxis1)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis2", 
                      Axis2FieldId, Axis2FieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::getSFAxis2))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsUniversalJointBase::editSFAxis2))
 };
 
 
@@ -359,7 +359,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsUniversalJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPIN
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsUniversalJointBase.cpp,v 1.3 2008/06/05 05:02:17 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsUniversalJointBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSUNIVERSALJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSUNIVERSALJOINTBASE_INLINE_CVSID;
 

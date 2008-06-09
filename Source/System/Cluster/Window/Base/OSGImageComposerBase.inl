@@ -72,22 +72,54 @@ OSG::UInt32 ImageComposerBase::getClassTypeId(void)
 
 //! Get the ImageComposer::_sfEnabled field.
 inline
-SFBool *ImageComposerBase::getSFEnabled(void)
+const SFBool *ImageComposerBase::getSFEnabled(void) const
 {
     return &_sfEnabled;
 }
 
+//! Get the ImageComposer::_sfEnabled field.
+inline
+SFBool *ImageComposerBase::editSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ImageComposer::_sfEnabled field.
+inline
+SFBool *ImageComposerBase::getSFEnabled(void)
+{
+    return &_sfEnabled;
+}
+#endif
+
+//! Get the ImageComposer::_sfStatistics field.
+inline
+const SFBool *ImageComposerBase::getSFStatistics(void) const
+{
+    return &_sfStatistics;
+}
+
+//! Get the ImageComposer::_sfStatistics field.
+inline
+SFBool *ImageComposerBase::editSFStatistics(void)
+{
+    return &_sfStatistics;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ImageComposer::_sfStatistics field.
 inline
 SFBool *ImageComposerBase::getSFStatistics(void)
 {
     return &_sfStatistics;
 }
+#endif
 
 
 //! Get the value of the ImageComposer::_sfEnabled field.
 inline
-bool &ImageComposerBase::getEnabled(void)
+bool &ImageComposerBase::editEnabled(void)
 {
     return _sfEnabled.getValue();
 }
@@ -99,6 +131,15 @@ const bool &ImageComposerBase::getEnabled(void) const
     return _sfEnabled.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ImageComposer::_sfEnabled field.
+inline
+bool &ImageComposerBase::getEnabled(void)
+{
+    return _sfEnabled.getValue();
+}
+#endif
+
 //! Set the value of the ImageComposer::_sfEnabled field.
 inline
 void ImageComposerBase::setEnabled(const bool &value)
@@ -108,7 +149,7 @@ void ImageComposerBase::setEnabled(const bool &value)
 
 //! Get the value of the ImageComposer::_sfStatistics field.
 inline
-bool &ImageComposerBase::getStatistics(void)
+bool &ImageComposerBase::editStatistics(void)
 {
     return _sfStatistics.getValue();
 }
@@ -119,6 +160,15 @@ const bool &ImageComposerBase::getStatistics(void) const
 {
     return _sfStatistics.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the ImageComposer::_sfStatistics field.
+inline
+bool &ImageComposerBase::getStatistics(void)
+{
+    return _sfStatistics.getValue();
+}
+#endif
 
 //! Set the value of the ImageComposer::_sfStatistics field.
 inline

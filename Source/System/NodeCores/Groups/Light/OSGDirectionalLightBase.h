@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLightBase : public Light
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFDirection      (void);
 
-           Vec3f               &getDirection      (void);
+           SFVec3f             *editSFDirection      (void);
+     const SFVec3f             *getSFDirection      (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFDirection      (void);
+#endif
+
+
+           Vec3f               &editDirection      (void);
      const Vec3f               &getDirection      (void) const;
+#ifndef OSG_2_PREP
+           Vec3f               &getDirection      (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -98,29 +98,77 @@ LightModelChunkPtr LightModelChunkBase::createEmpty(void)
 
 //! Get the LightModelChunk::_sfAmbient field.
 inline
-SFColor4f *LightModelChunkBase::getSFAmbient(void)
+const SFColor4f *LightModelChunkBase::getSFAmbient(void) const
 {
     return &_sfAmbient;
 }
 
+//! Get the LightModelChunk::_sfAmbient field.
+inline
+SFColor4f *LightModelChunkBase::editSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+
+#ifndef OSG_2_PREP
+//! Get the LightModelChunk::_sfAmbient field.
+inline
+SFColor4f *LightModelChunkBase::getSFAmbient(void)
+{
+    return &_sfAmbient;
+}
+#endif
+
+//! Get the LightModelChunk::_sfColorControl field.
+inline
+const SFGLenum *LightModelChunkBase::getSFColorControl(void) const
+{
+    return &_sfColorControl;
+}
+
+//! Get the LightModelChunk::_sfColorControl field.
+inline
+SFGLenum *LightModelChunkBase::editSFColorControl(void)
+{
+    return &_sfColorControl;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LightModelChunk::_sfColorControl field.
 inline
 SFGLenum *LightModelChunkBase::getSFColorControl(void)
 {
     return &_sfColorControl;
 }
+#endif
 
+//! Get the LightModelChunk::_sfLocalViewer field.
+inline
+const SFBool *LightModelChunkBase::getSFLocalViewer(void) const
+{
+    return &_sfLocalViewer;
+}
+
+//! Get the LightModelChunk::_sfLocalViewer field.
+inline
+SFBool *LightModelChunkBase::editSFLocalViewer(void)
+{
+    return &_sfLocalViewer;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LightModelChunk::_sfLocalViewer field.
 inline
 SFBool *LightModelChunkBase::getSFLocalViewer(void)
 {
     return &_sfLocalViewer;
 }
+#endif
 
 
 //! Get the value of the LightModelChunk::_sfAmbient field.
 inline
-Color4f &LightModelChunkBase::getAmbient(void)
+Color4f &LightModelChunkBase::editAmbient(void)
 {
     return _sfAmbient.getValue();
 }
@@ -132,6 +180,15 @@ const Color4f &LightModelChunkBase::getAmbient(void) const
     return _sfAmbient.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LightModelChunk::_sfAmbient field.
+inline
+Color4f &LightModelChunkBase::getAmbient(void)
+{
+    return _sfAmbient.getValue();
+}
+#endif
+
 //! Set the value of the LightModelChunk::_sfAmbient field.
 inline
 void LightModelChunkBase::setAmbient(const Color4f &value)
@@ -141,7 +198,7 @@ void LightModelChunkBase::setAmbient(const Color4f &value)
 
 //! Get the value of the LightModelChunk::_sfColorControl field.
 inline
-GLenum &LightModelChunkBase::getColorControl(void)
+GLenum &LightModelChunkBase::editColorControl(void)
 {
     return _sfColorControl.getValue();
 }
@@ -153,6 +210,15 @@ const GLenum &LightModelChunkBase::getColorControl(void) const
     return _sfColorControl.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LightModelChunk::_sfColorControl field.
+inline
+GLenum &LightModelChunkBase::getColorControl(void)
+{
+    return _sfColorControl.getValue();
+}
+#endif
+
 //! Set the value of the LightModelChunk::_sfColorControl field.
 inline
 void LightModelChunkBase::setColorControl(const GLenum &value)
@@ -162,7 +228,7 @@ void LightModelChunkBase::setColorControl(const GLenum &value)
 
 //! Get the value of the LightModelChunk::_sfLocalViewer field.
 inline
-bool &LightModelChunkBase::getLocalViewer(void)
+bool &LightModelChunkBase::editLocalViewer(void)
 {
     return _sfLocalViewer.getValue();
 }
@@ -174,6 +240,15 @@ const bool &LightModelChunkBase::getLocalViewer(void) const
     return _sfLocalViewer.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LightModelChunk::_sfLocalViewer field.
+inline
+bool &LightModelChunkBase::getLocalViewer(void)
+{
+    return _sfLocalViewer.getValue();
+}
+#endif
+
 //! Set the value of the LightModelChunk::_sfLocalViewer field.
 inline
 void LightModelChunkBase::setLocalViewer(const bool &value)
@@ -184,5 +259,5 @@ void LightModelChunkBase::setLocalViewer(const bool &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTMODELCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLightModelChunkBase.inl,v 1.4 2008/06/05 05:02:28 vossg Exp $"
+#define OSGLIGHTMODELCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLightModelChunkBase.inl,v 1.5 2008/06/09 07:31:52 vossg Exp $"
 

@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING LogicOpChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFGLenum            *getSFLogicOp        (void);
 
-           GLenum              &getLogicOp        (void);
+           SFGLenum            *editSFLogicOp        (void);
+     const SFGLenum            *getSFLogicOp        (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFLogicOp        (void);
+#endif
+
+
+           GLenum              &editLogicOp        (void);
      const GLenum              &getLogicOp        (void) const;
+#ifndef OSG_2_PREP
+           GLenum              &getLogicOp        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<LogicOpChunkPtr> LogicOpChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLOGICOPCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLogicOpChunkBase.h,v 1.2 2008/06/05 05:02:28 vossg Exp $"
+#define OSGLOGICOPCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGLogicOpChunkBase.h,v 1.3 2008/06/09 07:31:52 vossg Exp $"
 
 #endif /* _OSGLOGICOPCHUNKBASE_H_ */

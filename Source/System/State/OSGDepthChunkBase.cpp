@@ -111,27 +111,27 @@ FieldDescription *DepthChunkBase::_desc[] =
                      "enable", 
                      EnableFieldId, EnableFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFEnable)),
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::editSFEnable)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "func", 
                      FuncFieldId, FuncFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFFunc)),
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::editSFFunc)),
     new FieldDescription(SFReal32::getClassType(), 
                      "near", 
                      NearFieldId, NearFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFNear)),
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::editSFNear)),
     new FieldDescription(SFReal32::getClassType(), 
                      "far", 
                      FarFieldId, FarFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFFar)),
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::editSFFar)),
     new FieldDescription(SFBool::getClassType(), 
                      "readOnly", 
                      ReadOnlyFieldId, ReadOnlyFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::getSFReadOnly))
+                     reinterpret_cast<FieldAccessMethod>(&DepthChunkBase::editSFReadOnly))
 };
 
 
@@ -428,7 +428,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DepthChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.8 2008/06/05 05:01:19 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.9 2008/06/09 07:31:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCHUNKBASE_INLINE_CVSID;
 

@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLParameterChunkBase : public ShaderParameterChu
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFSHLChunkPtr       *getSFSHLChunk       (void);
 
-           SHLChunkPtr         &getSHLChunk       (void);
+           SFSHLChunkPtr       *editSFSHLChunk       (void);
+     const SFSHLChunkPtr       *getSFSHLChunk       (void) const;
+#ifndef OSG_2_PREP
+           SFSHLChunkPtr       *getSFSHLChunk       (void);
+#endif
+
+
+           SHLChunkPtr         &editSHLChunk       (void);
      const SHLChunkPtr         &getSHLChunk       (void) const;
+#ifndef OSG_2_PREP
+           SHLChunkPtr         &getSHLChunk       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<SHLParameterChunkPtr> SHLParameterChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunkBase.h,v 1.8 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunkBase.h,v 1.9 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHLPARAMETERCHUNKBASE_H_ */

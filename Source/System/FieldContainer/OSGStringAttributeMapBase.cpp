@@ -92,12 +92,12 @@ FieldDescription *StringAttributeMapBase::_desc[] =
                      "keys", 
                      KeysFieldId, KeysFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StringAttributeMapBase::getMFKeys)),
+                     reinterpret_cast<FieldAccessMethod>(&StringAttributeMapBase::editMFKeys)),
     new FieldDescription(MFString::getClassType(), 
                      "values", 
                      ValuesFieldId, ValuesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&StringAttributeMapBase::getMFValues))
+                     reinterpret_cast<FieldAccessMethod>(&StringAttributeMapBase::editMFValues))
 };
 
 
@@ -331,7 +331,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(StringAttributeMapPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMapBase.cpp,v 1.3 2008/06/05 05:02:25 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMapBase.cpp,v 1.4 2008/06/09 07:31:47 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID;
 

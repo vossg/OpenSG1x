@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFGLId           (void);
 
-           UInt32              &getGLId           (void);
+           SFUInt32            *editSFGLId           (void);
+     const SFUInt32            *getSFGLId           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFGLId           (void);
+#endif
+
+
+           UInt32              &editGLId           (void);
      const UInt32              &getGLId           (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getGLId           (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<CGFXChunkPtr> CGFXChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGFXChunkBase.h,v 1.5 2008/06/05 05:02:14 vossg Exp $"
+#define OSGCGFXCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGCGFXChunkBase.h,v 1.6 2008/06/09 07:31:37 vossg Exp $"
 
 #endif /* _OSGCGFXCHUNKBASE_H_ */

@@ -110,27 +110,27 @@ FieldDescription *ComponentTransformBase::_desc[] =
                      "center", 
                      CenterFieldId, CenterFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFCenter)),
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::editSFCenter)),
     new FieldDescription(SFQuaternion::getClassType(), 
                      "rotation", 
                      RotationFieldId, RotationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFRotation)),
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::editSFRotation)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFScale)),
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::editSFScale)),
     new FieldDescription(SFQuaternion::getClassType(), 
                      "scaleOrientation", 
                      ScaleOrientationFieldId, ScaleOrientationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFScaleOrientation)),
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::editSFScaleOrientation)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "translation", 
                      TranslationFieldId, TranslationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::getSFTranslation))
+                     reinterpret_cast<FieldAccessMethod>(&ComponentTransformBase::editSFTranslation))
 };
 
 
@@ -427,7 +427,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ComponentTransformPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOMPONENTTRANSFORMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOMPONENTTRANSFORMBASE_INLINE_CVSID;
 

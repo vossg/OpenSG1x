@@ -191,79 +191,287 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFGeoPTypesPtr      *getSFTypes          (void);
-           SFGeoPLengthsPtr    *getSFLengths        (void);
-           SFGeoPositionsPtr   *getSFPositions      (void);
-           SFGeoNormalsPtr     *getSFNormals        (void);
-           SFGeoColorsPtr      *getSFColors         (void);
-           SFGeoColorsPtr      *getSFSecondaryColors(void);
-           SFGeoTexCoordsPtr   *getSFTexCoords      (void);
-           SFGeoTexCoordsPtr   *getSFTexCoords1     (void);
-           SFGeoTexCoordsPtr   *getSFTexCoords2     (void);
-           SFGeoTexCoordsPtr   *getSFTexCoords3     (void);
-           SFGeoTexCoordsPtr   *getSFTexCoords4     (void);
-           SFGeoTexCoordsPtr   *getSFTexCoords5     (void);
-           SFGeoTexCoordsPtr   *getSFTexCoords6     (void);
-           SFGeoTexCoordsPtr   *getSFTexCoords7     (void);
-           SFGeoIndicesPtr     *getSFIndices        (void);
-           MFUInt16            *getMFIndexMapping   (void);
-           SFBool              *getSFDlistCache     (void);
-           SFInt32             *getSFIgnoreGLForAspect(void);
-           SFUInt32            *getSFMinindex       (void);
-           SFUInt32            *getSFMaxindex       (void);
-           MFUInt32            *getMFLowindices     (void);
-           MFUInt32            *getMFHighindices    (void);
-           SFBool              *getSFVbo            (void);
 
-           GeoPTypesPtr        &getTypes          (void);
+           SFGeoPTypesPtr      *editSFTypes          (void);
+     const SFGeoPTypesPtr      *getSFTypes          (void) const;
+#ifndef OSG_2_PREP
+           SFGeoPTypesPtr      *getSFTypes          (void);
+#endif
+
+           SFGeoPLengthsPtr    *editSFLengths        (void);
+     const SFGeoPLengthsPtr    *getSFLengths        (void) const;
+#ifndef OSG_2_PREP
+           SFGeoPLengthsPtr    *getSFLengths        (void);
+#endif
+
+           SFGeoPositionsPtr   *editSFPositions      (void);
+     const SFGeoPositionsPtr   *getSFPositions      (void) const;
+#ifndef OSG_2_PREP
+           SFGeoPositionsPtr   *getSFPositions      (void);
+#endif
+
+           SFGeoNormalsPtr     *editSFNormals        (void);
+     const SFGeoNormalsPtr     *getSFNormals        (void) const;
+#ifndef OSG_2_PREP
+           SFGeoNormalsPtr     *getSFNormals        (void);
+#endif
+
+           SFGeoColorsPtr      *editSFColors         (void);
+     const SFGeoColorsPtr      *getSFColors         (void) const;
+#ifndef OSG_2_PREP
+           SFGeoColorsPtr      *getSFColors         (void);
+#endif
+
+           SFGeoColorsPtr      *editSFSecondaryColors(void);
+     const SFGeoColorsPtr      *getSFSecondaryColors(void) const;
+#ifndef OSG_2_PREP
+           SFGeoColorsPtr      *getSFSecondaryColors(void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTexCoords      (void);
+     const SFGeoTexCoordsPtr   *getSFTexCoords      (void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTexCoords      (void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTexCoords1     (void);
+     const SFGeoTexCoordsPtr   *getSFTexCoords1     (void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTexCoords1     (void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTexCoords2     (void);
+     const SFGeoTexCoordsPtr   *getSFTexCoords2     (void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTexCoords2     (void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTexCoords3     (void);
+     const SFGeoTexCoordsPtr   *getSFTexCoords3     (void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTexCoords3     (void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTexCoords4     (void);
+     const SFGeoTexCoordsPtr   *getSFTexCoords4     (void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTexCoords4     (void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTexCoords5     (void);
+     const SFGeoTexCoordsPtr   *getSFTexCoords5     (void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTexCoords5     (void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTexCoords6     (void);
+     const SFGeoTexCoordsPtr   *getSFTexCoords6     (void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTexCoords6     (void);
+#endif
+
+           SFGeoTexCoordsPtr   *editSFTexCoords7     (void);
+     const SFGeoTexCoordsPtr   *getSFTexCoords7     (void) const;
+#ifndef OSG_2_PREP
+           SFGeoTexCoordsPtr   *getSFTexCoords7     (void);
+#endif
+
+           SFGeoIndicesPtr     *editSFIndices        (void);
+     const SFGeoIndicesPtr     *getSFIndices        (void) const;
+#ifndef OSG_2_PREP
+           SFGeoIndicesPtr     *getSFIndices        (void);
+#endif
+
+           MFUInt16            *editMFIndexMapping   (void);
+     const MFUInt16            *getMFIndexMapping   (void) const;
+#ifndef OSG_2_PREP
+           MFUInt16            *getMFIndexMapping   (void);
+#endif
+
+           SFBool              *editSFDlistCache     (void);
+     const SFBool              *getSFDlistCache     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDlistCache     (void);
+#endif
+
+           SFInt32             *editSFIgnoreGLForAspect(void);
+     const SFInt32             *getSFIgnoreGLForAspect(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFIgnoreGLForAspect(void);
+#endif
+
+           SFUInt32            *editSFMinindex       (void);
+     const SFUInt32            *getSFMinindex       (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFMinindex       (void);
+#endif
+
+           SFUInt32            *editSFMaxindex       (void);
+     const SFUInt32            *getSFMaxindex       (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFMaxindex       (void);
+#endif
+
+           MFUInt32            *editMFLowindices     (void);
+     const MFUInt32            *getMFLowindices     (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFLowindices     (void);
+#endif
+
+           MFUInt32            *editMFHighindices    (void);
+     const MFUInt32            *getMFHighindices    (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFHighindices    (void);
+#endif
+
+           SFBool              *editSFVbo            (void);
+     const SFBool              *getSFVbo            (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFVbo            (void);
+#endif
+
+
+           GeoPTypesPtr        &editTypes          (void);
      const GeoPTypesPtr        &getTypes          (void) const;
-           GeoPLengthsPtr      &getLengths        (void);
+#ifndef OSG_2_PREP
+           GeoPTypesPtr        &getTypes          (void);
+#endif
+
+           GeoPLengthsPtr      &editLengths        (void);
      const GeoPLengthsPtr      &getLengths        (void) const;
-           GeoPositionsPtr     &getPositions      (void);
+#ifndef OSG_2_PREP
+           GeoPLengthsPtr      &getLengths        (void);
+#endif
+
+           GeoPositionsPtr     &editPositions      (void);
      const GeoPositionsPtr     &getPositions      (void) const;
-           GeoNormalsPtr       &getNormals        (void);
+#ifndef OSG_2_PREP
+           GeoPositionsPtr     &getPositions      (void);
+#endif
+
+           GeoNormalsPtr       &editNormals        (void);
      const GeoNormalsPtr       &getNormals        (void) const;
-           GeoColorsPtr        &getColors         (void);
+#ifndef OSG_2_PREP
+           GeoNormalsPtr       &getNormals        (void);
+#endif
+
+           GeoColorsPtr        &editColors         (void);
      const GeoColorsPtr        &getColors         (void) const;
-           GeoColorsPtr        &getSecondaryColors(void);
+#ifndef OSG_2_PREP
+           GeoColorsPtr        &getColors         (void);
+#endif
+
+           GeoColorsPtr        &editSecondaryColors(void);
      const GeoColorsPtr        &getSecondaryColors(void) const;
-           GeoTexCoordsPtr     &getTexCoords      (void);
+#ifndef OSG_2_PREP
+           GeoColorsPtr        &getSecondaryColors(void);
+#endif
+
+           GeoTexCoordsPtr     &editTexCoords      (void);
      const GeoTexCoordsPtr     &getTexCoords      (void) const;
-           GeoTexCoordsPtr     &getTexCoords1     (void);
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTexCoords      (void);
+#endif
+
+           GeoTexCoordsPtr     &editTexCoords1     (void);
      const GeoTexCoordsPtr     &getTexCoords1     (void) const;
-           GeoTexCoordsPtr     &getTexCoords2     (void);
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTexCoords1     (void);
+#endif
+
+           GeoTexCoordsPtr     &editTexCoords2     (void);
      const GeoTexCoordsPtr     &getTexCoords2     (void) const;
-           GeoTexCoordsPtr     &getTexCoords3     (void);
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTexCoords2     (void);
+#endif
+
+           GeoTexCoordsPtr     &editTexCoords3     (void);
      const GeoTexCoordsPtr     &getTexCoords3     (void) const;
-           GeoTexCoordsPtr     &getTexCoords4     (void);
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTexCoords3     (void);
+#endif
+
+           GeoTexCoordsPtr     &editTexCoords4     (void);
      const GeoTexCoordsPtr     &getTexCoords4     (void) const;
-           GeoTexCoordsPtr     &getTexCoords5     (void);
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTexCoords4     (void);
+#endif
+
+           GeoTexCoordsPtr     &editTexCoords5     (void);
      const GeoTexCoordsPtr     &getTexCoords5     (void) const;
-           GeoTexCoordsPtr     &getTexCoords6     (void);
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTexCoords5     (void);
+#endif
+
+           GeoTexCoordsPtr     &editTexCoords6     (void);
      const GeoTexCoordsPtr     &getTexCoords6     (void) const;
-           GeoTexCoordsPtr     &getTexCoords7     (void);
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTexCoords6     (void);
+#endif
+
+           GeoTexCoordsPtr     &editTexCoords7     (void);
      const GeoTexCoordsPtr     &getTexCoords7     (void) const;
-           GeoIndicesPtr       &getIndices        (void);
+#ifndef OSG_2_PREP
+           GeoTexCoordsPtr     &getTexCoords7     (void);
+#endif
+
+           GeoIndicesPtr       &editIndices        (void);
      const GeoIndicesPtr       &getIndices        (void) const;
-           bool                &getDlistCache     (void);
+#ifndef OSG_2_PREP
+           GeoIndicesPtr       &getIndices        (void);
+#endif
+
+           bool                &editDlistCache     (void);
      const bool                &getDlistCache     (void) const;
-           Int32               &getIgnoreGLForAspect(void);
+#ifndef OSG_2_PREP
+           bool                &getDlistCache     (void);
+#endif
+
+
+           Int32               &editIgnoreGLForAspect(void);
      const Int32               &getIgnoreGLForAspect(void) const;
-           UInt32              &getMinindex       (void);
+#ifndef OSG_2_PREP
+           Int32               &getIgnoreGLForAspect(void);
+#endif
+
+           UInt32              &editMinindex       (void);
      const UInt32              &getMinindex       (void) const;
-           UInt32              &getMaxindex       (void);
+#ifndef OSG_2_PREP
+           UInt32              &getMinindex       (void);
+#endif
+
+           UInt32              &editMaxindex       (void);
      const UInt32              &getMaxindex       (void) const;
-           bool                &getVbo            (void);
+#ifndef OSG_2_PREP
+           UInt32              &getMaxindex       (void);
+#endif
+
+           bool                &editVbo            (void);
      const bool                &getVbo            (void) const;
+#ifndef OSG_2_PREP
+           bool                &getVbo            (void);
+#endif
+
+           UInt16              &editIndexMapping   (const UInt32 index);
+     const UInt16              &getIndexMapping   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt16              &getIndexMapping   (const UInt32 index);
            MFUInt16            &getIndexMapping   (void);
-     const MFUInt16            &getIndexMapping   (void) const;
+#endif
+
+           UInt32              &editLowindices     (const UInt32 index);
+     const UInt32              &getLowindices     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getLowindices     (const UInt32 index);
            MFUInt32            &getLowindices     (void);
-     const MFUInt32            &getLowindices     (void) const;
+#endif
+
+           UInt32              &editHighindices    (const UInt32 index);
+     const UInt32              &getHighindices    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getHighindices    (const UInt32 index);
            MFUInt32            &getHighindices    (void);
-     const MFUInt32            &getHighindices    (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -377,10 +585,17 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFInt32             *editSFGLId           (void);
+     const SFInt32             *getSFGLId           (void) const;
+#ifndef OSG_2_PREP
            SFInt32             *getSFGLId           (void);
+#endif
 
-           Int32               &getGLId           (void);
+           Int32               &editGLId           (void);
      const Int32               &getGLId           (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getGLId           (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

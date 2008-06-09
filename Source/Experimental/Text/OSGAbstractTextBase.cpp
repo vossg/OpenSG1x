@@ -110,27 +110,27 @@ FieldDescription *AbstractTextBase::_desc[] =
                      "Position", 
                      PositionFieldId, PositionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getSFPosition)),
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::editSFPosition)),
     new FieldDescription(SFSharedFontStyleWrapperPtr::getClassType(), 
                      "Font", 
                      FontFieldId, FontFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getSFFont)),
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::editSFFont)),
     new FieldDescription(MFString::getClassType(), 
                      "Text", 
                      TextFieldId, TextFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getMFText)),
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::editMFText)),
     new FieldDescription(SFReal32::getClassType(), 
                      "VerticalLineDistance", 
                      VerticalLineDistanceFieldId, VerticalLineDistanceFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getSFVerticalLineDistance)),
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::editSFVerticalLineDistance)),
     new FieldDescription(SFUInt8::getClassType(), 
                      "Alignment", 
                      AlignmentFieldId, AlignmentFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::getSFAlignment))
+                     reinterpret_cast<FieldAccessMethod>(&AbstractTextBase::editSFAlignment))
 };
 
 
@@ -422,7 +422,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(AbstractTextPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGABSTRACTTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGABSTRACTTEXTBASE_INLINE_CVSID;
 

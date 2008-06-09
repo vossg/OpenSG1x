@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlaneChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec4f             *getSFEquation       (void);
-           SFBool              *getSFEnable         (void);
-           SFNodePtr           *getSFBeacon         (void);
 
-           Vec4f               &getEquation       (void);
+           SFVec4f             *editSFEquation       (void);
+     const SFVec4f             *getSFEquation       (void) const;
+#ifndef OSG_2_PREP
+           SFVec4f             *getSFEquation       (void);
+#endif
+
+           SFBool              *editSFEnable         (void);
+     const SFBool              *getSFEnable         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnable         (void);
+#endif
+
+           SFNodePtr           *editSFBeacon         (void);
+     const SFNodePtr           *getSFBeacon         (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFBeacon         (void);
+#endif
+
+
+           Vec4f               &editEquation       (void);
      const Vec4f               &getEquation       (void) const;
-           bool                &getEnable         (void);
+#ifndef OSG_2_PREP
+           Vec4f               &getEquation       (void);
+#endif
+
+           bool                &editEnable         (void);
      const bool                &getEnable         (void) const;
-           NodePtr             &getBeacon         (void);
+#ifndef OSG_2_PREP
+           bool                &getEnable         (void);
+#endif
+
+           NodePtr             &editBeacon         (void);
      const NodePtr             &getBeacon         (void) const;
+#ifndef OSG_2_PREP
+           NodePtr             &getBeacon         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

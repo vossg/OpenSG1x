@@ -98,99 +98,307 @@ ParticlesPtr ParticlesBase::createEmpty(void)
 
 //! Get the Particles::_sfMode field.
 inline
-SFUInt32 *ParticlesBase::getSFMode(void)
+const SFUInt32 *ParticlesBase::getSFMode(void) const
 {
     return &_sfMode;
 }
 
+//! Get the Particles::_sfMode field.
+inline
+SFUInt32 *ParticlesBase::editSFMode(void)
+{
+    return &_sfMode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Particles::_sfMode field.
+inline
+SFUInt32 *ParticlesBase::getSFMode(void)
+{
+    return &_sfMode;
+}
+#endif
+
+//! Get the Particles::_sfPositions field.
+inline
+const SFGeoPositionsPtr *ParticlesBase::getSFPositions(void) const
+{
+    return &_sfPositions;
+}
+
+//! Get the Particles::_sfPositions field.
+inline
+SFGeoPositionsPtr *ParticlesBase::editSFPositions(void)
+{
+    return &_sfPositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfPositions field.
 inline
 SFGeoPositionsPtr *ParticlesBase::getSFPositions(void)
 {
     return &_sfPositions;
 }
+#endif
 
+//! Get the Particles::_mfSizes field.
+inline
+const MFVec3f *ParticlesBase::getMFSizes(void) const
+{
+    return &_mfSizes;
+}
+
+//! Get the Particles::_mfSizes field.
+inline
+MFVec3f *ParticlesBase::editMFSizes(void)
+{
+    return &_mfSizes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_mfSizes field.
 inline
 MFVec3f *ParticlesBase::getMFSizes(void)
 {
     return &_mfSizes;
 }
+#endif
 
+//! Get the Particles::_sfSecPositions field.
+inline
+const SFGeoPositionsPtr *ParticlesBase::getSFSecPositions(void) const
+{
+    return &_sfSecPositions;
+}
+
+//! Get the Particles::_sfSecPositions field.
+inline
+SFGeoPositionsPtr *ParticlesBase::editSFSecPositions(void)
+{
+    return &_sfSecPositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfSecPositions field.
 inline
 SFGeoPositionsPtr *ParticlesBase::getSFSecPositions(void)
 {
     return &_sfSecPositions;
 }
+#endif
 
+//! Get the Particles::_sfColors field.
+inline
+const SFGeoColorsPtr *ParticlesBase::getSFColors(void) const
+{
+    return &_sfColors;
+}
+
+//! Get the Particles::_sfColors field.
+inline
+SFGeoColorsPtr *ParticlesBase::editSFColors(void)
+{
+    return &_sfColors;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfColors field.
 inline
 SFGeoColorsPtr *ParticlesBase::getSFColors(void)
 {
     return &_sfColors;
 }
+#endif
 
+//! Get the Particles::_sfNormals field.
+inline
+const SFGeoNormalsPtr *ParticlesBase::getSFNormals(void) const
+{
+    return &_sfNormals;
+}
+
+//! Get the Particles::_sfNormals field.
+inline
+SFGeoNormalsPtr *ParticlesBase::editSFNormals(void)
+{
+    return &_sfNormals;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfNormals field.
 inline
 SFGeoNormalsPtr *ParticlesBase::getSFNormals(void)
 {
     return &_sfNormals;
 }
+#endif
 
+//! Get the Particles::_mfIndices field.
+inline
+const MFInt32 *ParticlesBase::getMFIndices(void) const
+{
+    return &_mfIndices;
+}
+
+//! Get the Particles::_mfIndices field.
+inline
+MFInt32 *ParticlesBase::editMFIndices(void)
+{
+    return &_mfIndices;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_mfIndices field.
 inline
 MFInt32 *ParticlesBase::getMFIndices(void)
 {
     return &_mfIndices;
 }
+#endif
 
+//! Get the Particles::_mfTextureZs field.
+inline
+const MFReal32 *ParticlesBase::getMFTextureZs(void) const
+{
+    return &_mfTextureZs;
+}
+
+//! Get the Particles::_mfTextureZs field.
+inline
+MFReal32 *ParticlesBase::editMFTextureZs(void)
+{
+    return &_mfTextureZs;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_mfTextureZs field.
 inline
 MFReal32 *ParticlesBase::getMFTextureZs(void)
 {
     return &_mfTextureZs;
 }
+#endif
 
+//! Get the Particles::_sfDrawOrder field.
+inline
+const SFUInt32 *ParticlesBase::getSFDrawOrder(void) const
+{
+    return &_sfDrawOrder;
+}
+
+//! Get the Particles::_sfDrawOrder field.
+inline
+SFUInt32 *ParticlesBase::editSFDrawOrder(void)
+{
+    return &_sfDrawOrder;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfDrawOrder field.
 inline
 SFUInt32 *ParticlesBase::getSFDrawOrder(void)
 {
     return &_sfDrawOrder;
 }
+#endif
 
+//! Get the Particles::_sfDynamic field.
+inline
+const SFBool *ParticlesBase::getSFDynamic(void) const
+{
+    return &_sfDynamic;
+}
+
+//! Get the Particles::_sfDynamic field.
+inline
+SFBool *ParticlesBase::editSFDynamic(void)
+{
+    return &_sfDynamic;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfDynamic field.
 inline
 SFBool *ParticlesBase::getSFDynamic(void)
 {
     return &_sfDynamic;
 }
+#endif
 
+//! Get the Particles::_sfPump field.
+inline
+const SFUInt32 *ParticlesBase::getSFPump(void) const
+{
+    return &_sfPump;
+}
+
+//! Get the Particles::_sfPump field.
+inline
+SFUInt32 *ParticlesBase::editSFPump(void)
+{
+    return &_sfPump;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfPump field.
 inline
 SFUInt32 *ParticlesBase::getSFPump(void)
 {
     return &_sfPump;
 }
+#endif
 
+//! Get the Particles::_sfBsp field.
+inline
+const SFParticleBSPTree *ParticlesBase::getSFBsp(void) const
+{
+    return &_sfBsp;
+}
+
+//! Get the Particles::_sfBsp field.
+inline
+SFParticleBSPTree *ParticlesBase::editSFBsp(void)
+{
+    return &_sfBsp;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfBsp field.
 inline
 SFParticleBSPTree *ParticlesBase::getSFBsp(void)
 {
     return &_sfBsp;
 }
+#endif
 
+//! Get the Particles::_sfNumParticles field.
+inline
+const SFInt32 *ParticlesBase::getSFNumParticles(void) const
+{
+    return &_sfNumParticles;
+}
+
+//! Get the Particles::_sfNumParticles field.
+inline
+SFInt32 *ParticlesBase::editSFNumParticles(void)
+{
+    return &_sfNumParticles;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Particles::_sfNumParticles field.
 inline
 SFInt32 *ParticlesBase::getSFNumParticles(void)
 {
     return &_sfNumParticles;
 }
+#endif
 
 
 //! Get the value of the Particles::_sfMode field.
 inline
-UInt32 &ParticlesBase::getMode(void)
+UInt32 &ParticlesBase::editMode(void)
 {
     return _sfMode.getValue();
 }
@@ -202,6 +410,15 @@ const UInt32 &ParticlesBase::getMode(void) const
     return _sfMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfMode field.
+inline
+UInt32 &ParticlesBase::getMode(void)
+{
+    return _sfMode.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfMode field.
 inline
 void ParticlesBase::setMode(const UInt32 &value)
@@ -211,7 +428,7 @@ void ParticlesBase::setMode(const UInt32 &value)
 
 //! Get the value of the Particles::_sfPositions field.
 inline
-GeoPositionsPtr &ParticlesBase::getPositions(void)
+GeoPositionsPtr &ParticlesBase::editPositions(void)
 {
     return _sfPositions.getValue();
 }
@@ -223,6 +440,15 @@ const GeoPositionsPtr &ParticlesBase::getPositions(void) const
     return _sfPositions.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfPositions field.
+inline
+GeoPositionsPtr &ParticlesBase::getPositions(void)
+{
+    return _sfPositions.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfPositions field.
 inline
 void ParticlesBase::setPositions(const GeoPositionsPtr &value)
@@ -232,7 +458,7 @@ void ParticlesBase::setPositions(const GeoPositionsPtr &value)
 
 //! Get the value of the Particles::_sfSecPositions field.
 inline
-GeoPositionsPtr &ParticlesBase::getSecPositions(void)
+GeoPositionsPtr &ParticlesBase::editSecPositions(void)
 {
     return _sfSecPositions.getValue();
 }
@@ -244,6 +470,15 @@ const GeoPositionsPtr &ParticlesBase::getSecPositions(void) const
     return _sfSecPositions.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfSecPositions field.
+inline
+GeoPositionsPtr &ParticlesBase::getSecPositions(void)
+{
+    return _sfSecPositions.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfSecPositions field.
 inline
 void ParticlesBase::setSecPositions(const GeoPositionsPtr &value)
@@ -253,7 +488,7 @@ void ParticlesBase::setSecPositions(const GeoPositionsPtr &value)
 
 //! Get the value of the Particles::_sfColors field.
 inline
-GeoColorsPtr &ParticlesBase::getColors(void)
+GeoColorsPtr &ParticlesBase::editColors(void)
 {
     return _sfColors.getValue();
 }
@@ -265,6 +500,15 @@ const GeoColorsPtr &ParticlesBase::getColors(void) const
     return _sfColors.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfColors field.
+inline
+GeoColorsPtr &ParticlesBase::getColors(void)
+{
+    return _sfColors.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfColors field.
 inline
 void ParticlesBase::setColors(const GeoColorsPtr &value)
@@ -274,7 +518,7 @@ void ParticlesBase::setColors(const GeoColorsPtr &value)
 
 //! Get the value of the Particles::_sfNormals field.
 inline
-GeoNormalsPtr &ParticlesBase::getNormals(void)
+GeoNormalsPtr &ParticlesBase::editNormals(void)
 {
     return _sfNormals.getValue();
 }
@@ -286,6 +530,15 @@ const GeoNormalsPtr &ParticlesBase::getNormals(void) const
     return _sfNormals.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfNormals field.
+inline
+GeoNormalsPtr &ParticlesBase::getNormals(void)
+{
+    return _sfNormals.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfNormals field.
 inline
 void ParticlesBase::setNormals(const GeoNormalsPtr &value)
@@ -295,7 +548,7 @@ void ParticlesBase::setNormals(const GeoNormalsPtr &value)
 
 //! Get the value of the Particles::_sfDrawOrder field.
 inline
-UInt32 &ParticlesBase::getDrawOrder(void)
+UInt32 &ParticlesBase::editDrawOrder(void)
 {
     return _sfDrawOrder.getValue();
 }
@@ -307,6 +560,15 @@ const UInt32 &ParticlesBase::getDrawOrder(void) const
     return _sfDrawOrder.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfDrawOrder field.
+inline
+UInt32 &ParticlesBase::getDrawOrder(void)
+{
+    return _sfDrawOrder.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfDrawOrder field.
 inline
 void ParticlesBase::setDrawOrder(const UInt32 &value)
@@ -316,7 +578,7 @@ void ParticlesBase::setDrawOrder(const UInt32 &value)
 
 //! Get the value of the Particles::_sfDynamic field.
 inline
-bool &ParticlesBase::getDynamic(void)
+bool &ParticlesBase::editDynamic(void)
 {
     return _sfDynamic.getValue();
 }
@@ -328,6 +590,15 @@ const bool &ParticlesBase::getDynamic(void) const
     return _sfDynamic.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfDynamic field.
+inline
+bool &ParticlesBase::getDynamic(void)
+{
+    return _sfDynamic.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfDynamic field.
 inline
 void ParticlesBase::setDynamic(const bool &value)
@@ -337,7 +608,7 @@ void ParticlesBase::setDynamic(const bool &value)
 
 //! Get the value of the Particles::_sfPump field.
 inline
-UInt32 &ParticlesBase::getPump(void)
+UInt32 &ParticlesBase::editPump(void)
 {
     return _sfPump.getValue();
 }
@@ -349,6 +620,15 @@ const UInt32 &ParticlesBase::getPump(void) const
     return _sfPump.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfPump field.
+inline
+UInt32 &ParticlesBase::getPump(void)
+{
+    return _sfPump.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfPump field.
 inline
 void ParticlesBase::setPump(const UInt32 &value)
@@ -358,7 +638,7 @@ void ParticlesBase::setPump(const UInt32 &value)
 
 //! Get the value of the Particles::_sfBsp field.
 inline
-ParticleBSPTree &ParticlesBase::getBsp(void)
+ParticleBSPTree &ParticlesBase::editBsp(void)
 {
     return _sfBsp.getValue();
 }
@@ -370,6 +650,15 @@ const ParticleBSPTree &ParticlesBase::getBsp(void) const
     return _sfBsp.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfBsp field.
+inline
+ParticleBSPTree &ParticlesBase::getBsp(void)
+{
+    return _sfBsp.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfBsp field.
 inline
 void ParticlesBase::setBsp(const ParticleBSPTree &value)
@@ -379,7 +668,7 @@ void ParticlesBase::setBsp(const ParticleBSPTree &value)
 
 //! Get the value of the Particles::_sfNumParticles field.
 inline
-Int32 &ParticlesBase::getNumParticles(void)
+Int32 &ParticlesBase::editNumParticles(void)
 {
     return _sfNumParticles.getValue();
 }
@@ -391,6 +680,15 @@ const Int32 &ParticlesBase::getNumParticles(void) const
     return _sfNumParticles.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Particles::_sfNumParticles field.
+inline
+Int32 &ParticlesBase::getNumParticles(void)
+{
+    return _sfNumParticles.getValue();
+}
+#endif
+
 //! Set the value of the Particles::_sfNumParticles field.
 inline
 void ParticlesBase::setNumParticles(const Int32 &value)
@@ -399,6 +697,21 @@ void ParticlesBase::setNumParticles(const Int32 &value)
 }
 
 
+//! Get the value of the \a index element the Particles::_mfSizes field.
+inline
+Vec3f &ParticlesBase::editSizes(const UInt32 index)
+{
+    return _mfSizes[index];
+}
+
+//! Get the value of the \a index element the Particles::_mfSizes field.
+inline
+const Vec3f &ParticlesBase::getSizes(const UInt32 index) const
+{
+    return _mfSizes[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Particles::_mfSizes field.
 inline
 Vec3f &ParticlesBase::getSizes(const UInt32 index)
@@ -413,13 +726,23 @@ MFVec3f &ParticlesBase::getSizes(void)
     return _mfSizes;
 }
 
-//! Get the Particles::_mfSizes field.
+#endif
+
+//! Get the value of the \a index element the Particles::_mfIndices field.
 inline
-const MFVec3f &ParticlesBase::getSizes(void) const
+Int32 &ParticlesBase::editIndices(const UInt32 index)
 {
-    return _mfSizes;
+    return _mfIndices[index];
 }
 
+//! Get the value of the \a index element the Particles::_mfIndices field.
+inline
+const Int32 &ParticlesBase::getIndices(const UInt32 index) const
+{
+    return _mfIndices[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Particles::_mfIndices field.
 inline
 Int32 &ParticlesBase::getIndices(const UInt32 index)
@@ -434,13 +757,23 @@ MFInt32 &ParticlesBase::getIndices(void)
     return _mfIndices;
 }
 
-//! Get the Particles::_mfIndices field.
+#endif
+
+//! Get the value of the \a index element the Particles::_mfTextureZs field.
 inline
-const MFInt32 &ParticlesBase::getIndices(void) const
+Real32 &ParticlesBase::editTextureZs(const UInt32 index)
 {
-    return _mfIndices;
+    return _mfTextureZs[index];
 }
 
+//! Get the value of the \a index element the Particles::_mfTextureZs field.
+inline
+const Real32 &ParticlesBase::getTextureZs(const UInt32 index) const
+{
+    return _mfTextureZs[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the Particles::_mfTextureZs field.
 inline
 Real32 &ParticlesBase::getTextureZs(const UInt32 index)
@@ -455,12 +788,7 @@ MFReal32 &ParticlesBase::getTextureZs(void)
     return _mfTextureZs;
 }
 
-//! Get the Particles::_mfTextureZs field.
-inline
-const MFReal32 &ParticlesBase::getTextureZs(void) const
-{
-    return _mfTextureZs;
-}
+#endif
 
 OSG_END_NAMESPACE
 

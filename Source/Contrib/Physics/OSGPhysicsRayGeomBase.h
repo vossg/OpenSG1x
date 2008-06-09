@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsRayGeomBase : public PhysicsGeom
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFLenght         (void);
 
-           Real32              &getLenght         (void);
+           SFReal32            *editSFLenght         (void);
+     const SFReal32            *getSFLenght         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFLenght         (void);
+#endif
+
+
+           Real32              &editLenght         (void);
      const Real32              &getLenght         (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getLenght         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsRayGeomPtr> PhysicsRayGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSRAYGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsRayGeomBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSRAYGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsRayGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSRAYGEOMBASE_H_ */

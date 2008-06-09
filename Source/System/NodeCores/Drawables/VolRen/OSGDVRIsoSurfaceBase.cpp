@@ -111,27 +111,27 @@ FieldDescription *DVRIsoSurfaceBase::_desc[] =
                      "isoValue", 
                      IsoValueFieldId, IsoValueFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFIsoValue)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::editSFIsoValue)),
     new FieldDescription(SFReal32::getClassType(), 
                      "isoThickness", 
                      IsoThicknessFieldId, IsoThicknessFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFIsoThickness)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::editSFIsoThickness)),
     new FieldDescription(SFReal32::getClassType(), 
                      "isoOpacity", 
                      IsoOpacityFieldId, IsoOpacityFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFIsoOpacity)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::editSFIsoOpacity)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "alphaMode", 
                      AlphaModeFieldId, AlphaModeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFAlphaMode)),
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::editSFAlphaMode)),
     new FieldDescription(SFBool::getClassType(), 
                      "specularLighting", 
                      SpecularLightingFieldId, SpecularLightingFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::getSFSpecularLighting))
+                     reinterpret_cast<FieldAccessMethod>(&DVRIsoSurfaceBase::editSFSpecularLighting))
 };
 
 
@@ -419,7 +419,7 @@ DataType FieldDataTraits<DVRIsoSurfacePtr>::_type("DVRIsoSurfacePtr", "Attachmen
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRISOSURFACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRISOSURFACEBASE_INLINE_CVSID;
 

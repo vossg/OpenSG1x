@@ -134,47 +134,47 @@ FieldDescription *PolygonForegroundBase::_desc[] =
                      "material", 
                      MaterialFieldId, MaterialFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFMaterial)),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editSFMaterial)),
     new FieldDescription(MFVec3f::getClassType(), 
                      "texCoords", 
                      TexCoordsFieldId, TexCoordsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getMFTexCoords)),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editMFTexCoords)),
     new FieldDescription(MFPnt2f::getClassType(), 
                      "positions", 
                      PositionsFieldId, PositionsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getMFPositions)),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editMFPositions)),
     new FieldDescription(SFBool::getClassType(), 
                      "normalizedX", 
                      NormalizedXFieldId, NormalizedXFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFNormalizedX)),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editSFNormalizedX)),
     new FieldDescription(SFBool::getClassType(), 
                      "normalizedY", 
                      NormalizedYFieldId, NormalizedYFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFNormalizedY)),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editSFNormalizedY)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "aspectHeight", 
                      AspectHeightFieldId, AspectHeightFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFAspectHeight)),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editSFAspectHeight)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "aspectWidth", 
                      AspectWidthFieldId, AspectWidthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFAspectWidth)),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editSFAspectWidth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "scale", 
                      ScaleFieldId, ScaleFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFScale)),
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editSFScale)),
     new FieldDescription(SFBool::getClassType(), 
                      "tile", 
                      TileFieldId, TileFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::getSFTile))
+                     reinterpret_cast<FieldAccessMethod>(&PolygonForegroundBase::editSFTile))
 };
 
 
@@ -571,7 +571,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PolygonForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID;
 

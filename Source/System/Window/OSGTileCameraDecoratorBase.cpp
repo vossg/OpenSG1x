@@ -116,32 +116,32 @@ FieldDescription *TileCameraDecoratorBase::_desc[] =
                      "left", 
                      LeftFieldId, LeftFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFLeft)),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::editSFLeft)),
     new FieldDescription(SFReal32::getClassType(), 
                      "right", 
                      RightFieldId, RightFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFRight)),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::editSFRight)),
     new FieldDescription(SFReal32::getClassType(), 
                      "bottom", 
                      BottomFieldId, BottomFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFBottom)),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::editSFBottom)),
     new FieldDescription(SFReal32::getClassType(), 
                      "top", 
                      TopFieldId, TopFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFTop)),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::editSFTop)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fullWidth", 
                      FullWidthFieldId, FullWidthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFFullWidth)),
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::editSFFullWidth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fullHeight", 
                      FullHeightFieldId, FullHeightFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::getSFFullHeight))
+                     reinterpret_cast<FieldAccessMethod>(&TileCameraDecoratorBase::editSFFullHeight))
 };
 
 
@@ -461,7 +461,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(TileCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTILECAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILECAMERADECORATORBASE_INLINE_CVSID;
 

@@ -98,29 +98,77 @@ DeformableGeometryPtr DeformableGeometryBase::createEmpty(void)
 
 //! Get the DeformableGeometry::_mfDeformers field.
 inline
-MFDeformerPtr *DeformableGeometryBase::getMFDeformers(void)
+const MFDeformerPtr *DeformableGeometryBase::getMFDeformers(void) const
 {
     return &_mfDeformers;
 }
 
+//! Get the DeformableGeometry::_mfDeformers field.
+inline
+MFDeformerPtr *DeformableGeometryBase::editMFDeformers(void)
+{
+    return &_mfDeformers;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DeformableGeometry::_mfDeformers field.
+inline
+MFDeformerPtr *DeformableGeometryBase::getMFDeformers(void)
+{
+    return &_mfDeformers;
+}
+#endif
+
+//! Get the DeformableGeometry::_sfBasePositions field.
+inline
+const SFGeoPositionsPtr *DeformableGeometryBase::getSFBasePositions(void) const
+{
+    return &_sfBasePositions;
+}
+
+//! Get the DeformableGeometry::_sfBasePositions field.
+inline
+SFGeoPositionsPtr *DeformableGeometryBase::editSFBasePositions(void)
+{
+    return &_sfBasePositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DeformableGeometry::_sfBasePositions field.
 inline
 SFGeoPositionsPtr *DeformableGeometryBase::getSFBasePositions(void)
 {
     return &_sfBasePositions;
 }
+#endif
 
+//! Get the DeformableGeometry::_sfBaseNormals field.
+inline
+const SFGeoNormalsPtr *DeformableGeometryBase::getSFBaseNormals(void) const
+{
+    return &_sfBaseNormals;
+}
+
+//! Get the DeformableGeometry::_sfBaseNormals field.
+inline
+SFGeoNormalsPtr *DeformableGeometryBase::editSFBaseNormals(void)
+{
+    return &_sfBaseNormals;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DeformableGeometry::_sfBaseNormals field.
 inline
 SFGeoNormalsPtr *DeformableGeometryBase::getSFBaseNormals(void)
 {
     return &_sfBaseNormals;
 }
+#endif
 
 
 //! Get the value of the DeformableGeometry::_sfBasePositions field.
 inline
-GeoPositionsPtr &DeformableGeometryBase::getBasePositions(void)
+GeoPositionsPtr &DeformableGeometryBase::editBasePositions(void)
 {
     return _sfBasePositions.getValue();
 }
@@ -132,6 +180,15 @@ const GeoPositionsPtr &DeformableGeometryBase::getBasePositions(void) const
     return _sfBasePositions.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DeformableGeometry::_sfBasePositions field.
+inline
+GeoPositionsPtr &DeformableGeometryBase::getBasePositions(void)
+{
+    return _sfBasePositions.getValue();
+}
+#endif
+
 //! Set the value of the DeformableGeometry::_sfBasePositions field.
 inline
 void DeformableGeometryBase::setBasePositions(const GeoPositionsPtr &value)
@@ -141,7 +198,7 @@ void DeformableGeometryBase::setBasePositions(const GeoPositionsPtr &value)
 
 //! Get the value of the DeformableGeometry::_sfBaseNormals field.
 inline
-GeoNormalsPtr &DeformableGeometryBase::getBaseNormals(void)
+GeoNormalsPtr &DeformableGeometryBase::editBaseNormals(void)
 {
     return _sfBaseNormals.getValue();
 }
@@ -153,6 +210,15 @@ const GeoNormalsPtr &DeformableGeometryBase::getBaseNormals(void) const
     return _sfBaseNormals.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DeformableGeometry::_sfBaseNormals field.
+inline
+GeoNormalsPtr &DeformableGeometryBase::getBaseNormals(void)
+{
+    return _sfBaseNormals.getValue();
+}
+#endif
+
 //! Set the value of the DeformableGeometry::_sfBaseNormals field.
 inline
 void DeformableGeometryBase::setBaseNormals(const GeoNormalsPtr &value)
@@ -161,6 +227,21 @@ void DeformableGeometryBase::setBaseNormals(const GeoNormalsPtr &value)
 }
 
 
+//! Get the value of the \a index element the DeformableGeometry::_mfDeformers field.
+inline
+DeformerPtr &DeformableGeometryBase::editDeformers(const UInt32 index)
+{
+    return _mfDeformers[index];
+}
+
+//! Get the value of the \a index element the DeformableGeometry::_mfDeformers field.
+inline
+const DeformerPtr &DeformableGeometryBase::getDeformers(const UInt32 index) const
+{
+    return _mfDeformers[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the DeformableGeometry::_mfDeformers field.
 inline
 DeformerPtr &DeformableGeometryBase::getDeformers(const UInt32 index)
@@ -175,12 +256,7 @@ MFDeformerPtr &DeformableGeometryBase::getDeformers(void)
     return _mfDeformers;
 }
 
-//! Get the DeformableGeometry::_mfDeformers field.
-inline
-const MFDeformerPtr &DeformableGeometryBase::getDeformers(void) const
-{
-    return _mfDeformers;
-}
+#endif
 
 OSG_END_NAMESPACE
 

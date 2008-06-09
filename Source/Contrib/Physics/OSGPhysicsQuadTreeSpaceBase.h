@@ -219,6 +219,6 @@ typedef RefPtr<PhysicsQuadTreeSpacePtr> PhysicsQuadTreeSpaceRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSQUADTREESPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsQuadTreeSpaceBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSQUADTREESPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsQuadTreeSpaceBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSQUADTREESPACEBASE_H_ */

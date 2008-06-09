@@ -184,13 +184,27 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRSimpleLUTShaderBase : public DVRSimpleShader
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFInt8              *editSFLutMode        (void);
+     const SFInt8              *getSFLutMode        (void) const;
+#ifndef OSG_2_PREP
            SFInt8              *getSFLutMode        (void);
+#endif
+           SFInt8              *editSFActiveLutMode  (void);
+     const SFInt8              *getSFActiveLutMode  (void) const;
+#ifndef OSG_2_PREP
            SFInt8              *getSFActiveLutMode  (void);
+#endif
 
-           Int8                &getLutMode        (void);
+           Int8                &editLutMode        (void);
      const Int8                &getLutMode        (void) const;
-           Int8                &getActiveLutMode  (void);
+#ifndef OSG_2_PREP
+           Int8                &getLutMode        (void);
+#endif
+           Int8                &editActiveLutMode  (void);
      const Int8                &getActiveLutMode  (void) const;
+#ifndef OSG_2_PREP
+           Int8                &getActiveLutMode  (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -116,32 +116,32 @@ FieldDescription *SolidBackgroundBase::_desc[] =
                      "color", 
                      ColorFieldId, ColorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFColor)),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::editSFColor)),
     new FieldDescription(SFInt32::getClassType(), 
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFClearStencilBit)),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::editSFClearStencilBit)),
     new FieldDescription(SFReal32::getClassType(), 
                      "alpha", 
                      AlphaFieldId, AlphaFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFAlpha)),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::editSFAlpha)),
     new FieldDescription(SFReal32::getClassType(), 
                      "depth", 
                      DepthFieldId, DepthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFDepth)),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::editSFDepth)),
     new FieldDescription(SFBool::getClassType(), 
                      "clearDepth", 
                      ClearDepthFieldId, ClearDepthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFClearDepth)),
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::editSFClearDepth)),
     new FieldDescription(SFBool::getClassType(), 
                      "clearColor", 
                      ClearColorFieldId, ClearColorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::getSFClearColor))
+                     reinterpret_cast<FieldAccessMethod>(&SolidBackgroundBase::editSFClearColor))
 };
 
 
@@ -459,7 +459,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(SolidBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSOLIDBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSOLIDBACKGROUNDBASE_INLINE_CVSID;
 

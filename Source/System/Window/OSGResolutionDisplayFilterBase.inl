@@ -98,15 +98,31 @@ ResolutionDisplayFilterPtr ResolutionDisplayFilterBase::createEmpty(void)
 
 //! Get the ResolutionDisplayFilter::_sfDownScale field.
 inline
-SFReal32 *ResolutionDisplayFilterBase::getSFDownScale(void)
+const SFReal32 *ResolutionDisplayFilterBase::getSFDownScale(void) const
 {
     return &_sfDownScale;
 }
 
+//! Get the ResolutionDisplayFilter::_sfDownScale field.
+inline
+SFReal32 *ResolutionDisplayFilterBase::editSFDownScale(void)
+{
+    return &_sfDownScale;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ResolutionDisplayFilter::_sfDownScale field.
+inline
+SFReal32 *ResolutionDisplayFilterBase::getSFDownScale(void)
+{
+    return &_sfDownScale;
+}
+#endif
+
 
 //! Get the value of the ResolutionDisplayFilter::_sfDownScale field.
 inline
-Real32 &ResolutionDisplayFilterBase::getDownScale(void)
+Real32 &ResolutionDisplayFilterBase::editDownScale(void)
 {
     return _sfDownScale.getValue();
 }
@@ -117,6 +133,15 @@ const Real32 &ResolutionDisplayFilterBase::getDownScale(void) const
 {
     return _sfDownScale.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the ResolutionDisplayFilter::_sfDownScale field.
+inline
+Real32 &ResolutionDisplayFilterBase::getDownScale(void)
+{
+    return _sfDownScale.getValue();
+}
+#endif
 
 //! Set the value of the ResolutionDisplayFilter::_sfDownScale field.
 inline

@@ -92,12 +92,12 @@ FieldDescription *DisplayFilterForegroundBase::_desc[] =
                      "filter", 
                      FilterFieldId, FilterFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayFilterForegroundBase::getMFFilter)),
+                     reinterpret_cast<FieldAccessMethod>(&DisplayFilterForegroundBase::editMFFilter)),
     new FieldDescription(SFString::getClassType(), 
                      "server", 
                      ServerFieldId, ServerFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DisplayFilterForegroundBase::getSFServer))
+                     reinterpret_cast<FieldAccessMethod>(&DisplayFilterForegroundBase::editSFServer))
 };
 
 
@@ -329,7 +329,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DisplayFilterForegroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPI
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDISPLAYFILTERFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDISPLAYFILTERFOREGROUNDBASE_INLINE_CVSID;
 

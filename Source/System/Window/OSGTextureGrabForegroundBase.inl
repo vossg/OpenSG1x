@@ -98,36 +98,100 @@ TextureGrabForegroundPtr TextureGrabForegroundBase::createEmpty(void)
 
 //! Get the TextureGrabForeground::_sfTexture field.
 inline
-SFTextureChunkPtr *TextureGrabForegroundBase::getSFTexture(void)
+const SFTextureChunkPtr *TextureGrabForegroundBase::getSFTexture(void) const
 {
     return &_sfTexture;
 }
 
+//! Get the TextureGrabForeground::_sfTexture field.
+inline
+SFTextureChunkPtr *TextureGrabForegroundBase::editSFTexture(void)
+{
+    return &_sfTexture;
+}
+
+#ifndef OSG_2_PREP
+//! Get the TextureGrabForeground::_sfTexture field.
+inline
+SFTextureChunkPtr *TextureGrabForegroundBase::getSFTexture(void)
+{
+    return &_sfTexture;
+}
+#endif
+
+//! Get the TextureGrabForeground::_sfAutoResize field.
+inline
+const SFBool *TextureGrabForegroundBase::getSFAutoResize(void) const
+{
+    return &_sfAutoResize;
+}
+
+//! Get the TextureGrabForeground::_sfAutoResize field.
+inline
+SFBool *TextureGrabForegroundBase::editSFAutoResize(void)
+{
+    return &_sfAutoResize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureGrabForeground::_sfAutoResize field.
 inline
 SFBool *TextureGrabForegroundBase::getSFAutoResize(void)
 {
     return &_sfAutoResize;
 }
+#endif
 
+//! Get the TextureGrabForeground::_sfBindTarget field.
+inline
+const SFGLenum *TextureGrabForegroundBase::getSFBindTarget(void) const
+{
+    return &_sfBindTarget;
+}
+
+//! Get the TextureGrabForeground::_sfBindTarget field.
+inline
+SFGLenum *TextureGrabForegroundBase::editSFBindTarget(void)
+{
+    return &_sfBindTarget;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureGrabForeground::_sfBindTarget field.
 inline
 SFGLenum *TextureGrabForegroundBase::getSFBindTarget(void)
 {
     return &_sfBindTarget;
 }
+#endif
 
+//! Get the TextureGrabForeground::_sfCopyTarget field.
+inline
+const SFGLenum *TextureGrabForegroundBase::getSFCopyTarget(void) const
+{
+    return &_sfCopyTarget;
+}
+
+//! Get the TextureGrabForeground::_sfCopyTarget field.
+inline
+SFGLenum *TextureGrabForegroundBase::editSFCopyTarget(void)
+{
+    return &_sfCopyTarget;
+}
+
+#ifndef OSG_2_PREP
 //! Get the TextureGrabForeground::_sfCopyTarget field.
 inline
 SFGLenum *TextureGrabForegroundBase::getSFCopyTarget(void)
 {
     return &_sfCopyTarget;
 }
+#endif
 
 
 //! Get the value of the TextureGrabForeground::_sfTexture field.
 inline
-TextureChunkPtr &TextureGrabForegroundBase::getTexture(void)
+TextureChunkPtr &TextureGrabForegroundBase::editTexture(void)
 {
     return _sfTexture.getValue();
 }
@@ -139,6 +203,15 @@ const TextureChunkPtr &TextureGrabForegroundBase::getTexture(void) const
     return _sfTexture.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureGrabForeground::_sfTexture field.
+inline
+TextureChunkPtr &TextureGrabForegroundBase::getTexture(void)
+{
+    return _sfTexture.getValue();
+}
+#endif
+
 //! Set the value of the TextureGrabForeground::_sfTexture field.
 inline
 void TextureGrabForegroundBase::setTexture(const TextureChunkPtr &value)
@@ -148,7 +221,7 @@ void TextureGrabForegroundBase::setTexture(const TextureChunkPtr &value)
 
 //! Get the value of the TextureGrabForeground::_sfAutoResize field.
 inline
-bool &TextureGrabForegroundBase::getAutoResize(void)
+bool &TextureGrabForegroundBase::editAutoResize(void)
 {
     return _sfAutoResize.getValue();
 }
@@ -160,6 +233,15 @@ const bool &TextureGrabForegroundBase::getAutoResize(void) const
     return _sfAutoResize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureGrabForeground::_sfAutoResize field.
+inline
+bool &TextureGrabForegroundBase::getAutoResize(void)
+{
+    return _sfAutoResize.getValue();
+}
+#endif
+
 //! Set the value of the TextureGrabForeground::_sfAutoResize field.
 inline
 void TextureGrabForegroundBase::setAutoResize(const bool &value)
@@ -169,7 +251,7 @@ void TextureGrabForegroundBase::setAutoResize(const bool &value)
 
 //! Get the value of the TextureGrabForeground::_sfBindTarget field.
 inline
-GLenum &TextureGrabForegroundBase::getBindTarget(void)
+GLenum &TextureGrabForegroundBase::editBindTarget(void)
 {
     return _sfBindTarget.getValue();
 }
@@ -181,6 +263,15 @@ const GLenum &TextureGrabForegroundBase::getBindTarget(void) const
     return _sfBindTarget.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the TextureGrabForeground::_sfBindTarget field.
+inline
+GLenum &TextureGrabForegroundBase::getBindTarget(void)
+{
+    return _sfBindTarget.getValue();
+}
+#endif
+
 //! Set the value of the TextureGrabForeground::_sfBindTarget field.
 inline
 void TextureGrabForegroundBase::setBindTarget(const GLenum &value)
@@ -190,7 +281,7 @@ void TextureGrabForegroundBase::setBindTarget(const GLenum &value)
 
 //! Get the value of the TextureGrabForeground::_sfCopyTarget field.
 inline
-GLenum &TextureGrabForegroundBase::getCopyTarget(void)
+GLenum &TextureGrabForegroundBase::editCopyTarget(void)
 {
     return _sfCopyTarget.getValue();
 }
@@ -201,6 +292,15 @@ const GLenum &TextureGrabForegroundBase::getCopyTarget(void) const
 {
     return _sfCopyTarget.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the TextureGrabForeground::_sfCopyTarget field.
+inline
+GLenum &TextureGrabForegroundBase::getCopyTarget(void)
+{
+    return _sfCopyTarget.getValue();
+}
+#endif
 
 //! Set the value of the TextureGrabForeground::_sfCopyTarget field.
 inline

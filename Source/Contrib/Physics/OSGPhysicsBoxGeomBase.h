@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsBoxGeomBase : public PhysicsGeom
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFLenghts        (void);
 
-           Vec3f               &getLenghts        (void);
+           SFVec3f             *editSFLenghts        (void);
+     const SFVec3f             *getSFLenghts        (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFLenghts        (void);
+#endif
+
+
+           Vec3f               &editLenghts        (void);
      const Vec3f               &getLenghts        (void) const;
+#ifndef OSG_2_PREP
+           Vec3f               &getLenghts        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsBoxGeomPtr> PhysicsBoxGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBOXGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBoxGeomBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSBOXGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBoxGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSBOXGEOMBASE_H_ */

@@ -98,22 +98,54 @@ PhysicsAMotorJointPtr PhysicsAMotorJointBase::createEmpty(void)
 
 //! Get the PhysicsAMotorJoint::_sfMode field.
 inline
-SFInt32 *PhysicsAMotorJointBase::getSFMode(void)
+const SFInt32 *PhysicsAMotorJointBase::getSFMode(void) const
 {
     return &_sfMode;
 }
 
+//! Get the PhysicsAMotorJoint::_sfMode field.
+inline
+SFInt32 *PhysicsAMotorJointBase::editSFMode(void)
+{
+    return &_sfMode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsAMotorJoint::_sfMode field.
+inline
+SFInt32 *PhysicsAMotorJointBase::getSFMode(void)
+{
+    return &_sfMode;
+}
+#endif
+
+//! Get the PhysicsAMotorJoint::_sfNumAxes field.
+inline
+const SFInt32 *PhysicsAMotorJointBase::getSFNumAxes(void) const
+{
+    return &_sfNumAxes;
+}
+
+//! Get the PhysicsAMotorJoint::_sfNumAxes field.
+inline
+SFInt32 *PhysicsAMotorJointBase::editSFNumAxes(void)
+{
+    return &_sfNumAxes;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsAMotorJoint::_sfNumAxes field.
 inline
 SFInt32 *PhysicsAMotorJointBase::getSFNumAxes(void)
 {
     return &_sfNumAxes;
 }
+#endif
 
 
 //! Get the value of the PhysicsAMotorJoint::_sfMode field.
 inline
-Int32 &PhysicsAMotorJointBase::getMode(void)
+Int32 &PhysicsAMotorJointBase::editMode(void)
 {
     return _sfMode.getValue();
 }
@@ -125,6 +157,15 @@ const Int32 &PhysicsAMotorJointBase::getMode(void) const
     return _sfMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsAMotorJoint::_sfMode field.
+inline
+Int32 &PhysicsAMotorJointBase::getMode(void)
+{
+    return _sfMode.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsAMotorJoint::_sfMode field.
 inline
 void PhysicsAMotorJointBase::setMode(const Int32 &value)
@@ -134,7 +175,7 @@ void PhysicsAMotorJointBase::setMode(const Int32 &value)
 
 //! Get the value of the PhysicsAMotorJoint::_sfNumAxes field.
 inline
-Int32 &PhysicsAMotorJointBase::getNumAxes(void)
+Int32 &PhysicsAMotorJointBase::editNumAxes(void)
 {
     return _sfNumAxes.getValue();
 }
@@ -146,6 +187,15 @@ const Int32 &PhysicsAMotorJointBase::getNumAxes(void) const
     return _sfNumAxes.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsAMotorJoint::_sfNumAxes field.
+inline
+Int32 &PhysicsAMotorJointBase::getNumAxes(void)
+{
+    return _sfNumAxes.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsAMotorJoint::_sfNumAxes field.
 inline
 void PhysicsAMotorJointBase::setNumAxes(const Int32 &value)
@@ -156,5 +206,5 @@ void PhysicsAMotorJointBase::setNumAxes(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSAMOTORJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsAMotorJointBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSAMOTORJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsAMotorJointBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

@@ -98,17 +98,17 @@ FieldDescription *SortLastWindowBase::_desc[] =
                      "groupNodes", 
                      GroupNodesFieldId, GroupNodesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::getMFGroupNodes)),
+                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::editMFGroupNodes)),
     new FieldDescription(MFUInt32::getClassType(), 
                      "groupLengths", 
                      GroupLengthsFieldId, GroupLengthsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::getMFGroupLengths)),
+                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::editMFGroupLengths)),
     new FieldDescription(SFBool::getClassType(), 
                      "groupsChanged", 
                      GroupsChangedFieldId, GroupsChangedFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::getSFGroupsChanged))
+                     reinterpret_cast<FieldAccessMethod>(&SortLastWindowBase::editSFGroupsChanged))
 };
 
 
@@ -358,7 +358,7 @@ DataType FieldDataTraits<SortLastWindowPtr>::_type("SortLastWindowPtr", "Cluster
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSORTLASTWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSORTLASTWINDOWBASE_INLINE_CVSID;
 

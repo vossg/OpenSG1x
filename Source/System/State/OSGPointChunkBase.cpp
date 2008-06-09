@@ -143,52 +143,52 @@ FieldDescription *PointChunkBase::_desc[] =
                      "size", 
                      SizeFieldId, SizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFSize)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFSize)),
     new FieldDescription(SFBool::getClassType(), 
                      "smooth", 
                      SmoothFieldId, SmoothFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFSmooth)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFSmooth)),
     new FieldDescription(SFReal32::getClassType(), 
                      "minSize", 
                      MinSizeFieldId, MinSizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFMinSize)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFMinSize)),
     new FieldDescription(SFReal32::getClassType(), 
                      "maxSize", 
                      MaxSizeFieldId, MaxSizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFMaxSize)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFMaxSize)),
     new FieldDescription(SFReal32::getClassType(), 
                      "constantAttenuation", 
                      ConstantAttenuationFieldId, ConstantAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFConstantAttenuation)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFConstantAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "linearAttenuation", 
                      LinearAttenuationFieldId, LinearAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFLinearAttenuation)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFLinearAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "quadraticAttenuation", 
                      QuadraticAttenuationFieldId, QuadraticAttenuationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFQuadraticAttenuation)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFQuadraticAttenuation)),
     new FieldDescription(SFReal32::getClassType(), 
                      "fadeThreshold", 
                      FadeThresholdFieldId, FadeThresholdFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFFadeThreshold)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFFadeThreshold)),
     new FieldDescription(SFBool::getClassType(), 
                      "sprite", 
                      SpriteFieldId, SpriteFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFSprite)),
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFSprite)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "rMode", 
                      RModeFieldId, RModeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::getSFRMode))
+                     reinterpret_cast<FieldAccessMethod>(&PointChunkBase::editSFRMode))
 };
 
 
@@ -600,7 +600,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PointChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOINTCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOINTCHUNKBASE_INLINE_CVSID;
 

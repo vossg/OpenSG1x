@@ -143,39 +143,111 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFNodePtr           *getMFInfluences     (void);
-           MFMatrix            *getMFBaseMatrices   (void);
-           MFUInt32            *getMFVertexIndices  (void);
-           MFUInt16            *getMFInfluenceIndices(void);
-           MFReal32            *getMFInfluenceWeights(void);
-           MFUInt32            *getMFNormalIndices  (void);
-           MFUInt16            *getMFNormalInfluenceIndices(void);
-           MFReal32            *getMFNormalInfluenceWeights(void);
 
+           MFNodePtr           *editMFInfluences     (void);
+     const MFNodePtr           *getMFInfluences     (void) const;
+#ifndef OSG_2_PREP
+           MFNodePtr           *getMFInfluences     (void);
+#endif
+
+           MFMatrix            *editMFBaseMatrices   (void);
+     const MFMatrix            *getMFBaseMatrices   (void) const;
+#ifndef OSG_2_PREP
+           MFMatrix            *getMFBaseMatrices   (void);
+#endif
+
+           MFUInt32            *editMFVertexIndices  (void);
+     const MFUInt32            *getMFVertexIndices  (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFVertexIndices  (void);
+#endif
+
+           MFUInt16            *editMFInfluenceIndices(void);
+     const MFUInt16            *getMFInfluenceIndices(void) const;
+#ifndef OSG_2_PREP
+           MFUInt16            *getMFInfluenceIndices(void);
+#endif
+
+           MFReal32            *editMFInfluenceWeights(void);
+     const MFReal32            *getMFInfluenceWeights(void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFInfluenceWeights(void);
+#endif
+
+           MFUInt32            *editMFNormalIndices  (void);
+     const MFUInt32            *getMFNormalIndices  (void) const;
+#ifndef OSG_2_PREP
+           MFUInt32            *getMFNormalIndices  (void);
+#endif
+
+           MFUInt16            *editMFNormalInfluenceIndices(void);
+     const MFUInt16            *getMFNormalInfluenceIndices(void) const;
+#ifndef OSG_2_PREP
+           MFUInt16            *getMFNormalInfluenceIndices(void);
+#endif
+
+           MFReal32            *editMFNormalInfluenceWeights(void);
+     const MFReal32            *getMFNormalInfluenceWeights(void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFNormalInfluenceWeights(void);
+#endif
+
+
+           NodePtr             &editInfluences     (const UInt32 index);
+     const NodePtr             &getInfluences     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            NodePtr             &getInfluences     (const UInt32 index);
            MFNodePtr           &getInfluences     (void);
-     const MFNodePtr           &getInfluences     (void) const;
+#endif
+
+           Matrix              &editBaseMatrices   (const UInt32 index);
+     const Matrix              &getBaseMatrices   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Matrix              &getBaseMatrices   (const UInt32 index);
            MFMatrix            &getBaseMatrices   (void);
-     const MFMatrix            &getBaseMatrices   (void) const;
+#endif
+
+           UInt32              &editVertexIndices  (const UInt32 index);
+     const UInt32              &getVertexIndices  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getVertexIndices  (const UInt32 index);
            MFUInt32            &getVertexIndices  (void);
-     const MFUInt32            &getVertexIndices  (void) const;
+#endif
+
+           UInt16              &editInfluenceIndices(const UInt32 index);
+     const UInt16              &getInfluenceIndices(const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt16              &getInfluenceIndices(const UInt32 index);
            MFUInt16            &getInfluenceIndices(void);
-     const MFUInt16            &getInfluenceIndices(void) const;
+#endif
+
+           Real32              &editInfluenceWeights(const UInt32 index);
+     const Real32              &getInfluenceWeights(const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getInfluenceWeights(const UInt32 index);
            MFReal32            &getInfluenceWeights(void);
-     const MFReal32            &getInfluenceWeights(void) const;
+#endif
+
+           UInt32              &editNormalIndices  (const UInt32 index);
+     const UInt32              &getNormalIndices  (const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt32              &getNormalIndices  (const UInt32 index);
            MFUInt32            &getNormalIndices  (void);
-     const MFUInt32            &getNormalIndices  (void) const;
+#endif
+
+           UInt16              &editNormalInfluenceIndices(const UInt32 index);
+     const UInt16              &getNormalInfluenceIndices(const UInt32 index) const;
+#ifndef OSG_2_PREP
            UInt16              &getNormalInfluenceIndices(const UInt32 index);
            MFUInt16            &getNormalInfluenceIndices(void);
-     const MFUInt16            &getNormalInfluenceIndices(void) const;
+#endif
+
+           Real32              &editNormalInfluenceWeights(const UInt32 index);
+     const Real32              &getNormalInfluenceWeights(const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getNormalInfluenceWeights(const UInt32 index);
            MFReal32            &getNormalInfluenceWeights(void);
-     const MFReal32            &getNormalInfluenceWeights(void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

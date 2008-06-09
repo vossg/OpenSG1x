@@ -98,29 +98,77 @@ PhysicsUniversalJointPtr PhysicsUniversalJointBase::createEmpty(void)
 
 //! Get the PhysicsUniversalJoint::_sfAnchor field.
 inline
-SFVec3f *PhysicsUniversalJointBase::getSFAnchor(void)
+const SFVec3f *PhysicsUniversalJointBase::getSFAnchor(void) const
 {
     return &_sfAnchor;
 }
 
+//! Get the PhysicsUniversalJoint::_sfAnchor field.
+inline
+SFVec3f *PhysicsUniversalJointBase::editSFAnchor(void)
+{
+    return &_sfAnchor;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsUniversalJoint::_sfAnchor field.
+inline
+SFVec3f *PhysicsUniversalJointBase::getSFAnchor(void)
+{
+    return &_sfAnchor;
+}
+#endif
+
+//! Get the PhysicsUniversalJoint::_sfAxis1 field.
+inline
+const SFVec3f *PhysicsUniversalJointBase::getSFAxis1(void) const
+{
+    return &_sfAxis1;
+}
+
+//! Get the PhysicsUniversalJoint::_sfAxis1 field.
+inline
+SFVec3f *PhysicsUniversalJointBase::editSFAxis1(void)
+{
+    return &_sfAxis1;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsUniversalJoint::_sfAxis1 field.
 inline
 SFVec3f *PhysicsUniversalJointBase::getSFAxis1(void)
 {
     return &_sfAxis1;
 }
+#endif
 
+//! Get the PhysicsUniversalJoint::_sfAxis2 field.
+inline
+const SFVec3f *PhysicsUniversalJointBase::getSFAxis2(void) const
+{
+    return &_sfAxis2;
+}
+
+//! Get the PhysicsUniversalJoint::_sfAxis2 field.
+inline
+SFVec3f *PhysicsUniversalJointBase::editSFAxis2(void)
+{
+    return &_sfAxis2;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsUniversalJoint::_sfAxis2 field.
 inline
 SFVec3f *PhysicsUniversalJointBase::getSFAxis2(void)
 {
     return &_sfAxis2;
 }
+#endif
 
 
 //! Get the value of the PhysicsUniversalJoint::_sfAnchor field.
 inline
-Vec3f &PhysicsUniversalJointBase::getAnchor(void)
+Vec3f &PhysicsUniversalJointBase::editAnchor(void)
 {
     return _sfAnchor.getValue();
 }
@@ -132,6 +180,15 @@ const Vec3f &PhysicsUniversalJointBase::getAnchor(void) const
     return _sfAnchor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsUniversalJoint::_sfAnchor field.
+inline
+Vec3f &PhysicsUniversalJointBase::getAnchor(void)
+{
+    return _sfAnchor.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsUniversalJoint::_sfAnchor field.
 inline
 void PhysicsUniversalJointBase::setAnchor(const Vec3f &value)
@@ -141,7 +198,7 @@ void PhysicsUniversalJointBase::setAnchor(const Vec3f &value)
 
 //! Get the value of the PhysicsUniversalJoint::_sfAxis1 field.
 inline
-Vec3f &PhysicsUniversalJointBase::getAxis1(void)
+Vec3f &PhysicsUniversalJointBase::editAxis1(void)
 {
     return _sfAxis1.getValue();
 }
@@ -153,6 +210,15 @@ const Vec3f &PhysicsUniversalJointBase::getAxis1(void) const
     return _sfAxis1.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsUniversalJoint::_sfAxis1 field.
+inline
+Vec3f &PhysicsUniversalJointBase::getAxis1(void)
+{
+    return _sfAxis1.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsUniversalJoint::_sfAxis1 field.
 inline
 void PhysicsUniversalJointBase::setAxis1(const Vec3f &value)
@@ -162,7 +228,7 @@ void PhysicsUniversalJointBase::setAxis1(const Vec3f &value)
 
 //! Get the value of the PhysicsUniversalJoint::_sfAxis2 field.
 inline
-Vec3f &PhysicsUniversalJointBase::getAxis2(void)
+Vec3f &PhysicsUniversalJointBase::editAxis2(void)
 {
     return _sfAxis2.getValue();
 }
@@ -174,6 +240,15 @@ const Vec3f &PhysicsUniversalJointBase::getAxis2(void) const
     return _sfAxis2.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsUniversalJoint::_sfAxis2 field.
+inline
+Vec3f &PhysicsUniversalJointBase::getAxis2(void)
+{
+    return _sfAxis2.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsUniversalJoint::_sfAxis2 field.
 inline
 void PhysicsUniversalJointBase::setAxis2(const Vec3f &value)
@@ -184,5 +259,5 @@ void PhysicsUniversalJointBase::setAxis2(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSUNIVERSALJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsUniversalJointBase.inl,v 1.3 2008/06/05 05:02:17 vossg Exp $"
+#define OSGPHYSICSUNIVERSALJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsUniversalJointBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

@@ -98,15 +98,31 @@ PhysicsBoxGeomPtr PhysicsBoxGeomBase::createEmpty(void)
 
 //! Get the PhysicsBoxGeom::_sfLenghts field.
 inline
-SFVec3f *PhysicsBoxGeomBase::getSFLenghts(void)
+const SFVec3f *PhysicsBoxGeomBase::getSFLenghts(void) const
 {
     return &_sfLenghts;
 }
 
+//! Get the PhysicsBoxGeom::_sfLenghts field.
+inline
+SFVec3f *PhysicsBoxGeomBase::editSFLenghts(void)
+{
+    return &_sfLenghts;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsBoxGeom::_sfLenghts field.
+inline
+SFVec3f *PhysicsBoxGeomBase::getSFLenghts(void)
+{
+    return &_sfLenghts;
+}
+#endif
+
 
 //! Get the value of the PhysicsBoxGeom::_sfLenghts field.
 inline
-Vec3f &PhysicsBoxGeomBase::getLenghts(void)
+Vec3f &PhysicsBoxGeomBase::editLenghts(void)
 {
     return _sfLenghts.getValue();
 }
@@ -118,6 +134,15 @@ const Vec3f &PhysicsBoxGeomBase::getLenghts(void) const
     return _sfLenghts.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsBoxGeom::_sfLenghts field.
+inline
+Vec3f &PhysicsBoxGeomBase::getLenghts(void)
+{
+    return _sfLenghts.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsBoxGeom::_sfLenghts field.
 inline
 void PhysicsBoxGeomBase::setLenghts(const Vec3f &value)
@@ -128,5 +153,5 @@ void PhysicsBoxGeomBase::setLenghts(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBOXGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBoxGeomBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSBOXGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBoxGeomBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

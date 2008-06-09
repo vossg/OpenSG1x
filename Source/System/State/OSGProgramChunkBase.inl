@@ -72,36 +72,100 @@ OSG::UInt32 ProgramChunkBase::getClassTypeId(void)
 
 //! Get the ProgramChunk::_sfProgram field.
 inline
-SFString *ProgramChunkBase::getSFProgram(void)
+const SFString *ProgramChunkBase::getSFProgram(void) const
 {
     return &_sfProgram;
 }
 
+//! Get the ProgramChunk::_sfProgram field.
+inline
+SFString *ProgramChunkBase::editSFProgram(void)
+{
+    return &_sfProgram;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ProgramChunk::_sfProgram field.
+inline
+SFString *ProgramChunkBase::getSFProgram(void)
+{
+    return &_sfProgram;
+}
+#endif
+
+//! Get the ProgramChunk::_mfParamValues field.
+inline
+const MFVec4f *ProgramChunkBase::getMFParamValues(void) const
+{
+    return &_mfParamValues;
+}
+
+//! Get the ProgramChunk::_mfParamValues field.
+inline
+MFVec4f *ProgramChunkBase::editMFParamValues(void)
+{
+    return &_mfParamValues;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProgramChunk::_mfParamValues field.
 inline
 MFVec4f *ProgramChunkBase::getMFParamValues(void)
 {
     return &_mfParamValues;
 }
+#endif
 
+//! Get the ProgramChunk::_mfParamNames field.
+inline
+const MFString *ProgramChunkBase::getMFParamNames(void) const
+{
+    return &_mfParamNames;
+}
+
+//! Get the ProgramChunk::_mfParamNames field.
+inline
+MFString *ProgramChunkBase::editMFParamNames(void)
+{
+    return &_mfParamNames;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProgramChunk::_mfParamNames field.
 inline
 MFString *ProgramChunkBase::getMFParamNames(void)
 {
     return &_mfParamNames;
 }
+#endif
 
+//! Get the ProgramChunk::_sfGLId field.
+inline
+const SFUInt32 *ProgramChunkBase::getSFGLId(void) const
+{
+    return &_sfGLId;
+}
+
+//! Get the ProgramChunk::_sfGLId field.
+inline
+SFUInt32 *ProgramChunkBase::editSFGLId(void)
+{
+    return &_sfGLId;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ProgramChunk::_sfGLId field.
 inline
 SFUInt32 *ProgramChunkBase::getSFGLId(void)
 {
     return &_sfGLId;
 }
+#endif
 
 
 //! Get the value of the ProgramChunk::_sfProgram field.
 inline
-std::string &ProgramChunkBase::getProgram(void)
+std::string &ProgramChunkBase::editProgram(void)
 {
     return _sfProgram.getValue();
 }
@@ -113,6 +177,15 @@ const std::string &ProgramChunkBase::getProgram(void) const
     return _sfProgram.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProgramChunk::_sfProgram field.
+inline
+std::string &ProgramChunkBase::getProgram(void)
+{
+    return _sfProgram.getValue();
+}
+#endif
+
 //! Set the value of the ProgramChunk::_sfProgram field.
 inline
 void ProgramChunkBase::setProgram(const std::string &value)
@@ -122,7 +195,7 @@ void ProgramChunkBase::setProgram(const std::string &value)
 
 //! Get the value of the ProgramChunk::_sfGLId field.
 inline
-UInt32 &ProgramChunkBase::getGLId(void)
+UInt32 &ProgramChunkBase::editGLId(void)
 {
     return _sfGLId.getValue();
 }
@@ -134,6 +207,15 @@ const UInt32 &ProgramChunkBase::getGLId(void) const
     return _sfGLId.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ProgramChunk::_sfGLId field.
+inline
+UInt32 &ProgramChunkBase::getGLId(void)
+{
+    return _sfGLId.getValue();
+}
+#endif
+
 //! Set the value of the ProgramChunk::_sfGLId field.
 inline
 void ProgramChunkBase::setGLId(const UInt32 &value)
@@ -142,6 +224,21 @@ void ProgramChunkBase::setGLId(const UInt32 &value)
 }
 
 
+//! Get the value of the \a index element the ProgramChunk::_mfParamValues field.
+inline
+Vec4f &ProgramChunkBase::editParamValues(const UInt32 index)
+{
+    return _mfParamValues[index];
+}
+
+//! Get the value of the \a index element the ProgramChunk::_mfParamValues field.
+inline
+const Vec4f &ProgramChunkBase::getParamValues(const UInt32 index) const
+{
+    return _mfParamValues[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ProgramChunk::_mfParamValues field.
 inline
 Vec4f &ProgramChunkBase::getParamValues(const UInt32 index)
@@ -156,13 +253,23 @@ MFVec4f &ProgramChunkBase::getParamValues(void)
     return _mfParamValues;
 }
 
-//! Get the ProgramChunk::_mfParamValues field.
+#endif
+
+//! Get the value of the \a index element the ProgramChunk::_mfParamNames field.
 inline
-const MFVec4f &ProgramChunkBase::getParamValues(void) const
+std::string &ProgramChunkBase::editParamNames(const UInt32 index)
 {
-    return _mfParamValues;
+    return _mfParamNames[index];
 }
 
+//! Get the value of the \a index element the ProgramChunk::_mfParamNames field.
+inline
+const std::string &ProgramChunkBase::getParamNames(const UInt32 index) const
+{
+    return _mfParamNames[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ProgramChunk::_mfParamNames field.
 inline
 std::string &ProgramChunkBase::getParamNames(const UInt32 index)
@@ -177,12 +284,7 @@ MFString &ProgramChunkBase::getParamNames(void)
     return _mfParamNames;
 }
 
-//! Get the ProgramChunk::_mfParamNames field.
-inline
-const MFString &ProgramChunkBase::getParamNames(void) const
-{
-    return _mfParamNames;
-}
+#endif
 
 OSG_END_NAMESPACE
 

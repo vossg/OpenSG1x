@@ -143,31 +143,103 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsGeomBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFPhysicsBodyPtr    *getSFBody           (void);
-           SFVec3f             *getSFPosition       (void);
-           SFMatrix            *getSFRotation       (void);
-           SFQuaternion        *getSFQuaternion     (void);
-           SFUInt64            *getSFCategoryBits   (void);
-           SFUInt64            *getSFCollideBits    (void);
-           SFPhysicsSpacePtr   *getSFSpace          (void);
-           SFBool              *getSFEnable         (void);
 
-           PhysicsBodyPtr      &getBody           (void);
+           SFPhysicsBodyPtr    *editSFBody           (void);
+     const SFPhysicsBodyPtr    *getSFBody           (void) const;
+#ifndef OSG_2_PREP
+           SFPhysicsBodyPtr    *getSFBody           (void);
+#endif
+
+           SFVec3f             *editSFPosition       (void);
+     const SFVec3f             *getSFPosition       (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFPosition       (void);
+#endif
+
+           SFMatrix            *editSFRotation       (void);
+     const SFMatrix            *getSFRotation       (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFRotation       (void);
+#endif
+
+           SFQuaternion        *editSFQuaternion     (void);
+     const SFQuaternion        *getSFQuaternion     (void) const;
+#ifndef OSG_2_PREP
+           SFQuaternion        *getSFQuaternion     (void);
+#endif
+
+           SFUInt64            *editSFCategoryBits   (void);
+     const SFUInt64            *getSFCategoryBits   (void) const;
+#ifndef OSG_2_PREP
+           SFUInt64            *getSFCategoryBits   (void);
+#endif
+
+           SFUInt64            *editSFCollideBits    (void);
+     const SFUInt64            *getSFCollideBits    (void) const;
+#ifndef OSG_2_PREP
+           SFUInt64            *getSFCollideBits    (void);
+#endif
+
+           SFPhysicsSpacePtr   *editSFSpace          (void);
+     const SFPhysicsSpacePtr   *getSFSpace          (void) const;
+#ifndef OSG_2_PREP
+           SFPhysicsSpacePtr   *getSFSpace          (void);
+#endif
+
+           SFBool              *editSFEnable         (void);
+     const SFBool              *getSFEnable         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnable         (void);
+#endif
+
+
+           PhysicsBodyPtr      &editBody           (void);
      const PhysicsBodyPtr      &getBody           (void) const;
-           Vec3f               &getPosition       (void);
+#ifndef OSG_2_PREP
+           PhysicsBodyPtr      &getBody           (void);
+#endif
+
+           Vec3f               &editPosition       (void);
      const Vec3f               &getPosition       (void) const;
-           Matrix              &getRotation       (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getPosition       (void);
+#endif
+
+           Matrix              &editRotation       (void);
      const Matrix              &getRotation       (void) const;
-           Quaternion          &getQuaternion     (void);
+#ifndef OSG_2_PREP
+           Matrix              &getRotation       (void);
+#endif
+
+           Quaternion          &editQuaternion     (void);
      const Quaternion          &getQuaternion     (void) const;
-           UInt64              &getCategoryBits   (void);
+#ifndef OSG_2_PREP
+           Quaternion          &getQuaternion     (void);
+#endif
+
+           UInt64              &editCategoryBits   (void);
      const UInt64              &getCategoryBits   (void) const;
-           UInt64              &getCollideBits    (void);
+#ifndef OSG_2_PREP
+           UInt64              &getCategoryBits   (void);
+#endif
+
+           UInt64              &editCollideBits    (void);
      const UInt64              &getCollideBits    (void) const;
-           PhysicsSpacePtr     &getSpace          (void);
+#ifndef OSG_2_PREP
+           UInt64              &getCollideBits    (void);
+#endif
+
+           PhysicsSpacePtr     &editSpace          (void);
      const PhysicsSpacePtr     &getSpace          (void) const;
-           bool                &getEnable         (void);
+#ifndef OSG_2_PREP
+           PhysicsSpacePtr     &getSpace          (void);
+#endif
+
+           bool                &editEnable         (void);
      const bool                &getEnable         (void) const;
+#ifndef OSG_2_PREP
+           bool                &getEnable         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -309,6 +381,6 @@ typedef RefPtr<PhysicsGeomPtr> PhysicsGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsGeomBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSGEOMBASE_H_ */

@@ -137,26 +137,80 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorDisplayFilterBase : public DisplayFilter
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFGamma          (void);
-           SFMatrix            *getSFMatrix         (void);
-           SFUInt32            *getSFWidth          (void);
-           SFUInt32            *getSFHeight         (void);
-           SFUInt32            *getSFDepth          (void);
-           MFColor3f           *getMFTable          (void);
 
-           Real32              &getGamma          (void);
+           SFReal32            *editSFGamma          (void);
+     const SFReal32            *getSFGamma          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFGamma          (void);
+#endif
+
+           SFMatrix            *editSFMatrix         (void);
+     const SFMatrix            *getSFMatrix         (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFMatrix         (void);
+#endif
+
+           SFUInt32            *editSFWidth          (void);
+     const SFUInt32            *getSFWidth          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFWidth          (void);
+#endif
+
+           SFUInt32            *editSFHeight         (void);
+     const SFUInt32            *getSFHeight         (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFHeight         (void);
+#endif
+
+           SFUInt32            *editSFDepth          (void);
+     const SFUInt32            *getSFDepth          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFDepth          (void);
+#endif
+
+           MFColor3f           *editMFTable          (void);
+     const MFColor3f           *getMFTable          (void) const;
+#ifndef OSG_2_PREP
+           MFColor3f           *getMFTable          (void);
+#endif
+
+
+           Real32              &editGamma          (void);
      const Real32              &getGamma          (void) const;
-           Matrix              &getMatrix         (void);
+#ifndef OSG_2_PREP
+           Real32              &getGamma          (void);
+#endif
+
+           Matrix              &editMatrix         (void);
      const Matrix              &getMatrix         (void) const;
-           UInt32              &getWidth          (void);
+#ifndef OSG_2_PREP
+           Matrix              &getMatrix         (void);
+#endif
+
+           UInt32              &editWidth          (void);
      const UInt32              &getWidth          (void) const;
-           UInt32              &getHeight         (void);
+#ifndef OSG_2_PREP
+           UInt32              &getWidth          (void);
+#endif
+
+           UInt32              &editHeight         (void);
      const UInt32              &getHeight         (void) const;
-           UInt32              &getDepth          (void);
+#ifndef OSG_2_PREP
+           UInt32              &getHeight         (void);
+#endif
+
+           UInt32              &editDepth          (void);
      const UInt32              &getDepth          (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getDepth          (void);
+#endif
+
+           Color3f             &editTable          (const UInt32 index);
+     const Color3f             &getTable          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Color3f             &getTable          (const UInt32 index);
            MFColor3f           &getTable          (void);
-     const MFColor3f           &getTable          (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

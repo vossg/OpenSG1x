@@ -152,41 +152,140 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFLeft           (void);
-           SFReal32            *getSFRight          (void);
-           SFReal32            *getSFBottom         (void);
-           SFReal32            *getSFTop            (void);
-           SFWindowPtr         *getSFParent         (void);
-           SFCameraPtr         *getSFCamera         (void);
-           SFNodePtr           *getSFRoot           (void);
-           SFBackgroundPtr     *getSFBackground     (void);
-           MFForegroundPtr     *getMFForegrounds    (void);
-           SFUInt32            *getSFTravMask       (void);
-           SFReal32            *getSFDrawTime       (void);
 
-           Real32              &getLeft           (void);
+           SFReal32            *editSFLeft           (void);
+     const SFReal32            *getSFLeft           (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFLeft           (void);
+#endif
+
+           SFReal32            *editSFRight          (void);
+     const SFReal32            *getSFRight          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFRight          (void);
+#endif
+
+           SFReal32            *editSFBottom         (void);
+     const SFReal32            *getSFBottom         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFBottom         (void);
+#endif
+
+           SFReal32            *editSFTop            (void);
+     const SFReal32            *getSFTop            (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFTop            (void);
+#endif
+
+           SFWindowPtr         *editSFParent         (void);
+     const SFWindowPtr         *getSFParent         (void) const;
+#ifndef OSG_2_PREP
+           SFWindowPtr         *getSFParent         (void);
+#endif
+
+           SFCameraPtr         *editSFCamera         (void);
+     const SFCameraPtr         *getSFCamera         (void) const;
+#ifndef OSG_2_PREP
+           SFCameraPtr         *getSFCamera         (void);
+#endif
+
+           SFNodePtr           *editSFRoot           (void);
+     const SFNodePtr           *getSFRoot           (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFRoot           (void);
+#endif
+
+           SFBackgroundPtr     *editSFBackground     (void);
+     const SFBackgroundPtr     *getSFBackground     (void) const;
+#ifndef OSG_2_PREP
+           SFBackgroundPtr     *getSFBackground     (void);
+#endif
+
+           MFForegroundPtr     *editMFForegrounds    (void);
+     const MFForegroundPtr     *getMFForegrounds    (void) const;
+#ifndef OSG_2_PREP
+           MFForegroundPtr     *getMFForegrounds    (void);
+#endif
+
+           SFUInt32            *editSFTravMask       (void);
+     const SFUInt32            *getSFTravMask       (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFTravMask       (void);
+#endif
+
+           SFReal32            *editSFDrawTime       (void);
+     const SFReal32            *getSFDrawTime       (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFDrawTime       (void);
+#endif
+
+
+           Real32              &editLeft           (void);
      const Real32              &getLeft           (void) const;
-           Real32              &getRight          (void);
+#ifndef OSG_2_PREP
+           Real32              &getLeft           (void);
+#endif
+
+           Real32              &editRight          (void);
      const Real32              &getRight          (void) const;
-           Real32              &getBottom         (void);
+#ifndef OSG_2_PREP
+           Real32              &getRight          (void);
+#endif
+
+           Real32              &editBottom         (void);
      const Real32              &getBottom         (void) const;
-           Real32              &getTop            (void);
+#ifndef OSG_2_PREP
+           Real32              &getBottom         (void);
+#endif
+
+           Real32              &editTop            (void);
      const Real32              &getTop            (void) const;
-           WindowPtr           &getParent         (void);
+#ifndef OSG_2_PREP
+           Real32              &getTop            (void);
+#endif
+
+           WindowPtr           &editParent         (void);
      const WindowPtr           &getParent         (void) const;
-           CameraPtr           &getCamera         (void);
+#ifndef OSG_2_PREP
+           WindowPtr           &getParent         (void);
+#endif
+
+           CameraPtr           &editCamera         (void);
      const CameraPtr           &getCamera         (void) const;
-           NodePtr             &getRoot           (void);
+#ifndef OSG_2_PREP
+           CameraPtr           &getCamera         (void);
+#endif
+
+           NodePtr             &editRoot           (void);
      const NodePtr             &getRoot           (void) const;
-           BackgroundPtr       &getBackground     (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getRoot           (void);
+#endif
+
+           BackgroundPtr       &editBackground     (void);
      const BackgroundPtr       &getBackground     (void) const;
-           UInt32              &getTravMask       (void);
+#ifndef OSG_2_PREP
+           BackgroundPtr       &getBackground     (void);
+#endif
+
+           UInt32              &editTravMask       (void);
      const UInt32              &getTravMask       (void) const;
-           Real32              &getDrawTime       (void);
+#ifndef OSG_2_PREP
+           UInt32              &getTravMask       (void);
+#endif
+
+           Real32              &editDrawTime       (void);
      const Real32              &getDrawTime       (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getDrawTime       (void);
+#endif
+
+           ForegroundPtr       &editForegrounds    (const UInt32 index);
+     const ForegroundPtr       &getForegrounds    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            ForegroundPtr       &getForegrounds    (const UInt32 index);
            MFForegroundPtr     &getForegrounds    (void);
-     const MFForegroundPtr     &getForegrounds    (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -140,20 +140,59 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFNodePtr           *getSFUser           (void);
-           MFPnt3f             *getMFSurface        (void);
-           SFReal32            *getSFWidth          (void);
-           SFReal32            *getSFHeight         (void);
 
-           NodePtr             &getUser           (void);
+           SFNodePtr           *editSFUser           (void);
+     const SFNodePtr           *getSFUser           (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFUser           (void);
+#endif
+
+           MFPnt3f             *editMFSurface        (void);
+     const MFPnt3f             *getMFSurface        (void) const;
+#ifndef OSG_2_PREP
+           MFPnt3f             *getMFSurface        (void);
+#endif
+
+           SFReal32            *editSFWidth          (void);
+     const SFReal32            *getSFWidth          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFWidth          (void);
+#endif
+
+           SFReal32            *editSFHeight         (void);
+     const SFReal32            *getSFHeight         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFHeight         (void);
+#endif
+
+
+           NodePtr             &editUser           (void);
      const NodePtr             &getUser           (void) const;
-           Real32              &getWidth          (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getUser           (void);
+#endif
+
+
+
+
+           Real32              &editWidth          (void);
      const Real32              &getWidth          (void) const;
-           Real32              &getHeight         (void);
+#ifndef OSG_2_PREP
+           Real32              &getWidth          (void);
+#endif
+
+           Real32              &editHeight         (void);
      const Real32              &getHeight         (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getHeight         (void);
+#endif
+
+           Pnt3f               &editSurface        (const UInt32 index);
+     const Pnt3f               &getSurface        (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Pnt3f               &getSurface        (const UInt32 index);
            MFPnt3f             &getSurface        (void);
-     const MFPnt3f             &getSurface        (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -233,16 +272,37 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFPlane             *editSFLeft           (void);
+     const SFPlane             *getSFLeft           (void) const;
+#ifndef OSG_2_PREP
            SFPlane             *getSFLeft           (void);
+#endif
+           SFPlane             *editSFBottom         (void);
+     const SFPlane             *getSFBottom         (void) const;
+#ifndef OSG_2_PREP
            SFPlane             *getSFBottom         (void);
+#endif
+           SFPlane             *editSFNormal         (void);
+     const SFPlane             *getSFNormal         (void) const;
+#ifndef OSG_2_PREP
            SFPlane             *getSFNormal         (void);
+#endif
 
-           Plane               &getLeft           (void);
+           Plane               &editLeft           (void);
      const Plane               &getLeft           (void) const;
-           Plane               &getBottom         (void);
+#ifndef OSG_2_PREP
+           Plane               &getLeft           (void);
+#endif
+           Plane               &editBottom         (void);
      const Plane               &getBottom         (void) const;
-           Plane               &getNormal         (void);
+#ifndef OSG_2_PREP
+           Plane               &getBottom         (void);
+#endif
+           Plane               &editNormal         (void);
      const Plane               &getNormal         (void) const;
+#ifndef OSG_2_PREP
+           Plane               &getNormal         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

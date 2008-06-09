@@ -128,17 +128,44 @@ class OSG_SYSTEMLIB_DLLMAPPING DistortionDisplayFilterBase : public DisplayFilte
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFRows           (void);
-           SFUInt32            *getSFColumns        (void);
-           MFVec2f             *getMFPositions      (void);
 
-           UInt32              &getRows           (void);
+           SFUInt32            *editSFRows           (void);
+     const SFUInt32            *getSFRows           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFRows           (void);
+#endif
+
+           SFUInt32            *editSFColumns        (void);
+     const SFUInt32            *getSFColumns        (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFColumns        (void);
+#endif
+
+           MFVec2f             *editMFPositions      (void);
+     const MFVec2f             *getMFPositions      (void) const;
+#ifndef OSG_2_PREP
+           MFVec2f             *getMFPositions      (void);
+#endif
+
+
+           UInt32              &editRows           (void);
      const UInt32              &getRows           (void) const;
-           UInt32              &getColumns        (void);
+#ifndef OSG_2_PREP
+           UInt32              &getRows           (void);
+#endif
+
+           UInt32              &editColumns        (void);
      const UInt32              &getColumns        (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getColumns        (void);
+#endif
+
+           Vec2f               &editPositions      (const UInt32 index);
+     const Vec2f               &getPositions      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec2f               &getPositions      (const UInt32 index);
            MFVec2f             &getPositions      (void);
-     const MFVec2f             &getPositions      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

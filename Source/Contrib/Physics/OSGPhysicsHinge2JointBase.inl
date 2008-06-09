@@ -98,29 +98,77 @@ PhysicsHinge2JointPtr PhysicsHinge2JointBase::createEmpty(void)
 
 //! Get the PhysicsHinge2Joint::_sfAnchor field.
 inline
-SFVec3f *PhysicsHinge2JointBase::getSFAnchor(void)
+const SFVec3f *PhysicsHinge2JointBase::getSFAnchor(void) const
 {
     return &_sfAnchor;
 }
 
+//! Get the PhysicsHinge2Joint::_sfAnchor field.
+inline
+SFVec3f *PhysicsHinge2JointBase::editSFAnchor(void)
+{
+    return &_sfAnchor;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsHinge2Joint::_sfAnchor field.
+inline
+SFVec3f *PhysicsHinge2JointBase::getSFAnchor(void)
+{
+    return &_sfAnchor;
+}
+#endif
+
+//! Get the PhysicsHinge2Joint::_sfAxis1 field.
+inline
+const SFVec3f *PhysicsHinge2JointBase::getSFAxis1(void) const
+{
+    return &_sfAxis1;
+}
+
+//! Get the PhysicsHinge2Joint::_sfAxis1 field.
+inline
+SFVec3f *PhysicsHinge2JointBase::editSFAxis1(void)
+{
+    return &_sfAxis1;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsHinge2Joint::_sfAxis1 field.
 inline
 SFVec3f *PhysicsHinge2JointBase::getSFAxis1(void)
 {
     return &_sfAxis1;
 }
+#endif
 
+//! Get the PhysicsHinge2Joint::_sfAxis2 field.
+inline
+const SFVec3f *PhysicsHinge2JointBase::getSFAxis2(void) const
+{
+    return &_sfAxis2;
+}
+
+//! Get the PhysicsHinge2Joint::_sfAxis2 field.
+inline
+SFVec3f *PhysicsHinge2JointBase::editSFAxis2(void)
+{
+    return &_sfAxis2;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsHinge2Joint::_sfAxis2 field.
 inline
 SFVec3f *PhysicsHinge2JointBase::getSFAxis2(void)
 {
     return &_sfAxis2;
 }
+#endif
 
 
 //! Get the value of the PhysicsHinge2Joint::_sfAnchor field.
 inline
-Vec3f &PhysicsHinge2JointBase::getAnchor(void)
+Vec3f &PhysicsHinge2JointBase::editAnchor(void)
 {
     return _sfAnchor.getValue();
 }
@@ -132,6 +180,15 @@ const Vec3f &PhysicsHinge2JointBase::getAnchor(void) const
     return _sfAnchor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsHinge2Joint::_sfAnchor field.
+inline
+Vec3f &PhysicsHinge2JointBase::getAnchor(void)
+{
+    return _sfAnchor.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsHinge2Joint::_sfAnchor field.
 inline
 void PhysicsHinge2JointBase::setAnchor(const Vec3f &value)
@@ -141,7 +198,7 @@ void PhysicsHinge2JointBase::setAnchor(const Vec3f &value)
 
 //! Get the value of the PhysicsHinge2Joint::_sfAxis1 field.
 inline
-Vec3f &PhysicsHinge2JointBase::getAxis1(void)
+Vec3f &PhysicsHinge2JointBase::editAxis1(void)
 {
     return _sfAxis1.getValue();
 }
@@ -153,6 +210,15 @@ const Vec3f &PhysicsHinge2JointBase::getAxis1(void) const
     return _sfAxis1.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsHinge2Joint::_sfAxis1 field.
+inline
+Vec3f &PhysicsHinge2JointBase::getAxis1(void)
+{
+    return _sfAxis1.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsHinge2Joint::_sfAxis1 field.
 inline
 void PhysicsHinge2JointBase::setAxis1(const Vec3f &value)
@@ -162,7 +228,7 @@ void PhysicsHinge2JointBase::setAxis1(const Vec3f &value)
 
 //! Get the value of the PhysicsHinge2Joint::_sfAxis2 field.
 inline
-Vec3f &PhysicsHinge2JointBase::getAxis2(void)
+Vec3f &PhysicsHinge2JointBase::editAxis2(void)
 {
     return _sfAxis2.getValue();
 }
@@ -174,6 +240,15 @@ const Vec3f &PhysicsHinge2JointBase::getAxis2(void) const
     return _sfAxis2.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsHinge2Joint::_sfAxis2 field.
+inline
+Vec3f &PhysicsHinge2JointBase::getAxis2(void)
+{
+    return _sfAxis2.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsHinge2Joint::_sfAxis2 field.
 inline
 void PhysicsHinge2JointBase::setAxis2(const Vec3f &value)
@@ -184,5 +259,5 @@ void PhysicsHinge2JointBase::setAxis2(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHINGE2JOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHinge2JointBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSHINGE2JOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHinge2JointBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

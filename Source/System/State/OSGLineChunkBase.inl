@@ -98,36 +98,100 @@ LineChunkPtr LineChunkBase::createEmpty(void)
 
 //! Get the LineChunk::_sfWidth field.
 inline
-SFReal32 *LineChunkBase::getSFWidth(void)
+const SFReal32 *LineChunkBase::getSFWidth(void) const
 {
     return &_sfWidth;
 }
 
+//! Get the LineChunk::_sfWidth field.
+inline
+SFReal32 *LineChunkBase::editSFWidth(void)
+{
+    return &_sfWidth;
+}
+
+#ifndef OSG_2_PREP
+//! Get the LineChunk::_sfWidth field.
+inline
+SFReal32 *LineChunkBase::getSFWidth(void)
+{
+    return &_sfWidth;
+}
+#endif
+
+//! Get the LineChunk::_sfStippleRepeat field.
+inline
+const SFInt32 *LineChunkBase::getSFStippleRepeat(void) const
+{
+    return &_sfStippleRepeat;
+}
+
+//! Get the LineChunk::_sfStippleRepeat field.
+inline
+SFInt32 *LineChunkBase::editSFStippleRepeat(void)
+{
+    return &_sfStippleRepeat;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LineChunk::_sfStippleRepeat field.
 inline
 SFInt32 *LineChunkBase::getSFStippleRepeat(void)
 {
     return &_sfStippleRepeat;
 }
+#endif
 
+//! Get the LineChunk::_sfStipplePattern field.
+inline
+const SFUInt16 *LineChunkBase::getSFStipplePattern(void) const
+{
+    return &_sfStipplePattern;
+}
+
+//! Get the LineChunk::_sfStipplePattern field.
+inline
+SFUInt16 *LineChunkBase::editSFStipplePattern(void)
+{
+    return &_sfStipplePattern;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LineChunk::_sfStipplePattern field.
 inline
 SFUInt16 *LineChunkBase::getSFStipplePattern(void)
 {
     return &_sfStipplePattern;
 }
+#endif
 
+//! Get the LineChunk::_sfSmooth field.
+inline
+const SFBool *LineChunkBase::getSFSmooth(void) const
+{
+    return &_sfSmooth;
+}
+
+//! Get the LineChunk::_sfSmooth field.
+inline
+SFBool *LineChunkBase::editSFSmooth(void)
+{
+    return &_sfSmooth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the LineChunk::_sfSmooth field.
 inline
 SFBool *LineChunkBase::getSFSmooth(void)
 {
     return &_sfSmooth;
 }
+#endif
 
 
 //! Get the value of the LineChunk::_sfWidth field.
 inline
-Real32 &LineChunkBase::getWidth(void)
+Real32 &LineChunkBase::editWidth(void)
 {
     return _sfWidth.getValue();
 }
@@ -139,6 +203,15 @@ const Real32 &LineChunkBase::getWidth(void) const
     return _sfWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LineChunk::_sfWidth field.
+inline
+Real32 &LineChunkBase::getWidth(void)
+{
+    return _sfWidth.getValue();
+}
+#endif
+
 //! Set the value of the LineChunk::_sfWidth field.
 inline
 void LineChunkBase::setWidth(const Real32 &value)
@@ -148,7 +221,7 @@ void LineChunkBase::setWidth(const Real32 &value)
 
 //! Get the value of the LineChunk::_sfStippleRepeat field.
 inline
-Int32 &LineChunkBase::getStippleRepeat(void)
+Int32 &LineChunkBase::editStippleRepeat(void)
 {
     return _sfStippleRepeat.getValue();
 }
@@ -160,6 +233,15 @@ const Int32 &LineChunkBase::getStippleRepeat(void) const
     return _sfStippleRepeat.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LineChunk::_sfStippleRepeat field.
+inline
+Int32 &LineChunkBase::getStippleRepeat(void)
+{
+    return _sfStippleRepeat.getValue();
+}
+#endif
+
 //! Set the value of the LineChunk::_sfStippleRepeat field.
 inline
 void LineChunkBase::setStippleRepeat(const Int32 &value)
@@ -169,7 +251,7 @@ void LineChunkBase::setStippleRepeat(const Int32 &value)
 
 //! Get the value of the LineChunk::_sfStipplePattern field.
 inline
-UInt16 &LineChunkBase::getStipplePattern(void)
+UInt16 &LineChunkBase::editStipplePattern(void)
 {
     return _sfStipplePattern.getValue();
 }
@@ -181,6 +263,15 @@ const UInt16 &LineChunkBase::getStipplePattern(void) const
     return _sfStipplePattern.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LineChunk::_sfStipplePattern field.
+inline
+UInt16 &LineChunkBase::getStipplePattern(void)
+{
+    return _sfStipplePattern.getValue();
+}
+#endif
+
 //! Set the value of the LineChunk::_sfStipplePattern field.
 inline
 void LineChunkBase::setStipplePattern(const UInt16 &value)
@@ -190,7 +281,7 @@ void LineChunkBase::setStipplePattern(const UInt16 &value)
 
 //! Get the value of the LineChunk::_sfSmooth field.
 inline
-bool &LineChunkBase::getSmooth(void)
+bool &LineChunkBase::editSmooth(void)
 {
     return _sfSmooth.getValue();
 }
@@ -201,6 +292,15 @@ const bool &LineChunkBase::getSmooth(void) const
 {
     return _sfSmooth.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the LineChunk::_sfSmooth field.
+inline
+bool &LineChunkBase::getSmooth(void)
+{
+    return _sfSmooth.getValue();
+}
+#endif
 
 //! Set the value of the LineChunk::_sfSmooth field.
 inline

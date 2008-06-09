@@ -128,16 +128,43 @@ class OSG_WINDOWWIN32LIB_DLLMAPPING WIN32WindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFHWND              *getSFHwnd           (void);
-           SFHDC               *getSFHdc            (void);
-           SFHGLRC             *getSFHglrc          (void);
 
-           HWND                &getHwnd           (void);
+           SFHWND              *editSFHwnd           (void);
+     const SFHWND              *getSFHwnd           (void) const;
+#ifndef OSG_2_PREP
+           SFHWND              *getSFHwnd           (void);
+#endif
+
+           SFHDC               *editSFHdc            (void);
+     const SFHDC               *getSFHdc            (void) const;
+#ifndef OSG_2_PREP
+           SFHDC               *getSFHdc            (void);
+#endif
+
+           SFHGLRC             *editSFHglrc          (void);
+     const SFHGLRC             *getSFHglrc          (void) const;
+#ifndef OSG_2_PREP
+           SFHGLRC             *getSFHglrc          (void);
+#endif
+
+
+           HWND                &editHwnd           (void);
      const HWND                &getHwnd           (void) const;
-           HDC                 &getHdc            (void);
+#ifndef OSG_2_PREP
+           HWND                &getHwnd           (void);
+#endif
+
+           HDC                 &editHdc            (void);
      const HDC                 &getHdc            (void) const;
-           HGLRC               &getHglrc          (void);
+#ifndef OSG_2_PREP
+           HDC                 &getHdc            (void);
+#endif
+
+           HGLRC               &editHglrc          (void);
      const HGLRC               &getHglrc          (void) const;
+#ifndef OSG_2_PREP
+           HGLRC               &getHglrc          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

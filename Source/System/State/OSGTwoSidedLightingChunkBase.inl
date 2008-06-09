@@ -100,5 +100,5 @@ TwoSidedLightingChunkPtr TwoSidedLightingChunkBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGTWOSIDEDLIGHTINGCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTwoSidedLightingChunkBase.inl,v 1.4 2008/06/05 05:02:29 vossg Exp $"
+#define OSGTWOSIDEDLIGHTINGCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGTwoSidedLightingChunkBase.inl,v 1.5 2008/06/09 07:31:53 vossg Exp $"
 

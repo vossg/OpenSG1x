@@ -167,52 +167,188 @@ class OSG_SYSTEMLIB_DLLMAPPING ManipulatorBase : public Transform
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFNodePtr           *getSFTarget         (void);
-           SFNodePtr           *getSFActiveSubHandle(void);
-           SFViewportPtr       *getSFViewport       (void);
-           SFBool              *getSFActive         (void);
-           SFVec3f             *getSFLength         (void);
-           SFNodePtr           *getSFHandleXNode    (void);
-           SFNodePtr           *getSFHandleYNode    (void);
-           SFNodePtr           *getSFHandleZNode    (void);
-           SFNodePtr           *getSFTransXNode     (void);
-           SFNodePtr           *getSFTransYNode     (void);
-           SFNodePtr           *getSFTransZNode     (void);
-           SFMaterialPtr       *getSFMaterialX      (void);
-           SFMaterialPtr       *getSFMaterialY      (void);
-           SFMaterialPtr       *getSFMaterialZ      (void);
-           SFNodePtr           *getSFAxisLinesN     (void);
 
-           NodePtr             &getTarget         (void);
+           SFNodePtr           *editSFTarget         (void);
+     const SFNodePtr           *getSFTarget         (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFTarget         (void);
+#endif
+
+           SFNodePtr           *editSFActiveSubHandle(void);
+     const SFNodePtr           *getSFActiveSubHandle(void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFActiveSubHandle(void);
+#endif
+
+           SFViewportPtr       *editSFViewport       (void);
+     const SFViewportPtr       *getSFViewport       (void) const;
+#ifndef OSG_2_PREP
+           SFViewportPtr       *getSFViewport       (void);
+#endif
+
+           SFBool              *editSFActive         (void);
+     const SFBool              *getSFActive         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFActive         (void);
+#endif
+
+           SFVec3f             *editSFLength         (void);
+     const SFVec3f             *getSFLength         (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFLength         (void);
+#endif
+
+           SFNodePtr           *editSFHandleXNode    (void);
+     const SFNodePtr           *getSFHandleXNode    (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFHandleXNode    (void);
+#endif
+
+           SFNodePtr           *editSFHandleYNode    (void);
+     const SFNodePtr           *getSFHandleYNode    (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFHandleYNode    (void);
+#endif
+
+           SFNodePtr           *editSFHandleZNode    (void);
+     const SFNodePtr           *getSFHandleZNode    (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFHandleZNode    (void);
+#endif
+
+           SFNodePtr           *editSFTransXNode     (void);
+     const SFNodePtr           *getSFTransXNode     (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFTransXNode     (void);
+#endif
+
+           SFNodePtr           *editSFTransYNode     (void);
+     const SFNodePtr           *getSFTransYNode     (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFTransYNode     (void);
+#endif
+
+           SFNodePtr           *editSFTransZNode     (void);
+     const SFNodePtr           *getSFTransZNode     (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFTransZNode     (void);
+#endif
+
+           SFMaterialPtr       *editSFMaterialX      (void);
+     const SFMaterialPtr       *getSFMaterialX      (void) const;
+#ifndef OSG_2_PREP
+           SFMaterialPtr       *getSFMaterialX      (void);
+#endif
+
+           SFMaterialPtr       *editSFMaterialY      (void);
+     const SFMaterialPtr       *getSFMaterialY      (void) const;
+#ifndef OSG_2_PREP
+           SFMaterialPtr       *getSFMaterialY      (void);
+#endif
+
+           SFMaterialPtr       *editSFMaterialZ      (void);
+     const SFMaterialPtr       *getSFMaterialZ      (void) const;
+#ifndef OSG_2_PREP
+           SFMaterialPtr       *getSFMaterialZ      (void);
+#endif
+
+           SFNodePtr           *editSFAxisLinesN     (void);
+     const SFNodePtr           *getSFAxisLinesN     (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFAxisLinesN     (void);
+#endif
+
+
+           NodePtr             &editTarget         (void);
      const NodePtr             &getTarget         (void) const;
-           NodePtr             &getActiveSubHandle(void);
+#ifndef OSG_2_PREP
+           NodePtr             &getTarget         (void);
+#endif
+
+           NodePtr             &editActiveSubHandle(void);
      const NodePtr             &getActiveSubHandle(void) const;
-           ViewportPtr         &getViewport       (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getActiveSubHandle(void);
+#endif
+
+
+           ViewportPtr         &editViewport       (void);
      const ViewportPtr         &getViewport       (void) const;
-           bool                &getActive         (void);
+#ifndef OSG_2_PREP
+           ViewportPtr         &getViewport       (void);
+#endif
+
+           bool                &editActive         (void);
      const bool                &getActive         (void) const;
-           Vec3f               &getLength         (void);
+#ifndef OSG_2_PREP
+           bool                &getActive         (void);
+#endif
+
+           Vec3f               &editLength         (void);
      const Vec3f               &getLength         (void) const;
-           NodePtr             &getHandleXNode    (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getLength         (void);
+#endif
+
+           NodePtr             &editHandleXNode    (void);
      const NodePtr             &getHandleXNode    (void) const;
-           NodePtr             &getHandleYNode    (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getHandleXNode    (void);
+#endif
+
+           NodePtr             &editHandleYNode    (void);
      const NodePtr             &getHandleYNode    (void) const;
-           NodePtr             &getHandleZNode    (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getHandleYNode    (void);
+#endif
+
+           NodePtr             &editHandleZNode    (void);
      const NodePtr             &getHandleZNode    (void) const;
-           NodePtr             &getTransXNode     (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getHandleZNode    (void);
+#endif
+
+           NodePtr             &editTransXNode     (void);
      const NodePtr             &getTransXNode     (void) const;
-           NodePtr             &getTransYNode     (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getTransXNode     (void);
+#endif
+
+           NodePtr             &editTransYNode     (void);
      const NodePtr             &getTransYNode     (void) const;
-           NodePtr             &getTransZNode     (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getTransYNode     (void);
+#endif
+
+           NodePtr             &editTransZNode     (void);
      const NodePtr             &getTransZNode     (void) const;
-           MaterialPtr         &getMaterialX      (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getTransZNode     (void);
+#endif
+
+           MaterialPtr         &editMaterialX      (void);
      const MaterialPtr         &getMaterialX      (void) const;
-           MaterialPtr         &getMaterialY      (void);
+#ifndef OSG_2_PREP
+           MaterialPtr         &getMaterialX      (void);
+#endif
+
+           MaterialPtr         &editMaterialY      (void);
      const MaterialPtr         &getMaterialY      (void) const;
-           MaterialPtr         &getMaterialZ      (void);
+#ifndef OSG_2_PREP
+           MaterialPtr         &getMaterialY      (void);
+#endif
+
+           MaterialPtr         &editMaterialZ      (void);
      const MaterialPtr         &getMaterialZ      (void) const;
-           NodePtr             &getAxisLinesN     (void);
+#ifndef OSG_2_PREP
+           MaterialPtr         &getMaterialZ      (void);
+#endif
+
+           NodePtr             &editAxisLinesN     (void);
      const NodePtr             &getAxisLinesN     (void) const;
+#ifndef OSG_2_PREP
+           NodePtr             &getAxisLinesN     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -297,10 +433,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ManipulatorBase : public Transform
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFPnt2f             *editSFLastMousePos   (void);
+     const SFPnt2f             *getSFLastMousePos   (void) const;
+#ifndef OSG_2_PREP
            SFPnt2f             *getSFLastMousePos   (void);
+#endif
 
-           Pnt2f               &getLastMousePos   (void);
+           Pnt2f               &editLastMousePos   (void);
      const Pnt2f               &getLastMousePos   (void) const;
+#ifndef OSG_2_PREP
+           Pnt2f               &getLastMousePos   (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -370,6 +513,6 @@ typedef RefPtr<ManipulatorPtr> ManipulatorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGManipulatorBase.h,v 1.6 2008/06/05 05:02:19 vossg Exp $"
+#define OSGMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGManipulatorBase.h,v 1.7 2008/06/09 07:31:43 vossg Exp $"
 
 #endif /* _OSGMANIPULATORBASE_H_ */

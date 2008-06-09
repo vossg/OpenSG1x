@@ -98,22 +98,54 @@ DVRIsoShaderPtr DVRIsoShaderBase::createEmpty(void)
 
 //! Get the DVRIsoShader::_sfShadeMode field.
 inline
-SFInt8 *DVRIsoShaderBase::getSFShadeMode(void)
+const SFInt8 *DVRIsoShaderBase::getSFShadeMode(void) const
 {
     return &_sfShadeMode;
 }
 
+//! Get the DVRIsoShader::_sfShadeMode field.
+inline
+SFInt8 *DVRIsoShaderBase::editSFShadeMode(void)
+{
+    return &_sfShadeMode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DVRIsoShader::_sfShadeMode field.
+inline
+SFInt8 *DVRIsoShaderBase::getSFShadeMode(void)
+{
+    return &_sfShadeMode;
+}
+#endif
+
+//! Get the DVRIsoShader::_sfActiveShadeMode field.
+inline
+const SFInt8 *DVRIsoShaderBase::getSFActiveShadeMode(void) const
+{
+    return &_sfActiveShadeMode;
+}
+
+//! Get the DVRIsoShader::_sfActiveShadeMode field.
+inline
+SFInt8 *DVRIsoShaderBase::editSFActiveShadeMode(void)
+{
+    return &_sfActiveShadeMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DVRIsoShader::_sfActiveShadeMode field.
 inline
 SFInt8 *DVRIsoShaderBase::getSFActiveShadeMode(void)
 {
     return &_sfActiveShadeMode;
 }
+#endif
 
 
 //! Get the value of the DVRIsoShader::_sfShadeMode field.
 inline
-Int8 &DVRIsoShaderBase::getShadeMode(void)
+Int8 &DVRIsoShaderBase::editShadeMode(void)
 {
     return _sfShadeMode.getValue();
 }
@@ -125,6 +157,15 @@ const Int8 &DVRIsoShaderBase::getShadeMode(void) const
     return _sfShadeMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DVRIsoShader::_sfShadeMode field.
+inline
+Int8 &DVRIsoShaderBase::getShadeMode(void)
+{
+    return _sfShadeMode.getValue();
+}
+#endif
+
 //! Set the value of the DVRIsoShader::_sfShadeMode field.
 inline
 void DVRIsoShaderBase::setShadeMode(const Int8 &value)
@@ -134,7 +175,7 @@ void DVRIsoShaderBase::setShadeMode(const Int8 &value)
 
 //! Get the value of the DVRIsoShader::_sfActiveShadeMode field.
 inline
-Int8 &DVRIsoShaderBase::getActiveShadeMode(void)
+Int8 &DVRIsoShaderBase::editActiveShadeMode(void)
 {
     return _sfActiveShadeMode.getValue();
 }
@@ -145,6 +186,15 @@ const Int8 &DVRIsoShaderBase::getActiveShadeMode(void) const
 {
     return _sfActiveShadeMode.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the DVRIsoShader::_sfActiveShadeMode field.
+inline
+Int8 &DVRIsoShaderBase::getActiveShadeMode(void)
+{
+    return _sfActiveShadeMode.getValue();
+}
+#endif
 
 //! Set the value of the DVRIsoShader::_sfActiveShadeMode field.
 inline

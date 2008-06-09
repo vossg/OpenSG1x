@@ -92,12 +92,12 @@ FieldDescription *InlineBase::_desc[] =
                      "url", 
                      UrlFieldId, UrlFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&InlineBase::getMFUrl)),
+                     reinterpret_cast<FieldAccessMethod>(&InlineBase::editMFUrl)),
     new FieldDescription(SFBool::getClassType(), 
                      "loaded", 
                      LoadedFieldId, LoadedFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&InlineBase::getSFLoaded))
+                     reinterpret_cast<FieldAccessMethod>(&InlineBase::editSFLoaded))
 };
 
 
@@ -329,7 +329,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(InlinePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGINLINEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGINLINEBASE_INLINE_CVSID;
 

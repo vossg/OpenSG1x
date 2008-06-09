@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterVec3fBase : public ShaderParameter
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFValue          (void);
 
-           Vec3f               &getValue          (void);
+           SFVec3f             *editSFValue          (void);
+     const SFVec3f             *getSFValue          (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFValue          (void);
+#endif
+
+
+           Vec3f               &editValue          (void);
      const Vec3f               &getValue          (void) const;
+#ifndef OSG_2_PREP
+           Vec3f               &getValue          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<ShaderParameterVec3fPtr> ShaderParameterVec3fRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERVEC3FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec3fBase.h,v 1.7 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERVEC3FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterVec3fBase.h,v 1.8 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERVEC3FBASE_H_ */

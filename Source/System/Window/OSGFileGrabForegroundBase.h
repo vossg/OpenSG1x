@@ -128,16 +128,43 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFName           (void);
-           SFUInt32            *getSFFrame          (void);
-           SFBool              *getSFIncrement      (void);
 
-           std::string         &getName           (void);
+           SFString            *editSFName           (void);
+     const SFString            *getSFName           (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFName           (void);
+#endif
+
+           SFUInt32            *editSFFrame          (void);
+     const SFUInt32            *getSFFrame          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFrame          (void);
+#endif
+
+           SFBool              *editSFIncrement      (void);
+     const SFBool              *getSFIncrement      (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFIncrement      (void);
+#endif
+
+
+           std::string         &editName           (void);
      const std::string         &getName           (void) const;
-           UInt32              &getFrame          (void);
+#ifndef OSG_2_PREP
+           std::string         &getName           (void);
+#endif
+
+           UInt32              &editFrame          (void);
      const UInt32              &getFrame          (void) const;
-           bool                &getIncrement      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getFrame          (void);
+#endif
+
+           bool                &editIncrement      (void);
      const bool                &getIncrement      (void) const;
+#ifndef OSG_2_PREP
+           bool                &getIncrement      (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

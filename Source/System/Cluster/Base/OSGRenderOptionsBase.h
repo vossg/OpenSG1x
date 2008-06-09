@@ -200,88 +200,331 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFStatistic      (void);
-           SFGLenum            *getSFPolygonMode    (void);
-           SFBool              *getSFTwoSidedLighting(void);
-           SFBool              *getSFSpecTexLighting(void);
-           SFBool              *getSFSortTrans      (void);
-           SFBool              *getSFZWriteTrans    (void);
-           SFBool              *getSFLocalLights    (void);
-           SFBool              *getSFCorrectTwoSidedLighting(void);
-           SFBool              *getSFOcclusionCulling(void);
-           SFInt32             *getSFOcclusionCullingMode(void);
-           SFUInt32            *getSFOcclusionCullingPixels(void);
-           SFBool              *getSFAntialiasing   (void);
-           SFReal32            *getSFAntialiasingDistance(void);
-           SFReal32            *getSFAntialiasingScale(void);
-           SFUInt32            *getSFAntialiasingTrigger(void);
-           SFBool              *getSFFrustumCulling (void);
-           SFBool              *getSFBackfaceCulling(void);
-           SFBool              *getSFSmallFeatureCulling(void);
-           SFReal32            *getSFSmallFeaturePixels(void);
-           SFUInt32            *getSFSmallFeatureThreshold(void);
-           SFBool              *getSFFirstFrame     (void);
-           SFBool              *getSFDepthOnlyPass  (void);
-           SFColor4f           *getSFLightModelAmbient(void);
-           SFColor4f           *getSFFogColor       (void);
-           SFVec2f             *getSFFogRange       (void);
-           SFReal32            *getSFFogDensity     (void);
-           SFInt32             *getSFFogMode        (void);
 
-           bool                &getStatistic      (void);
+           SFBool              *editSFStatistic      (void);
+     const SFBool              *getSFStatistic      (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFStatistic      (void);
+#endif
+
+           SFGLenum            *editSFPolygonMode    (void);
+     const SFGLenum            *getSFPolygonMode    (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFPolygonMode    (void);
+#endif
+
+           SFBool              *editSFTwoSidedLighting(void);
+     const SFBool              *getSFTwoSidedLighting(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFTwoSidedLighting(void);
+#endif
+
+           SFBool              *editSFSpecTexLighting(void);
+     const SFBool              *getSFSpecTexLighting(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSpecTexLighting(void);
+#endif
+
+           SFBool              *editSFSortTrans      (void);
+     const SFBool              *getSFSortTrans      (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSortTrans      (void);
+#endif
+
+           SFBool              *editSFZWriteTrans    (void);
+     const SFBool              *getSFZWriteTrans    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFZWriteTrans    (void);
+#endif
+
+           SFBool              *editSFLocalLights    (void);
+     const SFBool              *getSFLocalLights    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFLocalLights    (void);
+#endif
+
+           SFBool              *editSFCorrectTwoSidedLighting(void);
+     const SFBool              *getSFCorrectTwoSidedLighting(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFCorrectTwoSidedLighting(void);
+#endif
+
+           SFBool              *editSFOcclusionCulling(void);
+     const SFBool              *getSFOcclusionCulling(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFOcclusionCulling(void);
+#endif
+
+           SFInt32             *editSFOcclusionCullingMode(void);
+     const SFInt32             *getSFOcclusionCullingMode(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFOcclusionCullingMode(void);
+#endif
+
+           SFUInt32            *editSFOcclusionCullingPixels(void);
+     const SFUInt32            *getSFOcclusionCullingPixels(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFOcclusionCullingPixels(void);
+#endif
+
+           SFBool              *editSFAntialiasing   (void);
+     const SFBool              *getSFAntialiasing   (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFAntialiasing   (void);
+#endif
+
+           SFReal32            *editSFAntialiasingDistance(void);
+     const SFReal32            *getSFAntialiasingDistance(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAntialiasingDistance(void);
+#endif
+
+           SFReal32            *editSFAntialiasingScale(void);
+     const SFReal32            *getSFAntialiasingScale(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAntialiasingScale(void);
+#endif
+
+           SFUInt32            *editSFAntialiasingTrigger(void);
+     const SFUInt32            *getSFAntialiasingTrigger(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFAntialiasingTrigger(void);
+#endif
+
+           SFBool              *editSFFrustumCulling (void);
+     const SFBool              *getSFFrustumCulling (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFFrustumCulling (void);
+#endif
+
+           SFBool              *editSFBackfaceCulling(void);
+     const SFBool              *getSFBackfaceCulling(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFBackfaceCulling(void);
+#endif
+
+           SFBool              *editSFSmallFeatureCulling(void);
+     const SFBool              *getSFSmallFeatureCulling(void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFSmallFeatureCulling(void);
+#endif
+
+           SFReal32            *editSFSmallFeaturePixels(void);
+     const SFReal32            *getSFSmallFeaturePixels(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSmallFeaturePixels(void);
+#endif
+
+           SFUInt32            *editSFSmallFeatureThreshold(void);
+     const SFUInt32            *getSFSmallFeatureThreshold(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFSmallFeatureThreshold(void);
+#endif
+
+           SFBool              *editSFFirstFrame     (void);
+     const SFBool              *getSFFirstFrame     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFFirstFrame     (void);
+#endif
+
+           SFBool              *editSFDepthOnlyPass  (void);
+     const SFBool              *getSFDepthOnlyPass  (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDepthOnlyPass  (void);
+#endif
+
+           SFColor4f           *editSFLightModelAmbient(void);
+     const SFColor4f           *getSFLightModelAmbient(void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFLightModelAmbient(void);
+#endif
+
+           SFColor4f           *editSFFogColor       (void);
+     const SFColor4f           *getSFFogColor       (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFFogColor       (void);
+#endif
+
+           SFVec2f             *editSFFogRange       (void);
+     const SFVec2f             *getSFFogRange       (void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFFogRange       (void);
+#endif
+
+           SFReal32            *editSFFogDensity     (void);
+     const SFReal32            *getSFFogDensity     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFFogDensity     (void);
+#endif
+
+           SFInt32             *editSFFogMode        (void);
+     const SFInt32             *getSFFogMode        (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFFogMode        (void);
+#endif
+
+
+           bool                &editStatistic      (void);
      const bool                &getStatistic      (void) const;
-           GLenum              &getPolygonMode    (void);
+#ifndef OSG_2_PREP
+           bool                &getStatistic      (void);
+#endif
+
+           GLenum              &editPolygonMode    (void);
      const GLenum              &getPolygonMode    (void) const;
-           bool                &getTwoSidedLighting(void);
+#ifndef OSG_2_PREP
+           GLenum              &getPolygonMode    (void);
+#endif
+
+           bool                &editTwoSidedLighting(void);
      const bool                &getTwoSidedLighting(void) const;
-           bool                &getSpecTexLighting(void);
+#ifndef OSG_2_PREP
+           bool                &getTwoSidedLighting(void);
+#endif
+
+           bool                &editSpecTexLighting(void);
      const bool                &getSpecTexLighting(void) const;
-           bool                &getSortTrans      (void);
+#ifndef OSG_2_PREP
+           bool                &getSpecTexLighting(void);
+#endif
+
+           bool                &editSortTrans      (void);
      const bool                &getSortTrans      (void) const;
-           bool                &getZWriteTrans    (void);
+#ifndef OSG_2_PREP
+           bool                &getSortTrans      (void);
+#endif
+
+           bool                &editZWriteTrans    (void);
      const bool                &getZWriteTrans    (void) const;
-           bool                &getLocalLights    (void);
+#ifndef OSG_2_PREP
+           bool                &getZWriteTrans    (void);
+#endif
+
+           bool                &editLocalLights    (void);
      const bool                &getLocalLights    (void) const;
-           bool                &getCorrectTwoSidedLighting(void);
+#ifndef OSG_2_PREP
+           bool                &getLocalLights    (void);
+#endif
+
+           bool                &editCorrectTwoSidedLighting(void);
      const bool                &getCorrectTwoSidedLighting(void) const;
-           bool                &getOcclusionCulling(void);
+#ifndef OSG_2_PREP
+           bool                &getCorrectTwoSidedLighting(void);
+#endif
+
+           bool                &editOcclusionCulling(void);
      const bool                &getOcclusionCulling(void) const;
-           Int32               &getOcclusionCullingMode(void);
+#ifndef OSG_2_PREP
+           bool                &getOcclusionCulling(void);
+#endif
+
+           Int32               &editOcclusionCullingMode(void);
      const Int32               &getOcclusionCullingMode(void) const;
-           UInt32              &getOcclusionCullingPixels(void);
+#ifndef OSG_2_PREP
+           Int32               &getOcclusionCullingMode(void);
+#endif
+
+           UInt32              &editOcclusionCullingPixels(void);
      const UInt32              &getOcclusionCullingPixels(void) const;
-           bool                &getAntialiasing   (void);
+#ifndef OSG_2_PREP
+           UInt32              &getOcclusionCullingPixels(void);
+#endif
+
+           bool                &editAntialiasing   (void);
      const bool                &getAntialiasing   (void) const;
-           Real32              &getAntialiasingDistance(void);
+#ifndef OSG_2_PREP
+           bool                &getAntialiasing   (void);
+#endif
+
+           Real32              &editAntialiasingDistance(void);
      const Real32              &getAntialiasingDistance(void) const;
-           Real32              &getAntialiasingScale(void);
+#ifndef OSG_2_PREP
+           Real32              &getAntialiasingDistance(void);
+#endif
+
+           Real32              &editAntialiasingScale(void);
      const Real32              &getAntialiasingScale(void) const;
-           UInt32              &getAntialiasingTrigger(void);
+#ifndef OSG_2_PREP
+           Real32              &getAntialiasingScale(void);
+#endif
+
+           UInt32              &editAntialiasingTrigger(void);
      const UInt32              &getAntialiasingTrigger(void) const;
-           bool                &getFrustumCulling (void);
+#ifndef OSG_2_PREP
+           UInt32              &getAntialiasingTrigger(void);
+#endif
+
+           bool                &editFrustumCulling (void);
      const bool                &getFrustumCulling (void) const;
-           bool                &getBackfaceCulling(void);
+#ifndef OSG_2_PREP
+           bool                &getFrustumCulling (void);
+#endif
+
+           bool                &editBackfaceCulling(void);
      const bool                &getBackfaceCulling(void) const;
-           bool                &getSmallFeatureCulling(void);
+#ifndef OSG_2_PREP
+           bool                &getBackfaceCulling(void);
+#endif
+
+           bool                &editSmallFeatureCulling(void);
      const bool                &getSmallFeatureCulling(void) const;
-           Real32              &getSmallFeaturePixels(void);
+#ifndef OSG_2_PREP
+           bool                &getSmallFeatureCulling(void);
+#endif
+
+           Real32              &editSmallFeaturePixels(void);
      const Real32              &getSmallFeaturePixels(void) const;
-           UInt32              &getSmallFeatureThreshold(void);
+#ifndef OSG_2_PREP
+           Real32              &getSmallFeaturePixels(void);
+#endif
+
+           UInt32              &editSmallFeatureThreshold(void);
      const UInt32              &getSmallFeatureThreshold(void) const;
-           bool                &getFirstFrame     (void);
+#ifndef OSG_2_PREP
+           UInt32              &getSmallFeatureThreshold(void);
+#endif
+
+           bool                &editFirstFrame     (void);
      const bool                &getFirstFrame     (void) const;
-           bool                &getDepthOnlyPass  (void);
+#ifndef OSG_2_PREP
+           bool                &getFirstFrame     (void);
+#endif
+
+           bool                &editDepthOnlyPass  (void);
      const bool                &getDepthOnlyPass  (void) const;
-           Color4f             &getLightModelAmbient(void);
+#ifndef OSG_2_PREP
+           bool                &getDepthOnlyPass  (void);
+#endif
+
+           Color4f             &editLightModelAmbient(void);
      const Color4f             &getLightModelAmbient(void) const;
-           Color4f             &getFogColor       (void);
+#ifndef OSG_2_PREP
+           Color4f             &getLightModelAmbient(void);
+#endif
+
+           Color4f             &editFogColor       (void);
      const Color4f             &getFogColor       (void) const;
-           Vec2f               &getFogRange       (void);
+#ifndef OSG_2_PREP
+           Color4f             &getFogColor       (void);
+#endif
+
+           Vec2f               &editFogRange       (void);
      const Vec2f               &getFogRange       (void) const;
-           Real32              &getFogDensity     (void);
+#ifndef OSG_2_PREP
+           Vec2f               &getFogRange       (void);
+#endif
+
+           Real32              &editFogDensity     (void);
      const Real32              &getFogDensity     (void) const;
-           Int32               &getFogMode        (void);
+#ifndef OSG_2_PREP
+           Real32              &getFogDensity     (void);
+#endif
+
+           Int32               &editFogMode        (void);
      const Int32               &getFogMode        (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getFogMode        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -461,6 +704,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.10 2008/06/05 05:02:24 vossg Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.11 2008/06/09 07:31:46 vossg Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

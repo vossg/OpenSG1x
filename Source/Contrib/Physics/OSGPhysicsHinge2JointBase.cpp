@@ -98,17 +98,17 @@ FieldDescription *PhysicsHinge2JointBase::_desc[] =
                      "anchor", 
                      AnchorFieldId, AnchorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::getSFAnchor)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::editSFAnchor)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis1", 
                      Axis1FieldId, Axis1FieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::getSFAxis1)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::editSFAxis1)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis2", 
                      Axis2FieldId, Axis2FieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::getSFAxis2))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHinge2JointBase::editSFAxis2))
 };
 
 
@@ -359,7 +359,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsHinge2JointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHinge2JointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHinge2JointBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHINGE2JOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHINGE2JOINTBASE_INLINE_CVSID;
 

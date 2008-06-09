@@ -143,31 +143,103 @@ class OSG_SYSTEMLIB_DLLMAPPING BlendChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFGLenum            *getSFSrcFactor      (void);
-           SFGLenum            *getSFDestFactor     (void);
-           SFGLenum            *getSFEquation       (void);
-           SFColor4f           *getSFColor          (void);
-           SFGLenum            *getSFAlphaFunc      (void);
-           SFReal32            *getSFAlphaValue     (void);
-           SFGLenum            *getSFAlphaSrcFactor (void);
-           SFGLenum            *getSFAlphaDestFactor(void);
 
-           GLenum              &getSrcFactor      (void);
+           SFGLenum            *editSFSrcFactor      (void);
+     const SFGLenum            *getSFSrcFactor      (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFSrcFactor      (void);
+#endif
+
+           SFGLenum            *editSFDestFactor     (void);
+     const SFGLenum            *getSFDestFactor     (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFDestFactor     (void);
+#endif
+
+           SFGLenum            *editSFEquation       (void);
+     const SFGLenum            *getSFEquation       (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEquation       (void);
+#endif
+
+           SFColor4f           *editSFColor          (void);
+     const SFColor4f           *getSFColor          (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFColor          (void);
+#endif
+
+           SFGLenum            *editSFAlphaFunc      (void);
+     const SFGLenum            *getSFAlphaFunc      (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFAlphaFunc      (void);
+#endif
+
+           SFReal32            *editSFAlphaValue     (void);
+     const SFReal32            *getSFAlphaValue     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAlphaValue     (void);
+#endif
+
+           SFGLenum            *editSFAlphaSrcFactor (void);
+     const SFGLenum            *getSFAlphaSrcFactor (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFAlphaSrcFactor (void);
+#endif
+
+           SFGLenum            *editSFAlphaDestFactor(void);
+     const SFGLenum            *getSFAlphaDestFactor(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFAlphaDestFactor(void);
+#endif
+
+
+           GLenum              &editSrcFactor      (void);
      const GLenum              &getSrcFactor      (void) const;
-           GLenum              &getDestFactor     (void);
+#ifndef OSG_2_PREP
+           GLenum              &getSrcFactor      (void);
+#endif
+
+           GLenum              &editDestFactor     (void);
      const GLenum              &getDestFactor     (void) const;
-           GLenum              &getEquation       (void);
+#ifndef OSG_2_PREP
+           GLenum              &getDestFactor     (void);
+#endif
+
+           GLenum              &editEquation       (void);
      const GLenum              &getEquation       (void) const;
-           Color4f             &getColor          (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEquation       (void);
+#endif
+
+           Color4f             &editColor          (void);
      const Color4f             &getColor          (void) const;
-           GLenum              &getAlphaFunc      (void);
+#ifndef OSG_2_PREP
+           Color4f             &getColor          (void);
+#endif
+
+           GLenum              &editAlphaFunc      (void);
      const GLenum              &getAlphaFunc      (void) const;
-           Real32              &getAlphaValue     (void);
+#ifndef OSG_2_PREP
+           GLenum              &getAlphaFunc      (void);
+#endif
+
+           Real32              &editAlphaValue     (void);
      const Real32              &getAlphaValue     (void) const;
-           GLenum              &getAlphaSrcFactor (void);
+#ifndef OSG_2_PREP
+           Real32              &getAlphaValue     (void);
+#endif
+
+           GLenum              &editAlphaSrcFactor (void);
      const GLenum              &getAlphaSrcFactor (void) const;
-           GLenum              &getAlphaDestFactor(void);
+#ifndef OSG_2_PREP
+           GLenum              &getAlphaSrcFactor (void);
+#endif
+
+           GLenum              &editAlphaDestFactor(void);
      const GLenum              &getAlphaDestFactor(void) const;
+#ifndef OSG_2_PREP
+           GLenum              &getAlphaDestFactor(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

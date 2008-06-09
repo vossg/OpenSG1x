@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING DeformerBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFNodePtr           *getSFGeometry       (void);
 
-           NodePtr             &getGeometry       (void);
+           SFNodePtr           *editSFGeometry       (void);
+     const SFNodePtr           *getSFGeometry       (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFGeometry       (void);
+#endif
+
+
+           NodePtr             &editGeometry       (void);
      const NodePtr             &getGeometry       (void) const;
+#ifndef OSG_2_PREP
+           NodePtr             &getGeometry       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

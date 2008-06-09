@@ -86,7 +86,7 @@ FieldDescription *CGParameterChunkBase::_desc[] =
                      "CGChunk", 
                      CGChunkFieldId, CGChunkFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGParameterChunkBase::getSFCGChunk))
+                     reinterpret_cast<FieldAccessMethod>(&CGParameterChunkBase::editSFCGChunk))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CGParameterChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunkBase.cpp,v 1.7 2008/06/05 05:02:14 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunkBase.cpp,v 1.8 2008/06/09 07:31:37 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGPARAMETERCHUNKBASE_INLINE_CVSID;
 

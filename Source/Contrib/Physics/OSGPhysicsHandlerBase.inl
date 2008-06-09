@@ -98,22 +98,54 @@ PhysicsHandlerPtr PhysicsHandlerBase::createEmpty(void)
 
 //! Get the PhysicsHandler::_sfWorld field.
 inline
-SFPhysicsWorldPtr *PhysicsHandlerBase::getSFWorld(void)
+const SFPhysicsWorldPtr *PhysicsHandlerBase::getSFWorld(void) const
 {
     return &_sfWorld;
 }
 
+//! Get the PhysicsHandler::_sfWorld field.
+inline
+SFPhysicsWorldPtr *PhysicsHandlerBase::editSFWorld(void)
+{
+    return &_sfWorld;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsHandler::_sfWorld field.
+inline
+SFPhysicsWorldPtr *PhysicsHandlerBase::getSFWorld(void)
+{
+    return &_sfWorld;
+}
+#endif
+
+//! Get the PhysicsHandler::_sfSpace field.
+inline
+const SFPhysicsSpacePtr *PhysicsHandlerBase::getSFSpace(void) const
+{
+    return &_sfSpace;
+}
+
+//! Get the PhysicsHandler::_sfSpace field.
+inline
+SFPhysicsSpacePtr *PhysicsHandlerBase::editSFSpace(void)
+{
+    return &_sfSpace;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PhysicsHandler::_sfSpace field.
 inline
 SFPhysicsSpacePtr *PhysicsHandlerBase::getSFSpace(void)
 {
     return &_sfSpace;
 }
+#endif
 
 
 //! Get the value of the PhysicsHandler::_sfWorld field.
 inline
-PhysicsWorldPtr &PhysicsHandlerBase::getWorld(void)
+PhysicsWorldPtr &PhysicsHandlerBase::editWorld(void)
 {
     return _sfWorld.getValue();
 }
@@ -125,6 +157,15 @@ const PhysicsWorldPtr &PhysicsHandlerBase::getWorld(void) const
     return _sfWorld.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsHandler::_sfWorld field.
+inline
+PhysicsWorldPtr &PhysicsHandlerBase::getWorld(void)
+{
+    return _sfWorld.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsHandler::_sfWorld field.
 inline
 void PhysicsHandlerBase::setWorld(const PhysicsWorldPtr &value)
@@ -134,7 +175,7 @@ void PhysicsHandlerBase::setWorld(const PhysicsWorldPtr &value)
 
 //! Get the value of the PhysicsHandler::_sfSpace field.
 inline
-PhysicsSpacePtr &PhysicsHandlerBase::getSpace(void)
+PhysicsSpacePtr &PhysicsHandlerBase::editSpace(void)
 {
     return _sfSpace.getValue();
 }
@@ -146,6 +187,15 @@ const PhysicsSpacePtr &PhysicsHandlerBase::getSpace(void) const
     return _sfSpace.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsHandler::_sfSpace field.
+inline
+PhysicsSpacePtr &PhysicsHandlerBase::getSpace(void)
+{
+    return _sfSpace.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsHandler::_sfSpace field.
 inline
 void PhysicsHandlerBase::setSpace(const PhysicsSpacePtr &value)
@@ -156,5 +206,5 @@ void PhysicsHandlerBase::setSpace(const PhysicsSpacePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHANDLERBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHandlerBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSHANDLERBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsHandlerBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

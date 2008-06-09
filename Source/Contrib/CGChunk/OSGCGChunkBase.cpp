@@ -122,37 +122,37 @@ FieldDescription *CGChunkBase::_desc[] =
                      "vertexProfile", 
                      VertexProfileFieldId, VertexProfileFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFVertexProfile)),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::editSFVertexProfile)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "fragmentProfile", 
                      FragmentProfileFieldId, FragmentProfileFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFFragmentProfile)),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::editSFFragmentProfile)),
     new FieldDescription(SFString::getClassType(), 
                      "vertexEntryPoint", 
                      VertexEntryPointFieldId, VertexEntryPointFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFVertexEntryPoint)),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::editSFVertexEntryPoint)),
     new FieldDescription(MFString::getClassType(), 
                      "vertexArguments", 
                      VertexArgumentsFieldId, VertexArgumentsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getMFVertexArguments)),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::editMFVertexArguments)),
     new FieldDescription(SFString::getClassType(), 
                      "fragmentEntryPoint", 
                      FragmentEntryPointFieldId, FragmentEntryPointFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFFragmentEntryPoint)),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::editSFFragmentEntryPoint)),
     new FieldDescription(MFString::getClassType(), 
                      "fragmentArguments", 
                      FragmentArgumentsFieldId, FragmentArgumentsFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getMFFragmentArguments)),
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::editMFFragmentArguments)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::getSFGLId))
+                     reinterpret_cast<FieldAccessMethod>(&CGChunkBase::editSFGLId))
 };
 
 
@@ -503,7 +503,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CGChunkPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGCHUNKBASE_INLINE_CVSID;
 

@@ -281,170 +281,656 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFImagePtr          *getSFImage          (void);
-           SFGLenum            *getSFInternalFormat (void);
-           SFGLenum            *getSFExternalFormat (void);
-           SFBool              *getSFScale          (void);
-           SFUInt32            *getSFFrame          (void);
-           SFGLenum            *getSFMinFilter      (void);
-           SFGLenum            *getSFMagFilter      (void);
-           SFGLenum            *getSFWrapS          (void);
-           SFGLenum            *getSFWrapT          (void);
-           SFGLenum            *getSFWrapR          (void);
-           SFGLenum            *getSFEnvMode        (void);
-           SFColor4f           *getSFEnvColor       (void);
-           SFGLenum            *getSFEnvCombineRGB  (void);
-           SFGLenum            *getSFEnvCombineAlpha(void);
-           SFReal32            *getSFEnvScaleRGB    (void);
-           SFReal32            *getSFEnvScaleAlpha  (void);
-           SFGLenum            *getSFEnvSource0RGB  (void);
-           SFGLenum            *getSFEnvSource1RGB  (void);
-           SFGLenum            *getSFEnvSource2RGB  (void);
-           SFGLenum            *getSFEnvSource0Alpha(void);
-           SFGLenum            *getSFEnvSource1Alpha(void);
-           SFGLenum            *getSFEnvSource2Alpha(void);
-           SFGLenum            *getSFEnvOperand0RGB (void);
-           SFGLenum            *getSFEnvOperand1RGB (void);
-           SFGLenum            *getSFEnvOperand2RGB (void);
-           SFGLenum            *getSFEnvOperand0Alpha(void);
-           SFGLenum            *getSFEnvOperand1Alpha(void);
-           SFGLenum            *getSFEnvOperand2Alpha(void);
-           SFGLenum            *getSFGLId           (void);
-           SFInt32             *getSFIgnoreGLForAspect(void);
-           SFBool              *getSFPointSprite    (void);
-           SFReal32            *getSFPriority       (void);
-           SFGLenum            *getSFShaderOperation(void);
-           SFGLenum            *getSFShaderInput    (void);
-           MFReal32            *getMFShaderOffsetMatrix(void);
-           SFReal32            *getSFShaderOffsetScale(void);
-           SFReal32            *getSFShaderOffsetBias(void);
-           SFGLenum            *getSFShaderRGBADotProduct(void);
-           SFUInt8             *getSFShaderCullModes(void);
-           SFVec3f             *getSFShaderConstEye (void);
-           SFReal32            *getSFLodBias        (void);
-           SFGLenum            *getSFTarget         (void);
-           SFInt32             *getSFDirtyLeft      (void);
-           SFInt32             *getSFDirtyMinX      (void);
-           SFInt32             *getSFDirtyMaxX      (void);
-           SFInt32             *getSFDirtyMinY      (void);
-           SFInt32             *getSFDirtyMaxY      (void);
-           SFInt32             *getSFDirtyMinZ      (void);
-           SFInt32             *getSFDirtyMaxZ      (void);
-           SFReal32            *getSFAnisotropy     (void);
-           SFColor4f           *getSFBorderColor    (void);
-           SFUInt32            *getSFBorderWidth    (void);
-           SFUInt32            *getSFNPOTMatrixScale(void);
-           SFReal32            *getSFSkipMipMapLevels(void);
 
-           ImagePtr            &getImage          (void);
+           SFImagePtr          *editSFImage          (void);
+     const SFImagePtr          *getSFImage          (void) const;
+#ifndef OSG_2_PREP
+           SFImagePtr          *getSFImage          (void);
+#endif
+
+           SFGLenum            *editSFInternalFormat (void);
+     const SFGLenum            *getSFInternalFormat (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFInternalFormat (void);
+#endif
+
+           SFGLenum            *editSFExternalFormat (void);
+     const SFGLenum            *getSFExternalFormat (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFExternalFormat (void);
+#endif
+
+           SFBool              *editSFScale          (void);
+     const SFBool              *getSFScale          (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFScale          (void);
+#endif
+
+           SFUInt32            *editSFFrame          (void);
+     const SFUInt32            *getSFFrame          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFrame          (void);
+#endif
+
+           SFGLenum            *editSFMinFilter      (void);
+     const SFGLenum            *getSFMinFilter      (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFMinFilter      (void);
+#endif
+
+           SFGLenum            *editSFMagFilter      (void);
+     const SFGLenum            *getSFMagFilter      (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFMagFilter      (void);
+#endif
+
+           SFGLenum            *editSFWrapS          (void);
+     const SFGLenum            *getSFWrapS          (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFWrapS          (void);
+#endif
+
+           SFGLenum            *editSFWrapT          (void);
+     const SFGLenum            *getSFWrapT          (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFWrapT          (void);
+#endif
+
+           SFGLenum            *editSFWrapR          (void);
+     const SFGLenum            *getSFWrapR          (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFWrapR          (void);
+#endif
+
+           SFGLenum            *editSFEnvMode        (void);
+     const SFGLenum            *getSFEnvMode        (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvMode        (void);
+#endif
+
+           SFColor4f           *editSFEnvColor       (void);
+     const SFColor4f           *getSFEnvColor       (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFEnvColor       (void);
+#endif
+
+           SFGLenum            *editSFEnvCombineRGB  (void);
+     const SFGLenum            *getSFEnvCombineRGB  (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvCombineRGB  (void);
+#endif
+
+           SFGLenum            *editSFEnvCombineAlpha(void);
+     const SFGLenum            *getSFEnvCombineAlpha(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvCombineAlpha(void);
+#endif
+
+           SFReal32            *editSFEnvScaleRGB    (void);
+     const SFReal32            *getSFEnvScaleRGB    (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFEnvScaleRGB    (void);
+#endif
+
+           SFReal32            *editSFEnvScaleAlpha  (void);
+     const SFReal32            *getSFEnvScaleAlpha  (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFEnvScaleAlpha  (void);
+#endif
+
+           SFGLenum            *editSFEnvSource0RGB  (void);
+     const SFGLenum            *getSFEnvSource0RGB  (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvSource0RGB  (void);
+#endif
+
+           SFGLenum            *editSFEnvSource1RGB  (void);
+     const SFGLenum            *getSFEnvSource1RGB  (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvSource1RGB  (void);
+#endif
+
+           SFGLenum            *editSFEnvSource2RGB  (void);
+     const SFGLenum            *getSFEnvSource2RGB  (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvSource2RGB  (void);
+#endif
+
+           SFGLenum            *editSFEnvSource0Alpha(void);
+     const SFGLenum            *getSFEnvSource0Alpha(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvSource0Alpha(void);
+#endif
+
+           SFGLenum            *editSFEnvSource1Alpha(void);
+     const SFGLenum            *getSFEnvSource1Alpha(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvSource1Alpha(void);
+#endif
+
+           SFGLenum            *editSFEnvSource2Alpha(void);
+     const SFGLenum            *getSFEnvSource2Alpha(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvSource2Alpha(void);
+#endif
+
+           SFGLenum            *editSFEnvOperand0RGB (void);
+     const SFGLenum            *getSFEnvOperand0RGB (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvOperand0RGB (void);
+#endif
+
+           SFGLenum            *editSFEnvOperand1RGB (void);
+     const SFGLenum            *getSFEnvOperand1RGB (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvOperand1RGB (void);
+#endif
+
+           SFGLenum            *editSFEnvOperand2RGB (void);
+     const SFGLenum            *getSFEnvOperand2RGB (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvOperand2RGB (void);
+#endif
+
+           SFGLenum            *editSFEnvOperand0Alpha(void);
+     const SFGLenum            *getSFEnvOperand0Alpha(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvOperand0Alpha(void);
+#endif
+
+           SFGLenum            *editSFEnvOperand1Alpha(void);
+     const SFGLenum            *getSFEnvOperand1Alpha(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvOperand1Alpha(void);
+#endif
+
+           SFGLenum            *editSFEnvOperand2Alpha(void);
+     const SFGLenum            *getSFEnvOperand2Alpha(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFEnvOperand2Alpha(void);
+#endif
+
+           SFGLenum            *editSFGLId           (void);
+     const SFGLenum            *getSFGLId           (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFGLId           (void);
+#endif
+
+           SFInt32             *editSFIgnoreGLForAspect(void);
+     const SFInt32             *getSFIgnoreGLForAspect(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFIgnoreGLForAspect(void);
+#endif
+
+           SFBool              *editSFPointSprite    (void);
+     const SFBool              *getSFPointSprite    (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFPointSprite    (void);
+#endif
+
+           SFReal32            *editSFPriority       (void);
+     const SFReal32            *getSFPriority       (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFPriority       (void);
+#endif
+
+           SFGLenum            *editSFShaderOperation(void);
+     const SFGLenum            *getSFShaderOperation(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFShaderOperation(void);
+#endif
+
+           SFGLenum            *editSFShaderInput    (void);
+     const SFGLenum            *getSFShaderInput    (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFShaderInput    (void);
+#endif
+
+           MFReal32            *editMFShaderOffsetMatrix(void);
+     const MFReal32            *getMFShaderOffsetMatrix(void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFShaderOffsetMatrix(void);
+#endif
+
+           SFReal32            *editSFShaderOffsetScale(void);
+     const SFReal32            *getSFShaderOffsetScale(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFShaderOffsetScale(void);
+#endif
+
+           SFReal32            *editSFShaderOffsetBias(void);
+     const SFReal32            *getSFShaderOffsetBias(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFShaderOffsetBias(void);
+#endif
+
+           SFGLenum            *editSFShaderRGBADotProduct(void);
+     const SFGLenum            *getSFShaderRGBADotProduct(void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFShaderRGBADotProduct(void);
+#endif
+
+           SFUInt8             *editSFShaderCullModes(void);
+     const SFUInt8             *getSFShaderCullModes(void) const;
+#ifndef OSG_2_PREP
+           SFUInt8             *getSFShaderCullModes(void);
+#endif
+
+           SFVec3f             *editSFShaderConstEye (void);
+     const SFVec3f             *getSFShaderConstEye (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFShaderConstEye (void);
+#endif
+
+           SFReal32            *editSFLodBias        (void);
+     const SFReal32            *getSFLodBias        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFLodBias        (void);
+#endif
+
+           SFGLenum            *editSFTarget         (void);
+     const SFGLenum            *getSFTarget         (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFTarget         (void);
+#endif
+
+           SFInt32             *editSFDirtyLeft      (void);
+     const SFInt32             *getSFDirtyLeft      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFDirtyLeft      (void);
+#endif
+
+           SFInt32             *editSFDirtyMinX      (void);
+     const SFInt32             *getSFDirtyMinX      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFDirtyMinX      (void);
+#endif
+
+           SFInt32             *editSFDirtyMaxX      (void);
+     const SFInt32             *getSFDirtyMaxX      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFDirtyMaxX      (void);
+#endif
+
+           SFInt32             *editSFDirtyMinY      (void);
+     const SFInt32             *getSFDirtyMinY      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFDirtyMinY      (void);
+#endif
+
+           SFInt32             *editSFDirtyMaxY      (void);
+     const SFInt32             *getSFDirtyMaxY      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFDirtyMaxY      (void);
+#endif
+
+           SFInt32             *editSFDirtyMinZ      (void);
+     const SFInt32             *getSFDirtyMinZ      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFDirtyMinZ      (void);
+#endif
+
+           SFInt32             *editSFDirtyMaxZ      (void);
+     const SFInt32             *getSFDirtyMaxZ      (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFDirtyMaxZ      (void);
+#endif
+
+           SFReal32            *editSFAnisotropy     (void);
+     const SFReal32            *getSFAnisotropy     (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFAnisotropy     (void);
+#endif
+
+           SFColor4f           *editSFBorderColor    (void);
+     const SFColor4f           *getSFBorderColor    (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFBorderColor    (void);
+#endif
+
+           SFUInt32            *editSFBorderWidth    (void);
+     const SFUInt32            *getSFBorderWidth    (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFBorderWidth    (void);
+#endif
+
+           SFUInt32            *editSFNPOTMatrixScale(void);
+     const SFUInt32            *getSFNPOTMatrixScale(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFNPOTMatrixScale(void);
+#endif
+
+           SFReal32            *editSFSkipMipMapLevels(void);
+     const SFReal32            *getSFSkipMipMapLevels(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSkipMipMapLevels(void);
+#endif
+
+
+           ImagePtr            &editImage          (void);
      const ImagePtr            &getImage          (void) const;
-           GLenum              &getInternalFormat (void);
+#ifndef OSG_2_PREP
+           ImagePtr            &getImage          (void);
+#endif
+
+           GLenum              &editInternalFormat (void);
      const GLenum              &getInternalFormat (void) const;
-           GLenum              &getExternalFormat (void);
+#ifndef OSG_2_PREP
+           GLenum              &getInternalFormat (void);
+#endif
+
+           GLenum              &editExternalFormat (void);
      const GLenum              &getExternalFormat (void) const;
-           bool                &getScale          (void);
+#ifndef OSG_2_PREP
+           GLenum              &getExternalFormat (void);
+#endif
+
+           bool                &editScale          (void);
      const bool                &getScale          (void) const;
-           UInt32              &getFrame          (void);
+#ifndef OSG_2_PREP
+           bool                &getScale          (void);
+#endif
+
+           UInt32              &editFrame          (void);
      const UInt32              &getFrame          (void) const;
-           GLenum              &getMinFilter      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getFrame          (void);
+#endif
+
+           GLenum              &editMinFilter      (void);
      const GLenum              &getMinFilter      (void) const;
-           GLenum              &getMagFilter      (void);
+#ifndef OSG_2_PREP
+           GLenum              &getMinFilter      (void);
+#endif
+
+           GLenum              &editMagFilter      (void);
      const GLenum              &getMagFilter      (void) const;
-           GLenum              &getWrapS          (void);
+#ifndef OSG_2_PREP
+           GLenum              &getMagFilter      (void);
+#endif
+
+           GLenum              &editWrapS          (void);
      const GLenum              &getWrapS          (void) const;
-           GLenum              &getWrapT          (void);
+#ifndef OSG_2_PREP
+           GLenum              &getWrapS          (void);
+#endif
+
+           GLenum              &editWrapT          (void);
      const GLenum              &getWrapT          (void) const;
-           GLenum              &getWrapR          (void);
+#ifndef OSG_2_PREP
+           GLenum              &getWrapT          (void);
+#endif
+
+           GLenum              &editWrapR          (void);
      const GLenum              &getWrapR          (void) const;
-           GLenum              &getEnvMode        (void);
+#ifndef OSG_2_PREP
+           GLenum              &getWrapR          (void);
+#endif
+
+           GLenum              &editEnvMode        (void);
      const GLenum              &getEnvMode        (void) const;
-           Color4f             &getEnvColor       (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvMode        (void);
+#endif
+
+           Color4f             &editEnvColor       (void);
      const Color4f             &getEnvColor       (void) const;
-           GLenum              &getEnvCombineRGB  (void);
+#ifndef OSG_2_PREP
+           Color4f             &getEnvColor       (void);
+#endif
+
+           GLenum              &editEnvCombineRGB  (void);
      const GLenum              &getEnvCombineRGB  (void) const;
-           GLenum              &getEnvCombineAlpha(void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvCombineRGB  (void);
+#endif
+
+           GLenum              &editEnvCombineAlpha(void);
      const GLenum              &getEnvCombineAlpha(void) const;
-           Real32              &getEnvScaleRGB    (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvCombineAlpha(void);
+#endif
+
+           Real32              &editEnvScaleRGB    (void);
      const Real32              &getEnvScaleRGB    (void) const;
-           Real32              &getEnvScaleAlpha  (void);
+#ifndef OSG_2_PREP
+           Real32              &getEnvScaleRGB    (void);
+#endif
+
+           Real32              &editEnvScaleAlpha  (void);
      const Real32              &getEnvScaleAlpha  (void) const;
-           GLenum              &getEnvSource0RGB  (void);
+#ifndef OSG_2_PREP
+           Real32              &getEnvScaleAlpha  (void);
+#endif
+
+           GLenum              &editEnvSource0RGB  (void);
      const GLenum              &getEnvSource0RGB  (void) const;
-           GLenum              &getEnvSource1RGB  (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvSource0RGB  (void);
+#endif
+
+           GLenum              &editEnvSource1RGB  (void);
      const GLenum              &getEnvSource1RGB  (void) const;
-           GLenum              &getEnvSource2RGB  (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvSource1RGB  (void);
+#endif
+
+           GLenum              &editEnvSource2RGB  (void);
      const GLenum              &getEnvSource2RGB  (void) const;
-           GLenum              &getEnvSource0Alpha(void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvSource2RGB  (void);
+#endif
+
+           GLenum              &editEnvSource0Alpha(void);
      const GLenum              &getEnvSource0Alpha(void) const;
-           GLenum              &getEnvSource1Alpha(void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvSource0Alpha(void);
+#endif
+
+           GLenum              &editEnvSource1Alpha(void);
      const GLenum              &getEnvSource1Alpha(void) const;
-           GLenum              &getEnvSource2Alpha(void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvSource1Alpha(void);
+#endif
+
+           GLenum              &editEnvSource2Alpha(void);
      const GLenum              &getEnvSource2Alpha(void) const;
-           GLenum              &getEnvOperand0RGB (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvSource2Alpha(void);
+#endif
+
+           GLenum              &editEnvOperand0RGB (void);
      const GLenum              &getEnvOperand0RGB (void) const;
-           GLenum              &getEnvOperand1RGB (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvOperand0RGB (void);
+#endif
+
+           GLenum              &editEnvOperand1RGB (void);
      const GLenum              &getEnvOperand1RGB (void) const;
-           GLenum              &getEnvOperand2RGB (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvOperand1RGB (void);
+#endif
+
+           GLenum              &editEnvOperand2RGB (void);
      const GLenum              &getEnvOperand2RGB (void) const;
-           GLenum              &getEnvOperand0Alpha(void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvOperand2RGB (void);
+#endif
+
+           GLenum              &editEnvOperand0Alpha(void);
      const GLenum              &getEnvOperand0Alpha(void) const;
-           GLenum              &getEnvOperand1Alpha(void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvOperand0Alpha(void);
+#endif
+
+           GLenum              &editEnvOperand1Alpha(void);
      const GLenum              &getEnvOperand1Alpha(void) const;
-           GLenum              &getEnvOperand2Alpha(void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvOperand1Alpha(void);
+#endif
+
+           GLenum              &editEnvOperand2Alpha(void);
      const GLenum              &getEnvOperand2Alpha(void) const;
-           GLenum              &getGLId           (void);
+#ifndef OSG_2_PREP
+           GLenum              &getEnvOperand2Alpha(void);
+#endif
+
+           GLenum              &editGLId           (void);
      const GLenum              &getGLId           (void) const;
-           Int32               &getIgnoreGLForAspect(void);
+#ifndef OSG_2_PREP
+           GLenum              &getGLId           (void);
+#endif
+
+           Int32               &editIgnoreGLForAspect(void);
      const Int32               &getIgnoreGLForAspect(void) const;
-           bool                &getPointSprite    (void);
+#ifndef OSG_2_PREP
+           Int32               &getIgnoreGLForAspect(void);
+#endif
+
+           bool                &editPointSprite    (void);
      const bool                &getPointSprite    (void) const;
-           Real32              &getPriority       (void);
+#ifndef OSG_2_PREP
+           bool                &getPointSprite    (void);
+#endif
+
+           Real32              &editPriority       (void);
      const Real32              &getPriority       (void) const;
-           GLenum              &getShaderOperation(void);
+#ifndef OSG_2_PREP
+           Real32              &getPriority       (void);
+#endif
+
+           GLenum              &editShaderOperation(void);
      const GLenum              &getShaderOperation(void) const;
-           GLenum              &getShaderInput    (void);
+#ifndef OSG_2_PREP
+           GLenum              &getShaderOperation(void);
+#endif
+
+           GLenum              &editShaderInput    (void);
      const GLenum              &getShaderInput    (void) const;
-           Real32              &getShaderOffsetScale(void);
+#ifndef OSG_2_PREP
+           GLenum              &getShaderInput    (void);
+#endif
+
+           Real32              &editShaderOffsetScale(void);
      const Real32              &getShaderOffsetScale(void) const;
-           Real32              &getShaderOffsetBias(void);
+#ifndef OSG_2_PREP
+           Real32              &getShaderOffsetScale(void);
+#endif
+
+           Real32              &editShaderOffsetBias(void);
      const Real32              &getShaderOffsetBias(void) const;
-           GLenum              &getShaderRGBADotProduct(void);
+#ifndef OSG_2_PREP
+           Real32              &getShaderOffsetBias(void);
+#endif
+
+           GLenum              &editShaderRGBADotProduct(void);
      const GLenum              &getShaderRGBADotProduct(void) const;
-           UInt8               &getShaderCullModes(void);
+#ifndef OSG_2_PREP
+           GLenum              &getShaderRGBADotProduct(void);
+#endif
+
+           UInt8               &editShaderCullModes(void);
      const UInt8               &getShaderCullModes(void) const;
-           Vec3f               &getShaderConstEye (void);
+#ifndef OSG_2_PREP
+           UInt8               &getShaderCullModes(void);
+#endif
+
+           Vec3f               &editShaderConstEye (void);
      const Vec3f               &getShaderConstEye (void) const;
-           Real32              &getLodBias        (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getShaderConstEye (void);
+#endif
+
+           Real32              &editLodBias        (void);
      const Real32              &getLodBias        (void) const;
-           GLenum              &getTarget         (void);
+#ifndef OSG_2_PREP
+           Real32              &getLodBias        (void);
+#endif
+
+           GLenum              &editTarget         (void);
      const GLenum              &getTarget         (void) const;
-           Int32               &getDirtyLeft      (void);
+#ifndef OSG_2_PREP
+           GLenum              &getTarget         (void);
+#endif
+
+           Int32               &editDirtyLeft      (void);
      const Int32               &getDirtyLeft      (void) const;
-           Int32               &getDirtyMinX      (void);
+#ifndef OSG_2_PREP
+           Int32               &getDirtyLeft      (void);
+#endif
+
+           Int32               &editDirtyMinX      (void);
      const Int32               &getDirtyMinX      (void) const;
-           Int32               &getDirtyMaxX      (void);
+#ifndef OSG_2_PREP
+           Int32               &getDirtyMinX      (void);
+#endif
+
+           Int32               &editDirtyMaxX      (void);
      const Int32               &getDirtyMaxX      (void) const;
-           Int32               &getDirtyMinY      (void);
+#ifndef OSG_2_PREP
+           Int32               &getDirtyMaxX      (void);
+#endif
+
+           Int32               &editDirtyMinY      (void);
      const Int32               &getDirtyMinY      (void) const;
-           Int32               &getDirtyMaxY      (void);
+#ifndef OSG_2_PREP
+           Int32               &getDirtyMinY      (void);
+#endif
+
+           Int32               &editDirtyMaxY      (void);
      const Int32               &getDirtyMaxY      (void) const;
-           Int32               &getDirtyMinZ      (void);
+#ifndef OSG_2_PREP
+           Int32               &getDirtyMaxY      (void);
+#endif
+
+           Int32               &editDirtyMinZ      (void);
      const Int32               &getDirtyMinZ      (void) const;
-           Int32               &getDirtyMaxZ      (void);
+#ifndef OSG_2_PREP
+           Int32               &getDirtyMinZ      (void);
+#endif
+
+           Int32               &editDirtyMaxZ      (void);
      const Int32               &getDirtyMaxZ      (void) const;
-           Real32              &getAnisotropy     (void);
+#ifndef OSG_2_PREP
+           Int32               &getDirtyMaxZ      (void);
+#endif
+
+           Real32              &editAnisotropy     (void);
      const Real32              &getAnisotropy     (void) const;
-           Color4f             &getBorderColor    (void);
+#ifndef OSG_2_PREP
+           Real32              &getAnisotropy     (void);
+#endif
+
+           Color4f             &editBorderColor    (void);
      const Color4f             &getBorderColor    (void) const;
-           UInt32              &getBorderWidth    (void);
+#ifndef OSG_2_PREP
+           Color4f             &getBorderColor    (void);
+#endif
+
+           UInt32              &editBorderWidth    (void);
      const UInt32              &getBorderWidth    (void) const;
-           UInt32              &getNPOTMatrixScale(void);
+#ifndef OSG_2_PREP
+           UInt32              &getBorderWidth    (void);
+#endif
+
+           UInt32              &editNPOTMatrixScale(void);
      const UInt32              &getNPOTMatrixScale(void) const;
-           Real32              &getSkipMipMapLevels(void);
+#ifndef OSG_2_PREP
+           UInt32              &getNPOTMatrixScale(void);
+#endif
+
+           Real32              &editSkipMipMapLevels(void);
      const Real32              &getSkipMipMapLevels(void) const;
+#ifndef OSG_2_PREP
+           Real32              &getSkipMipMapLevels(void);
+#endif
+
+           Real32              &editShaderOffsetMatrix(const UInt32 index);
+     const Real32              &getShaderOffsetMatrix(const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getShaderOffsetMatrix(const UInt32 index);
            MFReal32            &getShaderOffsetMatrix(void);
-     const MFReal32            &getShaderOffsetMatrix(void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

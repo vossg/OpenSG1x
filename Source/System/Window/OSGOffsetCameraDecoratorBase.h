@@ -131,19 +131,55 @@ class OSG_SYSTEMLIB_DLLMAPPING OffsetCameraDecoratorBase : public CameraDecorato
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFOffsetX        (void);
-           SFReal32            *getSFOffsetY        (void);
-           SFUInt32            *getSFFullWidth      (void);
-           SFUInt32            *getSFFullHeight     (void);
 
-           Real32              &getOffsetX        (void);
+           SFReal32            *editSFOffsetX        (void);
+     const SFReal32            *getSFOffsetX        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOffsetX        (void);
+#endif
+
+           SFReal32            *editSFOffsetY        (void);
+     const SFReal32            *getSFOffsetY        (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFOffsetY        (void);
+#endif
+
+           SFUInt32            *editSFFullWidth      (void);
+     const SFUInt32            *getSFFullWidth      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFullWidth      (void);
+#endif
+
+           SFUInt32            *editSFFullHeight     (void);
+     const SFUInt32            *getSFFullHeight     (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFullHeight     (void);
+#endif
+
+
+           Real32              &editOffsetX        (void);
      const Real32              &getOffsetX        (void) const;
-           Real32              &getOffsetY        (void);
+#ifndef OSG_2_PREP
+           Real32              &getOffsetX        (void);
+#endif
+
+           Real32              &editOffsetY        (void);
      const Real32              &getOffsetY        (void) const;
-           UInt32              &getFullWidth      (void);
+#ifndef OSG_2_PREP
+           Real32              &getOffsetY        (void);
+#endif
+
+           UInt32              &editFullWidth      (void);
      const UInt32              &getFullWidth      (void) const;
-           UInt32              &getFullHeight     (void);
+#ifndef OSG_2_PREP
+           UInt32              &getFullWidth      (void);
+#endif
+
+           UInt32              &editFullHeight     (void);
      const UInt32              &getFullHeight     (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getFullHeight     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,6 +313,6 @@ typedef RefPtr<OffsetCameraDecoratorPtr> OffsetCameraDecoratorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGOFFSETCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGOffsetCameraDecoratorBase.h,v 1.2 2008/06/05 05:02:30 vossg Exp $"
+#define OSGOFFSETCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: OSGOffsetCameraDecoratorBase.h,v 1.3 2008/06/09 07:31:55 vossg Exp $"
 
 #endif /* _OSGOFFSETCAMERADECORATORBASE_H_ */

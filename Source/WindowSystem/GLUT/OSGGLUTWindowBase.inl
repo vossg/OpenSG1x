@@ -98,15 +98,31 @@ GLUTWindowPtr GLUTWindowBase::createEmpty(void)
 
 //! Get the GLUTWindow::_sfId field.
 inline
-SFInt32 *GLUTWindowBase::getSFId(void)
+const SFInt32 *GLUTWindowBase::getSFId(void) const
 {
     return &_sfId;
 }
 
+//! Get the GLUTWindow::_sfId field.
+inline
+SFInt32 *GLUTWindowBase::editSFId(void)
+{
+    return &_sfId;
+}
+
+#ifndef OSG_2_PREP
+//! Get the GLUTWindow::_sfId field.
+inline
+SFInt32 *GLUTWindowBase::getSFId(void)
+{
+    return &_sfId;
+}
+#endif
+
 
 //! Get the value of the GLUTWindow::_sfId field.
 inline
-Int32 &GLUTWindowBase::getId(void)
+Int32 &GLUTWindowBase::editId(void)
 {
     return _sfId.getValue();
 }
@@ -117,6 +133,15 @@ const Int32 &GLUTWindowBase::getId(void) const
 {
     return _sfId.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the GLUTWindow::_sfId field.
+inline
+Int32 &GLUTWindowBase::getId(void)
+{
+    return _sfId.getValue();
+}
+#endif
 
 //! Set the value of the GLUTWindow::_sfId field.
 inline

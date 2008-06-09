@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterMVec3fBase::_desc[] =
                      "value", 
                      ValueFieldId, ValueFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterMVec3fBase::getMFValue))
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterMVec3fBase::editMFValue))
 };
 
 
@@ -295,7 +295,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterMVec3fPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMVec3fBase.cpp,v 1.2 2008/06/05 05:02:22 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMVec3fBase.cpp,v 1.3 2008/06/09 07:31:44 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERMVEC3FBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERMVEC3FBASE_INLINE_CVSID;
 

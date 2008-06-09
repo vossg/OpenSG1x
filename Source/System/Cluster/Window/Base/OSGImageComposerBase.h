@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageComposerBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFEnabled        (void);
-           SFBool              *getSFStatistics     (void);
 
-           bool                &getEnabled        (void);
+           SFBool              *editSFEnabled        (void);
+     const SFBool              *getSFEnabled        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnabled        (void);
+#endif
+
+           SFBool              *editSFStatistics     (void);
+     const SFBool              *getSFStatistics     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFStatistics     (void);
+#endif
+
+
+           bool                &editEnabled        (void);
      const bool                &getEnabled        (void) const;
-           bool                &getStatistics     (void);
+#ifndef OSG_2_PREP
+           bool                &getEnabled        (void);
+#endif
+
+           bool                &editStatistics     (void);
      const bool                &getStatistics     (void) const;
+#ifndef OSG_2_PREP
+           bool                &getStatistics     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

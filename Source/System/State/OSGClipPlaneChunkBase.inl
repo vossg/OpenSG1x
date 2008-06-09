@@ -98,29 +98,77 @@ ClipPlaneChunkPtr ClipPlaneChunkBase::createEmpty(void)
 
 //! Get the ClipPlaneChunk::_sfEquation field.
 inline
-SFVec4f *ClipPlaneChunkBase::getSFEquation(void)
+const SFVec4f *ClipPlaneChunkBase::getSFEquation(void) const
 {
     return &_sfEquation;
 }
 
+//! Get the ClipPlaneChunk::_sfEquation field.
+inline
+SFVec4f *ClipPlaneChunkBase::editSFEquation(void)
+{
+    return &_sfEquation;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ClipPlaneChunk::_sfEquation field.
+inline
+SFVec4f *ClipPlaneChunkBase::getSFEquation(void)
+{
+    return &_sfEquation;
+}
+#endif
+
+//! Get the ClipPlaneChunk::_sfEnable field.
+inline
+const SFBool *ClipPlaneChunkBase::getSFEnable(void) const
+{
+    return &_sfEnable;
+}
+
+//! Get the ClipPlaneChunk::_sfEnable field.
+inline
+SFBool *ClipPlaneChunkBase::editSFEnable(void)
+{
+    return &_sfEnable;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ClipPlaneChunk::_sfEnable field.
 inline
 SFBool *ClipPlaneChunkBase::getSFEnable(void)
 {
     return &_sfEnable;
 }
+#endif
 
+//! Get the ClipPlaneChunk::_sfBeacon field.
+inline
+const SFNodePtr *ClipPlaneChunkBase::getSFBeacon(void) const
+{
+    return &_sfBeacon;
+}
+
+//! Get the ClipPlaneChunk::_sfBeacon field.
+inline
+SFNodePtr *ClipPlaneChunkBase::editSFBeacon(void)
+{
+    return &_sfBeacon;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ClipPlaneChunk::_sfBeacon field.
 inline
 SFNodePtr *ClipPlaneChunkBase::getSFBeacon(void)
 {
     return &_sfBeacon;
 }
+#endif
 
 
 //! Get the value of the ClipPlaneChunk::_sfEquation field.
 inline
-Vec4f &ClipPlaneChunkBase::getEquation(void)
+Vec4f &ClipPlaneChunkBase::editEquation(void)
 {
     return _sfEquation.getValue();
 }
@@ -132,6 +180,15 @@ const Vec4f &ClipPlaneChunkBase::getEquation(void) const
     return _sfEquation.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ClipPlaneChunk::_sfEquation field.
+inline
+Vec4f &ClipPlaneChunkBase::getEquation(void)
+{
+    return _sfEquation.getValue();
+}
+#endif
+
 //! Set the value of the ClipPlaneChunk::_sfEquation field.
 inline
 void ClipPlaneChunkBase::setEquation(const Vec4f &value)
@@ -141,7 +198,7 @@ void ClipPlaneChunkBase::setEquation(const Vec4f &value)
 
 //! Get the value of the ClipPlaneChunk::_sfEnable field.
 inline
-bool &ClipPlaneChunkBase::getEnable(void)
+bool &ClipPlaneChunkBase::editEnable(void)
 {
     return _sfEnable.getValue();
 }
@@ -153,6 +210,15 @@ const bool &ClipPlaneChunkBase::getEnable(void) const
     return _sfEnable.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ClipPlaneChunk::_sfEnable field.
+inline
+bool &ClipPlaneChunkBase::getEnable(void)
+{
+    return _sfEnable.getValue();
+}
+#endif
+
 //! Set the value of the ClipPlaneChunk::_sfEnable field.
 inline
 void ClipPlaneChunkBase::setEnable(const bool &value)
@@ -162,7 +228,7 @@ void ClipPlaneChunkBase::setEnable(const bool &value)
 
 //! Get the value of the ClipPlaneChunk::_sfBeacon field.
 inline
-NodePtr &ClipPlaneChunkBase::getBeacon(void)
+NodePtr &ClipPlaneChunkBase::editBeacon(void)
 {
     return _sfBeacon.getValue();
 }
@@ -173,6 +239,15 @@ const NodePtr &ClipPlaneChunkBase::getBeacon(void) const
 {
     return _sfBeacon.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the ClipPlaneChunk::_sfBeacon field.
+inline
+NodePtr &ClipPlaneChunkBase::getBeacon(void)
+{
+    return _sfBeacon.getValue();
+}
+#endif
 
 //! Set the value of the ClipPlaneChunk::_sfBeacon field.
 inline

@@ -98,15 +98,31 @@ PhysicsBallJointPtr PhysicsBallJointBase::createEmpty(void)
 
 //! Get the PhysicsBallJoint::_sfAnchor field.
 inline
-SFVec3f *PhysicsBallJointBase::getSFAnchor(void)
+const SFVec3f *PhysicsBallJointBase::getSFAnchor(void) const
 {
     return &_sfAnchor;
 }
 
+//! Get the PhysicsBallJoint::_sfAnchor field.
+inline
+SFVec3f *PhysicsBallJointBase::editSFAnchor(void)
+{
+    return &_sfAnchor;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsBallJoint::_sfAnchor field.
+inline
+SFVec3f *PhysicsBallJointBase::getSFAnchor(void)
+{
+    return &_sfAnchor;
+}
+#endif
+
 
 //! Get the value of the PhysicsBallJoint::_sfAnchor field.
 inline
-Vec3f &PhysicsBallJointBase::getAnchor(void)
+Vec3f &PhysicsBallJointBase::editAnchor(void)
 {
     return _sfAnchor.getValue();
 }
@@ -118,6 +134,15 @@ const Vec3f &PhysicsBallJointBase::getAnchor(void) const
     return _sfAnchor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsBallJoint::_sfAnchor field.
+inline
+Vec3f &PhysicsBallJointBase::getAnchor(void)
+{
+    return _sfAnchor.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsBallJoint::_sfAnchor field.
 inline
 void PhysicsBallJointBase::setAnchor(const Vec3f &value)
@@ -128,5 +153,5 @@ void PhysicsBallJointBase::setAnchor(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBALLJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBallJointBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSBALLJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBallJointBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

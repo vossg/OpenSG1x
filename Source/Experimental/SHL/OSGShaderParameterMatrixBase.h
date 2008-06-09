@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMatrixBase : public ShaderParamete
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFMatrix            *getSFValue          (void);
 
-           Matrix              &getValue          (void);
+           SFMatrix            *editSFValue          (void);
+     const SFMatrix            *getSFValue          (void) const;
+#ifndef OSG_2_PREP
+           SFMatrix            *getSFValue          (void);
+#endif
+
+
+           Matrix              &editValue          (void);
      const Matrix              &getValue          (void) const;
+#ifndef OSG_2_PREP
+           Matrix              &getValue          (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<ShaderParameterMatrixPtr> ShaderParameterMatrixRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMATRIXBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.h,v 1.7 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERMATRIXBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMatrixBase.h,v 1.8 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERMATRIXBASE_H_ */

@@ -72,15 +72,31 @@ OSG::UInt32 MaterialDrawableBase::getClassTypeId(void)
 
 //! Get the MaterialDrawable::_sfMaterial field.
 inline
-SFMaterialPtr *MaterialDrawableBase::getSFMaterial(void)
+const SFMaterialPtr *MaterialDrawableBase::getSFMaterial(void) const
 {
     return &_sfMaterial;
 }
 
+//! Get the MaterialDrawable::_sfMaterial field.
+inline
+SFMaterialPtr *MaterialDrawableBase::editSFMaterial(void)
+{
+    return &_sfMaterial;
+}
+
+#ifndef OSG_2_PREP
+//! Get the MaterialDrawable::_sfMaterial field.
+inline
+SFMaterialPtr *MaterialDrawableBase::getSFMaterial(void)
+{
+    return &_sfMaterial;
+}
+#endif
+
 
 //! Get the value of the MaterialDrawable::_sfMaterial field.
 inline
-MaterialPtr &MaterialDrawableBase::getMaterial(void)
+MaterialPtr &MaterialDrawableBase::editMaterial(void)
 {
     return _sfMaterial.getValue();
 }
@@ -92,6 +108,15 @@ const MaterialPtr &MaterialDrawableBase::getMaterial(void) const
     return _sfMaterial.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MaterialDrawable::_sfMaterial field.
+inline
+MaterialPtr &MaterialDrawableBase::getMaterial(void)
+{
+    return _sfMaterial.getValue();
+}
+#endif
+
 //! Set the value of the MaterialDrawable::_sfMaterial field.
 inline
 void MaterialDrawableBase::setMaterial(const MaterialPtr &value)
@@ -102,5 +127,5 @@ void MaterialDrawableBase::setMaterial(const MaterialPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALDRAWABLEBASE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawableBase.inl,v 1.10 2008/06/05 05:02:26 vossg Exp $"
+#define OSGMATERIALDRAWABLEBASE_INLINE_CVSID "@(#)$Id: OSGMaterialDrawableBase.inl,v 1.11 2008/06/09 07:31:49 vossg Exp $"
 

@@ -98,43 +98,123 @@ SortFirstWindowPtr SortFirstWindowBase::createEmpty(void)
 
 //! Get the SortFirstWindow::_sfCompression field.
 inline
-SFString *SortFirstWindowBase::getSFCompression(void)
+const SFString *SortFirstWindowBase::getSFCompression(void) const
 {
     return &_sfCompression;
 }
 
+//! Get the SortFirstWindow::_sfCompression field.
+inline
+SFString *SortFirstWindowBase::editSFCompression(void)
+{
+    return &_sfCompression;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SortFirstWindow::_sfCompression field.
+inline
+SFString *SortFirstWindowBase::getSFCompression(void)
+{
+    return &_sfCompression;
+}
+#endif
+
+//! Get the SortFirstWindow::_sfSubtileSize field.
+inline
+const SFUInt32 *SortFirstWindowBase::getSFSubtileSize(void) const
+{
+    return &_sfSubtileSize;
+}
+
+//! Get the SortFirstWindow::_sfSubtileSize field.
+inline
+SFUInt32 *SortFirstWindowBase::editSFSubtileSize(void)
+{
+    return &_sfSubtileSize;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SortFirstWindow::_sfSubtileSize field.
 inline
 SFUInt32 *SortFirstWindowBase::getSFSubtileSize(void)
 {
     return &_sfSubtileSize;
 }
+#endif
 
+//! Get the SortFirstWindow::_sfCompose field.
+inline
+const SFBool *SortFirstWindowBase::getSFCompose(void) const
+{
+    return &_sfCompose;
+}
+
+//! Get the SortFirstWindow::_sfCompose field.
+inline
+SFBool *SortFirstWindowBase::editSFCompose(void)
+{
+    return &_sfCompose;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SortFirstWindow::_sfCompose field.
 inline
 SFBool *SortFirstWindowBase::getSFCompose(void)
 {
     return &_sfCompose;
 }
+#endif
 
+//! Get the SortFirstWindow::_mfRegion field.
+inline
+const MFUInt32 *SortFirstWindowBase::getMFRegion(void) const
+{
+    return &_mfRegion;
+}
+
+//! Get the SortFirstWindow::_mfRegion field.
+inline
+MFUInt32 *SortFirstWindowBase::editMFRegion(void)
+{
+    return &_mfRegion;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SortFirstWindow::_mfRegion field.
 inline
 MFUInt32 *SortFirstWindowBase::getMFRegion(void)
 {
     return &_mfRegion;
 }
+#endif
 
+//! Get the SortFirstWindow::_sfUseFaceDistribution field.
+inline
+const SFBool *SortFirstWindowBase::getSFUseFaceDistribution(void) const
+{
+    return &_sfUseFaceDistribution;
+}
+
+//! Get the SortFirstWindow::_sfUseFaceDistribution field.
+inline
+SFBool *SortFirstWindowBase::editSFUseFaceDistribution(void)
+{
+    return &_sfUseFaceDistribution;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SortFirstWindow::_sfUseFaceDistribution field.
 inline
 SFBool *SortFirstWindowBase::getSFUseFaceDistribution(void)
 {
     return &_sfUseFaceDistribution;
 }
+#endif
 
 
 //! Get the value of the SortFirstWindow::_sfCompression field.
 inline
-std::string &SortFirstWindowBase::getCompression(void)
+std::string &SortFirstWindowBase::editCompression(void)
 {
     return _sfCompression.getValue();
 }
@@ -146,6 +226,15 @@ const std::string &SortFirstWindowBase::getCompression(void) const
     return _sfCompression.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SortFirstWindow::_sfCompression field.
+inline
+std::string &SortFirstWindowBase::getCompression(void)
+{
+    return _sfCompression.getValue();
+}
+#endif
+
 //! Set the value of the SortFirstWindow::_sfCompression field.
 inline
 void SortFirstWindowBase::setCompression(const std::string &value)
@@ -155,7 +244,7 @@ void SortFirstWindowBase::setCompression(const std::string &value)
 
 //! Get the value of the SortFirstWindow::_sfSubtileSize field.
 inline
-UInt32 &SortFirstWindowBase::getSubtileSize(void)
+UInt32 &SortFirstWindowBase::editSubtileSize(void)
 {
     return _sfSubtileSize.getValue();
 }
@@ -167,6 +256,15 @@ const UInt32 &SortFirstWindowBase::getSubtileSize(void) const
     return _sfSubtileSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SortFirstWindow::_sfSubtileSize field.
+inline
+UInt32 &SortFirstWindowBase::getSubtileSize(void)
+{
+    return _sfSubtileSize.getValue();
+}
+#endif
+
 //! Set the value of the SortFirstWindow::_sfSubtileSize field.
 inline
 void SortFirstWindowBase::setSubtileSize(const UInt32 &value)
@@ -176,7 +274,7 @@ void SortFirstWindowBase::setSubtileSize(const UInt32 &value)
 
 //! Get the value of the SortFirstWindow::_sfCompose field.
 inline
-bool &SortFirstWindowBase::getCompose(void)
+bool &SortFirstWindowBase::editCompose(void)
 {
     return _sfCompose.getValue();
 }
@@ -188,6 +286,15 @@ const bool &SortFirstWindowBase::getCompose(void) const
     return _sfCompose.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SortFirstWindow::_sfCompose field.
+inline
+bool &SortFirstWindowBase::getCompose(void)
+{
+    return _sfCompose.getValue();
+}
+#endif
+
 //! Set the value of the SortFirstWindow::_sfCompose field.
 inline
 void SortFirstWindowBase::setCompose(const bool &value)
@@ -197,7 +304,7 @@ void SortFirstWindowBase::setCompose(const bool &value)
 
 //! Get the value of the SortFirstWindow::_sfUseFaceDistribution field.
 inline
-bool &SortFirstWindowBase::getUseFaceDistribution(void)
+bool &SortFirstWindowBase::editUseFaceDistribution(void)
 {
     return _sfUseFaceDistribution.getValue();
 }
@@ -209,6 +316,15 @@ const bool &SortFirstWindowBase::getUseFaceDistribution(void) const
     return _sfUseFaceDistribution.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SortFirstWindow::_sfUseFaceDistribution field.
+inline
+bool &SortFirstWindowBase::getUseFaceDistribution(void)
+{
+    return _sfUseFaceDistribution.getValue();
+}
+#endif
+
 //! Set the value of the SortFirstWindow::_sfUseFaceDistribution field.
 inline
 void SortFirstWindowBase::setUseFaceDistribution(const bool &value)
@@ -217,6 +333,21 @@ void SortFirstWindowBase::setUseFaceDistribution(const bool &value)
 }
 
 
+//! Get the value of the \a index element the SortFirstWindow::_mfRegion field.
+inline
+UInt32 &SortFirstWindowBase::editRegion(const UInt32 index)
+{
+    return _mfRegion[index];
+}
+
+//! Get the value of the \a index element the SortFirstWindow::_mfRegion field.
+inline
+const UInt32 &SortFirstWindowBase::getRegion(const UInt32 index) const
+{
+    return _mfRegion[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the SortFirstWindow::_mfRegion field.
 inline
 UInt32 &SortFirstWindowBase::getRegion(const UInt32 index)
@@ -231,12 +362,7 @@ MFUInt32 &SortFirstWindowBase::getRegion(void)
     return _mfRegion;
 }
 
-//! Get the SortFirstWindow::_mfRegion field.
-inline
-const MFUInt32 &SortFirstWindowBase::getRegion(void) const
-{
-    return _mfRegion;
-}
+#endif
 
 OSG_END_NAMESPACE
 

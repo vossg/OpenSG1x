@@ -131,20 +131,56 @@ class OSG_CONTRIBLIB_DLLMAPPING CharacterModelBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFConfigFile     (void);
-           SFUInt32            *getSFNumAnimations  (void);
-           SFSHLChunkPtr       *getSFShader         (void);
-           MFChunkMaterialPtr  *getMFMaterials      (void);
 
-           std::string         &getConfigFile     (void);
+           SFString            *editSFConfigFile     (void);
+     const SFString            *getSFConfigFile     (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFConfigFile     (void);
+#endif
+
+           SFUInt32            *editSFNumAnimations  (void);
+     const SFUInt32            *getSFNumAnimations  (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFNumAnimations  (void);
+#endif
+
+           SFSHLChunkPtr       *editSFShader         (void);
+     const SFSHLChunkPtr       *getSFShader         (void) const;
+#ifndef OSG_2_PREP
+           SFSHLChunkPtr       *getSFShader         (void);
+#endif
+
+           MFChunkMaterialPtr  *editMFMaterials      (void);
+     const MFChunkMaterialPtr  *getMFMaterials      (void) const;
+#ifndef OSG_2_PREP
+           MFChunkMaterialPtr  *getMFMaterials      (void);
+#endif
+
+
+           std::string         &editConfigFile     (void);
      const std::string         &getConfigFile     (void) const;
-           UInt32              &getNumAnimations  (void);
+#ifndef OSG_2_PREP
+           std::string         &getConfigFile     (void);
+#endif
+
+           UInt32              &editNumAnimations  (void);
      const UInt32              &getNumAnimations  (void) const;
-           SHLChunkPtr         &getShader         (void);
+#ifndef OSG_2_PREP
+           UInt32              &getNumAnimations  (void);
+#endif
+
+           SHLChunkPtr         &editShader         (void);
      const SHLChunkPtr         &getShader         (void) const;
+#ifndef OSG_2_PREP
+           SHLChunkPtr         &getShader         (void);
+#endif
+
+           ChunkMaterialPtr    &editMaterials      (const UInt32 index);
+     const ChunkMaterialPtr    &getMaterials      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            ChunkMaterialPtr    &getMaterials      (const UInt32 index);
            MFChunkMaterialPtr  &getMaterials      (void);
-     const MFChunkMaterialPtr  &getMaterials      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -277,6 +313,6 @@ typedef RefPtr<CharacterModelPtr> CharacterModelRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERMODELBASE_HEADER_CVSID "@(#)$Id: OSGCharacterModelBase.h,v 1.3 2008/06/05 05:02:15 vossg Exp $"
+#define OSGCHARACTERMODELBASE_HEADER_CVSID "@(#)$Id: OSGCharacterModelBase.h,v 1.4 2008/06/09 07:31:37 vossg Exp $"
 
 #endif /* _OSGCHARACTERMODELBASE_H_ */

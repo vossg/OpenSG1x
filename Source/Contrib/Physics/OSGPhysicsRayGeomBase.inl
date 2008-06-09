@@ -98,15 +98,31 @@ PhysicsRayGeomPtr PhysicsRayGeomBase::createEmpty(void)
 
 //! Get the PhysicsRayGeom::_sfLenght field.
 inline
-SFReal32 *PhysicsRayGeomBase::getSFLenght(void)
+const SFReal32 *PhysicsRayGeomBase::getSFLenght(void) const
 {
     return &_sfLenght;
 }
 
+//! Get the PhysicsRayGeom::_sfLenght field.
+inline
+SFReal32 *PhysicsRayGeomBase::editSFLenght(void)
+{
+    return &_sfLenght;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsRayGeom::_sfLenght field.
+inline
+SFReal32 *PhysicsRayGeomBase::getSFLenght(void)
+{
+    return &_sfLenght;
+}
+#endif
+
 
 //! Get the value of the PhysicsRayGeom::_sfLenght field.
 inline
-Real32 &PhysicsRayGeomBase::getLenght(void)
+Real32 &PhysicsRayGeomBase::editLenght(void)
 {
     return _sfLenght.getValue();
 }
@@ -118,6 +134,15 @@ const Real32 &PhysicsRayGeomBase::getLenght(void) const
     return _sfLenght.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsRayGeom::_sfLenght field.
+inline
+Real32 &PhysicsRayGeomBase::getLenght(void)
+{
+    return _sfLenght.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsRayGeom::_sfLenght field.
 inline
 void PhysicsRayGeomBase::setLenght(const Real32 &value)
@@ -128,5 +153,5 @@ void PhysicsRayGeomBase::setLenght(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSRAYGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsRayGeomBase.inl,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSRAYGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsRayGeomBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

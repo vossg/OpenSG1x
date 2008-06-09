@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterBase : public AttachmentContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFName           (void);
 
-           std::string         &getName           (void);
+           SFString            *editSFName           (void);
+     const SFString            *getSFName           (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFName           (void);
+#endif
+
+
+           std::string         &editName           (void);
      const std::string         &getName           (void) const;
+#ifndef OSG_2_PREP
+           std::string         &getName           (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -237,6 +246,6 @@ typedef RefPtr<ShaderParameterPtr> ShaderParameterRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.10 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.11 2008/06/09 07:31:44 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERBASE_H_ */

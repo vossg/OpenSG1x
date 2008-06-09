@@ -72,15 +72,31 @@ OSG::UInt32 ForegroundBase::getClassTypeId(void)
 
 //! Get the Foreground::_sfActive field.
 inline
-SFBool *ForegroundBase::getSFActive(void)
+const SFBool *ForegroundBase::getSFActive(void) const
 {
     return &_sfActive;
 }
 
+//! Get the Foreground::_sfActive field.
+inline
+SFBool *ForegroundBase::editSFActive(void)
+{
+    return &_sfActive;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Foreground::_sfActive field.
+inline
+SFBool *ForegroundBase::getSFActive(void)
+{
+    return &_sfActive;
+}
+#endif
+
 
 //! Get the value of the Foreground::_sfActive field.
 inline
-bool &ForegroundBase::getActive(void)
+bool &ForegroundBase::editActive(void)
 {
     return _sfActive.getValue();
 }
@@ -91,6 +107,15 @@ const bool &ForegroundBase::getActive(void) const
 {
     return _sfActive.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the Foreground::_sfActive field.
+inline
+bool &ForegroundBase::getActive(void)
+{
+    return _sfActive.getValue();
+}
+#endif
 
 //! Set the value of the Foreground::_sfActive field.
 inline

@@ -131,18 +131,46 @@ class OSG_SYSTEMLIB_DLLMAPPING ProgramChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFProgram        (void);
-           MFVec4f             *getMFParamValues    (void);
-           MFString            *getMFParamNames     (void);
 
-           std::string         &getProgram        (void);
+           SFString            *editSFProgram        (void);
+     const SFString            *getSFProgram        (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFProgram        (void);
+#endif
+
+           MFVec4f             *editMFParamValues    (void);
+     const MFVec4f             *getMFParamValues    (void) const;
+#ifndef OSG_2_PREP
+           MFVec4f             *getMFParamValues    (void);
+#endif
+
+           MFString            *editMFParamNames     (void);
+     const MFString            *getMFParamNames     (void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFParamNames     (void);
+#endif
+
+
+           std::string         &editProgram        (void);
      const std::string         &getProgram        (void) const;
+#ifndef OSG_2_PREP
+           std::string         &getProgram        (void);
+#endif
+
+
+           Vec4f               &editParamValues    (const UInt32 index);
+     const Vec4f               &getParamValues    (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec4f               &getParamValues    (const UInt32 index);
            MFVec4f             &getParamValues    (void);
-     const MFVec4f             &getParamValues    (void) const;
+#endif
+
+           std::string         &editParamNames     (const UInt32 index);
+     const std::string         &getParamNames     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getParamNames     (const UInt32 index);
            MFString            &getParamNames     (void);
-     const MFString            &getParamNames     (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -201,10 +229,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ProgramChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFUInt32            *editSFGLId           (void);
+     const SFUInt32            *getSFGLId           (void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFGLId           (void);
+#endif
 
-           UInt32              &getGLId           (void);
+           UInt32              &editGLId           (void);
      const UInt32              &getGLId           (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getGLId           (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

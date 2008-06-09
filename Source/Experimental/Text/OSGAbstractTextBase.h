@@ -134,23 +134,68 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFPosition       (void);
-           SFSharedFontStyleWrapperPtr *getSFFont           (void);
-           MFString            *getMFText           (void);
-           SFReal32            *getSFVerticalLineDistance(void);
-           SFUInt8             *getSFAlignment      (void);
 
-           Vec3f               &getPosition       (void);
+           SFVec3f             *editSFPosition       (void);
+     const SFVec3f             *getSFPosition       (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFPosition       (void);
+#endif
+
+           SFSharedFontStyleWrapperPtr *editSFFont           (void);
+     const SFSharedFontStyleWrapperPtr *getSFFont           (void) const;
+#ifndef OSG_2_PREP
+           SFSharedFontStyleWrapperPtr *getSFFont           (void);
+#endif
+
+           MFString            *editMFText           (void);
+     const MFString            *getMFText           (void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFText           (void);
+#endif
+
+           SFReal32            *editSFVerticalLineDistance(void);
+     const SFReal32            *getSFVerticalLineDistance(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFVerticalLineDistance(void);
+#endif
+
+           SFUInt8             *editSFAlignment      (void);
+     const SFUInt8             *getSFAlignment      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt8             *getSFAlignment      (void);
+#endif
+
+
+           Vec3f               &editPosition       (void);
      const Vec3f               &getPosition       (void) const;
-           SharedFontStyleWrapperPtr &getFont           (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getPosition       (void);
+#endif
+
+           SharedFontStyleWrapperPtr &editFont           (void);
      const SharedFontStyleWrapperPtr &getFont           (void) const;
-           Real32              &getVerticalLineDistance(void);
+#ifndef OSG_2_PREP
+           SharedFontStyleWrapperPtr &getFont           (void);
+#endif
+
+           Real32              &editVerticalLineDistance(void);
      const Real32              &getVerticalLineDistance(void) const;
-           UInt8               &getAlignment      (void);
+#ifndef OSG_2_PREP
+           Real32              &getVerticalLineDistance(void);
+#endif
+
+           UInt8               &editAlignment      (void);
      const UInt8               &getAlignment      (void) const;
+#ifndef OSG_2_PREP
+           UInt8               &getAlignment      (void);
+#endif
+
+           std::string         &editText           (const UInt32 index);
+     const std::string         &getText           (const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getText           (const UInt32 index);
            MFString            &getText           (void);
-     const MFString            &getText           (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

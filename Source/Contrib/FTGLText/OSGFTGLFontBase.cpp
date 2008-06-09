@@ -116,32 +116,32 @@ FieldDescription *FTGLFontBase::_desc[] =
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFName)),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::editSFName)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "drawType", 
                      DrawTypeFieldId, DrawTypeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFDrawType)),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::editSFDrawType)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "size", 
                      SizeFieldId, SizeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFSize)),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::editSFSize)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "res", 
                      ResFieldId, ResFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFRes)),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::editSFRes)),
     new FieldDescription(SFReal32::getClassType(), 
                      "depth", 
                      DepthFieldId, DepthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFDepth)),
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::editSFDepth)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "GLId", 
                      GLIdFieldId, GLIdFieldMask,
                      true,
-                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::getSFGLId))
+                     reinterpret_cast<FieldAccessMethod>(&FTGLFontBase::editSFGLId))
 };
 
 
@@ -461,7 +461,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(FTGLFontPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFontBase.cpp,v 1.8 2008/06/05 05:02:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFontBase.cpp,v 1.9 2008/06/09 07:31:38 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLFONTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLFONTBASE_INLINE_CVSID;
 

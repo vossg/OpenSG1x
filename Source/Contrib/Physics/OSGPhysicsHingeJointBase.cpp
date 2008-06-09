@@ -92,12 +92,12 @@ FieldDescription *PhysicsHingeJointBase::_desc[] =
                      "anchor", 
                      AnchorFieldId, AnchorFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsHingeJointBase::getSFAnchor)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHingeJointBase::editSFAnchor)),
     new FieldDescription(SFVec3f::getClassType(), 
                      "axis", 
                      AxisFieldId, AxisFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsHingeJointBase::getSFAxis))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHingeJointBase::editSFAxis))
 };
 
 
@@ -325,7 +325,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsHingeJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHingeJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHingeJointBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHINGEJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHINGEJOINTBASE_INLINE_CVSID;
 

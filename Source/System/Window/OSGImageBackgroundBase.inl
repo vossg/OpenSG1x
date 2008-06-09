@@ -98,29 +98,77 @@ ImageBackgroundPtr ImageBackgroundBase::createEmpty(void)
 
 //! Get the ImageBackground::_sfColor field.
 inline
-SFColor3f *ImageBackgroundBase::getSFColor(void)
+const SFColor3f *ImageBackgroundBase::getSFColor(void) const
 {
     return &_sfColor;
 }
 
+//! Get the ImageBackground::_sfColor field.
+inline
+SFColor3f *ImageBackgroundBase::editSFColor(void)
+{
+    return &_sfColor;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ImageBackground::_sfColor field.
+inline
+SFColor3f *ImageBackgroundBase::getSFColor(void)
+{
+    return &_sfColor;
+}
+#endif
+
+//! Get the ImageBackground::_sfImage field.
+inline
+const SFImagePtr *ImageBackgroundBase::getSFImage(void) const
+{
+    return &_sfImage;
+}
+
+//! Get the ImageBackground::_sfImage field.
+inline
+SFImagePtr *ImageBackgroundBase::editSFImage(void)
+{
+    return &_sfImage;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ImageBackground::_sfImage field.
 inline
 SFImagePtr *ImageBackgroundBase::getSFImage(void)
 {
     return &_sfImage;
 }
+#endif
 
+//! Get the ImageBackground::_sfScale field.
+inline
+const SFBool *ImageBackgroundBase::getSFScale(void) const
+{
+    return &_sfScale;
+}
+
+//! Get the ImageBackground::_sfScale field.
+inline
+SFBool *ImageBackgroundBase::editSFScale(void)
+{
+    return &_sfScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the ImageBackground::_sfScale field.
 inline
 SFBool *ImageBackgroundBase::getSFScale(void)
 {
     return &_sfScale;
 }
+#endif
 
 
 //! Get the value of the ImageBackground::_sfColor field.
 inline
-Color3f &ImageBackgroundBase::getColor(void)
+Color3f &ImageBackgroundBase::editColor(void)
 {
     return _sfColor.getValue();
 }
@@ -132,6 +180,15 @@ const Color3f &ImageBackgroundBase::getColor(void) const
     return _sfColor.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ImageBackground::_sfColor field.
+inline
+Color3f &ImageBackgroundBase::getColor(void)
+{
+    return _sfColor.getValue();
+}
+#endif
+
 //! Set the value of the ImageBackground::_sfColor field.
 inline
 void ImageBackgroundBase::setColor(const Color3f &value)
@@ -141,7 +198,7 @@ void ImageBackgroundBase::setColor(const Color3f &value)
 
 //! Get the value of the ImageBackground::_sfImage field.
 inline
-ImagePtr &ImageBackgroundBase::getImage(void)
+ImagePtr &ImageBackgroundBase::editImage(void)
 {
     return _sfImage.getValue();
 }
@@ -153,6 +210,15 @@ const ImagePtr &ImageBackgroundBase::getImage(void) const
     return _sfImage.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ImageBackground::_sfImage field.
+inline
+ImagePtr &ImageBackgroundBase::getImage(void)
+{
+    return _sfImage.getValue();
+}
+#endif
+
 //! Set the value of the ImageBackground::_sfImage field.
 inline
 void ImageBackgroundBase::setImage(const ImagePtr &value)
@@ -162,7 +228,7 @@ void ImageBackgroundBase::setImage(const ImagePtr &value)
 
 //! Get the value of the ImageBackground::_sfScale field.
 inline
-bool &ImageBackgroundBase::getScale(void)
+bool &ImageBackgroundBase::editScale(void)
 {
     return _sfScale.getValue();
 }
@@ -173,6 +239,15 @@ const bool &ImageBackgroundBase::getScale(void) const
 {
     return _sfScale.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the ImageBackground::_sfScale field.
+inline
+bool &ImageBackgroundBase::getScale(void)
+{
+    return _sfScale.getValue();
+}
+#endif
 
 //! Set the value of the ImageBackground::_sfScale field.
 inline

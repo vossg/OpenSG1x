@@ -125,14 +125,32 @@ class OSG_SYSTEMLIB_DLLMAPPING StatisticsForegroundBase : public Foreground
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFInt32             *getMFElementIDs     (void);
-           SFStatCollector     *getSFCollector      (void);
 
-           StatCollector       &getCollector      (void);
+           MFInt32             *editMFElementIDs     (void);
+     const MFInt32             *getMFElementIDs     (void) const;
+#ifndef OSG_2_PREP
+           MFInt32             *getMFElementIDs     (void);
+#endif
+
+           SFStatCollector     *editSFCollector      (void);
+     const SFStatCollector     *getSFCollector      (void) const;
+#ifndef OSG_2_PREP
+           SFStatCollector     *getSFCollector      (void);
+#endif
+
+
+           StatCollector       &editCollector      (void);
      const StatCollector       &getCollector      (void) const;
+#ifndef OSG_2_PREP
+           StatCollector       &getCollector      (void);
+#endif
+
+           Int32               &editElementIDs     (const UInt32 index);
+     const Int32               &getElementIDs     (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Int32               &getElementIDs     (const UInt32 index);
            MFInt32             &getElementIDs     (void);
-     const MFInt32             &getElementIDs     (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

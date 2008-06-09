@@ -98,15 +98,31 @@ CGParameterChunkPtr CGParameterChunkBase::createEmpty(void)
 
 //! Get the CGParameterChunk::_sfCGChunk field.
 inline
-SFCGChunkPtr *CGParameterChunkBase::getSFCGChunk(void)
+const SFCGChunkPtr *CGParameterChunkBase::getSFCGChunk(void) const
 {
     return &_sfCGChunk;
 }
 
+//! Get the CGParameterChunk::_sfCGChunk field.
+inline
+SFCGChunkPtr *CGParameterChunkBase::editSFCGChunk(void)
+{
+    return &_sfCGChunk;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CGParameterChunk::_sfCGChunk field.
+inline
+SFCGChunkPtr *CGParameterChunkBase::getSFCGChunk(void)
+{
+    return &_sfCGChunk;
+}
+#endif
+
 
 //! Get the value of the CGParameterChunk::_sfCGChunk field.
 inline
-CGChunkPtr &CGParameterChunkBase::getCGChunk(void)
+CGChunkPtr &CGParameterChunkBase::editCGChunk(void)
 {
     return _sfCGChunk.getValue();
 }
@@ -118,6 +134,15 @@ const CGChunkPtr &CGParameterChunkBase::getCGChunk(void) const
     return _sfCGChunk.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CGParameterChunk::_sfCGChunk field.
+inline
+CGChunkPtr &CGParameterChunkBase::getCGChunk(void)
+{
+    return _sfCGChunk.getValue();
+}
+#endif
+
 //! Set the value of the CGParameterChunk::_sfCGChunk field.
 inline
 void CGParameterChunkBase::setCGChunk(const CGChunkPtr &value)
@@ -128,5 +153,5 @@ void CGParameterChunkBase::setCGChunk(const CGChunkPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCGPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGParameterChunkBase.inl,v 1.6 2008/06/05 05:02:14 vossg Exp $"
+#define OSGCGPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGCGParameterChunkBase.inl,v 1.7 2008/06/09 07:31:37 vossg Exp $"
 

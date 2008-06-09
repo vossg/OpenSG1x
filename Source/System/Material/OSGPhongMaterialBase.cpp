@@ -129,42 +129,42 @@ FieldDescription *PhongMaterialBase::_desc[] =
                      "ambient", 
                      AmbientFieldId, AmbientFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFAmbient)),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::editSFAmbient)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "diffuse", 
                      DiffuseFieldId, DiffuseFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFDiffuse)),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::editSFDiffuse)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "specular", 
                      SpecularFieldId, SpecularFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFSpecular)),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::editSFSpecular)),
     new FieldDescription(SFReal32::getClassType(), 
                      "shininess", 
                      ShininessFieldId, ShininessFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFShininess)),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::editSFShininess)),
     new FieldDescription(SFColor3f::getClassType(), 
                      "emission", 
                      EmissionFieldId, EmissionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFEmission)),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::editSFEmission)),
     new FieldDescription(SFReal32::getClassType(), 
                      "transparency", 
                      TransparencyFieldId, TransparencyFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFTransparency)),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::editSFTransparency)),
     new FieldDescription(SFBool::getClassType(), 
                      "lit", 
                      LitFieldId, LitFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFLit)),
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::editSFLit)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "colorMaterial", 
                      ColorMaterialFieldId, ColorMaterialFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::getSFColorMaterial))
+                     reinterpret_cast<FieldAccessMethod>(&PhongMaterialBase::editSFColorMaterial))
 };
 
 
@@ -521,7 +521,7 @@ DataType FieldDataTraits<PhongMaterialPtr>::_type("PhongMaterialPtr", "ChunkMate
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHONGMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHONGMATERIALBASE_INLINE_CVSID;
 

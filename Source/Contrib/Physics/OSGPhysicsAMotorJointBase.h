@@ -125,13 +125,31 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsAMotorJointBase : public PhysicsJoint
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFInt32             *getSFMode           (void);
-           SFInt32             *getSFNumAxes        (void);
 
-           Int32               &getMode           (void);
+           SFInt32             *editSFMode           (void);
+     const SFInt32             *getSFMode           (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFMode           (void);
+#endif
+
+           SFInt32             *editSFNumAxes        (void);
+     const SFInt32             *getSFNumAxes        (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFNumAxes        (void);
+#endif
+
+
+           Int32               &editMode           (void);
      const Int32               &getMode           (void) const;
-           Int32               &getNumAxes        (void);
+#ifndef OSG_2_PREP
+           Int32               &getMode           (void);
+#endif
+
+           Int32               &editNumAxes        (void);
      const Int32               &getNumAxes        (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getNumAxes        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -261,6 +279,6 @@ typedef RefPtr<PhysicsAMotorJointPtr> PhysicsAMotorJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSAMOTORJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJointBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSAMOTORJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJointBase.h,v 1.4 2008/06/09 07:31:38 vossg Exp $"
 
 #endif /* _OSGPHYSICSAMOTORJOINTBASE_H_ */

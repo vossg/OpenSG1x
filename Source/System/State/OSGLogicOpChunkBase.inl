@@ -98,15 +98,31 @@ LogicOpChunkPtr LogicOpChunkBase::createEmpty(void)
 
 //! Get the LogicOpChunk::_sfLogicOp field.
 inline
-SFGLenum *LogicOpChunkBase::getSFLogicOp(void)
+const SFGLenum *LogicOpChunkBase::getSFLogicOp(void) const
 {
     return &_sfLogicOp;
 }
 
+//! Get the LogicOpChunk::_sfLogicOp field.
+inline
+SFGLenum *LogicOpChunkBase::editSFLogicOp(void)
+{
+    return &_sfLogicOp;
+}
+
+#ifndef OSG_2_PREP
+//! Get the LogicOpChunk::_sfLogicOp field.
+inline
+SFGLenum *LogicOpChunkBase::getSFLogicOp(void)
+{
+    return &_sfLogicOp;
+}
+#endif
+
 
 //! Get the value of the LogicOpChunk::_sfLogicOp field.
 inline
-GLenum &LogicOpChunkBase::getLogicOp(void)
+GLenum &LogicOpChunkBase::editLogicOp(void)
 {
     return _sfLogicOp.getValue();
 }
@@ -118,6 +134,15 @@ const GLenum &LogicOpChunkBase::getLogicOp(void) const
     return _sfLogicOp.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the LogicOpChunk::_sfLogicOp field.
+inline
+GLenum &LogicOpChunkBase::getLogicOp(void)
+{
+    return _sfLogicOp.getValue();
+}
+#endif
+
 //! Set the value of the LogicOpChunk::_sfLogicOp field.
 inline
 void LogicOpChunkBase::setLogicOp(const GLenum &value)
@@ -128,5 +153,5 @@ void LogicOpChunkBase::setLogicOp(const GLenum &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLOGICOPCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLogicOpChunkBase.inl,v 1.2 2008/06/05 05:02:28 vossg Exp $"
+#define OSGLOGICOPCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLogicOpChunkBase.inl,v 1.3 2008/06/09 07:31:52 vossg Exp $"
 

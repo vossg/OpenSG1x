@@ -86,7 +86,7 @@ FieldDescription *LogicOpChunkBase::_desc[] =
                      "LogicOp", 
                      LogicOpFieldId, LogicOpFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LogicOpChunkBase::getSFLogicOp))
+                     reinterpret_cast<FieldAccessMethod>(&LogicOpChunkBase::editSFLogicOp))
 };
 
 
@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(LogicOpChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLogicOpChunkBase.cpp,v 1.2 2008/06/05 05:02:28 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGLogicOpChunkBase.cpp,v 1.3 2008/06/09 07:31:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLOGICOPCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLOGICOPCHUNKBASE_INLINE_CVSID;
 

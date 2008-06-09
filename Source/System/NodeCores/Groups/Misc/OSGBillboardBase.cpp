@@ -110,27 +110,27 @@ FieldDescription *BillboardBase::_desc[] =
                      "axisOfRotation", 
                      AxisOfRotationFieldId, AxisOfRotationFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFAxisOfRotation)),
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::editSFAxisOfRotation)),
     new FieldDescription(SFBool::getClassType(), 
                      "focusOnCamera", 
                      FocusOnCameraFieldId, FocusOnCameraFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFFocusOnCamera)),
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::editSFFocusOnCamera)),
     new FieldDescription(SFBool::getClassType(), 
                      "alignToScreen", 
                      AlignToScreenFieldId, AlignToScreenFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFAlignToScreen)),
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::editSFAlignToScreen)),
     new FieldDescription(SFReal32::getClassType(), 
                      "minAngle", 
                      MinAngleFieldId, MinAngleFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFMinAngle)),
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::editSFMinAngle)),
     new FieldDescription(SFReal32::getClassType(), 
                      "maxAngle", 
                      MaxAngleFieldId, MaxAngleFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::getSFMaxAngle))
+                     reinterpret_cast<FieldAccessMethod>(&BillboardBase::editSFMaxAngle))
 };
 
 
@@ -427,7 +427,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(BillboardPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGBILLBOARDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGBILLBOARDBASE_INLINE_CVSID;
 

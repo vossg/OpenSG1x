@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsHashSpaceBase : public PhysicsSpace
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec2f             *getSFLevels         (void);
 
-           Vec2f               &getLevels         (void);
+           SFVec2f             *editSFLevels         (void);
+     const SFVec2f             *getSFLevels         (void) const;
+#ifndef OSG_2_PREP
+           SFVec2f             *getSFLevels         (void);
+#endif
+
+
+           Vec2f               &editLevels         (void);
      const Vec2f               &getLevels         (void) const;
+#ifndef OSG_2_PREP
+           Vec2f               &getLevels         (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsHashSpacePtr> PhysicsHashSpaceRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHASHSPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHashSpaceBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSHASHSPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHashSpaceBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSHASHSPACEBASE_H_ */

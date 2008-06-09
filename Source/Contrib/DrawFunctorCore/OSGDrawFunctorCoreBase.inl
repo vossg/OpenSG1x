@@ -98,22 +98,54 @@ DrawFunctorCorePtr DrawFunctorCoreBase::createEmpty(void)
 
 //! Get the DrawFunctorCore::_sfVolumeUpdate field.
 inline
-SFVolumeFunctor *DrawFunctorCoreBase::getSFVolumeUpdate(void)
+const SFVolumeFunctor *DrawFunctorCoreBase::getSFVolumeUpdate(void) const
 {
     return &_sfVolumeUpdate;
 }
 
+//! Get the DrawFunctorCore::_sfVolumeUpdate field.
+inline
+SFVolumeFunctor *DrawFunctorCoreBase::editSFVolumeUpdate(void)
+{
+    return &_sfVolumeUpdate;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DrawFunctorCore::_sfVolumeUpdate field.
+inline
+SFVolumeFunctor *DrawFunctorCoreBase::getSFVolumeUpdate(void)
+{
+    return &_sfVolumeUpdate;
+}
+#endif
+
+//! Get the DrawFunctorCore::_sfDraw field.
+inline
+const SFDrawFunctor *DrawFunctorCoreBase::getSFDraw(void) const
+{
+    return &_sfDraw;
+}
+
+//! Get the DrawFunctorCore::_sfDraw field.
+inline
+SFDrawFunctor *DrawFunctorCoreBase::editSFDraw(void)
+{
+    return &_sfDraw;
+}
+
+#ifndef OSG_2_PREP
 //! Get the DrawFunctorCore::_sfDraw field.
 inline
 SFDrawFunctor *DrawFunctorCoreBase::getSFDraw(void)
 {
     return &_sfDraw;
 }
+#endif
 
 
 //! Get the value of the DrawFunctorCore::_sfVolumeUpdate field.
 inline
-VolumeFunctor &DrawFunctorCoreBase::getVolumeUpdate(void)
+VolumeFunctor &DrawFunctorCoreBase::editVolumeUpdate(void)
 {
     return _sfVolumeUpdate.getValue();
 }
@@ -125,6 +157,15 @@ const VolumeFunctor &DrawFunctorCoreBase::getVolumeUpdate(void) const
     return _sfVolumeUpdate.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the DrawFunctorCore::_sfVolumeUpdate field.
+inline
+VolumeFunctor &DrawFunctorCoreBase::getVolumeUpdate(void)
+{
+    return _sfVolumeUpdate.getValue();
+}
+#endif
+
 //! Set the value of the DrawFunctorCore::_sfVolumeUpdate field.
 inline
 void DrawFunctorCoreBase::setVolumeUpdate(const VolumeFunctor &value)
@@ -134,7 +175,7 @@ void DrawFunctorCoreBase::setVolumeUpdate(const VolumeFunctor &value)
 
 //! Get the value of the DrawFunctorCore::_sfDraw field.
 inline
-DrawFunctor &DrawFunctorCoreBase::getDraw(void)
+DrawFunctor &DrawFunctorCoreBase::editDraw(void)
 {
     return _sfDraw.getValue();
 }
@@ -145,6 +186,15 @@ const DrawFunctor &DrawFunctorCoreBase::getDraw(void) const
 {
     return _sfDraw.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the DrawFunctorCore::_sfDraw field.
+inline
+DrawFunctor &DrawFunctorCoreBase::getDraw(void)
+{
+    return _sfDraw.getValue();
+}
+#endif
 
 //! Set the value of the DrawFunctorCore::_sfDraw field.
 inline

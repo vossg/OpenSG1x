@@ -98,15 +98,31 @@ SharedFontStylePtr SharedFontStyleBase::createEmpty(void)
 
 //! Get the SharedFontStyle::_sfContainedFontStyle field.
 inline
-SFFontStyleP *SharedFontStyleBase::getSFContainedFontStyle(void)
+const SFFontStyleP *SharedFontStyleBase::getSFContainedFontStyle(void) const
 {
     return &_sfContainedFontStyle;
 }
 
+//! Get the SharedFontStyle::_sfContainedFontStyle field.
+inline
+SFFontStyleP *SharedFontStyleBase::editSFContainedFontStyle(void)
+{
+    return &_sfContainedFontStyle;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SharedFontStyle::_sfContainedFontStyle field.
+inline
+SFFontStyleP *SharedFontStyleBase::getSFContainedFontStyle(void)
+{
+    return &_sfContainedFontStyle;
+}
+#endif
+
 
 //! Get the value of the SharedFontStyle::_sfContainedFontStyle field.
 inline
-FontStyleP &SharedFontStyleBase::getContainedFontStyle(void)
+FontStyleP &SharedFontStyleBase::editContainedFontStyle(void)
 {
     return _sfContainedFontStyle.getValue();
 }
@@ -117,6 +133,15 @@ const FontStyleP &SharedFontStyleBase::getContainedFontStyle(void) const
 {
     return _sfContainedFontStyle.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the SharedFontStyle::_sfContainedFontStyle field.
+inline
+FontStyleP &SharedFontStyleBase::getContainedFontStyle(void)
+{
+    return _sfContainedFontStyle.getValue();
+}
+#endif
 
 //! Set the value of the SharedFontStyle::_sfContainedFontStyle field.
 inline

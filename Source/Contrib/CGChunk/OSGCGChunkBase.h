@@ -140,30 +140,93 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFVertexProfile  (void);
-           SFUInt32            *getSFFragmentProfile(void);
-           SFString            *getSFVertexEntryPoint(void);
-           MFString            *getMFVertexArguments(void);
-           SFString            *getSFFragmentEntryPoint(void);
-           MFString            *getMFFragmentArguments(void);
-           SFUInt32            *getSFGLId           (void);
 
-           UInt32              &getVertexProfile  (void);
+           SFUInt32            *editSFVertexProfile  (void);
+     const SFUInt32            *getSFVertexProfile  (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFVertexProfile  (void);
+#endif
+
+           SFUInt32            *editSFFragmentProfile(void);
+     const SFUInt32            *getSFFragmentProfile(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFragmentProfile(void);
+#endif
+
+           SFString            *editSFVertexEntryPoint(void);
+     const SFString            *getSFVertexEntryPoint(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFVertexEntryPoint(void);
+#endif
+
+           MFString            *editMFVertexArguments(void);
+     const MFString            *getMFVertexArguments(void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFVertexArguments(void);
+#endif
+
+           SFString            *editSFFragmentEntryPoint(void);
+     const SFString            *getSFFragmentEntryPoint(void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFFragmentEntryPoint(void);
+#endif
+
+           MFString            *editMFFragmentArguments(void);
+     const MFString            *getMFFragmentArguments(void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFFragmentArguments(void);
+#endif
+
+           SFUInt32            *editSFGLId           (void);
+     const SFUInt32            *getSFGLId           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFGLId           (void);
+#endif
+
+
+           UInt32              &editVertexProfile  (void);
      const UInt32              &getVertexProfile  (void) const;
-           UInt32              &getFragmentProfile(void);
+#ifndef OSG_2_PREP
+           UInt32              &getVertexProfile  (void);
+#endif
+
+           UInt32              &editFragmentProfile(void);
      const UInt32              &getFragmentProfile(void) const;
-           std::string         &getVertexEntryPoint(void);
+#ifndef OSG_2_PREP
+           UInt32              &getFragmentProfile(void);
+#endif
+
+           std::string         &editVertexEntryPoint(void);
      const std::string         &getVertexEntryPoint(void) const;
-           std::string         &getFragmentEntryPoint(void);
+#ifndef OSG_2_PREP
+           std::string         &getVertexEntryPoint(void);
+#endif
+
+           std::string         &editFragmentEntryPoint(void);
      const std::string         &getFragmentEntryPoint(void) const;
-           UInt32              &getGLId           (void);
+#ifndef OSG_2_PREP
+           std::string         &getFragmentEntryPoint(void);
+#endif
+
+           UInt32              &editGLId           (void);
      const UInt32              &getGLId           (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getGLId           (void);
+#endif
+
+           std::string         &editVertexArguments(const UInt32 index);
+     const std::string         &getVertexArguments(const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getVertexArguments(const UInt32 index);
            MFString            &getVertexArguments(void);
-     const MFString            &getVertexArguments(void) const;
+#endif
+
+           std::string         &editFragmentArguments(const UInt32 index);
+     const std::string         &getFragmentArguments(const UInt32 index) const;
+#ifndef OSG_2_PREP
            std::string         &getFragmentArguments(const UInt32 index);
            MFString            &getFragmentArguments(void);
-     const MFString            &getFragmentArguments(void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

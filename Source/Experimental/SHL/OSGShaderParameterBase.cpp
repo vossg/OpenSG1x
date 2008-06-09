@@ -86,7 +86,7 @@ FieldDescription *ShaderParameterBase::_desc[] =
                      "name", 
                      NameFieldId, NameFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterBase::getSFName))
+                     reinterpret_cast<FieldAccessMethod>(&ShaderParameterBase::editSFName))
 };
 
 
@@ -282,7 +282,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.10 2008/06/05 05:02:21 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterBase.cpp,v 1.11 2008/06/09 07:31:44 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBASE_INLINE_CVSID;
 

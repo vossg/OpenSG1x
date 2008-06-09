@@ -98,22 +98,54 @@ SlicesPtr SlicesBase::createEmpty(void)
 
 //! Get the Slices::_sfSize field.
 inline
-SFVec3f *SlicesBase::getSFSize(void)
+const SFVec3f *SlicesBase::getSFSize(void) const
 {
     return &_sfSize;
 }
 
+//! Get the Slices::_sfSize field.
+inline
+SFVec3f *SlicesBase::editSFSize(void)
+{
+    return &_sfSize;
+}
+
+#ifndef OSG_2_PREP
+//! Get the Slices::_sfSize field.
+inline
+SFVec3f *SlicesBase::getSFSize(void)
+{
+    return &_sfSize;
+}
+#endif
+
+//! Get the Slices::_sfSliceDistance field.
+inline
+const SFReal32 *SlicesBase::getSFSliceDistance(void) const
+{
+    return &_sfSliceDistance;
+}
+
+//! Get the Slices::_sfSliceDistance field.
+inline
+SFReal32 *SlicesBase::editSFSliceDistance(void)
+{
+    return &_sfSliceDistance;
+}
+
+#ifndef OSG_2_PREP
 //! Get the Slices::_sfSliceDistance field.
 inline
 SFReal32 *SlicesBase::getSFSliceDistance(void)
 {
     return &_sfSliceDistance;
 }
+#endif
 
 
 //! Get the value of the Slices::_sfSize field.
 inline
-Vec3f &SlicesBase::getSize(void)
+Vec3f &SlicesBase::editSize(void)
 {
     return _sfSize.getValue();
 }
@@ -125,6 +157,15 @@ const Vec3f &SlicesBase::getSize(void) const
     return _sfSize.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the Slices::_sfSize field.
+inline
+Vec3f &SlicesBase::getSize(void)
+{
+    return _sfSize.getValue();
+}
+#endif
+
 //! Set the value of the Slices::_sfSize field.
 inline
 void SlicesBase::setSize(const Vec3f &value)
@@ -134,7 +175,7 @@ void SlicesBase::setSize(const Vec3f &value)
 
 //! Get the value of the Slices::_sfSliceDistance field.
 inline
-Real32 &SlicesBase::getSliceDistance(void)
+Real32 &SlicesBase::editSliceDistance(void)
 {
     return _sfSliceDistance.getValue();
 }
@@ -145,6 +186,15 @@ const Real32 &SlicesBase::getSliceDistance(void) const
 {
     return _sfSliceDistance.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the Slices::_sfSliceDistance field.
+inline
+Real32 &SlicesBase::getSliceDistance(void)
+{
+    return _sfSliceDistance.getValue();
+}
+#endif
 
 //! Set the value of the Slices::_sfSliceDistance field.
 inline

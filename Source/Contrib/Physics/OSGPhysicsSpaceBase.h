@@ -122,10 +122,19 @@ class OSG_CONTRIBLIB_DLLMAPPING PhysicsSpaceBase : public Attachment
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFCleanup        (void);
 
-           bool                &getCleanup        (void);
+           SFBool              *editSFCleanup        (void);
+     const SFBool              *getSFCleanup        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFCleanup        (void);
+#endif
+
+
+           bool                &editCleanup        (void);
      const bool                &getCleanup        (void) const;
+#ifndef OSG_2_PREP
+           bool                &getCleanup        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<PhysicsSpacePtr> PhysicsSpaceRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSpaceBase.h,v 1.3 2008/06/05 05:02:16 vossg Exp $"
+#define OSGPHYSICSSPACEBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsSpaceBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 
 #endif /* _OSGPHYSICSSPACEBASE_H_ */

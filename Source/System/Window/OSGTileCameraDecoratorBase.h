@@ -137,25 +137,79 @@ class OSG_SYSTEMLIB_DLLMAPPING TileCameraDecoratorBase : public CameraDecorator
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFReal32            *getSFLeft           (void);
-           SFReal32            *getSFRight          (void);
-           SFReal32            *getSFBottom         (void);
-           SFReal32            *getSFTop            (void);
-           SFUInt32            *getSFFullWidth      (void);
-           SFUInt32            *getSFFullHeight     (void);
 
-           Real32              &getLeft           (void);
+           SFReal32            *editSFLeft           (void);
+     const SFReal32            *getSFLeft           (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFLeft           (void);
+#endif
+
+           SFReal32            *editSFRight          (void);
+     const SFReal32            *getSFRight          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFRight          (void);
+#endif
+
+           SFReal32            *editSFBottom         (void);
+     const SFReal32            *getSFBottom         (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFBottom         (void);
+#endif
+
+           SFReal32            *editSFTop            (void);
+     const SFReal32            *getSFTop            (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFTop            (void);
+#endif
+
+           SFUInt32            *editSFFullWidth      (void);
+     const SFUInt32            *getSFFullWidth      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFullWidth      (void);
+#endif
+
+           SFUInt32            *editSFFullHeight     (void);
+     const SFUInt32            *getSFFullHeight     (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFullHeight     (void);
+#endif
+
+
+           Real32              &editLeft           (void);
      const Real32              &getLeft           (void) const;
-           Real32              &getRight          (void);
+#ifndef OSG_2_PREP
+           Real32              &getLeft           (void);
+#endif
+
+           Real32              &editRight          (void);
      const Real32              &getRight          (void) const;
-           Real32              &getBottom         (void);
+#ifndef OSG_2_PREP
+           Real32              &getRight          (void);
+#endif
+
+           Real32              &editBottom         (void);
      const Real32              &getBottom         (void) const;
-           Real32              &getTop            (void);
+#ifndef OSG_2_PREP
+           Real32              &getBottom         (void);
+#endif
+
+           Real32              &editTop            (void);
      const Real32              &getTop            (void) const;
-           UInt32              &getFullWidth      (void);
+#ifndef OSG_2_PREP
+           Real32              &getTop            (void);
+#endif
+
+           UInt32              &editFullWidth      (void);
      const UInt32              &getFullWidth      (void) const;
-           UInt32              &getFullHeight     (void);
+#ifndef OSG_2_PREP
+           UInt32              &getFullWidth      (void);
+#endif
+
+           UInt32              &editFullHeight     (void);
      const UInt32              &getFullHeight     (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getFullHeight     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -122,10 +122,19 @@ class OSG_SYSTEMLIB_DLLMAPPING SharedFontStyleBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFFontStyleP        *getSFContainedFontStyle(void);
 
-           FontStyleP          &getContainedFontStyle(void);
+           SFFontStyleP        *editSFContainedFontStyle(void);
+     const SFFontStyleP        *getSFContainedFontStyle(void) const;
+#ifndef OSG_2_PREP
+           SFFontStyleP        *getSFContainedFontStyle(void);
+#endif
+
+
+           FontStyleP          &editContainedFontStyle(void);
      const FontStyleP          &getContainedFontStyle(void) const;
+#ifndef OSG_2_PREP
+           FontStyleP          &getContainedFontStyle(void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

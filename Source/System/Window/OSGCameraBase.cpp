@@ -98,17 +98,17 @@ FieldDescription *CameraBase::_desc[] =
                      "beacon", 
                      BeaconFieldId, BeaconFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CameraBase::getSFBeacon)),
+                     reinterpret_cast<FieldAccessMethod>(&CameraBase::editSFBeacon)),
     new FieldDescription(SFReal32::getClassType(), 
                      "near", 
                      NearFieldId, NearFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CameraBase::getSFNear)),
+                     reinterpret_cast<FieldAccessMethod>(&CameraBase::editSFNear)),
     new FieldDescription(SFReal32::getClassType(), 
                      "far", 
                      FarFieldId, FarFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CameraBase::getSFFar))
+                     reinterpret_cast<FieldAccessMethod>(&CameraBase::editSFFar))
 };
 
 
@@ -323,26 +323,71 @@ void CameraBase::execBeginEditImpl (const BitVector &whichField,
 /*------------------------------ get -----------------------------------*/
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFNodePtr *CameraBase::getSFBeacon(void)
+const SFNodePtr *CameraBase::getSFBeacon(void) const
 {
     return &_sfBeacon;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFReal32 *CameraBase::getSFNear(void)
+SFNodePtr *CameraBase::editSFBeacon(void)
+{
+    return &_sfBeacon;
+}
+
+
+#ifndef OSG_2_PREP
+OSG_SYSTEMLIB_DLLMAPPING
+SFNodePtr *CameraBase::getSFBeacon(void)
+{
+    return &_sfBeacon;
+}
+#endif
+
+OSG_SYSTEMLIB_DLLMAPPING
+const SFReal32 *CameraBase::getSFNear(void) const
 {
     return &_sfNear;
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-SFReal32 *CameraBase::getSFFar(void)
+SFReal32 *CameraBase::editSFNear(void)
+{
+    return &_sfNear;
+}
+
+
+#ifndef OSG_2_PREP
+OSG_SYSTEMLIB_DLLMAPPING
+SFReal32 *CameraBase::getSFNear(void)
+{
+    return &_sfNear;
+}
+#endif
+
+OSG_SYSTEMLIB_DLLMAPPING
+const SFReal32 *CameraBase::getSFFar(void) const
+{
+    return &_sfFar;
+}
+
+OSG_SYSTEMLIB_DLLMAPPING
+SFReal32 *CameraBase::editSFFar(void)
 {
     return &_sfFar;
 }
 
 
+#ifndef OSG_2_PREP
 OSG_SYSTEMLIB_DLLMAPPING
-NodePtr &CameraBase::getBeacon(void)
+SFReal32 *CameraBase::getSFFar(void)
+{
+    return &_sfFar;
+}
+#endif
+
+
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr &CameraBase::editBeacon(void)
 {
     return _sfBeacon.getValue();
 }
@@ -353,6 +398,14 @@ const NodePtr &CameraBase::getBeacon(void) const
     return _sfBeacon.getValue();
 }
 
+#ifndef OSG_2_PREP
+OSG_SYSTEMLIB_DLLMAPPING
+NodePtr &CameraBase::getBeacon(void)
+{
+    return _sfBeacon.getValue();
+}
+#endif
+
 OSG_SYSTEMLIB_DLLMAPPING
 void CameraBase::setBeacon(const NodePtr &value)
 {
@@ -360,7 +413,7 @@ void CameraBase::setBeacon(const NodePtr &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Real32 &CameraBase::getNear(void)
+Real32 &CameraBase::editNear(void)
 {
     return _sfNear.getValue();
 }
@@ -371,6 +424,14 @@ const Real32 &CameraBase::getNear(void) const
     return _sfNear.getValue();
 }
 
+#ifndef OSG_2_PREP
+OSG_SYSTEMLIB_DLLMAPPING
+Real32 &CameraBase::getNear(void)
+{
+    return _sfNear.getValue();
+}
+#endif
+
 OSG_SYSTEMLIB_DLLMAPPING
 void CameraBase::setNear(const Real32 &value)
 {
@@ -378,7 +439,7 @@ void CameraBase::setNear(const Real32 &value)
 }
 
 OSG_SYSTEMLIB_DLLMAPPING
-Real32 &CameraBase::getFar(void)
+Real32 &CameraBase::editFar(void)
 {
     return _sfFar.getValue();
 }
@@ -388,6 +449,14 @@ const Real32 &CameraBase::getFar(void) const
 {
     return _sfFar.getValue();
 }
+
+#ifndef OSG_2_PREP
+OSG_SYSTEMLIB_DLLMAPPING
+Real32 &CameraBase::getFar(void)
+{
+    return _sfFar.getValue();
+}
+#endif
 
 OSG_SYSTEMLIB_DLLMAPPING
 void CameraBase::setFar(const Real32 &value)
@@ -426,7 +495,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCAMERABASE_INLINE_CVSID;
 

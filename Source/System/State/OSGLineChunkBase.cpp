@@ -105,22 +105,22 @@ FieldDescription *LineChunkBase::_desc[] =
                      "width", 
                      WidthFieldId, WidthFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::getSFWidth)),
+                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::editSFWidth)),
     new FieldDescription(SFInt32::getClassType(), 
                      "stippleRepeat", 
                      StippleRepeatFieldId, StippleRepeatFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::getSFStippleRepeat)),
+                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::editSFStippleRepeat)),
     new FieldDescription(SFUInt16::getClassType(), 
                      "stipplePattern", 
                      StipplePatternFieldId, StipplePatternFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::getSFStipplePattern)),
+                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::editSFStipplePattern)),
     new FieldDescription(SFBool::getClassType(), 
                      "smooth", 
                      SmoothFieldId, SmoothFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::getSFSmooth))
+                     reinterpret_cast<FieldAccessMethod>(&LineChunkBase::editSFSmooth))
 };
 
 
@@ -394,7 +394,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(LineChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLINECHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLINECHUNKBASE_INLINE_CVSID;
 

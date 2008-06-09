@@ -158,46 +158,155 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFUInt32            *getSFMode           (void);
-           SFGeoPositionsPtr   *getSFPositions      (void);
-           MFVec3f             *getMFSizes          (void);
-           SFGeoPositionsPtr   *getSFSecPositions   (void);
-           SFGeoColorsPtr      *getSFColors         (void);
-           SFGeoNormalsPtr     *getSFNormals        (void);
-           MFInt32             *getMFIndices        (void);
-           MFReal32            *getMFTextureZs      (void);
-           SFUInt32            *getSFDrawOrder      (void);
-           SFBool              *getSFDynamic        (void);
-           SFParticleBSPTree   *getSFBsp            (void);
-           SFInt32             *getSFNumParticles   (void);
 
-           UInt32              &getMode           (void);
+           SFUInt32            *editSFMode           (void);
+     const SFUInt32            *getSFMode           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFMode           (void);
+#endif
+
+           SFGeoPositionsPtr   *editSFPositions      (void);
+     const SFGeoPositionsPtr   *getSFPositions      (void) const;
+#ifndef OSG_2_PREP
+           SFGeoPositionsPtr   *getSFPositions      (void);
+#endif
+
+           MFVec3f             *editMFSizes          (void);
+     const MFVec3f             *getMFSizes          (void) const;
+#ifndef OSG_2_PREP
+           MFVec3f             *getMFSizes          (void);
+#endif
+
+           SFGeoPositionsPtr   *editSFSecPositions   (void);
+     const SFGeoPositionsPtr   *getSFSecPositions   (void) const;
+#ifndef OSG_2_PREP
+           SFGeoPositionsPtr   *getSFSecPositions   (void);
+#endif
+
+           SFGeoColorsPtr      *editSFColors         (void);
+     const SFGeoColorsPtr      *getSFColors         (void) const;
+#ifndef OSG_2_PREP
+           SFGeoColorsPtr      *getSFColors         (void);
+#endif
+
+           SFGeoNormalsPtr     *editSFNormals        (void);
+     const SFGeoNormalsPtr     *getSFNormals        (void) const;
+#ifndef OSG_2_PREP
+           SFGeoNormalsPtr     *getSFNormals        (void);
+#endif
+
+           MFInt32             *editMFIndices        (void);
+     const MFInt32             *getMFIndices        (void) const;
+#ifndef OSG_2_PREP
+           MFInt32             *getMFIndices        (void);
+#endif
+
+           MFReal32            *editMFTextureZs      (void);
+     const MFReal32            *getMFTextureZs      (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFTextureZs      (void);
+#endif
+
+           SFUInt32            *editSFDrawOrder      (void);
+     const SFUInt32            *getSFDrawOrder      (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFDrawOrder      (void);
+#endif
+
+           SFBool              *editSFDynamic        (void);
+     const SFBool              *getSFDynamic        (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDynamic        (void);
+#endif
+
+           SFParticleBSPTree   *editSFBsp            (void);
+     const SFParticleBSPTree   *getSFBsp            (void) const;
+#ifndef OSG_2_PREP
+           SFParticleBSPTree   *getSFBsp            (void);
+#endif
+
+           SFInt32             *editSFNumParticles   (void);
+     const SFInt32             *getSFNumParticles   (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFNumParticles   (void);
+#endif
+
+
+           UInt32              &editMode           (void);
      const UInt32              &getMode           (void) const;
-           GeoPositionsPtr     &getPositions      (void);
+#ifndef OSG_2_PREP
+           UInt32              &getMode           (void);
+#endif
+
+           GeoPositionsPtr     &editPositions      (void);
      const GeoPositionsPtr     &getPositions      (void) const;
-           GeoPositionsPtr     &getSecPositions   (void);
+#ifndef OSG_2_PREP
+           GeoPositionsPtr     &getPositions      (void);
+#endif
+
+           GeoPositionsPtr     &editSecPositions   (void);
      const GeoPositionsPtr     &getSecPositions   (void) const;
-           GeoColorsPtr        &getColors         (void);
+#ifndef OSG_2_PREP
+           GeoPositionsPtr     &getSecPositions   (void);
+#endif
+
+           GeoColorsPtr        &editColors         (void);
      const GeoColorsPtr        &getColors         (void) const;
-           GeoNormalsPtr       &getNormals        (void);
+#ifndef OSG_2_PREP
+           GeoColorsPtr        &getColors         (void);
+#endif
+
+           GeoNormalsPtr       &editNormals        (void);
      const GeoNormalsPtr       &getNormals        (void) const;
-           UInt32              &getDrawOrder      (void);
+#ifndef OSG_2_PREP
+           GeoNormalsPtr       &getNormals        (void);
+#endif
+
+           UInt32              &editDrawOrder      (void);
      const UInt32              &getDrawOrder      (void) const;
-           bool                &getDynamic        (void);
+#ifndef OSG_2_PREP
+           UInt32              &getDrawOrder      (void);
+#endif
+
+           bool                &editDynamic        (void);
      const bool                &getDynamic        (void) const;
-           ParticleBSPTree     &getBsp            (void);
+#ifndef OSG_2_PREP
+           bool                &getDynamic        (void);
+#endif
+
+
+           ParticleBSPTree     &editBsp            (void);
      const ParticleBSPTree     &getBsp            (void) const;
-           Int32               &getNumParticles   (void);
+#ifndef OSG_2_PREP
+           ParticleBSPTree     &getBsp            (void);
+#endif
+
+           Int32               &editNumParticles   (void);
      const Int32               &getNumParticles   (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getNumParticles   (void);
+#endif
+
+           Vec3f               &editSizes          (const UInt32 index);
+     const Vec3f               &getSizes          (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Vec3f               &getSizes          (const UInt32 index);
            MFVec3f             &getSizes          (void);
-     const MFVec3f             &getSizes          (void) const;
+#endif
+
+           Int32               &editIndices        (const UInt32 index);
+     const Int32               &getIndices        (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Int32               &getIndices        (const UInt32 index);
            MFInt32             &getIndices        (void);
-     const MFInt32             &getIndices        (void) const;
+#endif
+
+           Real32              &editTextureZs      (const UInt32 index);
+     const Real32              &getTextureZs      (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getTextureZs      (const UInt32 index);
            MFReal32            &getTextureZs      (void);
-     const MFReal32            &getTextureZs      (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -334,10 +443,17 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFUInt32            *editSFPump           (void);
+     const SFUInt32            *getSFPump           (void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFPump           (void);
+#endif
 
-           UInt32              &getPump           (void);
+           UInt32              &editPump           (void);
      const UInt32              &getPump           (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getPump           (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

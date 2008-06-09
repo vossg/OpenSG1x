@@ -125,13 +125,31 @@ class OSG_SYSTEMLIB_DLLMAPPING SlicesBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFVec3f             *getSFSize           (void);
-           SFReal32            *getSFSliceDistance  (void);
 
-           Vec3f               &getSize           (void);
+           SFVec3f             *editSFSize           (void);
+     const SFVec3f             *getSFSize           (void) const;
+#ifndef OSG_2_PREP
+           SFVec3f             *getSFSize           (void);
+#endif
+
+           SFReal32            *editSFSliceDistance  (void);
+     const SFReal32            *getSFSliceDistance  (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFSliceDistance  (void);
+#endif
+
+
+           Vec3f               &editSize           (void);
      const Vec3f               &getSize           (void) const;
-           Real32              &getSliceDistance  (void);
+#ifndef OSG_2_PREP
+           Vec3f               &getSize           (void);
+#endif
+
+           Real32              &editSliceDistance  (void);
      const Real32              &getSliceDistance  (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getSliceDistance  (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

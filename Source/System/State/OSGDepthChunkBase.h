@@ -134,22 +134,67 @@ class OSG_SYSTEMLIB_DLLMAPPING DepthChunkBase : public StateChunk
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFBool              *getSFEnable         (void);
-           SFGLenum            *getSFFunc           (void);
-           SFReal32            *getSFNear           (void);
-           SFReal32            *getSFFar            (void);
-           SFBool              *getSFReadOnly       (void);
 
-           bool                &getEnable         (void);
+           SFBool              *editSFEnable         (void);
+     const SFBool              *getSFEnable         (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFEnable         (void);
+#endif
+
+           SFGLenum            *editSFFunc           (void);
+     const SFGLenum            *getSFFunc           (void) const;
+#ifndef OSG_2_PREP
+           SFGLenum            *getSFFunc           (void);
+#endif
+
+           SFReal32            *editSFNear           (void);
+     const SFReal32            *getSFNear           (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFNear           (void);
+#endif
+
+           SFReal32            *editSFFar            (void);
+     const SFReal32            *getSFFar            (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFFar            (void);
+#endif
+
+           SFBool              *editSFReadOnly       (void);
+     const SFBool              *getSFReadOnly       (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFReadOnly       (void);
+#endif
+
+
+           bool                &editEnable         (void);
      const bool                &getEnable         (void) const;
-           GLenum              &getFunc           (void);
+#ifndef OSG_2_PREP
+           bool                &getEnable         (void);
+#endif
+
+           GLenum              &editFunc           (void);
      const GLenum              &getFunc           (void) const;
-           Real32              &getNear           (void);
+#ifndef OSG_2_PREP
+           GLenum              &getFunc           (void);
+#endif
+
+           Real32              &editNear           (void);
      const Real32              &getNear           (void) const;
-           Real32              &getFar            (void);
+#ifndef OSG_2_PREP
+           Real32              &getNear           (void);
+#endif
+
+           Real32              &editFar            (void);
      const Real32              &getFar            (void) const;
-           bool                &getReadOnly       (void);
+#ifndef OSG_2_PREP
+           Real32              &getFar            (void);
+#endif
+
+           bool                &editReadOnly       (void);
      const bool                &getReadOnly       (void) const;
+#ifndef OSG_2_PREP
+           bool                &getReadOnly       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -285,6 +330,6 @@ typedef RefPtr<DepthChunkPtr> DepthChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.8 2008/06/05 05:02:28 vossg Exp $"
+#define OSGDEPTHCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGDepthChunkBase.h,v 1.9 2008/06/09 07:31:52 vossg Exp $"
 
 #endif /* _OSGDEPTHCHUNKBASE_H_ */

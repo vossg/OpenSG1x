@@ -86,7 +86,7 @@ FieldDescription *DirectionalLightBase::_desc[] =
                      "direction", 
                      DirectionFieldId, DirectionFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DirectionalLightBase::getSFDirection))
+                     reinterpret_cast<FieldAccessMethod>(&DirectionalLightBase::editSFDirection))
 };
 
 
@@ -282,7 +282,7 @@ DataType FieldDataTraits<DirectionalLightPtr>::_type("DirectionalLightPtr", "Lig
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.47 2006/03/17 17:03:19 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDIRECTIONALLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDIRECTIONALLIGHTBASE_INLINE_CVSID;
 

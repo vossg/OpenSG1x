@@ -121,19 +121,52 @@ class OSG_SYSTEMLIB_DLLMAPPING CameraDecoratorBase : public Camera
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFCameraPtr *editSFDecoratee(void);
+     const SFCameraPtr *getSFDecoratee(void) const;
+#ifndef OSG_2_PREP
            SFCameraPtr *getSFDecoratee(void);
-           SFNodePtr           *getSFBeacon         (void);
-           SFReal32            *getSFNear           (void);
-           SFReal32            *getSFFar            (void);
+#endif
 
+           SFNodePtr           *editSFBeacon         (void);
+     const SFNodePtr           *getSFBeacon         (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFBeacon         (void);
+#endif
+
+           SFReal32            *editSFNear           (void);
+     const SFReal32            *getSFNear           (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFNear           (void);
+#endif
+
+           SFReal32            *editSFFar            (void);
+     const SFReal32            *getSFFar            (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFFar            (void);
+#endif
+
+#ifndef OSG_2_PREP
            CameraPtr &getDecoratee(void);
+#endif
      const CameraPtr &getDecoratee(void) const;
-           NodePtr             &getBeacon         (void);
+
+           NodePtr             &editBeacon         (void);
      const NodePtr             &getBeacon         (void) const;
-           Real32              &getNear           (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getBeacon         (void);
+#endif
+
+           Real32              &editNear           (void);
      const Real32              &getNear           (void) const;
-           Real32              &getFar            (void);
+#ifndef OSG_2_PREP
+           Real32              &getNear           (void);
+#endif
+
+           Real32              &editFar            (void);
      const Real32              &getFar            (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getFar            (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

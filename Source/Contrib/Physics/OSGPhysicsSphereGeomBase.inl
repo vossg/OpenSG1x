@@ -98,15 +98,31 @@ PhysicsSphereGeomPtr PhysicsSphereGeomBase::createEmpty(void)
 
 //! Get the PhysicsSphereGeom::_sfRadius field.
 inline
-SFReal32 *PhysicsSphereGeomBase::getSFRadius(void)
+const SFReal32 *PhysicsSphereGeomBase::getSFRadius(void) const
 {
     return &_sfRadius;
 }
 
+//! Get the PhysicsSphereGeom::_sfRadius field.
+inline
+SFReal32 *PhysicsSphereGeomBase::editSFRadius(void)
+{
+    return &_sfRadius;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PhysicsSphereGeom::_sfRadius field.
+inline
+SFReal32 *PhysicsSphereGeomBase::getSFRadius(void)
+{
+    return &_sfRadius;
+}
+#endif
+
 
 //! Get the value of the PhysicsSphereGeom::_sfRadius field.
 inline
-Real32 &PhysicsSphereGeomBase::getRadius(void)
+Real32 &PhysicsSphereGeomBase::editRadius(void)
 {
     return _sfRadius.getValue();
 }
@@ -118,6 +134,15 @@ const Real32 &PhysicsSphereGeomBase::getRadius(void) const
     return _sfRadius.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PhysicsSphereGeom::_sfRadius field.
+inline
+Real32 &PhysicsSphereGeomBase::getRadius(void)
+{
+    return _sfRadius.getValue();
+}
+#endif
+
 //! Set the value of the PhysicsSphereGeom::_sfRadius field.
 inline
 void PhysicsSphereGeomBase::setRadius(const Real32 &value)
@@ -128,5 +153,5 @@ void PhysicsSphereGeomBase::setRadius(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSPHEREGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsSphereGeomBase.inl,v 1.3 2008/06/05 05:02:17 vossg Exp $"
+#define OSGPHYSICSSPHEREGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsSphereGeomBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
 

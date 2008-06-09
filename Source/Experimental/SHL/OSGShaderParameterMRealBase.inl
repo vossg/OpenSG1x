@@ -98,13 +98,44 @@ ShaderParameterMRealPtr ShaderParameterMRealBase::createEmpty(void)
 
 //! Get the ShaderParameterMReal::_mfValue field.
 inline
-MFReal32 *ShaderParameterMRealBase::getMFValue(void)
+const MFReal32 *ShaderParameterMRealBase::getMFValue(void) const
 {
     return &_mfValue;
 }
 
+//! Get the ShaderParameterMReal::_mfValue field.
+inline
+MFReal32 *ShaderParameterMRealBase::editMFValue(void)
+{
+    return &_mfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterMReal::_mfValue field.
+inline
+MFReal32 *ShaderParameterMRealBase::getMFValue(void)
+{
+    return &_mfValue;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the ShaderParameterMReal::_mfValue field.
+inline
+Real32 &ShaderParameterMRealBase::editValue(const UInt32 index)
+{
+    return _mfValue[index];
+}
+
+//! Get the value of the \a index element the ShaderParameterMReal::_mfValue field.
+inline
+const Real32 &ShaderParameterMRealBase::getValue(const UInt32 index) const
+{
+    return _mfValue[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ShaderParameterMReal::_mfValue field.
 inline
 Real32 &ShaderParameterMRealBase::getValue(const UInt32 index)
@@ -119,14 +150,9 @@ MFReal32 &ShaderParameterMRealBase::getValue(void)
     return _mfValue;
 }
 
-//! Get the ShaderParameterMReal::_mfValue field.
-inline
-const MFReal32 &ShaderParameterMRealBase::getValue(void) const
-{
-    return _mfValue;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMREALBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMRealBase.inl,v 1.2 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERMREALBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMRealBase.inl,v 1.3 2008/06/09 07:31:44 vossg Exp $"
 

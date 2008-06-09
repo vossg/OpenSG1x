@@ -98,43 +98,123 @@ SimpleTexturedMaterialPtr SimpleTexturedMaterialBase::createEmpty(void)
 
 //! Get the SimpleTexturedMaterial::_sfImage field.
 inline
-SFImagePtr *SimpleTexturedMaterialBase::getSFImage(void)
+const SFImagePtr *SimpleTexturedMaterialBase::getSFImage(void) const
 {
     return &_sfImage;
 }
 
+//! Get the SimpleTexturedMaterial::_sfImage field.
+inline
+SFImagePtr *SimpleTexturedMaterialBase::editSFImage(void)
+{
+    return &_sfImage;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SimpleTexturedMaterial::_sfImage field.
+inline
+SFImagePtr *SimpleTexturedMaterialBase::getSFImage(void)
+{
+    return &_sfImage;
+}
+#endif
+
+//! Get the SimpleTexturedMaterial::_sfMinFilter field.
+inline
+const SFGLenum *SimpleTexturedMaterialBase::getSFMinFilter(void) const
+{
+    return &_sfMinFilter;
+}
+
+//! Get the SimpleTexturedMaterial::_sfMinFilter field.
+inline
+SFGLenum *SimpleTexturedMaterialBase::editSFMinFilter(void)
+{
+    return &_sfMinFilter;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SimpleTexturedMaterial::_sfMinFilter field.
 inline
 SFGLenum *SimpleTexturedMaterialBase::getSFMinFilter(void)
 {
     return &_sfMinFilter;
 }
+#endif
 
+//! Get the SimpleTexturedMaterial::_sfMagFilter field.
+inline
+const SFGLenum *SimpleTexturedMaterialBase::getSFMagFilter(void) const
+{
+    return &_sfMagFilter;
+}
+
+//! Get the SimpleTexturedMaterial::_sfMagFilter field.
+inline
+SFGLenum *SimpleTexturedMaterialBase::editSFMagFilter(void)
+{
+    return &_sfMagFilter;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SimpleTexturedMaterial::_sfMagFilter field.
 inline
 SFGLenum *SimpleTexturedMaterialBase::getSFMagFilter(void)
 {
     return &_sfMagFilter;
 }
+#endif
 
+//! Get the SimpleTexturedMaterial::_sfEnvMode field.
+inline
+const SFGLenum *SimpleTexturedMaterialBase::getSFEnvMode(void) const
+{
+    return &_sfEnvMode;
+}
+
+//! Get the SimpleTexturedMaterial::_sfEnvMode field.
+inline
+SFGLenum *SimpleTexturedMaterialBase::editSFEnvMode(void)
+{
+    return &_sfEnvMode;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SimpleTexturedMaterial::_sfEnvMode field.
 inline
 SFGLenum *SimpleTexturedMaterialBase::getSFEnvMode(void)
 {
     return &_sfEnvMode;
 }
+#endif
 
+//! Get the SimpleTexturedMaterial::_sfEnvMap field.
+inline
+const SFBool *SimpleTexturedMaterialBase::getSFEnvMap(void) const
+{
+    return &_sfEnvMap;
+}
+
+//! Get the SimpleTexturedMaterial::_sfEnvMap field.
+inline
+SFBool *SimpleTexturedMaterialBase::editSFEnvMap(void)
+{
+    return &_sfEnvMap;
+}
+
+#ifndef OSG_2_PREP
 //! Get the SimpleTexturedMaterial::_sfEnvMap field.
 inline
 SFBool *SimpleTexturedMaterialBase::getSFEnvMap(void)
 {
     return &_sfEnvMap;
 }
+#endif
 
 
 //! Get the value of the SimpleTexturedMaterial::_sfImage field.
 inline
-ImagePtr &SimpleTexturedMaterialBase::getImage(void)
+ImagePtr &SimpleTexturedMaterialBase::editImage(void)
 {
     return _sfImage.getValue();
 }
@@ -146,6 +226,15 @@ const ImagePtr &SimpleTexturedMaterialBase::getImage(void) const
     return _sfImage.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SimpleTexturedMaterial::_sfImage field.
+inline
+ImagePtr &SimpleTexturedMaterialBase::getImage(void)
+{
+    return _sfImage.getValue();
+}
+#endif
+
 //! Set the value of the SimpleTexturedMaterial::_sfImage field.
 inline
 void SimpleTexturedMaterialBase::setImage(const ImagePtr &value)
@@ -155,7 +244,7 @@ void SimpleTexturedMaterialBase::setImage(const ImagePtr &value)
 
 //! Get the value of the SimpleTexturedMaterial::_sfMinFilter field.
 inline
-GLenum &SimpleTexturedMaterialBase::getMinFilter(void)
+GLenum &SimpleTexturedMaterialBase::editMinFilter(void)
 {
     return _sfMinFilter.getValue();
 }
@@ -167,6 +256,15 @@ const GLenum &SimpleTexturedMaterialBase::getMinFilter(void) const
     return _sfMinFilter.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SimpleTexturedMaterial::_sfMinFilter field.
+inline
+GLenum &SimpleTexturedMaterialBase::getMinFilter(void)
+{
+    return _sfMinFilter.getValue();
+}
+#endif
+
 //! Set the value of the SimpleTexturedMaterial::_sfMinFilter field.
 inline
 void SimpleTexturedMaterialBase::setMinFilter(const GLenum &value)
@@ -176,7 +274,7 @@ void SimpleTexturedMaterialBase::setMinFilter(const GLenum &value)
 
 //! Get the value of the SimpleTexturedMaterial::_sfMagFilter field.
 inline
-GLenum &SimpleTexturedMaterialBase::getMagFilter(void)
+GLenum &SimpleTexturedMaterialBase::editMagFilter(void)
 {
     return _sfMagFilter.getValue();
 }
@@ -188,6 +286,15 @@ const GLenum &SimpleTexturedMaterialBase::getMagFilter(void) const
     return _sfMagFilter.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SimpleTexturedMaterial::_sfMagFilter field.
+inline
+GLenum &SimpleTexturedMaterialBase::getMagFilter(void)
+{
+    return _sfMagFilter.getValue();
+}
+#endif
+
 //! Set the value of the SimpleTexturedMaterial::_sfMagFilter field.
 inline
 void SimpleTexturedMaterialBase::setMagFilter(const GLenum &value)
@@ -197,7 +304,7 @@ void SimpleTexturedMaterialBase::setMagFilter(const GLenum &value)
 
 //! Get the value of the SimpleTexturedMaterial::_sfEnvMode field.
 inline
-GLenum &SimpleTexturedMaterialBase::getEnvMode(void)
+GLenum &SimpleTexturedMaterialBase::editEnvMode(void)
 {
     return _sfEnvMode.getValue();
 }
@@ -209,6 +316,15 @@ const GLenum &SimpleTexturedMaterialBase::getEnvMode(void) const
     return _sfEnvMode.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the SimpleTexturedMaterial::_sfEnvMode field.
+inline
+GLenum &SimpleTexturedMaterialBase::getEnvMode(void)
+{
+    return _sfEnvMode.getValue();
+}
+#endif
+
 //! Set the value of the SimpleTexturedMaterial::_sfEnvMode field.
 inline
 void SimpleTexturedMaterialBase::setEnvMode(const GLenum &value)
@@ -218,7 +334,7 @@ void SimpleTexturedMaterialBase::setEnvMode(const GLenum &value)
 
 //! Get the value of the SimpleTexturedMaterial::_sfEnvMap field.
 inline
-bool &SimpleTexturedMaterialBase::getEnvMap(void)
+bool &SimpleTexturedMaterialBase::editEnvMap(void)
 {
     return _sfEnvMap.getValue();
 }
@@ -229,6 +345,15 @@ const bool &SimpleTexturedMaterialBase::getEnvMap(void) const
 {
     return _sfEnvMap.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the SimpleTexturedMaterial::_sfEnvMap field.
+inline
+bool &SimpleTexturedMaterialBase::getEnvMap(void)
+{
+    return _sfEnvMap.getValue();
+}
+#endif
 
 //! Set the value of the SimpleTexturedMaterial::_sfEnvMap field.
 inline

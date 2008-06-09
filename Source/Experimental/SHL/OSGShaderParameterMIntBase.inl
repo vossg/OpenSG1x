@@ -98,13 +98,44 @@ ShaderParameterMIntPtr ShaderParameterMIntBase::createEmpty(void)
 
 //! Get the ShaderParameterMInt::_mfValue field.
 inline
-MFInt32 *ShaderParameterMIntBase::getMFValue(void)
+const MFInt32 *ShaderParameterMIntBase::getMFValue(void) const
 {
     return &_mfValue;
 }
 
+//! Get the ShaderParameterMInt::_mfValue field.
+inline
+MFInt32 *ShaderParameterMIntBase::editMFValue(void)
+{
+    return &_mfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterMInt::_mfValue field.
+inline
+MFInt32 *ShaderParameterMIntBase::getMFValue(void)
+{
+    return &_mfValue;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the ShaderParameterMInt::_mfValue field.
+inline
+Int32 &ShaderParameterMIntBase::editValue(const UInt32 index)
+{
+    return _mfValue[index];
+}
+
+//! Get the value of the \a index element the ShaderParameterMInt::_mfValue field.
+inline
+const Int32 &ShaderParameterMIntBase::getValue(const UInt32 index) const
+{
+    return _mfValue[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ShaderParameterMInt::_mfValue field.
 inline
 Int32 &ShaderParameterMIntBase::getValue(const UInt32 index)
@@ -119,14 +150,9 @@ MFInt32 &ShaderParameterMIntBase::getValue(void)
     return _mfValue;
 }
 
-//! Get the ShaderParameterMInt::_mfValue field.
-inline
-const MFInt32 &ShaderParameterMIntBase::getValue(void) const
-{
-    return _mfValue;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMINTBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMIntBase.inl,v 1.2 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERMINTBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMIntBase.inl,v 1.3 2008/06/09 07:31:44 vossg Exp $"
 

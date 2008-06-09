@@ -149,37 +149,127 @@ class OSG_SYSTEMLIB_DLLMAPPING LightBase : public Group
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFColor4f           *getSFAmbient        (void);
-           SFColor4f           *getSFDiffuse        (void);
-           SFColor4f           *getSFSpecular       (void);
-           SFNodePtr           *getSFBeacon         (void);
-           SFBool              *getSFOn             (void);
-           SFReal32            *getSFConstantAttenuation(void);
-           SFReal32            *getSFLinearAttenuation(void);
-           SFReal32            *getSFQuadraticAttenuation(void);
-           SFReal32            *getSFShadowIntensity(void);
-           SFUInt32            *getSFShadowMode     (void);
 
-           Color4f             &getAmbient        (void);
+           SFColor4f           *editSFAmbient        (void);
+     const SFColor4f           *getSFAmbient        (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFAmbient        (void);
+#endif
+
+           SFColor4f           *editSFDiffuse        (void);
+     const SFColor4f           *getSFDiffuse        (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFDiffuse        (void);
+#endif
+
+           SFColor4f           *editSFSpecular       (void);
+     const SFColor4f           *getSFSpecular       (void) const;
+#ifndef OSG_2_PREP
+           SFColor4f           *getSFSpecular       (void);
+#endif
+
+           SFNodePtr           *editSFBeacon         (void);
+     const SFNodePtr           *getSFBeacon         (void) const;
+#ifndef OSG_2_PREP
+           SFNodePtr           *getSFBeacon         (void);
+#endif
+
+           SFBool              *editSFOn             (void);
+     const SFBool              *getSFOn             (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFOn             (void);
+#endif
+
+           SFReal32            *editSFConstantAttenuation(void);
+     const SFReal32            *getSFConstantAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFConstantAttenuation(void);
+#endif
+
+           SFReal32            *editSFLinearAttenuation(void);
+     const SFReal32            *getSFLinearAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFLinearAttenuation(void);
+#endif
+
+           SFReal32            *editSFQuadraticAttenuation(void);
+     const SFReal32            *getSFQuadraticAttenuation(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFQuadraticAttenuation(void);
+#endif
+
+           SFReal32            *editSFShadowIntensity(void);
+     const SFReal32            *getSFShadowIntensity(void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFShadowIntensity(void);
+#endif
+
+           SFUInt32            *editSFShadowMode     (void);
+     const SFUInt32            *getSFShadowMode     (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFShadowMode     (void);
+#endif
+
+
+           Color4f             &editAmbient        (void);
      const Color4f             &getAmbient        (void) const;
-           Color4f             &getDiffuse        (void);
+#ifndef OSG_2_PREP
+           Color4f             &getAmbient        (void);
+#endif
+
+           Color4f             &editDiffuse        (void);
      const Color4f             &getDiffuse        (void) const;
-           Color4f             &getSpecular       (void);
+#ifndef OSG_2_PREP
+           Color4f             &getDiffuse        (void);
+#endif
+
+           Color4f             &editSpecular       (void);
      const Color4f             &getSpecular       (void) const;
-           NodePtr             &getBeacon         (void);
+#ifndef OSG_2_PREP
+           Color4f             &getSpecular       (void);
+#endif
+
+           NodePtr             &editBeacon         (void);
      const NodePtr             &getBeacon         (void) const;
-           bool                &getOn             (void);
+#ifndef OSG_2_PREP
+           NodePtr             &getBeacon         (void);
+#endif
+
+           bool                &editOn             (void);
      const bool                &getOn             (void) const;
-           Real32              &getConstantAttenuation(void);
+#ifndef OSG_2_PREP
+           bool                &getOn             (void);
+#endif
+
+           Real32              &editConstantAttenuation(void);
      const Real32              &getConstantAttenuation(void) const;
-           Real32              &getLinearAttenuation(void);
+#ifndef OSG_2_PREP
+           Real32              &getConstantAttenuation(void);
+#endif
+
+           Real32              &editLinearAttenuation(void);
      const Real32              &getLinearAttenuation(void) const;
-           Real32              &getQuadraticAttenuation(void);
+#ifndef OSG_2_PREP
+           Real32              &getLinearAttenuation(void);
+#endif
+
+           Real32              &editQuadraticAttenuation(void);
      const Real32              &getQuadraticAttenuation(void) const;
-           Real32              &getShadowIntensity(void);
+#ifndef OSG_2_PREP
+           Real32              &getQuadraticAttenuation(void);
+#endif
+
+           Real32              &editShadowIntensity(void);
      const Real32              &getShadowIntensity(void) const;
-           UInt32              &getShadowMode     (void);
+#ifndef OSG_2_PREP
+           Real32              &getShadowIntensity(void);
+#endif
+
+           UInt32              &editShadowMode     (void);
      const UInt32              &getShadowMode     (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getShadowMode     (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

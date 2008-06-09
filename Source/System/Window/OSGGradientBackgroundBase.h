@@ -128,10 +128,21 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFInt32             *getSFClearStencilBit(void);
 
-           Int32               &getClearStencilBit(void);
+           SFInt32             *editSFClearStencilBit(void);
+     const SFInt32             *getSFClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFClearStencilBit(void);
+#endif
+
+
+           Int32               &editClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
+#ifndef OSG_2_PREP
+           Int32               &getClearStencilBit(void);
+#endif
+
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -205,15 +216,29 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           MFColor3f           *editMFColor          (void);
+     const MFColor3f           *getMFColor          (void) const;
+#ifndef OSG_2_PREP
            MFColor3f           *getMFColor          (void);
+#endif
+           MFReal32            *editMFPosition       (void);
+     const MFReal32            *getMFPosition       (void) const;
+#ifndef OSG_2_PREP
            MFReal32            *getMFPosition       (void);
+#endif
 
+           Color3f             &editColor          (UInt32 index);
+     const Color3f             &getColor          (UInt32 index) const;
+#ifndef OSG_2_PREP
            Color3f             &getColor          (UInt32 index);
            MFColor3f           &getColor          (void);
-     const MFColor3f           &getColor          (void) const;
+#endif
+           Real32              &editPosition       (UInt32 index);
+     const Real32              &getPosition       (UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getPosition       (UInt32 index);
            MFReal32            &getPosition       (void);
-     const MFReal32            &getPosition       (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

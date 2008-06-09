@@ -137,22 +137,68 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLFontBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFName           (void);
-           SFUInt32            *getSFDrawType       (void);
-           SFUInt32            *getSFSize           (void);
-           SFUInt32            *getSFRes            (void);
-           SFReal32            *getSFDepth          (void);
 
-           std::string         &getName           (void);
+           SFString            *editSFName           (void);
+     const SFString            *getSFName           (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFName           (void);
+#endif
+
+           SFUInt32            *editSFDrawType       (void);
+     const SFUInt32            *getSFDrawType       (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFDrawType       (void);
+#endif
+
+           SFUInt32            *editSFSize           (void);
+     const SFUInt32            *getSFSize           (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFSize           (void);
+#endif
+
+           SFUInt32            *editSFRes            (void);
+     const SFUInt32            *getSFRes            (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFRes            (void);
+#endif
+
+           SFReal32            *editSFDepth          (void);
+     const SFReal32            *getSFDepth          (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFDepth          (void);
+#endif
+
+
+           std::string         &editName           (void);
      const std::string         &getName           (void) const;
-           UInt32              &getDrawType       (void);
+#ifndef OSG_2_PREP
+           std::string         &getName           (void);
+#endif
+
+           UInt32              &editDrawType       (void);
      const UInt32              &getDrawType       (void) const;
-           UInt32              &getSize           (void);
+#ifndef OSG_2_PREP
+           UInt32              &getDrawType       (void);
+#endif
+
+           UInt32              &editSize           (void);
      const UInt32              &getSize           (void) const;
-           UInt32              &getRes            (void);
+#ifndef OSG_2_PREP
+           UInt32              &getSize           (void);
+#endif
+
+           UInt32              &editRes            (void);
      const UInt32              &getRes            (void) const;
-           Real32              &getDepth          (void);
+#ifndef OSG_2_PREP
+           UInt32              &getRes            (void);
+#endif
+
+           Real32              &editDepth          (void);
      const Real32              &getDepth          (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getDepth          (void);
+#endif
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -233,10 +279,17 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLFontBase : public FieldContainer
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           SFUInt32            *editSFGLId           (void);
+     const SFUInt32            *getSFGLId           (void) const;
+#ifndef OSG_2_PREP
            SFUInt32            *getSFGLId           (void);
+#endif
 
-           UInt32              &getGLId           (void);
+           UInt32              &editGLId           (void);
      const UInt32              &getGLId           (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getGLId           (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -306,6 +359,6 @@ typedef RefPtr<FTGLFontPtr> FTGLFontRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLFONTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLFontBase.h,v 1.8 2008/06/05 05:02:15 vossg Exp $"
+#define OSGFTGLFONTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLFontBase.h,v 1.9 2008/06/09 07:31:38 vossg Exp $"
 
 #endif /* _OSGFTGLFONTBASE_H_ */

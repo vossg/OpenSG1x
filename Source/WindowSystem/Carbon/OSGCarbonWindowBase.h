@@ -122,10 +122,19 @@ class OSG_WINDOWCARBONLIB_DLLMAPPING CarbonWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFAGLContext        *getSFContext        (void);
 
-           AGLContext          &getContext        (void);
+           SFAGLContext        *editSFContext        (void);
+     const SFAGLContext        *getSFContext        (void) const;
+#ifndef OSG_2_PREP
+           SFAGLContext        *getSFContext        (void);
+#endif
+
+
+           AGLContext          &editContext        (void);
      const AGLContext          &getContext        (void) const;
+#ifndef OSG_2_PREP
+           AGLContext          &getContext        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<CarbonWindowPtr> CarbonWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCARBONWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCarbonWindowBase.h,v 1.2 2008/06/05 05:02:32 vossg Exp $"
+#define OSGCARBONWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCarbonWindowBase.h,v 1.3 2008/06/09 07:31:58 vossg Exp $"
 
 #endif /* _OSGCARBONWINDOWBASE_H_ */

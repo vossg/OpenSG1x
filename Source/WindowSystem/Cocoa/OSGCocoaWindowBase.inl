@@ -98,15 +98,31 @@ CocoaWindowPtr CocoaWindowBase::createEmpty(void)
 
 //! Get the CocoaWindow::_sfContext field.
 inline
-SFNSOpenGLContextP *CocoaWindowBase::getSFContext(void)
+const SFNSOpenGLContextP *CocoaWindowBase::getSFContext(void) const
 {
     return &_sfContext;
 }
 
+//! Get the CocoaWindow::_sfContext field.
+inline
+SFNSOpenGLContextP *CocoaWindowBase::editSFContext(void)
+{
+    return &_sfContext;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CocoaWindow::_sfContext field.
+inline
+SFNSOpenGLContextP *CocoaWindowBase::getSFContext(void)
+{
+    return &_sfContext;
+}
+#endif
+
 
 //! Get the value of the CocoaWindow::_sfContext field.
 inline
-NSOpenGLContextP &CocoaWindowBase::getContext(void)
+NSOpenGLContextP &CocoaWindowBase::editContext(void)
 {
     return _sfContext.getValue();
 }
@@ -118,6 +134,15 @@ const NSOpenGLContextP &CocoaWindowBase::getContext(void) const
     return _sfContext.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the CocoaWindow::_sfContext field.
+inline
+NSOpenGLContextP &CocoaWindowBase::getContext(void)
+{
+    return _sfContext.getValue();
+}
+#endif
+
 //! Set the value of the CocoaWindow::_sfContext field.
 inline
 void CocoaWindowBase::setContext(const NSOpenGLContextP &value)
@@ -128,5 +153,5 @@ void CocoaWindowBase::setContext(const NSOpenGLContextP &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCOCOAWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCocoaWindowBase.inl,v 1.2 2008/06/05 05:02:33 vossg Exp $"
+#define OSGCOCOAWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCocoaWindowBase.inl,v 1.3 2008/06/09 07:31:58 vossg Exp $"
 

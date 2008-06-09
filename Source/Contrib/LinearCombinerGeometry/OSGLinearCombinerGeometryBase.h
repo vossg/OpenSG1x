@@ -137,15 +137,37 @@ class OSG_CONTRIBLIB_DLLMAPPING LinearCombinerGeometryBase : public Geometry
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           MFReal32            *getMFWeights        (void);
-           MFGeoPositionsPtr   *getMFSrcpositions   (void);
 
+           MFReal32            *editMFWeights        (void);
+     const MFReal32            *getMFWeights        (void) const;
+#ifndef OSG_2_PREP
+           MFReal32            *getMFWeights        (void);
+#endif
+
+           MFGeoPositionsPtr   *editMFSrcpositions   (void);
+     const MFGeoPositionsPtr   *getMFSrcpositions   (void) const;
+#ifndef OSG_2_PREP
+           MFGeoPositionsPtr   *getMFSrcpositions   (void);
+#endif
+
+
+
+
+
+           Real32              &editWeights        (const UInt32 index);
+     const Real32              &getWeights        (const UInt32 index) const;
+#ifndef OSG_2_PREP
            Real32              &getWeights        (const UInt32 index);
            MFReal32            &getWeights        (void);
-     const MFReal32            &getWeights        (void) const;
+#endif
+
+           GeoPositionsPtr     &editSrcpositions   (const UInt32 index);
+     const GeoPositionsPtr     &getSrcpositions   (const UInt32 index) const;
+#ifndef OSG_2_PREP
            GeoPositionsPtr     &getSrcpositions   (const UInt32 index);
            MFGeoPositionsPtr   &getSrcpositions   (void);
-     const MFGeoPositionsPtr   &getSrcpositions   (void) const;
+#endif
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -221,20 +243,48 @@ class OSG_CONTRIBLIB_DLLMAPPING LinearCombinerGeometryBase : public Geometry
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
+           MFVolume            *editMFSrcvolumes     (void);
+     const MFVolume            *getMFSrcvolumes     (void) const;
+#ifndef OSG_2_PREP
            MFVolume            *getMFSrcvolumes     (void);
+#endif
+           SFBool              *editSFRecalconrender (void);
+     const SFBool              *getSFRecalconrender (void) const;
+#ifndef OSG_2_PREP
            SFBool              *getSFRecalconrender (void);
+#endif
+           SFBool              *editSFAllgeometries3f(void);
+     const SFBool              *getSFAllgeometries3f(void) const;
+#ifndef OSG_2_PREP
            SFBool              *getSFAllgeometries3f(void);
+#endif
+           SFBool              *editSFPositionsdirty (void);
+     const SFBool              *getSFPositionsdirty (void) const;
+#ifndef OSG_2_PREP
            SFBool              *getSFPositionsdirty (void);
+#endif
 
-           bool                &getRecalconrender (void);
+           bool                &editRecalconrender (void);
      const bool                &getRecalconrender (void) const;
-           bool                &getAllgeometries3f(void);
+#ifndef OSG_2_PREP
+           bool                &getRecalconrender (void);
+#endif
+           bool                &editAllgeometries3f(void);
      const bool                &getAllgeometries3f(void) const;
-           bool                &getPositionsdirty (void);
+#ifndef OSG_2_PREP
+           bool                &getAllgeometries3f(void);
+#endif
+           bool                &editPositionsdirty (void);
      const bool                &getPositionsdirty (void) const;
+#ifndef OSG_2_PREP
+           bool                &getPositionsdirty (void);
+#endif
+           Volume              &editSrcvolumes     (UInt32 index);
+     const Volume              &getSrcvolumes     (UInt32 index) const;
+#ifndef OSG_2_PREP
            Volume              &getSrcvolumes     (UInt32 index);
            MFVolume            &getSrcvolumes     (void);
-     const MFVolume            &getSrcvolumes     (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

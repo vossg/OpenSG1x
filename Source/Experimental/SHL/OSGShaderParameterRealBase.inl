@@ -98,15 +98,31 @@ ShaderParameterRealPtr ShaderParameterRealBase::createEmpty(void)
 
 //! Get the ShaderParameterReal::_sfValue field.
 inline
-SFReal32 *ShaderParameterRealBase::getSFValue(void)
+const SFReal32 *ShaderParameterRealBase::getSFValue(void) const
 {
     return &_sfValue;
 }
 
+//! Get the ShaderParameterReal::_sfValue field.
+inline
+SFReal32 *ShaderParameterRealBase::editSFValue(void)
+{
+    return &_sfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterReal::_sfValue field.
+inline
+SFReal32 *ShaderParameterRealBase::getSFValue(void)
+{
+    return &_sfValue;
+}
+#endif
+
 
 //! Get the value of the ShaderParameterReal::_sfValue field.
 inline
-Real32 &ShaderParameterRealBase::getValue(void)
+Real32 &ShaderParameterRealBase::editValue(void)
 {
     return _sfValue.getValue();
 }
@@ -118,6 +134,15 @@ const Real32 &ShaderParameterRealBase::getValue(void) const
     return _sfValue.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the ShaderParameterReal::_sfValue field.
+inline
+Real32 &ShaderParameterRealBase::getValue(void)
+{
+    return _sfValue.getValue();
+}
+#endif
+
 //! Set the value of the ShaderParameterReal::_sfValue field.
 inline
 void ShaderParameterRealBase::setValue(const Real32 &value)
@@ -128,5 +153,5 @@ void ShaderParameterRealBase::setValue(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERREALBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterRealBase.inl,v 1.6 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERREALBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterRealBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
 

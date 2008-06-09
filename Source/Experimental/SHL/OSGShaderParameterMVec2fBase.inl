@@ -98,13 +98,44 @@ ShaderParameterMVec2fPtr ShaderParameterMVec2fBase::createEmpty(void)
 
 //! Get the ShaderParameterMVec2f::_mfValue field.
 inline
-MFVec2f *ShaderParameterMVec2fBase::getMFValue(void)
+const MFVec2f *ShaderParameterMVec2fBase::getMFValue(void) const
 {
     return &_mfValue;
 }
 
+//! Get the ShaderParameterMVec2f::_mfValue field.
+inline
+MFVec2f *ShaderParameterMVec2fBase::editMFValue(void)
+{
+    return &_mfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterMVec2f::_mfValue field.
+inline
+MFVec2f *ShaderParameterMVec2fBase::getMFValue(void)
+{
+    return &_mfValue;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the ShaderParameterMVec2f::_mfValue field.
+inline
+Vec2f &ShaderParameterMVec2fBase::editValue(const UInt32 index)
+{
+    return _mfValue[index];
+}
+
+//! Get the value of the \a index element the ShaderParameterMVec2f::_mfValue field.
+inline
+const Vec2f &ShaderParameterMVec2fBase::getValue(const UInt32 index) const
+{
+    return _mfValue[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ShaderParameterMVec2f::_mfValue field.
 inline
 Vec2f &ShaderParameterMVec2fBase::getValue(const UInt32 index)
@@ -119,14 +150,9 @@ MFVec2f &ShaderParameterMVec2fBase::getValue(void)
     return _mfValue;
 }
 
-//! Get the ShaderParameterMVec2f::_mfValue field.
-inline
-const MFVec2f &ShaderParameterMVec2fBase::getValue(void) const
-{
-    return _mfValue;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMVEC2FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMVec2fBase.inl,v 1.2 2008/06/05 05:02:22 vossg Exp $"
+#define OSGSHADERPARAMETERMVEC2FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMVec2fBase.inl,v 1.3 2008/06/09 07:31:44 vossg Exp $"
 

@@ -92,12 +92,12 @@ FieldDescription *PhysicsAMotorJointBase::_desc[] =
                      "mode", 
                      ModeFieldId, ModeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsAMotorJointBase::getSFMode)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsAMotorJointBase::editSFMode)),
     new FieldDescription(SFInt32::getClassType(), 
                      "numAxes", 
                      NumAxesFieldId, NumAxesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsAMotorJointBase::getSFNumAxes))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsAMotorJointBase::editSFNumAxes))
 };
 
 
@@ -325,7 +325,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsAMotorJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsAMotorJointBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsAMotorJointBase.cpp,v 1.4 2008/06/09 07:31:38 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSAMOTORJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSAMOTORJOINTBASE_INLINE_CVSID;
 

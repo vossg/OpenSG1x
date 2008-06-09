@@ -92,12 +92,12 @@ FieldDescription *PhysicsHandlerBase::_desc[] =
                      "world", 
                      WorldFieldId, WorldFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsHandlerBase::getSFWorld)),
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHandlerBase::editSFWorld)),
     new FieldDescription(SFPhysicsSpacePtr::getClassType(), 
                      "space", 
                      SpaceFieldId, SpaceFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&PhysicsHandlerBase::getSFSpace))
+                     reinterpret_cast<FieldAccessMethod>(&PhysicsHandlerBase::editSFSpace))
 };
 
 
@@ -325,7 +325,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsHandlerPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHandlerBase.cpp,v 1.3 2008/06/05 05:02:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHandlerBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHANDLERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHANDLERBASE_INLINE_CVSID;
 

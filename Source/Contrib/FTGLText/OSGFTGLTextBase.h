@@ -128,16 +128,43 @@ class OSG_CONTRIBLIB_DLLMAPPING FTGLTextBase : public MaterialDrawable
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFString            *getSFText           (void);
-           SFFTGLFontPtr       *getSFFont           (void);
-           SFPnt3f             *getSFPosition       (void);
 
-           std::string         &getText           (void);
+           SFString            *editSFText           (void);
+     const SFString            *getSFText           (void) const;
+#ifndef OSG_2_PREP
+           SFString            *getSFText           (void);
+#endif
+
+           SFFTGLFontPtr       *editSFFont           (void);
+     const SFFTGLFontPtr       *getSFFont           (void) const;
+#ifndef OSG_2_PREP
+           SFFTGLFontPtr       *getSFFont           (void);
+#endif
+
+           SFPnt3f             *editSFPosition       (void);
+     const SFPnt3f             *getSFPosition       (void) const;
+#ifndef OSG_2_PREP
+           SFPnt3f             *getSFPosition       (void);
+#endif
+
+
+           std::string         &editText           (void);
      const std::string         &getText           (void) const;
-           FTGLFontPtr         &getFont           (void);
+#ifndef OSG_2_PREP
+           std::string         &getText           (void);
+#endif
+
+           FTGLFontPtr         &editFont           (void);
      const FTGLFontPtr         &getFont           (void) const;
-           Pnt3f               &getPosition       (void);
+#ifndef OSG_2_PREP
+           FTGLFontPtr         &getFont           (void);
+#endif
+
+           Pnt3f               &editPosition       (void);
      const Pnt3f               &getPosition       (void) const;
+#ifndef OSG_2_PREP
+           Pnt3f               &getPosition       (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -269,6 +296,6 @@ typedef RefPtr<FTGLTextPtr> FTGLTextRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.8 2008/06/05 05:02:15 vossg Exp $"
+#define OSGFTGLTEXTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLTextBase.h,v 1.9 2008/06/09 07:31:38 vossg Exp $"
 
 #endif /* _OSGFTGLTEXTBASE_H_ */

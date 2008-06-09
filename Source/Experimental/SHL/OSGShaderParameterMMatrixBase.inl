@@ -98,13 +98,44 @@ ShaderParameterMMatrixPtr ShaderParameterMMatrixBase::createEmpty(void)
 
 //! Get the ShaderParameterMMatrix::_mfValue field.
 inline
-MFMatrix *ShaderParameterMMatrixBase::getMFValue(void)
+const MFMatrix *ShaderParameterMMatrixBase::getMFValue(void) const
 {
     return &_mfValue;
 }
 
+//! Get the ShaderParameterMMatrix::_mfValue field.
+inline
+MFMatrix *ShaderParameterMMatrixBase::editMFValue(void)
+{
+    return &_mfValue;
+}
+
+#ifndef OSG_2_PREP
+//! Get the ShaderParameterMMatrix::_mfValue field.
+inline
+MFMatrix *ShaderParameterMMatrixBase::getMFValue(void)
+{
+    return &_mfValue;
+}
+#endif
 
 
+
+//! Get the value of the \a index element the ShaderParameterMMatrix::_mfValue field.
+inline
+Matrix &ShaderParameterMMatrixBase::editValue(const UInt32 index)
+{
+    return _mfValue[index];
+}
+
+//! Get the value of the \a index element the ShaderParameterMMatrix::_mfValue field.
+inline
+const Matrix &ShaderParameterMMatrixBase::getValue(const UInt32 index) const
+{
+    return _mfValue[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the ShaderParameterMMatrix::_mfValue field.
 inline
 Matrix &ShaderParameterMMatrixBase::getValue(const UInt32 index)
@@ -119,14 +150,9 @@ MFMatrix &ShaderParameterMMatrixBase::getValue(void)
     return _mfValue;
 }
 
-//! Get the ShaderParameterMMatrix::_mfValue field.
-inline
-const MFMatrix &ShaderParameterMMatrixBase::getValue(void) const
-{
-    return _mfValue;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMMATRIXBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMMatrixBase.inl,v 1.2 2008/06/05 05:02:21 vossg Exp $"
+#define OSGSHADERPARAMETERMMATRIXBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMMatrixBase.inl,v 1.3 2008/06/09 07:31:44 vossg Exp $"
 

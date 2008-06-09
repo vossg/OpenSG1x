@@ -98,43 +98,123 @@ MultiDisplayWindowPtr MultiDisplayWindowBase::createEmpty(void)
 
 //! Get the MultiDisplayWindow::_sfHServers field.
 inline
-SFUInt32 *MultiDisplayWindowBase::getSFHServers(void)
+const SFUInt32 *MultiDisplayWindowBase::getSFHServers(void) const
 {
     return &_sfHServers;
 }
 
+//! Get the MultiDisplayWindow::_sfHServers field.
+inline
+SFUInt32 *MultiDisplayWindowBase::editSFHServers(void)
+{
+    return &_sfHServers;
+}
+
+#ifndef OSG_2_PREP
+//! Get the MultiDisplayWindow::_sfHServers field.
+inline
+SFUInt32 *MultiDisplayWindowBase::getSFHServers(void)
+{
+    return &_sfHServers;
+}
+#endif
+
+//! Get the MultiDisplayWindow::_sfVServers field.
+inline
+const SFUInt32 *MultiDisplayWindowBase::getSFVServers(void) const
+{
+    return &_sfVServers;
+}
+
+//! Get the MultiDisplayWindow::_sfVServers field.
+inline
+SFUInt32 *MultiDisplayWindowBase::editSFVServers(void)
+{
+    return &_sfVServers;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MultiDisplayWindow::_sfVServers field.
 inline
 SFUInt32 *MultiDisplayWindowBase::getSFVServers(void)
 {
     return &_sfVServers;
 }
+#endif
 
+//! Get the MultiDisplayWindow::_sfManageClientViewports field.
+inline
+const SFBool *MultiDisplayWindowBase::getSFManageClientViewports(void) const
+{
+    return &_sfManageClientViewports;
+}
+
+//! Get the MultiDisplayWindow::_sfManageClientViewports field.
+inline
+SFBool *MultiDisplayWindowBase::editSFManageClientViewports(void)
+{
+    return &_sfManageClientViewports;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MultiDisplayWindow::_sfManageClientViewports field.
 inline
 SFBool *MultiDisplayWindowBase::getSFManageClientViewports(void)
 {
     return &_sfManageClientViewports;
 }
+#endif
 
+//! Get the MultiDisplayWindow::_sfXOverlap field.
+inline
+const SFInt32 *MultiDisplayWindowBase::getSFXOverlap(void) const
+{
+    return &_sfXOverlap;
+}
+
+//! Get the MultiDisplayWindow::_sfXOverlap field.
+inline
+SFInt32 *MultiDisplayWindowBase::editSFXOverlap(void)
+{
+    return &_sfXOverlap;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MultiDisplayWindow::_sfXOverlap field.
 inline
 SFInt32 *MultiDisplayWindowBase::getSFXOverlap(void)
 {
     return &_sfXOverlap;
 }
+#endif
 
+//! Get the MultiDisplayWindow::_sfYOverlap field.
+inline
+const SFInt32 *MultiDisplayWindowBase::getSFYOverlap(void) const
+{
+    return &_sfYOverlap;
+}
+
+//! Get the MultiDisplayWindow::_sfYOverlap field.
+inline
+SFInt32 *MultiDisplayWindowBase::editSFYOverlap(void)
+{
+    return &_sfYOverlap;
+}
+
+#ifndef OSG_2_PREP
 //! Get the MultiDisplayWindow::_sfYOverlap field.
 inline
 SFInt32 *MultiDisplayWindowBase::getSFYOverlap(void)
 {
     return &_sfYOverlap;
 }
+#endif
 
 
 //! Get the value of the MultiDisplayWindow::_sfHServers field.
 inline
-UInt32 &MultiDisplayWindowBase::getHServers(void)
+UInt32 &MultiDisplayWindowBase::editHServers(void)
 {
     return _sfHServers.getValue();
 }
@@ -146,6 +226,15 @@ const UInt32 &MultiDisplayWindowBase::getHServers(void) const
     return _sfHServers.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MultiDisplayWindow::_sfHServers field.
+inline
+UInt32 &MultiDisplayWindowBase::getHServers(void)
+{
+    return _sfHServers.getValue();
+}
+#endif
+
 //! Set the value of the MultiDisplayWindow::_sfHServers field.
 inline
 void MultiDisplayWindowBase::setHServers(const UInt32 &value)
@@ -155,7 +244,7 @@ void MultiDisplayWindowBase::setHServers(const UInt32 &value)
 
 //! Get the value of the MultiDisplayWindow::_sfVServers field.
 inline
-UInt32 &MultiDisplayWindowBase::getVServers(void)
+UInt32 &MultiDisplayWindowBase::editVServers(void)
 {
     return _sfVServers.getValue();
 }
@@ -167,6 +256,15 @@ const UInt32 &MultiDisplayWindowBase::getVServers(void) const
     return _sfVServers.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MultiDisplayWindow::_sfVServers field.
+inline
+UInt32 &MultiDisplayWindowBase::getVServers(void)
+{
+    return _sfVServers.getValue();
+}
+#endif
+
 //! Set the value of the MultiDisplayWindow::_sfVServers field.
 inline
 void MultiDisplayWindowBase::setVServers(const UInt32 &value)
@@ -176,7 +274,7 @@ void MultiDisplayWindowBase::setVServers(const UInt32 &value)
 
 //! Get the value of the MultiDisplayWindow::_sfManageClientViewports field.
 inline
-bool &MultiDisplayWindowBase::getManageClientViewports(void)
+bool &MultiDisplayWindowBase::editManageClientViewports(void)
 {
     return _sfManageClientViewports.getValue();
 }
@@ -188,6 +286,15 @@ const bool &MultiDisplayWindowBase::getManageClientViewports(void) const
     return _sfManageClientViewports.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MultiDisplayWindow::_sfManageClientViewports field.
+inline
+bool &MultiDisplayWindowBase::getManageClientViewports(void)
+{
+    return _sfManageClientViewports.getValue();
+}
+#endif
+
 //! Set the value of the MultiDisplayWindow::_sfManageClientViewports field.
 inline
 void MultiDisplayWindowBase::setManageClientViewports(const bool &value)
@@ -197,7 +304,7 @@ void MultiDisplayWindowBase::setManageClientViewports(const bool &value)
 
 //! Get the value of the MultiDisplayWindow::_sfXOverlap field.
 inline
-Int32 &MultiDisplayWindowBase::getXOverlap(void)
+Int32 &MultiDisplayWindowBase::editXOverlap(void)
 {
     return _sfXOverlap.getValue();
 }
@@ -209,6 +316,15 @@ const Int32 &MultiDisplayWindowBase::getXOverlap(void) const
     return _sfXOverlap.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the MultiDisplayWindow::_sfXOverlap field.
+inline
+Int32 &MultiDisplayWindowBase::getXOverlap(void)
+{
+    return _sfXOverlap.getValue();
+}
+#endif
+
 //! Set the value of the MultiDisplayWindow::_sfXOverlap field.
 inline
 void MultiDisplayWindowBase::setXOverlap(const Int32 &value)
@@ -218,7 +334,7 @@ void MultiDisplayWindowBase::setXOverlap(const Int32 &value)
 
 //! Get the value of the MultiDisplayWindow::_sfYOverlap field.
 inline
-Int32 &MultiDisplayWindowBase::getYOverlap(void)
+Int32 &MultiDisplayWindowBase::editYOverlap(void)
 {
     return _sfYOverlap.getValue();
 }
@@ -229,6 +345,15 @@ const Int32 &MultiDisplayWindowBase::getYOverlap(void) const
 {
     return _sfYOverlap.getValue();
 }
+
+#ifndef OSG_2_PREP
+//! Get the value of the MultiDisplayWindow::_sfYOverlap field.
+inline
+Int32 &MultiDisplayWindowBase::getYOverlap(void)
+{
+    return _sfYOverlap.getValue();
+}
+#endif
 
 //! Set the value of the MultiDisplayWindow::_sfYOverlap field.
 inline

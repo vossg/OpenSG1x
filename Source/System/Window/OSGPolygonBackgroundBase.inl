@@ -98,85 +98,261 @@ PolygonBackgroundPtr PolygonBackgroundBase::createEmpty(void)
 
 //! Get the PolygonBackground::_sfMaterial field.
 inline
-SFMaterialPtr *PolygonBackgroundBase::getSFMaterial(void)
+const SFMaterialPtr *PolygonBackgroundBase::getSFMaterial(void) const
 {
     return &_sfMaterial;
 }
 
+//! Get the PolygonBackground::_sfMaterial field.
+inline
+SFMaterialPtr *PolygonBackgroundBase::editSFMaterial(void)
+{
+    return &_sfMaterial;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PolygonBackground::_sfMaterial field.
+inline
+SFMaterialPtr *PolygonBackgroundBase::getSFMaterial(void)
+{
+    return &_sfMaterial;
+}
+#endif
+
+//! Get the PolygonBackground::_mfTexCoords field.
+inline
+const MFVec3f *PolygonBackgroundBase::getMFTexCoords(void) const
+{
+    return &_mfTexCoords;
+}
+
+//! Get the PolygonBackground::_mfTexCoords field.
+inline
+MFVec3f *PolygonBackgroundBase::editMFTexCoords(void)
+{
+    return &_mfTexCoords;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_mfTexCoords field.
 inline
 MFVec3f *PolygonBackgroundBase::getMFTexCoords(void)
 {
     return &_mfTexCoords;
 }
+#endif
 
+//! Get the PolygonBackground::_mfPositions field.
+inline
+const MFPnt2f *PolygonBackgroundBase::getMFPositions(void) const
+{
+    return &_mfPositions;
+}
+
+//! Get the PolygonBackground::_mfPositions field.
+inline
+MFPnt2f *PolygonBackgroundBase::editMFPositions(void)
+{
+    return &_mfPositions;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_mfPositions field.
 inline
 MFPnt2f *PolygonBackgroundBase::getMFPositions(void)
 {
     return &_mfPositions;
 }
+#endif
 
+//! Get the PolygonBackground::_sfNormalizedX field.
+inline
+const SFBool *PolygonBackgroundBase::getSFNormalizedX(void) const
+{
+    return &_sfNormalizedX;
+}
+
+//! Get the PolygonBackground::_sfNormalizedX field.
+inline
+SFBool *PolygonBackgroundBase::editSFNormalizedX(void)
+{
+    return &_sfNormalizedX;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_sfNormalizedX field.
 inline
 SFBool *PolygonBackgroundBase::getSFNormalizedX(void)
 {
     return &_sfNormalizedX;
 }
+#endif
 
+//! Get the PolygonBackground::_sfNormalizedY field.
+inline
+const SFBool *PolygonBackgroundBase::getSFNormalizedY(void) const
+{
+    return &_sfNormalizedY;
+}
+
+//! Get the PolygonBackground::_sfNormalizedY field.
+inline
+SFBool *PolygonBackgroundBase::editSFNormalizedY(void)
+{
+    return &_sfNormalizedY;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_sfNormalizedY field.
 inline
 SFBool *PolygonBackgroundBase::getSFNormalizedY(void)
 {
     return &_sfNormalizedY;
 }
+#endif
 
+//! Get the PolygonBackground::_sfAspectHeight field.
+inline
+const SFUInt16 *PolygonBackgroundBase::getSFAspectHeight(void) const
+{
+    return &_sfAspectHeight;
+}
+
+//! Get the PolygonBackground::_sfAspectHeight field.
+inline
+SFUInt16 *PolygonBackgroundBase::editSFAspectHeight(void)
+{
+    return &_sfAspectHeight;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_sfAspectHeight field.
 inline
 SFUInt16 *PolygonBackgroundBase::getSFAspectHeight(void)
 {
     return &_sfAspectHeight;
 }
+#endif
 
+//! Get the PolygonBackground::_sfAspectWidth field.
+inline
+const SFUInt16 *PolygonBackgroundBase::getSFAspectWidth(void) const
+{
+    return &_sfAspectWidth;
+}
+
+//! Get the PolygonBackground::_sfAspectWidth field.
+inline
+SFUInt16 *PolygonBackgroundBase::editSFAspectWidth(void)
+{
+    return &_sfAspectWidth;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_sfAspectWidth field.
 inline
 SFUInt16 *PolygonBackgroundBase::getSFAspectWidth(void)
 {
     return &_sfAspectWidth;
 }
+#endif
 
+//! Get the PolygonBackground::_sfScale field.
+inline
+const SFReal32 *PolygonBackgroundBase::getSFScale(void) const
+{
+    return &_sfScale;
+}
+
+//! Get the PolygonBackground::_sfScale field.
+inline
+SFReal32 *PolygonBackgroundBase::editSFScale(void)
+{
+    return &_sfScale;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_sfScale field.
 inline
 SFReal32 *PolygonBackgroundBase::getSFScale(void)
 {
     return &_sfScale;
 }
+#endif
 
+//! Get the PolygonBackground::_sfClearStencilBit field.
+inline
+const SFInt32 *PolygonBackgroundBase::getSFClearStencilBit(void) const
+{
+    return &_sfClearStencilBit;
+}
+
+//! Get the PolygonBackground::_sfClearStencilBit field.
+inline
+SFInt32 *PolygonBackgroundBase::editSFClearStencilBit(void)
+{
+    return &_sfClearStencilBit;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_sfClearStencilBit field.
 inline
 SFInt32 *PolygonBackgroundBase::getSFClearStencilBit(void)
 {
     return &_sfClearStencilBit;
 }
+#endif
 
+//! Get the PolygonBackground::_sfCleanup field.
+inline
+const SFBool *PolygonBackgroundBase::getSFCleanup(void) const
+{
+    return &_sfCleanup;
+}
+
+//! Get the PolygonBackground::_sfCleanup field.
+inline
+SFBool *PolygonBackgroundBase::editSFCleanup(void)
+{
+    return &_sfCleanup;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_sfCleanup field.
 inline
 SFBool *PolygonBackgroundBase::getSFCleanup(void)
 {
     return &_sfCleanup;
 }
+#endif
 
+//! Get the PolygonBackground::_sfTile field.
+inline
+const SFBool *PolygonBackgroundBase::getSFTile(void) const
+{
+    return &_sfTile;
+}
+
+//! Get the PolygonBackground::_sfTile field.
+inline
+SFBool *PolygonBackgroundBase::editSFTile(void)
+{
+    return &_sfTile;
+}
+
+#ifndef OSG_2_PREP
 //! Get the PolygonBackground::_sfTile field.
 inline
 SFBool *PolygonBackgroundBase::getSFTile(void)
 {
     return &_sfTile;
 }
+#endif
 
 
 //! Get the value of the PolygonBackground::_sfMaterial field.
 inline
-MaterialPtr &PolygonBackgroundBase::getMaterial(void)
+MaterialPtr &PolygonBackgroundBase::editMaterial(void)
 {
     return _sfMaterial.getValue();
 }
@@ -188,6 +364,15 @@ const MaterialPtr &PolygonBackgroundBase::getMaterial(void) const
     return _sfMaterial.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfMaterial field.
+inline
+MaterialPtr &PolygonBackgroundBase::getMaterial(void)
+{
+    return _sfMaterial.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfMaterial field.
 inline
 void PolygonBackgroundBase::setMaterial(const MaterialPtr &value)
@@ -197,7 +382,7 @@ void PolygonBackgroundBase::setMaterial(const MaterialPtr &value)
 
 //! Get the value of the PolygonBackground::_sfNormalizedX field.
 inline
-bool &PolygonBackgroundBase::getNormalizedX(void)
+bool &PolygonBackgroundBase::editNormalizedX(void)
 {
     return _sfNormalizedX.getValue();
 }
@@ -209,6 +394,15 @@ const bool &PolygonBackgroundBase::getNormalizedX(void) const
     return _sfNormalizedX.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfNormalizedX field.
+inline
+bool &PolygonBackgroundBase::getNormalizedX(void)
+{
+    return _sfNormalizedX.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfNormalizedX field.
 inline
 void PolygonBackgroundBase::setNormalizedX(const bool &value)
@@ -218,7 +412,7 @@ void PolygonBackgroundBase::setNormalizedX(const bool &value)
 
 //! Get the value of the PolygonBackground::_sfNormalizedY field.
 inline
-bool &PolygonBackgroundBase::getNormalizedY(void)
+bool &PolygonBackgroundBase::editNormalizedY(void)
 {
     return _sfNormalizedY.getValue();
 }
@@ -230,6 +424,15 @@ const bool &PolygonBackgroundBase::getNormalizedY(void) const
     return _sfNormalizedY.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfNormalizedY field.
+inline
+bool &PolygonBackgroundBase::getNormalizedY(void)
+{
+    return _sfNormalizedY.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfNormalizedY field.
 inline
 void PolygonBackgroundBase::setNormalizedY(const bool &value)
@@ -239,7 +442,7 @@ void PolygonBackgroundBase::setNormalizedY(const bool &value)
 
 //! Get the value of the PolygonBackground::_sfAspectHeight field.
 inline
-UInt16 &PolygonBackgroundBase::getAspectHeight(void)
+UInt16 &PolygonBackgroundBase::editAspectHeight(void)
 {
     return _sfAspectHeight.getValue();
 }
@@ -251,6 +454,15 @@ const UInt16 &PolygonBackgroundBase::getAspectHeight(void) const
     return _sfAspectHeight.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfAspectHeight field.
+inline
+UInt16 &PolygonBackgroundBase::getAspectHeight(void)
+{
+    return _sfAspectHeight.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfAspectHeight field.
 inline
 void PolygonBackgroundBase::setAspectHeight(const UInt16 &value)
@@ -260,7 +472,7 @@ void PolygonBackgroundBase::setAspectHeight(const UInt16 &value)
 
 //! Get the value of the PolygonBackground::_sfAspectWidth field.
 inline
-UInt16 &PolygonBackgroundBase::getAspectWidth(void)
+UInt16 &PolygonBackgroundBase::editAspectWidth(void)
 {
     return _sfAspectWidth.getValue();
 }
@@ -272,6 +484,15 @@ const UInt16 &PolygonBackgroundBase::getAspectWidth(void) const
     return _sfAspectWidth.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfAspectWidth field.
+inline
+UInt16 &PolygonBackgroundBase::getAspectWidth(void)
+{
+    return _sfAspectWidth.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfAspectWidth field.
 inline
 void PolygonBackgroundBase::setAspectWidth(const UInt16 &value)
@@ -281,7 +502,7 @@ void PolygonBackgroundBase::setAspectWidth(const UInt16 &value)
 
 //! Get the value of the PolygonBackground::_sfScale field.
 inline
-Real32 &PolygonBackgroundBase::getScale(void)
+Real32 &PolygonBackgroundBase::editScale(void)
 {
     return _sfScale.getValue();
 }
@@ -293,6 +514,15 @@ const Real32 &PolygonBackgroundBase::getScale(void) const
     return _sfScale.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfScale field.
+inline
+Real32 &PolygonBackgroundBase::getScale(void)
+{
+    return _sfScale.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfScale field.
 inline
 void PolygonBackgroundBase::setScale(const Real32 &value)
@@ -302,7 +532,7 @@ void PolygonBackgroundBase::setScale(const Real32 &value)
 
 //! Get the value of the PolygonBackground::_sfClearStencilBit field.
 inline
-Int32 &PolygonBackgroundBase::getClearStencilBit(void)
+Int32 &PolygonBackgroundBase::editClearStencilBit(void)
 {
     return _sfClearStencilBit.getValue();
 }
@@ -314,6 +544,15 @@ const Int32 &PolygonBackgroundBase::getClearStencilBit(void) const
     return _sfClearStencilBit.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfClearStencilBit field.
+inline
+Int32 &PolygonBackgroundBase::getClearStencilBit(void)
+{
+    return _sfClearStencilBit.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfClearStencilBit field.
 inline
 void PolygonBackgroundBase::setClearStencilBit(const Int32 &value)
@@ -323,7 +562,7 @@ void PolygonBackgroundBase::setClearStencilBit(const Int32 &value)
 
 //! Get the value of the PolygonBackground::_sfCleanup field.
 inline
-bool &PolygonBackgroundBase::getCleanup(void)
+bool &PolygonBackgroundBase::editCleanup(void)
 {
     return _sfCleanup.getValue();
 }
@@ -335,6 +574,15 @@ const bool &PolygonBackgroundBase::getCleanup(void) const
     return _sfCleanup.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfCleanup field.
+inline
+bool &PolygonBackgroundBase::getCleanup(void)
+{
+    return _sfCleanup.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfCleanup field.
 inline
 void PolygonBackgroundBase::setCleanup(const bool &value)
@@ -344,7 +592,7 @@ void PolygonBackgroundBase::setCleanup(const bool &value)
 
 //! Get the value of the PolygonBackground::_sfTile field.
 inline
-bool &PolygonBackgroundBase::getTile(void)
+bool &PolygonBackgroundBase::editTile(void)
 {
     return _sfTile.getValue();
 }
@@ -356,6 +604,15 @@ const bool &PolygonBackgroundBase::getTile(void) const
     return _sfTile.getValue();
 }
 
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfTile field.
+inline
+bool &PolygonBackgroundBase::getTile(void)
+{
+    return _sfTile.getValue();
+}
+#endif
+
 //! Set the value of the PolygonBackground::_sfTile field.
 inline
 void PolygonBackgroundBase::setTile(const bool &value)
@@ -364,6 +621,21 @@ void PolygonBackgroundBase::setTile(const bool &value)
 }
 
 
+//! Get the value of the \a index element the PolygonBackground::_mfTexCoords field.
+inline
+Vec3f &PolygonBackgroundBase::editTexCoords(const UInt32 index)
+{
+    return _mfTexCoords[index];
+}
+
+//! Get the value of the \a index element the PolygonBackground::_mfTexCoords field.
+inline
+const Vec3f &PolygonBackgroundBase::getTexCoords(const UInt32 index) const
+{
+    return _mfTexCoords[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the PolygonBackground::_mfTexCoords field.
 inline
 Vec3f &PolygonBackgroundBase::getTexCoords(const UInt32 index)
@@ -378,13 +650,23 @@ MFVec3f &PolygonBackgroundBase::getTexCoords(void)
     return _mfTexCoords;
 }
 
-//! Get the PolygonBackground::_mfTexCoords field.
+#endif
+
+//! Get the value of the \a index element the PolygonBackground::_mfPositions field.
 inline
-const MFVec3f &PolygonBackgroundBase::getTexCoords(void) const
+Pnt2f &PolygonBackgroundBase::editPositions(const UInt32 index)
 {
-    return _mfTexCoords;
+    return _mfPositions[index];
 }
 
+//! Get the value of the \a index element the PolygonBackground::_mfPositions field.
+inline
+const Pnt2f &PolygonBackgroundBase::getPositions(const UInt32 index) const
+{
+    return _mfPositions[index];
+}
+
+#ifndef OSG_2_PREP
 //! Get the value of the \a index element the PolygonBackground::_mfPositions field.
 inline
 Pnt2f &PolygonBackgroundBase::getPositions(const UInt32 index)
@@ -399,14 +681,9 @@ MFPnt2f &PolygonBackgroundBase::getPositions(void)
     return _mfPositions;
 }
 
-//! Get the PolygonBackground::_mfPositions field.
-inline
-const MFPnt2f &PolygonBackgroundBase::getPositions(void) const
-{
-    return _mfPositions;
-}
+#endif
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.9 2008/06/05 05:02:30 vossg Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.10 2008/06/09 07:31:55 vossg Exp $"
 

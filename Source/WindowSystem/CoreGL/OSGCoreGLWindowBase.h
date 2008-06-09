@@ -122,10 +122,19 @@ class OSG_WINDOWCOREGLLIB_DLLMAPPING CoreGLWindowBase : public Window
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-           SFCGLContextObj     *getSFContext        (void);
 
-           CGLContextObj       &getContext        (void);
+           SFCGLContextObj     *editSFContext        (void);
+     const SFCGLContextObj     *getSFContext        (void) const;
+#ifndef OSG_2_PREP
+           SFCGLContextObj     *getSFContext        (void);
+#endif
+
+
+           CGLContextObj       &editContext        (void);
      const CGLContextObj       &getContext        (void) const;
+#ifndef OSG_2_PREP
+           CGLContextObj       &getContext        (void);
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +262,6 @@ typedef RefPtr<CoreGLWindowPtr> CoreGLWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCOREGLWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCoreGLWindowBase.h,v 1.2 2008/06/05 05:02:33 vossg Exp $"
+#define OSGCOREGLWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCoreGLWindowBase.h,v 1.3 2008/06/09 07:31:58 vossg Exp $"
 
 #endif /* _OSGCOREGLWINDOWBASE_H_ */
