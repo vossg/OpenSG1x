@@ -161,7 +161,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
         geo->getTypes()->getSize() == 0) return 0; //INVALID
 
     if (geo->getIndices() == NullFC) return 128; //NON_INDEXED
-    if (geo->getIndexMapping().size() < 2) return 129; //SINGLE_INDEXED
+    if (geo->getMFIndexMapping()->size() < 2) return 129; //SINGLE_INDEXED
 
     if ((geo->getIndices() != NullFC && 
          geo->getIndices()->getFormatSize() != 4) ||
@@ -172,9 +172,9 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
     
     UInt32 uiIndexMask = 0;
 
-    for(UInt32 i = 0; i < geo->getIndexMapping().size(); ++i)
+    for(UInt32 i = 0; i < geo->getMFIndexMapping()->size(); ++i)
     {
-        uiIndexMask |= geo->getIndexMapping()[i];
+        uiIndexMask |= geo->getIndexMapping(i);
     }
 
     // ok the multi index table supports only 4 texcoord units!
@@ -1270,8 +1270,8 @@ void GeoPump129(Window   *win,
                 if(count != 0)
                 {
                     osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                              geo->getLowindices() [LengthsInd],
-                                              geo->getHighindices()[LengthsInd],
+                                              geo->getLowindices(LengthsInd),
+                                              geo->getHighindices(LengthsInd),
                                               count,
                                               IndicesPtr->getFormat(), 
                                               vind);
@@ -1310,8 +1310,8 @@ void GeoPump129(Window   *win,
                 if(count != 0)
                 {
                     osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                              geo->getLowindices() [LengthsInd],
-                                              geo->getHighindices()[LengthsInd],
+                                              geo->getLowindices(LengthsInd),
+                                              geo->getHighindices(LengthsInd),
                                               count,
                                               IndicesPtr->getFormat(), 
                                               vind);
@@ -1643,7 +1643,7 @@ void GeoPump##func( Window   *win,                                          \
     Int16 PositionIndex = geo->calcMappingIndex(Geometry::MapPosition);     \
                                                                             \
     init;                                                                   \
-    UInt16 nmappings = geo->getIndexMapping().size();                       \
+    UInt16 nmappings = geo->getMFIndexMapping()->size();                    \
                                                                             \
     UInt32 lendummy;                                                        \
     UInt32 LengthSize;                                                      \
@@ -1877,7 +1877,7 @@ void GeoPumpFactory::masterGeoPump(Window   *win,
     }
 
     // find the mapping indices
-    UInt16 nmappings = geo->getIndexMapping().size();
+    UInt16 nmappings = geo->getMFIndexMapping()->size();
     Int16 PositionIndex   = -1,
           NormalIndex     = -1,
           ColorIndex      = -1,
@@ -3141,8 +3141,8 @@ void GeoVBO::draw(void)
             if(count != 0)
             {
                 osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          geo->getLowindices() [LengthsInd],
-                                          geo->getHighindices()[LengthsInd],
+                                          geo->getLowindices(LengthsInd),
+                                          geo->getHighindices(LengthsInd),
                                           count,
                                           IndicesPtr->getFormat(), 
                                           vind);
@@ -3161,8 +3161,8 @@ void GeoVBO::draw(void)
             if(count != 0)
             {
                 osgGLDrawRangeElementsEXT(*(TypesData + TypesInd++ * TypesStride),
-                                          geo->getLowindices() [LengthsInd],
-                                          geo->getHighindices()[LengthsInd],
+                                          geo->getLowindices(LengthsInd),
+                                          geo->getHighindices(LengthsInd),
                                           count,
                                           IndicesPtr->getFormat(),
                                           vind);

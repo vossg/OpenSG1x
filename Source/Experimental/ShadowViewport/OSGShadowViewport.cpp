@@ -285,8 +285,8 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
     {
         FDEBUG(("ShadowViewport::changed : light nodes changed.\n"));
         _lights.clear();
-        for(UInt32 i = 0;i < getLightNodes().getSize();++i)
-            _lights.push_back(std::make_pair(getLightNodes()[i], LightPtr::dcast(getLightNodes()[i]->getCore())));
+        for(UInt32 i = 0;i < getMFLightNodes()->getSize();++i)
+            _lights.push_back(std::make_pair(getLightNodes(i), LightPtr::dcast(getLightNodes(i)->getCore())));
     }
 
     if(whichField & MapAutoUpdateFieldMask)
@@ -537,9 +537,9 @@ void ShadowViewport::render(RenderActionBase *action)
     _excludeNodeActive.clear();
     _realPointLight.clear();
     //get excludeNode states
-    for(UInt32 i = 0;i < getExcludeNodes().getSize();i++)
+    for(UInt32 i = 0;i < getMFExcludeNodes()->getSize();i++)
     {
-        NodePtr exnode = getExcludeNodes()[i];
+        NodePtr exnode = getExcludeNodes(i);
         if(exnode != NullFC)
             _excludeNodeActive.push_back(exnode->getActive());
         else
@@ -588,9 +588,9 @@ void ShadowViewport::render(RenderActionBase *action)
         _windowH = getParent()->getHeight();
 
         //check if excludeNodes are disabled
-        for(UInt32 i = 0;i < getExcludeNodes().getSize();++i)
+        for(UInt32 i = 0;i < getMFExcludeNodes()->getSize();++i)
         {
-            NodePtr exnode = getExcludeNodes()[i];
+            NodePtr exnode = getExcludeNodes(i);
             _excludeNodeActive[i] = exnode->getActive();
         }
 
@@ -640,10 +640,10 @@ Action::ResultE ShadowViewport::findTransparent(NodePtr &node)
                 multiMat = MultiPassMaterialPtr::dcast(mat);
                 if(multiMat != NullFC)
                 {
-                    MFMaterialPtr::const_iterator   it = multiMat->getMaterials
-                        ().begin();
+                    MFMaterialPtr::const_iterator   it = multiMat->getMFMaterials
+                        ()->begin();
                     MFMaterialPtr::const_iterator   matsEnd =
-                        multiMat->getMaterials().end();
+                        multiMat->getMFMaterials()->end();
                     for(;it != matsEnd;++it)
                     {
                         if((*it) == NullFC)
@@ -1509,7 +1509,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.32 2008/04/14 11:30:41 yjung Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.33 2008/06/09 07:30:34 vossg Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

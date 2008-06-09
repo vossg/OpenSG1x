@@ -47,8 +47,8 @@ OSG_BEGIN_NAMESPACE
 
 inline void ImageForeground::addImage(ImagePtr image, Pnt2f position)
 {
-    getImages().push_back( image );
-    getPositions().push_back( position );
+    editMFImages()->push_back( image );
+    editMFPositions()->push_back( position );
 }
 
 

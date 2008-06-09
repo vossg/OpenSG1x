@@ -370,7 +370,7 @@ bool EXRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
                 delete copy;
             }
     
-            Real16 *data = reinterpret_cast<Real16*>(image->getData());
+            Real16 *data = reinterpret_cast<Real16*>(image->editData());
     
             for (Int32 side=numImg-1; side >=0; side--)
             {
@@ -484,7 +484,7 @@ bool EXRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
             {
                 for(int side=0;side<num_img;++side)
                 {
-                    char *data = (reinterpret_cast<char *>(image->getData(0, 0, side))) + i * (sizeof(Real16) * 4 * width);
+                    char *data = (reinterpret_cast<char *>(image->editData(0, 0, side))) + i * (sizeof(Real16) * 4 * width);
 
                     data -= current_scan_line * (sizeof(Real16) * 4 * width);
 
@@ -615,7 +615,7 @@ bool EXRImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
         {
             for(Int32 side=0;side<image->getSideCount();++side)
             {
-                char *data = (reinterpret_cast<char *>(image->getData(0, 0, side))) + i * (sizeof(Real16) * 4 * width);
+                const char *data = (reinterpret_cast<const char *>(image->getData(0, 0, side))) + i * (sizeof(Real16) * 4 * width);
 
                 // writePixels() adds the current scan line index as an offset to the
                 // base address we need to eliminate this!
@@ -625,13 +625,17 @@ bool EXRImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
                 sprintf(cn, "%d", side);
                 char name[20];
                 sprintf(name, "R%s", side == 0 ? "" : cn);
-                frame_buffer.insert(name, Imf::Slice(Imf::HALF, data, sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
+                frame_buffer.insert(name, Imf::Slice(Imf::HALF, 
+                                                     const_cast<char *>(data), sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
                 sprintf(name, "G%s", side == 0 ? "" : cn);
-                frame_buffer.insert(name, Imf::Slice(Imf::HALF, data + 1 * sizeof(Real16), sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
+                frame_buffer.insert(name, Imf::Slice(Imf::HALF, 
+                                                     const_cast<char *>(data) + 1 * sizeof(Real16), sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
                 sprintf(name, "B%s", side == 0 ? "" : cn);
-                frame_buffer.insert(name, Imf::Slice(Imf::HALF, data + 2 * sizeof(Real16), sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
+                frame_buffer.insert(name, Imf::Slice(Imf::HALF, 
+                                                     const_cast<char *>(data) + 2 * sizeof(Real16), sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
                 sprintf(name, "A%s", side == 0 ? "" : cn);
-                frame_buffer.insert(name, Imf::Slice(Imf::HALF, data + 3 * sizeof(Real16), sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
+                frame_buffer.insert(name, Imf::Slice(Imf::HALF, 
+                                                     const_cast<char *>(data) + 3 * sizeof(Real16), sizeof(Real16) * 4, sizeof(Real16) * 4 * width));
             }
             stream.setFrameBuffer(frame_buffer);
             stream.writePixels(1);

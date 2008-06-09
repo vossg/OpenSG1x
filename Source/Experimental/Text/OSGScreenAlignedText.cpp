@@ -227,10 +227,10 @@ void ScreenAlignedText::dump(      UInt32    ,
 Action::ResultE ScreenAlignedText::drawPrimitives( DrawActionBase * )
 {
     // some variables for faster access
-    SFVec3f *pos = getSFPosition();
-    Vec3f   &vec = pos->getValue();
+    const SFVec3f *pos = getSFPosition();
+    const Vec3f   &vec = pos->getValue();
 	ImagePtr pImage =_sfRenderImage.getValue();
-	GLubyte *pImageData = _sfRenderImage.getValue()->getData();
+	const GLubyte *pImageData = _sfRenderImage.getValue()->getData();
 	
 	
 	glRasterPos3f( vec[0], vec[1], vec[2] );
@@ -249,8 +249,8 @@ void ScreenAlignedText::adjustVolume( Volume & volume )
     volume.setValid();
     volume.setEmpty();
 
-    SFVec3f *sfpos = getSFPosition();
-	Vec3f   &pos = sfpos->getValue();
+    const SFVec3f *sfpos = getSFPosition();
+	const Vec3f   &pos = sfpos->getValue();
 
     // go through all the cubes adjusting the volume
 	volume.extendBy( Pnt3f( pos[0] + 0.0000001f,

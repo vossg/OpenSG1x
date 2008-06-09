@@ -380,7 +380,7 @@ void ScanParseSkel::addImageValue(ImagePtr &img)
     addFieldValue(os.str().c_str());
     UInt32 numPixels = img->getWidth() * img->getHeight();
     UInt32 pixel;
-    UInt8 *data = img->getData();
+    const UInt8 *data = img->getData();
     for (UInt32 i = 0; i < numPixels; ++i)
     {
         pixel = 0;
@@ -594,7 +594,7 @@ void ScanParseSkel::beginImage(Int32 width, Int32 height, Int32 components)
     default: pixelFormat = Image::OSG_INVALID_PF; break;
     }
     _image->set(pixelFormat, width, height);
-    _imageDataPtr = _image->getData();
+    _imageDataPtr = _image->editData();
     _pLexer->expectImageInts(width * height);
 }
 

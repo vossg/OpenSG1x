@@ -318,7 +318,7 @@ void Viewport::draw(DrawAction * action)
 
     action->apply(getRoot());
 
-    for(UInt16 i=0; i < getForegrounds().size(); i++)
+    for(UInt16 i=0; i < getMFForegrounds()->size(); i++)
         getForegrounds(i)->draw(action, this);
 
     deactivate();
@@ -359,7 +359,7 @@ fprintf(stderr,"%p: node 0x%p startrender\n", Thread::getCurrent(),
 */
     action->apply(getRoot());
 
-    for(UInt16 i=0; i < getForegrounds().size(); i++)
+    for(UInt16 i=0; i < getMFForegrounds()->size(); i++)
         getForegrounds(i)->draw(action, this);
 
     deactivate();

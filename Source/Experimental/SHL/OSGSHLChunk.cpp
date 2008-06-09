@@ -453,7 +453,7 @@ void SHLChunk::handleGL(Window *win, UInt32 idstatus)
         }
 
         updateProgramParameters(win);
-        updateParameters(win, getParameters(), true, true/*mode != Window::needrefresh*/);
+        updateParameters(win, *getMFParameters(), true, true/*mode != Window::needrefresh*/);
     }
     else
     {
@@ -698,9 +698,9 @@ void SHLChunk::updateProgram(Window *win)
     }
 
     // update all parameter locations
-    updateParameterLocations(win, getParameters());
+    updateParameterLocations(win, *getMFParameters());
     // update all parameters.
-    updateParameters(win, getParameters());
+    updateParameters(win, *getMFParameters());
 }
 
 void SHLChunk::updateParameterLocation(Window *win, GLuint program,
@@ -879,7 +879,9 @@ void SHLChunk::updateParameters(Window *win,
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
                 if(p->getLocation() != -1)
-                    uniform2fv(p->getLocation(), 1, p->getValue().getValues());
+                    uniform2fv(p->getLocation(), 1, 
+                               const_cast<GLfloat *>(
+                                   p->getValue().getValues()));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n", 
                               p->getName().c_str()));
@@ -896,7 +898,10 @@ void SHLChunk::updateParameters(Window *win,
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
                 if(p->getLocation() != -1)
-                    uniform3fv(p->getLocation(), 1, p->getValue().getValues());
+                    uniform3fv(p->getLocation(), 
+                               1, 
+                               const_cast<GLfloat *>(
+                                   p->getValue().getValues()));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n", 
                               p->getName().c_str()));
@@ -913,7 +918,10 @@ void SHLChunk::updateParameters(Window *win,
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
                 if(p->getLocation() != -1)
-                    uniform4fv(p->getLocation(), 1, p->getValue().getValues());
+                    uniform4fv(p->getLocation(), 
+                               1, 
+                               const_cast<GLfloat *>(
+                                   p->getValue().getValues()));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n", 
                               p->getName().c_str()));
@@ -931,7 +939,9 @@ void SHLChunk::updateParameters(Window *win,
                     updateParameterLocation(win, program, p);
                 if(p->getLocation() != -1)
                     uniformMatrix4fv(p->getLocation(), 1, 
-                                     GL_FALSE, p->getValue().getValues());
+                                     GL_FALSE, 
+                                     const_cast<GLfloat *>(
+                                         p->getValue().getValues()));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n", 
                               p->getName().c_str()));
@@ -949,7 +959,7 @@ void SHLChunk::updateParameters(Window *win,
                 //printf("setting: %s %d\n", p->getName().c_str(), p->getValue());
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
-                if(p->getLocation() != -1 && !p->getValue().empty())
+                if(p->getLocation() != -1 && !p->getMFValue()->empty())
 		  ; // XXX uniform1iv(p->getLocation(), p->getValue().getSize(), &p->getValue()[0]);
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n",
@@ -967,8 +977,10 @@ void SHLChunk::updateParameters(Window *win,
                 //printf("setting: %s %f\n", p->getName().c_str(), p->getValue());
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
-                if(p->getLocation() != -1 && !p->getValue().empty())
-                    uniform1fv(p->getLocation(), p->getValue().getSize(), &p->getValue()[0]);
+                if(p->getLocation() != -1 && !p->getMFValue()->empty())
+                    uniform1fv(p->getLocation(), 
+                               p->getMFValue()->getSize(), 
+                               const_cast<GLfloat *>(&p->getValue(0)));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n",
                               p->getName().c_str()));
@@ -985,8 +997,11 @@ void SHLChunk::updateParameters(Window *win,
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
 
-                if(p->getLocation() != -1 && !p->getValue().empty())
-                    uniform2fv(p->getLocation(), p->getValue().getSize(), p->getValue()[0].getValues());
+                if(p->getLocation() != -1 && !p->getMFValue()->empty())
+                    uniform2fv(p->getLocation(), 
+                               p->getMFValue()->getSize(), 
+                               const_cast<GLfloat *>(
+                                   p->getValue(0).getValues()));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n",
                               p->getName().c_str()));
@@ -1002,8 +1017,11 @@ void SHLChunk::updateParameters(Window *win,
 
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
-                if(p->getLocation() != -1 && !p->getValue().empty())
-                    uniform3fv(p->getLocation(), p->getValue().getSize(), p->getValue()[0].getValues());
+                if(p->getLocation() != -1 && !p->getMFValue()->empty())
+                    uniform3fv(p->getLocation(), 
+                               p->getMFValue()->getSize(), 
+                               const_cast<GLfloat *>(
+                                   p->getValue(0).getValues()));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n", 
                               p->getName().c_str()));
@@ -1019,8 +1037,11 @@ void SHLChunk::updateParameters(Window *win,
 
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
-                if(p->getLocation() != -1 && !p->getValue().empty())
-                    uniform4fv(p->getLocation(), p->getValue().getSize(), p->getValue()[0].getValues());
+                if(p->getLocation() != -1 && !p->getMFValue()->empty())
+                    uniform4fv(p->getLocation(), 
+                               p->getMFValue()->getSize(), 
+                               const_cast<GLfloat *>(
+                                   p->getValue(0).getValues()));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n",
                               p->getName().c_str()));
@@ -1036,8 +1057,12 @@ void SHLChunk::updateParameters(Window *win,
 
                 if(p->getLocation() == -1)
                     updateParameterLocation(win, program, p);
-                if(p->getLocation() != -1 && !p->getValue().empty())
-                    uniformMatrix4fv(p->getLocation(), p->getValue().getSize(), GL_FALSE, p->getValue()[0].getValues());
+                if(p->getLocation() != -1 && !p->getMFValue()->empty())
+                    uniformMatrix4fv(p->getLocation(), 
+                                     p->getMFValue()->getSize(), 
+                                     GL_FALSE, 
+                                     const_cast<GLfloat *>(
+                                         p->getValue(0).getValues()));
                 else if(warnUnknown)
                     FWARNING(("Unknown parameter '%s'!\n", 
                               p->getName().c_str()));
@@ -1075,8 +1100,8 @@ void SHLChunk::updateProgramParameters(Window *win)
             win->getFunction(_funcProgramParameteri));
 
     // set program parameters.
-    const MFGLenum &ppnames = getProgramParameterNames();
-    const MFUInt32 &ppvalues = getProgramParameterValues();
+    const MFGLenum &ppnames  = *getMFProgramParameterNames();
+    const MFUInt32 &ppvalues = *getMFProgramParameterValues();
     for(UInt32 i = 0; i < ppnames.size(); ++i)
     {
         if(i < ppvalues.size()) {
@@ -1090,16 +1115,16 @@ void SHLChunk::checkOSGParameters(bool force)
     // ok this can go wrong if you sub and add a parameter
     // between one begin/endEditCP ...
     if(!force && !_cleared_parameters &&
-       getParameters().getSize() == _oldParameterSize)
+       getMFParameters()->getSize() == _oldParameterSize)
         return;
 
     // reset clear parameters flag.
     _cleared_parameters = false;
 
-    _oldParameterSize = getParameters().getSize();
+    _oldParameterSize = getMFParameters()->getSize();
 
     _osgParametersCallbacks.clear();
-    const MFShaderParameterPtr &parameters = getParameters();
+    const MFShaderParameterPtr &parameters = *getMFParameters();
     for(UInt32 i = 0; i < parameters.size(); ++i)
     {
         ShaderParameterPtr parameter = parameters[i];
@@ -1293,20 +1318,20 @@ void SHLChunk::setParameterCallback(parametercbfp fp)
 
 void SHLChunk::addProgramParameter(GLenum name, UInt32 value)
 {
-    getProgramParameterNames().push_back(name);
-    getProgramParameterValues().push_back(value);
+    editMFProgramParameterNames ()->push_back(name);
+    editMFProgramParameterValues()->push_back(value);
 }
 
 void SHLChunk::subProgramParameter(GLenum name)
 {
-    MFGLenum &ppnames = getProgramParameterNames();
-    MFUInt32 &ppvalues = getProgramParameterValues();
+    MFGLenum &ppnames  = *editMFProgramParameterNames();
+    MFUInt32 &ppvalues = *editMFProgramParameterValues();
 
     for(UInt32 i = 0; i < ppnames.size(); ++i)
     {
         if(ppnames[i] == name && i < ppvalues.size())
         {
-            ppnames.erase(ppnames.begin() + i);
+            ppnames .erase(ppnames .begin() + i);
             ppvalues.erase(ppvalues.begin() + i);
             break;
         }
@@ -1323,8 +1348,8 @@ void SHLChunk::setProgramParameter(GLenum name, UInt32 value)
 
 UInt32 SHLChunk::getProgramParameter(GLenum name)
 {
-    const MFGLenum &ppnames = getProgramParameterNames();
-    const MFUInt32 &ppvalues = getProgramParameterValues();
+    const MFGLenum &ppnames  = *getMFProgramParameterNames();
+    const MFUInt32 &ppvalues = *getMFProgramParameterValues();
 
     for(UInt32 i = 0; i < ppnames.size(); ++i)
     {
@@ -1340,8 +1365,8 @@ std::vector<std::pair<GLenum, UInt32> > SHLChunk::getProgramParameters(void)
 {
     std::vector<std::pair<GLenum, UInt32> > parameters;
 
-    const MFGLenum &ppnames = getProgramParameterNames();
-    const MFUInt32 &ppvalues = getProgramParameterValues();
+    const MFGLenum &ppnames  = *getMFProgramParameterNames();
+    const MFUInt32 &ppvalues = *getMFProgramParameterValues();
 
     for(UInt32 i = 0; i < ppnames.size(); ++i)
     {
@@ -1354,8 +1379,8 @@ std::vector<std::pair<GLenum, UInt32> > SHLChunk::getProgramParameters(void)
 
 void SHLChunk::clearProgramParameters(void)
 {
-    getProgramParameterNames().clear();
-    getProgramParameterValues().clear();
+    editMFProgramParameterNames ()->clear();
+    editMFProgramParameterValues()->clear();
 }
 
 void SHLChunk::updateOSGParameters(DrawActionBase *action, GLuint program,
@@ -1949,7 +1974,7 @@ bool SHLChunk::operator == (const StateChunk &other) const
 
     if(getVertexProgram() != tother->getVertexProgram() ||
        getFragmentProgram() != tother->getFragmentProgram() ||
-       getParameters().size() != tother->getParameters().size())
+       getMFParameters()->size() != tother->getMFParameters()->size())
         return false;
 
     return true;
@@ -1973,7 +1998,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.63 2008/06/05 05:00:29 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.64 2008/06/09 07:30:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

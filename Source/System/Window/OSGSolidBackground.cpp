@@ -116,7 +116,7 @@ void SolidBackground::clear(DrawActionBase *, Viewport *)
     {
         clearMask |= GL_COLOR_BUFFER_BIT;
     
-        Color3f &col = getColor();
+        const Color3f &col = getColor();
         glClearColor(col[0], col[1], col[2], getAlpha());
     }
     

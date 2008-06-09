@@ -316,7 +316,7 @@ bool DATImageFileType::read (      ImagePtr &image,
                     if (needConversion)
                         dataBuffer = new char [ dataSize ];
                     else
-                        dataBuffer = (reinterpret_cast<char *>(image->getData()));
+                        dataBuffer = (reinterpret_cast<char *>(image->editData()));
 
                     if(fileOffset != 0)
                         inVol->ignore ( fileOffset );

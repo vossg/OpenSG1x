@@ -199,7 +199,7 @@ void Particles::changed(BitVector whichField, UInt32 origin)
         {
             _parents[i]->invalidateVolume();
         }
-        getBsp().destroy();
+        editBsp().destroy();
 
         if(origin & ChangedOrigin::Abstract)
         {
@@ -372,7 +372,7 @@ void Particles::adjustVolume( Volume & volume )
     volume.setValid();
     volume.setEmpty();
 
-    MFVec3f *sizes = getMFSizes();
+    const MFVec3f *sizes = getMFSizes();
 
     if(sizes->size() == pos->size())
     {
@@ -710,7 +710,7 @@ struct PosTraitNone : public ParticleTraits
     dataType;
     
     static inline void init(Particles *, DrawActionBase *, dataType &data,
-        GeoPositionsPtr &pos)
+        GeoPositionsPtr pos)
     {
     }
     
@@ -745,7 +745,7 @@ struct PosTraitGeneric : public ParticleTraits
     dataType;
     
     static inline void init(Particles *, DrawActionBase *, dataType &data,
-        GeoPositionsPtr &pos)
+        GeoPositionsPtr pos)
     {
         data.pos = pos;
     }
@@ -786,7 +786,7 @@ struct PosTrait3f : public ParticleTraits
     dataType;
     
     static inline void init(Particles *, DrawActionBase *, dataType &data,
-        GeoPositionsPtr &pos)
+        GeoPositionsPtr pos)
     {
         GeoPositions3fPtr pos3f = GeoPositions3fPtr::dcast(pos);
  
@@ -823,7 +823,7 @@ struct SizeTraitGeneric : public ParticleTraits
 {
     typedef struct
     {
-        MFVec3f *sizes;
+        const MFVec3f *sizes;
         Vec3f    s;
         bool     perParticle;
     }
@@ -862,10 +862,10 @@ struct SizeTraitGeneric : public ParticleTraits
         return false;
     }
     
-    static inline Vec3f &size(dataType &data, UInt32 particle)
+    static inline const Vec3f &size(dataType &data, UInt32 particle)
     {
         if(data.perParticle)
-                return (*(data.sizes))[particle];
+            return (*(data.sizes))[particle];
         return data.s;
     }
 };
@@ -880,7 +880,7 @@ struct SizeTraitSingle : public ParticleTraits
     
     static inline void init(Particles *part, DrawActionBase *, dataType &data)
     {
-        data.s = part->getSizes()[0];
+        data.s = part->getSizes(0);
     }
     
     static inline bool particle(dataType &, UInt32)
@@ -898,7 +898,7 @@ struct SizeTraitParticle : public ParticleTraits
 {
     typedef struct
     {
-        MFVec3f *sizes;
+        const MFVec3f *sizes;
         Vec3f    s;
     }
     dataType;
@@ -913,7 +913,7 @@ struct SizeTraitParticle : public ParticleTraits
         return false;
     }
     
-    static inline Vec3f &size(dataType &data, UInt32 particle)
+    static inline const Vec3f &size(dataType &data, UInt32 particle)
     {
         return (*(data.sizes))[particle];
     }
@@ -945,7 +945,7 @@ struct TexTraitGeneric : public ParticleTraits
 {
     typedef struct
     {
-        MFReal32 *texzs;
+        const MFReal32 *texzs;
         Real32    z;
         bool      perParticle;
     }
@@ -1004,7 +1004,7 @@ struct TexTraitParticle : public ParticleTraits
 {
     typedef struct
     {
-        MFReal32 *texzs;
+        const MFReal32 *texzs;
         Real32    z;
     }
     dataType;
@@ -1213,8 +1213,9 @@ struct OSG::ParticlesDrawer
     virtual void draw(Particles *part, DrawActionBase *action, 
                              UInt32 length) = 0;
 
-    virtual void drawIndexed(Particles *part, DrawActionBase *action,
-                             Int32 *index, UInt32 length) = 0;
+    virtual void drawIndexed(Particles *part, 
+                             DrawActionBase *action,
+                             const Int32 *index, UInt32 length) = 0;
     
     virtual ~ParticlesDrawer()
     {
@@ -1227,7 +1228,7 @@ template <class posTrait, class colTrait, class texTrait, class sizeTrait>
 struct drawViewDirQuads : public ParticlesDrawer 
 {
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
-                          Int32 *index, UInt32 length)
+                             const Int32 *index, UInt32 length)
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
@@ -1421,7 +1422,7 @@ template <class posTrait, class colTrait, class texTrait, class sizeTrait>
 struct drawViewerQuads : public ParticlesDrawer 
 {
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
-                          Int32 *index, UInt32 length)
+                             const Int32 *index, UInt32 length)
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
@@ -1720,7 +1721,7 @@ struct drawLines : public ParticlesDrawer
     }
 
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
-                             Int32 *index, UInt32 length)
+                             const Int32 *index, UInt32 length)
     {
         // some variables for faster access
         GeoPositionsPtr  pos  = part->getPositions();
@@ -1834,7 +1835,7 @@ struct drawPoints : public ParticlesDrawer
     }
 
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
-                             Int32 *index, UInt32 length)
+                             const Int32 *index, UInt32 length)
     {
         // some variables for faster access
         GeoPositionsPtr  pos  = part->getPositions();
@@ -1902,7 +1903,7 @@ struct GeoTraitArrow : public ParticleTraits
     
     static inline void draw(dataType &, Pnt3f &p, Pnt3f &,
                             Vec3f &dx, Vec3f &dy, Vec3f &dz,
-                            Vec3f &s)
+                            const Vec3f &s)
     {
         dz*=s[2];
         dx*=s[0];
@@ -1965,7 +1966,7 @@ struct GeoTraitRectangle : public ParticleTraits
     
     static inline void draw(dataType &, Pnt3f &p, Pnt3f &sp,
                             Vec3f &dx, Vec3f &dy, Vec3f &,
-                            Vec3f &s)
+                            const Vec3f &s)
     {
         dx *= s[0] * .5f;
        
@@ -2078,7 +2079,7 @@ struct drawObjects : public ParticlesDrawer
     }
     
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
-                             Int32 *index, UInt32 length)
+                             const Int32 *index, UInt32 length)
     {
         // some variables for faster access
         GeoPositionsPtr pos = part->getPositions();
@@ -2263,7 +2264,7 @@ struct drawViewerObjects : public ParticlesDrawer
    }
     
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
-                             Int32 *index, UInt32 length)
+                             const Int32 *index, UInt32 length)
     {
         // get ModelView matrix to define the direction vectors
         Matrix camera,toworld;
@@ -2367,7 +2368,7 @@ template <class posTrait, class secPosTrait, class colTrait, class texTrait,
 struct drawShaderQuads : public ParticlesDrawer 
 {
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
-                          Int32 *index, UInt32 length)
+                             const Int32 *index, UInt32 length)
     {   
         Window *win = action->getWindow();
         
@@ -2560,7 +2561,7 @@ template <class posTrait, class secPosTrait, class colTrait, class texTrait,
 struct drawShaderStrips : public ParticlesDrawer 
 {
     virtual void drawIndexed(Particles *part, DrawActionBase *action, 
-                          Int32 *index, UInt32 length)
+                             const Int32 *index, UInt32 length)
     {   
         Window *win = action->getWindow();
         
@@ -2800,7 +2801,7 @@ Int32 *Particles::calcIndex(DrawActionBase *action, UInt32 &len,
 { 
     // some variables for faster access
     GeoPositionsPtr  pos     = getPositions();
-    MFInt32         *indices = getMFIndices();
+    const MFInt32   *indices = getMFIndices();
  
     // get ModelView matrix to define the direction vectors
     Matrix camera,toworld;
@@ -2957,7 +2958,7 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
     GeoPositionsPtr  pos  = getPositions();
     GeoColorsPtr     col  = getColors();
     GeoNormalsPtr    norm = getNormals();
-    MFVec3f         *size = getMFSizes();
+    const MFVec3f   *size = getMFSizes();
  
     if((size   ->size() > 1 && size   ->size() != pos->getSize())  ||
        (col  != NullFC && col->getSize()  != 1 &&
@@ -2981,7 +2982,7 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
         return Action::Continue;;
     }
     
-    Int32 *index = NULL;
+    const Int32 *index = NULL;
     UInt32 length = 0;
     bool freeIndex = false;
     
@@ -2995,7 +2996,7 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
         {
             if(!getBsp().created())
             {
-                getBsp().build(this);
+                editBsp().build(this);
             }
             Matrix modelview,toworld;
 
@@ -3027,12 +3028,12 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
         }
         freeIndex = true;
     }
-    else if (getIndices().size() > 0)
+    else if (getMFIndices()->size() > 0)
     {
         index  = &getMFIndices()->getValues()[0];
         if(getNumParticles() == -1)
         {
-            length = getIndices().size();
+            length = getMFIndices()->size();
         }
         else
         {
@@ -3077,8 +3078,8 @@ ParticlesDrawer *Particles::findDrawer(void)
     
     // find the parameters' use
     
-    size =   (getSizes().size()         == getPositions()->getSize()) ? part :
-             (getSizes().size()         == 1                        ) ? sing : 
+    size =   (getMFSizes()->size()      == getPositions()->getSize()) ? part :
+             (getMFSizes()->size()      == 1                        ) ? sing : 
                                                                         none;
     normal = (getNormals() != NullFC && 
               getNormals()->getSize()   == getPositions()->getSize()) ? part :
@@ -3095,8 +3096,8 @@ ParticlesDrawer *Particles::findDrawer(void)
              (getColors() != NullFC && 
               getColors()->getSize()    == 1                        ) ? sing : 
                                                                         none;
-    tex =    (getTextureZs().size()     == getPositions()->getSize()) ? part :
-             (getTextureZs().size()     == 1                        ) ? sing : 
+    tex =    (getMFTextureZs()->size()  == getPositions()->getSize()) ? part :
+             (getMFTextureZs()->size()  == 1                        ) ? sing : 
                                                                         none;
     
     // check if the used types are common cases

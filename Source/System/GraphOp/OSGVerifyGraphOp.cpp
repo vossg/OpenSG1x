@@ -348,7 +348,7 @@ bool VerifyGraphOp::verifyIndexMap(GeometryPtr &geo, bool &repair)
     if(geo->getIndices() == NullFC)
         return true;
 
-    if(!geo->getIndexMapping().empty())
+    if(!geo->getMFIndexMapping()->empty())
         return true;
 
     if(geo->getPositions() == NullFC)
@@ -418,7 +418,7 @@ bool VerifyGraphOp::verifyIndexMap(GeometryPtr &geo, bool &repair)
             indexmap |= Geometry::MapTexCoords3;
 
         beginEditCP(geo, Geometry::IndexMappingFieldMask);
-        geo->getIndexMapping().push_back(indexmap);
+        geo->editMFIndexMapping()->push_back(indexmap);
         endEditCP(geo, Geometry::IndexMappingFieldMask);
         repair = true;
         return false;

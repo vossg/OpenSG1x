@@ -351,7 +351,8 @@ void OSG::Window::onDestroy(void)
             continue;
         }
         // has the object been used in this context at all?
-        if(i < getGlObjectLastReinitialize().size() && getGlObjectLastReinitialize()[i] != 0)
+        if(i < getMFGlObjectLastReinitialize()->size() && 
+           getGlObjectLastReinitialize(i) != 0)
         {
             obj->decRefCounter();
             // we can't call here the destroy callbacks because the
@@ -905,7 +906,7 @@ void OSG::Window::destroyGLObject(UInt32 id, UInt32 num)
 #endif
 
         // has the object been used in this context at all?
-        if((*it)->getGlObjectLastReinitialize()[id] != 0) 
+        if((*it)->getGlObjectLastReinitialize(id) != 0) 
             (*it)->_glObjectDestroyList.push_back(DestroyEntry(id,num));
     }
 }
@@ -1355,7 +1356,7 @@ void OSG::Window::frameExit(void)
         UInt32 rc = obj->getRefCounter();
 
         // has the object been used in this context at all?
-        if(getGlObjectLastReinitialize()[i] != 0) 
+        if(getGlObjectLastReinitialize(i) != 0) 
         {                  
             _glObjects[i]->getFunctor().call( this, packIdStatus(i, destroy));
 

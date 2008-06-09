@@ -121,7 +121,7 @@ void GraphOp::setName(const char *name)
 
 /*--------------------------- Exclude List --------------------------------*/
 
-void GraphOp::addToExcludeList(NodePtr& node)
+void GraphOp::addToExcludeList(const NodePtr& node)
 {
     if (!isInExcludeListNodes(node))
         _excludeListNodes.push_back(node);
@@ -149,7 +149,7 @@ void GraphOp::clearExcludeList(void)
     _excludeListNodes.clear();
 }
 
-bool GraphOp::isInExcludeListNodes(NodePtr& node)
+bool GraphOp::isInExcludeListNodes(const NodePtr& node)
 {
     std::list<NodePtr>::iterator list_iter;
     list_iter = std::find(_excludeListNodes.begin(),_excludeListNodes.end(),node);

@@ -122,8 +122,8 @@ void StringAttributeMap::dump(      UInt32    ,
 void StringAttributeMap::setAttribute(const std::string& key,
                                       const std::string& value)
 {
-    MFString& keys   = this->StringAttributeMapBase::getKeys();
-    MFString& values = this->StringAttributeMapBase::getValues();
+    MFString& keys   = *this->StringAttributeMapBase::editMFKeys();
+    MFString& values = *this->StringAttributeMapBase::editMFValues();
 
     unsigned int index(0);
 
@@ -156,8 +156,8 @@ bool StringAttributeMap::getAttribute(const std::string& key,
 {
     if ( hasAttribute(key) )
     {
-        const MFString& keys   = this->StringAttributeMapBase::getKeys();
-        const MFString& values = this->StringAttributeMapBase::getValues();
+        const MFString& keys   = *this->StringAttributeMapBase::getMFKeys();
+        const MFString& values = *this->StringAttributeMapBase::getMFValues();
 
         // Find the index of key in _mfKeys. This index will be the index of
         // the value associated with key in _mfValues.
@@ -240,7 +240,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMap.cpp,v 1.2 2005/09/28 03:01:44 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMap.cpp,v 1.3 2008/06/09 07:30:36 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID;
 

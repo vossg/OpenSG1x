@@ -262,8 +262,8 @@ void ClusterServer::doSync(bool applyToChangelist)
         while(_clusterWindow==NullFC);
         // get server id
         for(_serverId=0;
-            _clusterWindow->getServers()[_serverId] != _serviceName &&
-                _serverId<_clusterWindow->getServers().size();
+            _clusterWindow->getServers(_serverId) != _serviceName &&
+                _serverId<_clusterWindow->getMFServers()->size();
             _serverId++);
         // server connected and cluster window found
         SINFO << "Start server " << _serviceName 
@@ -339,10 +339,10 @@ bool ClusterServer::windowChanged(FieldContainerPtr& fcp,
 
     ClusterWindowPtr window=ClusterWindowPtr::dcast(fcp);
 
-    if(window->getServers().size())
+    if(window->getMFServers()->size())
     {
-        if(window->getServers().find(_serviceName) == 
-           window->getServers().end())
+        if(window->getMFServers()->find(_serviceName) == 
+           window->getMFServers()->end())
         {
             SWARNING << "wrong window" << std::endl;
         }

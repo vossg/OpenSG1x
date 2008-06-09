@@ -318,8 +318,8 @@ void DVRIsoShader::getCoveredScreenRect(DVRVolume      *volume,
         toScreenMatrix.multLeft(prjMatrix);        
         
  
-        Vec3f & res   = tex->getResolution();
-        Vec3f & slice = tex->getSliceThickness();
+        const Vec3f & res   = tex->getResolution();
+        const Vec3f & slice = tex->getSliceThickness();
         
         Pnt3f minBB(-0.5f * res[0] * slice[0], 
                     -0.5f * res[1] * slice[1], 

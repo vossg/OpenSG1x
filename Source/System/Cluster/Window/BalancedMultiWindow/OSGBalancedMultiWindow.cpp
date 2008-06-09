@@ -129,11 +129,11 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
     if(_cluster.servers.size() == 0)
     {
         // reset server list
-        _cluster.servers.resize(getServers().size()+1);
+        _cluster.servers.resize(getMFServers()->size()+1);
         _cluster.servers[id].id = id;
         getNetwork()->connectAllGroupToPoint(id,"StreamSock");
         // do not buffer any data
-        for(UInt32 i=0 ; i <= getServers().size() ; ++i)
+        for(UInt32 i=0 ; i <= getMFServers()->size() ; ++i)
             getNetwork()->getConnection(i)->forceDirectIO();
         _preloadCache = true;
     }
@@ -202,22 +202,22 @@ void BalancedMultiWindow::serverRender (WindowPtr serverWindow,
     DisplayCalibrationPtr calibPtr=NullFC;
 
     // for all viewports
-    for(p = 0 ; p<serverWindow->getPort().size() ; ++p) 
+    for(p = 0 ; p<serverWindow->getMFPort()->size() ; ++p) 
     {
         // search calibration 
-        for(c=0 ; c<getCalibration().size() ; ++c)
+        for(c=0 ; c<getMFCalibration()->size() ; ++c)
         {
-            std::string name = getServers()[id];
+            std::string name = getServers(id);
             char portName[64];
-            if(serverWindow->getPort().size() > 1)
+            if(serverWindow->getMFPort()->size() > 1)
             {
                 sprintf(portName,"[%d]",p);
                 name = name + portName;
             }
-            if(getCalibration()[c]->getServer() == name)
+            if(getCalibration(c)->getServer() == name)
             {
-                calibPtr = getCalibration()[c];
-                calibPtr->calibrate(serverWindow->getPort()[p],action);
+                calibPtr = getCalibration(c);
+                calibPtr->calibrate(serverWindow->getPort(p),action);
                 break;
             }
         }
@@ -311,12 +311,13 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     if(_cluster.servers.size() == 0)
     {
         // reset server list
-        _cluster.servers.resize(getServers().size()+1);
-        for(UInt32 id=0 ; id < getServers().size()+1 ; ++id)
+        _cluster.servers.resize(getMFServers()->size()+1);
+        for(UInt32 id=0 ; id < getMFServers()->size()+1 ; ++id)
             _cluster.servers[id].id = id;
-        getNetwork()->connectAllGroupToPoint(getServers().size(),"StreamSock");
+        getNetwork()->connectAllGroupToPoint(getMFServers()->size(),
+                                             "StreamSock");
         // do not buffer any data
-        for(UInt32 i=0 ; i <= getServers().size() ; ++i)
+        for(UInt32 i=0 ; i <= getMFServers()->size() ; ++i)
             getNetwork()->getConnection(i)->forceDirectIO();
         _preloadCache = true;
     }
@@ -330,7 +331,7 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
         getClientWindow() != NullFC)
     {
         _loadTime = -getSystemTime();
-        Server &server = _cluster.servers[getServers().size()];
+        Server &server = _cluster.servers[getMFServers()->size()];
         // set client window
         server.window = getClientWindow();
         // collect visible viewports
@@ -392,7 +393,7 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     conn->flush();
     // client rendering ?
 //    if(getHServers() * getVServers() == 0)
-    drawSendAndRecv(getClientWindow(),action,getServers().size());
+    drawSendAndRecv(getClientWindow(),action,getMFServers()->size());
 
     // do local rendering if not switched off and no parallel 
     // rendering to local window
@@ -426,7 +427,7 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
         conn->resetSelection();
         frameTime += getSystemTime();
         printf("Cli %4d L:%2.6lf T:%10d D:%2.6lf P:%2.6lf N:%2.6lf B:%2.6lf F:%2.6lf\n",
-               getServers().size(),
+               getMFServers()->size(),
                _loadTime,
                _triCount,
                _drawTime,
@@ -508,7 +509,7 @@ bool BalancedMultiWindow::calculateProjectedBBox(VPort &port,
                                                  BBox &bbox,
                                                  Matrix &proj)
 {
-    ViewportPtr viewport = getPort()[port.id];
+    ViewportPtr viewport = getPort(port.id);
 
     Pnt3f vol[2];
     Pnt3f pnt3;
@@ -678,9 +679,9 @@ void BalancedMultiWindow::createLoadGroups(void)
     _cluster.rootNodes.clear();
     _cluster.loadGroups.clear();
     // loop over all viewports
-    for(v = 0 ; v  < getPort().size() ; ++v )
+    for(v = 0 ; v  < getMFPort()->size() ; ++v )
     {
-        viewport = getPort()[v];
+        viewport = getPort(v);
         root = viewport->getRoot();
 
 #ifdef __sun
@@ -814,14 +815,14 @@ void BalancedMultiWindow::collectVisibleViewports(Server &server)
 {
     UInt32 cv,sv=0;
 
-    for(cv = 0 ; cv < getPort().size() ; cv++)
+    for(cv = 0 ; cv < getMFPort()->size() ; cv++)
     {
         if(server.viewports.size() <= sv)
             server.viewports.resize(sv+1); 
         VPort &port = server.viewports[sv];
         port.id = cv;
         port.serverId = server.id;
-        port.root = getPort()[cv]->getRoot();
+        port.root = getPort(cv)->getRoot();
         if(calculateServerPort(port,port.rect))
             sv++;
     }
@@ -848,7 +849,7 @@ bool BalancedMultiWindow::calculateServerPort(VPort &port,
 
     if(getHServers() * getVServers() == 0)
     {
-        if(port.serverId != getServers().size())
+        if(port.serverId != getMFServers()->size())
             return false;
         // balanced client rendering
         rows = 1;
@@ -873,7 +874,7 @@ bool BalancedMultiWindow::calculateServerPort(VPort &port,
     Real32 scaleCWidth  = ((width - getXOverlap()) * (cols - 1) + width) / float(getWidth());
     Real32 scaleCHeight = ((height - getYOverlap())* (rows - 1) + height)/ float(getHeight());
     
-    clientPort = getPort()[port.id];
+    clientPort = getPort(port.id);
     cleft   = Int32(clientPort->getPixelLeft()      * scaleCWidth)   ;
     cbottom = Int32(clientPort->getPixelBottom()    * scaleCHeight)  ;
     cright  = Int32((clientPort->getPixelRight()+1) * scaleCWidth) -1;
@@ -896,7 +897,7 @@ bool BalancedMultiWindow::calculateServerPort(VPort &port,
     // verify if the viewport type has changed
     if(port.serverPort != NullFC)
     {
-        if(port.serverPort->getType().getId() != getPort()[port.id]->getType().getId())
+        if(port.serverPort->getType().getId() != getPort(port.id)->getType().getId())
         {
             // this must not happen very frequently, otherwise, memory leak may occur
             subRefCP(port.serverPort->getCamera());
@@ -909,7 +910,7 @@ bool BalancedMultiWindow::calculateServerPort(VPort &port,
     // create port and deco for visualization, only if necessary
     if(port.serverPort == NullFC)
     {
-        port.serverPort = ViewportPtr::dcast(getPort()[port.id]->shallowCopy());
+        port.serverPort = ViewportPtr::dcast(getPort(port.id)->shallowCopy());
         addRefCP(port.serverPort);
         deco = TileCameraDecorator::create();
         port.serverPort->setCamera(deco);
@@ -940,7 +941,7 @@ bool BalancedMultiWindow::calculateServerPort(VPort &port,
         serverPort->setBottom(1.0001);
     serverPort->setRoot      ( clientPort->getRoot()       );
     serverPort->setBackground( clientPort->getBackground() );
-    serverPort->getMFForegrounds()->setValues( clientPort->getForegrounds() );
+    serverPort->editMFForegrounds()->setValues(*clientPort->getMFForegrounds());
     serverPort->setTravMask  ( clientPort->getTravMask()   );
     endEditCP(serverPort);
     
@@ -1076,9 +1077,9 @@ void BalancedMultiWindow::balanceServer(void)
     UInt32 count;
 
     if(getHServers()*getVServers() == 0)
-        count = getServers().size() + 1;
+        count = getMFServers()->size() + 1;
     else
-        count = getServers().size();
+        count = getMFServers()->size();
 
     // clear work packages
     _cluster.workpackages.clear();
@@ -1623,7 +1624,7 @@ void BalancedMultiWindow::renderViewport(WindowPtr         serverWindow,
     // create temporary viewport
     _foreignPort.id         = portId;
     _foreignPort.serverId   = id;
-    _foreignPort.root       = getPort()[portId]->getRoot();
+    _foreignPort.root       = getPort(portId)->getRoot();
     // calculate valid viewport
     calculateServerPort(_foreignPort,rect);
     // add to window
@@ -1801,7 +1802,7 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                                wI->rect);
                 glFinish();
                 _pixelTime -= getSystemTime();
-                storeViewport (_cluster.areas.back(),getPort()[wI->viewportId],wI->rect);
+                storeViewport (_cluster.areas.back(),getPort(wI->viewportId),wI->rect);
                 _pixelTime += getSystemTime();
                 _triCount += UInt32(action->getStatistics()->getElem( Drawable::statNTriangles )->getValue());
                 _drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
@@ -1881,7 +1882,7 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
         }
         while(wI != _cluster.workpackages.end())
         {
-            ViewportPtr vp=getPort()[wI->viewportId];
+            ViewportPtr vp=getPort(wI->viewportId);
             // the activate is only called for buffer activation.
             vp->activate();
 
@@ -1996,9 +1997,9 @@ void BalancedMultiWindow::preloadCache(WindowPtr window,
     window->activate();
     window->frameInit();
     // loop over all viewports
-    for(v = 0 ; v  < getPort().size() ; ++v )
+    for(v = 0 ; v  < getMFPort()->size() ; ++v )
     {
-        ViewportPtr viewport = getPort()[v];
+        ViewportPtr viewport = getPort(v);
         if(root == viewport->getRoot())
             continue;
         root = viewport->getRoot();
@@ -2043,7 +2044,7 @@ void BalancedMultiWindow::preloadCache(WindowPtr window,
         Pnt3f from=at;
         from[2]+=(dist*3); 
         beginEditCP(cart);
-        Matrix &matrix = cart->getMatrix();
+        Matrix &matrix = cart->editMatrix();
         MatrixLookAt(matrix, from, at, up);
         endEditCP(cart);
         // set the camera to go from 1% of the object to twice its size

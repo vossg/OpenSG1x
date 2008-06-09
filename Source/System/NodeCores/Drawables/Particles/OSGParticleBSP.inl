@@ -84,7 +84,7 @@ void ParticleBSPNode::setSplit(UInt8 axis, Real32 splitvalue)
 }
 
 inline 
-bool ParticleBSPTree::created(void)
+bool ParticleBSPTree::created(void) const
 {
     return _tree.size() > 1;
 }

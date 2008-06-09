@@ -373,8 +373,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(-0.5, -0.5,  0.5),
                                          Pnt3f(-0.5,  0.5,  0.5),
                                          Pnt3f(0.5,  0.5,  0.5),
-                                         getBackTexCoord().size()?
-                                         &getBackTexCoord()[0]:
+                                         getMFBackTexCoord()->size()?
+                                        &getBackTexCoord(0):
                                           tfac(getBackTexture(), 1));
     
     drawFace(action, getFrontTexture(),  tchunk,
@@ -382,8 +382,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(0.5, -0.5, -0.5),
                                          Pnt3f(0.5,  0.5, -0.5),
                                          Pnt3f(-0.5,  0.5, -0.5),
-                                         getFrontTexCoord().size()?
-                                         &getFrontTexCoord()[0]:
+                                         getMFFrontTexCoord()->size()?
+                                         &getFrontTexCoord(0):
                                           tfac(getFrontTexture(), 2));
     
     drawFace(action, getBottomTexture(), tchunk,
@@ -391,8 +391,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(0.5, -0.5,  0.5),
                                          Pnt3f(0.5, -0.5, -0.5),
                                          Pnt3f(-0.5, -0.5, -0.5),
-                                         getBottomTexCoord().size()?
-                                         &getBottomTexCoord()[0]:
+                                         getMFBottomTexCoord()->size()?
+                                         &getBottomTexCoord(0):
                                           tfac(getBottomTexture(), 3));
     
     drawFace(action, getTopTexture(),    tchunk,
@@ -400,8 +400,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(0.5,  0.5, -0.5),
                                          Pnt3f(0.5,  0.5,  0.5),
                                          Pnt3f(-0.5,  0.5,  0.5),
-                                         getTopTexCoord().size()?
-                                         &getTopTexCoord()[0]:
+                                         getMFTopTexCoord()->size()?
+                                         &getTopTexCoord(0):
                                           tfac(getTopTexture(), 4));
     
     drawFace(action, getLeftTexture(),   tchunk,
@@ -409,8 +409,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(-0.5, -0.5, -0.5),
                                          Pnt3f(-0.5,  0.5, -0.5),
                                          Pnt3f(-0.5,  0.5,  0.5),
-                                         getLeftTexCoord().size()?
-                                         &getLeftTexCoord()[0]:
+                                         getMFLeftTexCoord()->size()?
+                                         &getLeftTexCoord(0):
                                           tfac(getLeftTexture(), 5));
     
     drawFace(action, getRightTexture(),  tchunk,
@@ -418,8 +418,8 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
                                          Pnt3f(0.5, -0.5,  0.5),
                                          Pnt3f(0.5,  0.5,  0.5),
                                          Pnt3f(0.5,  0.5, -0.5),
-                                         getRightTexCoord().size()?
-                                         &getRightTexCoord()[0]:
+                                         getMFRightTexCoord()->size()?
+                                         &getRightTexCoord(0):
                                           tfac(getRightTexture(), 6));  
     #undef tfac
     

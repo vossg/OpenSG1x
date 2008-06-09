@@ -383,7 +383,7 @@ bool Image::setData(const UChar8 *da)
 
 void Image::clearData(void)
 {
-    getPixel().clear();
+    editMFPixel()->clear();
 }
 
 /*! method to update just a subregion of the image data
@@ -393,7 +393,7 @@ bool Image::setSubData ( Int32 offX, Int32 offY, Int32 offZ,
                          Int32 srcW, Int32 srcH, Int32 srcD,
                          const UInt8 *src )
 {
-    UChar8 *dest = getData();
+    UChar8 *dest = editData();
     UInt64 lineSize;
 
     FDEBUG(( "Image::setSubData (%d %d %d) - (%d %d %d) - src %p\n",
@@ -663,7 +663,7 @@ bool Image::addValue(const char *value)
         {
             set(pf, width, height);
 
-            currentData = getData();
+            currentData = editData();
         }
         else
         {
@@ -696,7 +696,8 @@ bool Image::addValue(const char *value)
 bool Image::reformat ( const Image::PixelFormat pixelFormat,
                        ImagePtr destination )
 {
-    UChar8 *data = 0,*sourceData = 0;
+    UChar8 *data = 0;
+    const UChar8 *sourceData = 0;
     UInt32 srcI, destI, destSize = 0;
     UInt32 sum;
     Real64 sumReal;
@@ -726,16 +727,22 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
         dest->set(pixelFormat, getWidth(), getHeight(), getDepth(), getMipMapCount(),
                   getFrameCount(), getFrameDelay(), NULL, getDataType(), true, getSideCount());
         sourceData = getData();
-        data = dest->getData();
+        data = dest->editData();
         destSize = dest->getSize();
 
-        UInt16 *sourceDataUC16 = reinterpret_cast<UInt16*>(sourceData);
+        const UInt16 *sourceDataUC16 = 
+            reinterpret_cast<const UInt16*>(sourceData);
+        const UInt32 *sourceDataUC32 = 
+            reinterpret_cast<const UInt32*>(sourceData);
+        const Real32 *sourceDataF32  = 
+            reinterpret_cast<const Real32*>(sourceData);
+        const Real16 *sourceDataH16  = 
+            reinterpret_cast<const Real16*>(sourceData);
+
+
         UInt16 *destDataUC16   = reinterpret_cast<UInt16*>(data);
-        UInt32 *sourceDataUC32 = reinterpret_cast<UInt32*>(sourceData);
         UInt32 *destDataUC32   = reinterpret_cast<UInt32*>(data);
-        Real32 *sourceDataF32  = reinterpret_cast<Real32*>(sourceData);
         Real32 *destDataF32    = reinterpret_cast<Real32*>(data);
-        Real16 *sourceDataH16  = reinterpret_cast<Real16*>(sourceData);
         Real16 *destDataH16    = reinterpret_cast<Real16*>(data);
 
         if (data)
@@ -2042,7 +2049,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
 
 void Image::swapDataEndian(void)
 {
-    UChar8 *data = getData();
+    UChar8 *data = editData();
 
     Int32 size = getSize() / getComponentSize();
     UInt16 *dataUC16 = reinterpret_cast<UInt16*>(data);
@@ -2134,19 +2141,24 @@ bool Image::convertDataTypeTo (Int32 destDataType)
                 true,
                 getSideCount());
 
-    UChar8 *sourceData = getData();
-    UChar8 *destData = dest->getData();
+    const UChar8 *sourceData = getData();
+    UChar8 *destData = dest->editData();
 
     Int32 sourceSize = getSize()/getComponentSize();
     Int32 destSize = dest->getSize()/dest->getComponentSize();
 
-    UInt16 *sourceDataUC16 = reinterpret_cast<UInt16*>(sourceData);
+    const UInt16 *sourceDataUC16 = 
+        reinterpret_cast<const UInt16*>(sourceData);
+    const UInt32 *sourceDataUC32 = 
+        reinterpret_cast<const UInt32*>(sourceData);
+    const Real32 *sourceDataF32  = 
+        reinterpret_cast<const Real32*>(sourceData);
+    const Real16 *sourceDataH16  = 
+        reinterpret_cast<const Real16*>(sourceData);
+
     UInt16 *destDataUC16   = reinterpret_cast<UInt16*>(destData);
-    UInt32 *sourceDataUC32 = reinterpret_cast<UInt32*>(sourceData);
     UInt32 *destDataUC32   = reinterpret_cast<UInt32*>(destData);
-    Real32 *sourceDataF32  = reinterpret_cast<Real32*>(sourceData);
     Real32 *destDataF32    = reinterpret_cast<Real32*>(destData);
-    Real16 *sourceDataH16  = reinterpret_cast<Real16*>(sourceData);
     Real16 *destDataH16    = reinterpret_cast<Real16*>(destData);
 
     switch (getDataType())
@@ -2368,13 +2380,13 @@ bool Image::convertDataTypeTo (Int32 destDataType)
 void Image::clear(UChar8 pixelValue)
 {
     if(getData() != NULL)
-        memset(getData(),pixelValue,getSize());
+        memset(editData(),pixelValue,getSize());
 }
 
 void Image::clearFloat(Real32 pixelValue)
 {
     unsigned long   n = getSize()/getComponentSize();
-    Real32       *d = reinterpret_cast<Real32*>(getData());
+    Real32       *d = reinterpret_cast<Real32*>(editData());
 
     if(n && d)
         while(n--)
@@ -2384,7 +2396,7 @@ void Image::clearFloat(Real32 pixelValue)
 void Image::clearHalf(Real16 pixelValue)
 {
     unsigned long   n = getSize()/getComponentSize();
-    Real16       *d = reinterpret_cast<Real16*>(getData());
+    Real16       *d = reinterpret_cast<Real16*>(editData());
 
     if(n && d)
         while(n--)
@@ -2485,11 +2497,11 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
     ImagePtr destImage;
     UInt32  sw, sh, sd, dw, dh, dd;
     Int32   frame, side, mipmap;
-    UChar8  *src, *dest;
+    const UChar8  *src;
+    UChar8  *dest;
     Int32   oldWidth =getWidth();
     Int32   oldHeight=getHeight();
     Int32   oldDepth =getDepth();
-    MFUInt8 srcPixel;
 
     if ( (oldWidth == width) &&
          (oldHeight == height) &&
@@ -2513,7 +2525,7 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
         destImage=ImagePtr(this);
 
     // get pixel
-    srcPixel=getPixel();
+    const MFUInt8 &srcPixel=(*getMFPixel());
     // set image data
     destImage->set(static_cast<PixelFormat>(getPixelFormat()),
                    width, height, depth, getMipMapCount(),
@@ -2537,7 +2549,7 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
           if(mipmap)
             src+=calcMipmapSumSize ( mipmap,
                                      oldWidth, oldHeight, oldDepth);
-          dest=destImage->getData(mipmap,frame,side);
+          dest=destImage->editData(mipmap,frame,side);
           
           // calc the mipmap size
           sw = oldWidth  >> mipmap;
@@ -2594,8 +2606,8 @@ bool Image::subImage ( Int32 offX, Int32 offY, Int32 offZ,
     destImage->set(static_cast<PixelFormat>(getPixelFormat()),
                    destW, destH, destD,1,1,0.0,0,getDataType());
 
-    UChar8  *src = getData();
-    UChar8 *dest = destImage->getData();
+    const UChar8  *src = getData();
+    UChar8 *dest = destImage->editData();
 
     FDEBUG(("Image::subImage (%d %d %d) - (%d %d %d) - destPtr %p\n",
             offX, offY, offZ, destW, destH, destD, dest));
@@ -2689,8 +2701,8 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
         destImage->set(static_cast<PixelFormat>(getPixelFormat()),
                        getWidth(), getDepth(), 1,1,1,0.0,0,getDataType());
 
-        UChar8  *src  = getData();
-        UChar8  *dest = destImage->getData();
+        const UChar8  *src  = getData();
+        UChar8  *dest = destImage->editData();
 
         // ensure destination data is zero
         memset(dest, 0, destImage->getSize());
@@ -2714,8 +2726,8 @@ bool Image::slice ( Int32 offX, Int32 offY, Int32 offZ,
         destImage->set(static_cast<PixelFormat>(getPixelFormat()),
                        getWidth(), getDepth(), 1,1,1,0.0,0,getDataType());
 
-        UChar8  *src  = getData();
-        UChar8  *dest = destImage->getData();
+        const UChar8  *src  = getData();
+        UChar8  *dest = destImage->editData();
 
         // ensure destination data is zero
         memset(dest, 0, destImage->getSize());
@@ -2788,11 +2800,18 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
     ImagePtr destImage = destination;
     Int32   w = getWidth(), h = getHeight(), d = getDepth();
     Int32   wm, hm, dm, wi, hi, di;
-    UChar8  *src, *dest;
-    UInt16 *sourceDataUC16, *destDataUC16;
-    UInt32 *sourceDataUC32, *destDataUC32;
-    Real32 *sourceDataF32, *destDataF32;
-    Real16 *sourceDataH16, *destDataH16;
+    const UChar8 *src;
+    UChar8 *dest;
+
+    const UInt16 *sourceDataUC16;
+    const UInt32 *sourceDataUC32;
+    const Real32 *sourceDataF32;
+    const Real16 *sourceDataH16;
+
+    UInt16 *destDataUC16;
+    UInt32 *destDataUC32;
+    Real32 *destDataF32;
+    Real16 *destDataH16;
 
     if (hasCompressedData()) 
     {
@@ -2833,11 +2852,11 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
               for(side = 0; side < getSideCount(); side++) 
               {
                 src = this->getData(0, frame, side);
-                dest = destImage->getData(0, frame, side);
+                dest = destImage->editData(0, frame, side);
                 size = getWidth() * getHeight() * getDepth() * getBpp();
                 memcpy(dest,src, size);
                 src = dest;
-                dest = src + size;
+                dest = dest + size;
                 w = getWidth();
                 h = getHeight();
                 d = getDepth();
@@ -2892,7 +2911,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
               {
                 src = this->getData(0, frame, side);
                 // sourceDataUC16 = (UInt16*) this->getData(0, frame);
-                dest = destImage->getData(0, frame, side);
+                dest = destImage->editData(0, frame, side);
                 // destDataUC16 = (UInt16*) destImage->getData(0, frame);
 
                 size = getWidth() * getHeight() * getDepth() * getBpp();
@@ -2902,7 +2921,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                 memcpy(dest,src, size);
 
                 src = dest;
-                dest = src + size;
+                dest = dest + size;
                 // sourceDataUC16 = destDataUC16;
                 // destDataUC16 = sourceDataUC16 + sizeUC16;
 
@@ -2910,7 +2929,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                 h = getHeight();
                 d = getDepth();
 
-                sourceDataUC16 = reinterpret_cast<UInt16*>(src);
+                sourceDataUC16 = reinterpret_cast<const UInt16*>(src);
                 destDataUC16   = reinterpret_cast<UInt16*>(dest);
 
                 for(mipmap = 1; mipmap < level; mipmap++)
@@ -2963,7 +2982,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
               {
                 src = this->getData(0, frame,side);
                 // sourceDataUC32 = (UInt32*) this->getData(0, frame);
-                dest = destImage->getData(0, frame,side);
+                dest = destImage->editData(0, frame,side);
                 // destDataUC32 = (UInt32*) destImage->getData(0, frame);
 
                 size = getWidth() * getHeight() * getDepth() * getBpp();
@@ -2972,7 +2991,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                 memcpy(dest,src, size);
 
                 src = dest;
-                dest = src + size;
+                dest = dest + size;
                 // sourceDataUC32 = destDataUC32;
                 // destDataUC32 = sourceDataUC32 + sizeUC32;
 
@@ -2980,7 +2999,7 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
                 h = getHeight();
                 d = getDepth();
 
-                sourceDataUC32 = reinterpret_cast<UInt32*>(src);
+                sourceDataUC32 = reinterpret_cast<const UInt32*>(src);
                 destDataUC32   = reinterpret_cast<UInt32*>(dest);
 
                 for(mipmap = 1; mipmap < level; mipmap++)
@@ -3032,16 +3051,16 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
               for(side = 0; side < getSideCount(); side++) 
               {
                 src = this->getData(0, frame,side);
-                dest = destImage->getData(0, frame,side);
+                dest = destImage->editData(0, frame,side);
                 size = getWidth() * getHeight() * getDepth() * getBpp();
                 memcpy(dest,src, size);
                 src = dest;
-                dest = src + size;
+                dest = dest + size;
                 w = getWidth();
                 h = getHeight();
                 d = getDepth();
 
-                sourceDataF32 = reinterpret_cast<Real32*>(src);
+                sourceDataF32 = reinterpret_cast<const Real32*>(src);
                 destDataF32   = reinterpret_cast<Real32*>(dest);
 
                 for(mipmap = 1; mipmap < level; mipmap++)
@@ -3092,16 +3111,16 @@ bool Image::createMipmap(Int32 level, ImagePtr destination)
               for(side = 0; side < getSideCount(); side++) 
               {
                 src = this->getData(0, frame,side);
-                dest = destImage->getData(0, frame,side);
+                dest = destImage->editData(0, frame,side);
                 size = getWidth() * getHeight() * getDepth() * getBpp();
                 memcpy(dest,src, size);
                 src = dest;
-                dest = src + size;
+                dest = dest + size;
                 w = getWidth();
                 h = getHeight();
                 d = getDepth();
     
-                sourceDataH16 = reinterpret_cast<Real16*>(src);
+                sourceDataH16 = reinterpret_cast<const Real16*>(src);
                 destDataH16   = reinterpret_cast<Real16*>(dest);
     
                 for(mipmap = 1; mipmap < level; mipmap++)
@@ -3193,8 +3212,8 @@ bool Image::removeMipmap(void)
     {
         for(Int32 side = 0; side < getSideCount(); side++) 
         {
-            UChar8 *src = this->getData(0, frame, side);
-            UChar8 *dest = destImage->getData(0, frame, side);
+            const UChar8 *src = this->getData(0, frame, side);
+            UChar8 *dest = destImage->editData(0, frame, side);
             Int32 size = getWidth() * getHeight() * getDepth() * getBpp();
             memcpy(dest,src, size);
         }
@@ -3357,7 +3376,12 @@ bool Image::hasColorChannel(void)
 
 /*! Method returns the right frame data for the given time.
  */
-UInt8 *Image::getDataByTime(Time   time, UInt32)
+
+#ifndef OSG_2_PREP
+UInt8 *Image::getDataByTime(Time   time, UInt32) 
+#else
+const UInt8 *Image::getDataByTime(Time   time, UInt32) const
+#endif
 {
     UInt32 frameNum = calcFrameNum(time, true);
 
@@ -3383,7 +3407,7 @@ bool Image::calcIsAlphaBinary(void)
     UInt32 npix = getWidth() * getHeight() * getDepth() * getFrameCount();
     UInt8 pixelsize = getBpp();
     
-    UInt8 *data = getData();
+    const UInt8 *data = getData();
     
     switch(getPixelFormat())
     {
@@ -3399,56 +3423,57 @@ bool Image::calcIsAlphaBinary(void)
     
     switch(getDataType())
     {
-    case OSG_UINT8_IMAGEDATA:
-                        for(; npix > 0; --npix, data += pixelsize)
-                        {
-                            if(*data != 0 && *data != 0xffU)
-                                break;
-                        }
-                        break;
-    case OSG_UINT16_IMAGEDATA:
-                        for(; npix > 0; --npix, data += pixelsize)
-                        {
-                            UInt16 *d = reinterpret_cast<UInt16*>(data);
-                            if(*d != 0 && *d != 0xffffU)
-                                break;
-                        }
-                        break;
-    case OSG_UINT32_IMAGEDATA:
-                        for(; npix > 0; --npix, data += pixelsize)
-                        {
-                            UInt32 *d = reinterpret_cast<UInt32*>(data);
-                            if(*d != 0 && *d != 0xffffffffU)
-                                break;
-                        }
-                        break;
-    case OSG_FLOAT16_IMAGEDATA:
-                        for(; npix > 0; --npix, data += pixelsize)
-                        {
-                            Real16 *d = reinterpret_cast<Real16*>(data);
-                            if(*d != 0 && *d != 1)
-                                break;
-                        }
-                        break;
-    case OSG_FLOAT32_IMAGEDATA:
-                        for(; npix > 0; --npix, data += pixelsize)
-                        {
-                            Real32 *d = reinterpret_cast<Real32*>(data);
-                            if(*d != 0 && *d != 1)
-                                break;
-                        }
-                        break;
-	case OSG_INT16_IMAGEDATA:
-	case OSG_INT32_IMAGEDATA:
+        case OSG_UINT8_IMAGEDATA:
+            for(; npix > 0; --npix, data += pixelsize)
+            {
+                if(*data != 0 && *data != 0xffU)
+                    break;
+            }
+            break;
+        case OSG_UINT16_IMAGEDATA:
+            for(; npix > 0; --npix, data += pixelsize)
+            {
+                const UInt16 *d = reinterpret_cast<const UInt16*>(data);
+                
+                if(*d != 0 && *d != 0xffffU)
+                    break;
+            }
+            break;
+        case OSG_UINT32_IMAGEDATA:
+            for(; npix > 0; --npix, data += pixelsize)
+            {
+                const UInt32 *d = reinterpret_cast<const UInt32*>(data);
+                if(*d != 0 && *d != 0xffffffffU)
+                    break;
+            }
+            break;
+        case OSG_FLOAT16_IMAGEDATA:
+            for(; npix > 0; --npix, data += pixelsize)
+            {
+                const Real16 *d = reinterpret_cast<const Real16*>(data);
+                if(*d != 0 && *d != 1)
+                    break;
+            }
+            break;
+        case OSG_FLOAT32_IMAGEDATA:
+            for(; npix > 0; --npix, data += pixelsize)
+            {
+                const Real32 *d = reinterpret_cast<const Real32*>(data);
+                if(*d != 0 && *d != 1)
+                    break;
+            }
+            break;
+        case OSG_INT16_IMAGEDATA:
+        case OSG_INT32_IMAGEDATA:
 		{
 			FFATAL((" 'calcIsAlphaBinary' NYI\n "));
 		}
 		break;
-    default:
-                        FWARNING(("Image::calcIsAlphaBinary: found unknown "
-                                  "data type %d, assumning false.\n", 
-                                  getDataType()));
-                        return false;
+        default:
+            FWARNING(("Image::calcIsAlphaBinary: found unknown "
+                      "data type %d, assumning false.\n", 
+                      getDataType()));
+            return false;
     }
     
     return npix == 0;
@@ -3672,19 +3697,19 @@ bool Image::createData(const UInt8 *data, bool allocMem)
     // copy the data
     if(allocMem && (byteCount = getSize()))
     {
-        if(getPixel().getSize() != byteCount)
+        if(getMFPixel()->getSize() != byteCount)
         {
             try
             {
-                if(byteCount < getPixel().getSize())
+                if(byteCount < getMFPixel()->getSize())
                 {
-                    getPixel().clear();
+                    editMFPixel()->clear();
                     // free unused memory.
                     MFUInt8 tmp;
-                    tmp.swap(getPixel());
+                    tmp.swap((*editMFPixel()));
                 }
-
-                getPixel().resize(byteCount);
+                
+                editMFPixel()->resize(byteCount);
             }
             catch(...)
             {
@@ -3693,11 +3718,11 @@ bool Image::createData(const UInt8 *data, bool allocMem)
             }
         }
         if(data)
-            memcpy(getData(), data, byteCount);
+            memcpy(editData(), data, byteCount);
     }
     else
     {
-        getPixel().clear();
+        editMFPixel()->clear();
     }
 
     endEditCP(iPtr,
@@ -3712,7 +3737,7 @@ bool Image::createData(const UInt8 *data, bool allocMem)
 
 /*! Internal method to scale image data blocks
  */
-bool Image::scaleData(UInt8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
+bool Image::scaleData(const UInt8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
                       UInt8 *destData, Int32 destW, Int32 destH, Int32 destD)
 {
     Real32  sx = Real32(srcW) / Real32(destW);
@@ -3722,7 +3747,7 @@ bool Image::scaleData(UInt8 *srcData, Int32 srcW, Int32 srcH, Int32 srcD,
 
     //  Int32 destDize = destW * destH * destD;
     Int32   x, y, z, p;
-    UInt8  *slice, *line, *pixel;
+    const UInt8  *slice, *line, *pixel;
 
     if(destW == srcW && destH == srcH && destD == srcD)
     {

@@ -51,9 +51,9 @@ OSG_BEGIN_NAMESPACE inline void GraphicStatisticsForeground::processValue(Real32
 inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
                                                           const UInt32 &elementID)
 {
-    UInt32  flags = getFlags()[elementID];
-    Real32  minV = getMinValue()[elementID];
-    Real32  maxV = getMaxValue()[elementID];
+    UInt32  flags = getFlags(elementID);
+    Real32  minV  = getMinValue(elementID);
+    Real32  maxV  = getMaxValue(elementID);
 
     /* check for invert */
     if(flags & OSG_RECIPROC)
@@ -66,7 +66,7 @@ inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
     {
         if(flags & OSG_OVERFLOW_RESIZE)
         {
-            getMaxValue()[elementID] = value;
+            editMaxValue(elementID) = value;
         }
         else
         {
@@ -79,7 +79,7 @@ inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
     {
         if(flags & OSG_UNDERFLOW_RESIZE)
         {
-            getMinValue()[elementID] = value;
+            editMinValue(elementID) = value;
         }
         else
         {
@@ -94,7 +94,7 @@ inline void GraphicStatisticsForeground::processOnlyValue(Real32 &value,
 inline void GraphicStatisticsForeground::addValueToHistory(Real32 &value,
                                                            const UInt32 &elementID)
 {
-    UInt32  flags = getFlags()[elementID];
+    UInt32  flags = getFlags(elementID);
 
     /* Smooth the value, if asked for */
     UInt32  hSize = _history.size();
@@ -139,16 +139,16 @@ inline void GraphicStatisticsForeground::addValueToHistory(Real32 &value,
                 //_history[ID][queueEnd] = value;
             }
 
-            if((flags & OSG_OVERFLOW_RESIZE) && (max < getMaxValue()[elementID]))
+            if((flags & OSG_OVERFLOW_RESIZE) && (max < getMaxValue(elementID)))
             {
-                max += (getMaxValue()[elementID] - max) / 2.0f;
-                getMaxValue()[elementID] = osgMax(v, max);
+                max += (getMaxValue(elementID) - max) / 2.0f;
+                editMaxValue(elementID) = osgMax(v, max);
             }
 
-            if((flags & OSG_UNDERFLOW_RESIZE) && (min > getMinValue()[elementID]))
+            if((flags & OSG_UNDERFLOW_RESIZE) && (min > getMinValue(elementID)))
             {
-                min -= (min - getMinValue()[elementID]) / 2.0f;
-                getMinValue()[elementID] = osgMin(v, min);
+                min -= (min - getMinValue(elementID)) / 2.0f;
+                editMinValue(elementID) = osgMin(v, min);
             }
         }
     }

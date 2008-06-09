@@ -69,11 +69,11 @@ void ComponentTransform::changed(BitVector whichField, UInt32 origin)
     {
         beginEditCP(ptr, MatrixFieldMask);
         {
-            getMatrix().setTransform(getTranslation     (),
-                                     getRotation        (),
-                                     getScale           (),
-                                     getScaleOrientation(),
-                                     getCenter          ());
+            editMatrix().setTransform(getTranslation     (),
+                                      getRotation        (),
+                                      getScale           (),
+                                      getScaleOrientation(),
+                                      getCenter          ());
         }
         endEditCP  (ptr, MatrixFieldMask);
     }

@@ -119,8 +119,8 @@ void DistortionDisplayFilter::createFilter(DisplayFilterForeground *fg,
         return;
     }
     
-    if(!getPositions().empty() &&
-       getColumns() * getRows() != getPositions().size())
+    if(!getMFPositions()->empty() &&
+       getColumns() * getRows() != getMFPositions()->size())
     {
         SWARNING << "DistortionDisplayFilter wrong number of positions" << std::endl;
         return;
@@ -132,10 +132,10 @@ void DistortionDisplayFilter::createFilter(DisplayFilterForeground *fg,
     GeoPositionsPtr pos = group->getGeometry()->getPositions();
 
     beginEditCP(pos,Geometry::PositionsFieldMask);
-    for(UInt32 p = 0 ; p < getPositions().size() ; ++p)
+    for(UInt32 p = 0 ; p < getMFPositions()->size() ; ++p)
     {
-        pos->setValue(Pnt3f(getPositions()[p][0],
-                            getPositions()[p][1],
+        pos->setValue(Pnt3f(getPositions(p)[0],
+                            getPositions(p)[1],
                             0),p);
     }
     endEditCP(pos,Geometry::PositionsFieldMask);

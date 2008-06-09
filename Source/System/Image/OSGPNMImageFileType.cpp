@@ -178,7 +178,7 @@ bool PNMImageFileType::read(ImagePtr &image, std::istream &in, const std::string
     // eat the endline
     in.ignore(INT_MAX, '\n');
 
-    if(maxValue && (imageData = image->getData()))
+    if(maxValue && (imageData = image->editData()))
     {
         SINFO <<
             "Read pnm file of type " <<
@@ -230,7 +230,7 @@ bool PNMImageFileType::write(const ImagePtr &image, std::ostream &out, const std
 {
     Int16          p, y, x, lineSize;
     UInt16         bpp = image->getBpp();
-    UInt8         *data = 0;
+    const UInt8   *data = 0;
 
     switch(bpp)
     {
@@ -254,8 +254,8 @@ bool PNMImageFileType::write(const ImagePtr &image, std::ostream &out, const std
         lineSize = image->getBpp() * image->getWidth();
         for(y = image->getHeight() - 1; y >= 0; y--)
         {
-            out.write(reinterpret_cast<char *>(image->getData() + 
-                                               (lineSize * y)), 
+            out.write(reinterpret_cast<const char *>(image->getData() + 
+                                                     (lineSize * y)), 
                       lineSize);
         }
     }
@@ -265,7 +265,8 @@ bool PNMImageFileType::write(const ImagePtr &image, std::ostream &out, const std
         lineSize = image->getBpp() * image->getWidth();
         for(y = image->getHeight() - 1; y >= 0; y--)
         {
-            data = static_cast<UInt8 *>(image->getData() + (lineSize * y));
+            data = static_cast<const UInt8 *>(image->getData() + 
+                                              (lineSize * y));
             for(x = 0; x < image->getWidth(); x++)
             {
                 for(p = bpp - 1; p--;)

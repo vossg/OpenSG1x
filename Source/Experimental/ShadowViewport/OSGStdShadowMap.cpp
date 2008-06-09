@@ -1020,17 +1020,17 @@ StdShadowMap::StdShadowMap(ShadowViewport *source) :
     _pf = PolygonForeground::create();
     beginEditCP(_pf);
     _pf->setMaterial(_combineCmat);
-    _pf->getTexCoords().push_back(Vec3f(0.0f, 0.0f, 0.0f));
-    _pf->getPositions().push_back(Pnt2f(0.0f, 0.0f));
+    _pf->editMFTexCoords()->push_back(Vec3f(0.0f, 0.0f, 0.0f));
+    _pf->editMFPositions()->push_back(Pnt2f(0.0f, 0.0f));
 
-    _pf->getTexCoords().push_back(Vec3f(1.0f, 0.0f, 0.0f));
-    _pf->getPositions().push_back(Pnt2f(1.0f, 0.0f));
+    _pf->editMFTexCoords()->push_back(Vec3f(1.0f, 0.0f, 0.0f));
+    _pf->editMFPositions()->push_back(Pnt2f(1.0f, 0.0f));
 
-    _pf->getTexCoords().push_back(Vec3f(1.0f, 1.0f, 0.0f));
-    _pf->getPositions().push_back(Pnt2f(1.0f, 1.0f));
+    _pf->editMFTexCoords()->push_back(Vec3f(1.0f, 1.0f, 0.0f));
+    _pf->editMFPositions()->push_back(Pnt2f(1.0f, 1.0f));
 
-    _pf->getTexCoords().push_back(Vec3f(0.0f, 1.0f, 0.0f));
-    _pf->getPositions().push_back(Pnt2f(0.0f, 1.0f));
+    _pf->editMFTexCoords()->push_back(Vec3f(0.0f, 1.0f, 0.0f));
+    _pf->editMFPositions()->push_back(Pnt2f(0.0f, 1.0f));
 
     _pf->setNormalizedX(true);
     _pf->setNormalizedY(true);
@@ -1367,9 +1367,9 @@ void StdShadowMap::createShadowMapsNOGLSL(RenderActionBase *action)
     }
 
     // deactivate exclude nodes:
-    for(UInt32 i = 0;i < _shadowVP->getExcludeNodes().getSize();++i)
+    for(UInt32 i = 0;i < _shadowVP->getMFExcludeNodes()->getSize();++i)
     {
-        NodePtr exnode = _shadowVP->getExcludeNodes()[i];
+        NodePtr exnode = _shadowVP->getExcludeNodes(i);
         if(exnode != NullFC)
             exnode->setActive(false);
     }
@@ -1455,9 +1455,9 @@ void StdShadowMap::createShadowMapsNOGLSL(RenderActionBase *action)
     }
 
     // activate exclude nodes:
-    for(UInt32 i = 0;i < _shadowVP->getExcludeNodes().getSize();++i)
+    for(UInt32 i = 0;i < _shadowVP->getMFExcludeNodes()->getSize();++i)
     {
-        NodePtr exnode = _shadowVP->getExcludeNodes()[i];
+        NodePtr exnode = _shadowVP->getExcludeNodes(i);
         if(exnode != NullFC)
             if(_shadowVP->_excludeNodeActive[i])
                 exnode->setActive(true);
@@ -1518,9 +1518,9 @@ void StdShadowMap::createShadowMaps(RenderActionBase *action)
     }
 
     // deactivate exclude nodes:
-    for(UInt32 i = 0;i < _shadowVP->getExcludeNodes().getSize();++i)
+    for(UInt32 i = 0;i < _shadowVP->getMFExcludeNodes()->getSize();++i)
     {
-        NodePtr exnode = _shadowVP->getExcludeNodes()[i];
+        NodePtr exnode = _shadowVP->getExcludeNodes(i);
         if(exnode != NullFC)
             exnode->setActive(false);
     }
@@ -1742,9 +1742,9 @@ void StdShadowMap::createShadowMaps(RenderActionBase *action)
     }
 
     // activate exclude nodes:
-    for(UInt32 i = 0;i < _shadowVP->getExcludeNodes().getSize();++i)
+    for(UInt32 i = 0;i < _shadowVP->getMFExcludeNodes()->getSize();++i)
     {
-        NodePtr exnode = _shadowVP->getExcludeNodes()[i];
+        NodePtr exnode = _shadowVP->getExcludeNodes(i);
         if(exnode != NullFC)
             if(_shadowVP->_excludeNodeActive[i])
                 exnode->setActive(true);
@@ -1786,9 +1786,9 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase *action)
     }
 
     // deactivate exclude nodes:
-    for(UInt32 i = 0;i < _shadowVP->getExcludeNodes().getSize();++i)
+    for(UInt32 i = 0;i < _shadowVP->getMFExcludeNodes()->getSize();++i)
     {
-        NodePtr exnode = _shadowVP->getExcludeNodes()[i];
+        NodePtr exnode = _shadowVP->getExcludeNodes(i);
         if(exnode != NullFC)
             exnode->setActive(false);
     }
@@ -1943,9 +1943,9 @@ void StdShadowMap::createShadowMapsFBO(RenderActionBase *action)
     }
 
     // activate exclude nodes:
-    for(UInt32 i = 0;i < _shadowVP->getExcludeNodes().getSize();++i)
+    for(UInt32 i = 0;i < _shadowVP->getMFExcludeNodes()->getSize();++i)
     {
-        NodePtr exnode = _shadowVP->getExcludeNodes()[i];
+        NodePtr exnode = _shadowVP->getExcludeNodes(i);
         if(exnode != NullFC)
             if(_shadowVP->_excludeNodeActive[i])
                 exnode->setActive(true);
@@ -3976,7 +3976,7 @@ void StdShadowMap::render(RenderActionBase *action)
         glPopAttrib();
 
         // render the foregrounds.
-        for(UInt16 i = 0;i < _shadowVP->getForegrounds().size();++i)
+        for(UInt16 i = 0;i < _shadowVP->getMFForegrounds()->size();++i)
         {
             _shadowVP->getForegrounds(i)->draw(action, _shadowVP);
         }

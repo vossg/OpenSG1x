@@ -197,8 +197,8 @@ void DVRVolume::adjustVolume(Volume &volume)
 
     if (tex != NullFC) 
     {
-        Vec3f & res   = tex->getResolution    ();
-        Vec3f & slice = tex->getSliceThickness();
+        const Vec3f & res   = tex->getResolution    ();
+        const Vec3f & slice = tex->getSliceThickness();
     
         Vec3f minBB(-0.5f * res[0] * slice[0],
                     -0.5f * res[1] * slice[1],
@@ -696,8 +696,8 @@ void DVRVolume::initializeClipObjects(      DrawActionBase *action,
 
         if(tex != NullFC) 
         {
-            Vec3f &res   = tex->getResolution();
-            Vec3f &slice = tex->getSliceThickness();
+            const Vec3f &res   = tex->getResolution();
+            const Vec3f &slice = tex->getSliceThickness();
             
             Vec3f diag(res[0] * slice[0], 
                        res[1] * slice[1], 

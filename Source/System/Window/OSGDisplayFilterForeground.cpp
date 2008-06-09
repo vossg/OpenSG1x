@@ -131,7 +131,7 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
     
     UInt32 p,f;
     WindowPtr window = port->getParent();
-    MFDisplayFilterPtr::iterator fI;
+    MFDisplayFilterPtr::const_iterator fI;
 
     RenderActionBase *ract = dynamic_cast<RenderActionBase*>(action);
     DrawAction       *dact = dynamic_cast<DrawAction*>(action);
@@ -140,15 +140,15 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     // rebuild filter, if enabled state changed
-    if(_changedState.size() != getFilter().size())
+    if(_changedState.size() != getMFFilter()->size())
     {
         clearGroups();
     }
     else
     {
-        for(f = 0 ; f < getFilter().size() ; ++f)
+        for(f = 0 ; f < getMFFilter()->size() ; ++f)
         {
-            if(_changedState[f] != getFilter()[f]->getChanged())
+            if(_changedState[f] != getFilter(f)->getChanged())
             {
                 clearGroups();
                 break;
@@ -164,12 +164,12 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
         //    _hasNonPowTwoTex = true;
         //else
         //    _hasNonPowTwoTex = false;
-        _changedState.resize(getFilter().size());
-        for(f = 0 ; f < getFilter().size() ; ++f)
+        _changedState.resize(getMFFilter()->size());
+        for(f = 0 ; f < getMFFilter()->size() ; ++f)
         {
-            _changedState[f] =  getFilter()[f]->getChanged();
-            if(getFilter()[f]->getEnabled())
-                getFilter()[f]->createFilter(this,port);
+            _changedState[f] =  getFilter(f)->getChanged();
+            if(getFilter(f)->getEnabled())
+                getFilter(f)->createFilter(this,port);
         }
     }
     // update viewport size
@@ -207,8 +207,8 @@ void DisplayFilterForeground::draw(DrawActionBase *action, Viewport *port)
     }
 
     // individual filter update
-    for(fI = getFilter().begin() ;
-        fI != getFilter().end() ;
+    for(fI = getMFFilter()->begin() ;
+        fI != getMFFilter()->end() ;
         ++fI) {
         if((*fI)->getEnabled())
             (*fI)->updateFilter(port);

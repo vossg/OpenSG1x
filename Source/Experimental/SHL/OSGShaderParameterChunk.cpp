@@ -123,7 +123,7 @@ void ShaderParameterChunk::onCreate(const ShaderParameterChunk *source)
     if(GlobalSystemState == Startup)
         return;
 
-    _parameter_access = new ShaderParameterAccess(getParameters());
+    _parameter_access = new ShaderParameterAccess(*editMFParameters());
 }
 
 void ShaderParameterChunk::onDestroy(void)
@@ -265,7 +265,7 @@ bool ShaderParameterChunk::subUniformParameter(const char *name)
 
 void ShaderParameterChunk::clearUniformParameters(void)
 {
-    MFShaderParameterPtr &parameters = getParameters();
+    MFShaderParameterPtr &parameters = *editMFParameters();
     UInt32 size = parameters.size();
 
     for(UInt32 i=0;i<size;++i)
@@ -283,32 +283,32 @@ void ShaderParameterChunk::clearUniformParameters(void)
 
 bool ShaderParameterChunk::getUniformParameter(const char *name, MFInt32 &value)
 {
-    return _parameter_access->getParameter<ShaderParameterMInt>(name, value);
+    return _parameter_access->getMParameter<ShaderParameterMInt>(name, value);
 }
 
 bool ShaderParameterChunk::getUniformParameter(const char *name, MFReal32 &value)
 {
-    return _parameter_access->getParameter<ShaderParameterMReal>(name, value);
+    return _parameter_access->getMParameter<ShaderParameterMReal>(name, value);
 }
 
 bool ShaderParameterChunk::getUniformParameter(const char *name, MFVec2f &value)
 {
-    return _parameter_access->getParameter<ShaderParameterMVec2f>(name, value);
+    return _parameter_access->getMParameter<ShaderParameterMVec2f>(name, value);
 }
 
 bool ShaderParameterChunk::getUniformParameter(const char *name, MFVec3f &value)
 {
-    return _parameter_access->getParameter<ShaderParameterMVec3f>(name, value);
+    return _parameter_access->getMParameter<ShaderParameterMVec3f>(name, value);
 }
 
 bool ShaderParameterChunk::getUniformParameter(const char *name, MFVec4f &value)
 {
-    return _parameter_access->getParameter<ShaderParameterMVec4f>(name, value);
+    return _parameter_access->getMParameter<ShaderParameterMVec4f>(name, value);
 }
 
 bool ShaderParameterChunk::getUniformParameter(const char *name, MFMatrix &value)
 {
-    return _parameter_access->getParameter<ShaderParameterMMatrix>(name, value);
+    return _parameter_access->getMParameter<ShaderParameterMMatrix>(name, value);
 }
 
 /*------------------------------------------------------------------------*/
@@ -324,7 +324,7 @@ bool ShaderParameterChunk::getUniformParameter(const char *name, MFMatrix &value
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.5 2007/09/11 13:35:48 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.6 2008/06/09 07:30:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID;
 

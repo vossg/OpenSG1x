@@ -458,7 +458,7 @@ void CubeTextureChunk::activate( DrawActionBase *action, UInt32 idx )
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
         glTexEnvfv(GL_TEXTURE_ENV, 
                    GL_TEXTURE_ENV_COLOR,
-                   static_cast<GLfloat*>(getEnvColor().getValuesRGBA()));
+                   static_cast<const GLfloat*>(getEnvColor().getValuesRGBA()));
 
         if(getEnvMode() == GL_COMBINE_EXT)
         {
@@ -617,7 +617,8 @@ void CubeTextureChunk::changeFrom(  DrawActionBase *action,
 
         glTexEnvfv(GL_TEXTURE_ENV, 
                    GL_TEXTURE_ENV_COLOR,
-                   reinterpret_cast<GLfloat*>(getEnvColor().getValuesRGBA()));
+                   reinterpret_cast<const GLfloat*>(
+                       getEnvColor().getValuesRGBA()));
 
         if(getEnvMode() == GL_COMBINE_EXT)
         {

@@ -225,9 +225,9 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
     geo->setNormals(norms);
     geo->setTexCoords(tex);
     geo->setIndices(index);
-    geo->getIndexMapping().push_back(Geometry::MapPosition | 
-                                    Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+    geo->editMFIndexMapping()->push_back(Geometry::MapPosition | 
+                                         Geometry::MapNormal   |
+                                         Geometry::MapTexCoords);
     geo->setTypes(types);
     geo->setLengths(lens);
     endEditCP(geo);
@@ -526,9 +526,9 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().push_back(Geometry::MapPosition | 
-                                    Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+    geo->editMFIndexMapping()->push_back(Geometry::MapPosition | 
+                                         Geometry::MapNormal   |
+                                         Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -666,9 +666,9 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().push_back(Geometry::MapPosition | 
-                                    Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+    geo->editMFIndexMapping()->push_back(Geometry::MapPosition | 
+                                         Geometry::MapNormal   |
+                                         Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -921,9 +921,9 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().push_back(Geometry::MapPosition |
-                                     Geometry::MapNormal);
-    geo->getIndexMapping().push_back(Geometry::MapTexCoords);
+    geo->editMFIndexMapping()->push_back(Geometry::MapPosition |
+                                         Geometry::MapNormal);
+    geo->editMFIndexMapping()->push_back(Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -1126,9 +1126,9 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().push_back(Geometry::MapPosition | 
-                                    Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+    geo->editMFIndexMapping()->push_back(Geometry::MapPosition | 
+                                         Geometry::MapNormal   |
+                                         Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);
@@ -1278,9 +1278,9 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
     geo->setMaterial(getDefaultMaterial());
     geo->setPositions(pnts);
     geo->setNormals(norms);
-    geo->getIndexMapping().push_back(Geometry::MapPosition | 
-                                    Geometry::MapNormal |
-                                    Geometry::MapTexCoords);
+    geo->editMFIndexMapping()->push_back(Geometry::MapPosition | 
+                                         Geometry::MapNormal |
+                                         Geometry::MapTexCoords);
     geo->setTexCoords(tex);
     geo->setIndices(index);
     geo->setTypes(types);

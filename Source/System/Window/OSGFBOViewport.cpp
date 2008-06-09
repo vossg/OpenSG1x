@@ -622,7 +622,7 @@ void FBOViewport::render(RenderActionBase* action)
         SWARNING << "FBOViewport::render: no background!" << std::endl;
         return;
     }
-    if (getRoot() == NullFC && getRenderNodes().empty())
+    if (getRoot() == NullFC && getMFRenderNodes()->empty())
     {
         SWARNING << "FBOViewport::render: no root(s)!" << std::endl;
         return;
@@ -655,7 +655,7 @@ void FBOViewport::render(RenderActionBase* action)
             
     if (!getFboOn() || !extensionCheck())
     {
-        UInt32 i, numBuffers = (getTextures().getSize()) ? 1 : 0;
+        UInt32 i, numBuffers = (getMFTextures()->getSize()) ? 1 : 0;
         
         if ( !win->hasExtension("GL_ARB_texture_non_power_of_two") )
         {
@@ -687,9 +687,9 @@ void FBOViewport::render(RenderActionBase* action)
             FDEBUG(( "Using standard GL (%d maxTexSize) with %d %sTextures and %d views...\n",
                      maxTexSize, numBuffers, (depth ? "depth" : ""), sides ));
         
-            for (i=0; i<getExcludeNodes().getSize(); i++)
+            for (i=0; i<getMFExcludeNodes()->getSize(); i++)
             {
-                NodePtr exnode = getExcludeNodes()[i];
+                NodePtr exnode = getExcludeNodes(i);
                 if (exnode != NullFC)
                     exnode->setActive(false);
             }
@@ -747,7 +747,7 @@ void FBOViewport::render(RenderActionBase* action)
                 }
                 
                 // TODO; introduce special mode instead of searching for this type
-                for (j=0; j<win->getPort().size(); j++)
+                for (j=0; j<win->getMFPort()->size(); j++)
                 {
                     shadowVptPtr = ShadowViewportPtr::dcast(win->getPort(j));
                     
@@ -757,15 +757,20 @@ void FBOViewport::render(RenderActionBase* action)
                 
                 if (shadowVptPtr != NullFC)
                 {
-                    n = shadowVptPtr->getForegrounds().size();
+                    n = shadowVptPtr->getMFForegrounds()->size();
                     
                     for (j=n-1; j>=0; j--) {
-                        TextureGrabForegroundPtr grab = TextureGrabForegroundPtr::dcast(
-                                                        shadowVptPtr->getForegrounds(j));
+                        TextureGrabForegroundPtr grab = 
+                            TextureGrabForegroundPtr::dcast(
+                                shadowVptPtr->getForegrounds(j));
+
                         if (grab == NullFC) {
                             fgndBag.push_back(shadowVptPtr->getForegrounds(j));
-                            fgndIt = shadowVptPtr->getForegrounds().begin() + j;
-                            shadowVptPtr->getForegrounds().erase(fgndIt);
+
+                            fgndIt = 
+                                shadowVptPtr->editMFForegrounds()->begin() + j;
+
+                            shadowVptPtr->editMFForegrounds()->erase(fgndIt);
                         }
                         else {
                             grab->setActive(false);
@@ -852,21 +857,21 @@ void FBOViewport::render(RenderActionBase* action)
                             activate();
 
                             // render tile for one side of cube
-                            if (getRenderNodes().getSize() == 0)
+                            if (getMFRenderNodes()->getSize() == 0)
                             {
                                 action->apply(getRoot());
                             }
                             else
                             {
-                                for (i=0; i<getRenderNodes().getSize(); i++)
+                                for (i=0; i<getMFRenderNodes()->getSize(); i++)
                                 {
-                                    NodePtr rdnode = getRenderNodes()[i];  
+                                    NodePtr rdnode = getRenderNodes(i);  
                                     if (rdnode != NullFC)
                                         action->apply(rdnode);
                                 }
                             }
                             
-                            for (UInt16 fi=0; fi<getForegrounds().size(); fi++)
+                            for (UInt16 fi=0; fi<getMFForegrounds()->size(); fi++)
                                 getForegrounds(fi)->draw(action, this);
 
                             // deactivate viewport settings
@@ -938,21 +943,21 @@ void FBOViewport::render(RenderActionBase* action)
                         activate();
 
                         // render tile for texture
-                        if (getRenderNodes().getSize() == 0)
+                        if (getMFRenderNodes()->getSize() == 0)
                         {
                             action->apply(getRoot());
                         }
                         else
                         {
-                            for (i=0; i<getRenderNodes().getSize(); i++)
+                            for (i=0; i<getMFRenderNodes()->getSize(); i++)
                             {
-                                NodePtr rdnode = getRenderNodes()[i];  
+                                NodePtr rdnode = getRenderNodes(i);  
                                 if (rdnode != NullFC)
                                     action->apply(rdnode);
                             }
                         }
                         
-                        for (UInt16 fi=0; fi<getForegrounds().size(); fi++)
+                        for (UInt16 fi=0; fi<getMFForegrounds()->size(); fi++)
                             getForegrounds(fi)->draw(action, this);
                         
                         // deactivate viewport settings
@@ -963,7 +968,7 @@ void FBOViewport::render(RenderActionBase* action)
                         // Most likely there's just one texture attached, the
                         // color buffer or the depth buffer. But in case both
                         // are attached, copy both!
-                        for(UInt16 nt = 0; nt < getTextures().getSize(); nt++)
+                        for(UInt16 nt = 0; nt < getMFTextures()->getSize(); nt++)
                         {
                             win->validateGLObject(getTextures(nt)->getGLId());
                         
@@ -989,7 +994,7 @@ void FBOViewport::render(RenderActionBase* action)
                                     
                                 if (glCopyTexSubImage3D) 
                                 {
-                                    UInt32 iZ, numZ = getZOffset().size();
+                                    UInt32 iZ, numZ = getMFZOffset()->size();
                                     
                                     for (iZ=0; iZ<numZ; iZ++) 
                                     {
@@ -1035,10 +1040,11 @@ void FBOViewport::render(RenderActionBase* action)
                                 // select back buffer and read data into image
                                 glReadBuffer(GL_BACK); 
                                 glReadPixels(0, 0, getStorageWidth(),
-                                    getStorageHeight(), 
-                                    texImg->getPixelFormat(),
-                                    texImg->getDataType(),
-                                    texImg->getData()                 );
+                                             getStorageHeight(), 
+                                             texImg->getPixelFormat(),
+                                             texImg->getDataType(),
+                                             texImg->editData());
+
                                 glReadBuffer(GL_NONE);
                             }
                         }
@@ -1075,7 +1081,7 @@ void FBOViewport::render(RenderActionBase* action)
                         
                     if (glCopyTexSubImage3D) 
                     {
-                        UInt32 iZ, numZ = getZOffset().size();
+                        UInt32 iZ, numZ = getMFZOffset()->size();
                         
                         for (iZ=0; iZ<numZ; iZ++) 
                         {
@@ -1100,8 +1106,8 @@ void FBOViewport::render(RenderActionBase* action)
                       m = fgndBag.size() - 1;
                 
                 for (j=0;j<n; j++) {
-                    if (shadowVptPtr->getForegrounds().empty() && m >= 0) {
-                        shadowVptPtr->getForegrounds().push_back(fgndBag[m--]);
+                    if (shadowVptPtr->getMFForegrounds()->empty() && m >= 0) {
+                        shadowVptPtr->editMFForegrounds()->push_back(fgndBag[m--]);
                     }
                     else if (k >= 0 && pos[k] == j) {
                         ForegroundPtr fp = shadowVptPtr->getForegrounds(j);
@@ -1109,8 +1115,8 @@ void FBOViewport::render(RenderActionBase* action)
                         k--;
                     }
                     else if (m>=0) {
-                        fgndIt = shadowVptPtr->getForegrounds().begin() + j;
-                        shadowVptPtr->getForegrounds().insert(fgndIt, fgndBag[m--]);
+                        fgndIt = shadowVptPtr->editMFForegrounds()->begin() + j;
+                        shadowVptPtr->editMFForegrounds()->insert(fgndIt, fgndBag[m--]);
                     }
                 }
                 fgndBag.clear();
@@ -1137,9 +1143,9 @@ void FBOViewport::render(RenderActionBase* action)
                                 BottomFieldMask | TopFieldMask |
                                 StorageWidthFieldMask | StorageHeightFieldMask);
 
-            for (i=0; i<getExcludeNodes().getSize(); i++)
+            for (i=0; i<getMFExcludeNodes()->getSize(); i++)
             {
-                NodePtr exnode = getExcludeNodes()[i];
+                NodePtr exnode = getExcludeNodes(i);
                 if (exnode != NullFC)
                     exnode->setActive(true);
             }
@@ -1159,8 +1165,8 @@ void FBOViewport::render(RenderActionBase* action)
         Int32 numBuffers = getMaxBuffers();
         GLenum *buffers = NULL;
         
-        if (getTextures().getSize() < numBuffers)
-            numBuffers = getTextures().getSize();
+        if (getMFTextures()->getSize() < numBuffers)
+            numBuffers = getMFTextures()->getSize();
 
         if (numBuffers > 0) // texture found
         {
@@ -1212,7 +1218,7 @@ void FBOViewport::render(RenderActionBase* action)
             bind(win);
             
             // TODO; allow whole range and all at once, combine with buffers
-            GLint zoffset = getZOffset().size() ? getZOffset(0) : 0;
+            GLint zoffset = getMFZOffset()->size() ? getZOffset(0) : 0;
             bool needMipmaps = false;
 
             buffers = new GLenum[numBuffers];
@@ -1376,9 +1382,9 @@ void FBOViewport::render(RenderActionBase* action)
             }
 
             // render
-            for (i=0; i< Int32(getExcludeNodes().getSize()); i++)
+            for (i=0; i< Int32(getMFExcludeNodes()->getSize()); i++)
             {
-                NodePtr exnode = getExcludeNodes()[i];
+                NodePtr exnode = getExcludeNodes(i);
                 if (exnode != NullFC)
                     exnode->setActive(false);
             }
@@ -1412,21 +1418,21 @@ void FBOViewport::render(RenderActionBase* action)
             // activate viewport settings
             activate();
 
-            if (getRenderNodes().getSize() == 0)
+            if (getMFRenderNodes()->getSize() == 0)
             {
                 action->apply(getRoot());
             }
             else
             {
-                for (i=0; i< Int32(getRenderNodes().getSize()); i++)
+                for (i=0; i< Int32(getMFRenderNodes()->getSize()); i++)
                 {
-                    NodePtr rdnode = getRenderNodes()[i];  
+                    NodePtr rdnode = getRenderNodes(i);  
                     if (rdnode != NullFC)
                         action->apply(rdnode);
                 }
             }
             
-            for (UInt16 fi=0; fi < getForegrounds().size(); fi++)
+            for (UInt16 fi=0; fi < getMFForegrounds()->size(); fi++)
                 getForegrounds(fi)->draw(action, this);
             
             if(getReadBuffer() && !colorTextures.empty())
@@ -1450,9 +1456,12 @@ void FBOViewport::render(RenderActionBase* action)
                     
                     // select GL_COLORATTACHMENTn and read data into image
                     glReadBuffer(buffers[i]);
-                    glReadPixels(0, 0, getStorageWidth(), getStorageHeight(),
-                        texImg->getPixelFormat(), texImg->getDataType(),
-                        texImg->getData()                                    );
+                    glReadPixels(0, 0, 
+                                 getStorageWidth(), 
+                                 getStorageHeight(),
+                                 texImg->getPixelFormat(), 
+                                 texImg->getDataType(),
+                                 texImg->editData());
                     glReadBuffer(GL_NONE);
                 }
             }
@@ -1460,9 +1469,9 @@ void FBOViewport::render(RenderActionBase* action)
             // deactivate viewport settings
             deactivate();
 
-            for (i=0; i< Int32(getExcludeNodes().getSize()); i++)
+            for (i=0; i< Int32(getMFExcludeNodes()->getSize()); i++)
             {
-                NodePtr exnode = getExcludeNodes()[i];
+                NodePtr exnode = getExcludeNodes(i);
                 if (exnode != NullFC)
                     exnode->setActive(true);
             }
@@ -1617,7 +1626,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.21 2008/06/05 05:01:21 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.22 2008/06/09 07:30:42 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

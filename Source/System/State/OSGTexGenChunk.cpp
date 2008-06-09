@@ -139,8 +139,12 @@ void TexGenChunk::dump(      UInt32    ,
 
 /*------------------------------ State ------------------------------------*/
 
-static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func, 
-                              Vec4f &plane, NodePtr beacon, Matrix &cameraMat)
+static inline void setGenFunc(GLenum coord, 
+                              GLenum gen, 
+                              GLenum func, 
+                              const Vec4f &plane, 
+                              NodePtr beacon, 
+                              Matrix &cameraMat)
 {
     if(beacon != NullFC)
     {
@@ -151,7 +155,7 @@ static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func,
         glLoadMatrixf(beaconMat.getValues());
         glTexGenfv(coord, 
                    GL_EYE_PLANE, 
-                   static_cast<GLfloat*>(plane.getValues()));
+                   const_cast<GLfloat*>(plane.getValues()));
         glTexGeni(coord, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
         glPopMatrix();
         glEnable(gen);
@@ -162,7 +166,7 @@ static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func,
         glLoadIdentity();
         glTexGenfv(coord, 
                    GL_EYE_PLANE, 
-                   static_cast<GLfloat*>(plane.getValues()));
+                   const_cast<GLfloat*>(plane.getValues()));
         glTexGeni(coord, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
         glPopMatrix();
         glEnable(gen);
@@ -175,13 +179,13 @@ static inline void setGenFunc(GLenum coord, GLenum gen, GLenum func,
         {
             glTexGenfv(coord, 
                        GL_OBJECT_PLANE, 
-                       static_cast<GLfloat*>(plane.getValues()));
+                       const_cast<GLfloat*>(plane.getValues()));
         }
         else if(func == GL_EYE_LINEAR)
         {
             glTexGenfv(coord, 
                        GL_EYE_PLANE, 
-                       static_cast<GLfloat*>(plane.getValues()));
+                       const_cast<GLfloat*>(plane.getValues()));
         }
             
         glEnable(gen);
@@ -244,8 +248,9 @@ void TexGenChunk::activate(DrawActionBase *action, UInt32 idx )
 
 
 static inline void changeGenFunc(GLenum oldfunc, NodePtr oldbeacon, 
-                GLenum coord, GLenum gen, 
-                GLenum func, Vec4f &plane, NodePtr beacon, Matrix &cameraMat)
+                                 GLenum coord, GLenum gen, 
+                                 GLenum func, const Vec4f &plane, 
+                                 NodePtr beacon, Matrix &cameraMat)
 {
     if(beacon != NullFC)
     {
@@ -256,7 +261,7 @@ static inline void changeGenFunc(GLenum oldfunc, NodePtr oldbeacon,
         glLoadMatrixf(beaconMat.getValues());
         glTexGenfv(coord, 
                    GL_EYE_PLANE, 
-                   static_cast<GLfloat*>(plane.getValues()));
+                   const_cast<GLfloat*>(plane.getValues()));
         glTexGeni(coord, GL_TEXTURE_GEN_MODE, GL_EYE_LINEAR);
         glPopMatrix();
         if(oldfunc == GL_NONE && oldbeacon == NullFC) 
@@ -270,13 +275,13 @@ static inline void changeGenFunc(GLenum oldfunc, NodePtr oldbeacon,
         {
             glTexGenfv(coord, 
                        GL_OBJECT_PLANE, 
-                       static_cast<GLfloat*>(plane.getValues()));
+                       const_cast<GLfloat*>(plane.getValues()));
         }
         else if(func == GL_EYE_LINEAR)
         {
             glTexGenfv(coord, 
                        GL_EYE_PLANE,
-                       static_cast<GLfloat*>(plane.getValues()));
+                       const_cast<GLfloat*>(plane.getValues()));
         }
             
         if(oldfunc == GL_NONE && oldbeacon == NullFC) 

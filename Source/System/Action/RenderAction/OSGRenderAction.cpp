@@ -520,7 +520,7 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
         if(mmat != NULL)
         {
             // first check for a real multipass material.
-            UInt32 passes = mmat->getMaterials().getSize();
+            UInt32 passes = mmat->getMFMaterials()->getSize();
             if(passes > 0)
             {
                 for(UInt32 i=0;i<passes;++i)

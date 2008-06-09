@@ -74,8 +74,8 @@ class OSG_SYSTEMLIB_DLLMAPPING WalkNavigator: public FlyNavigator
     /*! \name                        Set                                   */
     /*! \{                                                                 */
     
-    void setGround  (NodePtr &new_ground);
-    void setWorld   (NodePtr &new_world );
+    void setGround  (const NodePtr &new_ground);
+    void setWorld   (const NodePtr &new_world );
     
     void setGroundDistance  (Real32 groundDistance);
     void setMinWallDistance (Real32 wallDistance  );

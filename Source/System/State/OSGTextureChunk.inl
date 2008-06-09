@@ -64,7 +64,7 @@ const StateChunkClass *TextureChunk::getStaticClass(void)
     can be notified about changes to the image.
  */
 inline
-void TextureChunk::setImage(ImagePtr &pImage)
+void TextureChunk::setImage(const ImagePtr &pImage)
 {
     if(_sfImage.getValue() != NullFC)
     {
@@ -165,12 +165,12 @@ inline
 void TextureChunk::setShaderOffsetMatrix(Real32 m11, Real32 m12, 
                                          Real32 m21, Real32 m22)
 {
-    getShaderOffsetMatrix().resize(4);
+    editMFShaderOffsetMatrix()->resize(4);
 
-    getShaderOffsetMatrix()[0] = m11;
-    getShaderOffsetMatrix()[1] = m12;
-    getShaderOffsetMatrix()[2] = m21;
-    getShaderOffsetMatrix()[3] = m22;
+    (*editMFShaderOffsetMatrix())[0] = m11;
+    (*editMFShaderOffsetMatrix())[1] = m12;
+    (*editMFShaderOffsetMatrix())[2] = m21;
+    (*editMFShaderOffsetMatrix())[3] = m22;
 }
 
 inline void

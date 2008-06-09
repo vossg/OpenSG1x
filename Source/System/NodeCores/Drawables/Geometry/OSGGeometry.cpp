@@ -787,12 +787,12 @@ GeoPropertyArrayInterface *Geometry::getProperty(Int32 mapID)
 */
 Int16  Geometry::calcMappingIndex(UInt16 attrib) const
 {
-    UInt16 nmappings = getIndexMapping().size();
+    UInt16 nmappings = getMFIndexMapping()->size();
     Int16 i;
 
     for(i = nmappings - 1; i >= 0; i--)
     {
-        if(getIndexMapping()[i] & attrib )
+        if(getIndexMapping(i) & attrib )
             break;
     }
 
@@ -870,7 +870,7 @@ bool Geometry::merge( const GeometryPtr other )
             setIndices(other->getIndices()->clone());
 
         if(other->getMFIndexMapping()!=NULL)
-            getMFIndexMapping()->setValues(*(other->getMFIndexMapping()));
+            editMFIndexMapping()->setValues(*(other->getMFIndexMapping()));
 
         setMaterial(other->getMaterial());
         setDlistCache(other->getDlistCache());
@@ -1146,7 +1146,7 @@ void Geometry::updateCachedGeoStat(void)
     }
     else
     {
-        _nvertices = getIndexMapping().size();
+        _nvertices = getMFIndexMapping()->size();
         _nvertices = getIndices()->getSize() /(_nvertices ? _nvertices : 1);
     }
 
@@ -2004,7 +2004,7 @@ GeometryPtr Geometry::clone(void)
 
         if(getMFIndexMapping() != NULL)
         {
-            geo->getMFIndexMapping()->setValues(*getMFIndexMapping());
+            geo->editMFIndexMapping()->setValues(*getMFIndexMapping());
         }
 
         geo->setMaterial(getMaterial());
@@ -2025,15 +2025,15 @@ bool Geometry::CompareMaterials(MaterialPtr m1, MaterialPtr m2)
 
     if (cm1==NullFC || cm2==NullFC) return false;
 
-    MFStateChunkPtr &chunks1=cm1->getChunks();
-    MFStateChunkPtr &chunks2=cm2->getChunks();
+    const MFStateChunkPtr &chunks1 = (*cm1->getMFChunks());
+    const MFStateChunkPtr &chunks2 = (*cm2->getMFChunks());
 
     if (chunks1.size()!=chunks2.size()) return false;
 
-    MFStateChunkPtr::iterator matIt  = chunks1.begin();
-    MFStateChunkPtr::iterator matEnd = chunks1.end ();
+    MFStateChunkPtr::const_iterator matIt  = chunks1.begin();
+    MFStateChunkPtr::const_iterator matEnd = chunks1.end ();
 
-    MFStateChunkPtr::iterator i;
+    MFStateChunkPtr::const_iterator i;
 
     while (matIt!=matEnd)
     {
@@ -2049,8 +2049,8 @@ bool Geometry::CompareMaterials(MaterialPtr m1, MaterialPtr m2)
     if(cm2->getState() == NullFC)
         cm2->rebuildState();
     
-    MFStateChunkPtr &statechunks1=cm1->getState()->getChunks();
-    MFStateChunkPtr &statechunks2=cm2->getState()->getChunks();
+    const MFStateChunkPtr &statechunks1 = (*cm1->getState()->getMFChunks());
+    const MFStateChunkPtr &statechunks2 = (*cm2->getState()->getMFChunks());
 
     if (statechunks1.size()!=statechunks2.size()) return false;
 
@@ -2127,8 +2127,8 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
     so they should be mergeable
     remains to check indexing.
     */
-    UInt16 nmap  = getIndexMapping().size();
-    UInt16 onmap = other->getIndexMapping().size();
+    UInt16 nmap  = getMFIndexMapping()->size();
+    UInt16 onmap = other->getMFIndexMapping()->size();
 
     if ( nmap == onmap ) return 0;
     else
@@ -2328,16 +2328,16 @@ void Geometry::merge0( const GeometryPtr other )
         ind->resize( indBase + oind->getSize() );
 
         // single index?
-        if ( getIndexMapping().size() < 2 )
+        if ( getMFIndexMapping()->size() < 2 )
         {
             for ( i = 0; i < oind->getSize(); i++ )
                 ind->setValue( oind->getValue(i) + posBase, indBase + i );
         }
         else // multi-index
         {
-            UInt32 * offsets = new UInt32 [ getIndexMapping().size() ];
+            UInt32 * offsets = new UInt32 [ getMFIndexMapping()->size() ];
             Int16 mind;
-            UInt16 nmap = getIndexMapping().size();
+            UInt16 nmap = getMFIndexMapping()->size();
             UInt16 j;
 
             if ( ( mind = calcMappingIndex( MapPosition ) ) >= 0 )
@@ -2464,7 +2464,7 @@ void Geometry::merge3( const GeometryPtr other )
 
     // indices
     GeoIndicesPtr ind = getIndices();
-    UInt16 nmap = getIndexMapping().size();
+    UInt16 nmap = getMFIndexMapping()->size();
     Int16 mind;
     UInt32 indBase = ind->getSize();
     ind->resize( indBase + other->getPositions()->getSize()*nmap );
@@ -2527,7 +2527,7 @@ void Geometry::merge4( const GeometryPtr other )
     copyAllAttrib;
 
     GeoIndicesPtr oind = other->getIndices();
-    UInt16 nmap = other->getIndexMapping().size();
+    UInt16 nmap = other->getMFIndexMapping()->size();
     Int16 mind;
     GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
     beginEditCP(indices, GeoIndicesUI32::GeoPropDataFieldMask);
@@ -2600,7 +2600,7 @@ void Geometry::merge5( const GeometryPtr other )
     // indices
     GeoIndicesPtr ind = getIndices();
     GeoIndicesPtr oind = other->getIndices();
-    UInt16 nmap = getIndexMapping().size();
+    UInt16 nmap = getMFIndexMapping()->size();
     Int16 mind;
     UInt32 indBase = ind->getSize();
     ind->resize( indBase + oind->getSize()*nmap );
@@ -2666,7 +2666,7 @@ void Geometry::merge6( const GeometryPtr other )
     GeoIndicesPtr ind = getIndices();
     GeoIndicesPtr indclone = getIndices()->clone();
     GeoIndicesPtr oind = other->getIndices();
-    UInt16 nmap = other->getIndexMapping().size();
+    UInt16 nmap = other->getMFIndexMapping()->size();
     Int16 mind;
     UInt32 indBase = ind->getSize();
     ind->resize( indBase*nmap + oind->getSize() );
@@ -2729,7 +2729,7 @@ bool Geometry::updateLowHighIndices( void )
 
     if(getLengths() == NullFC || getLengths()->size() < primcount ||
        getIndices() == NullFC || getIndices()->size() == 0 ||
-       getIndexMapping().size() > 1 
+       getMFIndexMapping()->size() > 1 
       )
         return true;
 
@@ -2742,8 +2742,9 @@ bool Geometry::updateLowHighIndices( void )
                       MinindexFieldMask |
                       MaxindexFieldMask);
 
-    getLowindices().resize(primcount);
-    getHighindices().resize(primcount);
+    editMFLowindices ()->resize(primcount);
+    editMFHighindices()->resize(primcount);
+
     UInt32 mini = 0xffffffffU;
     UInt32 maxi = 0;
     UInt32 cur = 0;
@@ -2773,8 +2774,8 @@ bool Geometry::updateLowHighIndices( void )
                 if(ind > maxi) maxi = ind;
             }
 
-            getLowindices()[i]  = low;
-            getHighindices()[i] = high;
+            editLowindices(i)  = low;
+            editHighindices(i) = high;
         }
     }
     else
@@ -2802,8 +2803,8 @@ bool Geometry::updateLowHighIndices( void )
                 if(ind > maxi) maxi = ind;
             }
 
-            getLowindices()[i]  = low;
-            getHighindices()[i] = high;
+            editLowindices(i)  = low;
+            editHighindices(i) = high;
         }
     }
 

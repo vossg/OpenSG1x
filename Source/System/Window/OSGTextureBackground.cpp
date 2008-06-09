@@ -228,7 +228,7 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
     }
     if(osgabs(getRadialDistortion())<Eps)
     {
-	    if(getTexCoords().getSize() < 4)
+	    if(getMFTexCoords()->getSize() < 4)
 	    {
 	        // set some default texture coordinates.
 	        glBegin(GL_QUADS);
@@ -245,18 +245,18 @@ void TextureBackground::clear(DrawActionBase *action, Viewport *OSG_CHECK_ARG(vi
 	    else
 	    {
 	        glBegin(GL_QUADS);
-                glTexCoord2f(getTexCoords()[0].getValues()[0],
-                             getTexCoords()[0].getValues()[1]);
-                glVertex3f(0.0f, 0.0f, 0.0f);
-                glTexCoord2f(getTexCoords()[1].getValues()[0],
-                             getTexCoords()[1].getValues()[1]);
-                glVertex3f(1.0f, 0.0f, 0.0f);
-                glTexCoord2f(getTexCoords()[2].getValues()[0],
-                             getTexCoords()[2].getValues()[1]);
-                glVertex3f(1.0f, 1.0f, 0.0f);
-                glTexCoord2f(getTexCoords()[3].getValues()[0],
-                             getTexCoords()[3].getValues()[1]);
-                glVertex3f(0.0f, 1.0f, 0.0f);
+            glTexCoord2f(getTexCoords(0).getValues()[0],
+                         getTexCoords(0).getValues()[1]);
+            glVertex3f(0.0f, 0.0f, 0.0f);
+            glTexCoord2f(getTexCoords(1).getValues()[0],
+                         getTexCoords(1).getValues()[1]);
+            glVertex3f(1.0f, 0.0f, 0.0f);
+            glTexCoord2f(getTexCoords(2).getValues()[0],
+                         getTexCoords(2).getValues()[1]);
+            glVertex3f(1.0f, 1.0f, 0.0f);
+            glTexCoord2f(getTexCoords(3).getValues()[0],
+                         getTexCoords(3).getValues()[1]);
+            glVertex3f(0.0f, 1.0f, 0.0f);
 	        glEnd();
 	    }
     }
@@ -340,7 +340,7 @@ void TextureBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.8 2006/09/08 13:45:30 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackground.cpp,v 1.9 2008/06/09 07:30:42 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

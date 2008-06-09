@@ -417,7 +417,7 @@ void PrimitiveIterator::setToBegin(void)
     _primIndex           = 0;
     _actPointIndex       = 0;
     _ended               = false;
-    _nmappings           = _geo->getIndexMapping().size();
+    _nmappings           = _geo->getMFIndexMapping()->size();
     _positionIndex       = _geo->calcMappingIndex(Geometry::MapPosition);
     _normalIndex         = _geo->calcMappingIndex(Geometry::MapNormal);
     _colorIndex          = _geo->calcMappingIndex(Geometry::MapColor);

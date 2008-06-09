@@ -283,7 +283,7 @@ bool PNGImageFileType::read(ImagePtr &OSG_PNG_ARG(image), std::istream &OSG_PNG_
         row_pointers = new png_bytep[height];
         wc = width * channels * (bit_depth / 8);
         h = height - 1;
-        base = image->getData();
+        base = image->editData();
         for(i = 0; i < height; ++i)
             row_pointers[i] = base + (h - i) * wc;
 
@@ -523,7 +523,7 @@ bool PNGImageFileType::write(const ImagePtr &OSG_PNG_ARG(img), std::ostream &OSG
     
     for(Int32 k = 0; k < img->getHeight(); k++)
     {
-        row_pointers[k] = img->getData() + 
+        row_pointers[k] = const_cast<UInt8 *>(img->getData()) + 
                           (img->getHeight() - 1 - k) * 
                             img->getWidth() * img->getBpp();
     }
@@ -725,7 +725,7 @@ UInt64 PNGImageFileType::restoreData(      ImagePtr &OSG_PNG_ARG(image  ),
         row_pointers = new png_bytep[height];
         wc = width * channels * (bit_depth / 8);
         h = height - 1;
-        base = image->getData();
+        base = image->editData();
         for(i = 0; i < height; ++i)
             row_pointers[i] = base + (h - i) * wc;
 
@@ -906,7 +906,7 @@ UInt64 PNGImageFileType::storeData(const ImagePtr &OSG_PNG_ARG(image  ),
     
     for(Int32 k = 0; k < image->getHeight(); k++)
     {
-        row_pointers[k] = image->getData() + 
+        row_pointers[k] = const_cast<UInt8 *>(image->getData()) + 
                           (image->getHeight() - 1 - k) * 
                             image->getWidth() * image->getBpp();
     }

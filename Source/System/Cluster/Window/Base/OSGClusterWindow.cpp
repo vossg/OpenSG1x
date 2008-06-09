@@ -127,7 +127,7 @@ void ClusterWindow::init( void )
     GroupConnection    *connection;
     RemoteAspect       *remoteAspect;
     int                 c,i,id;
-    MFString::iterator  s;
+    MFString::const_iterator  s;
     Connection::Channel channel;
     bool                directConnect=false;
 
@@ -168,23 +168,23 @@ void ClusterWindow::init( void )
     std::string env;
 
     Real32 progress = 0.0f;
-    Real32 progressStep = 1.0f / Real32(getServers().size());
+    Real32 progressStep = 1.0f / Real32(getMFServers()->size());
 
-    if(getAutostart().size())
+    if(getMFAutostart()->size())
     {
         progressStep /= 2;
         std::vector<FILE*>           pipes;
 
-        for(id=0 ; id<getServers().size() ; ++id)
+        for(id=0 ; id<getMFServers()->size() ; ++id)
         {
             std::ostringstream command;
 
-            server    = getServers()[id];
+            server    = getServers(id);
             int pos=server.find(":");
             if(pos>=0)
                 server.erase(pos);
 
-            autostart = getAutostart()[id % getAutostart().size()];
+            autostart = getAutostart(id % getMFAutostart()->size());
 
             for(c = 0 ; c < autostart.length() ; ++c)
             {
@@ -195,7 +195,7 @@ void ClusterWindow::init( void )
                             command << server;
                             break;
                         case 'n': 
-                            command << getServers()[id];
+                            command << getServers(id);
                             break;
                         case 'i':
                             command << id;
@@ -227,7 +227,7 @@ void ClusterWindow::init( void )
                 SFATAL << "Error starting: " << command << std::endl;
             pipes.push_back(pipe);
         }
-        for(id=0 ; id<getServers().size() ; ++id)
+        for(id=0 ; id<getMFServers()->size() ; ++id)
         {
             if(pipes[id]) 
             {
@@ -235,11 +235,11 @@ void ClusterWindow::init( void )
                 if(_connectionFP != NULL)
                 {
                     std::string message;
-                    message += "Starting:" + getServers()[id]; 
+                    message += "Starting:" + getServers(id); 
                     if(!_connectionFP(message, progress))
                     {
                         // abort, cleanup remaining pipes
-                        for( ; id<getServers().size() ; ++id)
+                        for( ; id<getMFServers()->size() ; ++id)
                         {
                             if(pipes[id]) 
                             {
@@ -253,7 +253,7 @@ void ClusterWindow::init( void )
                         }
                     }
                 }
-                SINFO << "Waiting for " << getServers()[id] << " to start." << std::endl;
+                SINFO << "Waiting for " << getServers(id) << " to start." << std::endl;
                 char result;
                 std::string line="";
                 while((result=fgetc(pipes[id])) != EOF)
@@ -272,15 +272,15 @@ void ClusterWindow::init( void )
 #else
                 pclose(pipes[id]);
 #endif
-                SINFO << getServers()[id] << " started." << std::endl;
+                SINFO << getServers(id) << " started." << std::endl;
                 progress += progressStep;
             }
         }
     }
 
     // connect to all servers
-    for(s =getServers().begin();
-        s!=getServers().end();
+    for(s =getMFServers()->begin();
+        s!=getMFServers()->end();
         s++)
     {
         DgramSocket      serviceSock;
@@ -429,7 +429,7 @@ void ClusterWindow::init( void )
 #else
     UInt8 littleEndian = false;
 #endif
-    for(UInt32 i=0;i<getServers().size();++i)
+    for(UInt32 i=0;i<getMFServers()->size();++i)
     {
         channel = connection->selectChannel();
         connection->subSelection(channel);
@@ -574,7 +574,7 @@ void ClusterWindow::frameInit(void)
         else
         {
             beginEditCP(ptr,ClusterWindow::FrameCountFieldMask);
-            getFrameCount()++;
+            editFrameCount()++;
             endEditCP(ptr,ClusterWindow::FrameCountFieldMask);
             clientPreSync();
             remoteAspect->sendSync(*connection);
@@ -624,7 +624,7 @@ bool ClusterWindow::loadCalibration(std::istream &in)
     Real32 gamma;
     xmlpp::xmlnodeptr nP;
 
-    getCalibration().clear();
+    editMFCalibration()->clear();
     try
     {
         doc.load(in,ctxptr);
@@ -637,7 +637,7 @@ bool ClusterWindow::loadCalibration(std::istream &in)
             beginEditCP(calibPtr);
             addRefCP(calibPtr);
             beginEditCP(ptr,CalibrationFieldMask);
-            getCalibration().push_back(calibPtr);
+            editMFCalibration()->push_back(calibPtr);
             endEditCP(ptr,CalibrationFieldMask);
 
             // server name
@@ -656,7 +656,7 @@ bool ClusterWindow::loadCalibration(std::istream &in)
                         nP = nP->get_nodelist().front();
                     while (nP->get_nodelist().size() == 1);
                     if(nP->get_type() == xmlpp::xml_nt_cdata) 
-                        calibPtr->getColorMatrix().setValue(nP->get_cdata().c_str());
+                        calibPtr->editColorMatrix().setValue(nP->get_cdata().c_str());
                 }
 
                 if((*nI)->get_name() == "scaledown")
@@ -666,7 +666,7 @@ bool ClusterWindow::loadCalibration(std::istream &in)
                         nP = nP->get_nodelist().front();
                     while (nP->get_nodelist().size() == 1);
                     if(nP->get_type() == xmlpp::xml_nt_cdata) 
-                        sscanf(nP->get_cdata().c_str(),"%f",&calibPtr->getScaleDown());
+                        sscanf(nP->get_cdata().c_str(),"%f",&calibPtr->editScaleDown());
                 }
 
                 if((*nI)->get_name() == "gamma")
@@ -676,7 +676,7 @@ bool ClusterWindow::loadCalibration(std::istream &in)
                         nP = nP->get_nodelist().front();
                     while (nP->get_nodelist().size() == 1);
                     if(nP->get_type() == xmlpp::xml_nt_cdata) 
-                        sscanf(nP->get_cdata().c_str(),"%f",&calibPtr->getGamma());
+                        sscanf(nP->get_cdata().c_str(),"%f",&calibPtr->editGamma());
                 }
 
                 if((*nI)->get_name() == "gammaramp")
@@ -692,18 +692,18 @@ bool ClusterWindow::loadCalibration(std::istream &in)
                         {
                             Color3f col;
                             col.setValue(nP->get_cdata().c_str());
-                            calibPtr->getGammaRamp().push_back(col);
+                            calibPtr->editMFGammaRamp()->push_back(col);
                         }
                     }
                 }
                 if((*nI)->get_name() == "grid")
                 {
                     rows = (*nI)->select_nodes(rowTag);
-                    calibPtr->getGridHeight() = 0;
+                    calibPtr->editGridHeight() = 0;
                     for(rI = rows.begin() ; rI != rows.end(); ++rI)
                     {   
-                        calibPtr->getGridHeight()++;
-                        calibPtr->getGridWidth() = 0;
+                        calibPtr->editGridHeight()++;
+                        calibPtr->editGridWidth() = 0;
                         points = (*rI)->select_nodes(pointTag);
                         for(pI = points.begin() ; pI != points.end(); ++pI)
                         {   
@@ -714,9 +714,9 @@ bool ClusterWindow::loadCalibration(std::istream &in)
                             if(nP->get_type() == xmlpp::xml_nt_cdata) 
                             {
                                 Vec2f pos;
-                                calibPtr->getGridWidth()++;
+                                calibPtr->editGridWidth()++;
                                 pos.setValueFromCString(nP->get_cdata().c_str());
-                                calibPtr->getGrid().push_back(pos);
+                                calibPtr->editMFGrid()->push_back(pos);
                             }
                         }
                     }
@@ -749,9 +749,9 @@ bool ClusterWindow::saveCalibration(std::ostream &out)
 
     out << "<?xml version=\"1.0\"?>\n"
         << "<displaycalibration>\n";
-    for(c=0 ; c<getCalibration().size() ; ++c)
+    for(c=0 ; c<getMFCalibration()->size() ; ++c)
     {
-        calibPtr = getCalibration()[c];
+        calibPtr = getCalibration(c);
         out << "<server name=\"" << calibPtr->getServer() << "\">\n";
         out << "<gamma>" << calibPtr->getGamma() << "</gamma>\n";
         out << "<scaledown>" << calibPtr->getScaleDown() << "</scaledown>\n";
@@ -759,9 +759,9 @@ bool ClusterWindow::saveCalibration(std::ostream &out)
             << calibPtr->getColorMatrix()
             << "</colormatrix>\n";
         out << "<gammaramp>\n";
-        for(color=0 ; color< calibPtr->getGammaRamp().size() ; ++color)
+        for(color=0 ; color< calibPtr->getMFGammaRamp()->size() ; ++color)
             out << "<color>" 
-                << calibPtr->getGammaRamp()[color] 
+                << calibPtr->getGammaRamp(color) 
                 << "</color>\n";
         out << "</gammaramp>\n";
         out << "<grid>\n";
@@ -772,9 +772,9 @@ bool ClusterWindow::saveCalibration(std::ostream &out)
             {
                 pos = row*calibPtr->getGridHeight()+col;
                 out << "<point>";
-                if(pos < calibPtr->getGrid().size())
-                    out << calibPtr->getGrid()[pos][0] << " "
-                        << calibPtr->getGrid()[pos][1];
+                if(pos < calibPtr->getMFGrid()->size())
+                    out << calibPtr->getGrid(pos)[0] << " "
+                        << calibPtr->getGrid(pos)[1];
                 else
                     out << col << " " << row;
                 out << "</point>\n";
@@ -831,7 +831,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
     xmlpp::xmlnodeptr nP;
     
     beginEditCP(ptr, FilterFieldMask | DirtyFieldMask);
-        getFilter().clear();
+        editMFFilter()->clear();
         setDirty(true);
     endEditCP(ptr, FilterFieldMask | DirtyFieldMask);
     
@@ -848,7 +848,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
             addRefCP(filterFgnd);
             
             beginEditCP(ptr, FilterFieldMask);
-                getFilter().push_back(filterFgnd);
+                editMFFilter()->push_back(filterFgnd);
             endEditCP(ptr, FilterFieldMask);
             
             beginEditCP(filterFgnd);
@@ -866,7 +866,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                     colorFilter = ColorDisplayFilter::create();
                     addRefCP(colorFilter);
                     
-                    filterFgnd->getFilter().push_back(colorFilter);
+                    filterFgnd->editMFFilter()->push_back(colorFilter);
                     
                     beginEditCP(colorFilter);
                     
@@ -882,7 +882,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                             while (nP->get_nodelist().size() == 1);
                             
                             if(nP->get_type() == xmlpp::xml_nt_cdata) 
-                                colorFilter->getMatrix().setValue(nP->get_cdata().c_str());
+                                colorFilter->editMatrix().setValue(nP->get_cdata().c_str());
                         }
                         if((*nI)->get_name() == "gamma")
                         {
@@ -893,7 +893,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                             
                             if(nP->get_type() == xmlpp::xml_nt_cdata) 
                                 sscanf(nP->get_cdata().c_str(),"%f",
-                                    &colorFilter->getGamma());
+                                    &colorFilter->editGamma());
                         }
                         if((*nI)->get_name() == "size")
                         {
@@ -904,9 +904,9 @@ bool ClusterWindow::loadFilter(std::istream &in)
                             
                             if(nP->get_type() == xmlpp::xml_nt_cdata) 
                                 sscanf(nP->get_cdata().c_str(),"%d %d %d",
-                                    &colorFilter->getWidth(),
-                                    &colorFilter->getHeight(),
-                                    &colorFilter->getDepth());
+                                    &colorFilter->editWidth(),
+                                    &colorFilter->editHeight(),
+                                    &colorFilter->editDepth());
                         }
                         if((*nI)->get_name() == "shadingtable")
                         {
@@ -923,7 +923,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                                 {
                                     Color3f col;
                                     col.setValue(nP->get_cdata().c_str());
-                                    colorFilter->getTable().push_back(col);
+                                    colorFilter->editMFTable()->push_back(col);
                                 }
                             }
                         }
@@ -936,7 +936,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                     resolutionFilter = ResolutionDisplayFilter::create();
                     addRefCP(resolutionFilter);
                     
-                    filterFgnd->getFilter().push_back(resolutionFilter);
+                    filterFgnd->editMFFilter()->push_back(resolutionFilter);
                     
                     beginEditCP(resolutionFilter);
                     
@@ -952,7 +952,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                             
                             if(nP->get_type() == xmlpp::xml_nt_cdata) 
                                 sscanf(nP->get_cdata().c_str(),"%f",
-                                    &resolutionFilter->getDownScale());
+                                    &resolutionFilter->editDownScale());
                         }
                     }
                     endEditCP(resolutionFilter);
@@ -963,7 +963,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                     distortionFilter = DistortionDisplayFilter::create();
                     addRefCP(distortionFilter);
                     
-                    filterFgnd->getFilter().push_back(distortionFilter);
+                    filterFgnd->editMFFilter()->push_back(distortionFilter);
                     
                     beginEditCP(distortionFilter);
                     
@@ -979,7 +979,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                             
                             if(nP->get_type() == xmlpp::xml_nt_cdata) 
                                 sscanf(nP->get_cdata().c_str(),"%d",
-                                    &distortionFilter->getRows());
+                                    &distortionFilter->editRows());
                         }
                         if((*nI)->get_name() == "cols")
                         {
@@ -990,7 +990,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                             
                             if(nP->get_type() == xmlpp::xml_nt_cdata) 
                                 sscanf(nP->get_cdata().c_str(),"%d",
-                                    &distortionFilter->getColumns());
+                                    &distortionFilter->editColumns());
                         }
                         if((*nI)->get_name() == "positions")
                         {
@@ -1007,7 +1007,7 @@ bool ClusterWindow::loadFilter(std::istream &in)
                                 {
                                     Vec2f pos;
                                     pos.setValueFromCString(nP->get_cdata().c_str());
-                                    distortionFilter->getPositions().push_back(pos);
+                                    distortionFilter->editMFPositions()->push_back(pos);
                                 }
                             }
                         }
@@ -1114,7 +1114,7 @@ bool ClusterWindow::updateFilter(WindowPtr window, UInt32 id,
 {
     bool found = false;
 
-    if (!getFilter().empty() && getDirty())
+    if (!getMFFilter()->empty() && getDirty())
     {
         UInt32 c, p;
         
@@ -1125,40 +1125,41 @@ bool ClusterWindow::updateFilter(WindowPtr window, UInt32 id,
         endEditCP(ptr, DirtyFieldMask);
         
         // for all viewports
-        for(p=0; p<window->getPort().size(); ++p) 
+        for(p=0; p<window->getMFPort()->size(); ++p) 
         {
             // search filter foregrounds
-            for(c=0; c<getFilter().size(); ++c)
+            for(c=0; c<getMFFilter()->size(); ++c)
             {
-                std::string name = getServers()[id];
+                std::string name = getServers(id);
                 char portName[64];
                 
-                if(window->getPort().size() > 1)
+                if(window->getMFPort()->size() > 1)
                 {
                     sprintf(portName,"[%d]",p);
                     name = name + portName;
                 }
                 
-                DisplayFilterForegroundPtr filterFgnd = getFilter()[c];
+                DisplayFilterForegroundPtr filterFgnd = getFilter(c);
                 
                 if(filterFgnd->getServer() == name)
                 {
-                    beginEditCP(window->getPort()[p], Viewport::ForegroundsFieldMask);
+                    beginEditCP(window->getPort(p), Viewport::ForegroundsFieldMask);
                     
                     // first remove old filters, if any
-                    for (Int32 n=window->getPort()[p]->getForegrounds().size(), j=n-1; 
+                    for (Int32 n=window->getPort(p)->getMFForegrounds()->size(), j=n-1; 
                             j>=0; j--) 
                     {
                         MFForegroundPtr::iterator fgndIt = 
-                            window->getPort()[p]->getForegrounds().begin() + j;
+                            window->getPort(p)->editMFForegrounds()->begin() + j;
+
                         if ( (*fgndIt) == filterFgnd )
-                            window->getPort()[p]->getForegrounds().erase(fgndIt);
+                            window->getPort(p)->editMFForegrounds()->erase(fgndIt);
                     }
                     
                     // then add new one
-                    window->getPort()[p]->getForegrounds().push_back(filterFgnd);
+                    window->getPort(p)->editMFForegrounds()->push_back(filterFgnd);
                     
-                    endEditCP(window->getPort()[p], Viewport::ForegroundsFieldMask);
+                    endEditCP(window->getPort(p), Viewport::ForegroundsFieldMask);
 
                     found = true;
                     break;
@@ -1208,8 +1209,8 @@ void ClusterWindow::serverRender( WindowPtr window,
     RenderAction *ract = dynamic_cast<RenderAction *>(action);
     if(ract != NULL)
     {
-        MFViewportPtr::iterator       portIt  = window->getPort().begin();
-        MFViewportPtr::const_iterator portEnd = window->getPort().end();
+        MFViewportPtr::const_iterator portIt  = window->getMFPort()->begin();
+        MFViewportPtr::const_iterator portEnd = window->getMFPort()->end();
         // try to find option as an attachment of window
         OSG::RenderOptionsPtr winRo = OSG::RenderOptionsPtr::dcast(
             window->findAttachment(OSG::RenderOptions::getClassType()));
@@ -1248,22 +1249,22 @@ void ClusterWindow::serverRender( WindowPtr window,
     UInt32 c, p;
     
     // for all viewports
-    for(p = 0 ; p<window->getPort().size() ; ++p) 
+    for(p = 0 ; p<window->getMFPort()->size() ; ++p) 
     {
         // search calibration 
-        for(c=0 ; c<getCalibration().size() ; ++c)
+        for(c=0 ; c<getMFCalibration()->size() ; ++c)
         {
-            std::string name = getServers()[id];
+            std::string name = getServers(id);
             char portName[64];
-            if(window->getPort().size() > 1)
+            if(window->getMFPort()->size() > 1)
             {
                 sprintf(portName,"[%d]",p);
                 name = name + portName;
             }
-            if(getCalibration()[c]->getServer() == name)
+            if(getCalibration(c)->getServer() == name)
             {
-                calibPtr = getCalibration()[c];
-                calibPtr->calibrate(window->getPort()[p],action);
+                calibPtr = getCalibration(c);
+                calibPtr->calibrate(window->getPort(p),action);
                 break;
             }
         }

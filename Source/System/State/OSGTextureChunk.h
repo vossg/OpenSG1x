@@ -138,7 +138,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunk : public TextureChunkBase
                              Int32 miny = -1, Int32 maxy = -1,
                              Int32 minz = -1, Int32 maxz = -1 );
 
-    void setImage           (ImagePtr &pImage);
+    void setImage           (const ImagePtr &pImage);
 
     inline void setShaderOffsetMatrix(Real32 m11, Real32 m12, 
                                       Real32 m21, Real32 m22);

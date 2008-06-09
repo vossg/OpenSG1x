@@ -305,18 +305,32 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     inline const UInt8 *getData ( UInt32 mipmapNum = 0,
                                   UInt32 frameNum = 0,
                                   UInt32 sideNum = 0 ) const;
+    inline       UInt8 *editData( UInt32 mipmapNum = 0,
+                                  UInt32 frameNum = 0,
+                                  UInt32 sideNum = 0 );
+#ifndef OSG_2_PREP
     inline       UInt8 *getData ( UInt32 mipmapNum = 0,
                                   UInt32 frameNum = 0,
                                   UInt32 sideNum = 0 );
+#endif
 
     inline const UInt8 *getDataFast ( UInt32 mipmapNum = 0,
                                       UInt32 frameNum = 0,
                                       UInt32 sideNum = 0 ) const;
+    inline       UInt8 *editDataFast( UInt32 mipmapNum = 0,
+                                      UInt32 frameNum = 0,
+                                      UInt32 sideNum = 0 );
+#ifndef OSG_2_PREP
     inline       UInt8 *getDataFast ( UInt32 mipmapNum = 0,
                                       UInt32 frameNum = 0,
                                       UInt32 sideNum = 0 );
+#endif
 
-    UInt8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
+#ifndef OSG_2_PREP
+          UInt8 *getDataByTime(Time time, UInt32 mipmapNum = 1);
+#else
+    const UInt8 *getDataByTime(Time time, UInt32 mipmapNum = 1) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -411,7 +425,7 @@ class OSG_SYSTEMLIB_DLLMAPPING Image : public ImageBase
     /*! \{                                                                 */
 
     bool createData ( const UInt8 *data, bool allocMem = true );
-    bool scaleData  ( UInt8* srcData,
+    bool scaleData  ( const UInt8* srcData,
                       Int32 srcW, Int32 srcH, Int32 srcD,
                       UInt8* destData,
                       Int32 destW, Int32 destH, Int32 destD );

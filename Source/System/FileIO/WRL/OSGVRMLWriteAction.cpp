@@ -1968,7 +1968,7 @@ void VRMLWriteAction::addNodeUse(CNodePtr &pCNode)
     ++_nodeCount;
 }
 
-void VRMLWriteAction::addContainerUse(FieldContainerPtr &pContainer)
+void VRMLWriteAction::addContainerUse(const FieldContainerPtr &pContainer)
 {
     if(pContainer == NullFC)
         return;

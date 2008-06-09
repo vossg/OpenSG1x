@@ -139,7 +139,7 @@ ImagePtr TextPixmapFace::makeImage(const TextLayoutResult &layoutResult, Vec2f &
         UInt32 height = static_cast<UInt32>(osgceil(upperRight.y() - lowerLeft.y())) + (border << 1);
         imagePtr->set(Image::OSG_A_PF, width, height);
         imagePtr->clear();
-        UInt8 *buffer = imagePtr->getData();
+        UInt8 *buffer = imagePtr->editData();
 
         // Put the glyphs into the texture
         UInt32 i, numGlyphs = layoutResult.getNumGlyphs();
@@ -182,7 +182,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextPixmapFace.cpp,v 1.4 2006/08/01 16:38:26 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextPixmapFace.cpp,v 1.5 2008/06/09 07:30:42 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTPIXMAPFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTPIXMAPFACE_INLINE_CVSID;
 }

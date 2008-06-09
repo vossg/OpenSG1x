@@ -91,10 +91,10 @@ void SortLastWindow::buildGroups(void)
             rebuild = true;
     }
     // is rebuild neccessary ?
-    if(!rebuild && getGroupNodes().size())
+    if(!rebuild && getMFGroupNodes()->size())
         return;
 
-    groupCount = getServers().size();
+    groupCount = getMFServers()->size();
     if(getComposer() != NullFC)
     {
         groupCount = getComposer()->getUsableServers();
@@ -104,11 +104,11 @@ void SortLastWindow::buildGroups(void)
 
     // build groups for all viewports
     beginEditCP(ptr,GroupNodesFieldMask|GroupLengthsFieldMask);
-    getGroupNodes().clear();
-    getGroupLengths().clear();
-    for(v = 0; v < getPort().size(); ++v)
+    editMFGroupNodes()->clear();
+    editMFGroupLengths()->clear();
+    for(v = 0; v < getMFPort()->size(); ++v)
     {
-        ViewportPtr  vp         = getPort()[v];
+        ViewportPtr  vp         = getPort(v);
         NodePtr      root       = vp->getRoot();
         drawables.clear();
         collectDrawables(root,drawables);
@@ -157,10 +157,10 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
     UInt32            sv,cv,regionStart;
 
     // duplicate viewports
-    for(cv = 0, sv = 0; cv < getPort().size(); ++cv)
+    for(cv = 0, sv = 0; cv < getMFPort()->size(); ++cv)
     {
-        clientPort = getPort()[cv];
-        if(serverWindow->getPort().size() <= sv)
+        clientPort = getPort(cv);
+        if(serverWindow->getMFPort()->size() <= sv)
         {
             // create new port
             serverPort = Viewport::create();
@@ -170,7 +170,7 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
         }
         else
         {
-            serverPort = serverWindow->getPort()[sv];
+            serverPort = serverWindow->getPort(sv);
         }
 
         // duplicate values
@@ -189,13 +189,13 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
         serverPort->setRoot      ( clientPort->getRoot()       );
         serverPort->setBackground( clientPort->getBackground() );
         // ignore statistics foreground
-        serverPort->getForegrounds().clear();
-        for(UInt32 f=0 ; f<serverPort->getForegrounds().size() ; ++f)
+        serverPort->editMFForegrounds()->clear();
+        for(UInt32 f=0 ; f<serverPort->getMFForegrounds()->size() ; ++f)
         {
-            ForegroundPtr fg=clientPort->getForegrounds()[f];
+            ForegroundPtr fg=clientPort->getForegrounds(f);
             StatisticsForegroundPtr sfg=StatisticsForegroundPtr::dcast(fg);
             if(sfg == NullFC)
-                serverPort->getForegrounds().push_back(fg);
+                serverPort->editMFForegrounds()->push_back(fg);
         }
         serverPort->setTravMask  ( clientPort->getTravMask()   );
         endEditCP(serverPort);
@@ -203,7 +203,7 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
         sv++;
     }
     // remove unused ports
-    while(serverWindow->getPort().size()>sv)
+    while(serverWindow->getMFPort()->size()>sv)
     {
         serverWindow->subPort(sv);
     }
@@ -217,9 +217,9 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
     action->setWindow( serverWindow.getCPtr() );
     if(getComposer() != NullFC)
         getComposer()->startFrame();
-    for(sv = 0; sv < serverWindow->getPort().size(); ++sv)
+    for(sv = 0; sv < serverWindow->getMFPort()->size(); ++sv)
     {
-        ViewportPtr  vp         =serverWindow->getPort()[sv];
+        ViewportPtr  vp         =serverWindow->getPort(sv);
         NodePtr      root       =vp->getRoot();
         if(getComposer() != NullFC)
             getComposer()->startViewport(vp);
@@ -274,7 +274,7 @@ void SortLastWindow::clientInit( void )
     {
         SortLastWindowPtr clusterWindow(this);
         getComposer()->setup(true,
-                             getServers().size(),
+                             getMFServers()->size(),
                              getClientWindow(),
                              clusterWindow);
         getComposer()->open();
@@ -319,12 +319,12 @@ void SortLastWindow::clientPreSync( void )
 void SortLastWindow::clientRender( RenderActionBase *action )
 {
     UInt32            p;
-    UInt32            groupId = getServers().size();
+    UInt32            groupId = getMFServers()->size();
     UInt32            l,b,r,t;
     UInt32            front,back;
     SortLastWindowPtr clusterWindow(this);
 
-    if(getServers().size())
+    if(getMFServers()->size())
     {
         Connection *srcConnection=
             getNetwork()->getConnection(groupId);
@@ -340,9 +340,9 @@ void SortLastWindow::clientRender( RenderActionBase *action )
             if(getComposer() != NullFC)
                 getComposer()->startFrame();
             // render all viewports
-            for(p = 0; p < getPort().size() ; ++p)
+            for(p = 0; p < getMFPort()->size() ; ++p)
             {
-                ViewportPtr vp=getPort()[p];
+                ViewportPtr vp=getPort(p);
                 if(getComposer() != NullFC)
                 {
                     getComposer()->startViewport(vp);
@@ -353,11 +353,11 @@ void SortLastWindow::clientRender( RenderActionBase *action )
                     action->setTravMask  (vp->getTravMask()            );
                     action->apply(vp->getRoot());
 
-                    for(UInt16 i=0; i < vp->getForegrounds().size(); i++)
+                    for(UInt16 i=0; i < vp->getMFForegrounds()->size(); i++)
                         if(StatisticsForegroundPtr::dcast(vp->getForegrounds(i)) == NullFC)
                             vp->getForegrounds(i)->draw(action, vp.getCPtr());
                     getComposer()->composeViewport(vp);
-                    for(UInt16 i=0; i < vp->getForegrounds().size(); i++)
+                    for(UInt16 i=0; i < vp->getMFForegrounds()->size(); i++)
                         if(StatisticsForegroundPtr::dcast(vp->getForegrounds(i)) != NullFC)
                             vp->getForegrounds(i)->draw(action, vp.getCPtr());
 
@@ -532,10 +532,10 @@ void SortLastWindow::splitDrawables(DrawableListT &src,
     // only one group
     if(groups == 1)
     {
-        getGroupLengths().push_back(src.size());
+        editMFGroupLengths()->push_back(src.size());
         for(dI = src.begin() ; dI != src.end() ; ++dI)
         {
-            getGroupNodes().push_back(dI->node);
+            editMFGroupNodes()->push_back(dI->node);
 //            srcLoad+=dI->load;
         }
 //        printf("load:%f\n",srcLoad);
@@ -607,24 +607,24 @@ void SortLastWindow::setupNodes(UInt32 groupId)
     UInt32  p;
     UInt32  nI,gnI,gI,group;
     UInt32  groupCount;
-    UInt32  usableServers = getServers().size();
+    UInt32  usableServers = getMFServers()->size();
 
     if(!getGroupsChanged())
         return;
 
     // client and no client rendering 
-    if( getServers().size() == groupId &&
+    if( getMFServers()->size() == groupId &&
         (getComposer() == NullFC ||
          !getComposer()->getClientRendering()))
     {
-        for(nI = 0 ; nI < getGroupNodes().size() ; ++nI)
+        for(nI = 0 ; nI < getMFGroupNodes()->size() ; ++nI)
         {
-            if(getGroupNodes()[nI]->getTravMask())
+            if(getGroupNodes(nI)->getTravMask())
             {
-                beginEditCP(getGroupNodes()[nI],Node::TravMaskFieldMask);
-                getGroupNodes()[nI]->setTravMask(0);
-                endEditCP(getGroupNodes()[nI],Node::TravMaskFieldMask);
-                getGroupNodes()[nI]->invalidateVolume();
+                beginEditCP(getGroupNodes(nI),Node::TravMaskFieldMask);
+                getGroupNodes(nI)->setTravMask(0);
+                endEditCP(getGroupNodes(nI),Node::TravMaskFieldMask);
+                getGroupNodes(nI)->invalidateVolume();
             }
         }
         return;
@@ -632,10 +632,10 @@ void SortLastWindow::setupNodes(UInt32 groupId)
     if(getComposer() != osg::NullFC)
         usableServers = getComposer()->getUsableServers();
     // server but not usable, then invalidate all nodes
-    if( (getServers().size() > groupId &&
+    if( (getMFServers()->size() > groupId &&
          usableServers <= groupId) )
     {
-        for(v = 0; v < getPort().size(); ++v)
+        for(v = 0; v < getMFPort()->size(); ++v)
         {
             root = getPort(v)->getRoot();
             root->setTravMask(0);
@@ -655,40 +655,40 @@ void SortLastWindow::setupNodes(UInt32 groupId)
         }
     }
 
-    if( getServers().size() == groupId)
+    if( getMFServers()->size() == groupId)
         groupId = usableServers;
 
     // setup nodes
-    for(nI = 0,gnI = 0,gI = 0,group = 0 ; nI < getGroupNodes().size() ; ++nI)
+    for(nI = 0,gnI = 0,gI = 0,group = 0 ; nI < getMFGroupNodes()->size() ; ++nI)
     {
         while(nI >= gnI)
         {
-            gnI += getGroupLengths()[group]; 
+            gnI += getGroupLengths(group); 
             gI++;
             group = gI % groupCount;
         }
         if(group == groupId)
         {
-            if(getGroupNodes()[nI]->getTravMask() !=
+            if(getGroupNodes(nI)->getTravMask() !=
                TypeTraits<UInt32>::getMax())
             {
-                beginEditCP(getGroupNodes()[nI],Node::TravMaskFieldMask);
-                getGroupNodes()[nI]->setTravMask(TypeTraits<UInt32>::getMax());
-                endEditCP(getGroupNodes()[nI],Node::TravMaskFieldMask);
-                getGroupNodes()[nI]->invalidateVolume();
+                beginEditCP(getGroupNodes(nI),Node::TravMaskFieldMask);
+                getGroupNodes(nI)->setTravMask(TypeTraits<UInt32>::getMax());
+                endEditCP(getGroupNodes(nI),Node::TravMaskFieldMask);
+                getGroupNodes(nI)->invalidateVolume();
             }
         }
         else
         {
-            if(getGroupNodes()[nI]->getTravMask())
+            if(getGroupNodes(nI)->getTravMask())
             {
-                beginEditCP(getGroupNodes()[nI],Node::TravMaskFieldMask);
-                getGroupNodes()[nI]->setTravMask(0);
-                endEditCP(getGroupNodes()[nI],Node::TravMaskFieldMask);
-                getGroupNodes()[nI]->invalidateVolume();
+                beginEditCP(getGroupNodes(nI),Node::TravMaskFieldMask);
+                getGroupNodes(nI)->setTravMask(0);
+                endEditCP(getGroupNodes(nI),Node::TravMaskFieldMask);
+                getGroupNodes(nI)->invalidateVolume();
             }
         }
-        getGroupNodes()[nI]->updateVolume();
+        getGroupNodes(nI)->updateVolume();
     }
     setGroupsChanged(false);
 }

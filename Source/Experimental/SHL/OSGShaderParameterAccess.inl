@@ -104,7 +104,7 @@ bool ShaderParameterAccess::setMParameter(const char *name, const ValueType &val
             return false;
         }
         beginEditCP(p, ParameterType::ValueFieldMask);
-            p->getValue() = value;
+            *p->editMFValue() = value;
         endEditCP(p, ParameterType::ValueFieldMask);
     }
     else
@@ -116,7 +116,7 @@ bool ShaderParameterAccess::setMParameter(const char *name, const ValueType &val
         {
             beginEditCP(p);
                 p->setName(name);
-                p->getValue() = value;
+                *p->editMFValue() = value;
             endEditCP(p);
             _parameters.push_back(p);
             _parametermap.insert(std::pair<std::string, UInt32>(name, _parameters.size()-1));
@@ -145,7 +145,36 @@ bool ShaderParameterAccess::getParameter(const char *name, ValueType &value)
             FWARNING(("ShaderParameterAccess::getParameter : Parameter '%s' has wrong type!\n", name));
             return false;
         }
-        value = p->getValue();
+        value = p->editValue();
+    }
+    else
+    {
+        FINFO(("ShaderParameterAccess::getParameter : Parameter '%s' doesn't exist!\n", name));
+        return false;
+    }
+    return true;
+}
+
+template<class ParameterType, class ValueType> inline
+bool ShaderParameterAccess::getMParameter(const char *name, ValueType &value)
+{
+    if(name == NULL)
+        return false;
+
+    updateMap();
+
+    parameterIt it = _parametermap.find(name);
+    
+    if(it != _parametermap.end())
+    {
+        //ParameterType::Ptr p = ParameterType::Ptr::dcast(_parameters[(*it).second]);
+        FCPtr<ShaderParameterPtr, ParameterType> p = FCPtr<ShaderParameterPtr, ParameterType>::dcast(_parameters[(*it).second]);
+        if(p == NullFC)
+        {
+            FWARNING(("ShaderParameterAccess::getParameter : Parameter '%s' has wrong type!\n", name));
+            return false;
+        }
+        value = *p->editMFValue();
     }
     else
     {
@@ -157,4 +186,4 @@ bool ShaderParameterAccess::getParameter(const char *name, ValueType &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.12 2007/09/06 09:45:11 a-m-z Exp $"
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.13 2008/06/09 07:30:32 vossg Exp $"

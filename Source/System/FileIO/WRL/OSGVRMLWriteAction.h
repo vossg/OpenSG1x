@@ -397,8 +397,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     void    setCurrentUse  (bool bVal                    );
     bool    isCurrentUse   (void                         );
 
-    void    addNodeUse     (CNodePtr          &pNode     );
-    void    addContainerUse(FieldContainerPtr &pContainer);
+    void    addNodeUse     (      CNodePtr          &pNode     );
+    void    addContainerUse(const FieldContainerPtr &pContainer);
 
     FCInfo *getInfo        (FieldContainerPtr &pContainer);
 

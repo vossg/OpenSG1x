@@ -1057,16 +1057,16 @@ bool Text::fillGeo(Geometry & mesh, std::vector<std::string> &lineVec,
         if (creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM)
             mesh.setTexCoords(texCoords);
 
-		mesh.getIndexMapping().clear();
+		mesh.editMFIndexMapping()->clear();
 
 		if(creationMode == FILL_TEX_CHAR_MCM || creationMode == FILL_TEX_ALL_MCM) {
-			mesh.getIndexMapping().push_back(Geometry::MapPosition |
-											 Geometry::MapTexCoords);
+			mesh.editMFIndexMapping()->push_back(Geometry::MapPosition |
+                                                 Geometry::MapTexCoords);
 		}
 		else {
-			mesh.getIndexMapping().push_back(Geometry::MapPosition);
+			mesh.editMFIndexMapping()->push_back(Geometry::MapPosition);
 		}
-		mesh.getIndexMapping().push_back(Geometry::MapNormal);
+		mesh.editMFIndexMapping()->push_back(Geometry::MapNormal);
 
         for(line = 0; line < Int32(lineVec.size()); line++)
             delete[] g[line];

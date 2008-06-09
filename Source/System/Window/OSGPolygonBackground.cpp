@@ -129,12 +129,12 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
         return;
     }
         
-    if (getPositions().getSize() == 0 ||
-        getPositions().getSize() != getTexCoords().getSize())
+    if (getMFPositions()->getSize() == 0 ||
+        getMFPositions()->getSize() != getMFTexCoords()->getSize())
     {
         FWARNING(("PolygonBackground::clear: positions and texcoords have "
                   "different/ invalid sizes (%d vs. %d)!\n", 
-                  getPositions().getSize(), getTexCoords().getSize()));
+                  getMFPositions()->getSize(), getMFTexCoords()->getSize()));
         return;
     }
 
@@ -241,12 +241,12 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
 	
     getMaterial()->getState()->activate(act);
     
-    Vec3f *tc  = &getTexCoords()[0];
-    Pnt2f *pos = &getPositions()[0];
+    const Vec3f *tc  = &getTexCoords(0);
+    const Pnt2f *pos = &getPositions(0);
     
     glBegin(GL_POLYGON);
     
-    for (UInt16 i=0; i<getPositions().size(); i++)
+    for (UInt16 i=0; i<getMFPositions()->size(); i++)
     {
         glTexCoord3fv( tc[i].getValues() );
         glVertex2f( mapCoordinate(pos[i][0], Real32(port->getPixelWidth()),
@@ -304,7 +304,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.8 2008/06/05 05:01:21 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.9 2008/06/09 07:30:42 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

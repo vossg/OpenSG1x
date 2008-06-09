@@ -116,7 +116,7 @@ bool TGAImageFileType::readCompressedImageData(std::istream &is,
 {
     UInt32 npix = image->getWidth() * image->getHeight();
     Int32  rep, len;
-    UChar8 *data = image->getData();
+    UChar8 *data = image->editData();
     UInt16 bpp = image->getBpp();
     Char8 c[4];
 
@@ -262,7 +262,7 @@ bool TGAImageFileType::read(ImagePtr &image, std::istream &is, const std::string
     else
     {
         Int32 len = image->getSize();
-        is.read(reinterpret_cast<char *>(image->getData()), len);
+        is.read(reinterpret_cast<char *>(image->editData()), len);
         if (is.gcount() != len)
             return false;
     }
@@ -276,7 +276,7 @@ bool TGAImageFileType::read(ImagePtr &image, std::istream &is, const std::string
                // do top-bottom swap
                {
                    UInt32 bpl = image->getBpp() * image->getWidth();
-                   UChar8 *t = image->getData(), 
+                   UChar8 *t = image->editData(), 
                           *b = t + (image->getHeight() - 1) * bpl,
                            dum;
 
@@ -303,7 +303,7 @@ bool TGAImageFileType::read(ImagePtr &image, std::istream &is, const std::string
     if (image->getPixelFormat() == Image::OSG_RGB_PF ||
         image->getPixelFormat() == Image::OSG_RGBA_PF)
     {
-        UChar8 *d    = image->getData(), dum;
+        UChar8 *d    = image->editData(), dum;
         UInt32  npix = image->getWidth() * image->getHeight();
         UInt8   bpp  = image->getBpp();
 

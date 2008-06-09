@@ -95,11 +95,11 @@ display(void)
 
     if(move_obj == true)
     {
-        scene_trans->getSFMatrix()->setValue( m1 );
+        scene_trans->editSFMatrix()->setValue( m1 );
     }
     else
     {
-        cam_trans->getSFMatrix()->setValue( m1 );
+        cam_trans->editSFMatrix()->setValue( m1 );
     }
 
 //    win->draw( ract );
@@ -384,7 +384,8 @@ int main (int argc, char **argv)
 
     beginEditCP(file);
     {
-        file->setCore(testMat);
+//        file->setCore(testMat);
+        file->setCore(Group::create());
         file->addChild(file1);
     }
     endEditCP  (file);

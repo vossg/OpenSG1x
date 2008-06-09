@@ -121,9 +121,9 @@ void DVRVolumeTexture::changed(BitVector whichField, UInt32 origin)
         _mfHistogram.resize(256);
         
         // update histogram
-        Real32 *hist   = &(_mfHistogram[0]);
-        UChar8 *img    = getImage()->getData();
-        Real32  maxVal = 0;
+              Real32 *hist   = &(_mfHistogram[0]);
+        const UChar8 *img    = getImage()->getData();
+              Real32  maxVal = 0;
         
         for(UInt32 i = 0; i < 256; i++)
             hist[i] = 0;

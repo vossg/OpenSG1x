@@ -516,7 +516,7 @@ ImagePtr DVRIsoShader::createGradientImage(DVRVolumeTexturePtr volTex)
     
     
     //  Compute the Gradients  
-    UChar8 *volData = volTex->getImage()->getData();
+    const UChar8 *volData = volTex->getImage()->getData();
   
     UChar8 *gradbuffer = new UChar8[nGradSetSize];  
 
@@ -554,22 +554,22 @@ ImagePtr DVRIsoShader::createGradientImage(DVRVolumeTexturePtr volTex)
                 } 
                 else 
                 {
-                    UChar8 &dataXl = 
+                    UChar8 dataXl = 
                         volData[z      * zOff +  y      * yOff + x - 1]; 
 
-                    UChar8 &dataXr = 
+                    UChar8 dataXr = 
                         volData[z      * zOff +  y      * yOff + x + 1]; 
 
-                    UChar8 &dataYb = 
+                    UChar8 dataYb = 
                         volData[z      * zOff + (y - 1) * yOff + x    ]; 
 
-                    UChar8 &dataYt = 
+                    UChar8 dataYt = 
                         volData[z      * zOff + (y + 1) * yOff + x    ]; 
 
-                    UChar8 &dataZf = 
+                    UChar8 dataZf = 
                         volData[(z - 1) * zOff +  y      * yOff + x    ]; 
 
-                    UChar8 &dataZn = 
+                    UChar8 dataZn = 
                         volData[(z + 1) * zOff +  y      * yOff + x    ]; 
 					
                     gradient = Vec3f(float(dataXl - dataXr), 

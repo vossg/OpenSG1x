@@ -230,7 +230,7 @@ void State::changeFrom(DrawActionBase *action, State *old)
     if(ind >= StateChunkClass::getNumSlots(cind))
         ind = 0;
 
-    for(i = cind; i < old->getChunks().size(); ++i)
+    for(i = cind; i < old->getMFChunks()->size(); ++i)
     {
         StateChunkPtr o = old->getChunk(i);
 

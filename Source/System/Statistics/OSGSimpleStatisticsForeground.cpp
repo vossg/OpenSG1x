@@ -115,16 +115,16 @@ void SimpleStatisticsForeground::dump(UInt32, const BitVector) const
 void SimpleStatisticsForeground::addElement(StatElemDescBase &desc,
                                             const char *format)
 {
-    getElementIDs().push_back(desc.getID());
-    getFormats().push_back(format ? format : "");
+    editMFElementIDs()->push_back(desc.getID());
+    editMFFormats()->push_back(format ? format : "");
 }
 
 /*! Convenience function to add an element and format.
 */
 void SimpleStatisticsForeground::addElement(Int32 id, const char *format)
 {
-    getElementIDs().push_back(id);
-    getFormats().push_back(format ? format : "");
+    editMFElementIDs()->push_back(id);
+    editMFFormats()->push_back(format ? format : "");
 }
 
 /*! Convenience function to add a line of text.
@@ -138,9 +138,9 @@ void SimpleStatisticsForeground::addText( const char *text )
 */
 void SimpleStatisticsForeground::clearElems( void )
 {
-    getElementIDs().clear();
-    getFormats().clear();
-    getCollector().clearElems();
+    editMFElementIDs()->clear();
+    editMFFormats()->clear();
+    editCollector().clearElems();
 }
 
 /*! Initialize the text used. It is compiled into the library as
@@ -199,7 +199,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     if (_face == 0)
         initText(getFamily(), getSize());
 
-    if (!getCollector().getNumOfElems() && !getElementIDs().size())
+    if (!getCollector().getNumOfElems() && !getMFElementIDs()->size())
         return; // nothing to do
 
     Real32  pw = Real32(port->getPixelWidth ());
@@ -233,23 +233,23 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     // retrieve text
     std::vector < std::string > stat;
 
-    StatCollector   *col = &getCollector();
+    StatCollector   *col = const_cast<StatCollector *>(&getCollector());
     StatElem        *el;
 
-    if(getElementIDs().size() != 0)
+    if(getMFElementIDs()->size() != 0)
     {
-        for(UInt32 i = 0; i < getElementIDs().size(); ++i)
+        for(UInt32 i = 0; i < getMFElementIDs()->size(); ++i)
         {
-            Int32 id(getElementIDs()[i]);
+            Int32 id(getElementIDs(i));
             el = ((id >= 0) ? col->getElem(id) : 0);
 
             stat.resize(stat.size() + 1);
             std::vector < std::string >::iterator str = stat.end() - 1;
 
             const char  *format = NULL;
-            if(i < getFormats().size() && getFormats()[i].length())
+            if(i < getMFFormats()->size() && getFormats(i).length())
             {
-              format = getFormats()[i].c_str();
+                format = getFormats(i).c_str();
             }
 
             if (el)
@@ -322,7 +322,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     glTranslatef(orthoX, orthoY, 0.0);
 
     // draw background
-    glColor4fv(static_cast<GLfloat*>(getBgColor().getValuesRGBA()));
+    glColor4fv(const_cast<GLfloat*>(getBgColor().getValuesRGBA()));
     glBegin(GL_QUADS);
         glVertex2f(0, -textHeight);
         glVertex2f(textWidth, -textHeight);
@@ -333,7 +333,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
     // draw border
     if(getBorderColor().red() >= 0.0f)
     {
-        glColor4fv(static_cast<GLfloat*>(getBorderColor().getValuesRGBA()));
+        glColor4fv(const_cast<GLfloat*>(getBorderColor().getValuesRGBA()));
         glBegin(GL_LINE_LOOP);
             glVertex2f(getBorderOffset().x(), -textHeight + 1 + getBorderOffset().y());
             glVertex2f(textWidth - 1 - getBorderOffset().x(), -textHeight + 1 + getBorderOffset().y());
@@ -347,13 +347,13 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
 
     _texchunk->activate(action);
 
-    glColor4fv(static_cast<GLfloat*>(getShadowColor().getValuesRGBA()));
+    glColor4fv(const_cast<GLfloat*>(getShadowColor().getValuesRGBA()));
     glPushMatrix();
     glTranslatef(getShadowOffset().x(), getShadowOffset().y(), 0);
     glScalef(scale, scale, 1);
     drawCharacters(layoutResult);
 
-    glColor4fv(static_cast<GLfloat*>(getColor().getValuesRGBA()));
+    glColor4fv(const_cast<GLfloat*>(getColor().getValuesRGBA()));
     glPopMatrix();
     glScalef(scale, scale, 1);
     drawCharacters(layoutResult);

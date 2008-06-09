@@ -49,7 +49,7 @@ OSG_BEGIN_NAMESPACE
 
 inline const MFString& FCPtrAttributeMap::getKeys() const
 {
-    return FCPtrAttributeMapBase::getKeys();
+    return *FCPtrAttributeMapBase::getMFKeys();
 }
 
 /*! Queries this attribute map attachment to determine if it includes the
@@ -99,8 +99,8 @@ inline FieldContainerPtr FCPtrAttributeMap::getAttribute(const std::string& key)
 
 inline FieldContainerPtr& FCPtrAttributeMap::operator[](const std::string& key)
 {
-    MFString& keys = this->FCPtrAttributeMapBase::getKeys();
-    MFFieldContainerPtr& values = this->FCPtrAttributeMapBase::getValues();
+    MFString& keys = *this->FCPtrAttributeMapBase::editMFKeys();
+    MFFieldContainerPtr& values = *this->FCPtrAttributeMapBase::editMFValues();
 
     unsigned int index(0);
     MFString::iterator i;
@@ -121,5 +121,5 @@ inline FieldContainerPtr& FCPtrAttributeMap::operator[](const std::string& key)
 
 OSG_END_NAMESPACE
 
-#define OSGFCPTRATTRIBUTEMAP_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMap.inl,v 1.2 2005/09/28 03:01:44 vossg Exp $"
+#define OSGFCPTRATTRIBUTEMAP_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMap.inl,v 1.3 2008/06/09 07:30:36 vossg Exp $"
 

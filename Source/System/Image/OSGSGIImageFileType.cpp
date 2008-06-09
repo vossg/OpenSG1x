@@ -310,7 +310,7 @@ bool SGIImageFileType::read (ImagePtr &image, std::istream &is, const std::strin
         return false;
 
     image->set(zsize2pixelformat[img.zsize - 1], img.xsize, img.ysize);
-    unsigned char *lptr = image->getData();
+    unsigned char *lptr = image->editData();
     unsigned int lineStride = img.xsize * img.zsize;
     for (int y = 0; y < img.ysize; ++y)
     {

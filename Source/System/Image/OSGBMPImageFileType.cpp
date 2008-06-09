@@ -318,13 +318,13 @@ static bool parseUncompressedPaletteImage(std::istream &is, const BITMAPINFOHEAD
     {
         height = infoHeader.biHeight;
         bytesPerLine = infoHeader.biWidth * 3;
-        data = image->getData();
+        data = image->editData();
     }
     else
     {
         height = -infoHeader.biHeight;
         bytesPerLine = infoHeader.biWidth * -3;
-        data = image->getData() + image->getSize() + bytesPerLine;
+        data = image->editData() + image->getSize() + bytesPerLine;
     }
 
     for (int y = 0; y < height; ++y)
@@ -368,13 +368,13 @@ static bool parseRLEImage(std::istream &is, const BITMAPINFOHEADER &infoHeader, 
     {
         height = infoHeader.biHeight;
         bytesPerLine = infoHeader.biWidth * 3;
-        data = image->getData();
+        data = image->editData();
     }
     else
     {
         height = -infoHeader.biHeight;
         bytesPerLine = infoHeader.biWidth * -3;
-        data = image->getData() + image->getSize() + bytesPerLine;
+        data = image->editData() + image->getSize() + bytesPerLine;
     }
 
     UChar8 *ptr = data;
@@ -525,13 +525,13 @@ static bool parseTrueColorImage(std::istream &is, const BITMAPINFOHEADER &infoHe
     if (infoHeader.biHeight >= 0)
     {
         height = infoHeader.biHeight;
-        data = image->getData();
+        data = image->editData();
     }
     else
     {
         height = -infoHeader.biHeight;
         bytesPerLine = -bytesPerLine;
-        data = image->getData() + image->getSize() + bytesPerLine;
+        data = image->editData() + image->getSize() + bytesPerLine;
     }
 
     for (int y = 0; y < height; ++y)
@@ -576,13 +576,13 @@ static bool parse24bitImage(std::istream &is, const BITMAPINFOHEADER &infoHeader
     {
         height = infoHeader.biHeight;
         bytesPerLine = infoHeader.biWidth * 3;
-        data = image->getData();
+        data = image->editData();
     }
     else
     {
         height = -infoHeader.biHeight;
         bytesPerLine = infoHeader.biWidth * -3;
-        data = image->getData() + image->getSize() + bytesPerLine;
+        data = image->editData() + image->getSize() + bytesPerLine;
     }
     int padding = (infoHeader.biWidth * 3) & 3;
     if (padding != 0)
@@ -766,7 +766,7 @@ static void bmp_header2_write(std::ostream &os, unsigned long int size,
 }
 
 static void bmp_24_data_write(std::ostream &os, unsigned long int width,
-                              long int height, unsigned char *data)
+                              long int height, const unsigned char *data)
 {
     int i;
     unsigned char *indexb;
@@ -898,7 +898,8 @@ bool BMPImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
 
     int width = image->getWidth();
     int height = image->getHeight();
-    unsigned char *data = static_cast<unsigned char *>(image->getData());
+    const unsigned char *data = 
+        static_cast<const unsigned char *>(image->getData());
 
     unsigned long int bitmapoffset;
     unsigned short int bitsperpixel;

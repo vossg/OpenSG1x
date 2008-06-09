@@ -545,7 +545,7 @@ bool PSDImageFileType::read(ImagePtr &image, std::istream &is,
     }
 
     image->set(format, header.columns, header.rows);
-    UChar8 *data = image->getData();
+    UChar8 *data = image->editData();
 
     if (readImageData(is, header, relevantChannels, colormap, transparentIndex, data) == false)
     {

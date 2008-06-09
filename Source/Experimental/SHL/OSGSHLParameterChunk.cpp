@@ -201,7 +201,7 @@ bool SHLParameterChunk::operator == (const StateChunk &other) const
     if(!tother)
         return false;
 
-    if(getParameters().size() != tother->getParameters().size())
+    if(getMFParameters()->size() != tother->getMFParameters()->size())
         return false;
 
     return true;
@@ -225,7 +225,7 @@ bool SHLParameterChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.5 2007/11/02 15:32:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunk.cpp,v 1.6 2008/06/09 07:30:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 

@@ -235,13 +235,13 @@ for (UInt32 k=0; k<LENGTH; k++)                                         \
     }                                                                   \
     if (indices[geoIndex]!=NullFC)                                      \
     {                                                                   \
-        if (geos[geoIndex]->getIndexMapping().size()<2)                 \
+        if (geos[geoIndex]->getMFIndexMapping()->size()<2)              \
         {                                                               \
             indices[geoIndex]->push_back(pni[geoIndex][posInd]);        \
         }                                                               \
         else                                                            \
         {                                                               \
-            UInt32 * offsets = new UInt32 [ geos[geoIndex]->getIndexMapping().size() ];			   \
+            UInt32 * offsets = new UInt32 [ geos[geoIndex]->getMFIndexMapping()->size() ];			   \
             Int16 mind;																		 	   \
             if ( ( mind = geos[geoIndex]->calcMappingIndex( Geometry::MapPosition ) ) >= 0 )       \
                 offsets[ mind ] = pni[geoIndex][posInd];									   	   \
@@ -259,7 +259,7 @@ for (UInt32 k=0; k<LENGTH; k++)                                         \
                 offsets[ mind ] = t2ni[geoIndex][tex2Ind];										   \
             if ( ( mind = geos[geoIndex]->calcMappingIndex( Geometry::MapTexCoords3 ) ) >= 0 )     \
                 offsets[ mind ] = t3ni[geoIndex][tex3Ind];										   \
-            for (UInt32 j=0; j<geos[geoIndex]->getIndexMapping().size(); j++)					   \
+            for (UInt32 j=0; j<geos[geoIndex]->getMFIndexMapping()->size(); j++)					   \
                 indices[geoIndex]->push_back(offsets[j]);										   \
             delete [] offsets;																	   \
         }																						   \
@@ -436,7 +436,7 @@ bool SplitGraphOp::splitNode(NodePtr& node, std::vector<NodePtr> &split)
         geos[i]->setMaterial(geo->getMaterial());
 
         if(geo->getMFIndexMapping() != NULL)
-            geos[i]->getMFIndexMapping()->setValues(*(geo->getMFIndexMapping()));
+            geos[i]->editMFIndexMapping()->setValues(*(geo->getMFIndexMapping()));
 
         types[i]   = GeoPTypesPtr::dcast(geo->getTypes()->getType().createFieldContainer());
         lens[i]    = GeoPLengthsPtr::dcast(geo->getLengths()->getType().createFieldContainer());

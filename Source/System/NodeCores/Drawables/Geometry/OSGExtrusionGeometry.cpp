@@ -1607,11 +1607,11 @@ GeometryPtr ExtrusionSurface::createGeometry(UInt32 nSubdivs)
     // 2. (Position, Normal)
     // 3. (Position, TexCoord)        
     // 4. (Position, Normal, TexCoord)
-    geoPtr->getIndexMapping().push_back(Geometry::MapPosition);
+    geoPtr->editMFIndexMapping()->push_back(Geometry::MapPosition);
     if(_createNormals)
-        geoPtr->getIndexMapping().push_back(Geometry::MapNormal);
+        geoPtr->editMFIndexMapping()->push_back(Geometry::MapNormal);
     if(_createTexCoords)
-        geoPtr->getIndexMapping().push_back(Geometry::MapTexCoords);
+        geoPtr->editMFIndexMapping()->push_back(Geometry::MapTexCoords);
 
     // set primitive data field containers
     geoPtr->setLengths(lensPtr);

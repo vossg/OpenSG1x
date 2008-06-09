@@ -107,12 +107,12 @@ public:
     /*! \name                    Exclusion                                 */
     /*! \{                                                                 */    
     
-    void addToExcludeList       (NodePtr& node           );
+    void addToExcludeList       (const NodePtr& node     );
     void addToExcludeList       (const std::string &name );
     void removeFromExcludeList  (NodePtr& node           );
     void removeFromExcludeList  (const std::string &name );
     void clearExcludeList       (void                    );
-    bool isInExcludeListNodes   (NodePtr& node           );
+    bool isInExcludeListNodes   (const NodePtr& node     );
     bool isInExcludeListNames   (const std::string &name );
     bool isInExcludeList        (NodePtr& node           );        
 

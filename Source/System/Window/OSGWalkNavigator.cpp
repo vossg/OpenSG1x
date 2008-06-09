@@ -89,12 +89,12 @@ WalkNavigator::~WalkNavigator()
 /*------------------------------ set --------------------------------------*/
 
 
-void WalkNavigator::setGround(NodePtr &new_ground)
+void WalkNavigator::setGround(const NodePtr &new_ground)
 {
     _ground=new_ground;
 }
 
-void WalkNavigator::setWorld(NodePtr &new_world)
+void WalkNavigator::setWorld(const NodePtr &new_world)
 {
     _world=new_world;
 }

@@ -70,7 +70,8 @@ bool OSG::createComposedImage ( std::vector<ImagePtr> imageVec,
 {
   UInt32 dataSize, i, n = imageVec.size();
   Int32 w = 0, h = 0;
-  UInt8 *destData, *srcData;
+  UInt8 *destData;
+  const UInt8 *srcData;
   Image::PixelFormat pf = Image::OSG_INVALID_PF;
   Image::Type        dt = Image::OSG_INVALID_IMAGEDATATYPE;
   bool needColor = false, needAlpha = false, needCopy = false;
@@ -147,7 +148,7 @@ bool OSG::createComposedImage ( std::vector<ImagePtr> imageVec,
     image->set( pf, w, h, depth, 1, frameCount, 0.0, 
                 0, dt, true, sideCount );
 
-    destData = image->getData();
+    destData = image->editData();
     dataSize = image->getSize() / n;
 
     if (needCopy) {
@@ -207,13 +208,13 @@ bool OSG::createNormalMapFromBump ( ImagePtr image,
     Int32 w = image->getWidth();
     Int32 h = image->getHeight();
     
-    unsigned char *srcData = image->getData();
+    const unsigned char *srcData = image->getData();
 
     beginEditCP(dst);
     
     dst->set(Image::OSG_RGB_PF, w, h);
 
-    unsigned char *dstData = dst->getData();
+    unsigned char *dstData = dst->editData();
 
     Vec3f scale(normalMapScale);
     
@@ -313,7 +314,8 @@ bool OSG::createNormalVolume ( ImagePtr inImage,
                    END_DI
   };
   
-  UInt8 *data = 0, *ds, dc;
+  const UInt8 *data = 0;
+  UInt8 dc, *ds;
   osg::Real32 minU = osg::Inf, maxU = -osg::Inf;
   osg::Real32 minV = osg::Inf, maxV = -osg::Inf;
   Int32 w, h, d, x, y, z, md, ld, hd, xs, ys, zs, ps, ls, ss, os;
@@ -414,7 +416,7 @@ bool OSG::createNormalVolume ( ImagePtr inImage,
   // create output image
   outImage->set( pf, w, h, d );
                       
-  ds = outImage->getData();
+  ds = outImage->editData();
 
   // fill output image
   for (z = 0; z < d; z++) {
@@ -543,14 +545,14 @@ bool OSG::create2DPreIntegrationLUT ( ImagePtr dst,
         return false;
     }
 
-    unsigned char *dataSrc = src->getData();
+    const unsigned char *dataSrc = src->getData();
     UInt32 width = src->getWidth();
 
     beginEditCP( dst );
     {
         dst->set(Image::OSG_RGBA_PF, width, width);
 
-        unsigned char *dataDst = dst->getData();
+        unsigned char *dataDst = dst->editData();
 
         for (Int32 x = 0; x < Int32(width); x++)
         {
@@ -631,9 +633,9 @@ bool OSG::splitRGBA(ImagePtr rgba,
         rgb->set(Image::OSG_RGB_PF, w, h);
         alpha->set(Image::OSG_L_PF, w, h);
         
-        unsigned char *data = rgb->getData();
-        unsigned char *dataRgba = rgba->getData();
-        unsigned char *dataAlpha = alpha->getData();
+        unsigned char *data = rgb->editData();
+        const unsigned char *dataRgba = rgba->getData();
+        unsigned char *dataAlpha = alpha->editData();
         
         for (Int32 i=0; i<(w * h); i++)
         {    
@@ -689,9 +691,9 @@ bool OSG::mergeRGBA(ImagePtr rgb,
     {
         rgba->set(Image::OSG_RGBA_PF, w, h);
         
-        unsigned char *data = rgba->getData();
-        unsigned char *dataRgb = rgb->getData();
-        unsigned char *dataAlpha = alpha->getData();
+        unsigned char *data = rgba->editData();
+        const unsigned char *dataRgb = rgb->getData();
+        unsigned char *dataAlpha = alpha->editData();
         
         for (Int32 i=0; i<(w * h); i++)
         {
@@ -725,13 +727,14 @@ bool OSG::blendImage ( ImagePtr canvas,
   int x,y,z;
   int red = 0, green = 0, blue = 0, grey = 0;
   int alpha = 0;
-  osg::UChar8 *s = 0, *d = 0;
+  const UChar8 *s = 0;
+  UChar8 *d = 0;
   UChar8 tmpD;
 
   osg::beginEditCP(canvas);
   
-  osg::UChar8 *src  = brush->getData();
-  osg::UChar8 *dest = canvas->getData();
+  const UChar8 *src  = brush->getData();
+  UChar8 *dest = canvas->editData();
   
   const float cred   = color.red();
   const float cgreen = color.green();
@@ -891,7 +894,7 @@ bool OSG::createPhongTexture(ImagePtr image,
     beginEditCP( image );
     {
         image->set(Image::OSG_L_PF, size, size);
-        unsigned char *textureMap = image->getData();
+        unsigned char *textureMap = image->editData();
         
         UInt32 i, j, index = 0;
         Real32 x = 0, y = 0;
@@ -945,7 +948,7 @@ bool createPhongVolume ( ImagePtr image,
 
 	image->set( osg::Image::OSG_RGB_PF, lutFSize, lutFSize, lutFSize );
 
-  ds = image->getData();
+  ds = image->editData();
 
 	FDEBUG (("calc phong map START\n"));
 
@@ -1018,7 +1021,7 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
     // pos x  
     beginEditCP( imagePosX );
         imagePosX->set(Image::OSG_RGB_PF, size, size);
-        data = imagePosX->getData();
+        data = imagePosX->editData();
                         
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
@@ -1041,7 +1044,7 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
     // neg x
     beginEditCP( imageNegX );
         imageNegX->set(Image::OSG_RGB_PF, size, size);
-        data = imageNegX->getData();
+        data = imageNegX->editData();
                         
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
@@ -1064,7 +1067,7 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
     // pos y
     beginEditCP( imagePosY );
         imagePosY->set(Image::OSG_RGB_PF, size, size);
-        data = imagePosY->getData();
+        data = imagePosY->editData();
                 
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
@@ -1087,7 +1090,7 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
     // neg y
     beginEditCP( imageNegY );
         imageNegY->set(Image::OSG_RGB_PF, size, size);
-        data = imageNegY->getData();
+        data = imageNegY->editData();
             
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
@@ -1110,7 +1113,7 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
     // pos z    
     beginEditCP( imagePosZ );
         imagePosZ->set(Image::OSG_RGB_PF, size, size);
-        data = imagePosZ->getData();
+        data = imagePosZ->editData();
             
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
@@ -1133,7 +1136,7 @@ bool OSG::createNormalizationCubeMap(std::vector<ImagePtr> imageVec,
     //negz
     beginEditCP( imageNegZ );
         imageNegZ->set(Image::OSG_RGB_PF, size, size);
-        data = imageNegZ->getData();
+        data = imageNegZ->editData();
         
         for (j=0; j<size; j++) {        
             for (i=0; i<size; i++) {
@@ -1473,7 +1476,7 @@ bool OSG::createNoise(ImagePtr image,
             break;
     }
 
-    if ( ! (ok && (data = image->getData())) )
+    if ( ! (ok && (data = image->editData())) )
     { 
         FFATAL(("createNoise: Could not create image\n"));
         return false;

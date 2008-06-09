@@ -1381,7 +1381,7 @@ TextFT2TXFFace::TextFT2TXFFace(FT_Face face, const TextTXFParam &param)
         int bpl = glyphSlot->bitmap.pitch;
         src += bpl * (glyph->getPixmapHeight() - 1);
         unsigned char *src2;
-        UInt8 *dst = _texture->getData() + glyph->getX() + glyph->getY() * _texture->getWidth();
+        UInt8 *dst = _texture->editData() + glyph->getX() + glyph->getY() * _texture->getWidth();
         UInt32 dstPitch = _texture->getWidth() - glyph->getPixmapWidth();
         UInt32 x, y;
         for (y = 0; y < glyph->getPixmapHeight(); ++y)
@@ -1474,7 +1474,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.8 2008/06/05 05:01:21 vossg Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.9 2008/06/09 07:30:42 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFT2BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFT2BACKEND_INLINE_CVSID;
 }

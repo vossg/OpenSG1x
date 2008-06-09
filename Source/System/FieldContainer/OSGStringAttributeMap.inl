@@ -49,7 +49,7 @@ OSG_BEGIN_NAMESPACE
 
 inline const MFString& StringAttributeMap::getKeys() const
 {
-    return StringAttributeMapBase::getKeys();
+    return *StringAttributeMapBase::getMFKeys();
 }
 
 /*! Queries this attribute map attachment to determine if it includes the
@@ -97,8 +97,8 @@ inline const std::string StringAttributeMap::getAttribute(const std::string& key
 
 inline std::string& StringAttributeMap::operator[](const std::string& key)
 {
-    MFString& keys   = this->StringAttributeMapBase::getKeys();
-    MFString& values = this->StringAttributeMapBase::getValues();
+    MFString& keys   = *this->StringAttributeMapBase::editMFKeys();
+    MFString& values = *this->StringAttributeMapBase::editMFValues();
 
     unsigned int index(0);
     for ( MFString::iterator i = keys.begin(); i != keys.end(); ++i, ++index )
@@ -118,5 +118,5 @@ inline std::string& StringAttributeMap::operator[](const std::string& key)
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGATTRIBUTEMAP_INLINE_CVSID "@(#)$Id: OSGStringAttributeMap.inl,v 1.2 2005/09/28 03:01:44 vossg Exp $"
+#define OSGSTRINGATTRIBUTEMAP_INLINE_CVSID "@(#)$Id: OSGStringAttributeMap.inl,v 1.3 2008/06/09 07:30:36 vossg Exp $"
 

@@ -124,7 +124,7 @@ bool MTDImageFileType::read  (ImagePtr &image, std::istream &in, const std::stri
                       Image::OSG_UINT8_IMAGEDATA ), 
                     true, head.sideCount) &&
        (dataSize = image->getSize()) && 
-       in.read(reinterpret_cast<char *>(image->getData()), dataSize ))
+       in.read(reinterpret_cast<char *>(image->editData()), dataSize ))
       retCode = true;
   else
       retCode = false;
@@ -157,7 +157,7 @@ bool MTDImageFileType::write (const ImagePtr &image, std::ostream &out, const st
     head.hostToNet();
   
     if ( out.write(static_cast<const char *>(headData), headSize) && 
-         dataSize && out.write(reinterpret_cast<char *>(image->getData()), dataSize) )
+         dataSize && out.write(reinterpret_cast<const char *>(image->getData()), dataSize) )
       retCode = true;
     else
       retCode = false;    

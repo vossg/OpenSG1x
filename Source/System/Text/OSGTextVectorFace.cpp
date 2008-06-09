@@ -189,7 +189,7 @@ void TextVectorFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layout
     geoPtr->setTexCoords1(NullFC);
     geoPtr->setTexCoords2(NullFC);
     geoPtr->setTexCoords3(NullFC);
-    geoPtr->getIndexMapping().clear();
+    geoPtr->editMFIndexMapping()->clear();
 
     UInt32 numGlyphs = layoutResult.getNumGlyphs();
     if (numGlyphs == 0)
@@ -200,9 +200,9 @@ void TextVectorFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layout
 
     // the interleaved multi-index blocks have the layout
     // Position | Normal | TexCoord
-    geoPtr->getIndexMapping().push_back(Geometry::MapPosition);
-    geoPtr->getIndexMapping().push_back(Geometry::MapNormal);
-    geoPtr->getIndexMapping().push_back(Geometry::MapTexCoords);
+    geoPtr->editMFIndexMapping()->push_back(Geometry::MapPosition);
+    geoPtr->editMFIndexMapping()->push_back(Geometry::MapNormal);
+    geoPtr->editMFIndexMapping()->push_back(Geometry::MapTexCoords);
 
     beginEditCP(posPtr, GeoPositions3f::GeoPropDataFieldMask);
     beginEditCP(normalsPtr, GeoNormals3f::GeoPropDataFieldMask);
@@ -563,7 +563,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorFace.cpp,v 1.2 2005/04/12 14:43:41 jbehr Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextVectorFace.cpp,v 1.3 2008/06/09 07:30:42 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTVECTORFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTVECTORFACE_INLINE_CVSID;
 }

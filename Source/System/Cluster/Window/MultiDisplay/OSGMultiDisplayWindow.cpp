@@ -143,7 +143,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
 
     if(!getHServers())
     {
-        setHServers(getServers().size());
+        setHServers(getMFServers()->size());
     }
     if(!getVServers())
     {
@@ -171,16 +171,16 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     bool   isVirtualPort = false;
 
     // duplicate viewports
-    for(cv = 0, sv = 0; cv < getPort().size(); ++cv)
+    for(cv = 0, sv = 0; cv < getMFPort()->size(); ++cv)
     {
-        clientPort    = getPort()[cv];
+        clientPort    = getPort(cv);
         isVirtualPort = clientPort->getType().isDerivedFrom(FBOViewport::getClassType());
         
         if(isVirtualPort)
         {
             // TODO -- seems wrong to render this on all servers, though rendering
             // then transmitting the texture doesn't seem like a good idea either.
-            if(serverWindow->getPort().size() <= sv)
+            if(serverWindow->getMFPort()->size() <= sv)
             {
                 serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
                 beginEditCP(serverWindow);
@@ -189,16 +189,16 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
             }
             else
             {
-                serverPort = serverWindow->getPort()[sv];
-                if(serverWindow->getPort()[sv]->getType() !=
+                serverPort = serverWindow->getPort(sv);
+                if(serverWindow->getPort(sv)->getType() !=
                         clientPort->getType())
                 {
                     // there is a viewport with the wrong type
-                    subRefCP(serverWindow->getPort()[sv]);
+                    subRefCP(serverWindow->getPort(sv));
                     serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
                     beginEditCP(serverWindow);
                     {
-                        serverWindow->getPort()[sv] = serverPort;
+                        serverWindow->editPort(sv) = serverPort;
                     }
                     endEditCP(serverWindow);
                 }
@@ -227,7 +227,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
             b = osgMax(cbottom,bottom) - bottom;
             r = osgMin(cright ,right ) - left;
             t = osgMin(ctop   ,top   ) - bottom;
-            if(serverWindow->getPort().size() <= sv)
+            if(serverWindow->getMFPort()->size() <= sv)
             {
                 serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
                 beginEditCP(serverPort);
@@ -240,16 +240,16 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
             }
             else
             {
-                serverPort = serverWindow->getPort()[sv];
+                serverPort = serverWindow->getPort(sv);
                 deco = TileCameraDecoratorPtr::dcast(serverPort->getCamera());
-                if(serverWindow->getPort()[sv]->getType() != 
+                if(serverWindow->getPort(sv)->getType() != 
                         clientPort->getType())
                 {
                     // there is a viewport with the wrong type
-                    subRefCP(serverWindow->getPort()[sv]);
+                    subRefCP(serverWindow->getPort(sv));
                     serverPort = ViewportPtr::dcast(clientPort->shallowCopy());
                     beginEditCP(serverWindow);
-                    serverWindow->getPort()[sv] = serverPort;
+                    serverWindow->editPort(sv) = serverPort;
                     serverPort->setCamera(deco);
                     endEditCP(serverWindow);
                 }
@@ -297,7 +297,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
         sv++;
     }
     // remove unused ports
-    while(serverWindow->getPort().size()>sv)
+    while(serverWindow->getMFPort()->size()>sv)
     {
         serverWindow->subPort(sv);
     }
@@ -348,9 +348,9 @@ void MultiDisplayWindow::clientInit( void )
         return;
 
     // check if something changed
-    if(getPort().size() == getClientWindow()->getPort().size())
+    if(getMFPort()->size() == getClientWindow()->getMFPort()->size())
     {
-        for(UInt32 v = 0 ; v < getPort().size() && !changed ; v++)
+        for(UInt32 v = 0 ; v < getMFPort()->size() && !changed ; v++)
         {
             vp  = getPort(v);
             cvp = getClientWindow()->getPort(v);
@@ -360,7 +360,8 @@ void MultiDisplayWindow::clientInit( void )
                 vp->getBottom() != cvp->getBottom() ||
                 vp->getTop() != cvp->getTop() ||
                 vp->getBackground() != cvp->getBackground() ||
-                vp->getForegrounds().size() != cvp->getForegrounds().size() )
+                vp->getMFForegrounds()->size() != 
+                    cvp->getMFForegrounds()->size() )
                 changed = true;
         }
     }
@@ -373,14 +374,14 @@ void MultiDisplayWindow::clientInit( void )
     {
         beginEditCP(getClientWindow());
         // remove all viewports
-        while(getClientWindow()->getPort().size())
+        while(getClientWindow()->getMFPort()->size())
         {
             vp = getClientWindow()->getPort(0);
             getClientWindow()->subPort(0);
             subRefCP(vp);
         }
         // duplicate viewports
-        for(UInt32 v=0 ; v<getPort().size() ;v++)
+        for(UInt32 v=0 ; v<getMFPort()->size() ;v++)
         {
             getClientWindow()->addPort(ViewportPtr::dcast(getPort(v)->shallowCopy()));
         }
@@ -485,13 +486,13 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                 if (strcmp(fdesc->getCName(), "foregrounds") == 0)
                 {
                     MFForegroundPtr sFgndBag;
-                    MFForegroundPtr::iterator sFgndIt, cFgndIt;
+                    MFForegroundPtr::const_iterator sFgndIt, cFgndIt;
                     DisplayFilterForegroundPtr filterFgnd = NullFC;
                     
-                    sFgndIt = serverPort->getForegrounds().begin();
-                    cFgndIt = clientPort->getForegrounds().begin();
+                    sFgndIt = serverPort->getMFForegrounds()->begin();
+                    cFgndIt = clientPort->getMFForegrounds()->begin();
                     
-                    while (sFgndIt != serverPort->getForegrounds().end())
+                    while (sFgndIt != serverPort->getMFForegrounds()->end())
                     {
                         filterFgnd = DisplayFilterForegroundPtr::dcast(*sFgndIt);
                         
@@ -504,7 +505,8 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                         ++sFgndIt;
                     }
                     
-                    if (sFgndBag.size() != clientPort->getForegrounds().size())
+                    if (sFgndBag.size() != 
+                            clientPort->getMFForegrounds()->size())
                     {
                         equal = false;
                     }
@@ -513,7 +515,7 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                         sFgndIt = sFgndBag.begin();
                         
                         while (sFgndIt != sFgndBag.end() &&
-                               cFgndIt != clientPort->getForegrounds().end() &&
+                               cFgndIt != clientPort->getMFForegrounds()->end() &&
                               *sFgndIt == *cFgndIt)
                         {
                             ++sFgndIt;
@@ -521,7 +523,7 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                         }
                         
                         if (sFgndIt != sFgndBag.end() ||
-                            cFgndIt != clientPort->getForegrounds().end())
+                            cFgndIt != clientPort->getMFForegrounds()->end())
                             equal = false;
                     }
                 }

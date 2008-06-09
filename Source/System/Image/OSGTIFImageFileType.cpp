@@ -349,7 +349,7 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
     image->setResY(res_y);
     image->setResUnit(res_unit);
 
-    UChar8 *dst = image->getData();
+    UChar8 *dst = image->editData();
     uint32 *src = buffer;
     switch (bpp)
     {

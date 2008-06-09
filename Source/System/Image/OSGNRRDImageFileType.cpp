@@ -342,7 +342,7 @@ bool NRRDImageFileType::read(ImagePtr &image, std::istream &in, const std::strin
                    1, 1, 0.0, 0, imageType );
 
       n    = image->getSize();
-      data = image->getData();
+      data = image->editData();
 
       in.read (reinterpret_cast<char*>(data), n);
 

@@ -445,7 +445,7 @@ bool JPGImageFileType::read(ImagePtr &OSG_JPG_ARG(image), std::istream &OSG_JPG_
         image->setResY(res_y);
         image->setResUnit(res_unit);
 
-        unsigned char *destData = image->getData() + image->getSize();
+        unsigned char *destData = image->editData() + image->getSize();
         int row_stride = cinfo.output_width * cinfo.output_components;
         while (cinfo.output_scanline < cinfo.output_height)
         {
@@ -527,12 +527,13 @@ bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image), std::ostream &O
 
     jpeg_start_compress(&cinfo, TRUE);
 
-    unsigned char *srcData = image->getData() + image->getSize();
+    const unsigned char *srcData = image->getData() + image->getSize();
     int row_stride = cinfo.image_width * cinfo.input_components;
     while (cinfo.next_scanline < cinfo.image_height)
     {
         srcData -= row_stride;
-        jpeg_write_scanlines(&cinfo, &srcData, 1);
+        jpeg_write_scanlines(&cinfo, 
+                             const_cast<unsigned char **>(&srcData), 1);
     }
 
     jpeg_finish_compress(&cinfo);
@@ -651,7 +652,7 @@ UInt64 JPGImageFileType::restoreData(      ImagePtr &OSG_JPG_ARG(image  ),
     if(image->set(pixelFormat, cinfo.output_width, cinfo.output_height))
     {
         imageSize = image->getSize();
-        destData = image->getData() + imageSize;
+        destData = image->editData() + imageSize;
         row_stride = cinfo.output_width * cinfo.output_components;
         imagebuffer = (*cinfo.mem->alloc_sarray) (reinterpret_cast<j_common_ptr>(&cinfo), JPOOL_IMAGE, row_stride, 1);
         while(cinfo.output_scanline < cinfo.output_height)
@@ -711,7 +712,7 @@ UInt64 JPGImageFileType::storeData(const ImagePtr &OSG_JPG_ARG(image  ),
     struct local_error_mgr          jerr;
     struct jpeg_compress_struct     cinfo;
     JSAMPARRAY                      imagebuffer;
-    UChar8                          *data;
+    const UChar8                   *data;
 
     cinfo.err = jpeg_std_error(&jerr.pub);
     if(setjmp(jerr.setjmp_buffer))
@@ -732,7 +733,7 @@ UInt64 JPGImageFileType::storeData(const ImagePtr &OSG_JPG_ARG(image  ),
     jpeg_set_quality(&cinfo, _quality, TRUE);
     jpeg_start_compress(&cinfo, TRUE);
 
-    imagebuffer = &data;
+    imagebuffer = const_cast<UChar8 **>(&data);
     while(cinfo.next_scanline < cinfo.image_height)
     {
         data = image->getData() +

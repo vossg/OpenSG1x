@@ -144,7 +144,7 @@ void GrabForeground::draw(DrawActionBase *, Viewport *port)
     
     glReadPixels(port->getPixelLeft(), port->getPixelBottom(), 
                  w, h, i->getPixelFormat(),
-                 i->getDataType(), i->getData());
+                 i->getDataType(), i->editData());
 
     if(storeChanged)
         glPixelStorei(GL_PACK_ROW_LENGTH, 0);

@@ -190,8 +190,8 @@ void FresnelMaterial::updateFresnel(void)
     }
 
     // copy the image and calculate the alpha values.
-    UInt8 *src = getImage()->getData();
-    UInt8 *dst = _img->getData();
+    const UInt8 *src = getImage()->getData();
+    UInt8 *dst = _img->editData();
     
     beginEditCP(_img);
     
@@ -416,7 +416,7 @@ bool FresnelMaterial::isTransparent(void) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.6 2008/06/05 05:01:15 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterial.cpp,v 1.7 2008/06/09 07:30:40 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIAL_INLINE_CVSID;
 

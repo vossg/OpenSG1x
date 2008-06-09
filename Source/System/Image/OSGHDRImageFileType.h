@@ -135,17 +135,17 @@ class OSG_SYSTEMLIB_DLLMAPPING HDRImageFileType : public ImageFileType
     void RGBE2Float(RGBE rgbe, Real32 *fcol);
     void RGBE2Half( RGBE rgbe, Real16 *fcol);
     
-    int fwritecolrs(FILE *file, Real32 *scan, RGBE *rgbe_scan, int width, int height);
-    int fwritecolrs(FILE *file, Real16 *scan, RGBE *rgbe_scan, int width, int height);
+    int fwritecolrs(FILE *file, const Real32 *scan, RGBE *rgbe_scan, int width, int height);
+    int fwritecolrs(FILE *file, const Real16 *scan, RGBE *rgbe_scan, int width, int height);
 
-    int fwritecolrs(std::ostream &os, Real32 *scan, RGBE *rgbe_scan, int width, int height);
-    int fwritecolrs(std::ostream &os, Real16 *scan, RGBE *rgbe_scan, int width, int height);
+    int fwritecolrs(std::ostream &os, const Real32 *scan, RGBE *rgbe_scan, int width, int height);
+    int fwritecolrs(std::ostream &os, const Real16 *scan, RGBE *rgbe_scan, int width, int height);
 
     int fwriteRGBE( FILE *file, RGBE *rgbe_scan, int width, int height);
     int fwriteRGBE( std::ostream &os, RGBE *rgbe_scan, int width, int height);
     
-    void half2RGBE(Real16 *fcol, RGBE rgbe);
-    void float2RGBE(Real32 *fcol, RGBE rgbe);
+    void half2RGBE(const Real16 *fcol, RGBE rgbe);
+    void float2RGBE(const Real32 *fcol, RGBE rgbe);
 
     typedef ImageFileType Inherited;
 

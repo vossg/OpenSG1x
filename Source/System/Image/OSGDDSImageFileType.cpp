@@ -416,7 +416,7 @@ bool DDSImageFileType::read(ImagePtr &image, std::istream &is, const std::string
                   ddsImage.get_num_images() );
 
       if (dataSize == image->getSize()) {
-        data = image->getData();
+        data = image->editData();
 
         // copy data;
         for (i = 0; i < ddsImage.get_num_images(); ++i) {

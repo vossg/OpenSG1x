@@ -120,8 +120,8 @@ void FCPtrAttributeMap::dump(      UInt32    ,
 void FCPtrAttributeMap::setAttribute(const std::string& key,
                                      FieldContainerPtr value)
 {
-    MFString& keys = this->FCPtrAttributeMapBase::getKeys();
-    MFFieldContainerPtr& values = this->FCPtrAttributeMapBase::getValues();
+    MFString& keys = *this->FCPtrAttributeMapBase::editMFKeys();
+    MFFieldContainerPtr& values = *this->FCPtrAttributeMapBase::editMFValues();
 
     MFString::iterator i;
     unsigned int index(0);
@@ -155,9 +155,9 @@ bool FCPtrAttributeMap::getAttribute(const std::string& key,
 {
     if ( hasAttribute(key) )
     {
-        const MFString& keys = this->FCPtrAttributeMapBase::getKeys();
+        const MFString& keys = *this->FCPtrAttributeMapBase::getMFKeys();
         const MFFieldContainerPtr& values =
-            this->FCPtrAttributeMapBase::getValues();
+            *this->FCPtrAttributeMapBase::getMFValues();
 
         // Find the index of key in _mfKeys. This index will be the index of
         // the value associated with key in _mfValues.
@@ -240,7 +240,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFCPtrAttributeMap.cpp,v 1.2 2005/09/28 03:01:44 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFCPtrAttributeMap.cpp,v 1.3 2008/06/09 07:30:36 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFCPTRATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID;
 

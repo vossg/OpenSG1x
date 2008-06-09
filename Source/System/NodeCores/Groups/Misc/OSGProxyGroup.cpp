@@ -78,9 +78,13 @@ void ProxyGroup::changed(BitVector whichField, UInt32 origin)
             PathHandler *ph = SceneFileHandler::the().getPathHandler();
             beginEditCP(ProxyGroupPtr(this),ProxyGroup::AbsoluteUrlFieldMask);
             if(ph) 
-                getAbsoluteUrl() = ph->findFile(getUrl().c_str());
+            {
+                editAbsoluteUrl() = ph->findFile(getUrl().c_str());
+            }
             if(getAbsoluteUrl().empty())
-                getAbsoluteUrl() = getUrl();
+            {
+                editAbsoluteUrl() = getUrl();
+            }
             endEditCP(ProxyGroupPtr(this),ProxyGroup::AbsoluteUrlFieldMask);
             setState(NOT_LOADED);
         }
@@ -241,17 +245,20 @@ void ProxyGroup::startLoading(void)
 
     if(getConcurrentLoad() == false)
     {
-        if(getInline().size() == 0)
+        if(getMFInline()->size() == 0)
         {
-            _loadedRoot = SceneFileHandler::the().read(getAbsoluteUrl().c_str());
+            _loadedRoot = 
+                SceneFileHandler::the().read(getAbsoluteUrl().c_str());
         }
         else
         {
             std::stringstream tmpStream(std::ios_base::in|
                                         std::ios_base::out|
                                         std::ios_base::binary);
-            tmpStream.write(reinterpret_cast<char*>(&getInline()[0]),
-                            getInline().size());
+
+            tmpStream.write(reinterpret_cast<const char*>(&(*getMFInline())[0]),
+                            getMFInline()->size());
+
             _loadedRoot = SceneFileHandler::the().read(tmpStream, "osb");
         }
         beginEditCP(ptr,StateFieldMask);
@@ -320,20 +327,27 @@ void ProxyGroup::loadProc(void *)
     _loadLock->aquire();
     g=_loadQueue.front();
     _loadLock->release();
+
     while(!stopThread)
     {
-        if(g->getInline().size() == 0) 
+        if(g->getMFInline()->size() == 0) 
         {
-            g->_loadedRoot=SceneFileHandler::the().read(g->getAbsoluteUrl().c_str());
+            g->_loadedRoot=SceneFileHandler::the().read(
+                g->getAbsoluteUrl().c_str());
         }
         else
         {
             std::stringstream tmpStream(std::ios_base::in|
                                         std::ios_base::out|
                                         std::ios_base::binary);
-            tmpStream.write(reinterpret_cast<char*>(&g->getInline()[0]),g->getInline().size());
+
+            tmpStream.write(reinterpret_cast<const char*>(
+                                &(*g->getMFInline())[0]),
+                            g->getMFInline()->size());
+
             g->_loadedRoot = SceneFileHandler::the().read(tmpStream, "osb");
         }
+
         beginEditCP(g,StateFieldMask);
         g->setState(LOAD_THREAD_FINISHED);
         endEditCP(g,StateFieldMask);

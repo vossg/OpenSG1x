@@ -217,8 +217,8 @@ void ShadowMapViewport::changed(BitVector whichField, UInt32 origin)
     {
         FDEBUG(("ShadowMapViewport::changed : light nodes changed.\n"));
         _lights.clear();
-        for(UInt32 i=0;i<getLightNodes().getSize();++i)
-            _lights.push_back(LightPtr::dcast(getLightNodes()[i]->getCore()));
+        for(UInt32 i=0;i<getMFLightNodes()->getSize();++i)
+            _lights.push_back(LightPtr::dcast(getLightNodes(i)->getCore()));
     }
 
     if(whichField & MapAutoUpdateFieldMask)
@@ -409,7 +409,7 @@ void ShadowMapViewport::render(RenderActionBase* action)
     }
 
     // render the foregrounds.
-    for(UInt16 i=0; i < getForegrounds().size(); ++i)
+    for(UInt16 i=0; i < getMFForegrounds()->size(); ++i)
         getForegrounds(i)->draw(action, this);
 
     deactivate();
@@ -510,8 +510,8 @@ Action::ResultE ShadowMapViewport::findTransparent(NodePtr& node)
                 multiMat = MultiPassMaterialPtr::dcast(mat);
                 if(multiMat != NullFC)
                 {
-                    MFMaterialPtr::const_iterator it = multiMat->getMaterials().begin();
-                    MFMaterialPtr::const_iterator matsEnd = multiMat->getMaterials().end();
+                    MFMaterialPtr::const_iterator it = multiMat->getMFMaterials()->begin();
+                    MFMaterialPtr::const_iterator matsEnd = multiMat->getMFMaterials()->end();
                     for(; it != matsEnd; ++it)
                     {
                         if((*it) == NullFC)
@@ -560,7 +560,7 @@ void ShadowMapViewport::checkLights(RenderActionBase* action)
              (this, &ShadowMapViewport::findLight));
 
     //shadow for all lights
-    if(getLightNodes().getSize() == 0)
+    if(getMFLightNodes()->getSize() == 0)
         _lights = _allLights;
 
     _lightStates.clear();
@@ -931,9 +931,9 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     }
     
     // deactivate exclude nodes:
-    for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
+    for(UInt32 i = 0; i < getMFExcludeNodes()->getSize(); ++i)
     {
-        NodePtr exnode = getExcludeNodes()[i];
+        NodePtr exnode = getExcludeNodes(i);
         if(exnode != NullFC)
             exnode->setActive(false);
     }
@@ -998,9 +998,9 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     }
 
     // activate exclude nodes:
-    for(UInt32 i = 0; i < getExcludeNodes().getSize(); ++i)
+    for(UInt32 i = 0; i < getMFExcludeNodes()->getSize(); ++i)
     {
-        NodePtr exnode = getExcludeNodes()[i];
+        NodePtr exnode = getExcludeNodes(i);
         if(exnode != NullFC)
             exnode->setActive(true);
     }
@@ -1188,7 +1188,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.17 2007/04/03 03:16:54 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.18 2008/06/09 07:30:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

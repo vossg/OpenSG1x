@@ -717,7 +717,7 @@ void OSG::setTestCubeImages( TextureChunkPtr chunk )
         image->set(img->getPixelFormat(), img->getWidth(), img->getHeight(), 
                         1, 1, 1, 0, NULL, img->getDataType(), true, 6 );
         
-        UInt8 *d = image->getData();
+        UInt8 *d = image->editData();
         
         memcpy(d, img->getData(), image->getSize(true, true, false));
         d += image->getSize(true, true, false);

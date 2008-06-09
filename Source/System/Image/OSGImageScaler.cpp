@@ -444,8 +444,8 @@ bool ImageScaler::scale(ImagePtr &srcImg,
     {
         for(f = 0 ; f < frames ; ++f)
         {
-            UInt8 *dstImgData   = dstImg->getData(0,f,s);
-            UInt8 *srcImgData   = srcImg->getData(0,f,s);
+            UInt8 *dstImgData   = dstImg->editData(0,f,s);
+            const UInt8 *srcImgData   = srcImg->getData(0,f,s);
             for(z = 0 ; z < depth ; ++z)
             {
                 z1 = contrib[2][z].left;

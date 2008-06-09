@@ -231,7 +231,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
     int i, mind;
 
     GeoIndicesPtr ind = geo->getIndices();
-    UInt16 nmap = geo->getIndexMapping().size();
+    UInt16 nmap = geo->getMFIndexMapping()->size();
 
     if (nmap==0) return Action::Continue;
 
@@ -246,7 +246,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         {
             if (_repair)
             {
-                UInt16 &im = geo->getIndexMapping(mind);
+                UInt16 &im = geo->editIndexMapping(mind);
                 im &=~( Geometry::MapPosition );                
             }
             else
@@ -265,7 +265,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         {
             if (_repair)
             {
-                UInt16 &im = geo->getIndexMapping(mind);
+                UInt16 &im = geo->editIndexMapping(mind);
                 im &=~( Geometry::MapNormal );                
             }
             else
@@ -284,7 +284,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         {
             if (_repair)
             {
-                UInt16 &im = geo->getIndexMapping(mind);
+                UInt16 &im = geo->editIndexMapping(mind);
                 im &=~( Geometry::MapColor );                
             }
             else
@@ -303,7 +303,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         {
             if (_repair)
             {
-                UInt16 &im = geo->getIndexMapping(mind);
+                UInt16 &im = geo->editIndexMapping(mind);
                 im &=~( Geometry::MapSecondaryColor );                
             }
             else
@@ -322,7 +322,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         {
             if (_repair)
             {
-                UInt16 &im = geo->getIndexMapping(mind);
+                UInt16 &im = geo->editIndexMapping(mind);
                 im &=~( Geometry::MapTexCoords );                
             }
             else
@@ -341,7 +341,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         {
             if (_repair)
             {
-                UInt16 &im = geo->getIndexMapping(mind);
+                UInt16 &im = geo->editIndexMapping(mind);
                 im &=~( Geometry::MapTexCoords1 );                
             }
             else
@@ -361,7 +361,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         {
             if (_repair)
             {
-                UInt16 &im = geo->getIndexMapping(mind);
+                UInt16 &im = geo->editIndexMapping(mind);
                 im &=~( Geometry::MapTexCoords2 );                
             }
             else
@@ -381,7 +381,7 @@ bool VerifyGeoGraphOp::travNodeEnter(NodePtr node)
         {
             if (_repair)
             {
-                UInt16 &im = geo->getIndexMapping(mind);
+                UInt16 &im = geo->editIndexMapping(mind);
                 im &=~( Geometry::MapTexCoords3 );                
             }
             else

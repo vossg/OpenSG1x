@@ -384,24 +384,27 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                                 indexType |= Geometry::MapTexCoords;
                             if (meshIndexMask & 4)
                                 indexType |= Geometry::MapNormal;
-                            geoPtr->getIndexMapping().push_back( indexType );
+                            geoPtr->editMFIndexMapping()->push_back(indexType);
                         }
                         else
                         {
                             if (meshIndexMask & 1)
                             {
                                 indexType = Geometry::MapPosition;
-                                geoPtr->getIndexMapping().push_back( indexType);
+                                geoPtr->editMFIndexMapping()->push_back(
+                                    indexType);
                             }
                             if (meshIndexMask & 2)
                             {
                                 indexType = Geometry::MapTexCoords;
-                                geoPtr->getIndexMapping().push_back( indexType);
+                                geoPtr->editMFIndexMapping()->push_back( 
+                                    indexType);
                             }
                             if (meshIndexMask & 4)
                             {
                                 indexType = Geometry::MapNormal;
-                                geoPtr->getIndexMapping().push_back( indexType);
+                                geoPtr->editMFIndexMapping()->push_back( 
+                                    indexType);
                             }
                         }
 

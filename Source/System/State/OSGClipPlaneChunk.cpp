@@ -158,7 +158,7 @@ void ClipPlaneChunk::activate(DrawActionBase *action, UInt32 idx)
     if(getEnable())
     {
         GLdouble glEq[4];
-        Vec4f   & eq = getEquation();
+        const Vec4f   & eq = getEquation();
         glEq[0] = eq[0];
         glEq[1] = eq[1];
         glEq[2] = eq[2];
@@ -223,7 +223,7 @@ void ClipPlaneChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
         if(getEnable())
         {
             GLdouble glEq[4];
-            Vec4f   & eq = getEquation();
+            const Vec4f   & eq = getEquation();
             glEq[0] = eq[0];
             glEq[1] = eq[1];
             glEq[2] = eq[2];

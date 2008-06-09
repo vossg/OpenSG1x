@@ -133,7 +133,7 @@ bool ShaderChunk::readVertexProgram(std::istream &stream)
 {
 #define BUFSIZE 200
     
-    getVertexProgram().erase();    
+    editVertexProgram().erase();    
     char buf[BUFSIZE];
 
     if(!stream.good())
@@ -145,7 +145,7 @@ bool ShaderChunk::readVertexProgram(std::istream &stream)
     do
     {
         stream.read(buf, BUFSIZE);
-        getVertexProgram().append(buf, stream.gcount());
+        editVertexProgram().append(buf, stream.gcount());
     }
     while(!stream.eof());
     
@@ -176,7 +176,7 @@ bool ShaderChunk::readFragmentProgram(std::istream &stream)
 {
 #define BUFSIZE 200
     
-    getFragmentProgram().erase();    
+    editFragmentProgram().erase();    
     char buf[BUFSIZE];
 
     if(!stream.good())
@@ -188,7 +188,7 @@ bool ShaderChunk::readFragmentProgram(std::istream &stream)
     do
     {
         stream.read(buf, BUFSIZE);
-        getFragmentProgram().append(buf, stream.gcount());
+        editFragmentProgram().append(buf, stream.gcount());
     }
     while(!stream.eof());
     
@@ -208,7 +208,7 @@ bool ShaderChunk::readFragmentProgram(std::istream &stream)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunk.cpp,v 1.4 2004/08/27 12:50:51 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderChunk.cpp,v 1.5 2008/06/09 07:30:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERCHUNKBASE_INLINE_CVSID;
 

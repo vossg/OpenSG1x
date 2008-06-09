@@ -146,11 +146,11 @@ bool HDRImageFileType::read(ImagePtr &image, std::istream &is, const std::string
 
     if(use16BitFloat)
     {
-        Real16 *data = (reinterpret_cast<Real16 *>(image->getData()));
+        Real16 *data = (reinterpret_cast<Real16 *>(image->editData()));
         return radiance2fp(is, data, width, height);
     }
 
-    Real32 *data = (reinterpret_cast<Real32 *>(image->getData()));
+    Real32 *data = (reinterpret_cast<Real32 *>(image->editData()));
     return radiance2fp(is, data, width, height);
 }
 
@@ -184,7 +184,8 @@ bool HDRImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
 
     if( image->getDataType() == Image::OSG_FLOAT32_IMAGEDATA)
     {
-         Real32 *data = (reinterpret_cast<Real32 *>(image->getData()));
+        const Real32 *data = 
+            (reinterpret_cast<const Real32 *>(image->getData()));
 
         //upside down !!!
         for(int y=height-1;y>=0;y--)
@@ -198,7 +199,9 @@ bool HDRImageFileType::write(const ImagePtr &image, std::ostream &os, const std:
     }
     else // OSG_FLOAT16_IMAGEDATA
     {
-         Real16 *data = (reinterpret_cast<Real16 *>(image->getData()));
+         const Real16 *data = 
+             (reinterpret_cast<const Real16 *>(image->getData()));
+
         //upside down !!!
         for(int y=height-1;y>=0;y--)
         {
@@ -254,12 +257,12 @@ bool HDRImageFileType::read (      ImagePtr &image,
 
     if(use16BitFloat)
     {
-        Real16 *data = (reinterpret_cast<Real16 *>(image->getData()));
+        Real16 *data = (reinterpret_cast<Real16 *>(image->editData()));
         ok = radiance2fp(file, data, width, height);
     }
     else
     {
-        Real32 *data = (reinterpret_cast<Real32 *>(image->getData()));
+        Real32 *data = (reinterpret_cast<Real32 *>(image->editData()));
         ok = radiance2fp(file, data, width, height);
     }
 
@@ -307,7 +310,7 @@ bool HDRImageFileType::write(const ImagePtr &image,
 
     if( image->getDataType() == Image::OSG_FLOAT32_IMAGEDATA)
     {
-        Real32 *data = (reinterpret_cast<Real32 *>(image->getData()));
+        const Real32 *data = reinterpret_cast<const Real32 *>(image->getData());
 
         //upside down !!!
         for(int y=height-1;y>=0;y--)
@@ -322,7 +325,7 @@ bool HDRImageFileType::write(const ImagePtr &image,
     }
     else // 16 bit floating point data
     {
-        Real16 *data = (reinterpret_cast<Real16 *>(image->getData()));
+        const Real16 *data = reinterpret_cast<const Real16 *>(image->getData());
 
         //upside down !!!
         for(int y=height-1;y>=0;y--)
@@ -716,7 +719,8 @@ void HDRImageFileType::RGBE2Half(RGBE rgbe, Real16 *fcol)
     }
 }
 
-int HDRImageFileType::fwritecolrs(FILE *file, Real32 *scan, RGBE *rgbe_scan,
+int HDRImageFileType::fwritecolrs(FILE *file, const Real32 *scan, 
+                                  RGBE *rgbe_scan,
                                   int width, int height)
 {
     // convert scanline
@@ -729,7 +733,8 @@ int HDRImageFileType::fwritecolrs(FILE *file, Real32 *scan, RGBE *rgbe_scan,
     return fwriteRGBE(file, rgbe_scan, width, height);
 }
 
-int HDRImageFileType::fwritecolrs(FILE *file, Real16 *scan, RGBE *rgbe_scan,
+int HDRImageFileType::fwritecolrs(FILE *file, 
+                                  const Real16 *scan, RGBE *rgbe_scan,
                                   int width, int height)
 {
     // convert scanline
@@ -799,7 +804,8 @@ int HDRImageFileType::fwriteRGBE( FILE *file, RGBE *rgbe_scan, int width, int he
     return(ferror(file) ? -1 : 0);
 }
 
-int HDRImageFileType::fwritecolrs(std::ostream &os, Real32 *scan, RGBE *rgbe_scan,
+int HDRImageFileType::fwritecolrs(std::ostream &os, 
+                                  const Real32 *scan, RGBE *rgbe_scan,
                                   int width, int height)
 {
     // convert scanline
@@ -812,7 +818,8 @@ int HDRImageFileType::fwritecolrs(std::ostream &os, Real32 *scan, RGBE *rgbe_sca
     return fwriteRGBE(os, rgbe_scan, width, height);
 }
 
-int HDRImageFileType::fwritecolrs(std::ostream &os, Real16 *scan, RGBE *rgbe_scan,
+int HDRImageFileType::fwritecolrs(std::ostream &os, 
+                                  const Real16 *scan, RGBE *rgbe_scan,
                                   int width, int height)
 {
     // convert scanline
@@ -899,7 +906,7 @@ int HDRImageFileType::fwriteRGBE(std::ostream &os, RGBE *rgbe_scan,
 }
 
 //float color -> rgbe
-void HDRImageFileType::float2RGBE(Real32 *fcol, RGBE rgbe)
+void HDRImageFileType::float2RGBE(const Real32 *fcol, RGBE rgbe)
 {
     Real32 d = (*(fcol + RED) > *(fcol + GRN)) ? *(fcol + RED) : *(fcol + GRN);
     
@@ -921,7 +928,7 @@ void HDRImageFileType::float2RGBE(Real32 *fcol, RGBE rgbe)
 }
 
 //half color -> rgbe
-void HDRImageFileType::half2RGBE(Real16 *fcol, RGBE rgbe)
+void HDRImageFileType::half2RGBE(const Real16 *fcol, RGBE rgbe)
 {
     Real32 d = (*(fcol + RED) > *(fcol + GRN)) ? *(fcol + RED) : *(fcol + GRN);
     

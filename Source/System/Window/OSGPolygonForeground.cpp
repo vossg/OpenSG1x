@@ -146,18 +146,18 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
     if(getActive() == false)
         return;
 	
-    if(getPositions().getSize() == 0) // nothing to render
+    if(getMFPositions()->getSize() == 0) // nothing to render
         return;
 
     if(port->getPixelWidth()  == 0 ||
        port->getPixelHeight() == 0   ) // nothing to render to
         return;
         
-    if(getPositions().getSize() != getTexCoords().getSize())
+    if(getMFPositions()->getSize() != getMFTexCoords()->getSize())
     {
         FWARNING(("PolygonForeground::draw: positions and texcoords have "
                   "different sizes (%d vs. %d)!\n", 
-                  getPositions().getSize(), getTexCoords().getSize()));
+                  getMFPositions()->getSize(), getMFTexCoords()->getSize()));
         return;
     }
        
@@ -240,12 +240,12 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
     
     getMaterial()->getState()->activate(act);
     
-    Vec3f *tc  = &getTexCoords()[0];
-    Pnt2f *pos = &getPositions()[0];
+    const Vec3f *tc  = &getTexCoords(0);
+    const Pnt2f *pos = &getPositions(0);
     
     glBegin(GL_POLYGON);
     
-    for (UInt16 i = 0; i < getPositions().size(); i++)
+    for (UInt16 i = 0; i < getMFPositions()->size(); i++)
     {
         glTexCoord3fv( tc[i].getValues() );
         glVertex2f( mapCoordinate(pos[i][0], Real32(port->getPixelWidth()),
@@ -280,7 +280,7 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.6 2008/06/05 05:01:21 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.7 2008/06/09 07:30:42 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID;
 

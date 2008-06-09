@@ -300,11 +300,11 @@ bool GIFImageFileType::read(ImagePtr &OSG_GIF_ARG(image), std::istream &OSG_GIF_
                        (width == image->getWidth()) &&
                        (height == image->getHeight()))
                     {
-                        destData = image->getData(0, currentFrame);
+                        destData = image->editData(0, currentFrame);
                     }
                     else
                     {                        
-                        destData = image->getData(0, currentFrame);
+                        destData = image->editData(0, currentFrame);
 
                         // This is probably wrong, but it's a start
                         switch(gifData->info.disposal)
@@ -380,7 +380,7 @@ bool GIFImageFileType::read(ImagePtr &OSG_GIF_ARG(image), std::istream &OSG_GIF_
                     };
                     image->set(pixelFormat, width, height, 1, 1, frameCount,
                                frameDelay);
-                    destData = image->getData();
+                    destData = image->editData();
                 }
 
                 // copy the image data)

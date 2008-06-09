@@ -150,7 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticleBSPTree
     /*! \name               Creation / Deletion                            */
     /*! \{                                                                 */
 
-    inline bool created(void);
+    inline bool created(void) const;
 
            void build  (Particles *core);
 

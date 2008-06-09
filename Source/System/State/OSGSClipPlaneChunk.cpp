@@ -129,7 +129,7 @@ void SClipPlaneChunk::activate(DrawActionBase *action, UInt32 idx)
     RenderAction *ra = dynamic_cast<RenderAction *>(action);
 
     GLdouble glEq[4];
-    Vec4f   & eq = getEquation();
+    const Vec4f   & eq = getEquation();
     glEq[0] = eq[0];
     glEq[1] = eq[1];
     glEq[2] = eq[2];
@@ -155,7 +155,7 @@ void SClipPlaneChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
     RenderAction *ra = dynamic_cast<RenderAction *>(action);
 
     GLdouble glEq[4];
-    Vec4f   & eq = getEquation();
+    const Vec4f   & eq = getEquation();
     glEq[0] = eq[0];
     glEq[1] = eq[1];
     glEq[2] = eq[2];
@@ -215,7 +215,7 @@ bool SClipPlaneChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSClipPlaneChunk.cpp,v 1.1 2007/04/26 15:22:01 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSClipPlaneChunk.cpp,v 1.2 2008/06/09 07:30:42 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSCLIPPLANECHUNK_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCLIPPLANECHUNK_INLINE_CVSID;
 

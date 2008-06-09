@@ -178,11 +178,11 @@ void  RotateManipulator::doMovement(TransformPtr t,
 	me.setTranslate(  translation        );
 	beginEditCP(t, Transform::MatrixFieldMask);
 	{
-		t->getMatrix().multLeft(ma);
-		t->getMatrix().multLeft(mb);
-		t->getMatrix().multLeft(mc);
-		t->getMatrix().multLeft(md);
-		t->getMatrix().multLeft(me);
+		t->editMatrix().multLeft(ma);
+		t->editMatrix().multLeft(mb);
+		t->editMatrix().multLeft(mc);
+		t->editMatrix().multLeft(md);
+		t->editMatrix().multLeft(me);
 	}	
 	endEditCP(t, Transform::MatrixFieldMask);
 }
@@ -201,7 +201,7 @@ void  RotateManipulator::doMovement(TransformPtr t,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulator.cpp,v 1.3 2005/12/19 12:04:26 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulator.cpp,v 1.4 2008/06/09 07:30:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGROTATEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGROTATEMANIPULATORBASE_INLINE_CVSID;
 

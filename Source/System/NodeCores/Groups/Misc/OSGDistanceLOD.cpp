@@ -147,7 +147,7 @@ Action::ResultE DistanceLOD::draw(Action *action)
     DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
     Int32 index;
 
-    const MFReal32 &range = getRange();
+    const MFReal32 &range = (*getMFRange());
     UInt32 numRanges = range.size();
     if (numRanges == 0)
     {

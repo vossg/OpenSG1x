@@ -802,8 +802,8 @@ void DVRSimpleLUTShader::activate(DVRVolume *volume, DrawActionBase *action)
     // reload lookup table if neccessary
     if((lut != NullFC) && (lut->getTouched())) 
     {
-        Int32  colorTableSize =   lut->getSize(0);
-        UInt8 *data           = &(lut->getData(0));
+              Int32  colorTableSize =   lut->getSize(0);
+        const UInt8 *data           = &(lut->getData(0));
         
         lut->setTouched(false);
         

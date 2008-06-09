@@ -2814,7 +2814,7 @@ void VRMLAppearanceDesc::endNode(FieldContainerPtr pFC)
                     // looks like calling addRefCP in endNode() is not
                     // a good idea I think this has something to
                     // with endEditCP ChangedOrigin stuff in VRMLFile::endNode()?
-                    pChunkMat->getChunks().push_back(pBlendChunk);
+                    pChunkMat->editMFChunks()->push_back(pBlendChunk);
                 }
                 endEditCP  (pChunkMat, ChunkMaterial::ChunksFieldMask);
             }

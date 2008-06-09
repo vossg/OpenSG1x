@@ -456,18 +456,18 @@ void TextureChunk::handleTextureShader(Window *win, GLenum bindtarget)
 
     glErr("textureShader setup: rgba dotprod");
 
-    if(getShaderOffsetMatrix().size() == 4)
+    if(getMFShaderOffsetMatrix()->size() == 4)
     {
         glTexEnvfv(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_MATRIX_NV,
-                   static_cast<GLfloat*>(&(getShaderOffsetMatrix()[0])));
+                   static_cast<const GLfloat*>(&(getShaderOffsetMatrix(0))));
 
         glErr("textureShader setup: offset matrix");
     }
-    else if(getShaderOffsetMatrix().size() != 0)
+    else if(getMFShaderOffsetMatrix()->size() != 0)
     {
         FWARNING(("TextureChunk::handleTextureShader: shaderOffsetMatrix has"
                     " to have 4 entries, not %d!\n",
-                    getShaderOffsetMatrix().size() ));
+                    getMFShaderOffsetMatrix()->size() ));
     }
 
     glTexEnvf(GL_TEXTURE_SHADER_NV, GL_OFFSET_TEXTURE_SCALE_NV,
@@ -782,7 +782,7 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
 
             glTexParameterfv(paramtarget, 
                              GL_TEXTURE_BORDER_COLOR,
-                             static_cast<GLfloat*>(
+                             static_cast<const GLfloat*>(
                                  getBorderColor().getValuesRGBA()));
 
             glErr("TextureChunk::initialize params");
@@ -1020,10 +1020,11 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                                 memset(data, 0, outw * outh * img->getBpp());
 
                                 UInt16 bpl = width * img->getBpp();
-                                UInt8 * src = 
-                                    static_cast<UInt8 *>(img->getData(0, 
-                                                                      frame, 
-                                                                      side));
+                                const UInt8 * src = 
+                                        img->getData(0, 
+                                                     frame, 
+                                                     side);
+
                                 UInt8 * dest= static_cast<UInt8 *>(data);
 
                                 for(UInt32 y = 0; y < height; y++)
@@ -1039,8 +1040,11 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
                         }
                     }
                     else
-                        data = img->getData(0, frame, side);
-                    
+                    {
+                        data = const_cast<void *>(
+                            static_cast<const void *>(
+                                img->getData(0, frame, side)));
+                    }
                     if(data)
                     {
                         switch (imgtarget)
@@ -1270,7 +1274,10 @@ void TextureChunk::handleTexture(Window *win, UInt32 id,
             } 
             else // can we use it directly?
             {
-               data = img->getData(0, frame, side);
+               data = const_cast<void *>(
+                   static_cast<const void *>(
+                       img->getData(0, frame, side)));
+
                datasize = (img->getSideCount() > 1) ? img->getSideSize() :
                                                       img->getFrameSize();
             } // can we use it directly?
@@ -1841,7 +1848,7 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
         // texture env
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
         glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR,
-                   static_cast<GLfloat*>(getEnvColor().getValuesRGBA()));
+                   getEnvColor().getValuesRGBA());
 
         if(getEnvMode() == GL_COMBINE_EXT)
         {
@@ -2181,7 +2188,7 @@ void TextureChunk::changeFrom(DrawActionBase *action,
             glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, getEnvMode());
 
         glTexEnvfv(GL_TEXTURE_ENV, GL_TEXTURE_ENV_COLOR,
-                   static_cast<GLfloat*>(getEnvColor().getValuesRGBA()));
+                   getEnvColor().getValuesRGBA());
 
         if(getEnvMode() == GL_COMBINE_EXT)
         {

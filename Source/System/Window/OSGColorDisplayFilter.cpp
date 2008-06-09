@@ -120,7 +120,7 @@ void ColorDisplayFilter::updateFilterValues()
     UInt32 width = getWidth();
     UInt32 height = getHeight();
     UInt32 depth = getDepth();
-    if(size != getTable().size())
+    if(size != getMFTable()->size())
     {
         // create default linear table
         FWARNING(("Wrong shanding table size\n"));
@@ -139,9 +139,9 @@ void ColorDisplayFilter::updateFilterValues()
         imageData.resize(size*3);
         for(c=0 ; c<size ; ++c)
         {
-            imageData[c*3 + 0] = UChar8(getTable()[c][0]*255);
-            imageData[c*3 + 1] = UChar8(getTable()[c][1]*255);
-            imageData[c*3 + 2] = UChar8(getTable()[c][2]*255);
+            imageData[c*3 + 0] = UChar8(getTable(c)[0]*255);
+            imageData[c*3 + 1] = UChar8(getTable(c)[1]*255);
+            imageData[c*3 + 2] = UChar8(getTable(c)[2]*255);
         }
     }
     _shadingImage->set(Image::OSG_RGB_PF,width,height,depth,1,1,0,&imageData[0]);

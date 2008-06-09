@@ -390,9 +390,9 @@ void SimpleSceneManager::setCamera(PerspectiveCameraPtr camera)
         camera->setFar   (_camera->getFar());
     endEditCP(camera);
 
-    for(UInt32 i=0;i<_win->getPort().size();++i)
+    for(UInt32 i=0;i<_win->getMFPort()->size();++i)
     {
-        ViewportPtr vp = _win->getPort()[i];
+        ViewportPtr vp = _win->getPort(i);
         if(vp != NullFC)
         {
             beginEditCP(vp);
@@ -421,20 +421,20 @@ void SimpleSceneManager::setStatistics(bool on)
 {
     if(_statforeground != NullFC && on != _statstate)
     {
-        ViewportPtr vp = _win->getPort()[0];
+        ViewportPtr vp = _win->getPort(0);
 
         if(on)
         {
-            vp->getForegrounds().push_back(_statforeground);
+            vp->editMFForegrounds()->push_back(_statforeground);
 
-            _action->setStatistics(&_statforeground->getCollector());
+            _action->setStatistics(&_statforeground->editCollector());
         }
         else
         {
             MFForegroundPtr::iterator it;
 
-            it = vp->getForegrounds().find(_statforeground);
-            vp->getForegrounds().erase(it);
+            it = vp->editMFForegrounds()->find(_statforeground);
+            vp->editMFForegrounds()->erase(it);
 
             _action->setStatistics(NULL);
         }
@@ -499,7 +499,7 @@ void SimpleSceneManager::initialize(void)
     endEditCP(_camera);
 
     // need a viewport?
-    if(_win->getPort().size() == 0)
+    if(_win->getMFPort()->size() == 0)
     {
         SolidBackgroundPtr bg = SolidBackground::create();
         beginEditCP(bg);
@@ -556,7 +556,7 @@ void SimpleSceneManager::initialize(void)
                            "Textures size (bytes) %d");
         endEditCP(sf);
 
-        StatCollector *collector = &sf->getCollector();
+        StatCollector *collector = &sf->editCollector();
 
         // add optional elements
         collector->getElem(Drawable::statNTriangles);
@@ -565,11 +565,11 @@ void SimpleSceneManager::initialize(void)
 
         ViewportPtr vp = Viewport::create();
         beginEditCP(vp);
-        vp->setCamera                  (_camera);
-        vp->setRoot                    (_internalRoot);
-        vp->setSize                    (0,0, 1,1);
-        vp->setBackground              (bg);
-        vp->getForegrounds().push_back(_foreground);
+        vp->setCamera                     (_camera);
+        vp->setRoot                       (_internalRoot);
+        vp->setSize                       (0,0, 1,1);
+        vp->setBackground                 (bg);
+        vp->editMFForegrounds()->push_back(_foreground);
         endEditCP(vp);
 
         beginEditCP(_win);
@@ -901,7 +901,7 @@ Line SimpleSceneManager::calcViewRay(Int16 x, Int16 y)
 {
     Line l;
 
-    _camera->calcViewRay( l, x, y, *_win->getPort()[0]);
+    _camera->calcViewRay( l, x, y, *_win->getPort(0));
 
     return l;
 }

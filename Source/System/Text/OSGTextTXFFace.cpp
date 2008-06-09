@@ -171,7 +171,7 @@ void TextTXFFace::fillGeo(GeometryPtr &geoPtr, const TextLayoutResult &layoutRes
     geoPtr->setTexCoords1(NullFC);
     geoPtr->setTexCoords2(NullFC);
     geoPtr->setTexCoords3(NullFC);
-    geoPtr->getIndexMapping().clear();
+    geoPtr->editMFIndexMapping()->clear();
 
     addToGeom(geoPtr,layoutResult,scale,offset,color);
 }
@@ -509,7 +509,7 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
                 UInt32 size = textureWidth * textureHeight;
                 assert(face->_texture->getSize() == size);
                 is.read(reinterpret_cast<istream::char_type*>(
-                            face->_texture->getData()), size);
+                            face->_texture->editData()), size);
                 endEditCP(face->_texture);
                 if (is.good() == false)
                 {
@@ -532,7 +532,7 @@ TextTXFFace *TextTXFFace::createFromStream(istream &is, const string &family, St
                     return 0;
                 }
                 assert(face->_texture->getSize() == textureWidth * textureHeight);
-                UInt8 *dst = face->_texture->getData();
+                UInt8 *dst = face->_texture->editData();
                 UInt32 x, y;
                 for (y = 0; y < textureHeight; ++y)
                     for (x = 0; x < textureWidth; ++x)
@@ -649,7 +649,7 @@ bool TextTXFFace::writeToStream(ostream &os) const
 
     // Write texture
     assert(_texture->getSize() == static_cast<UInt32>(_texture->getWidth() * _texture->getHeight()));
-    os.write(reinterpret_cast<ostream::char_type*>(_texture->getData()), _texture->getWidth() * _texture->getHeight());
+    os.write(reinterpret_cast<const ostream::char_type*>(_texture->getData()), _texture->getWidth() * _texture->getHeight());
 
     return os.good();
 }
@@ -898,7 +898,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.9 2008/06/05 05:01:21 vossg Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.10 2008/06/09 07:30:42 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }

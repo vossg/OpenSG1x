@@ -317,7 +317,7 @@ void Surface::changed(BitVector whichField, UInt32 origin)
 
             beginEditCP(tmpPtr, DirtyMaskFieldMask);
             {
-                getDirtyMask() |= TESSELLATE;
+                editDirtyMask() |= TESSELLATE;
             }
             endEditCP  (tmpPtr, DirtyMaskFieldMask);
 
@@ -332,7 +332,7 @@ void Surface::changed(BitVector whichField, UInt32 origin)
             
             beginEditCP(tmpPtr, DirtyMaskFieldMask);
             {
-                getDirtyMask() |= RETESSELLATE;
+                editDirtyMask() |= RETESSELLATE;
             }
             endEditCP  (tmpPtr, DirtyMaskFieldMask);
 
@@ -1023,7 +1023,7 @@ Int32 Surface::tessellateSurface( std::vector< SimplePolygon > &triangles,
 
 void Surface::calcIndexMapping(void)
 {
-    getIndexMapping().clear();
+    editMFIndexMapping()->clear();
 
     UInt16 im = 0;
     if(getPositions() != NullFC)
@@ -1036,7 +1036,7 @@ void Surface::calcIndexMapping(void)
         im |= Geometry::MapTexCoords1;
 
     if(im != 0)
-        getIndexMapping( ).push_back(im);
+        editMFIndexMapping()->push_back(im);
 }
 
 
@@ -1102,7 +1102,7 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
     // check if material has the fat border chunk
     if( pcl_mat != NullFC )
     {
-        const UInt32    cui_chunk_cnt = pcl_mat->getChunks( ).size( );
+        const UInt32    cui_chunk_cnt = pcl_mat->getMFChunks( )->size( );
         UInt32          ui_chunk;
 
         for( ui_chunk = 0; ui_chunk < cui_chunk_cnt; ++ui_chunk )
@@ -1833,31 +1833,31 @@ SurfacePtr Surface::clone( void )
     {
         if (getMFKnotsU() != NULL)
         {
-            surf->getMFKnotsU()->setValues(*getMFKnotsU());
+            surf->editMFKnotsU()->setValues(*getMFKnotsU());
         }
         if (getMFKnotsV() != NULL)
         {
-            surf->getMFKnotsV()->setValues(*getMFKnotsV());
+            surf->editMFKnotsV()->setValues(*getMFKnotsV());
         }
         if (getMFKnotLengths() != NULL)
         {
-            surf->getMFKnotLengths()->setValues(*getMFKnotLengths());
+            surf->editMFKnotLengths()->setValues(*getMFKnotLengths());
         }
         if (getMFDimensions() != NULL)
         {
-            surf->getMFDimensions()->setValues(*getMFDimensions());
+            surf->editMFDimensions()->setValues(*getMFDimensions());
         }
         if (getMFCurveControlPoints() != NULL)
         {
-            surf->getMFCurveControlPoints()->setValues(*getMFCurveControlPoints());
+            surf->editMFCurveControlPoints()->setValues(*getMFCurveControlPoints());
         }
         if (getMFKnots() != NULL)
         {
-            surf->getMFKnots()->setValues(*getMFKnots());
+            surf->editMFKnots()->setValues(*getMFKnots());
         }
         if (getMFCurvesPerLoop() != NULL)
         {
-            surf->getMFCurvesPerLoop()->setValues(*getMFCurvesPerLoop());
+            surf->editMFCurvesPerLoop()->setValues(*getMFCurvesPerLoop());
         }
         surf->setMaterial  (getMaterial  ());
         surf->setDimU(getDimU());
@@ -2228,7 +2228,7 @@ void Surface::handleGL(Window*, UInt32 idstatus)
             SurfacePtr tmpPtr(*this);
             beginEditCP(tmpPtr, DirtyMaskFieldMask);
             {
-                getDirtyMask() &= ~(TESSELLATE | RETESSELLATE);
+                editDirtyMask() &= ~(TESSELLATE | RETESSELLATE);
             }
             endEditCP  (tmpPtr, DirtyMaskFieldMask);
         }
@@ -2310,7 +2310,7 @@ void Surface::forceTessellate(void)
 
     beginEditCP(tmpPtr, DirtyMaskFieldMask);
     {
-        getDirtyMask() |= DONTTESSELLATE;
+        editDirtyMask() |= DONTTESSELLATE;
 
         if((getDirtyMask() & TESSELLATE) != 0x0000)
         {
@@ -2321,7 +2321,7 @@ void Surface::forceTessellate(void)
             reTessellate( );
         }
         
-        getDirtyMask() &= ~(TESSELLATE | RETESSELLATE);
+        editDirtyMask() &= ~(TESSELLATE | RETESSELLATE);
     }
     endEditCP  (tmpPtr, DirtyMaskFieldMask);
 }

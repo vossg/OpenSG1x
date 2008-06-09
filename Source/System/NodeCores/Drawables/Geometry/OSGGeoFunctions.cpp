@@ -295,7 +295,7 @@ faster; but not well tested code
     {
         geo->setNormals(norms);
 
-        MFUInt16    &im = geo->getIndexMapping();
+        MFUInt16    &im = (*geo->editMFIndexMapping());
         if(im.size() > 0)
         {
             Int16   pi, ni;
@@ -430,7 +430,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
     endEditCP(geo);
 
     // Do the normals have their own index?
-    MFUInt16        &im = geo->getIndexMapping();
+    MFUInt16        &im = (*geo->editMFIndexMapping());
     Int16           ni = geo->calcMappingIndex(Geometry::MapNormal);
     GeoIndicesPtr   ip = geo->getIndices();
     
@@ -770,12 +770,12 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
     if(oldIndex != NullFC)
     {
         //Indexed
-        if(geo->getIndexMapping().size() > 0)
+        if(geo->getMFIndexMapping()->size() > 0)
         {
             //MULTI INDEXED
             beginEditCP(newIndex);
 
-            MFUInt16    &oldIndexMap = geo->getIndexMapping();
+            MFUInt16    &oldIndexMap = (*geo->editMFIndexMapping());
             UInt32 oldIMSize = oldIndexMap.size();
             for(UInt32 i = 0; i < oldIndex->getSize() / oldIMSize; ++i)
             {
@@ -1467,7 +1467,7 @@ else
         geoPtr->setLengths(lensPtr);
         geoPtr->setTypes(geoTypePtr);
         geoPtr->setIndices(indexPtr);
-        geoPtr->getIndexMapping().clear();
+        geoPtr->editMFIndexMapping()->clear();
 
         // TODO: check for multiindex mapping ?
         // if (indexMap[1])
@@ -1515,11 +1515,11 @@ else
                     }
                 }
 
-                geoPtr->getIndexMapping().push_back(indexMap[i]);
+                geoPtr->editMFIndexMapping()->push_back(indexMap[i]);
             }
             else
             {
-                geoPtr->getIndexMapping().push_back(indexMap[i]);
+                geoPtr->editMFIndexMapping()->push_back(indexMap[i]);
                 
                 if(indexMap[i] & Geometry::MapTexCoords)
                 {
@@ -1527,7 +1527,7 @@ else
                     
                     if(tN1 != 0)
                     {
-                        geoPtr->getIndexMapping().push_back(
+                        geoPtr->editMFIndexMapping()->push_back(
                             Geometry::MapTexCoords1);
                         
                         ++uiNumTextures;
@@ -1535,7 +1535,7 @@ else
                     
                     if(tN2 != 0)
                     {
-                        geoPtr->getIndexMapping().push_back(
+                        geoPtr->editMFIndexMapping()->push_back(
                             Geometry::MapTexCoords2);
                         
                         ++uiNumTextures;
@@ -1543,7 +1543,7 @@ else
                     
                     if(tN3 != 0)
                     {
-                        geoPtr->getIndexMapping().push_back(
+                        geoPtr->editMFIndexMapping()->push_back(
                             Geometry::MapTexCoords3);
                         
                         ++uiNumTextures;
@@ -1551,7 +1551,7 @@ else
                     
                     if(tN4 != 0)
                     {
-                        geoPtr->getIndexMapping().push_back(
+                        geoPtr->editMFIndexMapping()->push_back(
                             Geometry::MapTexCoords4);
                         
                         ++uiNumTextures;
@@ -1559,7 +1559,7 @@ else
                     
                     if(tN5 != 0)
                     {
-                        geoPtr->getIndexMapping().push_back(
+                        geoPtr->editMFIndexMapping()->push_back(
                             Geometry::MapTexCoords5);
                         
                         ++uiNumTextures;
@@ -1567,7 +1567,7 @@ else
                     
                     if(tN6 != 0)
                     {
-                        geoPtr->getIndexMapping().push_back(
+                        geoPtr->editMFIndexMapping()->push_back(
                             Geometry::MapTexCoords6);
                         
                         ++uiNumTextures;
@@ -1575,7 +1575,7 @@ else
                     
                     if(tN7 != 0)
                     {
-                        geoPtr->getIndexMapping().push_back(
+                        geoPtr->editMFIndexMapping()->push_back(
                             Geometry::MapTexCoords7);
                         
                         ++uiNumTextures;
@@ -1795,7 +1795,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTexCoords(GeometryPtr geo, Int32 te
     Int32 S = -1, T = -1, n = 3, i, j; 
     Real32 sDenom, tDenom, sMin, tMin;
     
-    MFUInt16 &im = geo->getIndexMapping();
+    MFUInt16 &im = (*geo->editMFIndexMapping());
     UInt16 mapTex = 0;
 
     GeoIndicesPtr ip = geo->getIndices();
@@ -2304,7 +2304,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         return;
     }
 
-    MFUInt16 &im = geo->getIndexMapping();
+    MFUInt16 &im = (*geo->editMFIndexMapping());
     Int16 niTan = (mapTan > 0) ? geo->calcMappingIndex(mapTan) : -1,
           niBin = (mapBin > 0) ? geo->calcMappingIndex(mapBin) : -1;
           
@@ -2637,7 +2637,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 
     GeoPositionsPtr posPtr = geoPtr->getPositions();
     UInt32 pN = ((posPtr == OSG::NullFC) ? 0 : posPtr->getSize());
-    UInt32 indexMapSize = (geoPtr->getIndexMapping().size());
+    UInt32 indexMapSize = geoPtr->getMFIndexMapping()->size();
     bool remapIndex = (indexMapSize > 1) ? true : false;
 
     UInt32 triN, lineN, pointN;
@@ -3146,7 +3146,9 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
               for(UInt32 i = 0; i < primI.getLength(); i++)
               {
                   Int32 curIndex = primI.getIndexIndex(i);
-                  for(UInt32 j = 0; j < geoPtr->getIndexMapping().size(); j++)
+                  for(UInt32 j = 0; 
+                             j < geoPtr->getMFIndexMapping()->size(); 
+                             j++)
                   {
                       UInt32 val = indexPtr->getValue(curIndex + j);
                       newIndexPtr->push_back(val);
@@ -3240,7 +3242,9 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
               for(UInt32 i = 0; i < outIndexV.size(); i++)
               {
                   UInt32 vII = outIndexV[i];
-                  for(UInt32 j = 0; j < geoPtr->getIndexMapping().size(); j++)
+                  for(UInt32 j = 0; 
+                             j < geoPtr->getMFIndexMapping()->size(); 
+                             j++)
                   {
                       FDEBUG(("Index in tesselated data %d\n",vII + j));
                       Int32 curIndex = indexPtr->getValue(vII + j);
@@ -3337,12 +3341,12 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
     if(indexPtr != NullFC)
     {
         // get the index count
-        indexMapSize = geoPtr->getIndexMapping().size();
+        indexMapSize = geoPtr->getMFIndexMapping()->size();
 
         // find first propMask;
         if(indexMapSize)
         {
-            propMask = geoPtr->getIndexMapping()[0];
+            propMask = geoPtr->getIndexMapping(0);
         }
         else
         {
@@ -3478,7 +3482,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
             // get next propery Mask
             if(++indexBlock < indexMapSize)
             {
-                propMask = geoPtr->getIndexMapping()[indexBlock];
+                propMask = geoPtr->getIndexMapping(indexBlock);
             }
             else
                 propMask = 0;
@@ -3518,7 +3522,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
     GeoPropertyArrayInterface *pP = 0;
 
     if((geoPtr != NullFC) &&
-           (indexMapSize = (geoPtr->getIndexMapping().size())))
+           (indexMapSize = (geoPtr->getMFIndexMapping()->size())))
     {
         beginEditCP(geoPtr, Geometry::IndexMappingFieldMask |
                             Geometry::IndicesFieldMask);
@@ -3552,7 +3556,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
         {
             for(i = 0; i < indexMapSize; i++)
             {
-                mask = geoPtr->getIndexMapping()[i];
+                mask = geoPtr->getIndexMapping(i);
                 for(maskID = 1; maskID; maskID <<= 1)
                 {
                     if((mask & maskID) && (pP = geoPtr->getProperty(maskID)))
@@ -3590,8 +3594,8 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
                 indexPtr->push_back(sIndex[i]);
             }
 
-            geoPtr->getIndexMapping().clear();
-            geoPtr->getIndexMapping().push_back(finalMask);
+            geoPtr->editMFIndexMapping()->clear();
+            geoPtr->editMFIndexMapping()->push_back(finalMask);
         }
         else
         {

@@ -295,10 +295,10 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
                 case 2: img = _bgammaimg; break;
             }
             beginEditCP(img);
-            if(getGammaRamp().size() == 0)
+            if(getMFGammaRamp()->size() == 0)
             {
                 img->set(Image::OSG_L_PF, 256, 1);
-                UInt8 *data = img->getData();
+                UInt8 *data = img->editData();
                 for(int i=0; i < 256; i++)
                 {
                     data[i] = UInt8(pow(i/255.0,1.0)*255);
@@ -306,11 +306,11 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
             }
             else
             {
-                img->set(Image::OSG_L_PF, getGammaRamp().size(), 1);
-                UInt8 *data = img->getData();
-                for(int i=0; i < getGammaRamp().size(); i++)
+                img->set(Image::OSG_L_PF, getMFGammaRamp()->size(), 1);
+                UInt8 *data = img->editData();
+                for(int i=0; i < getMFGammaRamp()->size(); i++)
                 {
-                    data[i] = UInt8(getGammaRamp()[i][j] * 255);
+                    data[i] = UInt8(getGammaRamp(i)[j] * 255);
                 }
             }
             endEditCP(img);
@@ -682,8 +682,8 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
     _positions->clear();
     _texcoords->clear();
 
-    if(getGrid().size() == 0 ||
-       getGrid().size() != getGridWidth() * getGridHeight() ||
+    if(getMFGrid()->size() == 0 ||
+       getMFGrid()->size() != getGridWidth() * getGridHeight() ||
        getGridWidth() < 2 ||
        getGridHeight() < 2)
     {
@@ -710,9 +710,9 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
     {
         UInt32 i;
         bool   absolute=false;
-        for(i=0;i<getGrid().size();++i)
-            if(getGrid()[i][0]>1 ||
-               getGrid()[i][1]>1)
+        for(i=0;i<getMFGrid()->size();++i)
+            if(getGrid(i)[0]>1 ||
+               getGrid(i)[1]>1)
             {
                 absolute=true;
                 break;
@@ -730,10 +730,10 @@ void DisplayCalibration::createCMViewports(ViewportPtr port)
 
                 // get position
                 Vec2f pos[4];
-                pos[0] = getGrid()[y*getGridWidth()+x];
-                pos[1] = getGrid()[y*getGridWidth()+x+1];
-                pos[2] = getGrid()[(y+1)*getGridWidth()+x+1];
-                pos[3] = getGrid()[(y+1)*getGridWidth()+x];
+                pos[0] = getGrid(y*getGridWidth()+x);
+                pos[1] = getGrid(y*getGridWidth()+x+1);
+                pos[2] = getGrid((y+1)*getGridWidth()+x+1);
+                pos[3] = getGrid((y+1)*getGridWidth()+x);
                 for(i=0 ; i<4 ; ++i)
                 {
                     // scale to 0 - 1
@@ -807,7 +807,7 @@ void DisplayCalibration::updateGamma()
 {
     UInt16 x,y;
     UInt8 *data;
-    UInt32 res = getGammaRamp().size();
+    UInt32 res = getMFGammaRamp()->size();
 
     if(res == 0)
         res = 256;
@@ -825,7 +825,7 @@ void DisplayCalibration::updateGamma()
         _argammaimg->set(GL_RGB,res,res);
 
         beginEditCP(_argammaimg);
-        data = _argammaimg->getData();
+        data = _argammaimg->editData();
     
         memset(data, 0, res * res * 3);
     
@@ -848,7 +848,7 @@ void DisplayCalibration::updateGamma()
         _gbgammaimg->set(GL_RGB,res,res);
 
         beginEditCP(_gbgammaimg);
-        data = _gbgammaimg->getData();
+        data = _gbgammaimg->editData();
     
         memset(data, 0, res * res * 3);
     

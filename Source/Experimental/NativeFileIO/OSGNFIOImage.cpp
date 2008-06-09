@@ -109,7 +109,7 @@ FieldContainerPtr NFIOImage::readFC(const std::string &/*typeName*/)
         _in->getValue(fieldName); // read end marker
     }
     
-    if(img->getPixel().getSize() == 0)
+    if(img->getMFPixel()->getSize() == 0)
     {
         // read texture
         beginEditCP(img);
@@ -266,6 +266,6 @@ bool NFIOImage::isImageTypeSupported(const std::string &imageType)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.10 2008/06/05 05:00:29 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOImage.cpp,v 1.11 2008/06/09 07:30:32 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOIMAGE_HEADER_CVSID;
 }
