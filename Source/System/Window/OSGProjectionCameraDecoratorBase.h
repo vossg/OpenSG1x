@@ -192,6 +192,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProjectionCameraDecoratorBase : public StereoCame
 #ifndef OSG_2_PREP
            Pnt3f               &getSurface        (const UInt32 index);
            MFPnt3f             &getSurface        (void);
+     const MFPnt3f             &getSurface        (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -374,6 +375,6 @@ typedef RefPtr<ProjectionCameraDecoratorPtr> ProjectionCameraDecoratorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGPROJECTIONCAMERADECORATORBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGPROJECTIONCAMERADECORATORBASE_H_ */

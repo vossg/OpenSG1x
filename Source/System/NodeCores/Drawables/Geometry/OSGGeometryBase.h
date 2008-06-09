@@ -457,6 +457,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
 #ifndef OSG_2_PREP
            UInt16              &getIndexMapping   (const UInt32 index);
            MFUInt16            &getIndexMapping   (void);
+     const MFUInt16            &getIndexMapping   (void) const;
 #endif
 
            UInt32              &editLowindices     (const UInt32 index);
@@ -464,6 +465,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
 #ifndef OSG_2_PREP
            UInt32              &getLowindices     (const UInt32 index);
            MFUInt32            &getLowindices     (void);
+     const MFUInt32            &getLowindices     (void) const;
 #endif
 
            UInt32              &editHighindices    (const UInt32 index);
@@ -471,6 +473,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GeometryBase : public MaterialDrawable
 #ifndef OSG_2_PREP
            UInt32              &getHighindices    (const UInt32 index);
            MFUInt32            &getHighindices    (void);
+     const MFUInt32            &getHighindices    (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -665,6 +668,6 @@ typedef RefPtr<GeometryPtr> GeometryRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGGEOMETRYBASE_H_ */

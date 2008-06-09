@@ -395,7 +395,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(CharacterModelPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModelBase.cpp,v 1.4 2008/06/09 07:31:37 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterModelBase.cpp,v 1.5 2008/06/09 12:28:01 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERMODELBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERMODELBASE_INLINE_CVSID;
 

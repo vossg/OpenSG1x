@@ -295,7 +295,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterMVec2fPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMVec2fBase.cpp,v 1.3 2008/06/09 07:31:44 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterMVec2fBase.cpp,v 1.4 2008/06/09 12:28:05 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERMVEC2FBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERMVEC2FBASE_INLINE_CVSID;
 

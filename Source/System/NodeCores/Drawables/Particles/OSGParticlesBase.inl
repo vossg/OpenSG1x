@@ -726,6 +726,13 @@ MFVec3f &ParticlesBase::getSizes(void)
     return _mfSizes;
 }
 
+//! Get the Particles::_mfSizes field.
+inline
+const MFVec3f &ParticlesBase::getSizes(void) const
+{
+    return _mfSizes;
+}
+
 #endif
 
 //! Get the value of the \a index element the Particles::_mfIndices field.
@@ -753,6 +760,13 @@ Int32 &ParticlesBase::getIndices(const UInt32 index)
 //! Get the Particles::_mfIndices field.
 inline
 MFInt32 &ParticlesBase::getIndices(void)
+{
+    return _mfIndices;
+}
+
+//! Get the Particles::_mfIndices field.
+inline
+const MFInt32 &ParticlesBase::getIndices(void) const
 {
     return _mfIndices;
 }
@@ -788,9 +802,16 @@ MFReal32 &ParticlesBase::getTextureZs(void)
     return _mfTextureZs;
 }
 
+//! Get the Particles::_mfTextureZs field.
+inline
+const MFReal32 &ParticlesBase::getTextureZs(void) const
+{
+    return _mfTextureZs;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGPARTICLESBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

@@ -249,6 +249,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibrationBase : public AttachmentContain
 #ifndef OSG_2_PREP
            Color3f             &getGammaRamp      (const UInt32 index);
            MFColor3f           &getGammaRamp      (void);
+     const MFColor3f           &getGammaRamp      (void) const;
 #endif
 
            Vec2f               &editGrid           (const UInt32 index);
@@ -256,6 +257,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayCalibrationBase : public AttachmentContain
 #ifndef OSG_2_PREP
            Vec2f               &getGrid           (const UInt32 index);
            MFVec2f             &getGrid           (void);
+     const MFVec2f             &getGrid           (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -398,6 +400,6 @@ typedef RefPtr<DisplayCalibrationPtr> DisplayCalibrationRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDISPLAYCALIBRATIONBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGDISPLAYCALIBRATIONBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGDISPLAYCALIBRATIONBASE_H_ */

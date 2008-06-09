@@ -359,7 +359,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsHinge2JointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHinge2JointBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsHinge2JointBase.cpp,v 1.5 2008/06/09 12:28:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSHINGE2JOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSHINGE2JOINTBASE_INLINE_CVSID;
 

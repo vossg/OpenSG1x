@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsTriMeshGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsTriMeshGeomBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsTriMeshGeomBase.cpp,v 1.5 2008/06/09 12:28:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSTRIMESHGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSTRIMESHGEOMBASE_INLINE_CVSID;
 

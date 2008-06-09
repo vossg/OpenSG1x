@@ -438,6 +438,13 @@ MFString &CGChunkBase::getVertexArguments(void)
     return _mfVertexArguments;
 }
 
+//! Get the CGChunk::_mfVertexArguments field.
+inline
+const MFString &CGChunkBase::getVertexArguments(void) const
+{
+    return _mfVertexArguments;
+}
+
 #endif
 
 //! Get the value of the \a index element the CGChunk::_mfFragmentArguments field.
@@ -469,9 +476,16 @@ MFString &CGChunkBase::getFragmentArguments(void)
     return _mfFragmentArguments;
 }
 
+//! Get the CGChunk::_mfFragmentArguments field.
+inline
+const MFString &CGChunkBase::getFragmentArguments(void) const
+{
+    return _mfFragmentArguments;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGCGCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

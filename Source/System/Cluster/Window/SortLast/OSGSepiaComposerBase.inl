@@ -100,5 +100,5 @@ SepiaComposerPtr SepiaComposerBase::createEmpty(void)
 
 OSG_END_NAMESPACE
 
-#define OSGSEPIACOMPOSERBASE_INLINE_CVSID "@(#)$Id: OSGSepiaComposerBase.inl,v 1.7 2008/06/09 07:31:47 vossg Exp $"
+#define OSGSEPIACOMPOSERBASE_INLINE_CVSID "@(#)$Id: OSGSepiaComposerBase.inl,v 1.8 2008/06/09 12:28:09 vossg Exp $"
 

@@ -650,6 +650,13 @@ MFVec3f &PolygonBackgroundBase::getTexCoords(void)
     return _mfTexCoords;
 }
 
+//! Get the PolygonBackground::_mfTexCoords field.
+inline
+const MFVec3f &PolygonBackgroundBase::getTexCoords(void) const
+{
+    return _mfTexCoords;
+}
+
 #endif
 
 //! Get the value of the \a index element the PolygonBackground::_mfPositions field.
@@ -681,9 +688,16 @@ MFPnt2f &PolygonBackgroundBase::getPositions(void)
     return _mfPositions;
 }
 
+//! Get the PolygonBackground::_mfPositions field.
+inline
+const MFPnt2f &PolygonBackgroundBase::getPositions(void) const
+{
+    return _mfPositions;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.10 2008/06/09 07:31:55 vossg Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.11 2008/06/09 12:28:23 vossg Exp $"
 

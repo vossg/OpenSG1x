@@ -463,6 +463,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
 #ifndef OSG_2_PREP
            FieldContainerPtr   &getParents        (const UInt32 index);
            MFFieldContainerPtr &getParents        (void);
+     const MFFieldContainerPtr &getParents        (void) const;
 #endif
 
            UInt8               &editPixel          (const UInt32 index);
@@ -470,6 +471,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageBase : public AttachmentContainer
 #ifndef OSG_2_PREP
            UInt8               &getPixel          (const UInt32 index);
            MFUInt8             &getPixel          (void);
+     const MFUInt8             &getPixel          (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -665,6 +667,6 @@ typedef RefPtr<ImagePtr> ImageRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGIMAGEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGIMAGEBASE_H_ */

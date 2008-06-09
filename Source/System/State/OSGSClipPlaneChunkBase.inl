@@ -153,5 +153,5 @@ void SClipPlaneChunkBase::setEquation(const Vec4f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSCLIPPLANECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSClipPlaneChunkBase.inl,v 1.3 2008/06/09 07:31:53 vossg Exp $"
+#define OSGSCLIPPLANECHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSClipPlaneChunkBase.inl,v 1.4 2008/06/09 12:28:21 vossg Exp $"
 

@@ -150,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
 #ifndef OSG_2_PREP
            Real32              &getRange          (const UInt32 index);
            MFReal32            &getRange          (void);
+     const MFReal32            &getRange          (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -279,6 +280,6 @@ typedef RefPtr<DistanceLODPtr> DistanceLODRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

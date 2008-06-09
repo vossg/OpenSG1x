@@ -597,6 +597,13 @@ MFNodePtr &ShadowMapViewportBase::getLightNodes(void)
     return _mfLightNodes;
 }
 
+//! Get the ShadowMapViewport::_mfLightNodes field.
+inline
+const MFNodePtr &ShadowMapViewportBase::getLightNodes(void) const
+{
+    return _mfLightNodes;
+}
+
 #endif
 
 //! Get the value of the \a index element the ShadowMapViewport::_mfExcludeNodes field.
@@ -628,9 +635,16 @@ MFNodePtr &ShadowMapViewportBase::getExcludeNodes(void)
     return _mfExcludeNodes;
 }
 
+//! Get the ShadowMapViewport::_mfExcludeNodes field.
+inline
+const MFNodePtr &ShadowMapViewportBase::getExcludeNodes(void) const
+{
+    return _mfExcludeNodes;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.14 2008/06/09 07:31:45 vossg Exp $"
+#define OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGShadowMapViewportBase.inl,v 1.15 2008/06/09 12:28:07 vossg Exp $"
 

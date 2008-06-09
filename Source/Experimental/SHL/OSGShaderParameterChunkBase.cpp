@@ -286,7 +286,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShaderParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunkBase.cpp,v 1.8 2008/06/09 07:31:44 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunkBase.cpp,v 1.9 2008/06/09 12:28:05 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID;
 

@@ -393,7 +393,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(OffsetCameraDecoratorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffsetCameraDecoratorBase.cpp,v 1.3 2008/06/09 07:31:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffsetCameraDecoratorBase.cpp,v 1.4 2008/06/09 12:28:23 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFSETCAMERADECORATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFSETCAMERADECORATORBASE_INLINE_CVSID;
 

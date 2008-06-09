@@ -219,6 +219,6 @@ typedef RefPtr<ScreenGroupPtr> ScreenGroupRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSCREENGROUPBASE_HEADER_CVSID "@(#)$Id: OSGScreenGroupBase.h,v 1.3 2008/06/09 07:31:51 vossg Exp $"
+#define OSGSCREENGROUPBASE_HEADER_CVSID "@(#)$Id: OSGScreenGroupBase.h,v 1.4 2008/06/09 12:28:19 vossg Exp $"
 
 #endif /* _OSGSCREENGROUPBASE_H_ */

@@ -150,9 +150,16 @@ MFReal32 &ShaderParameterMRealBase::getValue(void)
     return _mfValue;
 }
 
+//! Get the ShaderParameterMReal::_mfValue field.
+inline
+const MFReal32 &ShaderParameterMRealBase::getValue(void) const
+{
+    return _mfValue;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMREALBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMRealBase.inl,v 1.3 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERMREALBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMRealBase.inl,v 1.4 2008/06/09 12:28:05 vossg Exp $"
 

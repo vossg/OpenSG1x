@@ -150,9 +150,16 @@ MFShaderParameterPtr &CGFXAnnotationBase::getParameters(void)
     return _mfParameters;
 }
 
+//! Get the CGFXAnnotation::_mfParameters field.
+inline
+const MFShaderParameterPtr &CGFXAnnotationBase::getParameters(void) const
+{
+    return _mfParameters;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXANNOTATIONBASE_INLINE_CVSID "@(#)$Id: OSGCGFXAnnotationBase.inl,v 1.5 2008/06/09 07:31:37 vossg Exp $"
+#define OSGCGFXANNOTATIONBASE_INLINE_CVSID "@(#)$Id: OSGCGFXAnnotationBase.inl,v 1.6 2008/06/09 12:28:00 vossg Exp $"
 

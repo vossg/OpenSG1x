@@ -246,6 +246,6 @@ typedef RefPtr<ShaderParameterPtr> ShaderParameterRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.11 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterBase.h,v 1.12 2008/06/09 12:28:05 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERBASE_H_ */

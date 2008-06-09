@@ -399,6 +399,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
 #ifndef OSG_2_PREP
            NodePtr             &getLightNodes     (const UInt32 index);
            MFNodePtr           &getLightNodes     (void);
+     const MFNodePtr           &getLightNodes     (void) const;
 #endif
 
            NodePtr             &editExcludeNodes   (const UInt32 index);
@@ -406,6 +407,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewportBase : public StereoBufferViewport
 #ifndef OSG_2_PREP
            NodePtr             &getExcludeNodes   (const UInt32 index);
            MFNodePtr           &getExcludeNodes   (void);
+     const MFNodePtr           &getExcludeNodes   (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -568,6 +570,6 @@ typedef RefPtr<ShadowViewportPtr> ShadowViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.15 2008/06/09 07:31:45 vossg Exp $"
+#define OSGSHADOWVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGShadowViewportBase.h,v 1.16 2008/06/09 12:28:07 vossg Exp $"
 
 #endif /* _OSGSHADOWVIEWPORTBASE_H_ */

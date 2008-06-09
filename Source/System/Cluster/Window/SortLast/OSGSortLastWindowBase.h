@@ -159,6 +159,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SortLastWindowBase : public ClusterWindow
 #ifndef OSG_2_PREP
            NodePtr             &getGroupNodes     (const UInt32 index);
            MFNodePtr           &getGroupNodes     (void);
+     const MFNodePtr           &getGroupNodes     (void) const;
 #endif
 
            UInt32              &editGroupLengths   (const UInt32 index);
@@ -166,6 +167,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SortLastWindowBase : public ClusterWindow
 #ifndef OSG_2_PREP
            UInt32              &getGroupLengths   (const UInt32 index);
            MFUInt32            &getGroupLengths   (void);
+     const MFUInt32            &getGroupLengths   (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -296,6 +298,6 @@ typedef RefPtr<SortLastWindowPtr> SortLastWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSORTLASTWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGSORTLASTWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGSORTLASTWINDOWBASE_H_ */

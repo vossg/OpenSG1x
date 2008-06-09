@@ -210,6 +210,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ColorDisplayFilterBase : public DisplayFilter
 #ifndef OSG_2_PREP
            Color3f             &getTable          (const UInt32 index);
            MFColor3f           &getTable          (void);
+     const MFColor3f           &getTable          (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -347,6 +348,6 @@ typedef RefPtr<ColorDisplayFilterPtr> ColorDisplayFilterRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCOLORDISPLAYFILTERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGCOLORDISPLAYFILTERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGCOLORDISPLAYFILTERBASE_H_ */

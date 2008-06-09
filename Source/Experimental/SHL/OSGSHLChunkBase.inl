@@ -438,6 +438,13 @@ MFGLenum &SHLChunkBase::getProgramParameterNames(void)
     return _mfProgramParameterNames;
 }
 
+//! Get the SHLChunk::_mfProgramParameterNames field.
+inline
+const MFGLenum &SHLChunkBase::getProgramParameterNames(void) const
+{
+    return _mfProgramParameterNames;
+}
+
 #endif
 
 //! Get the value of the \a index element the SHLChunk::_mfProgramParameterValues field.
@@ -469,9 +476,16 @@ MFUInt32 &SHLChunkBase::getProgramParameterValues(void)
     return _mfProgramParameterValues;
 }
 
+//! Get the SHLChunk::_mfProgramParameterValues field.
+inline
+const MFUInt32 &SHLChunkBase::getProgramParameterValues(void) const
+{
+    return _mfProgramParameterValues;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.16 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHLCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGSHLChunkBase.inl,v 1.17 2008/06/09 12:28:05 vossg Exp $"
 

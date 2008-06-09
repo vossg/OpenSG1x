@@ -930,6 +930,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            Real32              &getShaderOffsetMatrix(const UInt32 index);
            MFReal32            &getShaderOffsetMatrix(void);
+     const MFReal32            &getShaderOffsetMatrix(void) const;
 #endif
 
     /*! \}                                                                 */
@@ -1163,6 +1164,6 @@ typedef RefPtr<TextureChunkPtr> TextureChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGTEXTURECHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGTEXTURECHUNKBASE_H_ */

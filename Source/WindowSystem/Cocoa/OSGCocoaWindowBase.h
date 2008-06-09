@@ -262,6 +262,6 @@ typedef RefPtr<CocoaWindowPtr> CocoaWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCOCOAWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCocoaWindowBase.h,v 1.3 2008/06/09 07:31:58 vossg Exp $"
+#define OSGCOCOAWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCocoaWindowBase.h,v 1.4 2008/06/09 12:28:27 vossg Exp $"
 
 #endif /* _OSGCOCOAWINDOWBASE_H_ */

@@ -102,6 +102,6 @@ struct FieldDataTraits<LightEnvPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGLIGHTENVFIELDS_HEADER_CVSID "@(#)$Id: OSGLightEnvFields.h,v 1.7 2008/06/09 07:31:50 vossg Exp $"
+#define OSGLIGHTENVFIELDS_HEADER_CVSID "@(#)$Id: OSGLightEnvFields.h,v 1.8 2008/06/09 12:28:19 vossg Exp $"
 
 #endif /* _OSGLIGHTENVFIELDS_H_ */

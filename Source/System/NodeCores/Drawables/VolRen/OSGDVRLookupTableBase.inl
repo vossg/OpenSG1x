@@ -424,6 +424,13 @@ MFUInt32 &DVRLookupTableBase::getSize(void)
     return _mfSize;
 }
 
+//! Get the DVRLookupTable::_mfSize field.
+inline
+const MFUInt32 &DVRLookupTableBase::getSize(void) const
+{
+    return _mfSize;
+}
+
 #endif
 
 //! Get the value of the \a index element the DVRLookupTable::_mfData field.
@@ -451,6 +458,13 @@ UInt8 &DVRLookupTableBase::getData(const UInt32 index)
 //! Get the DVRLookupTable::_mfData field.
 inline
 MFUInt8 &DVRLookupTableBase::getData(void)
+{
+    return _mfData;
+}
+
+//! Get the DVRLookupTable::_mfData field.
+inline
+const MFUInt8 &DVRLookupTableBase::getData(void) const
 {
     return _mfData;
 }
@@ -486,6 +500,13 @@ MFReal32 &DVRLookupTableBase::getDataR(void)
     return _mfDataR;
 }
 
+//! Get the DVRLookupTable::_mfDataR field.
+inline
+const MFReal32 &DVRLookupTableBase::getDataR(void) const
+{
+    return _mfDataR;
+}
+
 #endif
 
 //! Get the value of the \a index element the DVRLookupTable::_mfDataG field.
@@ -513,6 +534,13 @@ Real32 &DVRLookupTableBase::getDataG(const UInt32 index)
 //! Get the DVRLookupTable::_mfDataG field.
 inline
 MFReal32 &DVRLookupTableBase::getDataG(void)
+{
+    return _mfDataG;
+}
+
+//! Get the DVRLookupTable::_mfDataG field.
+inline
+const MFReal32 &DVRLookupTableBase::getDataG(void) const
 {
     return _mfDataG;
 }
@@ -548,6 +576,13 @@ MFReal32 &DVRLookupTableBase::getDataB(void)
     return _mfDataB;
 }
 
+//! Get the DVRLookupTable::_mfDataB field.
+inline
+const MFReal32 &DVRLookupTableBase::getDataB(void) const
+{
+    return _mfDataB;
+}
+
 #endif
 
 //! Get the value of the \a index element the DVRLookupTable::_mfDataA field.
@@ -579,9 +614,16 @@ MFReal32 &DVRLookupTableBase::getDataA(void)
     return _mfDataA;
 }
 
+//! Get the DVRLookupTable::_mfDataA field.
+inline
+const MFReal32 &DVRLookupTableBase::getDataA(void) const
+{
+    return _mfDataA;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGDVRLOOKUPTABLEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGDVRLOOKUPTABLEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

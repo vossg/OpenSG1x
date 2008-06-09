@@ -198,6 +198,7 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 #ifndef OSG_2_PREP
            NodePtr             &getInfluences     (const UInt32 index);
            MFNodePtr           &getInfluences     (void);
+     const MFNodePtr           &getInfluences     (void) const;
 #endif
 
            Matrix              &editBaseMatrices   (const UInt32 index);
@@ -205,6 +206,7 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 #ifndef OSG_2_PREP
            Matrix              &getBaseMatrices   (const UInt32 index);
            MFMatrix            &getBaseMatrices   (void);
+     const MFMatrix            &getBaseMatrices   (void) const;
 #endif
 
            UInt32              &editVertexIndices  (const UInt32 index);
@@ -212,6 +214,7 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 #ifndef OSG_2_PREP
            UInt32              &getVertexIndices  (const UInt32 index);
            MFUInt32            &getVertexIndices  (void);
+     const MFUInt32            &getVertexIndices  (void) const;
 #endif
 
            UInt16              &editInfluenceIndices(const UInt32 index);
@@ -219,6 +222,7 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 #ifndef OSG_2_PREP
            UInt16              &getInfluenceIndices(const UInt32 index);
            MFUInt16            &getInfluenceIndices(void);
+     const MFUInt16            &getInfluenceIndices(void) const;
 #endif
 
            Real32              &editInfluenceWeights(const UInt32 index);
@@ -226,6 +230,7 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 #ifndef OSG_2_PREP
            Real32              &getInfluenceWeights(const UInt32 index);
            MFReal32            &getInfluenceWeights(void);
+     const MFReal32            &getInfluenceWeights(void) const;
 #endif
 
            UInt32              &editNormalIndices  (const UInt32 index);
@@ -233,6 +238,7 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 #ifndef OSG_2_PREP
            UInt32              &getNormalIndices  (const UInt32 index);
            MFUInt32            &getNormalIndices  (void);
+     const MFUInt32            &getNormalIndices  (void) const;
 #endif
 
            UInt16              &editNormalInfluenceIndices(const UInt32 index);
@@ -240,6 +246,7 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 #ifndef OSG_2_PREP
            UInt16              &getNormalInfluenceIndices(const UInt32 index);
            MFUInt16            &getNormalInfluenceIndices(void);
+     const MFUInt16            &getNormalInfluenceIndices(void) const;
 #endif
 
            Real32              &editNormalInfluenceWeights(const UInt32 index);
@@ -247,6 +254,7 @@ class OSG_CONTRIBLIB_DLLMAPPING SkinDeformerBase : public Deformer
 #ifndef OSG_2_PREP
            Real32              &getNormalInfluenceWeights(const UInt32 index);
            MFReal32            &getNormalInfluenceWeights(void);
+     const MFReal32            &getNormalInfluenceWeights(void) const;
 #endif
 
     /*! \}                                                                 */
@@ -381,6 +389,6 @@ typedef RefPtr<SkinDeformerPtr> SkinDeformerRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSKINDEFORMERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGSKINDEFORMERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGSKINDEFORMERBASE_H_ */

@@ -225,6 +225,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRLookupTableBase : public Attachment
 #ifndef OSG_2_PREP
            UInt32              &getSize           (const UInt32 index);
            MFUInt32            &getSize           (void);
+     const MFUInt32            &getSize           (void) const;
 #endif
 
            UInt8               &editData           (const UInt32 index);
@@ -232,6 +233,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRLookupTableBase : public Attachment
 #ifndef OSG_2_PREP
            UInt8               &getData           (const UInt32 index);
            MFUInt8             &getData           (void);
+     const MFUInt8             &getData           (void) const;
 #endif
 
            Real32              &editDataR          (const UInt32 index);
@@ -239,6 +241,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRLookupTableBase : public Attachment
 #ifndef OSG_2_PREP
            Real32              &getDataR          (const UInt32 index);
            MFReal32            &getDataR          (void);
+     const MFReal32            &getDataR          (void) const;
 #endif
 
            Real32              &editDataG          (const UInt32 index);
@@ -246,6 +249,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRLookupTableBase : public Attachment
 #ifndef OSG_2_PREP
            Real32              &getDataG          (const UInt32 index);
            MFReal32            &getDataG          (void);
+     const MFReal32            &getDataG          (void) const;
 #endif
 
            Real32              &editDataB          (const UInt32 index);
@@ -253,6 +257,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRLookupTableBase : public Attachment
 #ifndef OSG_2_PREP
            Real32              &getDataB          (const UInt32 index);
            MFReal32            &getDataB          (void);
+     const MFReal32            &getDataB          (void) const;
 #endif
 
            Real32              &editDataA          (const UInt32 index);
@@ -260,6 +265,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRLookupTableBase : public Attachment
 #ifndef OSG_2_PREP
            Real32              &getDataA          (const UInt32 index);
            MFReal32            &getDataA          (void);
+     const MFReal32            &getDataA          (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -398,6 +404,6 @@ typedef RefPtr<DVRLookupTablePtr> DVRLookupTableRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRLOOKUPTABLEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGDVRLOOKUPTABLEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGDVRLOOKUPTABLEBASE_H_ */

@@ -135,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            ShaderParameterPtr  &getParameters     (const UInt32 index);
            MFShaderParameterPtr &getParameters     (void);
+     const MFShaderParameterPtr &getParameters     (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -246,6 +247,6 @@ typedef RefPtr<ShaderParameterChunkPtr> ShaderParameterChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunkBase.h,v 1.8 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterChunkBase.h,v 1.9 2008/06/09 12:28:05 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERCHUNKBASE_H_ */

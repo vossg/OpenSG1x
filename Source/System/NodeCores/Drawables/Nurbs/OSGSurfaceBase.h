@@ -261,6 +261,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SurfaceBase : public Geometry
 #ifndef OSG_2_PREP
            Real32              &getKnotsU         (const UInt32 index);
            MFReal32            &getKnotsU         (void);
+     const MFReal32            &getKnotsU         (void) const;
 #endif
 
            Real32              &editKnotsV         (const UInt32 index);
@@ -268,6 +269,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SurfaceBase : public Geometry
 #ifndef OSG_2_PREP
            Real32              &getKnotsV         (const UInt32 index);
            MFReal32            &getKnotsV         (void);
+     const MFReal32            &getKnotsV         (void) const;
 #endif
 
 
@@ -426,30 +428,35 @@ class OSG_SYSTEMLIB_DLLMAPPING SurfaceBase : public Geometry
 #ifndef OSG_2_PREP
            UInt32              &getKnotLengths    (UInt32 index);
            MFUInt32            &getKnotLengths    (void);
+     const MFUInt32            &getKnotLengths    (void) const;
 #endif
            UInt32              &editDimensions     (UInt32 index);
      const UInt32              &getDimensions     (UInt32 index) const;
 #ifndef OSG_2_PREP
            UInt32              &getDimensions     (UInt32 index);
            MFUInt32            &getDimensions     (void);
+     const MFUInt32            &getDimensions     (void) const;
 #endif
            Pnt3f               &editCurveControlPoints(UInt32 index);
      const Pnt3f               &getCurveControlPoints(UInt32 index) const;
 #ifndef OSG_2_PREP
            Pnt3f               &getCurveControlPoints(UInt32 index);
            MFPnt3f             &getCurveControlPoints(void);
+     const MFPnt3f             &getCurveControlPoints(void) const;
 #endif
            Real32              &editKnots          (UInt32 index);
      const Real32              &getKnots          (UInt32 index) const;
 #ifndef OSG_2_PREP
            Real32              &getKnots          (UInt32 index);
            MFReal32            &getKnots          (void);
+     const MFReal32            &getKnots          (void) const;
 #endif
            UInt32              &editCurvesPerLoop  (UInt32 index);
      const UInt32              &getCurvesPerLoop  (UInt32 index) const;
 #ifndef OSG_2_PREP
            UInt32              &getCurvesPerLoop  (UInt32 index);
            MFUInt32            &getCurvesPerLoop  (void);
+     const MFUInt32            &getCurvesPerLoop  (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -522,6 +529,6 @@ typedef RefPtr<SurfacePtr> SurfaceRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGSURFACEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGSURFACEBASE_H_ */

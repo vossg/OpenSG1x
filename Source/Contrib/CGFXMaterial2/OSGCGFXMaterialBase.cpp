@@ -426,7 +426,7 @@ DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "ChunkMateri
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.4 2008/06/09 07:31:37 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.5 2008/06/09 12:28:00 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIALBASE_INLINE_CVSID;
 

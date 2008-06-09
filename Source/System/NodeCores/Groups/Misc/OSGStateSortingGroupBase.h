@@ -262,6 +262,6 @@ typedef RefPtr<StateSortingGroupPtr> StateSortingGroupRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATESORTINGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupBase.h,v 1.8 2008/06/09 07:31:51 vossg Exp $"
+#define OSGSTATESORTINGGROUPBASE_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupBase.h,v 1.9 2008/06/09 12:28:19 vossg Exp $"
 
 #endif /* _OSGSTATESORTINGGROUPBASE_H_ */

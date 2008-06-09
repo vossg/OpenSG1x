@@ -262,6 +262,6 @@ typedef RefPtr<PhysicsTriMeshGeomPtr> PhysicsTriMeshGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSTRIMESHGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSTRIMESHGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeomBase.h,v 1.5 2008/06/09 12:28:03 vossg Exp $"
 
 #endif /* _OSGPHYSICSTRIMESHGEOMBASE_H_ */

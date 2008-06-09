@@ -262,6 +262,6 @@ typedef RefPtr<PhysicsBallJointPtr> PhysicsBallJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBALLJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBallJointBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSBALLJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsBallJointBase.h,v 1.5 2008/06/09 12:28:02 vossg Exp $"
 
 #endif /* _OSGPHYSICSBALLJOINTBASE_H_ */

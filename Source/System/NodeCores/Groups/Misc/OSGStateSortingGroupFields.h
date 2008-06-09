@@ -102,6 +102,6 @@ struct FieldDataTraits<StateSortingGroupPtr> :
 
 OSG_END_NAMESPACE
 
-#define OSGSTATESORTINGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupFields.h,v 1.7 2008/06/09 07:31:51 vossg Exp $"
+#define OSGSTATESORTINGGROUPFIELDS_HEADER_CVSID "@(#)$Id: OSGStateSortingGroupFields.h,v 1.8 2008/06/09 12:28:19 vossg Exp $"
 
 #endif /* _OSGSTATESORTINGGROUPFIELDS_H_ */

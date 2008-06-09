@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SharedFontStyleWrapperPtr, OSG_SYSTEMLIB_DLLTMPLMAPPIN
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapperBase.cpp,v 1.9 2008/06/09 07:31:46 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSharedFontStyleWrapperBase.cpp,v 1.10 2008/06/09 12:28:08 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHAREDFONTSTYLEWRAPPERBASE_INLINE_CVSID;
 

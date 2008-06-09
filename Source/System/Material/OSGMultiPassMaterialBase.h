@@ -135,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiPassMaterialBase : public Material
 #ifndef OSG_2_PREP
            MaterialPtr         &getMaterials      (const UInt32 index);
            MFMaterialPtr       &getMaterials      (void);
+     const MFMaterialPtr       &getMaterials      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -262,6 +263,6 @@ typedef RefPtr<MultiPassMaterialPtr> MultiPassMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialBase.h,v 1.8 2008/06/09 07:31:48 vossg Exp $"
+#define OSGMULTIPASSMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterialBase.h,v 1.9 2008/06/09 12:28:10 vossg Exp $"
 
 #endif /* _OSGMULTIPASSMATERIALBASE_H_ */

@@ -316,7 +316,7 @@ DataType FieldDataTraits<DVRSimpleLUTShaderPtr>::_type("DVRSimpleLUTShaderPtr", 
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.49 2008/06/09 07:30:44 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDVRSIMPLELUTSHADERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDVRSIMPLELUTSHADERBASE_INLINE_CVSID;
 

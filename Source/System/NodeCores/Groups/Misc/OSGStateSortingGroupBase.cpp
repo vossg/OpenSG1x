@@ -282,7 +282,7 @@ DataType FieldDataTraits<StateSortingGroupPtr>::_type("StateSortingGroupPtr", "N
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.8 2008/06/09 07:31:51 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStateSortingGroupBase.cpp,v 1.9 2008/06/09 12:28:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTATESORTINGGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTATESORTINGGROUPBASE_INLINE_CVSID;
 

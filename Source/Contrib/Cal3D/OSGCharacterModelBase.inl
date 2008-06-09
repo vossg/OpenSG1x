@@ -309,9 +309,16 @@ MFChunkMaterialPtr &CharacterModelBase::getMaterials(void)
     return _mfMaterials;
 }
 
+//! Get the CharacterModel::_mfMaterials field.
+inline
+const MFChunkMaterialPtr &CharacterModelBase::getMaterials(void) const
+{
+    return _mfMaterials;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERMODELBASE_INLINE_CVSID "@(#)$Id: OSGCharacterModelBase.inl,v 1.4 2008/06/09 07:31:37 vossg Exp $"
+#define OSGCHARACTERMODELBASE_INLINE_CVSID "@(#)$Id: OSGCharacterModelBase.inl,v 1.5 2008/06/09 12:28:01 vossg Exp $"
 

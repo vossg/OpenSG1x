@@ -173,6 +173,13 @@ MFString &FCPtrAttributeMapBase::getKeys(void)
     return _mfKeys;
 }
 
+//! Get the FCPtrAttributeMap::_mfKeys field.
+inline
+const MFString &FCPtrAttributeMapBase::getKeys(void) const
+{
+    return _mfKeys;
+}
+
 #endif
 
 //! Get the value of the \a index element the FCPtrAttributeMap::_mfValues field.
@@ -204,9 +211,16 @@ MFFieldContainerPtr &FCPtrAttributeMapBase::getValues(void)
     return _mfValues;
 }
 
+//! Get the FCPtrAttributeMap::_mfValues field.
+inline
+const MFFieldContainerPtr &FCPtrAttributeMapBase::getValues(void) const
+{
+    return _mfValues;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.inl,v 1.4 2008/06/09 07:31:47 vossg Exp $"
+#define OSGFCPTRATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGFCPtrAttributeMapBase.inl,v 1.5 2008/06/09 12:28:10 vossg Exp $"
 

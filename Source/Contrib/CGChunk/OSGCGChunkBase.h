@@ -219,6 +219,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 #ifndef OSG_2_PREP
            std::string         &getVertexArguments(const UInt32 index);
            MFString            &getVertexArguments(void);
+     const MFString            &getVertexArguments(void) const;
 #endif
 
            std::string         &editFragmentArguments(const UInt32 index);
@@ -226,6 +227,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGChunkBase : public ShaderChunk
 #ifndef OSG_2_PREP
            std::string         &getFragmentArguments(const UInt32 index);
            MFString            &getFragmentArguments(void);
+     const MFString            &getFragmentArguments(void) const;
 #endif
 
     /*! \}                                                                 */
@@ -364,6 +366,6 @@ typedef RefPtr<CGChunkPtr> CGChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGCGCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGCGCHUNKBASE_H_ */

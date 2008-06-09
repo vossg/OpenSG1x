@@ -253,6 +253,13 @@ MFVec4f &ProgramChunkBase::getParamValues(void)
     return _mfParamValues;
 }
 
+//! Get the ProgramChunk::_mfParamValues field.
+inline
+const MFVec4f &ProgramChunkBase::getParamValues(void) const
+{
+    return _mfParamValues;
+}
+
 #endif
 
 //! Get the value of the \a index element the ProgramChunk::_mfParamNames field.
@@ -284,9 +291,16 @@ MFString &ProgramChunkBase::getParamNames(void)
     return _mfParamNames;
 }
 
+//! Get the ProgramChunk::_mfParamNames field.
+inline
+const MFString &ProgramChunkBase::getParamNames(void) const
+{
+    return _mfParamNames;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPROGRAMCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGPROGRAMCHUNKBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

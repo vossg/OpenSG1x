@@ -173,6 +173,13 @@ MFString &StringAttributeMapBase::getKeys(void)
     return _mfKeys;
 }
 
+//! Get the StringAttributeMap::_mfKeys field.
+inline
+const MFString &StringAttributeMapBase::getKeys(void) const
+{
+    return _mfKeys;
+}
+
 #endif
 
 //! Get the value of the \a index element the StringAttributeMap::_mfValues field.
@@ -204,9 +211,16 @@ MFString &StringAttributeMapBase::getValues(void)
     return _mfValues;
 }
 
+//! Get the StringAttributeMap::_mfValues field.
+inline
+const MFString &StringAttributeMapBase::getValues(void) const
+{
+    return _mfValues;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGStringAttributeMapBase.inl,v 1.4 2008/06/09 07:31:47 vossg Exp $"
+#define OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID "@(#)$Id: OSGStringAttributeMapBase.inl,v 1.5 2008/06/09 12:28:10 vossg Exp $"
 

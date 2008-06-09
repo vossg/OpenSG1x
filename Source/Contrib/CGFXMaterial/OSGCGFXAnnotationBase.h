@@ -135,6 +135,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXAnnotationBase : public Attachment
 #ifndef OSG_2_PREP
            ShaderParameterPtr  &getParameters     (const UInt32 index);
            MFShaderParameterPtr &getParameters     (void);
+     const MFShaderParameterPtr &getParameters     (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -262,6 +263,6 @@ typedef RefPtr<CGFXAnnotationPtr> CGFXAnnotationRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXANNOTATIONBASE_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotationBase.h,v 1.6 2008/06/09 07:31:37 vossg Exp $"
+#define OSGCGFXANNOTATIONBASE_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotationBase.h,v 1.7 2008/06/09 12:28:00 vossg Exp $"
 
 #endif /* _OSGCGFXANNOTATIONBASE_H_ */

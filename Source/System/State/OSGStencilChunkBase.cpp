@@ -524,7 +524,7 @@ DataType FieldDataTraits<StencilChunkPtr>::_type("StencilChunkPtr", "StateChunkP
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.9 2008/06/09 07:31:53 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStencilChunkBase.cpp,v 1.10 2008/06/09 12:28:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTENCILCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTENCILCHUNKBASE_INLINE_CVSID;
 

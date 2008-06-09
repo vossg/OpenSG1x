@@ -173,6 +173,13 @@ MFStateChunkPtr &ChunkMaterialBase::getChunks(void)
     return _mfChunks;
 }
 
+//! Get the ChunkMaterial::_mfChunks field.
+inline
+const MFStateChunkPtr &ChunkMaterialBase::getChunks(void) const
+{
+    return _mfChunks;
+}
+
 #endif
 
 //! Get the value of the \a index element the ChunkMaterial::_mfSlots field.
@@ -204,9 +211,16 @@ MFInt32 &ChunkMaterialBase::getSlots(void)
     return _mfSlots;
 }
 
+//! Get the ChunkMaterial::_mfSlots field.
+inline
+const MFInt32 &ChunkMaterialBase::getSlots(void) const
+{
+    return _mfSlots;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGCHUNKMATERIALBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

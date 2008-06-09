@@ -279,6 +279,6 @@ typedef RefPtr<PhysicsHingeJointPtr> PhysicsHingeJointRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSHINGEJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHingeJointBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSHINGEJOINTBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsHingeJointBase.h,v 1.5 2008/06/09 12:28:02 vossg Exp $"
 
 #endif /* _OSGPHYSICSHINGEJOINTBASE_H_ */

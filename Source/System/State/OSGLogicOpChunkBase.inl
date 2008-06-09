@@ -153,5 +153,5 @@ void LogicOpChunkBase::setLogicOp(const GLenum &value)
 
 OSG_END_NAMESPACE
 
-#define OSGLOGICOPCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLogicOpChunkBase.inl,v 1.3 2008/06/09 07:31:52 vossg Exp $"
+#define OSGLOGICOPCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGLogicOpChunkBase.inl,v 1.4 2008/06/09 12:28:20 vossg Exp $"
 

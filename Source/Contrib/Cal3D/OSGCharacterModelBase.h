@@ -180,6 +180,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CharacterModelBase : public AttachmentContainer
 #ifndef OSG_2_PREP
            ChunkMaterialPtr    &getMaterials      (const UInt32 index);
            MFChunkMaterialPtr  &getMaterials      (void);
+     const MFChunkMaterialPtr  &getMaterials      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -313,6 +314,6 @@ typedef RefPtr<CharacterModelPtr> CharacterModelRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERMODELBASE_HEADER_CVSID "@(#)$Id: OSGCharacterModelBase.h,v 1.4 2008/06/09 07:31:37 vossg Exp $"
+#define OSGCHARACTERMODELBASE_HEADER_CVSID "@(#)$Id: OSGCharacterModelBase.h,v 1.5 2008/06/09 12:28:01 vossg Exp $"
 
 #endif /* _OSGCHARACTERMODELBASE_H_ */

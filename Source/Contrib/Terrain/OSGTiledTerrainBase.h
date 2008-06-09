@@ -324,6 +324,7 @@ class OSG_CONTRIBLIB_DLLMAPPING TiledTerrainBase : public MaterialGroup
 #ifndef OSG_2_PREP
            ImagePtr            &getHeightTiles    (const UInt32 index);
            MFImagePtr          &getHeightTiles    (void);
+     const MFImagePtr          &getHeightTiles    (void) const;
 #endif
 
            MaterialPtr         &editHeightTextures (const UInt32 index);
@@ -331,6 +332,7 @@ class OSG_CONTRIBLIB_DLLMAPPING TiledTerrainBase : public MaterialGroup
 #ifndef OSG_2_PREP
            MaterialPtr         &getHeightTextures (const UInt32 index);
            MFMaterialPtr       &getHeightTextures (void);
+     const MFMaterialPtr       &getHeightTextures (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -483,6 +485,6 @@ typedef RefPtr<TiledTerrainPtr> TiledTerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.9 2008/06/09 07:31:43 vossg Exp $"
+#define OSGTILEDTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTiledTerrainBase.h,v 1.10 2008/06/09 12:28:04 vossg Exp $"
 
 #endif /* _OSGTILEDTERRAINBASE_H_ */

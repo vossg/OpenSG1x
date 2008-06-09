@@ -312,5 +312,5 @@ void OffsetCameraDecoratorBase::setFullHeight(const UInt32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGOFFSETCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGOffsetCameraDecoratorBase.inl,v 1.3 2008/06/09 07:31:55 vossg Exp $"
+#define OSGOFFSETCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: OSGOffsetCameraDecoratorBase.inl,v 1.4 2008/06/09 12:28:23 vossg Exp $"
 

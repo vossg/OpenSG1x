@@ -657,7 +657,7 @@ DataType FieldDataTraits<FresnelMaterialPtr>::_type("FresnelMaterialPtr", "Chunk
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterialBase.cpp,v 1.8 2008/06/09 07:31:48 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFresnelMaterialBase.cpp,v 1.9 2008/06/09 12:28:10 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFRESNELMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFRESNELMATERIALBASE_INLINE_CVSID;
 

@@ -296,6 +296,6 @@ typedef RefPtr<BinarySwapComposerPtr> BinarySwapComposerRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGBINARYSWAPCOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGBINARYSWAPCOMPOSERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGBINARYSWAPCOMPOSERBASE_H_ */

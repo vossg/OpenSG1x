@@ -521,9 +521,16 @@ MFPnt2f &TextureBackgroundBase::getTexCoords(void)
     return _mfTexCoords;
 }
 
+//! Get the TextureBackground::_mfTexCoords field.
+inline
+const MFPnt2f &TextureBackgroundBase::getTexCoords(void) const
+{
+    return _mfTexCoords;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGTextureBackgroundBase.inl,v 1.9 2008/06/09 07:31:55 vossg Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGTextureBackgroundBase.inl,v 1.10 2008/06/09 12:28:24 vossg Exp $"
 

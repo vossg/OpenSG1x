@@ -645,6 +645,13 @@ MFUInt32 &GraphicStatisticsForegroundBase::getDisplayType(void)
     return _mfDisplayType;
 }
 
+//! Get the GraphicStatisticsForeground::_mfDisplayType field.
+inline
+const MFUInt32 &GraphicStatisticsForegroundBase::getDisplayType(void) const
+{
+    return _mfDisplayType;
+}
+
 #endif
 
 //! Get the value of the \a index element the GraphicStatisticsForeground::_mfSize field.
@@ -672,6 +679,13 @@ Vec2f &GraphicStatisticsForegroundBase::getSize(const UInt32 index)
 //! Get the GraphicStatisticsForeground::_mfSize field.
 inline
 MFVec2f &GraphicStatisticsForegroundBase::getSize(void)
+{
+    return _mfSize;
+}
+
+//! Get the GraphicStatisticsForeground::_mfSize field.
+inline
+const MFVec2f &GraphicStatisticsForegroundBase::getSize(void) const
 {
     return _mfSize;
 }
@@ -707,6 +721,13 @@ MFVec2f &GraphicStatisticsForegroundBase::getPos(void)
     return _mfPos;
 }
 
+//! Get the GraphicStatisticsForeground::_mfPos field.
+inline
+const MFVec2f &GraphicStatisticsForegroundBase::getPos(void) const
+{
+    return _mfPos;
+}
+
 #endif
 
 //! Get the value of the \a index element the GraphicStatisticsForeground::_mfColorMax field.
@@ -734,6 +755,13 @@ Color4f &GraphicStatisticsForegroundBase::getColorMax(const UInt32 index)
 //! Get the GraphicStatisticsForeground::_mfColorMax field.
 inline
 MFColor4f &GraphicStatisticsForegroundBase::getColorMax(void)
+{
+    return _mfColorMax;
+}
+
+//! Get the GraphicStatisticsForeground::_mfColorMax field.
+inline
+const MFColor4f &GraphicStatisticsForegroundBase::getColorMax(void) const
 {
     return _mfColorMax;
 }
@@ -769,6 +797,13 @@ MFColor4f &GraphicStatisticsForegroundBase::getColorMin(void)
     return _mfColorMin;
 }
 
+//! Get the GraphicStatisticsForeground::_mfColorMin field.
+inline
+const MFColor4f &GraphicStatisticsForegroundBase::getColorMin(void) const
+{
+    return _mfColorMin;
+}
+
 #endif
 
 //! Get the value of the \a index element the GraphicStatisticsForeground::_mfColorCurrent field.
@@ -796,6 +831,13 @@ Color4f &GraphicStatisticsForegroundBase::getColorCurrent(const UInt32 index)
 //! Get the GraphicStatisticsForeground::_mfColorCurrent field.
 inline
 MFColor4f &GraphicStatisticsForegroundBase::getColorCurrent(void)
+{
+    return _mfColorCurrent;
+}
+
+//! Get the GraphicStatisticsForeground::_mfColorCurrent field.
+inline
+const MFColor4f &GraphicStatisticsForegroundBase::getColorCurrent(void) const
 {
     return _mfColorCurrent;
 }
@@ -831,6 +873,13 @@ MFReal32 &GraphicStatisticsForegroundBase::getMinValue(void)
     return _mfMinValue;
 }
 
+//! Get the GraphicStatisticsForeground::_mfMinValue field.
+inline
+const MFReal32 &GraphicStatisticsForegroundBase::getMinValue(void) const
+{
+    return _mfMinValue;
+}
+
 #endif
 
 //! Get the value of the \a index element the GraphicStatisticsForeground::_mfMaxValue field.
@@ -858,6 +907,13 @@ Real32 &GraphicStatisticsForegroundBase::getMaxValue(const UInt32 index)
 //! Get the GraphicStatisticsForeground::_mfMaxValue field.
 inline
 MFReal32 &GraphicStatisticsForegroundBase::getMaxValue(void)
+{
+    return _mfMaxValue;
+}
+
+//! Get the GraphicStatisticsForeground::_mfMaxValue field.
+inline
+const MFReal32 &GraphicStatisticsForegroundBase::getMaxValue(void) const
 {
     return _mfMaxValue;
 }
@@ -893,6 +949,13 @@ MFUInt32 &GraphicStatisticsForegroundBase::getFlags(void)
     return _mfFlags;
 }
 
+//! Get the GraphicStatisticsForeground::_mfFlags field.
+inline
+const MFUInt32 &GraphicStatisticsForegroundBase::getFlags(void) const
+{
+    return _mfFlags;
+}
+
 #endif
 
 //! Get the value of the \a index element the GraphicStatisticsForeground::_mfHistorySize field.
@@ -920,6 +983,13 @@ UInt32 &GraphicStatisticsForegroundBase::getHistorySize(const UInt32 index)
 //! Get the GraphicStatisticsForeground::_mfHistorySize field.
 inline
 MFUInt32 &GraphicStatisticsForegroundBase::getHistorySize(void)
+{
+    return _mfHistorySize;
+}
+
+//! Get the GraphicStatisticsForeground::_mfHistorySize field.
+inline
+const MFUInt32 &GraphicStatisticsForegroundBase::getHistorySize(void) const
 {
     return _mfHistorySize;
 }
@@ -955,9 +1025,16 @@ MFString &GraphicStatisticsForegroundBase::getDescription(void)
     return _mfDescription;
 }
 
+//! Get the GraphicStatisticsForeground::_mfDescription field.
+inline
+const MFString &GraphicStatisticsForegroundBase::getDescription(void) const
+{
+    return _mfDescription;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

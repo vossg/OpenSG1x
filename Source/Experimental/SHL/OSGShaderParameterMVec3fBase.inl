@@ -150,9 +150,16 @@ MFVec3f &ShaderParameterMVec3fBase::getValue(void)
     return _mfValue;
 }
 
+//! Get the ShaderParameterMVec3f::_mfValue field.
+inline
+const MFVec3f &ShaderParameterMVec3fBase::getValue(void) const
+{
+    return _mfValue;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMVEC3FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMVec3fBase.inl,v 1.3 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERMVEC3FBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterMVec3fBase.inl,v 1.4 2008/06/09 12:28:05 vossg Exp $"
 

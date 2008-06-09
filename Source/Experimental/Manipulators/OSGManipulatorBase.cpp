@@ -792,7 +792,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ManipulatorPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulatorBase.cpp,v 1.7 2008/06/09 07:31:43 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulatorBase.cpp,v 1.8 2008/06/09 12:28:05 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMANIPULATORBASE_INLINE_CVSID;
 

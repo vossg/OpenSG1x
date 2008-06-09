@@ -408,6 +408,7 @@ class OSG_CONTRIBLIB_DLLMAPPING TerrainBase : public Geometry
 #ifndef OSG_2_PREP
            Real32              &getHeightError    (const UInt32 index);
            MFReal32            &getHeightError    (void);
+     const MFReal32            &getHeightError    (void) const;
 #endif
 
            Real32              &editHeightQuad     (const UInt32 index);
@@ -415,6 +416,7 @@ class OSG_CONTRIBLIB_DLLMAPPING TerrainBase : public Geometry
 #ifndef OSG_2_PREP
            Real32              &getHeightQuad     (const UInt32 index);
            MFReal32            &getHeightQuad     (void);
+     const MFReal32            &getHeightQuad     (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -660,6 +662,6 @@ typedef RefPtr<TerrainPtr> TerrainRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.9 2008/06/09 07:31:43 vossg Exp $"
+#define OSGTERRAINBASE_HEADER_CVSID "@(#)$Id: OSGTerrainBase.h,v 1.10 2008/06/09 12:28:04 vossg Exp $"
 
 #endif /* _OSGTERRAINBASE_H_ */

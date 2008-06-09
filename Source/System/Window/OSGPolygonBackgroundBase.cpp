@@ -639,7 +639,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PolygonBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.11 2008/06/09 07:31:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackgroundBase.cpp,v 1.12 2008/06/09 12:28:23 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

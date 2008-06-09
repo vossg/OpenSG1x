@@ -190,6 +190,7 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 #ifndef OSG_2_PREP
            ViewportPtr         &getPort           (const UInt32 index);
            MFViewportPtr       &getPort           (void);
+     const MFViewportPtr       &getPort           (void) const;
 #endif
 
 
@@ -282,12 +283,14 @@ class OSG_SYSTEMLIB_DLLMAPPING WindowBase : public AttachmentContainer
 #ifndef OSG_2_PREP
            UInt32              &getGlObjectLastRefresh(UInt32 index);
            MFUInt32            &getGlObjectLastRefresh(void);
+     const MFUInt32            &getGlObjectLastRefresh(void) const;
 #endif
            UInt32              &editGlObjectLastReinitialize(UInt32 index);
      const UInt32              &getGlObjectLastReinitialize(UInt32 index) const;
 #ifndef OSG_2_PREP
            UInt32              &getGlObjectLastReinitialize(UInt32 index);
            MFUInt32            &getGlObjectLastReinitialize(void);
+     const MFUInt32            &getGlObjectLastReinitialize(void) const;
 #endif
 
     /*! \}                                                                 */
@@ -358,6 +361,6 @@ typedef RefPtr<WindowPtr> WindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGWINDOWBASE_H_ */

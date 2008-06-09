@@ -331,7 +331,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(StringAttributeMapPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMapBase.cpp,v 1.4 2008/06/09 07:31:47 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGStringAttributeMapBase.cpp,v 1.5 2008/06/09 12:28:10 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSTRINGATTRIBUTEMAPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSTRINGATTRIBUTEMAPBASE_INLINE_CVSID;
 

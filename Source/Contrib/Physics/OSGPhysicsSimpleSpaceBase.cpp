@@ -248,7 +248,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsSimpleSpacePtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSimpleSpaceBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsSimpleSpaceBase.cpp,v 1.5 2008/06/09 12:28:03 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSSIMPLESPACEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSSIMPLESPACEBASE_INLINE_CVSID;
 

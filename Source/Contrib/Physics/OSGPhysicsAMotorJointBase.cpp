@@ -325,7 +325,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsAMotorJointPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsAMotorJointBase.cpp,v 1.4 2008/06/09 07:31:38 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsAMotorJointBase.cpp,v 1.5 2008/06/09 12:28:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSAMOTORJOINTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSAMOTORJOINTBASE_INLINE_CVSID;
 

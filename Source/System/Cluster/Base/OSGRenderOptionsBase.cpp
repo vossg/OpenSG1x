@@ -1176,7 +1176,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.11 2008/06/09 07:31:46 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.12 2008/06/09 12:28:08 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

@@ -1339,6 +1339,13 @@ MFReal32 &TerrainBase::getHeightError(void)
     return _mfHeightError;
 }
 
+//! Get the Terrain::_mfHeightError field.
+inline
+const MFReal32 &TerrainBase::getHeightError(void) const
+{
+    return _mfHeightError;
+}
+
 #endif
 
 //! Get the value of the \a index element the Terrain::_mfHeightQuad field.
@@ -1370,9 +1377,16 @@ MFReal32 &TerrainBase::getHeightQuad(void)
     return _mfHeightQuad;
 }
 
+//! Get the Terrain::_mfHeightQuad field.
+inline
+const MFReal32 &TerrainBase::getHeightQuad(void) const
+{
+    return _mfHeightQuad;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTerrainBase.inl,v 1.8 2008/06/09 07:31:43 vossg Exp $"
+#define OSGTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTerrainBase.inl,v 1.9 2008/06/09 12:28:04 vossg Exp $"
 

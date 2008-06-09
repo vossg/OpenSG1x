@@ -324,6 +324,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
 #ifndef OSG_2_PREP
            NodePtr             &getExcludeNodes   (const UInt32 index);
            MFNodePtr           &getExcludeNodes   (void);
+     const MFNodePtr           &getExcludeNodes   (void) const;
 #endif
 
            NodePtr             &editRenderNodes    (const UInt32 index);
@@ -331,6 +332,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
 #ifndef OSG_2_PREP
            NodePtr             &getRenderNodes    (const UInt32 index);
            MFNodePtr           &getRenderNodes    (void);
+     const MFNodePtr           &getRenderNodes    (void) const;
 #endif
 
            TextureChunkPtr     &editTextures       (const UInt32 index);
@@ -338,6 +340,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
 #ifndef OSG_2_PREP
            TextureChunkPtr     &getTextures       (const UInt32 index);
            MFTextureChunkPtr   &getTextures       (void);
+     const MFTextureChunkPtr   &getTextures       (void) const;
 #endif
 
            Int32               &editZOffset        (const UInt32 index);
@@ -345,6 +348,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewportBase : public Viewport
 #ifndef OSG_2_PREP
            Int32               &getZOffset        (const UInt32 index);
            MFInt32             &getZOffset        (void);
+     const MFInt32             &getZOffset        (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -544,6 +548,6 @@ typedef RefPtr<FBOViewportPtr> FBOViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.6 2008/06/09 07:31:55 vossg Exp $"
+#define OSGFBOVIEWPORTBASE_HEADER_CVSID "@(#)$Id: OSGFBOViewportBase.h,v 1.7 2008/06/09 12:28:23 vossg Exp $"
 
 #endif /* _OSGFBOVIEWPORTBASE_H_ */

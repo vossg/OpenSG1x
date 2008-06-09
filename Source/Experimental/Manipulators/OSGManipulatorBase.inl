@@ -922,5 +922,5 @@ void ManipulatorBase::setAxisLinesN(const NodePtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGMANIPULATORBASE_INLINE_CVSID "@(#)$Id: OSGManipulatorBase.inl,v 1.6 2008/06/09 07:31:43 vossg Exp $"
+#define OSGMANIPULATORBASE_INLINE_CVSID "@(#)$Id: OSGManipulatorBase.inl,v 1.7 2008/06/09 12:28:05 vossg Exp $"
 

@@ -173,6 +173,13 @@ MFImagePtr &ImageForegroundBase::getImages(void)
     return _mfImages;
 }
 
+//! Get the ImageForeground::_mfImages field.
+inline
+const MFImagePtr &ImageForegroundBase::getImages(void) const
+{
+    return _mfImages;
+}
+
 #endif
 
 //! Get the value of the \a index element the ImageForeground::_mfPositions field.
@@ -204,9 +211,16 @@ MFPnt2f &ImageForegroundBase::getPositions(void)
     return _mfPositions;
 }
 
+//! Get the ImageForeground::_mfPositions field.
+inline
+const MFPnt2f &ImageForegroundBase::getPositions(void) const
+{
+    return _mfPositions;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGIMAGEFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

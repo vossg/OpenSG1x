@@ -262,6 +262,6 @@ typedef RefPtr<CoreGLWindowPtr> CoreGLWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCOREGLWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCoreGLWindowBase.h,v 1.3 2008/06/09 07:31:58 vossg Exp $"
+#define OSGCOREGLWINDOWBASE_HEADER_CVSID "@(#)$Id: OSGCoreGLWindowBase.h,v 1.4 2008/06/09 12:28:27 vossg Exp $"
 
 #endif /* _OSGCOREGLWINDOWBASE_H_ */

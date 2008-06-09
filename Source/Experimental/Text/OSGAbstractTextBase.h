@@ -195,6 +195,7 @@ class OSG_SYSTEMLIB_DLLMAPPING AbstractTextBase : public MaterialDrawable
 #ifndef OSG_2_PREP
            std::string         &getText           (const UInt32 index);
            MFString            &getText           (void);
+     const MFString            &getText           (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -314,6 +315,6 @@ typedef RefPtr<AbstractTextPtr> AbstractTextRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGABSTRACTTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGABSTRACTTEXTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGABSTRACTTEXTBASE_H_ */

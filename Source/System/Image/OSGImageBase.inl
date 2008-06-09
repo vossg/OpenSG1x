@@ -1339,6 +1339,13 @@ MFFieldContainerPtr &ImageBase::getParents(void)
     return _mfParents;
 }
 
+//! Get the Image::_mfParents field.
+inline
+const MFFieldContainerPtr &ImageBase::getParents(void) const
+{
+    return _mfParents;
+}
+
 #endif
 
 //! Get the value of the \a index element the Image::_mfPixel field.
@@ -1370,9 +1377,16 @@ MFUInt8 &ImageBase::getPixel(void)
     return _mfPixel;
 }
 
+//! Get the Image::_mfPixel field.
+inline
+const MFUInt8 &ImageBase::getPixel(void) const
+{
+    return _mfPixel;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGIMAGEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

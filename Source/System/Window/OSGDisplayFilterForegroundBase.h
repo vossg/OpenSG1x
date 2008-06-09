@@ -150,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DisplayFilterForegroundBase : public Foreground
 #ifndef OSG_2_PREP
            DisplayFilterPtr    &getFilter         (const UInt32 index);
            MFDisplayFilterPtr  &getFilter         (void);
+     const MFDisplayFilterPtr  &getFilter         (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -279,6 +280,6 @@ typedef RefPtr<DisplayFilterForegroundPtr> DisplayFilterForegroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDISPLAYFILTERFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGDISPLAYFILTERFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGDISPLAYFILTERFOREGROUNDBASE_H_ */

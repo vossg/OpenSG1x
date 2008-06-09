@@ -250,6 +250,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
 #ifndef OSG_2_PREP
            std::string         &getDescription    (const UInt32 index);
            MFString            &getDescription    (void);
+     const MFString            &getDescription    (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -397,60 +398,70 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForegroundBase : public Statisti
 #ifndef OSG_2_PREP
            UInt32              &getDisplayType    (UInt32 index);
            MFUInt32            &getDisplayType    (void);
+     const MFUInt32            &getDisplayType    (void) const;
 #endif
            Vec2f               &editSize           (UInt32 index);
      const Vec2f               &getSize           (UInt32 index) const;
 #ifndef OSG_2_PREP
            Vec2f               &getSize           (UInt32 index);
            MFVec2f             &getSize           (void);
+     const MFVec2f             &getSize           (void) const;
 #endif
            Vec2f               &editPos            (UInt32 index);
      const Vec2f               &getPos            (UInt32 index) const;
 #ifndef OSG_2_PREP
            Vec2f               &getPos            (UInt32 index);
            MFVec2f             &getPos            (void);
+     const MFVec2f             &getPos            (void) const;
 #endif
            Color4f             &editColorMax       (UInt32 index);
      const Color4f             &getColorMax       (UInt32 index) const;
 #ifndef OSG_2_PREP
            Color4f             &getColorMax       (UInt32 index);
            MFColor4f           &getColorMax       (void);
+     const MFColor4f           &getColorMax       (void) const;
 #endif
            Color4f             &editColorMin       (UInt32 index);
      const Color4f             &getColorMin       (UInt32 index) const;
 #ifndef OSG_2_PREP
            Color4f             &getColorMin       (UInt32 index);
            MFColor4f           &getColorMin       (void);
+     const MFColor4f           &getColorMin       (void) const;
 #endif
            Color4f             &editColorCurrent   (UInt32 index);
      const Color4f             &getColorCurrent   (UInt32 index) const;
 #ifndef OSG_2_PREP
            Color4f             &getColorCurrent   (UInt32 index);
            MFColor4f           &getColorCurrent   (void);
+     const MFColor4f           &getColorCurrent   (void) const;
 #endif
            Real32              &editMinValue       (UInt32 index);
      const Real32              &getMinValue       (UInt32 index) const;
 #ifndef OSG_2_PREP
            Real32              &getMinValue       (UInt32 index);
            MFReal32            &getMinValue       (void);
+     const MFReal32            &getMinValue       (void) const;
 #endif
            Real32              &editMaxValue       (UInt32 index);
      const Real32              &getMaxValue       (UInt32 index) const;
 #ifndef OSG_2_PREP
            Real32              &getMaxValue       (UInt32 index);
            MFReal32            &getMaxValue       (void);
+     const MFReal32            &getMaxValue       (void) const;
 #endif
            UInt32              &editFlags          (UInt32 index);
      const UInt32              &getFlags          (UInt32 index) const;
 #ifndef OSG_2_PREP
            UInt32              &getFlags          (UInt32 index);
            MFUInt32            &getFlags          (void);
+     const MFUInt32            &getFlags          (void) const;
 #endif
            UInt32              &editHistorySize    (UInt32 index);
      const UInt32              &getHistorySize    (UInt32 index) const;
 #ifndef OSG_2_PREP
            UInt32              &getHistorySize    (UInt32 index);
            MFUInt32            &getHistorySize    (void);
+     const MFUInt32            &getHistorySize    (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -520,6 +531,6 @@ typedef RefPtr<GraphicStatisticsForegroundPtr> GraphicStatisticsForegroundRefPtr
 
 OSG_END_NAMESPACE
 
-#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGGRAPHICSTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGGRAPHICSTATISTICSFOREGROUNDBASE_H_ */

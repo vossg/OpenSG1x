@@ -248,7 +248,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ScreenGroupPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroupBase.cpp,v 1.3 2008/06/09 07:31:51 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroupBase.cpp,v 1.4 2008/06/09 12:28:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENGROUPBASE_INLINE_CVSID;
 

@@ -135,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMRealBase : public ShaderParameter
 #ifndef OSG_2_PREP
            Real32              &getValue          (const UInt32 index);
            MFReal32            &getValue          (void);
+     const MFReal32            &getValue          (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -262,6 +263,6 @@ typedef RefPtr<ShaderParameterMRealPtr> ShaderParameterMRealRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMREALBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMRealBase.h,v 1.3 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERMREALBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMRealBase.h,v 1.4 2008/06/09 12:28:05 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERMREALBASE_H_ */

@@ -704,6 +704,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.11 2008/06/09 07:31:46 vossg Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.12 2008/06/09 12:28:08 vossg Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

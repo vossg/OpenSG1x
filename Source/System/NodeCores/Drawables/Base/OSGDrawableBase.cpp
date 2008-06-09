@@ -239,7 +239,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DrawablePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawableBase.cpp,v 1.11 2008/06/09 07:31:49 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDrawableBase.cpp,v 1.12 2008/06/09 12:28:11 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDRAWABLEBASE_INLINE_CVSID;
 

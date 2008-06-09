@@ -262,6 +262,6 @@ typedef RefPtr<PhysicsCCylinderGeomPtr> PhysicsCCylinderGeomRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSCCYLINDERGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsCCylinderGeomBase.h,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSCCYLINDERGEOMBASE_HEADER_CVSID "@(#)$Id: OSGPhysicsCCylinderGeomBase.h,v 1.5 2008/06/09 12:28:02 vossg Exp $"
 
 #endif /* _OSGPHYSICSCCYLINDERGEOMBASE_H_ */

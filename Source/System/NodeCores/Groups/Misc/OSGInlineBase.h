@@ -150,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING InlineBase : public NodeCore
 #ifndef OSG_2_PREP
            std::string         &getUrl            (const UInt32 index);
            MFString            &getUrl            (void);
+     const MFString            &getUrl            (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -279,6 +280,6 @@ typedef RefPtr<InlinePtr> InlineRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGINLINEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGINLINEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGINLINEBASE_H_ */

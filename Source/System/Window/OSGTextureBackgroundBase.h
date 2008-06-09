@@ -240,6 +240,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextureBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Pnt2f               &getTexCoords      (const UInt32 index);
            MFPnt2f             &getTexCoords      (void);
+     const MFPnt2f             &getTexCoords      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -381,6 +382,6 @@ typedef RefPtr<TextureBackgroundPtr> TextureBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.10 2008/06/09 07:31:55 vossg Exp $"
+#define OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGTextureBackgroundBase.h,v 1.11 2008/06/09 12:28:24 vossg Exp $"
 
 #endif /* _OSGTEXTUREBACKGROUNDBASE_H_ */

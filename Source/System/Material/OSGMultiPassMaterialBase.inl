@@ -150,9 +150,16 @@ MFMaterialPtr &MultiPassMaterialBase::getMaterials(void)
     return _mfMaterials;
 }
 
+//! Get the MultiPassMaterial::_mfMaterials field.
+inline
+const MFMaterialPtr &MultiPassMaterialBase::getMaterials(void) const
+{
+    return _mfMaterials;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGMultiPassMaterialBase.inl,v 1.7 2008/06/09 07:31:48 vossg Exp $"
+#define OSGMULTIPASSMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGMultiPassMaterialBase.inl,v 1.8 2008/06/09 12:28:10 vossg Exp $"
 

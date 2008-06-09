@@ -163,6 +163,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProgramChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            Vec4f               &getParamValues    (const UInt32 index);
            MFVec4f             &getParamValues    (void);
+     const MFVec4f             &getParamValues    (void) const;
 #endif
 
            std::string         &editParamNames     (const UInt32 index);
@@ -170,6 +171,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ProgramChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            std::string         &getParamNames     (const UInt32 index);
            MFString            &getParamNames     (void);
+     const MFString            &getParamNames     (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -309,6 +311,6 @@ typedef RefPtr<ProgramChunkPtr> ProgramChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPROGRAMCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGPROGRAMCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGPROGRAMCHUNKBASE_H_ */

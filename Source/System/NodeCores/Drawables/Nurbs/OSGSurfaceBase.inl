@@ -765,6 +765,13 @@ MFReal32 &SurfaceBase::getKnotsU(void)
     return _mfKnotsU;
 }
 
+//! Get the Surface::_mfKnotsU field.
+inline
+const MFReal32 &SurfaceBase::getKnotsU(void) const
+{
+    return _mfKnotsU;
+}
+
 #endif
 
 //! Get the value of the \a index element the Surface::_mfKnotsV field.
@@ -792,6 +799,13 @@ Real32 &SurfaceBase::getKnotsV(const UInt32 index)
 //! Get the Surface::_mfKnotsV field.
 inline
 MFReal32 &SurfaceBase::getKnotsV(void)
+{
+    return _mfKnotsV;
+}
+
+//! Get the Surface::_mfKnotsV field.
+inline
+const MFReal32 &SurfaceBase::getKnotsV(void) const
 {
     return _mfKnotsV;
 }
@@ -827,6 +841,13 @@ MFUInt32 &SurfaceBase::getKnotLengths(void)
     return _mfKnotLengths;
 }
 
+//! Get the Surface::_mfKnotLengths field.
+inline
+const MFUInt32 &SurfaceBase::getKnotLengths(void) const
+{
+    return _mfKnotLengths;
+}
+
 #endif
 
 //! Get the value of the \a index element the Surface::_mfDimensions field.
@@ -854,6 +875,13 @@ UInt32 &SurfaceBase::getDimensions(const UInt32 index)
 //! Get the Surface::_mfDimensions field.
 inline
 MFUInt32 &SurfaceBase::getDimensions(void)
+{
+    return _mfDimensions;
+}
+
+//! Get the Surface::_mfDimensions field.
+inline
+const MFUInt32 &SurfaceBase::getDimensions(void) const
 {
     return _mfDimensions;
 }
@@ -889,6 +917,13 @@ MFPnt3f &SurfaceBase::getCurveControlPoints(void)
     return _mfCurveControlPoints;
 }
 
+//! Get the Surface::_mfCurveControlPoints field.
+inline
+const MFPnt3f &SurfaceBase::getCurveControlPoints(void) const
+{
+    return _mfCurveControlPoints;
+}
+
 #endif
 
 //! Get the value of the \a index element the Surface::_mfKnots field.
@@ -916,6 +951,13 @@ Real32 &SurfaceBase::getKnots(const UInt32 index)
 //! Get the Surface::_mfKnots field.
 inline
 MFReal32 &SurfaceBase::getKnots(void)
+{
+    return _mfKnots;
+}
+
+//! Get the Surface::_mfKnots field.
+inline
+const MFReal32 &SurfaceBase::getKnots(void) const
 {
     return _mfKnots;
 }
@@ -951,9 +993,16 @@ MFUInt32 &SurfaceBase::getCurvesPerLoop(void)
     return _mfCurvesPerLoop;
 }
 
+//! Get the Surface::_mfCurvesPerLoop field.
+inline
+const MFUInt32 &SurfaceBase::getCurvesPerLoop(void) const
+{
+    return _mfCurvesPerLoop;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSURFACEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGSURFACEBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

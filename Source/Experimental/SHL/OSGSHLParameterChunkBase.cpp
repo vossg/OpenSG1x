@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SHLParameterChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.9 2008/06/09 07:31:44 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLParameterChunkBase.cpp,v 1.10 2008/06/09 12:28:05 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLPARAMETERCHUNKBASE_INLINE_CVSID;
 

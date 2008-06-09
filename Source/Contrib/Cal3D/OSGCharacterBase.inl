@@ -524,5 +524,5 @@ void CharacterBase::setModelVolume(const DynamicVolume &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCHARACTERBASE_INLINE_CVSID "@(#)$Id: OSGCharacterBase.inl,v 1.4 2008/06/09 07:31:37 vossg Exp $"
+#define OSGCHARACTERBASE_INLINE_CVSID "@(#)$Id: OSGCharacterBase.inl,v 1.5 2008/06/09 12:28:01 vossg Exp $"
 

@@ -683,5 +683,5 @@ void PhysicsWorldBase::setWorldContactSurfaceLayer(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSWORLDBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsWorldBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSWORLDBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsWorldBase.inl,v 1.5 2008/06/09 12:28:03 vossg Exp $"
 

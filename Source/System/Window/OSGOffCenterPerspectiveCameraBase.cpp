@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(OffCenterPerspectiveCameraPtr, OSG_SYSTEMLIB_DLLTMPLMA
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCameraBase.cpp,v 1.4 2008/06/09 07:31:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCameraBase.cpp,v 1.5 2008/06/09 12:28:23 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFCENTERPERSPECTIVECAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFCENTERPERSPECTIVECAMERABASE_INLINE_CVSID;
 

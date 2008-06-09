@@ -915,7 +915,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(ShadowViewportPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.15 2008/06/09 07:31:45 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowViewportBase.cpp,v 1.16 2008/06/09 12:28:07 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

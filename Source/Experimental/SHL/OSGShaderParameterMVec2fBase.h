@@ -135,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMVec2fBase : public ShaderParamete
 #ifndef OSG_2_PREP
            Vec2f               &getValue          (const UInt32 index);
            MFVec2f             &getValue          (void);
+     const MFVec2f             &getValue          (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -262,6 +263,6 @@ typedef RefPtr<ShaderParameterMVec2fPtr> ShaderParameterMVec2fRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMVEC2FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMVec2fBase.h,v 1.3 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERMVEC2FBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMVec2fBase.h,v 1.4 2008/06/09 12:28:05 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERMVEC2FBASE_H_ */

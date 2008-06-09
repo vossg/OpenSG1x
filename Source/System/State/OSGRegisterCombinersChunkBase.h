@@ -429,6 +429,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableArgb   (const UInt32 index);
            MFGLenum            &getVariableArgb   (void);
+     const MFGLenum            &getVariableArgb   (void) const;
 #endif
 
            GLenum              &editVariableBrgb   (const UInt32 index);
@@ -436,6 +437,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableBrgb   (const UInt32 index);
            MFGLenum            &getVariableBrgb   (void);
+     const MFGLenum            &getVariableBrgb   (void) const;
 #endif
 
            GLenum              &editVariableCrgb   (const UInt32 index);
@@ -443,6 +445,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableCrgb   (const UInt32 index);
            MFGLenum            &getVariableCrgb   (void);
+     const MFGLenum            &getVariableCrgb   (void) const;
 #endif
 
            GLenum              &editVariableDrgb   (const UInt32 index);
@@ -450,6 +453,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableDrgb   (const UInt32 index);
            MFGLenum            &getVariableDrgb   (void);
+     const MFGLenum            &getVariableDrgb   (void) const;
 #endif
 
            GLenum              &editVariableAalpha (const UInt32 index);
@@ -457,6 +461,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableAalpha (const UInt32 index);
            MFGLenum            &getVariableAalpha (void);
+     const MFGLenum            &getVariableAalpha (void) const;
 #endif
 
            GLenum              &editVariableBalpha (const UInt32 index);
@@ -464,6 +469,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableBalpha (const UInt32 index);
            MFGLenum            &getVariableBalpha (void);
+     const MFGLenum            &getVariableBalpha (void) const;
 #endif
 
            GLenum              &editVariableCalpha (const UInt32 index);
@@ -471,6 +477,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableCalpha (const UInt32 index);
            MFGLenum            &getVariableCalpha (void);
+     const MFGLenum            &getVariableCalpha (void) const;
 #endif
 
            GLenum              &editVariableDalpha (const UInt32 index);
@@ -478,6 +485,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableDalpha (const UInt32 index);
            MFGLenum            &getVariableDalpha (void);
+     const MFGLenum            &getVariableDalpha (void) const;
 #endif
 
            GLenum              &editOutputABrgb    (const UInt32 index);
@@ -485,6 +493,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getOutputABrgb    (const UInt32 index);
            MFGLenum            &getOutputABrgb    (void);
+     const MFGLenum            &getOutputABrgb    (void) const;
 #endif
 
            GLenum              &editOutputCDrgb    (const UInt32 index);
@@ -492,6 +501,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getOutputCDrgb    (const UInt32 index);
            MFGLenum            &getOutputCDrgb    (void);
+     const MFGLenum            &getOutputCDrgb    (void) const;
 #endif
 
            GLenum              &editOutputSumrgb   (const UInt32 index);
@@ -499,6 +509,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getOutputSumrgb   (const UInt32 index);
            MFGLenum            &getOutputSumrgb   (void);
+     const MFGLenum            &getOutputSumrgb   (void) const;
 #endif
 
            GLenum              &editScalergb       (const UInt32 index);
@@ -506,6 +517,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getScalergb       (const UInt32 index);
            MFGLenum            &getScalergb       (void);
+     const MFGLenum            &getScalergb       (void) const;
 #endif
 
            GLenum              &editBiasrgb        (const UInt32 index);
@@ -513,6 +525,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getBiasrgb        (const UInt32 index);
            MFGLenum            &getBiasrgb        (void);
+     const MFGLenum            &getBiasrgb        (void) const;
 #endif
 
            GLenum              &editOutputABalpha  (const UInt32 index);
@@ -520,6 +533,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getOutputABalpha  (const UInt32 index);
            MFGLenum            &getOutputABalpha  (void);
+     const MFGLenum            &getOutputABalpha  (void) const;
 #endif
 
            GLenum              &editOutputCDalpha  (const UInt32 index);
@@ -527,6 +541,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getOutputCDalpha  (const UInt32 index);
            MFGLenum            &getOutputCDalpha  (void);
+     const MFGLenum            &getOutputCDalpha  (void) const;
 #endif
 
            GLenum              &editOutputSumalpha (const UInt32 index);
@@ -534,6 +549,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getOutputSumalpha (const UInt32 index);
            MFGLenum            &getOutputSumalpha (void);
+     const MFGLenum            &getOutputSumalpha (void) const;
 #endif
 
            UInt8               &editDotABrgb       (const UInt32 index);
@@ -541,6 +557,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            UInt8               &getDotABrgb       (const UInt32 index);
            MFUInt8             &getDotABrgb       (void);
+     const MFUInt8             &getDotABrgb       (void) const;
 #endif
 
            UInt8               &editDotCDrgb       (const UInt32 index);
@@ -548,6 +565,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            UInt8               &getDotCDrgb       (const UInt32 index);
            MFUInt8             &getDotCDrgb       (void);
+     const MFUInt8             &getDotCDrgb       (void) const;
 #endif
 
            UInt8               &editMuxSumrgb      (const UInt32 index);
@@ -555,6 +573,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            UInt8               &getMuxSumrgb      (const UInt32 index);
            MFUInt8             &getMuxSumrgb      (void);
+     const MFUInt8             &getMuxSumrgb      (void) const;
 #endif
 
            GLenum              &editScalealpha     (const UInt32 index);
@@ -562,6 +581,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getScalealpha     (const UInt32 index);
            MFGLenum            &getScalealpha     (void);
+     const MFGLenum            &getScalealpha     (void) const;
 #endif
 
            GLenum              &editBiasalpha      (const UInt32 index);
@@ -569,6 +589,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getBiasalpha      (const UInt32 index);
            MFGLenum            &getBiasalpha      (void);
+     const MFGLenum            &getBiasalpha      (void) const;
 #endif
 
            UInt8               &editMuxSumalpha    (const UInt32 index);
@@ -576,6 +597,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            UInt8               &getMuxSumalpha    (const UInt32 index);
            MFUInt8             &getMuxSumalpha    (void);
+     const MFUInt8             &getMuxSumalpha    (void) const;
 #endif
 
            GLenum              &editVariableE      (const UInt32 index);
@@ -583,6 +605,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableE      (const UInt32 index);
            MFGLenum            &getVariableE      (void);
+     const MFGLenum            &getVariableE      (void) const;
 #endif
 
            GLenum              &editVariableF      (const UInt32 index);
@@ -590,6 +613,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableF      (const UInt32 index);
            MFGLenum            &getVariableF      (void);
+     const MFGLenum            &getVariableF      (void) const;
 #endif
 
            GLenum              &editVariableG      (const UInt32 index);
@@ -597,6 +621,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            GLenum              &getVariableG      (const UInt32 index);
            MFGLenum            &getVariableG      (void);
+     const MFGLenum            &getVariableG      (void) const;
 #endif
 
            Color4f             &editCombinerColor0 (const UInt32 index);
@@ -604,6 +629,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            Color4f             &getCombinerColor0 (const UInt32 index);
            MFColor4f           &getCombinerColor0 (void);
+     const MFColor4f           &getCombinerColor0 (void) const;
 #endif
 
            Color4f             &editCombinerColor1 (const UInt32 index);
@@ -611,6 +637,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RegisterCombinersChunkBase : public StateChunk
 #ifndef OSG_2_PREP
            Color4f             &getCombinerColor1 (const UInt32 index);
            MFColor4f           &getCombinerColor1 (void);
+     const MFColor4f           &getCombinerColor1 (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -772,6 +799,6 @@ typedef RefPtr<RegisterCombinersChunkPtr> RegisterCombinersChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGREGISTERCOMBINERSCHUNKBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGREGISTERCOMBINERSCHUNKBASE_H_ */

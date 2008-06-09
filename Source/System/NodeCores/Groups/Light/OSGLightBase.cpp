@@ -579,7 +579,7 @@ DataType FieldDataTraits<LightPtr>::_type("LightPtr", "GroupPtr");
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.48 2008/06/05 05:02:52 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: FCBaseTemplate_cpp.h,v 1.49 2008/06/09 07:30:44 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGLIGHTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGLIGHTBASE_INLINE_CVSID;
 

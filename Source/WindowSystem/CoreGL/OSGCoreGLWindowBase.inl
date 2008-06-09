@@ -153,5 +153,5 @@ void CoreGLWindowBase::setContext(const CGLContextObj &value)
 
 OSG_END_NAMESPACE
 
-#define OSGCOREGLWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCoreGLWindowBase.inl,v 1.3 2008/06/09 07:31:58 vossg Exp $"
+#define OSGCOREGLWINDOWBASE_INLINE_CVSID "@(#)$Id: OSGCoreGLWindowBase.inl,v 1.4 2008/06/09 12:28:27 vossg Exp $"
 

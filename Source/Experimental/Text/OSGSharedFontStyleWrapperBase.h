@@ -262,6 +262,6 @@ typedef RefPtr<SharedFontStyleWrapperPtr> SharedFontStyleWrapperRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.10 2008/06/09 07:31:46 vossg Exp $"
+#define OSGSHAREDFONTSTYLEWRAPPERBASE_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapperBase.h,v 1.11 2008/06/09 12:28:08 vossg Exp $"
 
 #endif /* _OSGSHAREDFONTSTYLEWRAPPERBASE_H_ */

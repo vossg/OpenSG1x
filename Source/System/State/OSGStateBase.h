@@ -135,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StateBase : public FieldContainer
 #ifndef OSG_2_PREP
            StateChunkPtr       &getChunks         (const UInt32 index);
            MFStateChunkPtr     &getChunks         (void);
+     const MFStateChunkPtr     &getChunks         (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -262,6 +263,6 @@ typedef RefPtr<StatePtr> StateRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGSTATEBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGSTATEBASE_H_ */

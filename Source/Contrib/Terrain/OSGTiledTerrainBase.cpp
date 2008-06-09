@@ -741,7 +741,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(TiledTerrainPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.9 2008/06/09 07:31:43 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrainBase.cpp,v 1.10 2008/06/09 12:28:04 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTILEDTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILEDTERRAINBASE_INLINE_CVSID;
 

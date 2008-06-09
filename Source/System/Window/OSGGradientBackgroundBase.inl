@@ -226,6 +226,13 @@ MFColor3f &GradientBackgroundBase::getColor(void)
     return _mfColor;
 }
 
+//! Get the GradientBackground::_mfColor field.
+inline
+const MFColor3f &GradientBackgroundBase::getColor(void) const
+{
+    return _mfColor;
+}
+
 #endif
 
 //! Get the value of the \a index element the GradientBackground::_mfPosition field.
@@ -257,9 +264,16 @@ MFReal32 &GradientBackgroundBase::getPosition(void)
     return _mfPosition;
 }
 
+//! Get the GradientBackground::_mfPosition field.
+inline
+const MFReal32 &GradientBackgroundBase::getPosition(void) const
+{
+    return _mfPosition;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

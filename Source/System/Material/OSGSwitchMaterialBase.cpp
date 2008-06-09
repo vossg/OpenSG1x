@@ -329,7 +329,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(SwitchMaterialPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterialBase.cpp,v 1.4 2008/06/09 07:31:48 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterialBase.cpp,v 1.5 2008/06/09 12:28:10 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSWITCHMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSWITCHMATERIALBASE_INLINE_CVSID;
 

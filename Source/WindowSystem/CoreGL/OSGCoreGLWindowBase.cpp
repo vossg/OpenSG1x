@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CoreGLWindowPtr, OSG_WINDOWCOREGLLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCoreGLWindowBase.cpp,v 1.3 2008/06/09 07:31:58 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCoreGLWindowBase.cpp,v 1.4 2008/06/09 12:28:27 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCOREGLWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOREGLWINDOWBASE_INLINE_CVSID;
 

@@ -189,6 +189,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
 #ifndef OSG_2_PREP
            ShaderParameterPtr  &getParameters     (const UInt32 index);
            MFShaderParameterPtr &getParameters     (void);
+     const MFShaderParameterPtr &getParameters     (void) const;
 #endif
 
            ImagePtr            &editImages         (const UInt32 index);
@@ -196,6 +197,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
 #ifndef OSG_2_PREP
            ImagePtr            &getImages         (const UInt32 index);
            MFImagePtr          &getImages         (void);
+     const MFImagePtr          &getImages         (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -330,6 +332,6 @@ typedef RefPtr<CGFXMaterialPtr> CGFXMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.4 2008/06/09 07:31:37 vossg Exp $"
+#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.5 2008/06/09 12:28:00 vossg Exp $"
 
 #endif /* _OSGCGFXMATERIALBASE_H_ */

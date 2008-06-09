@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(PhysicsCCylinderGeomPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsCCylinderGeomBase.cpp,v 1.4 2008/06/09 07:31:39 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPhysicsCCylinderGeomBase.cpp,v 1.5 2008/06/09 12:28:02 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPHYSICSCCYLINDERGEOMBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPHYSICSCCYLINDERGEOMBASE_INLINE_CVSID;
 

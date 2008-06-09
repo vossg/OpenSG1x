@@ -1001,5 +1001,5 @@ void PhysicsBodyBase::setWorld(const PhysicsWorldPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSBODYBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBodyBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSBODYBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsBodyBase.inl,v 1.5 2008/06/09 12:28:02 vossg Exp $"
 

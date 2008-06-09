@@ -239,7 +239,7 @@ DataType FieldDataTraits<TwoSidedLightingChunkPtr>::_type("TwoSidedLightingChunk
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTwoSidedLightingChunkBase.cpp,v 1.6 2008/06/09 07:31:53 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTwoSidedLightingChunkBase.cpp,v 1.7 2008/06/09 12:28:21 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTWOSIDEDLIGHTINGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTWOSIDEDLIGHTINGCHUNKBASE_INLINE_CVSID;
 

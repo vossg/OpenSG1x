@@ -332,6 +332,13 @@ MFShaderParameterPtr &CGFXMaterialBase::getParameters(void)
     return _mfParameters;
 }
 
+//! Get the CGFXMaterial::_mfParameters field.
+inline
+const MFShaderParameterPtr &CGFXMaterialBase::getParameters(void) const
+{
+    return _mfParameters;
+}
+
 #endif
 
 //! Get the value of the \a index element the CGFXMaterial::_mfImages field.
@@ -363,9 +370,16 @@ MFImagePtr &CGFXMaterialBase::getImages(void)
     return _mfImages;
 }
 
+//! Get the CGFXMaterial::_mfImages field.
+inline
+const MFImagePtr &CGFXMaterialBase::getImages(void) const
+{
+    return _mfImages;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.5 2008/06/09 07:31:37 vossg Exp $"
+#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.6 2008/06/09 12:28:00 vossg Exp $"
 

@@ -165,6 +165,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DistortionDisplayFilterBase : public DisplayFilte
 #ifndef OSG_2_PREP
            Vec2f               &getPositions      (const UInt32 index);
            MFVec2f             &getPositions      (void);
+     const MFVec2f             &getPositions      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -296,6 +297,6 @@ typedef RefPtr<DistortionDisplayFilterPtr> DistortionDisplayFilterRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTORTIONDISPLAYFILTERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGDISTORTIONDISPLAYFILTERBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGDISTORTIONDISPLAYFILTERBASE_H_ */

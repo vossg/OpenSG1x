@@ -544,6 +544,13 @@ MFColor3f &DisplayCalibrationBase::getGammaRamp(void)
     return _mfGammaRamp;
 }
 
+//! Get the DisplayCalibration::_mfGammaRamp field.
+inline
+const MFColor3f &DisplayCalibrationBase::getGammaRamp(void) const
+{
+    return _mfGammaRamp;
+}
+
 #endif
 
 //! Get the value of the \a index element the DisplayCalibration::_mfGrid field.
@@ -575,9 +582,16 @@ MFVec2f &DisplayCalibrationBase::getGrid(void)
     return _mfGrid;
 }
 
+//! Get the DisplayCalibration::_mfGrid field.
+inline
+const MFVec2f &DisplayCalibrationBase::getGrid(void) const
+{
+    return _mfGrid;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGDISPLAYCALIBRATIONBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGDISPLAYCALIBRATIONBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

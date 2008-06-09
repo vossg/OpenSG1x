@@ -366,6 +366,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Color4f             &getSkyColor       (const UInt32 index);
            MFColor4f           &getSkyColor       (void);
+     const MFColor4f           &getSkyColor       (void) const;
 #endif
 
            Real32              &editSkyAngle       (const UInt32 index);
@@ -373,6 +374,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Real32              &getSkyAngle       (const UInt32 index);
            MFReal32            &getSkyAngle       (void);
+     const MFReal32            &getSkyAngle       (void) const;
 #endif
 
            Color4f             &editGroundColor    (const UInt32 index);
@@ -380,6 +382,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Color4f             &getGroundColor    (const UInt32 index);
            MFColor4f           &getGroundColor    (void);
+     const MFColor4f           &getGroundColor    (void) const;
 #endif
 
            Real32              &editGroundAngle    (const UInt32 index);
@@ -387,6 +390,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Real32              &getGroundAngle    (const UInt32 index);
            MFReal32            &getGroundAngle    (void);
+     const MFReal32            &getGroundAngle    (void) const;
 #endif
 
            Vec3f               &editTopTexCoord    (const UInt32 index);
@@ -394,6 +398,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Vec3f               &getTopTexCoord    (const UInt32 index);
            MFVec3f             &getTopTexCoord    (void);
+     const MFVec3f             &getTopTexCoord    (void) const;
 #endif
 
            Vec3f               &editBottomTexCoord (const UInt32 index);
@@ -401,6 +406,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Vec3f               &getBottomTexCoord (const UInt32 index);
            MFVec3f             &getBottomTexCoord (void);
+     const MFVec3f             &getBottomTexCoord (void) const;
 #endif
 
            Vec3f               &editRightTexCoord  (const UInt32 index);
@@ -408,6 +414,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Vec3f               &getRightTexCoord  (const UInt32 index);
            MFVec3f             &getRightTexCoord  (void);
+     const MFVec3f             &getRightTexCoord  (void) const;
 #endif
 
            Vec3f               &editLeftTexCoord   (const UInt32 index);
@@ -415,6 +422,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Vec3f               &getLeftTexCoord   (const UInt32 index);
            MFVec3f             &getLeftTexCoord   (void);
+     const MFVec3f             &getLeftTexCoord   (void) const;
 #endif
 
            Vec3f               &editFrontTexCoord  (const UInt32 index);
@@ -422,6 +430,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Vec3f               &getFrontTexCoord  (const UInt32 index);
            MFVec3f             &getFrontTexCoord  (void);
+     const MFVec3f             &getFrontTexCoord  (void) const;
 #endif
 
            Vec3f               &editBackTexCoord   (const UInt32 index);
@@ -429,6 +438,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Vec3f               &getBackTexCoord   (const UInt32 index);
            MFVec3f             &getBackTexCoord   (void);
+     const MFVec3f             &getBackTexCoord   (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -585,6 +595,6 @@ typedef RefPtr<SkyBackgroundPtr> SkyBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

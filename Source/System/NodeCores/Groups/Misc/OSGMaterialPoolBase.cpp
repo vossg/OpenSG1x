@@ -295,7 +295,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(MaterialPoolPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialPoolBase.cpp,v 1.8 2008/06/09 07:31:51 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialPoolBase.cpp,v 1.9 2008/06/09 12:28:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALPOOLBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALPOOLBASE_INLINE_CVSID;
 

@@ -428,7 +428,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(DepthChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.9 2008/06/09 07:31:52 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGDepthChunkBase.cpp,v 1.10 2008/06/09 12:28:20 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGDEPTHCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGDEPTHCHUNKBASE_INLINE_CVSID;
 

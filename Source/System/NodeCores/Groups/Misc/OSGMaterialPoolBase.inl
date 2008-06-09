@@ -150,9 +150,16 @@ MFMaterialPtr &MaterialPoolBase::getMaterials(void)
     return _mfMaterials;
 }
 
+//! Get the MaterialPool::_mfMaterials field.
+inline
+const MFMaterialPtr &MaterialPoolBase::getMaterials(void) const
+{
+    return _mfMaterials;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALPOOLBASE_INLINE_CVSID "@(#)$Id: OSGMaterialPoolBase.inl,v 1.7 2008/06/09 07:31:51 vossg Exp $"
+#define OSGMATERIALPOOLBASE_INLINE_CVSID "@(#)$Id: OSGMaterialPoolBase.inl,v 1.8 2008/06/09 12:28:19 vossg Exp $"
 

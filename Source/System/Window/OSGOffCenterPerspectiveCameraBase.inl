@@ -153,5 +153,5 @@ void OffCenterPerspectiveCameraBase::setPrincipalPoint(const Vec2f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGOFFCENTERPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraBase.inl,v 1.4 2008/06/09 07:31:55 vossg Exp $"
+#define OSGOFFCENTERPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: OSGOffCenterPerspectiveCameraBase.inl,v 1.5 2008/06/09 12:28:23 vossg Exp $"
 

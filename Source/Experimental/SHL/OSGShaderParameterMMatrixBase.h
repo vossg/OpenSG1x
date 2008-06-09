@@ -135,6 +135,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterMMatrixBase : public ShaderParamet
 #ifndef OSG_2_PREP
            Matrix              &getValue          (const UInt32 index);
            MFMatrix            &getValue          (void);
+     const MFMatrix            &getValue          (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -262,6 +263,6 @@ typedef RefPtr<ShaderParameterMMatrixPtr> ShaderParameterMMatrixRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERMMATRIXBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMMatrixBase.h,v 1.3 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERMMATRIXBASE_HEADER_CVSID "@(#)$Id: OSGShaderParameterMMatrixBase.h,v 1.4 2008/06/09 12:28:05 vossg Exp $"
 
 #endif /* _OSGSHADERPARAMETERMMATRIXBASE_H_ */

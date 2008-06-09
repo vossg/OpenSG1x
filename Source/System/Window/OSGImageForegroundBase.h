@@ -144,6 +144,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
 #ifndef OSG_2_PREP
            ImagePtr            &getImages         (const UInt32 index);
            MFImagePtr          &getImages         (void);
+     const MFImagePtr          &getImages         (void) const;
 #endif
 
            Pnt2f               &editPositions      (const UInt32 index);
@@ -151,6 +152,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ImageForegroundBase : public Foreground
 #ifndef OSG_2_PREP
            Pnt2f               &getPositions      (const UInt32 index);
            MFPnt2f             &getPositions      (void);
+     const MFPnt2f             &getPositions      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -279,6 +281,6 @@ typedef RefPtr<ImageForegroundPtr> ImageForegroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGIMAGEFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGIMAGEFOREGROUNDBASE_H_ */

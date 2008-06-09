@@ -153,5 +153,5 @@ void PhysicsSphereGeomBase::setRadius(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSSPHEREGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsSphereGeomBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSSPHEREGEOMBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsSphereGeomBase.inl,v 1.5 2008/06/09 12:28:03 vossg Exp $"
 

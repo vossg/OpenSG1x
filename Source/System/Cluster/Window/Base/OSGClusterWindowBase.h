@@ -331,6 +331,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 #ifndef OSG_2_PREP
            std::string         &getServers        (const UInt32 index);
            MFString            &getServers        (void);
+     const MFString            &getServers        (void) const;
 #endif
 
            std::string         &editAutostart      (const UInt32 index);
@@ -338,6 +339,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 #ifndef OSG_2_PREP
            std::string         &getAutostart      (const UInt32 index);
            MFString            &getAutostart      (void);
+     const MFString            &getAutostart      (void) const;
 #endif
 
            DisplayCalibrationPtr &editCalibration    (const UInt32 index);
@@ -345,6 +347,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 #ifndef OSG_2_PREP
            DisplayCalibrationPtr &getCalibration    (const UInt32 index);
            MFDisplayCalibrationPtr &getCalibration    (void);
+     const MFDisplayCalibrationPtr &getCalibration    (void) const;
 #endif
 
            DisplayFilterForegroundPtr &editFilter         (const UInt32 index);
@@ -352,6 +355,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterWindowBase : public Window
 #ifndef OSG_2_PREP
            DisplayFilterForegroundPtr &getFilter         (const UInt32 index);
            MFDisplayFilterForegroundPtr &getFilter         (void);
+     const MFDisplayFilterForegroundPtr &getFilter         (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -529,6 +533,6 @@ typedef RefPtr<ClusterWindowPtr> ClusterWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGCLUSTERWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGCLUSTERWINDOWBASE_H_ */

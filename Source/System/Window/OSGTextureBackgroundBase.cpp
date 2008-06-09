@@ -531,7 +531,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(TextureBackgroundPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.10 2008/06/09 07:31:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTextureBackgroundBase.cpp,v 1.11 2008/06/09 12:28:24 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGTEXTUREBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTEXTUREBACKGROUNDBASE_INLINE_CVSID;
 

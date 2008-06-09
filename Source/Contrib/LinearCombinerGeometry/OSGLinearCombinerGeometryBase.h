@@ -159,6 +159,7 @@ class OSG_CONTRIBLIB_DLLMAPPING LinearCombinerGeometryBase : public Geometry
 #ifndef OSG_2_PREP
            Real32              &getWeights        (const UInt32 index);
            MFReal32            &getWeights        (void);
+     const MFReal32            &getWeights        (void) const;
 #endif
 
            GeoPositionsPtr     &editSrcpositions   (const UInt32 index);
@@ -166,6 +167,7 @@ class OSG_CONTRIBLIB_DLLMAPPING LinearCombinerGeometryBase : public Geometry
 #ifndef OSG_2_PREP
            GeoPositionsPtr     &getSrcpositions   (const UInt32 index);
            MFGeoPositionsPtr   &getSrcpositions   (void);
+     const MFGeoPositionsPtr   &getSrcpositions   (void) const;
 #endif
 
 
@@ -284,6 +286,7 @@ class OSG_CONTRIBLIB_DLLMAPPING LinearCombinerGeometryBase : public Geometry
 #ifndef OSG_2_PREP
            Volume              &getSrcvolumes     (UInt32 index);
            MFVolume            &getSrcvolumes     (void);
+     const MFVolume            &getSrcvolumes     (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -356,6 +359,6 @@ typedef RefPtr<LinearCombinerGeometryPtr> LinearCombinerGeometryRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGLINEARCOMBINERGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGLINEARCOMBINERGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGLINEARCOMBINERGEOMETRYBASE_H_ */

@@ -259,5 +259,5 @@ void ParallelComposerBase::setPcLibPath(const std::string &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPARALLELCOMPOSERBASE_INLINE_CVSID "@(#)$Id: OSGParallelComposerBase.inl,v 1.3 2008/06/09 07:31:47 vossg Exp $"
+#define OSGPARALLELCOMPOSERBASE_INLINE_CVSID "@(#)$Id: OSGParallelComposerBase.inl,v 1.4 2008/06/09 12:28:09 vossg Exp $"
 

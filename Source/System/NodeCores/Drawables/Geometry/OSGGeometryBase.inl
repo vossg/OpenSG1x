@@ -1309,6 +1309,13 @@ MFUInt16 &GeometryBase::getIndexMapping(void)
     return _mfIndexMapping;
 }
 
+//! Get the Geometry::_mfIndexMapping field.
+inline
+const MFUInt16 &GeometryBase::getIndexMapping(void) const
+{
+    return _mfIndexMapping;
+}
+
 #endif
 
 //! Get the value of the \a index element the Geometry::_mfLowindices field.
@@ -1336,6 +1343,13 @@ UInt32 &GeometryBase::getLowindices(const UInt32 index)
 //! Get the Geometry::_mfLowindices field.
 inline
 MFUInt32 &GeometryBase::getLowindices(void)
+{
+    return _mfLowindices;
+}
+
+//! Get the Geometry::_mfLowindices field.
+inline
+const MFUInt32 &GeometryBase::getLowindices(void) const
 {
     return _mfLowindices;
 }
@@ -1371,9 +1385,16 @@ MFUInt32 &GeometryBase::getHighindices(void)
     return _mfHighindices;
 }
 
+//! Get the Geometry::_mfHighindices field.
+inline
+const MFUInt32 &GeometryBase::getHighindices(void) const
+{
+    return _mfHighindices;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGGEOMETRYBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

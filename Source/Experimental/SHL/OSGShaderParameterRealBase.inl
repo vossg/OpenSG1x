@@ -153,5 +153,5 @@ void ShaderParameterRealBase::setValue(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERREALBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterRealBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERREALBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterRealBase.inl,v 1.8 2008/06/09 12:28:06 vossg Exp $"
 

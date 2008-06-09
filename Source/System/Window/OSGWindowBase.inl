@@ -382,6 +382,13 @@ MFViewportPtr &WindowBase::getPort(void)
     return _mfPort;
 }
 
+//! Get the Window::_mfPort field.
+inline
+const MFViewportPtr &WindowBase::getPort(void) const
+{
+    return _mfPort;
+}
+
 #endif
 
 //! Get the value of the \a index element the Window::_mfGlObjectLastRefresh field.
@@ -409,6 +416,13 @@ UInt32 &WindowBase::getGlObjectLastRefresh(const UInt32 index)
 //! Get the Window::_mfGlObjectLastRefresh field.
 inline
 MFUInt32 &WindowBase::getGlObjectLastRefresh(void)
+{
+    return _mfGlObjectLastRefresh;
+}
+
+//! Get the Window::_mfGlObjectLastRefresh field.
+inline
+const MFUInt32 &WindowBase::getGlObjectLastRefresh(void) const
 {
     return _mfGlObjectLastRefresh;
 }
@@ -444,9 +458,16 @@ MFUInt32 &WindowBase::getGlObjectLastReinitialize(void)
     return _mfGlObjectLastReinitialize;
 }
 
+//! Get the Window::_mfGlObjectLastReinitialize field.
+inline
+const MFUInt32 &WindowBase::getGlObjectLastReinitialize(void) const
+{
+    return _mfGlObjectLastReinitialize;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

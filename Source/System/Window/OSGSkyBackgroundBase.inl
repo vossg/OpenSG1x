@@ -887,6 +887,13 @@ MFColor4f &SkyBackgroundBase::getSkyColor(void)
     return _mfSkyColor;
 }
 
+//! Get the SkyBackground::_mfSkyColor field.
+inline
+const MFColor4f &SkyBackgroundBase::getSkyColor(void) const
+{
+    return _mfSkyColor;
+}
+
 #endif
 
 //! Get the value of the \a index element the SkyBackground::_mfSkyAngle field.
@@ -914,6 +921,13 @@ Real32 &SkyBackgroundBase::getSkyAngle(const UInt32 index)
 //! Get the SkyBackground::_mfSkyAngle field.
 inline
 MFReal32 &SkyBackgroundBase::getSkyAngle(void)
+{
+    return _mfSkyAngle;
+}
+
+//! Get the SkyBackground::_mfSkyAngle field.
+inline
+const MFReal32 &SkyBackgroundBase::getSkyAngle(void) const
 {
     return _mfSkyAngle;
 }
@@ -949,6 +963,13 @@ MFColor4f &SkyBackgroundBase::getGroundColor(void)
     return _mfGroundColor;
 }
 
+//! Get the SkyBackground::_mfGroundColor field.
+inline
+const MFColor4f &SkyBackgroundBase::getGroundColor(void) const
+{
+    return _mfGroundColor;
+}
+
 #endif
 
 //! Get the value of the \a index element the SkyBackground::_mfGroundAngle field.
@@ -976,6 +997,13 @@ Real32 &SkyBackgroundBase::getGroundAngle(const UInt32 index)
 //! Get the SkyBackground::_mfGroundAngle field.
 inline
 MFReal32 &SkyBackgroundBase::getGroundAngle(void)
+{
+    return _mfGroundAngle;
+}
+
+//! Get the SkyBackground::_mfGroundAngle field.
+inline
+const MFReal32 &SkyBackgroundBase::getGroundAngle(void) const
 {
     return _mfGroundAngle;
 }
@@ -1011,6 +1039,13 @@ MFVec3f &SkyBackgroundBase::getTopTexCoord(void)
     return _mfTopTexCoord;
 }
 
+//! Get the SkyBackground::_mfTopTexCoord field.
+inline
+const MFVec3f &SkyBackgroundBase::getTopTexCoord(void) const
+{
+    return _mfTopTexCoord;
+}
+
 #endif
 
 //! Get the value of the \a index element the SkyBackground::_mfBottomTexCoord field.
@@ -1038,6 +1073,13 @@ Vec3f &SkyBackgroundBase::getBottomTexCoord(const UInt32 index)
 //! Get the SkyBackground::_mfBottomTexCoord field.
 inline
 MFVec3f &SkyBackgroundBase::getBottomTexCoord(void)
+{
+    return _mfBottomTexCoord;
+}
+
+//! Get the SkyBackground::_mfBottomTexCoord field.
+inline
+const MFVec3f &SkyBackgroundBase::getBottomTexCoord(void) const
 {
     return _mfBottomTexCoord;
 }
@@ -1073,6 +1115,13 @@ MFVec3f &SkyBackgroundBase::getRightTexCoord(void)
     return _mfRightTexCoord;
 }
 
+//! Get the SkyBackground::_mfRightTexCoord field.
+inline
+const MFVec3f &SkyBackgroundBase::getRightTexCoord(void) const
+{
+    return _mfRightTexCoord;
+}
+
 #endif
 
 //! Get the value of the \a index element the SkyBackground::_mfLeftTexCoord field.
@@ -1100,6 +1149,13 @@ Vec3f &SkyBackgroundBase::getLeftTexCoord(const UInt32 index)
 //! Get the SkyBackground::_mfLeftTexCoord field.
 inline
 MFVec3f &SkyBackgroundBase::getLeftTexCoord(void)
+{
+    return _mfLeftTexCoord;
+}
+
+//! Get the SkyBackground::_mfLeftTexCoord field.
+inline
+const MFVec3f &SkyBackgroundBase::getLeftTexCoord(void) const
 {
     return _mfLeftTexCoord;
 }
@@ -1135,6 +1191,13 @@ MFVec3f &SkyBackgroundBase::getFrontTexCoord(void)
     return _mfFrontTexCoord;
 }
 
+//! Get the SkyBackground::_mfFrontTexCoord field.
+inline
+const MFVec3f &SkyBackgroundBase::getFrontTexCoord(void) const
+{
+    return _mfFrontTexCoord;
+}
+
 #endif
 
 //! Get the value of the \a index element the SkyBackground::_mfBackTexCoord field.
@@ -1166,9 +1229,16 @@ MFVec3f &SkyBackgroundBase::getBackTexCoord(void)
     return _mfBackTexCoord;
 }
 
+//! Get the SkyBackground::_mfBackTexCoord field.
+inline
+const MFVec3f &SkyBackgroundBase::getBackTexCoord(void) const
+{
+    return _mfBackTexCoord;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

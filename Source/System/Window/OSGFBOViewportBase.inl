@@ -908,6 +908,13 @@ MFNodePtr &FBOViewportBase::getExcludeNodes(void)
     return _mfExcludeNodes;
 }
 
+//! Get the FBOViewport::_mfExcludeNodes field.
+inline
+const MFNodePtr &FBOViewportBase::getExcludeNodes(void) const
+{
+    return _mfExcludeNodes;
+}
+
 #endif
 
 //! Get the value of the \a index element the FBOViewport::_mfRenderNodes field.
@@ -935,6 +942,13 @@ NodePtr &FBOViewportBase::getRenderNodes(const UInt32 index)
 //! Get the FBOViewport::_mfRenderNodes field.
 inline
 MFNodePtr &FBOViewportBase::getRenderNodes(void)
+{
+    return _mfRenderNodes;
+}
+
+//! Get the FBOViewport::_mfRenderNodes field.
+inline
+const MFNodePtr &FBOViewportBase::getRenderNodes(void) const
 {
     return _mfRenderNodes;
 }
@@ -970,6 +984,13 @@ MFTextureChunkPtr &FBOViewportBase::getTextures(void)
     return _mfTextures;
 }
 
+//! Get the FBOViewport::_mfTextures field.
+inline
+const MFTextureChunkPtr &FBOViewportBase::getTextures(void) const
+{
+    return _mfTextures;
+}
+
 #endif
 
 //! Get the value of the \a index element the FBOViewport::_mfZOffset field.
@@ -1001,9 +1022,16 @@ MFInt32 &FBOViewportBase::getZOffset(void)
     return _mfZOffset;
 }
 
+//! Get the FBOViewport::_mfZOffset field.
+inline
+const MFInt32 &FBOViewportBase::getZOffset(void) const
+{
+    return _mfZOffset;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.6 2008/06/09 07:31:55 vossg Exp $"
+#define OSGFBOVIEWPORTBASE_INLINE_CVSID "@(#)$Id: OSGFBOViewportBase.inl,v 1.7 2008/06/09 12:28:23 vossg Exp $"
 

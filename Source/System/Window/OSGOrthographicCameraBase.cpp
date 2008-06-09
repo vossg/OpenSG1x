@@ -325,7 +325,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(OrthographicCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCameraBase.cpp,v 1.4 2008/06/09 07:31:55 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCameraBase.cpp,v 1.5 2008/06/09 12:28:23 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID;
 

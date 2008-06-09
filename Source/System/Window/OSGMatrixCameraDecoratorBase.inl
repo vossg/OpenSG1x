@@ -418,5 +418,5 @@ void MatrixCameraDecoratorBase::setPostProjection(const Matrix &value)
 
 OSG_END_NAMESPACE
 
-#define OSGMATRIXCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGMATRIXCAMERADECORATORBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

@@ -165,6 +165,7 @@ class OSG_CONTRIBLIB_DLLMAPPING DeformableGeometryBase : public Geometry
 #ifndef OSG_2_PREP
            DeformerPtr         &getDeformers      (const UInt32 index);
            MFDeformerPtr       &getDeformers      (void);
+     const MFDeformerPtr       &getDeformers      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -296,6 +297,6 @@ typedef RefPtr<DeformableGeometryPtr> DeformableGeometryRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDEFORMABLEGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGDEFORMABLEGEOMETRYBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGDEFORMABLEGEOMETRYBASE_H_ */

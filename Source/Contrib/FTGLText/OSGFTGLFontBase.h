@@ -359,6 +359,6 @@ typedef RefPtr<FTGLFontPtr> FTGLFontRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFTGLFONTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLFontBase.h,v 1.9 2008/06/09 07:31:38 vossg Exp $"
+#define OSGFTGLFONTBASE_HEADER_CVSID "@(#)$Id: OSGFTGLFontBase.h,v 1.10 2008/06/09 12:28:01 vossg Exp $"
 
 #endif /* _OSGFTGLFONTBASE_H_ */

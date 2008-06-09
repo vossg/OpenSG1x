@@ -279,6 +279,6 @@ typedef RefPtr<OrthographicCameraPtr> OrthographicCameraRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID "@(#)$Id: OSGOrthographicCameraBase.h,v 1.4 2008/06/09 07:31:55 vossg Exp $"
+#define OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID "@(#)$Id: OSGOrthographicCameraBase.h,v 1.5 2008/06/09 12:28:23 vossg Exp $"
 
 #endif /* _OSGORTHOGRAPHICCAMERABASE_H_ */

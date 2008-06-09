@@ -312,5 +312,5 @@ void PhysicsJointBase::setSecondBody(const PhysicsBodyPtr &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsJointBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsJointBase.inl,v 1.5 2008/06/09 12:28:02 vossg Exp $"
 

@@ -259,5 +259,5 @@ void DepthClearBackgroundBase::setClearStencilBit(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.inl,v 1.10 2008/06/09 07:31:55 vossg Exp $"
+#define OSGDEPTHCLEARBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGDepthClearBackgroundBase.inl,v 1.11 2008/06/09 12:28:23 vossg Exp $"
 

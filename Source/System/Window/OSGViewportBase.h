@@ -285,6 +285,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ViewportBase : public AttachmentContainer
 #ifndef OSG_2_PREP
            ForegroundPtr       &getForegrounds    (const UInt32 index);
            MFForegroundPtr     &getForegrounds    (void);
+     const MFForegroundPtr     &getForegrounds    (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -432,6 +433,6 @@ typedef RefPtr<ViewportPtr> ViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

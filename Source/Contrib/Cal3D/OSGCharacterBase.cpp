@@ -520,7 +520,7 @@ DataType FieldDataTraits<CharacterPtr>::_type("CharacterPtr", "DrawablePtr");
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterBase.cpp,v 1.4 2008/06/09 07:31:37 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCharacterBase.cpp,v 1.5 2008/06/09 12:28:01 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCHARACTERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCHARACTERBASE_INLINE_CVSID;
 

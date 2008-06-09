@@ -733,9 +733,16 @@ MFUInt8 &ProxyGroupBase::getInline(void)
     return _mfInline;
 }
 
+//! Get the ProxyGroup::_mfInline field.
+inline
+const MFUInt8 &ProxyGroupBase::getInline(void) const
+{
+    return _mfInline;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPROXYGROUPBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGPROXYGROUPBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

@@ -513,6 +513,6 @@ typedef RefPtr<ManipulatorPtr> ManipulatorRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGManipulatorBase.h,v 1.7 2008/06/09 07:31:43 vossg Exp $"
+#define OSGMANIPULATORBASE_HEADER_CVSID "@(#)$Id: OSGManipulatorBase.h,v 1.8 2008/06/09 12:28:05 vossg Exp $"
 
 #endif /* _OSGMANIPULATORBASE_H_ */

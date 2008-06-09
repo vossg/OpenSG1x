@@ -249,6 +249,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
 #ifndef OSG_2_PREP
            Vec3f               &getTexCoords      (const UInt32 index);
            MFVec3f             &getTexCoords      (void);
+     const MFVec3f             &getTexCoords      (void) const;
 #endif
 
            Pnt2f               &editPositions      (const UInt32 index);
@@ -256,6 +257,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonForegroundBase : public Foreground
 #ifndef OSG_2_PREP
            Pnt2f               &getPositions      (const UInt32 index);
            MFPnt2f             &getPositions      (void);
+     const MFPnt2f             &getPositions      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -398,6 +400,6 @@ typedef RefPtr<PolygonForegroundPtr> PolygonForegroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGPOLYGONFOREGROUNDBASE_H_ */

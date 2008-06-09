@@ -259,5 +259,5 @@ void PhysicsUniversalJointBase::setAxis2(const Vec3f &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPHYSICSUNIVERSALJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsUniversalJointBase.inl,v 1.4 2008/06/09 07:31:39 vossg Exp $"
+#define OSGPHYSICSUNIVERSALJOINTBASE_INLINE_CVSID "@(#)$Id: OSGPhysicsUniversalJointBase.inl,v 1.5 2008/06/09 12:28:03 vossg Exp $"
 

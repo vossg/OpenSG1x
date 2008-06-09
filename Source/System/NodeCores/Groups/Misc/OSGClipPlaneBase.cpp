@@ -357,7 +357,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(ClipPlanePtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneBase.cpp,v 1.3 2008/06/09 07:31:51 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGClipPlaneBase.cpp,v 1.4 2008/06/09 12:28:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCLIPPLANEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCLIPPLANEBASE_INLINE_CVSID;
 

@@ -292,6 +292,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
 #ifndef OSG_2_PREP
            Vec3f               &getSizes          (const UInt32 index);
            MFVec3f             &getSizes          (void);
+     const MFVec3f             &getSizes          (void) const;
 #endif
 
            Int32               &editIndices        (const UInt32 index);
@@ -299,6 +300,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
 #ifndef OSG_2_PREP
            Int32               &getIndices        (const UInt32 index);
            MFInt32             &getIndices        (void);
+     const MFInt32             &getIndices        (void) const;
 #endif
 
            Real32              &editTextureZs      (const UInt32 index);
@@ -306,6 +308,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ParticlesBase : public MaterialDrawable
 #ifndef OSG_2_PREP
            Real32              &getTextureZs      (const UInt32 index);
            MFReal32            &getTextureZs      (void);
+     const MFReal32            &getTextureZs      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -484,6 +487,6 @@ typedef RefPtr<ParticlesPtr> ParticlesRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGPARTICLESBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGPARTICLESBASE_H_ */

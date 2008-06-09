@@ -239,7 +239,7 @@ DataType FieldDataTraits<MoveManipulatorPtr>::_type("MoveManipulatorPtr", "Manip
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMoveManipulatorBase.cpp,v 1.7 2008/06/09 07:31:43 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMoveManipulatorBase.cpp,v 1.8 2008/06/09 12:28:05 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMOVEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMOVEMANIPULATORBASE_INLINE_CVSID;
 

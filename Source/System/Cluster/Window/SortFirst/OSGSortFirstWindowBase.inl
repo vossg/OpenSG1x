@@ -362,9 +362,16 @@ MFUInt32 &SortFirstWindowBase::getRegion(void)
     return _mfRegion;
 }
 
+//! Get the SortFirstWindow::_mfRegion field.
+inline
+const MFUInt32 &SortFirstWindowBase::getRegion(void) const
+{
+    return _mfRegion;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSORTFIRSTWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGSORTFIRSTWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

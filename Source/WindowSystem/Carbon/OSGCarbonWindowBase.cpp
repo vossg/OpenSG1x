@@ -291,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CarbonWindowPtr, OSG_WINDOWCARBONLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCarbonWindowBase.cpp,v 1.3 2008/06/09 07:31:58 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCarbonWindowBase.cpp,v 1.4 2008/06/09 12:28:26 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCARBONWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCARBONWINDOWBASE_INLINE_CVSID;
 

@@ -286,7 +286,7 @@ DataType FieldDataTraits<CGFXAnnotationPtr>::_type("CGFXAnnotationPtr", "Attachm
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.6 2008/06/09 07:31:37 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotationBase.cpp,v 1.7 2008/06/09 12:28:00 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXANNOTATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXANNOTATIONBASE_INLINE_CVSID;
 

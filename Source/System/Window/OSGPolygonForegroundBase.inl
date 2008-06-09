@@ -544,6 +544,13 @@ MFVec3f &PolygonForegroundBase::getTexCoords(void)
     return _mfTexCoords;
 }
 
+//! Get the PolygonForeground::_mfTexCoords field.
+inline
+const MFVec3f &PolygonForegroundBase::getTexCoords(void) const
+{
+    return _mfTexCoords;
+}
+
 #endif
 
 //! Get the value of the \a index element the PolygonForeground::_mfPositions field.
@@ -575,9 +582,16 @@ MFPnt2f &PolygonForegroundBase::getPositions(void)
     return _mfPositions;
 }
 
+//! Get the PolygonForeground::_mfPositions field.
+inline
+const MFPnt2f &PolygonForegroundBase::getPositions(void) const
+{
+    return _mfPositions;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

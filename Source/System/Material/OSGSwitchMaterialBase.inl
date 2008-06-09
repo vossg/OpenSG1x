@@ -203,9 +203,16 @@ MFMaterialPtr &SwitchMaterialBase::getMaterials(void)
     return _mfMaterials;
 }
 
+//! Get the SwitchMaterial::_mfMaterials field.
+inline
+const MFMaterialPtr &SwitchMaterialBase::getMaterials(void) const
+{
+    return _mfMaterials;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSwitchMaterialBase.inl,v 1.4 2008/06/09 07:31:48 vossg Exp $"
+#define OSGSWITCHMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGSwitchMaterialBase.inl,v 1.5 2008/06/09 12:28:10 vossg Exp $"
 

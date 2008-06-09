@@ -219,6 +219,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 #ifndef OSG_2_PREP
            GLenum              &getProgramParameterNames(const UInt32 index);
            MFGLenum            &getProgramParameterNames(void);
+     const MFGLenum            &getProgramParameterNames(void) const;
 #endif
 
            UInt32              &editProgramParameterValues(const UInt32 index);
@@ -226,6 +227,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunkBase : public ShaderChunk
 #ifndef OSG_2_PREP
            UInt32              &getProgramParameterValues(const UInt32 index);
            MFUInt32            &getProgramParameterValues(void);
+     const MFUInt32            &getProgramParameterValues(void) const;
 #endif
 
     /*! \}                                                                 */
@@ -364,6 +366,6 @@ typedef RefPtr<SHLChunkPtr> SHLChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.17 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHLCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGSHLChunkBase.h,v 1.18 2008/06/09 12:28:05 vossg Exp $"
 
 #endif /* _OSGSHLCHUNKBASE_H_ */

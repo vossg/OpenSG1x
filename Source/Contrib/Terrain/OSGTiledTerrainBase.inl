@@ -809,6 +809,13 @@ MFImagePtr &TiledTerrainBase::getHeightTiles(void)
     return _mfHeightTiles;
 }
 
+//! Get the TiledTerrain::_mfHeightTiles field.
+inline
+const MFImagePtr &TiledTerrainBase::getHeightTiles(void) const
+{
+    return _mfHeightTiles;
+}
+
 #endif
 
 //! Get the value of the \a index element the TiledTerrain::_mfHeightTextures field.
@@ -840,9 +847,16 @@ MFMaterialPtr &TiledTerrainBase::getHeightTextures(void)
     return _mfHeightTextures;
 }
 
+//! Get the TiledTerrain::_mfHeightTextures field.
+inline
+const MFMaterialPtr &TiledTerrainBase::getHeightTextures(void) const
+{
+    return _mfHeightTextures;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTiledTerrainBase.inl,v 1.8 2008/06/09 07:31:43 vossg Exp $"
+#define OSGTILEDTERRAINBASE_INLINE_CVSID "@(#)$Id: OSGTiledTerrainBase.inl,v 1.9 2008/06/09 12:28:04 vossg Exp $"
 

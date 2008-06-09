@@ -461,7 +461,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(FTGLFontPtr, OSG_CONTRIBLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFontBase.cpp,v 1.9 2008/06/09 07:31:38 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLFontBase.cpp,v 1.10 2008/06/09 12:28:01 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLFONTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLFONTBASE_INLINE_CVSID;
 

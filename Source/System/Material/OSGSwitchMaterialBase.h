@@ -150,6 +150,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SwitchMaterialBase : public Material
 #ifndef OSG_2_PREP
            MaterialPtr         &getMaterials      (const UInt32 index);
            MFMaterialPtr       &getMaterials      (void);
+     const MFMaterialPtr       &getMaterials      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -279,6 +280,6 @@ typedef RefPtr<SwitchMaterialPtr> SwitchMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSWITCHMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSwitchMaterialBase.h,v 1.4 2008/06/09 07:31:48 vossg Exp $"
+#define OSGSWITCHMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGSwitchMaterialBase.h,v 1.5 2008/06/09 12:28:10 vossg Exp $"
 
 #endif /* _OSGSWITCHMATERIALBASE_H_ */

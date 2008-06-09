@@ -279,6 +279,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Vec3f               &getTexCoords      (const UInt32 index);
            MFVec3f             &getTexCoords      (void);
+     const MFVec3f             &getTexCoords      (void) const;
 #endif
 
            Pnt2f               &editPositions      (const UInt32 index);
@@ -286,6 +287,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Pnt2f               &getPositions      (const UInt32 index);
            MFPnt2f             &getPositions      (void);
+     const MFPnt2f             &getPositions      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -432,6 +434,6 @@ typedef RefPtr<PolygonBackgroundPtr> PolygonBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.11 2008/06/09 07:31:55 vossg Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: OSGPolygonBackgroundBase.h,v 1.12 2008/06/09 12:28:23 vossg Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUNDBASE_H_ */

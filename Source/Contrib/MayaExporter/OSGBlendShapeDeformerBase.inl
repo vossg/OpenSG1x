@@ -288,6 +288,13 @@ MFReal32 &BlendShapeDeformerBase::getWeight(void)
     return _mfWeight;
 }
 
+//! Get the BlendShapeDeformer::_mfWeight field.
+inline
+const MFReal32 &BlendShapeDeformerBase::getWeight(void) const
+{
+    return _mfWeight;
+}
+
 #endif
 
 //! Get the value of the \a index element the BlendShapeDeformer::_mfVertexIndices field.
@@ -315,6 +322,13 @@ UInt32 &BlendShapeDeformerBase::getVertexIndices(const UInt32 index)
 //! Get the BlendShapeDeformer::_mfVertexIndices field.
 inline
 MFUInt32 &BlendShapeDeformerBase::getVertexIndices(void)
+{
+    return _mfVertexIndices;
+}
+
+//! Get the BlendShapeDeformer::_mfVertexIndices field.
+inline
+const MFUInt32 &BlendShapeDeformerBase::getVertexIndices(void) const
 {
     return _mfVertexIndices;
 }
@@ -350,6 +364,13 @@ MFUInt16 &BlendShapeDeformerBase::getTargetIndices(void)
     return _mfTargetIndices;
 }
 
+//! Get the BlendShapeDeformer::_mfTargetIndices field.
+inline
+const MFUInt16 &BlendShapeDeformerBase::getTargetIndices(void) const
+{
+    return _mfTargetIndices;
+}
+
 #endif
 
 //! Get the value of the \a index element the BlendShapeDeformer::_mfTargetVertices field.
@@ -377,6 +398,13 @@ Pnt3f &BlendShapeDeformerBase::getTargetVertices(const UInt32 index)
 //! Get the BlendShapeDeformer::_mfTargetVertices field.
 inline
 MFPnt3f &BlendShapeDeformerBase::getTargetVertices(void)
+{
+    return _mfTargetVertices;
+}
+
+//! Get the BlendShapeDeformer::_mfTargetVertices field.
+inline
+const MFPnt3f &BlendShapeDeformerBase::getTargetVertices(void) const
 {
     return _mfTargetVertices;
 }
@@ -412,6 +440,13 @@ MFUInt32 &BlendShapeDeformerBase::getNormalIndices(void)
     return _mfNormalIndices;
 }
 
+//! Get the BlendShapeDeformer::_mfNormalIndices field.
+inline
+const MFUInt32 &BlendShapeDeformerBase::getNormalIndices(void) const
+{
+    return _mfNormalIndices;
+}
+
 #endif
 
 //! Get the value of the \a index element the BlendShapeDeformer::_mfNormalTargetIndices field.
@@ -439,6 +474,13 @@ UInt16 &BlendShapeDeformerBase::getNormalTargetIndices(const UInt32 index)
 //! Get the BlendShapeDeformer::_mfNormalTargetIndices field.
 inline
 MFUInt16 &BlendShapeDeformerBase::getNormalTargetIndices(void)
+{
+    return _mfNormalTargetIndices;
+}
+
+//! Get the BlendShapeDeformer::_mfNormalTargetIndices field.
+inline
+const MFUInt16 &BlendShapeDeformerBase::getNormalTargetIndices(void) const
 {
     return _mfNormalTargetIndices;
 }
@@ -474,9 +516,16 @@ MFVec3f &BlendShapeDeformerBase::getTargetNormals(void)
     return _mfTargetNormals;
 }
 
+//! Get the BlendShapeDeformer::_mfTargetNormals field.
+inline
+const MFVec3f &BlendShapeDeformerBase::getTargetNormals(void) const
+{
+    return _mfTargetNormals;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGBLENDSHAPEDEFORMERBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGBLENDSHAPEDEFORMERBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

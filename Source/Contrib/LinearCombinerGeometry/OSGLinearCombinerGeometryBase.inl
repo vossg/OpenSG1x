@@ -355,6 +355,13 @@ MFReal32 &LinearCombinerGeometryBase::getWeights(void)
     return _mfWeights;
 }
 
+//! Get the LinearCombinerGeometry::_mfWeights field.
+inline
+const MFReal32 &LinearCombinerGeometryBase::getWeights(void) const
+{
+    return _mfWeights;
+}
+
 #endif
 
 //! Get the value of the \a index element the LinearCombinerGeometry::_mfSrcpositions field.
@@ -382,6 +389,13 @@ GeoPositionsPtr &LinearCombinerGeometryBase::getSrcpositions(const UInt32 index)
 //! Get the LinearCombinerGeometry::_mfSrcpositions field.
 inline
 MFGeoPositionsPtr &LinearCombinerGeometryBase::getSrcpositions(void)
+{
+    return _mfSrcpositions;
+}
+
+//! Get the LinearCombinerGeometry::_mfSrcpositions field.
+inline
+const MFGeoPositionsPtr &LinearCombinerGeometryBase::getSrcpositions(void) const
 {
     return _mfSrcpositions;
 }
@@ -417,9 +431,16 @@ MFVolume &LinearCombinerGeometryBase::getSrcvolumes(void)
     return _mfSrcvolumes;
 }
 
+//! Get the LinearCombinerGeometry::_mfSrcvolumes field.
+inline
+const MFVolume &LinearCombinerGeometryBase::getSrcvolumes(void) const
+{
+    return _mfSrcvolumes;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGLINEARCOMBINERGEOMETRYBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGLINEARCOMBINERGEOMETRYBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

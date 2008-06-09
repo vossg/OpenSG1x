@@ -239,6 +239,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRClipObjectsBase : public Attachment
 #ifndef OSG_2_PREP
            DVRClipGeometryPtr  &getClipObjects    (UInt32 index);
            MFDVRClipGeometryPtr &getClipObjects    (void);
+     const MFDVRClipGeometryPtr &getClipObjects    (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -308,6 +309,6 @@ typedef RefPtr<DVRClipObjectsPtr> DVRClipObjectsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDVRCLIPOBJECTSBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGDVRCLIPOBJECTSBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGDVRCLIPOBJECTSBASE_H_ */

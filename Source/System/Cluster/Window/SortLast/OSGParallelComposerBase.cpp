@@ -350,7 +350,7 @@ DataType FieldDataTraits<ParallelComposerPtr>::_type("ParallelComposerPtr", "Ima
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposerBase.cpp,v 1.3 2008/06/09 07:31:47 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGParallelComposerBase.cpp,v 1.4 2008/06/09 12:28:09 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPARALLELCOMPOSERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPARALLELCOMPOSERBASE_INLINE_CVSID;
 

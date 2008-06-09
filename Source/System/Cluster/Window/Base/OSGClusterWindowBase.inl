@@ -855,6 +855,13 @@ MFString &ClusterWindowBase::getServers(void)
     return _mfServers;
 }
 
+//! Get the ClusterWindow::_mfServers field.
+inline
+const MFString &ClusterWindowBase::getServers(void) const
+{
+    return _mfServers;
+}
+
 #endif
 
 //! Get the value of the \a index element the ClusterWindow::_mfAutostart field.
@@ -882,6 +889,13 @@ std::string &ClusterWindowBase::getAutostart(const UInt32 index)
 //! Get the ClusterWindow::_mfAutostart field.
 inline
 MFString &ClusterWindowBase::getAutostart(void)
+{
+    return _mfAutostart;
+}
+
+//! Get the ClusterWindow::_mfAutostart field.
+inline
+const MFString &ClusterWindowBase::getAutostart(void) const
 {
     return _mfAutostart;
 }
@@ -917,6 +931,13 @@ MFDisplayCalibrationPtr &ClusterWindowBase::getCalibration(void)
     return _mfCalibration;
 }
 
+//! Get the ClusterWindow::_mfCalibration field.
+inline
+const MFDisplayCalibrationPtr &ClusterWindowBase::getCalibration(void) const
+{
+    return _mfCalibration;
+}
+
 #endif
 
 //! Get the value of the \a index element the ClusterWindow::_mfFilter field.
@@ -948,9 +969,16 @@ MFDisplayFilterForegroundPtr &ClusterWindowBase::getFilter(void)
     return _mfFilter;
 }
 
+//! Get the ClusterWindow::_mfFilter field.
+inline
+const MFDisplayFilterForegroundPtr &ClusterWindowBase::getFilter(void) const
+{
+    return _mfFilter;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.20 2002/12/04 14:22:22 dirk Exp $"
+#define OSGCLUSTERWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
 

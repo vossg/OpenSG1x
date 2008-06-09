@@ -239,7 +239,7 @@ DataType FieldDataTraits<RotateManipulatorPtr>::_type("RotateManipulatorPtr", "M
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulatorBase.cpp,v 1.7 2008/06/09 07:31:43 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRotateManipulatorBase.cpp,v 1.8 2008/06/09 12:28:05 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGROTATEMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGROTATEMANIPULATORBASE_INLINE_CVSID;
 

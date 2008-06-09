@@ -191,6 +191,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MaterialPoolBase : public Group
 #ifndef OSG_2_PREP
            MaterialPtr         &getMaterials      (UInt32 index);
            MFMaterialPtr       &getMaterials      (void);
+     const MFMaterialPtr       &getMaterials      (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -260,6 +261,6 @@ typedef RefPtr<MaterialPoolPtr> MaterialPoolRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMATERIALPOOLBASE_HEADER_CVSID "@(#)$Id: OSGMaterialPoolBase.h,v 1.8 2008/06/09 07:31:51 vossg Exp $"
+#define OSGMATERIALPOOLBASE_HEADER_CVSID "@(#)$Id: OSGMaterialPoolBase.h,v 1.9 2008/06/09 12:28:19 vossg Exp $"
 
 #endif /* _OSGMATERIALPOOLBASE_H_ */

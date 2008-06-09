@@ -124,9 +124,16 @@ MFShaderParameterPtr &ShaderParameterChunkBase::getParameters(void)
     return _mfParameters;
 }
 
+//! Get the ShaderParameterChunk::_mfParameters field.
+inline
+const MFShaderParameterPtr &ShaderParameterChunkBase::getParameters(void) const
+{
+    return _mfParameters;
+}
+
 #endif
 
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterChunkBase.inl,v 1.7 2008/06/09 07:31:44 vossg Exp $"
+#define OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGShaderParameterChunkBase.inl,v 1.8 2008/06/09 12:28:05 vossg Exp $"
 

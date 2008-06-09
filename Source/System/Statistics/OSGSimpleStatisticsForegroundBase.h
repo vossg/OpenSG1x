@@ -300,6 +300,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SimpleStatisticsForegroundBase : public Statistic
 #ifndef OSG_2_PREP
            std::string         &getFormats        (const UInt32 index);
            MFString            &getFormats        (void);
+     const MFString            &getFormats        (void) const;
 #endif
 
     /*! \}                                                                 */
@@ -449,6 +450,6 @@ typedef RefPtr<SimpleStatisticsForegroundPtr> SimpleStatisticsForegroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.40 2005/07/20 00:10:14 vossg Exp $"
+#define OSGSIMPLESTATISTICSFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
 
 #endif /* _OSGSIMPLESTATISTICSFOREGROUNDBASE_H_ */
