@@ -150,15 +150,29 @@ VRMLFile::VRMLFile(void) :
 
 VRMLFile::~VRMLFile(void)
 {
+#if 0
     // delete the factory.
-    for(NodeNameDescHash::iterator it=_mNodeDescHash.begin();
-                                   it!=_mNodeDescHash.end();++it)
+    for(NodeNameDescHash::iterator it  = _mNodeDescHash.begin();
+                                   it != _mNodeDescHash.end  ();
+                                 ++it)
     {
         delete [] (*it).first;
         delete    (*it).second;
     }
 
     _mNodeDescHash.clear();
+#endif
+
+    while(_mNodeDescHash.empty() == false)
+    {
+        const Char8        *szTmp    = (*_mNodeDescHash.begin()).first;
+              VRMLNodeDesc *pTmpDesc = (*_mNodeDescHash.begin()).second;
+
+        _mNodeDescHash.erase(_mNodeDescHash.begin());
+
+        delete [] szTmp;
+        delete    pTmpDesc;
+    }
 }
 
 /*-------------------------------------------------------------------------*/
