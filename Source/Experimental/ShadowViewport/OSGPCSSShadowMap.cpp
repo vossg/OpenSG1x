@@ -713,7 +713,7 @@ void PCSSShadowMap::createShadowMaps(RenderActionBase *action)
                                        _shadowVP->getMapSize());
                 endEditCP(_tiledeco);
 
-                action->setCamera(_tiledeco.getCPtr());
+                action->setCamera(getCPtr(_tiledeco));
 
                 Real32  step = (1.0 / Real32(_shadowVP->getMapSize())) *
                     Real32(_mapRenderSize);
@@ -733,7 +733,7 @@ void PCSSShadowMap::createShadowMaps(RenderActionBase *action)
                                         _shadowVP->getOffBias());
                         glEnable(GL_POLYGON_OFFSET_FILL);
 
-                        _shadowVP->renderLight(action, _unlitMat.getCPtr(), i);
+                        _shadowVP->renderLight(action, getCPtr(_unlitMat), i);
 
                         action->getWindow()->validateGLObject(
                             _shadowVP->_texChunks[i]->getGLId());
@@ -799,7 +799,7 @@ void PCSSShadowMap::createShadowMaps(RenderActionBase *action)
               _shadowVP->LeftFieldMask | _shadowVP->RightFieldMask |
               _shadowVP->BottomFieldMask | _shadowVP->TopFieldMask);
 
-    action->setCamera(_shadowVP->getCamera().getCPtr());
+    action->setCamera(getCPtr(_shadowVP->getCamera()));
 
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glShadeModel(GL_SMOOTH);
@@ -868,9 +868,9 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase *action)
                 glClearColor(1.0, 1.0, 1.0, 1.0);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-                action->setCamera(_shadowVP->_lightCameras[i].getCPtr());
+                action->setCamera(getCPtr(_shadowVP->_lightCameras[i]));
 
-                _shadowVP->renderLight(action, _unlitMat.getCPtr(), i);
+                _shadowVP->renderLight(action, getCPtr(_unlitMat), i);
 
                 glDisable(GL_POLYGON_OFFSET_FILL);
 
@@ -878,7 +878,7 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase *action)
 
                 glClearColor(0.0, 0.0, 0.0, 1.0);
 
-                action->setCamera(_shadowVP->getCamera().getCPtr());
+                action->setCamera(getCPtr(_shadowVP->getCamera()));
             }
         }
     }
@@ -1070,7 +1070,7 @@ void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         if(_firstRun)
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        _shadowVP->renderLight(action, _shadowCmat.getCPtr(), num);
+        _shadowVP->renderLight(action, getCPtr(_shadowCmat), num);
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
@@ -1179,7 +1179,7 @@ void PCSSShadowMap::createShadowFactorMap(RenderActionBase *action, UInt32 num)
         _shadowCmat->addChunk(_shadowFactorMap);
         endEditCP(_shadowCmat);
 
-        _shadowVP->renderLight(action, _shadowCmat.getCPtr(), num);
+        _shadowVP->renderLight(action, getCPtr(_shadowCmat), num);
 
         action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
@@ -1224,9 +1224,9 @@ void PCSSShadowMap::drawCombineMap(RenderActionBase *action)
     glEnable(GL_SCISSOR_TEST);
 
     // we can't use the shadowVP camera here could be a TileCameraDecorator!
-    action->setCamera(_combine_camera.getCPtr());
+    action->setCamera(getCPtr(_combine_camera));
     _pf->draw(action, _shadowVP);
-    action->setCamera(_shadowVP->getCamera().getCPtr());
+    action->setCamera(getCPtr(_shadowVP->getCamera()));
 
     glDisable(GL_SCISSOR_TEST);
 }

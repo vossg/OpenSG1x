@@ -264,7 +264,7 @@ void SortFirstWindow::serverRender( WindowPtr serverWindow,
     // render the viewports
     serverWindow->activate();
     serverWindow->frameInit();
-    action->setWindow( serverWindow.getCPtr() );
+    action->setWindow( getCPtr(serverWindow) );
     for(sv=0;sv<serverWindow->getMFPort()->size();++sv)
     {
         ViewportPtr vp=serverWindow->getPort(sv);

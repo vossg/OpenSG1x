@@ -192,7 +192,7 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
 		width  = cdP->getFullWidth()  ? cdP->getFullWidth()  : width;
 		height = cdP->getFullHeight() ? cdP->getFullHeight() : height;
 		
-		cP  = cdP->getDecoratee().getCPtr();
+		cP  = getCPtr(cdP->getDecoratee());
 		cdP = dynamic_cast<TileCameraDecorator*>(cP);
 	}
 	
@@ -280,7 +280,7 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.7 2008/06/09 07:30:42 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.8 2008/06/10 05:52:20 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID;
 

@@ -105,11 +105,11 @@ Action::ResultE MaterialDrawable::renderActionEnterHandler(Action *action)
     {
         if(getMaterial() != NullFC)
         {
-            m = getMaterial().getCPtr();
+            m = getCPtr(getMaterial());
         }
         else
         {
-            m = getDefaultMaterial().getCPtr();
+            m = getCPtr(getDefaultMaterial());
             FNOTICE(("MaterialDrawable::render: no Material!?!\n"));
         }
     }
@@ -203,7 +203,7 @@ void MaterialDrawable::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.8 2008/04/24 00:56:29 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMaterialDrawable.cpp,v 1.9 2008/06/10 05:52:19 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMATERIALDRAWABLEBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMATERIALDRAWABLEBASE_INLINE_CVSID;
 

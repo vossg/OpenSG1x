@@ -779,7 +779,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                 glClearColor(1.0, 1.0, 1.0, 1.0);
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-                action->setCamera(_shadowVP->_lightCameras[i].getCPtr());
+                action->setCamera(getCPtr(_shadowVP->_lightCameras[i]));
 
                 Pnt3f   lPos;
                 bool    isDirLight;
@@ -857,7 +857,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                 _depthCmat->addChunk(_depthSHL);
                 endEditCP(_depthCmat);
 
-                _shadowVP->renderLight(action, _depthCmat.getCPtr(), i);
+                _shadowVP->renderLight(action, getCPtr(_depthCmat), i);
 
                 glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 
@@ -865,7 +865,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
 
                 glClearColor(0.0, 0.0, 0.0, 1.0);
 
-                action->setCamera(_shadowVP->getCamera().getCPtr());
+                action->setCamera(getCPtr(_shadowVP->getCamera()));
             }
         }
     }
@@ -1114,7 +1114,7 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
         _shadowCmat->addChunk(_shadowFactorMap);
         endEditCP(_shadowCmat);
 
-        _shadowVP->renderLight(action, _shadowCmat.getCPtr(), num);
+        _shadowVP->renderLight(action, getCPtr(_shadowCmat), num);
 
         action->getWindow()->validateGLObject(_shadowFactorMap->getGLId());
 
@@ -1316,7 +1316,7 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
         if(_firstRun)
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        _shadowVP->renderLight(action, _shadowCmat.getCPtr(), num);
+        _shadowVP->renderLight(action, getCPtr(_shadowCmat), num);
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
         delete[] buffers;
@@ -1353,9 +1353,9 @@ void VarianceShadowMap::drawCombineMap(RenderActionBase *action)
     glEnable(GL_SCISSOR_TEST);
 
     // we can't use the shadowVP camera here could be a TileCameraDecorator!
-    action->setCamera(_combine_camera.getCPtr());
+    action->setCamera(getCPtr(_combine_camera));
     _pf->draw(action, _shadowVP);
-    action->setCamera(_shadowVP->getCamera().getCPtr());
+    action->setCamera(getCPtr(_shadowVP->getCamera()));
 
     glDisable(GL_SCISSOR_TEST);
 }

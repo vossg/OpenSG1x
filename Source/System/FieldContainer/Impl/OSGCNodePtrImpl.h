@@ -118,8 +118,10 @@ class OSG_SYSTEMLIB_DLLMAPPING CNodePtr : public AttachmentContainerPtr
     NodeCore &operator *(void);
     NodeCore &operator *(void) const;
 
+#ifndef OSG_2_PREP
     NodeCore *getCPtr   (void);
     NodeCore *getCPtr   (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

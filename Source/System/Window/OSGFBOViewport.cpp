@@ -716,7 +716,7 @@ void FBOViewport::render(RenderActionBase* action)
             }
                  
             //action->setCamera    (cp.getCPtr()             );
-            action->setBackground(getBackground().getCPtr());
+            action->setBackground(getCPtr(getBackground()));
             action->setViewport  (this                     );
             action->setTravMask  (getTravMask()            );
             
@@ -824,7 +824,7 @@ void FBOViewport::render(RenderActionBase* action)
                         _tiledeco->setDecoratee(_deco);
                     endEditCP(_tiledeco);
                     
-                    action->setCamera(_tiledeco.getCPtr());
+                    action->setCamera(getCPtr(_tiledeco));
                     
                     for (y1=0; y1 < imgHeight; y1 += winHeight)
                     {
@@ -897,7 +897,7 @@ void FBOViewport::render(RenderActionBase* action)
                     _tiledeco->setDecoratee(cP);
                 endEditCP(_tiledeco);
                 
-                action->setCamera(_tiledeco.getCPtr());
+                action->setCamera(getCPtr(_tiledeco));
                
                 // area stored in the texture, by default this is the size of
                 // the texture
@@ -1055,7 +1055,7 @@ void FBOViewport::render(RenderActionBase* action)
             }
             else if (check && shadowVptPtr != NullFC) 
             {
-                action->setCamera(getCamera().getCPtr());
+                action->setCamera(getCPtr(getCamera()));
                 
                 shadowVptPtr->render(action);
                 
@@ -1410,8 +1410,8 @@ void FBOViewport::render(RenderActionBase* action)
                 }
             }     
 
-            action->setCamera    (cP.getCPtr()             );
-            action->setBackground(getBackground().getCPtr());
+            action->setCamera    (getCPtr(cP)             );
+            action->setBackground(getCPtr(getBackground()));
             action->setViewport  (this                     );
             action->setTravMask  (getTravMask()            );
             
@@ -1626,7 +1626,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.22 2008/06/09 07:30:42 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.23 2008/06/10 05:52:20 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 

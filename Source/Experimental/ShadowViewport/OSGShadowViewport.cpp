@@ -547,8 +547,8 @@ void ShadowViewport::render(RenderActionBase *action)
     }
 
 
-    action->setCamera(getCamera().getCPtr());
-    action->setBackground(_silentBack.getCPtr());
+    action->setCamera(getCPtr(getCamera()));
+    action->setBackground(getCPtr(_silentBack));
     action->setViewport(this);
     action->setTravMask(getTravMask());
 
@@ -1509,7 +1509,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.33 2008/06/09 07:30:34 vossg Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.34 2008/06/10 05:52:17 vossg Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

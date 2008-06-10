@@ -350,7 +350,7 @@ UInt32 DrawActionBase::selectVisibles(void)
     UInt32 count = 0;
     for ( UInt32 i = 0; i < getNNodes(); i++ )
     {
-        if ( isVisible( getNode(i).getCPtr() ) )
+        if ( isVisible( getCPtr(getNode(i)) ) )
         {
             col.setValuesRGB(0,1,0);
             addNode( getNode(i) );

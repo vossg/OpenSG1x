@@ -214,7 +214,7 @@ void SortLastWindow::serverRender( WindowPtr serverWindow,
     // render the viewports
     serverWindow->activate();
     serverWindow->frameInit();
-    action->setWindow( serverWindow.getCPtr() );
+    action->setWindow( getCPtr(serverWindow) );
     if(getComposer() != NullFC)
         getComposer()->startFrame();
     for(sv = 0; sv < serverWindow->getMFPort()->size(); ++sv)
@@ -336,7 +336,7 @@ void SortLastWindow::clientRender( RenderActionBase *action )
             getClientWindow()->activate();
             getClientWindow()->frameInit();
 */
-            action->setWindow( getClientWindow().getCPtr() );
+            action->setWindow( getCPtr(getClientWindow()) );
             if(getComposer() != NullFC)
                 getComposer()->startFrame();
             // render all viewports
@@ -347,19 +347,19 @@ void SortLastWindow::clientRender( RenderActionBase *action )
                 {
                     getComposer()->startViewport(vp);
 
-                    action->setCamera    (vp->getCamera    ().getCPtr());
-                    action->setBackground(vp->getBackground().getCPtr());
-                    action->setViewport  (vp.getCPtr()                );
-                    action->setTravMask  (vp->getTravMask()            );
+                    action->setCamera    (getCPtr(vp->getCamera    ()));
+                    action->setBackground(getCPtr(vp->getBackground()));
+                    action->setViewport  (getCPtr(vp)                 );
+                    action->setTravMask  (vp->getTravMask()           );
                     action->apply(vp->getRoot());
 
                     for(UInt16 i=0; i < vp->getMFForegrounds()->size(); i++)
                         if(StatisticsForegroundPtr::dcast(vp->getForegrounds(i)) == NullFC)
-                            vp->getForegrounds(i)->draw(action, vp.getCPtr());
+                            vp->getForegrounds(i)->draw(action, getCPtr(vp));
                     getComposer()->composeViewport(vp);
                     for(UInt16 i=0; i < vp->getMFForegrounds()->size(); i++)
                         if(StatisticsForegroundPtr::dcast(vp->getForegrounds(i)) != NullFC)
-                            vp->getForegrounds(i)->draw(action, vp.getCPtr());
+                            vp->getForegrounds(i)->draw(action, getCPtr(vp));
 
                 }
                 else

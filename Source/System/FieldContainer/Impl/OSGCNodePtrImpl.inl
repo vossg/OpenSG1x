@@ -107,31 +107,60 @@ Node *CNodePtr::getNode(void) const
 inline
 NodeCore *CNodePtr::operator->(void)
 {
+#if 0
     return (reinterpret_cast<Node *>(
                 getElemP(Thread::getAspect())))->getCore().getCPtr();
+#endif
+
+    NodeCorePtr pCore = (reinterpret_cast<Node *>(
+                             getElemP(Thread::getAspect())))->getCore();
+
+    return OSG::getCPtr(pCore);
 }
 
 inline
 NodeCore *CNodePtr::operator->(void) const
 {
+#if 0
     return (reinterpret_cast<Node *>(
                 getElemP(Thread::getAspect())))->getCore().getCPtr();
+#endif
+    
+    NodeCorePtr pCore = (reinterpret_cast<Node *>(
+                             getElemP(Thread::getAspect())))->getCore();
+
+    return OSG::getCPtr(pCore);
 }
 
 inline
 NodeCore &CNodePtr::operator *(void)
 {
+#if 0
     return *((reinterpret_cast<Node *>(
                   getElemP(Thread::getAspect())))->getCore().getCPtr());
+#endif
+
+    NodeCorePtr pCore = (reinterpret_cast<Node *>(
+                             getElemP(Thread::getAspect())))->getCore();
+
+    return *OSG::getCPtr(pCore);
 }
 
 inline
 NodeCore &CNodePtr::operator *(void) const
 {
+#if 0
     return *((reinterpret_cast<Node *>(
                   getElemP(Thread::getAspect())))->getCore().getCPtr());
+#endif
+
+    NodeCorePtr pCore = (reinterpret_cast<Node *>(
+                             getElemP(Thread::getAspect())))->getCore();
+
+    return *OSG::getCPtr(pCore);
 }
 
+#ifndef OSG_2_PREP
 inline
 NodeCore *CNodePtr::getCPtr(void)
 {
@@ -145,6 +174,7 @@ NodeCore *CNodePtr::getCPtr(void) const
     return (reinterpret_cast<Node *>(
                 getElemP(Thread::getAspect())))->getCore().getCPtr();
 }
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */

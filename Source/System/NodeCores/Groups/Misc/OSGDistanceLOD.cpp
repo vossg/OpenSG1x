@@ -189,7 +189,7 @@ Action::ResultE DistanceLOD::draw(Action *action)
     }
 
     const NodePtr nodePtr = action->getNode(index);
-    if(da->isVisible(nodePtr.getCPtr()))
+    if(da->isVisible(getCPtr(nodePtr)))
     {
         da->addNode(nodePtr);
     }

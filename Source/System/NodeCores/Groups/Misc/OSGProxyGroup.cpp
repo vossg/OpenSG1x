@@ -209,7 +209,7 @@ Action::ResultE ProxyGroup::draw(Action *action)
     if(getState() == LOADED)
     {
         da->useNodeList();
-        if(da->isVisible(getRoot().getCPtr()))
+        if(da->isVisible(getCPtr(getRoot())))
             da->addNode(getRoot());
     }
     else

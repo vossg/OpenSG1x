@@ -788,7 +788,8 @@ FieldContainerPtr OSG::deepClone(const FieldContainerPtr &src,
                     fc = OSG::deepClone(fc, share);
 
                 if(fc != NullFC)
-                    AttachmentContainerPtr::dcast(dst)->addAttachment(AttachmentPtr::dcast(fc));
+                    AttachmentContainerPtr::dcast(dst)->addAttachment(
+                        AttachmentPtr::dcast(fc));
             }
             endEditCP(dst, mask);
             continue;

@@ -114,8 +114,10 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
     /*! \name                        Core                                  */
     /*! \{                                                                 */
 
+#ifndef OSG_2_PREP
     NodeCore *getCore(void);
     NodeCore *getCore(void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -128,8 +130,10 @@ class OSG_SYSTEMLIB_DLLMAPPING NodePtr : public AttachmentContainerPtr
     Node &operator *(void);
     Node &operator *(void) const;
 
+#ifndef OSG_2_PREP
     Node *getCPtr   (void);
     Node *getCPtr   (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

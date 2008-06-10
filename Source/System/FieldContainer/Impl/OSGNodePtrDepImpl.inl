@@ -75,7 +75,7 @@ template <class InTypeT> inline
 NodePtr NodePtr::dcast(const InTypeT oIn)
 {
     return NodePtr(
-        (dynamic_cast<const Node *>(oIn.getCPtr())),
+        (dynamic_cast<const Node *>(&*oIn)),
         oIn.getContainerSize(),
         oIn.getParentFieldPos());
 }
@@ -117,6 +117,7 @@ NodeCorePtr Node::getCore(void) const
 /*-------------------------------------------------------------------------*/
 /*                                Core                                     */
 
+#ifndef OSG_2_PREP
 inline
 NodeCore *NodePtr::getCore(void)
 {
@@ -130,6 +131,7 @@ NodeCore *NodePtr::getCore(void) const
     return (reinterpret_cast<Node *>(
                 getElemP(Thread::getAspect())))->getCore().getCPtr();
 }
+#endif
 
 inline
 void Node::onCreate(const Node *source)

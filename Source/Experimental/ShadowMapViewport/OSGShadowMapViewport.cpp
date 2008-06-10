@@ -369,8 +369,8 @@ void ShadowMapViewport::render(RenderActionBase* action)
             endEditCP(getPtr(), SceneRootFieldMask);
         }
 
-        action->setCamera    (getCamera().getCPtr());
-        action->setBackground(_silentBack.getCPtr());
+        action->setCamera    (getCPtr(getCamera()));
+        action->setBackground(getCPtr(_silentBack));
         action->setViewport  (this);
         action->setTravMask  (getTravMask());
 
@@ -916,7 +916,7 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     this->activateSize();
 
     // ok we render only one unlit material for the whole scene in this pass.
-    action->setMaterial(_unlitMat.getCPtr(), getRoot());
+    action->setMaterial(getCPtr(_unlitMat), getRoot());
 
     glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
     glShadeModel(GL_FLAT);
@@ -942,7 +942,7 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
     {
         if(_lightStates[i] != 0)
         {
-            action->setCamera    (_tiledeco.getCPtr());
+            action->setCamera    (getCPtr(_tiledeco));
 
             // we use a tiledecorator to create shadow maps with
             // a higher resolutions than the viewport or the screen.
@@ -1024,7 +1024,7 @@ void ShadowMapViewport::createShadowMaps(RenderActionBase* action)
 
     this->activateSize();
 
-    action->setCamera(getCamera().getCPtr());
+    action->setCamera(getCPtr(getCamera()));
     
     glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
     glShadeModel(GL_SMOOTH);
@@ -1188,7 +1188,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.18 2008/06/09 07:30:32 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.19 2008/06/10 05:52:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

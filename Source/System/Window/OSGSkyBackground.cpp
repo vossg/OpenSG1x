@@ -156,7 +156,7 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
             glDisable(GL_BLEND);
         }
         
-        oldtex = tex.getCPtr();
+        oldtex = getCPtr(tex);
     }
    
 }

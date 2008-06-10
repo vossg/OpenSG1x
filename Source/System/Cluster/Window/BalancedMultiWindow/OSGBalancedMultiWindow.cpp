@@ -1636,7 +1636,7 @@ void BalancedMultiWindow::renderViewport(WindowPtr         serverWindow,
        _foreignPort.serverPort->getPixelTop())
     {
         // do rendering
-        action->setWindow(serverWindow.getCPtr() );
+        action->setWindow(getCPtr(serverWindow) );
         _foreignPort.serverPort->render(action);
 /*
         GLint glvp[4];
@@ -1688,7 +1688,7 @@ void BalancedMultiWindow::clearViewports(WindowPtr         serverWindow,
         serverWindow->addPort(port.serverPort);
 
         // do rendering
-        action->setWindow(serverWindow.getCPtr() );
+        action->setWindow(getCPtr(serverWindow) );
         port.serverPort->render(action);
         
         // sub viewport from window
@@ -2054,7 +2054,7 @@ void BalancedMultiWindow::preloadCache(WindowPtr window,
         cam->setFar  (10 * dist);
         endEditCP(cam);
         // do rendering
-        action->setWindow(window.getCPtr() );
+        action->setWindow(getCPtr(window) );
         vp->render(action);
         // remove port
         window->subPort(vp);

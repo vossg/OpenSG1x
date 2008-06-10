@@ -192,7 +192,7 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
 		width  = cdP->getFullWidth()  ? cdP->getFullWidth()  : width;
 		height = cdP->getFullHeight() ? cdP->getFullHeight() : height;
 		
-		cP  = cdP->getDecoratee().getCPtr();
+		cP  = getCPtr(cdP->getDecoratee());
 		cdP = dynamic_cast<TileCameraDecorator*>(cP);
 	}
 	
@@ -304,7 +304,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.9 2008/06/09 07:30:42 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.10 2008/06/10 05:52:20 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

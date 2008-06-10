@@ -511,7 +511,7 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
 {
     if(!mat->isMultiPass())
     {
-        states.push_back(mat->getState().getCPtr());
+        states.push_back(getCPtr(mat->getState()));
     }
     else
     {
@@ -525,7 +525,7 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
             {
                 for(UInt32 i=0;i<passes;++i)
                 {
-                    getMaterialStates(mmat->getMaterials(i).getCPtr(), states);
+                    getMaterialStates(getCPtr(mmat->getMaterials(i)), states);
                 }
             }
             else
@@ -534,7 +534,7 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
                 // only some virtual methods.
                 passes = mmat->getNPasses();
                 for(UInt32 i=0;i<passes;++i)
-                    states.push_back(mmat->getState(i).getCPtr());
+                    states.push_back(getCPtr(mmat->getState(i)));
             }
         }
         else
@@ -542,13 +542,13 @@ void RenderAction::getMaterialStates(Material *mat, std::vector<State *> &states
             SwitchMaterial *swmat = dynamic_cast<SwitchMaterial *>(mat);
             if(swmat != NULL)
             {
-                getMaterialStates(swmat->getCurrentMaterial().getCPtr(), states);
+                getMaterialStates(getCPtr(swmat->getCurrentMaterial()), states);
             }
             else
             {
                 UInt32 passes = mat->getNPasses();
                 for(UInt32 i=0;i<passes;++i)
-                    states.push_back(mat->getState(i).getCPtr());
+                    states.push_back(getCPtr(mat->getState(i)));
             }
         }
     }
@@ -598,7 +598,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
     }
     else if(pGeo->getMaterial() != NullFC)
     {
-        pMat = pGeo->getMaterial().getCPtr();
+        pMat = getCPtr(pGeo->getMaterial());
     }
     else
     {
@@ -1177,7 +1177,7 @@ void RenderAction::dropLight(Light *pLight)
 
     pLight->makeChunk();
 
-    oStore.first  =  pLight->getChunk().getCPtr();
+    oStore.first  =  getCPtr(pLight->getChunk());
 //    oStore.second = _currMatrix.second;
 
     Matrix fromworld,tobeacon;
@@ -1306,7 +1306,7 @@ void RenderAction::dropClipPlane(ClipPlane *pClipPlane)
 
     pClipPlane->makeChunk();
 
-    oStore.first  =  pClipPlane->getChunk().getCPtr();
+    oStore.first  =  getCPtr(pClipPlane->getChunk());
 //    oStore.second = _currMatrix.second;
 
     Matrix fromworld,tobeacon;

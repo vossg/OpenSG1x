@@ -639,6 +639,7 @@ FieldContainer &FieldContainerPtr::operator *(void) const
 #endif
 }
 
+#ifndef OSG_2_PREP
 inline
 FieldContainer *FieldContainerPtr::getCPtr(void)
 {
@@ -680,6 +681,7 @@ FieldContainer *FieldContainerPtr::getCPtr(void) const
     return (FieldContainer *) (getFirstElemP());
 #endif
 }
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
@@ -896,6 +898,7 @@ const FieldContainer &ConstFieldContainerPtr::operator *(void) const
 #endif
 }
 
+#ifndef OSG_2_PREP
 inline
 const FieldContainer *ConstFieldContainerPtr::getCPtr(void)
 {
@@ -917,6 +920,7 @@ const FieldContainer *ConstFieldContainerPtr::getCPtr(void) const
     return (const FieldContainer *) (getFirstElemP());
 #endif
 }
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
@@ -1100,6 +1104,7 @@ FieldContainerTypeT &FCPtr<BasePtrTypeT,
 }
 
 
+#ifndef OSG_2_PREP
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void)
 
@@ -1124,6 +1129,7 @@ FieldContainerTypeT *
     return (FieldContainerTypeT *) Self::getFirstElemP();
 #endif
 }
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
@@ -1301,6 +1307,7 @@ const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
 }
 
 
+#ifndef OSG_2_PREP
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::getCPtr(void)
@@ -1327,6 +1334,7 @@ const FieldContainerTypeT *
     return (const FieldContainerTypeT *) Self::getFirstElemP();
 #endif
 }
+#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
@@ -1392,7 +1400,7 @@ template <class RetTypeT, class InTypeT> inline
 RetTypeT dcast(const InTypeT oIn)
 {
     return RetTypeT(
-        (dynamic_cast<const typename RetTypeT::ObjectType *>(oIn.getCPtr())),
+        (dynamic_cast<const typename RetTypeT::ObjectType *>(&*oIn)),
         oIn.getContainerSize,
         oIn.getParentFieldPos);
 }
@@ -1401,7 +1409,7 @@ template <class RetTypeT, class InTypeT> inline
 RetTypeT dyncast(const InTypeT oIn)
 {
     return RetTypeT(
-        (dynamic_cast<const typename RetTypeT::ObjectType *>(oIn.getCPtr())),
+        (dynamic_cast<const typename RetTypeT::ObjectType *>(&*oIn)),
         oIn._containerSize,
         oIn._uiParentEPos);
 }
@@ -1470,14 +1478,14 @@ template <class FCType, class FCPtrType>
 inline FCType*
 get_pointer(const FCPtr<FCPtrType, FCType>& fc)
 {
-    return fc.getCPtr();
+    return &*fc;
 }
 
 template <class FCType, class FCPtrType>
 inline const FCType *
 get_pointer(const ConstFCPtr<FCPtrType, FCType>& fc)
 {
-    return fc.getCPtr();
+    return &*fc;
 }
 
 OSG_END_NAMESPACE

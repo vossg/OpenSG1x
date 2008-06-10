@@ -1026,7 +1026,7 @@ void OSG::Window::ignoreExtensions(const Char8 *s)
 
         for(winit = _allWindows.begin(); winit != _allWindows.end(); ++winit)
         {
-            FPDEBUG((" %p:", (*winit).getCPtr()));
+            FPDEBUG((" %p:", getCPtr((*winit))));
             
             std::vector<std::string>::iterator extit;
             

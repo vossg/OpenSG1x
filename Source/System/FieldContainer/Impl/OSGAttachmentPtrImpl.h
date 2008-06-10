@@ -113,8 +113,10 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentPtr : public FieldContainerPtr
     Attachment &operator *(void);
     Attachment &operator *(void) const;
 
+#ifndef OSG_2_PREP
     Attachment *getCPtr   (void);
     Attachment *getCPtr   (void) const;
+#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

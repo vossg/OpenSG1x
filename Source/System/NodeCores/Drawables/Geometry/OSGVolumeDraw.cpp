@@ -289,7 +289,7 @@ class VolumeDrawWrapper
     
         RenderAction *ra = dynamic_cast<RenderAction*>(action);
         
-        ra->dropFunctor(func, getDefaultUnlitMaterial().getCPtr());
+        ra->dropFunctor(func, getCPtr(getDefaultUnlitMaterial()));
     }
     
   private:

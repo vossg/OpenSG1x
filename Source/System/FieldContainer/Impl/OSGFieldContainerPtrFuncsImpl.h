@@ -132,9 +132,9 @@ OutPtrT dynamic_fcptr_cast(const FieldContainerPtr &pPtr)
 }
 
 template <class PtrT> inline
-typename PtrT::StoredObjectType *getCPtr(PtrT &ptr)
+typename PtrT::StoredObjectType *getCPtr(const PtrT &ptr)
 {
-    return ptr.getCPtr();
+    return &*ptr;
 }
 
 template <class PtrT> inline

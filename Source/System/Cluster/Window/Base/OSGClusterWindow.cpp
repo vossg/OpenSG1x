@@ -1214,7 +1214,7 @@ void ClusterWindow::serverRender( WindowPtr window,
         // try to find option as an attachment of window
         OSG::RenderOptionsPtr winRo = OSG::RenderOptionsPtr::dcast(
             window->findAttachment(OSG::RenderOptions::getClassType()));
-        ract->setWindow(window.getCPtr());
+        ract->setWindow(getCPtr(window));
         while(portIt != portEnd)
         {
             // try to find option an attachment at the viewport

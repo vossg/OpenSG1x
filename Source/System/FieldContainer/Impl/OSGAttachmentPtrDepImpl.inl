@@ -51,7 +51,7 @@ template <class InTypeT> inline
 AttachmentPtr AttachmentPtr::dcast(const InTypeT oIn)
 {
     return AttachmentPtr(
-        (dynamic_cast<const Attachment *>(oIn.getCPtr())),
+        (dynamic_cast<const Attachment *>(&*oIn)),
         oIn.getContainerSize(),
         oIn.getParentFieldPos());
 }

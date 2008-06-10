@@ -103,7 +103,7 @@ Action::ResultE Switch::draw(Action *action)
     {
         da->useNodeList();
 
-        if(da->isVisible(action->getNode(getChoice()).getCPtr()))
+        if(da->isVisible(getCPtr(action->getNode(getChoice()))))
         {
             da->addNode(action->getNode(getChoice()));
         }

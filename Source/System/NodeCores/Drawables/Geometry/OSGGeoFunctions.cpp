@@ -3928,8 +3928,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::mergeGeometries(std::vector<NodePtr> &nodes,
 
         if(actnode == NullFC)
         {
-            FWARNING(("mergeGeometries: core of 0x%p is not a geometry!\n", n->
-                                     getCPtr()));
+            FWARNING(("mergeGeometries: core of 0x%p is not a geometry!\n", 
+                      getCPtr(*n)));
             continue;
         }
 

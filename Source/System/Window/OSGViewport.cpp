@@ -309,8 +309,8 @@ void Viewport::draw(DrawAction * action)
     activate();
 
     action->setViewport  (this);
-    action->setCamera    (getCamera    ().getCPtr());
-    action->setBackground(getBackground().getCPtr());
+    action->setCamera    (getCPtr(getCamera    ()));
+    action->setBackground(getCPtr(getBackground()));
     action->setTravMask  (getTravMask()            );
     
     getCamera    ()->setup(action, *this);
@@ -345,8 +345,8 @@ void Viewport::render(RenderActionBase *action)
 
     activate();
 
-    action->setCamera    (getCamera    ().getCPtr());
-    action->setBackground(getBackground().getCPtr());
+    action->setCamera    (getCPtr(getCamera    ()));
+    action->setBackground(getCPtr(getBackground()));
     action->setViewport  (this                     );
     action->setTravMask  (getTravMask()            );
 

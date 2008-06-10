@@ -494,7 +494,7 @@ void TreeRenderer::initialize(Window *win)
 
 Material *TreeRenderer::getUnlitMaterial(void)
 {
-    return _unlitMat.getCPtr();
+    return getCPtr(_unlitMat);
 }
 
 bool TreeRenderer::hasFactorMap(void)

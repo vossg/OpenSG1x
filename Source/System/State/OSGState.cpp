@@ -214,7 +214,7 @@ void State::changeFrom(DrawActionBase *action, State *old)
         if(n != NullFC && !n->getIgnore())
         {
             if(o != NullFC && !o->getIgnore())
-                n->changeFrom(action, o.getCPtr(), UInt32(ind));
+                n->changeFrom(action, getCPtr(o), UInt32(ind));
             else
                 n->activate(action, UInt32(ind));
         }
