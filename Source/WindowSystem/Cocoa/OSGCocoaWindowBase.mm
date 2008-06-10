@@ -86,7 +86,7 @@ FieldDescription *CocoaWindowBase::_desc[] =
                      "context", 
                      ContextFieldId, ContextFieldMask,
                      true,
-                     (FieldAccessMethod) &CocoaWindowBase::getSFContext)
+                     reinterpret_cast<FieldAccessMethod>(&CocoaWindowBase::editSFContext))
 };
 
 
@@ -94,7 +94,7 @@ FieldContainerType CocoaWindowBase::_type(
     "CocoaWindow",
     "Window",
     NULL,
-    (PrototypeCreateF) &CocoaWindowBase::createEmpty,
+    reinterpret_cast<PrototypeCreateF>(&CocoaWindowBase::createEmpty),
     CocoaWindow::initMethod,
     _desc,
     sizeof(_desc));
@@ -133,7 +133,8 @@ UInt32 CocoaWindowBase::getContainerSize(void) const
 void CocoaWindowBase::executeSync(      FieldContainer &other,
                                     const BitVector      &whichField)
 {
-    this->executeSyncImpl((CocoaWindowBase *) &other, whichField);
+    this->executeSyncImpl(static_cast<CocoaWindowBase *>(&other),
+                          whichField);
 }
 #else
 void CocoaWindowBase::executeSync(      FieldContainer &other,
@@ -290,7 +291,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(CocoaWindowPtr, OSG_WINDOWCOCOALIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCocoaWindowBase.mm,v 1.1 2006/10/16 17:24:24 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCocoaWindowBase.mm,v 1.2 2008/06/10 16:43:56 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCOCOAWINDOWBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCOCOAWINDOWBASE_INLINE_CVSID;
 
