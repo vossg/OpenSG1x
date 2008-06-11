@@ -503,7 +503,7 @@ Brick *BrickSet::sortBricks3D(const Matrix & modelMat, const Vec3f & eyePoint)
     m_pBricks[0].prev = NULL;
     m_pBricks[0].next = NULL;
 
-    modelMat.multMatrixPnt(m_pBricks[0].center,transformedCenter);
+    modelMat.mult(m_pBricks[0].center, transformedCenter);
 
     m_pBricks[0].distance = (eyePoint - transformedCenter).length();
     
@@ -512,7 +512,7 @@ Brick *BrickSet::sortBricks3D(const Matrix & modelMat, const Vec3f & eyePoint)
     {
         incoming = &(m_pBricks[nBrick]);
 
-        modelMat.multMatrixPnt(incoming->center,transformedCenter);
+        modelMat.mult(incoming->center, transformedCenter);
 
         distance = (eyePoint - transformedCenter).length();
 

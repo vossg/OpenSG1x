@@ -177,7 +177,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                     Access Fields                            */
     /*! \{                                                                 */
 
+    const SFDynamicVolume *getSFVolume  (void) const;
+          SFDynamicVolume *editSFVolume (void);
+
+#ifndef OSG_2_PREP
     SFDynamicVolume *getSFVolume  (void);
+#endif
+
     SFUInt32        *getSFTravMask(void);
     SFNodePtr       *getSFParent  (void);
     SFNodeCorePtr   *getSFCore    (void);
@@ -197,8 +203,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \name                       Volume                                 */
     /*! \{                                                                 */
     
+#ifndef OSG_2_PREP
            DynamicVolume &getVolume       (bool update          );
+#endif
     
+           DynamicVolume &editVolume      (bool update          );
     const  DynamicVolume &getVolume       (void                 ) const;
     
            void           getWorldVolume  (DynamicVolume &result);

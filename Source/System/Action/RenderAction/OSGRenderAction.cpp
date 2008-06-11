@@ -683,7 +683,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             Pnt3f         objPos;
             getActNode()->getVolume().getCenter(objPos);
 
-            _currMatrix.second.mult(objPos);
+            _currMatrix.second.mult(objPos, objPos);
 
             pNewElem->setNode       (getActNode());
                 
@@ -889,7 +889,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 {
                     Pnt3f objPos;
                     getActNode()->getVolume().getCenter(objPos);
-                    _currMatrix.second.mult(objPos);
+                    _currMatrix.second.mult(objPos, objPos);
                     pNewElem->setScalar(objPos[2]);
 
                     if(isMultiPass)
@@ -997,7 +997,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             Pnt3f         objPos;
             getActNode()->getVolume().getCenter(objPos);
 
-            _currMatrix.second.mult(objPos);
+            _currMatrix.second.mult(objPos, objPos);
 
             pNewElem->setNode       (getActNode());
                 
@@ -1423,7 +1423,7 @@ bool RenderAction::pushVisibility(void)
     
     NodePtr node = getActNode();
     
-    DynamicVolume vol = node->getVolume(true);
+    DynamicVolume vol = node->editVolume(true);
     FrustumVolume frustum = _frustum;
 
 #if 1
@@ -1641,7 +1641,13 @@ bool RenderAction::isSmallFeature(const NodePtr &node)
     p[7].setValues(p[0][0], p[4][1], p[4][2]);
 
     for(int i=0;i<8;++i)
+    {
+#ifndef OSG_2_PREP
         _worldToScreenMatrix.multFullMatrixPnt(p[i]);
+#else
+        _worldToScreenMatrix.multFull(p[i], p[i]);
+#endif
+    }
 
     Pnt2f min(OSG::Inf, OSG::Inf);
     Pnt2f max(OSG::NegInf, OSG::NegInf);

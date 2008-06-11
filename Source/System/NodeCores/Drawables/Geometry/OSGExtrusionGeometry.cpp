@@ -665,7 +665,7 @@ void ExtrusionSurface::calcSweepSurfacePositions(void)
             Pnt3f p = Pnt3f((*crossIt)[0], 0.f, (*crossIt)[1]);
 
             // apply "CP to SCP"-transform
-            transIt->multMatrixPnt(p, gridColIt->position);
+            transIt->mult(p, gridColIt->position);
         }
 
         // always use last defined transformation matrix

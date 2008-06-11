@@ -139,7 +139,7 @@ bool PruneGraphOp::isTooSmall(const NodePtr& node) {
 }
 
 float PruneGraphOp::getSize(const NodePtr& node) {
-    const DynamicVolume& dv = node->getVolume(true);
+    const DynamicVolume& dv = node->editVolume(true);
     if (_method == VOLUME) {
         return dv.getScalarVolume();
     } else if (_method == SUM_OF_DIMENSIONS) {

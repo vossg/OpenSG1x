@@ -156,7 +156,7 @@ Action::ResultE DistanceLOD::draw(Action *action)
     else
     {
         Pnt3f eyepos;
-        da->getCameraToWorld().mult(eyepos);
+        da->getCameraToWorld().mult(eyepos, eyepos);
 
         Pnt3f objpos;
         RenderAction *ra = dynamic_cast<RenderAction *>(action);

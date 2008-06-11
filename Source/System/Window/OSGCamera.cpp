@@ -286,8 +286,13 @@ bool Camera::calcViewRay(Line &line, Int32 x, Int32 y, const Viewport& port, Rea
                        ) * 2.f;
             
     Pnt3f from, at;
+#ifndef OSG_2_PREP
     cctowc.multFullMatrixPnt(Pnt3f(rx, ry, -1), from);
     cctowc.multFullMatrixPnt(Pnt3f(rx, ry,  1), at);
+#else
+    cctowc.multFull(Pnt3f(rx, ry, -1), from);
+    cctowc.multFull(Pnt3f(rx, ry,  1), at  );
+#endif
 	
 	Vec3f dir = at - from;
 	

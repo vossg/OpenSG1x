@@ -420,7 +420,7 @@ Action::ResultE DVRVolume::draw(DrawActionBase *action)
 
         // sort bricks
         Pnt3f eyePointWorld(0.f, 0.f, 0.f);
-        action->getCameraToWorld().mult(eyePointWorld);
+        action->getCameraToWorld().mult(eyePointWorld, eyePointWorld);
 
         Matrix modelMat = action->getActNode()->getToWorld();
       

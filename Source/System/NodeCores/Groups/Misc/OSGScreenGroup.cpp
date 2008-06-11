@@ -184,14 +184,26 @@ void ScreenGroup::calcMatrix(   DrawActionBase *pAction,
     mToScreen.mult(mToWorld);
 
     Pnt3f origin(0.f, 0.f, 0.f);
+#ifndef OSG_2_PREP
     mToScreen.multFullMatrixPnt(origin);
+#else
+    mToScreen.multFull(origin, origin);
+#endif
 
     Pnt3f xAxis(1.f, 0.f, 0.f);
+#ifndef OSG_2_PREP
     mToScreen.multFullMatrixPnt(xAxis);
+#else
+    mToScreen.multFull(xAxis, xAxis);
+#endif
     Real32 scaleX =  2.f / viewport->getPixelWidth() / (xAxis - origin).length();
 
     Pnt3f yAxis(0.f, 1.f, 0.f);
+#ifndef OSG_2_PREP
     mToScreen.multFullMatrixPnt(yAxis);
+#else
+    mToScreen.multFull(yAxis, yAxis);
+#endif
     Real32 scaleY = 2.f / viewport->getPixelHeight() / (yAxis - origin).length();
 
     mResult.setScale(scaleX, scaleY, 1.f);
@@ -248,8 +260,13 @@ Action::ResultE ScreenGroup::intersectEnter(Action *action)
     Pnt3f pos;
     Vec3f dir;
 
+#ifndef OSG_2_PREP
     m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
     m.multMatrixVec    (ia->getLine().getDirection(), dir);
+#else
+    m.multFull(ia->getLine().getPosition (), pos);
+    m.mult    (ia->getLine().getDirection(), dir);
+#endif
 
     ia->setLine(Line(pos, dir), ia->getMaxDist());
     ia->scale(dir.length());
@@ -265,8 +282,13 @@ Action::ResultE ScreenGroup::intersectLeave(Action *action)
     Pnt3f pos;
     Vec3f dir;
 
+#ifndef OSG_2_PREP
     m.multFullMatrixPnt(ia->getLine().getPosition (), pos);
     m.multMatrixVec    (ia->getLine().getDirection(), dir);
+#else
+    m.multFull(ia->getLine().getPosition (), pos);
+    m.mult    (ia->getLine().getDirection(), dir);
+#endif
 
     ia->setLine(Line(pos, dir), ia->getMaxDist());
     ia->scale(dir.length());
@@ -316,7 +338,7 @@ Action::ResultE ScreenGroup::renderLeave(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.4 2007/09/21 09:13:07 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.5 2008/06/11 11:28:56 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENGROUPBASE_INLINE_CVSID;
 

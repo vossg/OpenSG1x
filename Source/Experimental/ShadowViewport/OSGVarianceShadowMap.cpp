@@ -796,7 +796,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                     if(tmpPoint->getBeacon() != NullFC)
                     {
                         Matrix  m = tmpPoint->getBeacon()->getToWorld();
-                        m.mult(lPos);
+                        m.mult(lPos, lPos);
                     }
                     isDirLight = false;
 
@@ -823,7 +823,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
                     if(tmpSpot->getBeacon() != NullFC)
                     {
                         Matrix  m = tmpSpot->getBeacon()->getToWorld();
-                        m.mult(lPos);
+                        m.mult(lPos, lPos);
                     }
                     isDirLight = false;
                     Pnt3f           center;
@@ -1028,7 +1028,7 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
             if(tmpPoint->getBeacon() != NullFC)
             {
                 Matrix  m = tmpPoint->getBeacon()->getToWorld();
-                m.mult(lPos);
+                m.mult(lPos, lPos);
             }
             isDirLight = false;
             Pnt3f           center;
@@ -1053,7 +1053,7 @@ void VarianceShadowMap::createShadowFactorMap(RenderActionBase *action,
             if(tmpSpot->getBeacon() != NullFC)
             {
                 Matrix  m = tmpSpot->getBeacon()->getToWorld();
-                m.mult(lPos);
+                m.mult(lPos, lPos);
             }
             isDirLight = false;
             Pnt3f           center;
@@ -1217,7 +1217,7 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
             if(tmpPoint->getBeacon() != NullFC)
             {
                 Matrix  m = tmpPoint->getBeacon()->getToWorld();
-                m.mult(lPos);
+                m.mult(lPos, lPos);
             }
             isDirLight = false;
             Pnt3f           center;
@@ -1242,7 +1242,7 @@ void VarianceShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
             if(tmpSpot->getBeacon() != NullFC)
             {
                 Matrix  m = tmpSpot->getBeacon()->getToWorld();
-                m.mult(lPos);
+                m.mult(lPos, lPos);
             }
             isDirLight = false;
             Pnt3f           center;

@@ -373,7 +373,7 @@ int Plane::clip(Pnt3f *polyIn, Pnt3f *polyOut, int count) const
 
 void Plane::transform(const Matrix &matrix)
 {
-    matrix.mult(_normalVec);
+    matrix.mult(_normalVec, _normalVec);
 
     _normalVec.normalize();
 

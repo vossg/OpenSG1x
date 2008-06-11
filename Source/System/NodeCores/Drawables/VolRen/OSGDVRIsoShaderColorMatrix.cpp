@@ -341,7 +341,11 @@ void DVRIsoShader::getCoveredScreenRect(DVRVolume      *volume,
  
 
         Pnt3f tBB;
-        toScreenMatrix.multFullMatrixPnt(BB[0],tBB);
+#ifndef OSG_2_PREP
+        toScreenMatrix.multFullMatrixPnt(BB[0], tBB);
+#else
+        toScreenMatrix.multFull(BB[0], tBB);
+#endif
 
         screenRect[0] = tBB[0]; 
         screenRect[1] = tBB[1]; 
@@ -351,7 +355,11 @@ void DVRIsoShader::getCoveredScreenRect(DVRVolume      *volume,
         // get min,max coordinates
         for(unsigned int i = 1; i < 8; i++)
         {
-            toScreenMatrix.multFullMatrixPnt(BB[i],tBB);
+#ifndef OSG_2_PREP
+            toScreenMatrix.multFullMatrixPnt(BB[i], tBB);
+#else
+            toScreenMatrix.multFull(BB[i], tBB);
+#endif
             
             if(tBB[0] < screenRect[0]) 
             {

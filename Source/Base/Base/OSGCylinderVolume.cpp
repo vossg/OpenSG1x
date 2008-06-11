@@ -204,9 +204,9 @@ void CylinderVolume::transform(const Matrix&  mtx)
      v3.crossThis(v2);
 
      // transform
-     mtx.mult(p);
-     mtx.mult(v);
-     mtx.mult(v3);
+     mtx.mult(p,  p );
+     mtx.mult(v,  v );
+     mtx.mult(v3, v3);
 
      // update
      setAxis(p,v);

@@ -79,10 +79,11 @@ class TransformationMatrix
 
     typedef VectorInterface<ValueTypeT, 
                             VecStorage3<ValueTypeT> > VectorType3f;
-
+    typedef PointInterface<ValueTypeT,
+                           VecStorage4<ValueTypeT>  > PointType;
     typedef PointInterface<ValueTypeT, 
                            VecStorage3<ValueTypeT>  > PointType3f;
-
+                           
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
@@ -287,6 +288,7 @@ class TransformationMatrix
     /*! \name                   Transform                                  */
     /*! \{                                                                 */
 
+#ifndef OSG_2_PREP
     void multMatrixPnt    (const PointType3f  &src, 
                                  PointType3f  &dst) const;
     void multMatrixPnt    (      PointType3f  &pnt) const;
@@ -298,11 +300,7 @@ class TransformationMatrix
                                  VectorType3f &dst) const;
     void multMatrixVec    (      VectorType3f &vec) const;
 
-    void mult             (const PointType3f  &src, 
-                                 PointType3f  &dst) const;
     void mult             (      PointType3f  &vec) const;
-    void mult             (const VectorType3f &src, 
-                                 VectorType3f &dst) const;
     void mult             (      VectorType3f &vec) const;
 
 
@@ -322,6 +320,28 @@ class TransformationMatrix
                                  VectorType &dst) const;
     void multMatrixVec    (      VectorType &vec) const;
 
+#endif  // OSG_2_PREP
+
+    void mult    (const PointType    &pntIn, PointType    &pntOut) const;
+    void multFull(const PointType3f  &pntIn, PointType3f  &pntOut) const;
+    void mult    (const PointType3f  &pntIn, PointType3f  &pntOut) const;
+    
+    void mult    (const VectorType   &vecIn, VectorType   &vecOut) const;
+    void multFull(const VectorType3f &vecIn, VectorType3f &vecOut) const;
+    void mult    (const VectorType3f &vecIn, VectorType3f &vecOut) const;
+    
+    void mult3x3 (const PointType3f  &pntIn, PointType3f  &pntOut) const;
+    void mult3x3 (const VectorType3f &vecIn, VectorType3f &vecOut) const;
+    
+    PointType    operator *(const PointType    &pntIn) const;
+    PointType3f  operator *(const PointType3f  &pntIn) const;
+             
+    VectorType   operator *(const VectorType   &vecIn) const;
+    VectorType3f operator *(const VectorType3f &vecIn) const;
+
+//#endif // OSG_2_PREP
+    
+    
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Math                                       */

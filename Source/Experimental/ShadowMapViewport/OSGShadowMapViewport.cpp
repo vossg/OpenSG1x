@@ -104,7 +104,7 @@ OSG_USING_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::ShadowMapViewport
-Erste Version des Shadowviewports für Shadowmapping
+Erste Version des Shadowviewports fr Shadowmapping
 */
 
 /***************************************************************************\
@@ -631,8 +631,8 @@ void ShadowMapViewport::updateLights(void)
                 if(tmpSpot->getBeacon() != NullFC)
                 {
                     Matrix m = tmpSpot->getBeacon()->getToWorld();
-                    m.mult(lightpos);
-                    m.mult(lightdir);
+                    m.mult(lightpos, lightpos);
+                    m.mult(lightdir, lightdir);
                 }
 
                 //<-- ???
@@ -662,7 +662,7 @@ void ShadowMapViewport::updateLights(void)
                 if(tmpDir->getBeacon() != NullFC)
                 {
                     Matrix m = tmpDir->getBeacon()->getToWorld();
-                    m.mult(lightdir);
+                    m.mult(lightdir, lightdir);
                 }
                 
                 MatrixLookAt(tmpMatrix,center + lightdir,
@@ -692,7 +692,7 @@ void ShadowMapViewport::updateLights(void)
                 if(tmpPoint->getBeacon() != NullFC)
                 {
                     Matrix m = tmpPoint->getBeacon()->getToWorld();
-                    m.mult(lightpos);
+                    m.mult(lightpos, lightpos);
                 }
 
                 getSceneRoot()->getVolume().getCenter(center);
@@ -754,7 +754,7 @@ void ShadowMapViewport::updateLights(void)
                 if(tmpPoint->getBeacon() != NullFC)
                 {
                     Matrix m = tmpPoint->getBeacon()->getToWorld();
-                    m.mult(lightpos);
+                    m.mult(lightpos, lightpos);
                 }
                 
                 dist =  (lightpos - center);
@@ -1188,7 +1188,7 @@ void ShadowMapViewport::projectShadowMaps(RenderActionBase* action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.19 2008/06/10 05:52:16 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShadowMapViewport.cpp,v 1.20 2008/06/11 11:28:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADOWMAPVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADOWMAPVIEWPORTBASE_INLINE_CVSID;
 

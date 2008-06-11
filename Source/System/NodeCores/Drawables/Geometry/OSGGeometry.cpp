@@ -1159,7 +1159,7 @@ void Geometry::updateCachedGeoStat(void)
 Action::ResultE Geometry::intersect(Action * action)
 {
     IntersectAction     * ia = dynamic_cast<IntersectAction*>(action);
-    const DynamicVolume  &dv = ia->getActNode()->getVolume(true);
+    const DynamicVolume  &dv = ia->getActNode()->editVolume(true);
 
     if(dv.isValid() && !dv.intersect(ia->getLine()))
     {

@@ -772,8 +772,8 @@ void ShadowViewport::updateLights(void)
                 if(tmpSpot->getBeacon() != NullFC)
                 {
                     Matrix  m = tmpSpot->getBeacon()->getToWorld();
-                    m.mult(lightpos);
-                    m.mult(lightdir);
+                    m.mult(lightpos, lightpos);
+                    m.mult(lightdir, lightpos);
                 }
 
                 //<-- ???
@@ -804,7 +804,7 @@ void ShadowViewport::updateLights(void)
                 if(tmpDir->getBeacon() != NullFC)
                 {
                     Matrix  m = tmpDir->getBeacon()->getToWorld();
-                    m.mult(lightdir);
+                    m.mult(lightdir, lightdir);
                 }
 
                 MatrixLookAt(tmpMatrix, center + lightdir,
@@ -836,7 +836,7 @@ void ShadowViewport::updateLights(void)
                 if(tmpPoint->getBeacon() != NullFC)
                 {
                     Matrix  m = tmpPoint->getBeacon()->getToWorld();
-                    m.mult(lightpos);
+                    m.mult(lightpos, lightpos);
                 }
 
                 if((getShadowMode() == STD_SHADOW_MAP ||
@@ -1016,7 +1016,7 @@ void ShadowViewport::updateLights(void)
                 if(tmpSpot->getBeacon() != NullFC)
                 {
                     Matrix  m = tmpSpot->getBeacon()->getToWorld();
-                    m.mult(lightpos);
+                    m.mult(lightpos, lightpos);
                 }
 
                 Pnt3f   center;
@@ -1093,7 +1093,7 @@ void ShadowViewport::updateLights(void)
                     if(tmpPoint->getBeacon() != NullFC)
                     {
                         Matrix  m = tmpPoint->getBeacon()->getToWorld();
-                        m.mult(lightpos);
+                        m.mult(lightpos, lightpos);
                     }
 
                     dist = (lightpos - center);
@@ -1119,7 +1119,7 @@ void ShadowViewport::updateLights(void)
                     if(tmpPoint->getBeacon() != NullFC)
                     {
                         Matrix  m = tmpPoint->getBeacon()->getToWorld();
-                        m.mult(lightpos);
+                        m.mult(lightpos, lightpos);
                     }
 
                     dist = (lightpos - center);
@@ -1254,7 +1254,7 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
         else
             //Light is a point light
         {
-            //TODO: Texturgrösse anpassen, je nach Bedarf
+            //TODO: Texturgrï¿½se anpassen, je nach Bedarf
             GLint   max_texture_size;
             glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size);
 
@@ -1509,7 +1509,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.34 2008/06/10 05:52:17 vossg Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.35 2008/06/11 11:28:53 vossg Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

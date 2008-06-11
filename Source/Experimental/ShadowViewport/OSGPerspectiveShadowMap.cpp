@@ -1345,7 +1345,7 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM,
             if(tmpPoint->getBeacon() != NullFC)
             {
                 Matrix  m = tmpPoint->getBeacon()->getToWorld();
-                m.mult(lPos);
+                m.mult(lPos, lPos);
             }
         }
 	
@@ -1357,7 +1357,7 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM,
             if(tmpSpot->getBeacon() != NullFC)
             {
                 Matrix  m = tmpSpot->getBeacon()->getToWorld();
-                m.mult(lPos);
+                m.mult(lPos, lPos);
             }
         }
 	
@@ -1389,8 +1389,13 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM,
         //Kamerapunkt holen
         Pnt3f   eyePos(0,0,0);
         Matrix  m2 = _shadowVP->getCamera()->getBeacon()->getToWorld();
-        m2.mult(eyePos);
+        m2.mult(eyePos, eyePos);
+        
+#ifndef OSG_2_PREP
         LPVM.multFullMatrixPnt(eyePos, eyePos);
+#else
+        LPVM.multFull(eyePos, eyePos);
+#endif
 
         //Ist die Kamera hinter der Lichtquelle?
         bool    cBehindL = false;
@@ -1422,8 +1427,8 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM,
             Vec3f               viewDir(0,0,-1);
             Matrix              m3 = _shadowVP->getCamera()->getBeacon
                 ()->getToWorld();
-            m3.multMatrixVec(viewDir);
-            LPVM.multMatrixVec(viewDir, viewDir);
+            m3  .mult(viewDir, viewDir);
+            LPVM.mult(viewDir, viewDir);
             viewDir.normalize();
 
             //Body berechnen
@@ -1462,7 +1467,11 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM,
             for(UInt32 i = 0;i < points.size();i++)
             {
                 Pnt3f   tmpPnt(points[i][0], points[i][1], points[i][2]);
+#ifndef OSG_2_PREP
                 lView22.multFullMatrixPnt(tmpPnt, tmpPnt);
+#else
+                lView22.multFull(tmpPnt, tmpPnt);
+#endif
                 points[i] = tmpPnt;
             }
 
@@ -1502,8 +1511,13 @@ void PerspectiveShadowMap::calcPerspectiveSpot(Matrix &_LPM, Matrix &_LVM,
             for(UInt32 i = 0;i < pointsCopy.size();i++)
             {
                 Pnt3f   tmpPnt = pointsCopy[i];
-                lView222.multFullMatrixPnt(tmpPnt, tmpPnt);
+#ifndef OSG_2_PREP
+                lView222 .multFullMatrixPnt(tmpPnt, tmpPnt);
                 lispMtx99.multFullMatrixPnt(tmpPnt, tmpPnt);
+#else
+                lView222 .multFull(tmpPnt, tmpPnt);
+                lispMtx99.multFull(tmpPnt, tmpPnt);
+#endif
                 pointsCopy[i] = tmpPnt;
             }
 
@@ -1534,7 +1548,7 @@ void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points,
                                      Matrix invEyeProjMatrix, Pnt3f sceneMin,
                                      Pnt3f sceneMax, Matrix LPVM)
 {
-    //Die Funktion clippt das Kamera Frustum mit der Szenen Bounding Box und liefert eine Punktmenge zurück
+    //Die Funktion clippt das Kamera Frustum mit der Szenen Bounding Box und liefert eine Punktmenge zurck
 
     //Unit Cube
     Pnt3f   vf0(-1,-1,-1);
@@ -1547,6 +1561,7 @@ void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points,
     Pnt3f   vf7(-1,1,1);
 
     //transform to World Coordinates
+#ifndef OSG_2_PREP
     invEyeProjMatrix.multFullMatrixPnt(vf0);
     invEyeProjMatrix.multFullMatrixPnt(vf1);
     invEyeProjMatrix.multFullMatrixPnt(vf2);
@@ -1555,6 +1570,16 @@ void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points,
     invEyeProjMatrix.multFullMatrixPnt(vf5);
     invEyeProjMatrix.multFullMatrixPnt(vf6);
     invEyeProjMatrix.multFullMatrixPnt(vf7);
+#else
+    invEyeProjMatrix.multFull(vf0, vf0);
+    invEyeProjMatrix.multFull(vf1, vf1);
+    invEyeProjMatrix.multFull(vf2, vf2);
+    invEyeProjMatrix.multFull(vf3, vf3);
+    invEyeProjMatrix.multFull(vf4, vf4);
+    invEyeProjMatrix.multFull(vf5, vf5);
+    invEyeProjMatrix.multFull(vf6, vf6);
+    invEyeProjMatrix.multFull(vf7, vf7);
+#endif
 
     //Scene Bounding Box Points
     Pnt3f   bb0(sceneMin[0], sceneMin[1], sceneMin[2]);
@@ -1627,7 +1652,7 @@ void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points,
     UInt32  sum = 0;
     Pnt3f   allPoints[100];
 
-    // speichert die anzahl der durchgeführten Clips
+    // speichert die anzahl der durchgefhrten Clips
     UInt32  sumClip = 0;
 
     for(UInt32 i = 0;i < 6;i++)
@@ -1694,7 +1719,11 @@ void PerspectiveShadowMap::calcHull2(std::vector<Pnt3f> *points,
     for(UInt32 i = 0;i < points->size();i++)
     {
         Pnt3f   tmpPnt((*points)[i]);
+#ifndef OSG_2_PREP
         LPVM.multFullMatrixPnt(tmpPnt, tmpPnt);
+#else
+        LPVM.multFull(tmpPnt, tmpPnt);
+#endif
         (*points)[i] = tmpPnt;
     }
 
@@ -1816,8 +1845,13 @@ bool PerspectiveShadowMap::bbInsideFrustum(Pnt3f sceneMin, Pnt3f sceneMax,
     Matrix  iLPVM(LPVM);
     iLPVM.invert();
 
+#ifndef OSG_2_PREP
     LPVM.multFullMatrixPnt(sceneMin);
     LPVM.multFullMatrixPnt(sceneMax);
+#else
+    LPVM.multFull(sceneMin, sceneMin);
+    LPVM.multFull(sceneMax, sceneMax);
+#endif
 
     //Scene Bounding Box Points
     Pnt3f   bb0(sceneMin[0], sceneMin[1], sceneMin[2]);
@@ -4349,7 +4383,7 @@ void PerspectiveShadowMap::render(RenderActionBase *action)
                 }
             }
 
-            //Matrizen für alle Lichter berechnen
+            //Matrizen fr alle Lichter berechnen
             for(UInt32 i = 0;i < _shadowVP->_lights.size();i++)
             {
                 if(_shadowVP->_lightStates[i] != 0 &&

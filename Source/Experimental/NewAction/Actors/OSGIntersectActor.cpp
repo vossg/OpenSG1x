@@ -136,7 +136,7 @@ IntersectActor::setupChildrenPriorities(void)
 
     for(UInt32 i = 0; i < numChildren; ++i)
     {
-        const DynamicVolume &dynVol = getChild(i)->getVolume(true);
+        const DynamicVolume &dynVol = getChild(i)->editVolume(true);
 
         if((dynVol.intersect(getRay(), bvEnter, bvExit) == true   ) &&
            (bvEnter * scaleFactor                       <  hitDist)   )
@@ -151,7 +151,7 @@ IntersectActor::setupChildrenPriorities(void)
 
     for(UInt32 i = 0; i < numExtraChildren; ++i)
     {
-        const DynamicVolume &dynVol = getExtraChild(i)->getVolume(true);
+        const DynamicVolume &dynVol = getExtraChild(i)->editVolume(true);
 
         if((dynVol.intersect(getRay(), bvEnter, bvExit) == true   ) &&
            (bvEnter * scaleFactor                       <  hitDist)   )

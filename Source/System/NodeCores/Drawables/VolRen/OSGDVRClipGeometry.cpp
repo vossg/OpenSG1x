@@ -359,8 +359,8 @@ void DVRClipGeometry::initialize(const Matrix &volumeToWorld)
     // transform vertices to volume's space
     for(UInt32 i = 0; i < numVertices; i++)
     {
-        toVolumeSpace.multMatrixPnt(_mfVertices[i].pos, 
-                                    _mfVertices[i].transformedPos);
+        toVolumeSpace.mult(_mfVertices[i].pos, 
+                           _mfVertices[i].transformedPos);
     }
 
     UInt32 numTriangles = _mfTriangles.size();
@@ -368,8 +368,8 @@ void DVRClipGeometry::initialize(const Matrix &volumeToWorld)
     // transform triangle normals to volume's space
     for(UInt32 i = 0; i < numTriangles; i++)
     {
-        toVolumeSpaceInvT.multMatrixVec(_mfTriangles[i].normal, 
-                                        _mfTriangles[i].transformedNormal);
+        toVolumeSpaceInvT.mult(_mfTriangles[i].normal, 
+                               _mfTriangles[i].transformedNormal);
 
         _mfTriangles[i].transformedNormal.normalize();
     }

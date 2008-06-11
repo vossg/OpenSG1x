@@ -192,8 +192,8 @@ void SphereVolume::transform(const Matrix &mat)
     Pnt3f hull(_center);
     hull += Vec3f(0, _radius, 0);
 
-    mat.mult(_center);
-    mat.mult(hull);
+    mat.mult(_center, _center);
+    mat.mult(hull,    hull   );
     _radius = (hull - _center).length();
 
 /*

@@ -59,8 +59,19 @@ const DynamicVolume &Node::getVolume(void) const
     return _sfVolume.getValue();
 }
 
+#ifndef OSG_2_PREP
 inline
 DynamicVolume &Node::getVolume(bool update)
+{
+    if(update == true)
+        updateVolume();
+
+    return _sfVolume.getValue();
+}
+#endif
+
+inline
+DynamicVolume &Node::editVolume(bool update)
 {
     if(update == true)
         updateVolume();
@@ -130,10 +141,24 @@ UInt8 Node::getOcclusionMask(void) const
 /*                          Access Fields                                  */
 
 inline
+const SFDynamicVolume *Node::getSFVolume(void) const
+{
+    return &_sfVolume;
+}
+
+inline
+SFDynamicVolume *Node::editSFVolume(void)
+{
+    return &_sfVolume;
+}
+
+#ifndef OSG_2_PREP
+inline
 SFDynamicVolume *Node::getSFVolume(void)
 {
     return &_sfVolume;
 }
+#endif
 
 inline
 SFUInt32 *Node::getSFTravMask(void)

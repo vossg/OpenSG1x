@@ -845,7 +845,7 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
     mat.setTransform(q);
 
     for (j=0; j<12; j++)
-        mat.mult(v[j]);
+        mat.mult(v[j], v[j]);
                 
     Int32 tr[20][3] = { {1,4,0},  {4,9,0},  {4,5,9},  {8,5,4},  {1,8,4},
                         {1,10,8}, {10,3,8}, {8,3,5},  {3,2,5},  {3,7,2},

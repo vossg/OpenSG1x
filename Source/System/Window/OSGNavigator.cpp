@@ -971,8 +971,13 @@ void Navigator::getIntersectionPoint(Int16 x, Int16 y)
 
     Pnt3f at,to;
 
+#ifndef OSG_2_PREP
     cctowc.multFullMatrixPnt( Pnt3f( 0, 0, 0.5f ), to );
     cctowc.multFullMatrixPnt( Pnt3f( 0, 0, 1    ), at );
+#else
+    cctowc.multFull( Pnt3f( 0, 0, 0.5f ), to );
+    cctowc.multFull( Pnt3f( 0, 0, 1    ), at );
+#endif
 
     _dir = to - at;
 
@@ -1011,7 +1016,11 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
         ry = 1.f - ( toY / Real32(_vp->getPixelHeight()) ) * 2.f;
 
     Pnt3f at;
+#ifndef OSG_2_PREP
     cctowc.multFullMatrixPnt( Pnt3f( rx, ry, 1 ), at );
+#else
+    cctowc.multFull( Pnt3f( rx, ry, 1 ), at );
+#endif
 
     Line line2;
     line2.setValue(from, at-from);
@@ -1026,7 +1035,7 @@ void Navigator::calcDeltas(Int16 , Int16 , Int16 toX, Int16 toY,
     transl[1] = -p2[1] + _ip[1];
     transl[2] = -p2[2] + _ip[2];
 
-    view.multMatrixVec(transl);
+    view.mult(transl, transl);
 
     distanceX = transl[0];
     distanceY = transl[1];

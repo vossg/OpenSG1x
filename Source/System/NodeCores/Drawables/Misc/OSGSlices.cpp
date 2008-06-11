@@ -246,7 +246,7 @@ Action::ResultE Slices::drawPrimitives(DrawActionBase *action)
     camera.multLeft(toworld);
   
     // Viewer direction  
-    camera.multMatrixVec(planeNormal,planeNormal);
+    camera.mult(planeNormal, planeNormal);
     planeNormal.normalize();
 
     drawSlices(action->getWindow(), planeNormal,triCount,vertexCount);

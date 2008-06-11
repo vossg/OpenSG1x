@@ -917,6 +917,8 @@ bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
 
 /*---------------------------- transform objects ---------------------------*/
 
+#ifndef OSG_2_PREP
+
 /*! \brief Multiplies matrix by given column point, where the resulting point
     is given
 */
@@ -1060,16 +1062,6 @@ void TransformationMatrix<ValueTypeT>::multMatrixVec(VectorType &vec) const
     multMatrixVec(vec, vec);
 }
 
-/*! \brief Transforms the given point by the matrix and stores the result in
-    dest
-*/
-
-template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::mult(const PointType3f &src,
-                                                  PointType3f &dest) const
-{
-    multMatrixPnt(src, dest);
-}
 
 //! Transforms the given point by the matrix
 
@@ -1077,17 +1069,6 @@ template<class ValueTypeT> inline
 void TransformationMatrix<ValueTypeT>::mult(PointType3f &pnt) const
 {
     multMatrixPnt(pnt, pnt);
-}
-
-/*! \brief Transforms the given vector by the matrix and stores the result in
-    dest
-*/
-
-template<class ValueTypeT> inline
-void TransformationMatrix<ValueTypeT>::mult(const VectorType3f &src,
-                                                  VectorType3f &dest) const
-{
-    multMatrixVec(src, dest);
 }
 
 //! Transforms the given vector by the matrix
@@ -1205,6 +1186,335 @@ void TransformationMatrix<ValueTypeT>::multVecMatrix(VectorType3f &vec) const
 {
     multVecMatrix(vec, vec);
 }
+
+#endif  // OSG_2_PREP
+
+/*! Multiply the point \a pIn by this complete 4x4 matrix and store
+    the result in \a pntOut.
+
+    \note The resulting point can have a \c w coordinate different from 1.
+    \note It is valid for parameters to be aliased, i.e. &pntIn == &pntOut.
+ */
+template <class ValueTypeT>
+inline void
+    TransformationMatrix<ValueTypeT>::mult(
+        const PointType &pntIn, PointType &pntOut) const
+{
+    pntOut.setValues(
+        (_matrix[0][0] * pntIn[0] +
+         _matrix[1][0] * pntIn[1] +
+         _matrix[2][0] * pntIn[2] +
+         _matrix[3][0] * pntIn[3]  ),
+        (_matrix[0][1] * pntIn[0] +
+         _matrix[1][1] * pntIn[1] +
+         _matrix[2][1] * pntIn[2] +
+         _matrix[3][1] * pntIn[3]  ),
+        (_matrix[0][2] * pntIn[0] +
+         _matrix[1][2] * pntIn[1] +
+         _matrix[2][2] * pntIn[2] +
+         _matrix[3][2] * pntIn[3]  ),
+        (_matrix[0][3] * pntIn[0] +
+         _matrix[1][3] * pntIn[1] +
+         _matrix[2][3] * pntIn[2] +
+         _matrix[3][3] * pntIn[3]  ) );
+}
+
+/*! Multiply the 3 point \a pntIn by this complete 4x4 matrix and store
+    the result in \a pntOut.
+
+    \note Both \a pntIn and \a pntOut are treated as having w = 1 and
+          \a pntOut is scaled correctly to satisfy this.          
+    \note It is valid for parameters to be aliased, i.e. &pntIn == &pntOut.
+ */
+template <class ValueTypeT>
+inline void
+    TransformationMatrix<ValueTypeT>::multFull(
+        const PointType3f &pntIn, PointType3f  &pntOut) const
+{
+    ValueType w = _matrix[0][3] * pntIn[0] +
+                  _matrix[1][3] * pntIn[1] +
+                  _matrix[2][3] * pntIn[2] +
+                  _matrix[3][3];
+                  
+    if(w == TypeTraits<ValueType>::getZeroElement())
+    {
+        FWARNING(("TransformationMatrix<>::multFull(Pnt3, Pnt3): w == 0.0\n"));
+    
+        pntOut.setValues(
+            (_matrix[0][0] * pntIn[0] +
+             _matrix[1][0] * pntIn[1] +
+             _matrix[2][0] * pntIn[2] +
+             _matrix[3][0]             ),
+            (_matrix[0][1] * pntIn[0] +
+             _matrix[1][1] * pntIn[1] +
+             _matrix[2][1] * pntIn[2] +
+             _matrix[3][1]             ),
+            (_matrix[0][2] * pntIn[0] +
+             _matrix[1][2] * pntIn[1] +
+             _matrix[2][2] * pntIn[2] +
+             _matrix[3][2]             ) );
+    }
+    else
+    {
+        w = TypeTraits<ValueType>::getOneElement() / w;
+        
+        pntOut.setValues(
+            (_matrix[0][0] * pntIn[0] +
+             _matrix[1][0] * pntIn[1] +
+             _matrix[2][0] * pntIn[2] +
+             _matrix[3][0]             ) * w,
+            (_matrix[0][1] * pntIn[0] +
+             _matrix[1][1] * pntIn[1] +
+             _matrix[2][1] * pntIn[2] +
+             _matrix[3][1]             ) * w,
+            (_matrix[0][2] * pntIn[0] +
+             _matrix[1][2] * pntIn[1] +
+             _matrix[2][2] * pntIn[2] +
+             _matrix[3][2]             ) * w );
+    }
+}
+
+/*! Multiply the 3 point \a pntIn by this matrix (considering only the 3x4 part)
+    and store the result in \a pntOut.
+    
+    \note \a pntIn is treated as having w = 1.
+    \note It is valid for parameters to be aliased, i.e. &pntIn == &pntOut.
+ */
+template <class ValueTypeT>
+inline void
+    TransformationMatrix<ValueTypeT>::mult(
+        const PointType3f &pntIn, PointType3f &pntOut) const
+{
+    pntOut.setValues(
+        (_matrix[0][0] * pntIn[0] +
+         _matrix[1][0] * pntIn[1] +
+         _matrix[2][0] * pntIn[2] +
+         _matrix[3][0]             ),
+        (_matrix[0][1] * pntIn[0] +
+         _matrix[1][1] * pntIn[1] +
+         _matrix[2][1] * pntIn[2] +
+         _matrix[3][1]             ),
+        (_matrix[0][2] * pntIn[0] +
+         _matrix[1][2] * pntIn[1] +
+         _matrix[2][2] * pntIn[2] +
+         _matrix[3][2]             ) );
+        
+}
+    
+/*! Multiply the vector \a vecIn by this complete 4x4 matrix and store
+    the result in \a vecOut.
+    
+    \note The resulting vector can have a \c w coordinate different from 0.
+    \note It is valid for parameters to be aliased, i.e. &vecIn == &vecOut.
+ */
+template <class ValueTypeT>
+inline void
+    TransformationMatrix<ValueTypeT>::mult(
+        const VectorType &vecIn, VectorType &vecOut) const
+{
+    vecOut.setValues(
+        (_matrix[0][0] * vecIn[0] +
+         _matrix[1][0] * vecIn[1] +
+         _matrix[2][0] * vecIn[2]  ),
+        (_matrix[0][1] * vecIn[0] +
+         _matrix[1][1] * vecIn[1] +
+         _matrix[2][1] * vecIn[2]  ),
+        (_matrix[0][2] * vecIn[0] +
+         _matrix[1][2] * vecIn[1] +
+         _matrix[2][2] * vecIn[2]  ),
+        (_matrix[0][3] * vecIn[0] +
+         _matrix[1][3] * vecIn[1] +
+         _matrix[2][3] * vecIn[2] +
+         _matrix[3][3] * vecIn[3]  ) );
+}
+
+/*! Multiply the 3 vector \a vecIn by this complete 4x4 matrix and store
+    the result in \a vecOut.
+    
+    \note Both \a vecIn and \a vecOut are treated as having w = 0, so actually
+          only the 4x3 part of this matrix is applied.
+    \note It is valid for parameters to be aliased, i.e. &vecIn == &vecOut.
+ */
+template <class ValueTypeT>
+inline void
+    TransformationMatrix<ValueTypeT>::multFull(
+        const VectorType3f &vecIn, VectorType3f &vecOut) const
+{
+    ValueType w = _matrix[0][3] * vecIn[0] +
+                  _matrix[1][3] * vecIn[1] +
+                  _matrix[2][3] * vecIn[2];    
+
+    if(w == TypeTraits<ValueType>::getZeroElement())
+    {
+        FWARNING(("TransformationMatrix<>::multFull(Vec3, Vec3): w == 0.0\n"));
+    
+        vecOut.setValues(
+            (_matrix[0][0] * vecIn[0] +
+             _matrix[1][0] * vecIn[1] +
+             _matrix[2][0] * vecIn[2]  ),
+            (_matrix[0][1] * vecIn[0] +
+             _matrix[1][1] * vecIn[1] +
+             _matrix[2][1] * vecIn[2]  ),
+            (_matrix[0][2] * vecIn[0] +
+             _matrix[1][2] * vecIn[1] +
+             _matrix[2][2] * vecIn[2]  ) );
+    }
+    else
+    {
+        w = TypeTraits<ValueType>::getOneElement() / w;
+        
+        vecOut.setValues(
+            (_matrix[0][0] * vecIn[0] +
+             _matrix[1][0] * vecIn[1] +
+             _matrix[2][0] * vecIn[2]  ) * w,
+            (_matrix[0][1] * vecIn[0] +
+             _matrix[1][1] * vecIn[1] +
+             _matrix[2][1] * vecIn[2]  ) * w,
+            (_matrix[0][2] * vecIn[0] +
+             _matrix[1][2] * vecIn[1] +
+             _matrix[2][2] * vecIn[2]  ) * w );
+    }
+}
+
+/*! Multiply the 3 vector \a vecIn by this matrix (considering only the 3x4 part)
+    and store the result in \a vecOut.
+    
+    \note \a vecIn is treated as having w = 0, so actually only the 3x3 part
+          of this matrix is applied.
+    \note It is valid for parameters to be aliased, i.e. &vecIn == &vecOut.
+ */
+template <class ValueTypeT>
+inline void
+    TransformationMatrix<ValueTypeT>::mult(
+        const VectorType3f &vecIn, VectorType3f &vecOut) const
+{
+    vecOut.setValues(
+        (_matrix[0][0] * vecIn[0] +
+         _matrix[1][0] * vecIn[1] +
+         _matrix[2][0] * vecIn[2]  ),
+        (_matrix[0][1] * vecIn[0] +
+         _matrix[1][1] * vecIn[1] +
+         _matrix[2][1] * vecIn[2]  ),
+        (_matrix[0][2] * vecIn[0] +
+         _matrix[1][2] * vecIn[1] +
+         _matrix[2][2] * vecIn[2]  ) );
+}
+
+/*! Multiply the 3 point \a pntIn by the 3x3 part of this matrix and store
+    the result in \a pntOut.
+    
+    \note It is valid for parameters to be aliased, i.e. &pntIn == &pntOut.
+ */
+template <class ValueTypeT>
+inline void
+    TransformationMatrix<ValueTypeT>::mult3x3(
+        const PointType3f &pntIn, PointType3f &pntOut) const
+{
+    pntOut.setValues(
+        (_matrix[0][0] * pntIn[0] +
+         _matrix[1][0] * pntIn[1] +
+         _matrix[2][0] * pntIn[2]  ),
+        (_matrix[0][1] * pntIn[0] +
+         _matrix[1][1] * pntIn[1] +
+         _matrix[2][1] * pntIn[2]  ),
+        (_matrix[0][2] * pntIn[0] +
+         _matrix[1][2] * pntIn[1] +
+         _matrix[2][2] * pntIn[2]  ) );
+}
+
+/*! Multiply the 3 vector \a vecIn by the 3x3 part of this matrix and store
+    the result in \a vecOut.
+    
+    \note It is valid for parameters to be aliased, i.e. &vecIn == &vecOut.
+ */
+template <class ValueTypeT>
+inline void
+    TransformationMatrix<ValueTypeT>::mult3x3(
+        const VectorType3f &vecIn, VectorType3f &vecOut) const
+{
+    vecOut.setValues(
+        (_matrix[0][0] * vecIn[0] +
+         _matrix[1][0] * vecIn[1] +
+         _matrix[2][0] * vecIn[2]  ),
+        (_matrix[0][1] * vecIn[0] +
+         _matrix[1][1] * vecIn[1] +
+         _matrix[2][1] * vecIn[2]  ),
+        (_matrix[0][2] * vecIn[0] +
+         _matrix[1][2] * vecIn[1] +
+         _matrix[2][2] * vecIn[2]  ) );
+}
+
+/*! Multiply the point \a pntIn by this complete 4x4 matrix and return
+    the result.
+
+    \note The resulting point can have a \c w coordinate different from 1.
+
+ */
+template <class ValueTypeT>
+inline typename TransformationMatrix<ValueTypeT>::PointType
+    TransformationMatrix<ValueTypeT>::operator *(
+        const PointType &pntIn) const
+{
+    PointType pntOut;
+    
+    this->mult(pntIn, pntOut);
+    
+    return pntOut;
+}
+
+/*! Multiply the 3 point \a pntIn by this matrix (considering only the 3x4 part)
+    and return the result.
+    
+    \note \a pntIn is treated as having w = 1.
+ */
+template <class ValueTypeT>
+inline typename TransformationMatrix<ValueTypeT>::PointType3f
+    TransformationMatrix<ValueTypeT>::operator *(
+        const PointType3f &pntIn) const
+{
+    PointType3f pntOut;
+    
+    this->mult(pntIn, pntOut);
+    
+    return pntOut;
+}
+
+/*! Multiply the vector \a vecIn by this complete 4x4 matrix and return
+    the result.
+    
+    \note The resulting vector can have a \c w coordinate different from 1.
+ */
+template <class ValueTypeT>
+inline typename TransformationMatrix<ValueTypeT>::VectorType
+    TransformationMatrix<ValueTypeT>::operator *(
+        const VectorType &vecIn) const
+{
+    VectorType vecOut;
+    
+    this->mult(vecIn, vecOut);
+    
+    return vecOut;
+}
+
+/*! Multiply the 3 vector \a vecIn by this matrix (considering only the 3x4 part)
+    and return the result.
+    
+    \note \a vecIn is treated as having w = 0, so actually only the 3x3 part
+          of this matrix is applied.
+ */
+template <class ValueTypeT>
+inline typename TransformationMatrix<ValueTypeT>::VectorType3f
+    TransformationMatrix<ValueTypeT>::operator *(
+        const VectorType3f &vecIn) const
+{
+    VectorType3f vecOut;
+    
+    this->mult(vecIn, vecOut);
+    
+    return vecOut;
+}
+
+//#endif // OSG_2_PREP
 
 /*---------------------------- simple math ---------------------------------*/
 

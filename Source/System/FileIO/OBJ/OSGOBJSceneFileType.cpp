@@ -518,7 +518,7 @@ void OBJSceneFileType::write(const NodePtr &node,
             for(i=0 ; i< pCount ; ++i)
             {
                 Pnt3f v = g->getPositions()->getValue(i);
-                mat.multMatrixPnt(v);
+                mat.mult(v, v);
                 os << "v " << v[0] << " " << v[1] << " " << v[2] << std::endl;
             }
         }
@@ -529,7 +529,7 @@ void OBJSceneFileType::write(const NodePtr &node,
             for(i=0 ; i< nCount ; ++i)
             {
                 Vec3f v = g->getNormals()->getValue(i);
-                mat.multMatrixVec(v);
+                mat.mult(v, v);
                 os << "vn " << v[0] << " " << v[1] << " " << v[2] << std::endl;
             }
         }

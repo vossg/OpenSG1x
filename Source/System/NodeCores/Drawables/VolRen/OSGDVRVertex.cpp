@@ -42,7 +42,11 @@ void DVRVertex::calculatePlaneDistance(const Plane  &plane,
                                        const Matrix &transform)
 {
     Pnt3f transPos;
+#ifndef OSG_2_PREP
     transform.multPntFullMatrix(pos, transPos);
+#else
+    transform.multFull(pos, transPos);
+#endif
     
     // calculate distance to the reference plane
     refPlaneDistance = plane.distance(transPos);

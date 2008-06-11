@@ -175,9 +175,9 @@ void BasePThreadBase::setupThread(void)
 #else
     BaseThread **pThread = new BaseThread *;
 
-    *pThread = (BaseThread *) this;
+    *pThread = static_cast<BaseThread *>(this);
 
-    pthread_setspecific(_threadKey, (void *) pThread);
+    pthread_setspecific(_threadKey, static_cast<void *>(pThread));
 #endif
 }
 
@@ -210,7 +210,7 @@ BaseThread *BasePThreadBase::getCurrent(void)
 #else
     BaseThread **pThread;
 
-    pThread = (BaseThread **) pthread_getspecific(_threadKey);
+    pThread = static_cast<BaseThread **>(pthread_getspecific(_threadKey));
 
     return *pThread;
 #endif

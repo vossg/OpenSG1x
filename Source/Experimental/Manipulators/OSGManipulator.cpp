@@ -416,7 +416,11 @@ Pnt2f Manipulator::calcScreenProjection( const Pnt3f&       p,
         wctocc.mult(projtrans);     
         wctocc.mult(view);
 
+#ifndef OSG_2_PREP
         wctocc.multFullMatrixPnt( p, pnt );
+#else
+        wctocc.multFull( p, pnt );
+#endif
 
         Real32 rx = (pnt[0]+1.0)/2 * port->getPixelWidth();
         Real32 ry = (pnt[1]+1.0)/2 * port->getPixelHeight();
@@ -572,7 +576,7 @@ void Manipulator::mouseButtonRelease (UInt16 button, Int16 x, Int16 y)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulator.cpp,v 1.3 2005/08/12 15:27:36 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGManipulator.cpp,v 1.4 2008/06/11 11:28:53 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGMANIPULATORBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMANIPULATORBASE_INLINE_CVSID;
 

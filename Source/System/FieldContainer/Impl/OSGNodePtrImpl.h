@@ -204,6 +204,12 @@ OSG_SYSTEMLIB_DLLMAPPING
 NodePtr makeNodeFor(NodeCorePtr core);
 
 
+inline
+NodePtr parentToNode(const FieldContainerPtr &source)
+{
+    return NodePtr::dcast(source);
+}
+
 OSG_END_NAMESPACE
 
 #define OSGNODEPTR_HEADER_CVSID "@(#)$Id: $"
