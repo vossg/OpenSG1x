@@ -439,7 +439,7 @@ void DynFieldAttachment<AttachmentDescT>::dump(      UInt32    uiIndent,
     indentLog(uiIndent, PLOG);
     PLOG << "DynFieldAttachment"
          << "(" 
-         << thisP.getFieldContainerId()
+         << getContainerId(thisP)
          << ")" 
          << std::endl;
 

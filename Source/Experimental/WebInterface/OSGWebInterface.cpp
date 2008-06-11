@@ -362,11 +362,11 @@ std::string WebInterface::createFCViewReference(FieldContainerPtr fcPtr,
     }
     else
         result << "<a href =\"fcview?id="
-               << fcPtr.getFieldContainerId()
+               << getContainerId(fcPtr)
                << "\">"
                << fcPtr->getType().getName().str()
                << " ("
-               << fcPtr.getFieldContainerId()
+               << getContainerId(fcPtr)
                << ")"
                << "</a>";
     return result.str();
@@ -447,7 +447,7 @@ void WebInterface::treeViewNode(std::ostream &os,NodePtr node,
         os << "<li>NullFC</li>\n";
         return;
     }
-    sprintf(idstr,"%u",node.getFieldContainerId());
+    sprintf(idstr,"%u",getContainerId(node));
     if(param.count(IDString(idstr)))
     {
         setParam(param,"close",idstr);
@@ -720,7 +720,7 @@ void WebInterface::fcViewHandler(std::ostream &os,
                         os << "<form action=\"fcedit\">"
                            << "<input type=\"submit\" value=\"Edit\">"
                            << "<input type=\"hidden\" name=\"id\" value=\""
-                           << fcPtr.getFieldContainerId()
+                           << getContainerId(fcPtr)
                            << "\">"
                            << "<input type=\"hidden\" name=\"field\" value=\""
                            << desc->getFieldId()

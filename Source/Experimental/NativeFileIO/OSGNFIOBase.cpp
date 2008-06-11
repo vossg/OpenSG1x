@@ -603,10 +603,10 @@ void NFIOBase::getFCCount(const FieldContainerPtr &fc, UInt32 &count)
     if(fc == NullFC)
         return;
 
-    if(_fcSet.count(fc.getFieldContainerId()) > 0)
+    if(_fcSet.count(getContainerId(fc)) > 0)
         return;
 
-    _fcSet.insert(fc.getFieldContainerId());
+    _fcSet.insert(getContainerId(fc));
     ++count;
 
     FieldContainerType  &fcType = fc->getType();
@@ -703,7 +703,7 @@ void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
     std::string typeName = fc->getType().getCName();
     
     _out->putValue(typeName);
-    _out->putValue(fc.getFieldContainerId());
+    _out->putValue(getContainerId(fc));
     
     NFIOFactory::the().get(typeName)->writeFC(fc);
     SceneFileHandler::the().updateWriteProgress((currentFCCount++ * 100) / fcCount);
@@ -717,7 +717,7 @@ void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
         lfc = *i;
         typeName = lfc->getType().getCName();
         _out->putValue(typeName);
-        _out->putValue(lfc.getFieldContainerId());
+        _out->putValue(getContainerId(lfc));
         NFIOFactory::the().get(lfc->getType().getCName())->writeFC(lfc);
         SceneFileHandler::the().updateWriteProgress((currentFCCount++ * 100) / fcCount);
     }
@@ -917,7 +917,7 @@ void NFIOBase::writeFCId(const FieldContainerPtr &fc)
         return;
     }
     
-    UInt32 id = fc.getFieldContainerId();
+    UInt32 id = getContainerId(fc);
     _out->putValue(id);
     
     if(_fcSet.count(id) == 0)
@@ -1216,6 +1216,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.16 2008/06/05 05:00:29 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.17 2008/06/11 11:27:27 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }

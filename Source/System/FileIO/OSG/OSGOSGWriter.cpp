@@ -159,7 +159,7 @@ void OSGWriter::FCInfoHelper::setName(const FieldContainerPtr pFC)
 
     //no NameAttachment. Build name from Type and Id
     containerName = pFC->getTypeName() +
-        TypeTraits<UInt32>::putToString(pFC.getFieldContainerId());
+        TypeTraits<UInt32>::putToString(getContainerId(pFC));
 }
 
 

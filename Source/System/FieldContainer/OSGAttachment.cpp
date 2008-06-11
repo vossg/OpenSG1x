@@ -222,7 +222,7 @@ void Attachment::dump(      UInt32                  uiIndent,
     PLOG << "Attachment"
          << "(" 
          << std::dec
-         << thisP.getFieldContainerId()
+         << getContainerId(thisP)
          << ") : " 
          << getType().getName()
          << "("       

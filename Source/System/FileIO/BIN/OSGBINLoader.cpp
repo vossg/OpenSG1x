@@ -189,7 +189,7 @@ bool BINLoader::createFieldContainers(void)
                 _vec_pRootNodes.push_back(NodePtr::dcast(newFCInfo.ptr));
             }
 
-            newFCInfo.newId = newFCInfo.ptr.getFieldContainerId();
+            newFCInfo.newId = getContainerId(newFCInfo.ptr);
 
             if(_fcInfoMap.insert(std::make_pair(oldFCId, newFCInfo)).second
                == false)

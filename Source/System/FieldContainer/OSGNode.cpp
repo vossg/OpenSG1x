@@ -529,7 +529,7 @@ void Node::dump(      UInt32    uiIndent,
 
     PLOG << "Node"
          << "("
-         << thisP.getFieldContainerId()
+         << getContainerId(thisP)
          << ") : "
          << _mfChildren.size()
          << " children | "

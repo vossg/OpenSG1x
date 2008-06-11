@@ -135,7 +135,7 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
             if(mapIt->second->getInternal().getValue() == false)
             {
                 binding = mapIt->first & 0xffff;
-                fcId    = mapIt->second.getFieldContainerId();
+                fcId    = getContainerId(mapIt->second);
                 
                 pMem.putValue(binding);
                 pMem.putValue(fcId);

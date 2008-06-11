@@ -99,7 +99,7 @@ void NodeCore::dump(      UInt32    uiIndent,
     PLOG << "Core"
          << "("
          << std::dec
-         << thisP.getFieldContainerId()
+         << getContainerId(thisP)
          << ") : " << getType().getName()
          << " "
          << _attachmentMap.getValue().size()

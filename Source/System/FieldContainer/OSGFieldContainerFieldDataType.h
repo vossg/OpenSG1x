@@ -90,7 +90,7 @@ struct FieldTraitsRecurseMapper<FieldContainerPtr, false> :
         }
         else
         {
-            fcId = pObject.getFieldContainerId();
+            fcId = getContainerId(pObject);
         }
 
         pMem.putValue(fcId);

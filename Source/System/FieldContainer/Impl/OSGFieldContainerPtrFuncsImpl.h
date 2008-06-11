@@ -126,7 +126,7 @@ void endEditNotChangedCP(
 // 2.x compat
 
 template <class OutPtrT> inline
-OutPtrT dynamic_fcptr_cast(const FieldContainerPtr &pPtr)
+OutPtrT dynamic_pointer_cast(const FieldContainerPtr &pPtr)
 {
     return OutPtrT::dcast(pPtr);
 }

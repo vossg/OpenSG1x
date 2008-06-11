@@ -66,6 +66,9 @@ class FieldContainer;
 class LockPool;
 class NullFieldContainerPtr;
 
+template <class PtrT> inline
+UInt32 getContainerId(const PtrT &objectP);
+
 //---------------------------------------------------------------------------
 //  Class
 //---------------------------------------------------------------------------
@@ -127,7 +130,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
     /*! \{                                                                 */
 
     Int32  getRefCount        (void) const;
+#ifndef OSG_2_PREP
     UInt32 getFieldContainerId(void) const;
+#endif
     UInt16 getContainerSize   (void) const;
 
     /*! \}                                                                 */
@@ -265,6 +270,10 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     void deleteContainers(void) const;
 
+#ifdef OSG_2_PREP
+    UInt32 getFieldContainerId(void) const;
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Helper                                     */
@@ -296,6 +305,9 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtrBase
 
     friend OSG_SYSTEMLIB_DLLMAPPING
     class FieldContainerType;
+
+    template <class PtrT> 
+    friend UInt32 getContainerId(const PtrT &objectP);
 
     static LockPool *_pRefCountLock;
 };

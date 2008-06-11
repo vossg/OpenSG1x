@@ -606,7 +606,7 @@ void Geometry::dump(      UInt32    uiIndent,
 
     PLOG << "GeoCore"
          << "("
-         << thisP.getFieldContainerId()
+         << getContainerId(thisP)
          << ") : "
          << getType().getName()
          << " "

@@ -1926,14 +1926,14 @@ void VRMLWriteAction::addNodeUse(CNodePtr &pCNode)
     NodePtr     pNode(pCNode);
     NodeCorePtr pCore = pNode->getCore();
 
-    if((pNode.getFieldContainerId() >= _vFCInfos.size()) ||
-       (pCore.getFieldContainerId() >= _vFCInfos.size()))
+    if((getContainerId(pNode) >= _vFCInfos.size()) ||
+       (getContainerId(pCore) >= _vFCInfos.size()))
     {
         return;
     }
     
-    FCInfo *pInfoNode = &(_vFCInfos[pNode.getFieldContainerId()]);
-    FCInfo *pInfoCore = &(_vFCInfos[pCore.getFieldContainerId()]);
+    FCInfo *pInfoNode = &(_vFCInfos[getContainerId(pNode)]);
+    FCInfo *pInfoCore = &(_vFCInfos[getContainerId(pCore)]);
 
     NamePtr pNodename =
         NamePtr::dcast(pNode->findAttachment(
@@ -1961,7 +1961,7 @@ void VRMLWriteAction::addNodeUse(CNodePtr &pCNode)
         if(pCorename != NullFC)
         {
             pInfoCore->buildName(pCore->getTypeName(), 
-                                 pCore. getFieldContainerId());
+                                 getContainerId(pCore));
         }
     }
 
@@ -1973,19 +1973,19 @@ void VRMLWriteAction::addContainerUse(const FieldContainerPtr &pContainer)
     if(pContainer == NullFC)
         return;
     
-    if(pContainer.getFieldContainerId() >= _vFCInfos.size())
+    if(getContainerId(pContainer) >= _vFCInfos.size())
     {
         return;
     }
     
-    FCInfo *pInfo = &(_vFCInfos[pContainer.getFieldContainerId()]);
+    FCInfo *pInfo = &(_vFCInfos[getContainerId(pContainer)]);
 
     pInfo->incUse();
 
     if(pInfo->getUse() > 1)
     {
         pInfo->buildName(pContainer->getTypeName(), 
-                         pContainer. getFieldContainerId());
+                         getContainerId(pContainer));
     }
 }
 
@@ -1995,10 +1995,10 @@ VRMLWriteAction::FCInfo *VRMLWriteAction::getInfo(
     if(pContainer == NullFC)
         return NULL;
 
-    if(pContainer.getFieldContainerId() >= _vFCInfos.size())
+    if(getContainerId(pContainer) >= _vFCInfos.size())
         return NULL;
 
-    return &(_vFCInfos[pContainer.getFieldContainerId()]);
+    return &(_vFCInfos[getContainerId(pContainer)]);
 }
 
 void VRMLWriteAction::updateProgress(void)

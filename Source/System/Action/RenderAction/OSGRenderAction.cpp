@@ -1889,7 +1889,7 @@ GLuint RenderAction::getOcclusionQuery(NodePtr node)
     if(node == NullFC)
         return 0;
 
-    std::map<UInt32, GLuint>::iterator it = _occlusionQueries.find(node.getFieldContainerId());
+    std::map<UInt32, GLuint>::iterator it = _occlusionQueries.find(getContainerId(node));
 
     if(it != _occlusionQueries.end())
         return (*it).second;
@@ -1902,7 +1902,7 @@ void RenderAction::setOcclusionQuery(NodePtr node, GLuint occlusionQuery)
     if(node == NullFC)
         return;
 
-    _occlusionQueries.insert(std::make_pair(node.getFieldContainerId(), occlusionQuery));
+    _occlusionQueries.insert(std::make_pair(getContainerId(node), occlusionQuery));
 }
 
 void RenderAction::drawOcclusionBB(const Pnt3f &bbmin, const Pnt3f &bbmax)
@@ -2820,7 +2820,7 @@ Action::ResultE RenderAction::stop(ResultE res)
                         node->setOcclusionMask(1);
                         // remove all child nodes.
                         for(UInt32 i=0;i<node->getNChildren();++i)
-                            remove.push_back(node->getChild(i).getFieldContainerId());
+                            remove.push_back(getContainerId(node->getChild(i)));
                         _occluded_nodes.push_back(node);
                         ++_uiNumOcclusionCulled;
                         continue;
@@ -2903,7 +2903,7 @@ Action::ResultE RenderAction::stop(ResultE res)
 
                     if(all_children_occluded)
                     {
-                        _hier_occlusions.insert(parent.getFieldContainerId());
+                        _hier_occlusions.insert(getContainerId(parent));
                     }
                     else
                     {

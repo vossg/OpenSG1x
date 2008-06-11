@@ -176,7 +176,7 @@ void BINWriter::addToIdMap(FieldContainerPtr fcPtr)
 
     // add container to the vector of appropriate type
     iIdMap = _fcIdMap.find(fcPtr->getType().getCName());
-    iIdMap->second.push_back(fcPtr.getFieldContainerId());
+    iIdMap->second.push_back(getContainerId(fcPtr));
 
     //increase the 0th entry of the vector (number of entries)
     iIdMap->second[0]++;
@@ -211,7 +211,7 @@ void BINWriter::writeFileHeader(void)
     _outFileHandler.putValue(numOfRoots);
     for(i = 0; i != numOfRoots; ++i, ++iRoots)
     {
-        _outFileHandler.putValue(iRoots->getFieldContainerId());
+        _outFileHandler.putValue(getContainerId(*iRoots));
     }
 
     _outFileHandler.putValue(mapSize);
@@ -248,7 +248,7 @@ void BINWriter::doIndexFC(FieldContainerPtr fieldConPtr)
     // insert into map
     std::pair < std::map<UInt32, FCInfo>::iterator, bool > element = _fcMap.
         insert(std::pair < UInt32,
-                   FCInfo > (fieldConPtr.getFieldContainerId(), FCInfo()));
+                   FCInfo > (getContainerId(fieldConPtr), FCInfo()));
 
     // avoid loop. Element was already in the map
     if(element.second == false)
