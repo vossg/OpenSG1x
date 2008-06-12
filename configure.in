@@ -1264,8 +1264,8 @@ if test "X$with_macosx_sysroot" = X; then
 	ac_gdz_macosx_sysroot_compiler=
 	ac_gdz_macosx_sysroot_linker=
 else
-	ac_gdz_macosx_sysroot_compiler=-isysroot $with_macosx_sysroot
-	ac_gdz_macosx_sysroot_linker=-Wl,-syslibroot,$with_macosx_sysroot
+	ac_gdz_macosx_sysroot_compiler="-isysroot $with_macosx_sysroot"
+	ac_gdz_macosx_sysroot_linker="-Wl,-syslibroot,$with_macosx_sysroot"
 fi
 
 dnl ############# Mac OS X Minimum Version Settings #####################
@@ -1276,7 +1276,7 @@ AC_ARG_WITH(macosx_version_min,     [  --with-macosx-version-min=VER       compi
 if test "X$with_macosx_version_min" = X; then
 	ac_gdz_macosx_version_min=
 else
-	ac_gdz_macosx_version_min=-mmacosx-version-min=$with_macosx_version_min
+	ac_gdz_macosx_version_min="-mmacosx-version-min=$with_macosx_version_min"
 fi
 
 dnl ############# Mac OS X Architecture Settings #####################
@@ -1287,7 +1287,7 @@ AC_ARG_WITH(macosx_archs,     [  --with-macosx-archs=ARCHS           compile for
 ac_gdz_macosx_archs=
 for arch in $with_macosx_archs
 do
-	ac_gdz_macosx_archs=$ac_gdz_macosx_archs -arch $arch
+	ac_gdz_macosx_archs="$ac_gdz_macosx_archs -arch $arch"
 done
 
 dnl ############# Add Path Settings #####################
@@ -1433,7 +1433,7 @@ AC_CANONICAL_SYSTEM()
 
 case "$build_os" in
     darwin*)
-        build_os_version=`echo "${build_os:6}" | cut -d'.' -f 1`
+        build_os_version=`echo "${build_os}" | cut -c 7- | cut -d'.' -f 1`
         build_os="darwin"
     ;;
 esac
