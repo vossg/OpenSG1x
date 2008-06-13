@@ -3107,7 +3107,7 @@ void VRMLFile::initExtIntFieldTypeMapper(void)
 FieldContainerPtr VRMLFile::findFCByName(const Char8  *szName,
                                                NodePtr pNode)
 {
-    MFNodePtr::iterator i;
+    MFNodePtr::const_iterator i;
 
     NamePtr           pNodename;
     NodeCorePtr       pCore;

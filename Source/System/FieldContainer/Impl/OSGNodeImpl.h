@@ -180,14 +180,25 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     const SFDynamicVolume *getSFVolume  (void) const;
           SFDynamicVolume *editSFVolume (void);
 
+    const SFUInt32        *getSFTravMask(void) const;
+          SFUInt32        *editSFTravMask(void);
+
+    const SFNodePtr       *getSFParent  (void) const;
+
+    const SFNodeCorePtr   *getSFCore    (void) const;
+          SFNodeCorePtr   *editSFCore    (void);
+
+    const MFNodePtr       *getMFChildren(void) const;
+          MFNodePtr       *editMFChildren(void);
+
 #ifndef OSG_2_PREP
     SFDynamicVolume *getSFVolume  (void);
-#endif
-
     SFUInt32        *getSFTravMask(void);
     SFNodePtr       *getSFParent  (void);
     SFNodeCorePtr   *getSFCore    (void);
     MFNodePtr       *getMFChildren(void);
+#endif
+
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -298,6 +309,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     /*! \{                                                                 */
 
     void setParent(const NodePtr &parent);
+
+    SFNodePtr *editSFParent(void);
 
     void onCreate (const Node    *source = NULL);
 

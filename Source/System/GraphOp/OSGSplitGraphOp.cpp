@@ -278,8 +278,8 @@ if (geo->getmethod()!=NullFC && geo->getmethod()->size()>0)                     
 
 Action::ResultE SplitGraphOp::traverseLeave(NodePtr& node, Action::ResultE res)
 {
-    std::vector<NodePtr>::iterator it = node->getMFChildren()->getValues().begin();
-    std::vector<NodePtr>::iterator en = node->getMFChildren()->getValues().end  ();
+    std::vector<NodePtr>::iterator it = node->editMFChildren()->getValues().begin();
+    std::vector<NodePtr>::iterator en = node->editMFChildren()->getValues().end  ();
     std::vector<NodePtr> toAdd;
     std::vector<NodePtr> toSub;
 

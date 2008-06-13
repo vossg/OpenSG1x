@@ -328,8 +328,10 @@ Action::ResultE Action::recurse( NodePtr node  )
     }
     else if ( ! _useNewList ) // new list is empty, but not used?
     {
-        std::vector<NodePtr>::iterator it = node->getMFChildren()->begin();
-        std::vector<NodePtr>::iterator en = node->getMFChildren()->end();
+        std::vector<NodePtr>::const_iterator it = 
+            node->getMFChildren()->begin();
+        std::vector<NodePtr>::const_iterator en = 
+            node->getMFChildren()->end();
 
         for ( ; it != en; ++it )
         {
@@ -536,13 +538,13 @@ OSG_END_NAMESPACE
 /*! Simple tree traversal function. Calls func for every node encountered
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(std::vector<NodePtr> &nodeList, 
-                              TraverseEnterFunctor  func    )
+Action::ResultE OSG::traverse(const std::vector<NodePtr> &nodeList, 
+                                    TraverseEnterFunctor  func    )
 {
     Action::ResultE res = Action::Continue;
 
-    std::vector<NodePtr>::iterator it = nodeList.begin();
-    std::vector<NodePtr>::iterator en = nodeList.end  ();
+    std::vector<NodePtr>::const_iterator it = nodeList.begin();
+    std::vector<NodePtr>::const_iterator en = nodeList.end  ();
     
     for ( ; it != en; ++it )
     {
@@ -570,8 +572,10 @@ Action::ResultE OSG::traverse( NodePtr              node,
 
     switch(res)
     {
-    case Action::Skip:      return Action::Continue;
-    case Action::Continue:  return traverse( node->getMFChildren()->getValues(), 
+    case Action::Skip:      
+        return Action::Continue;
+    case Action::Continue:  
+        return traverse( node->getMFChildren()->getValues(), 
                                              func );
     default:                break;
     }
@@ -583,14 +587,14 @@ Action::ResultE OSG::traverse( NodePtr              node,
     leave after leaving.
  */
 OSG_SYSTEMLIB_DLLMAPPING
-Action::ResultE OSG::traverse(std::vector<NodePtr> &nodeList, 
-                              TraverseEnterFunctor  enter, 
-                              TraverseLeaveFunctor  leave )
+Action::ResultE OSG::traverse(const std::vector<NodePtr> &nodeList, 
+                                    TraverseEnterFunctor  enter, 
+                                    TraverseLeaveFunctor  leave )
 {
     Action::ResultE res = Action::Continue;
 
-    std::vector<NodePtr>::iterator it = nodeList.begin();
-    std::vector<NodePtr>::iterator en = nodeList.end  ();
+    std::vector<NodePtr>::const_iterator it = nodeList.begin();
+    std::vector<NodePtr>::const_iterator en = nodeList.end  ();
     
     for ( ; it != en; ++it )
     {

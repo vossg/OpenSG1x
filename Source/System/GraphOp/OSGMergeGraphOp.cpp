@@ -274,8 +274,8 @@ bool MergeGraphOp::isGroup(NodePtr& node)
 
 void MergeGraphOp::processGroups(NodePtr& node)
 {
-    std::vector<NodePtr>::iterator it = node->getMFChildren()->getValues().begin();
-    std::vector<NodePtr>::iterator en = node->getMFChildren()->getValues().end  ();
+    std::vector<NodePtr>::iterator it = node->editMFChildren()->getValues().begin();
+    std::vector<NodePtr>::iterator en = node->editMFChildren()->getValues().end  ();
     std::vector<NodePtr> toAdd;
     std::vector<NodePtr> toSub;
     
@@ -288,8 +288,8 @@ void MergeGraphOp::processGroups(NodePtr& node)
         {
             if (!leaf && !special)
             {
-                std::vector<NodePtr>::iterator it2 = (*it)->getMFChildren()->getValues().begin();
-                std::vector<NodePtr>::iterator en2 = (*it)->getMFChildren()->getValues().end  ();
+                std::vector<NodePtr>::iterator it2 = (*it)->editMFChildren()->getValues().begin();
+                std::vector<NodePtr>::iterator en2 = (*it)->editMFChildren()->getValues().end  ();
                 
                 for ( ; it2 != en2; ++it2 )
                 {
@@ -317,8 +317,8 @@ void MergeGraphOp::processGroups(NodePtr& node)
         {
             MaterialGroupPtr mg=MaterialGroupPtr::dcast((*it)->getCore());
             
-            std::vector<NodePtr>::iterator it2 = (*it)->getMFChildren()->getValues().begin();
-            std::vector<NodePtr>::iterator en2 = (*it)->getMFChildren()->getValues().end  ();
+            std::vector<NodePtr>::iterator it2 = (*it)->editMFChildren()->getValues().begin();
+            std::vector<NodePtr>::iterator en2 = (*it)->editMFChildren()->getValues().end  ();
             
             bool empty=true;
             
@@ -383,8 +383,8 @@ void MergeGraphOp::processGroups(NodePtr& node)
 
 void MergeGraphOp::processTransformations(NodePtr& node)
 {
-    std::vector<NodePtr>::iterator it = node->getMFChildren()->getValues().begin();
-    std::vector<NodePtr>::iterator en = node->getMFChildren()->getValues().end  ();
+    std::vector<NodePtr>::iterator it = node->editMFChildren()->getValues().begin();
+    std::vector<NodePtr>::iterator en = node->editMFChildren()->getValues().end  ();
     std::vector<NodePtr> toAdd;
     std::vector<NodePtr> toSub;
     
@@ -402,8 +402,8 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                 //try to apply it to children geometries
                 //move all "moveable" children one level up
                 //if empty after that, delete it
-                std::vector<NodePtr>::iterator it2 = (*it)->getMFChildren()->getValues().begin();
-                std::vector<NodePtr>::iterator en2 = (*it)->getMFChildren()->getValues().end  ();
+                std::vector<NodePtr>::iterator it2 = (*it)->editMFChildren()->getValues().begin();
+                std::vector<NodePtr>::iterator en2 = (*it)->editMFChildren()->getValues().end  ();
                 
                 for ( ; it2 != en2; ++it2 )
                 {
@@ -596,8 +596,8 @@ void MergeGraphOp::processTransformations(NodePtr& node)
 
 void MergeGraphOp::processGeometries(NodePtr& node)
 {
-    std::vector<NodePtr>::iterator it = node->getMFChildren()->getValues().begin();
-    std::vector<NodePtr>::iterator en = node->getMFChildren()->getValues().end  ();
+    std::vector<NodePtr>::iterator it = node->editMFChildren()->getValues().begin();
+    std::vector<NodePtr>::iterator en = node->editMFChildren()->getValues().end  ();
     std::vector<NodePtr> toSub;
     std::vector<NodePtr> toAdd;
     

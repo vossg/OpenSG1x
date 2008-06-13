@@ -76,7 +76,7 @@ FieldDescription *Node::_desc[] =
                          OSG_FC_FIELD_IDM_DESC(VolumeField),
                          false,
                          reinterpret_cast<FieldAccessMethod>(
-                             &Node::getSFVolume)),
+                             &Node::editSFVolume)),
 
     // Yes, this is wrong, it should be an UInt32, but changing
     // it now will break all old .osb files, and this info is
@@ -86,27 +86,27 @@ FieldDescription *Node::_desc[] =
                          OSG_FC_FIELD_IDM_DESC(TravMaskField),
                          false,
                          reinterpret_cast<FieldAccessMethod>(
-                             &Node::getSFTravMask)),
+                             &Node::editSFTravMask)),
 
     new FieldDescription(SFNodePtr::getClassType(),
                          "parent",
                          OSG_FC_FIELD_IDM_DESC(ParentField),
                          true,
                          reinterpret_cast<FieldAccessMethod>(
-                             &Node::getSFParent)),
+                             &Node::editSFParent)),
 
     new FieldDescription(MFNodePtr::getClassType(),
                          "children",
                          OSG_FC_FIELD_IDM_DESC(ChildrenField),
                          false,
                          reinterpret_cast<FieldAccessMethod>(
-                             &Node::getMFChildren)),
+                             &Node::editMFChildren)),
 
     new FieldDescription(SFNodeCorePtr::getClassType(),
                          "core",
                          OSG_FC_FIELD_IDM_DESC(CoreField),
                          false,
-                         reinterpret_cast<FieldAccessMethod>(&Node::getSFCore))
+                         reinterpret_cast<FieldAccessMethod>(&Node::editSFCore))
 };
 
 FieldContainerType Node::_type(

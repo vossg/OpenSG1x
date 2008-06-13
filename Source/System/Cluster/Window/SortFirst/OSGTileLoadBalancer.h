@@ -173,7 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileLoadBalancer
     /*! \{                                                                 */
 
     double runFaceBench(GLuint dlist,UInt32 size,Real32 visible);
-    void updateSubtree (NodePtr &node,TileGeometryLoadMapT &loadMap);
+    void updateSubtree (const NodePtr &node,TileGeometryLoadMapT &loadMap);
     void splitRegion   (UInt32          rnFrom,
                         UInt32          rnTo,
                         RegionLoadVecT &visible,

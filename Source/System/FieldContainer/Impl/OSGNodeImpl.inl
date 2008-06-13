@@ -161,28 +161,84 @@ SFDynamicVolume *Node::getSFVolume(void)
 #endif
 
 inline
-SFUInt32 *Node::getSFTravMask(void)
+const SFUInt32 *Node::getSFTravMask(void) const
 {
     return &_sfTravMask;
 }
 
 inline
-SFNodePtr *Node::getSFParent(void)
+SFUInt32 *Node::editSFTravMask(void)
+{
+    return &_sfTravMask;
+}
+
+#ifndef OSG_2_PREP
+inline
+SFUInt32 *Node::getSFTravMask(void)
+{
+    return &_sfTravMask;
+}
+#endif
+
+inline
+const SFNodePtr *Node::getSFParent(void) const
 {
     return &_sfParent;
 }
 
 inline
-SFNodeCorePtr *Node::getSFCore(void)
+SFNodePtr *Node::editSFParent(void)
+{
+    return &_sfParent;
+}
+
+#ifndef OSG_2_PREP
+inline
+SFNodePtr *Node::getSFParent(void)
+{
+    return &_sfParent;
+}
+#endif
+
+inline
+const SFNodeCorePtr *Node::getSFCore(void) const
 {
     return &_sfCore;
 }
 
 inline
+SFNodeCorePtr *Node::editSFCore(void)
+{
+    return &_sfCore;
+}
+
+#ifndef OSG_2_PREP
+inline
+SFNodeCorePtr *Node::getSFCore(void)
+{
+    return &_sfCore;
+}
+#endif
+
+inline
+const MFNodePtr *Node::getMFChildren(void) const
+{
+    return &_mfChildren;
+}
+
+inline
+MFNodePtr *Node::editMFChildren(void)
+{
+    return &_mfChildren;
+}
+
+#ifndef OSG_2_PREP
+inline
 MFNodePtr *Node::getMFChildren(void)
 {
     return &_mfChildren;
 }
+#endif
 
 
 /*-------------------------------------------------------------------------*/

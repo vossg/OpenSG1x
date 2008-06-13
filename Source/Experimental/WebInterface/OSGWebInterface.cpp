@@ -477,7 +477,7 @@ void WebInterface::treeViewNode(std::ostream &os,NodePtr node,
     if(param.count(IDString(idstr)))
     {
         os << "<ul>\n";
-        for(MFNodePtr::iterator nI=node->getMFChildren()->begin();
+        for(MFNodePtr::const_iterator nI=node->getMFChildren()->begin();
             nI != node->getMFChildren()->end();
             ++nI)
         {

@@ -719,7 +719,7 @@ void BalancedMultiWindow::collectLoadGroups(NodePtr node,NodePtr root)
     UInt32 lastSize;
 #endif    
     UInt32 l;
-    MFNodePtr::iterator child;
+    MFNodePtr::const_iterator child;
 
     // ignore null node
     if(node == NullFC)

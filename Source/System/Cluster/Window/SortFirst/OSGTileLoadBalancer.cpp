@@ -348,7 +348,8 @@ void TileLoadBalancer::drawVolumes(WindowPtr win)
 
 /** Add all geometry nodes in the given tree
  **/
-void TileLoadBalancer::updateSubtree(NodePtr &node,TileGeometryLoadMapT &loadMap)
+void TileLoadBalancer::updateSubtree(const NodePtr &node,
+                                     TileGeometryLoadMapT &loadMap)
 {
     // is nodecore a geometry?
     if(node->getCore() != NullFC &&
@@ -366,7 +367,7 @@ void TileLoadBalancer::updateSubtree(NodePtr &node,TileGeometryLoadMapT &loadMap
         }
     }
     // handle all childs
-    for(MFNodePtr::iterator n=node->getMFChildren()->begin();
+    for(MFNodePtr::const_iterator n=node->getMFChildren()->begin();
         n!=node->getMFChildren()->end();
         ++n)
     {

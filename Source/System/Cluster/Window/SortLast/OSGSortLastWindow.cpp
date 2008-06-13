@@ -434,7 +434,7 @@ void SortLastWindow::dump(      UInt32    ,
 /*! Collext all drawable nodes
  */
 
-void SortLastWindow::collectDrawables(NodePtr       &node,
+void SortLastWindow::collectDrawables(const NodePtr &node,
                                       DrawableListT &drawables)
 {
     MaterialPtr mat;
@@ -496,7 +496,7 @@ void SortLastWindow::collectDrawables(NodePtr       &node,
         }
     }
     
-    for(MFNodePtr::iterator nI=node->getMFChildren()->begin();
+    for(MFNodePtr::const_iterator nI=node->getMFChildren()->begin();
         nI != node->getMFChildren()->end();
         ++nI)
     {

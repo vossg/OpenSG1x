@@ -177,7 +177,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SortLastWindow : public SortLastWindowBase
     /*! \name                   load balancing                             */
     /*! \{                                                                 */
 
-    void collectDrawables  (NodePtr       &node,
+    void collectDrawables  (const NodePtr       &node,
                             DrawableListT &drawables);
     void splitDrawables    (DrawableListT &src,
                             UInt32         groups,
