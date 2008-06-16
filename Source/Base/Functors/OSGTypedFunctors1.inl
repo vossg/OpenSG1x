@@ -303,7 +303,7 @@ void TypedFunctionVoidFunctor1<CallArgT,
 
     if(Self::_flags & Self::FuncPtrValid)
     {
-        FuncF pFunc = *(static_cast<FuncF *>(Self::_data2));
+        FuncF pFunc = *(reinterpret_cast<FuncF *>(Self::_data2));
         
         pFunc(pObj);
     }

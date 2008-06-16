@@ -88,7 +88,7 @@ struct TypedTraits2
                                      ArgType  arg1, 
                                      Arg1T    arg2)
     {
-        ObjMethodF  pFunc = *(static_cast<ObjMethodF *>(pData2));
+        ObjMethodF  pFunc = *(reinterpret_cast<ObjMethodF *>(pData2));
         ObjType    *pObj  = CallArgT::getPtr(arg1); 
 
         (pObj->*pFunc)(arg2);
