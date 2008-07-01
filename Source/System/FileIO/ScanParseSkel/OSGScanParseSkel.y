@@ -67,7 +67,7 @@ OSG_USING_NAMESPACE
 
 int OSGScanParseSkel_lex(YYSTYPE *lvalp, void *);
 
-#define SKEL ((ScanParseSkel *) pSkel)
+#define SKEL (static_cast<ScanParseSkel *>(pSkel))
 
 #if(!defined(__GNUC__) && defined(__ICL) && __INTEL_COMPILER_VERSION >= 900)
 # define alloca(size)   __builtin_alloca (size)
