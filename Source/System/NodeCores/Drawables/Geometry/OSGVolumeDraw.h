@@ -58,7 +58,9 @@ OSG_BEGIN_NAMESPACE
 /*! \name                   Draw Functions                             */
 /*! \{                                                                 */
 
+#ifndef OSG_2_PREP
 OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const DynamicVolume  &volume);
+#endif
 OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const BoxVolume      &volume);
 OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const SphereVolume   &volume);
 OSG_SYSTEMLIB_DLLMAPPING void drawVolume(const FrustumVolume  &volume);
@@ -68,9 +70,15 @@ OSG_SYSTEMLIB_DLLMAPPING void dropVolume(DrawActionBase *action,
                                          NodePtr node,
                                          Color3f col);
 
-OSG_SYSTEMLIB_DLLMAPPING void dropVolume(DrawActionBase *action, 
-                                         const DynamicVolume &volume,
-                                         Color3f col);
+#ifndef OSG_2_PREP
+OSG_SYSTEMLIB_DLLMAPPING void dropVolume(      DrawActionBase *action, 
+                                         const DynamicVolume  &volume,
+                                               Color3f         col    );
+#else
+OSG_SYSTEMLIB_DLLMAPPING void dropVolume(      DrawActionBase *action, 
+                                         const BoxVolume      &volume,
+                                               Color3f         col    );
+#endif
 
 /*! \}                                                                 */
 

@@ -92,6 +92,8 @@ DataType FieldDataTraits<Color4ub     >::_type("Color4ub",
                                                "BaseType");
 DataType FieldDataTraits<DynamicVolume>::_type("DynamicVolume",
                                                "BaseType");
+DataType FieldDataTraits<BoxVolume    >::_type("BoxVolume",
+                                               "BaseType");
 DataType FieldDataTraits1<BitVector   >::_type("BitVector",
                                                "BaseType");
 DataType FieldDataTraits1<GLenum      >::_type("GLenum",
@@ -193,6 +195,7 @@ OSG_DLLEXPORT_SFIELD_DEF1(Color4f,       OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(Color3ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(Color4ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF1(DynamicVolume, OSG_BASE_DLLTMPLMAPPING);
+OSG_DLLEXPORT_SFIELD_DEF1(BoxVolume,     OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF2(BitVector, 1,  OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_SFIELD_DEF2(GLenum,    1,  OSG_BASE_DLLTMPLMAPPING);
 
@@ -203,6 +206,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(Color4f,       OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(Color3ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(Color4ub,      OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF1(DynamicVolume, OSG_BASE_DLLTMPLMAPPING);
+OSG_DLLEXPORT_MFIELD_DEF1(BoxVolume,     OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF2(BitVector, 1,  OSG_BASE_DLLTMPLMAPPING);
 OSG_DLLEXPORT_MFIELD_DEF2(GLenum,    1,  OSG_BASE_DLLTMPLMAPPING);
 

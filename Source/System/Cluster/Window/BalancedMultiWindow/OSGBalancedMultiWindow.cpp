@@ -527,7 +527,11 @@ bool BalancedMultiWindow::calculateProjectedBBox(VPort &port,
     Int32 bit = 1;
 
     // get local volume
-    DynamicVolume volume = group.node->getVolume();
+#ifndef OSG_2_PREP
+    const DynamicVolume &volume = group.node->getVolume();
+#else
+    const BoxVolume     &volume = group.node->getVolume();
+#endif
 #else
     Matrix trans = proj;
 

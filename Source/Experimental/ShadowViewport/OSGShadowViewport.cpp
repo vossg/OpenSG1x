@@ -1417,7 +1417,11 @@ void ShadowViewport::checkLightsOcclusion(RenderActionBase *action)
                                     ract->getViewport()->getPixelHeight());
             }
 
+#ifndef OSG_2_PREP
             DynamicVolume vol = node->getVolume();
+#else
+            BoxVolume     vol = node->getVolume();
+#endif
             Matrix m = view;
             if(node->getParent() != NullFC)
                 m.mult(node->getParent()->getToWorld());
@@ -1432,7 +1436,11 @@ void ShadowViewport::checkLightsOcclusion(RenderActionBase *action)
                 if(ract->_occlusionQuery == 0)
                     ract->_glGenQueriesARB(1, &ract->_occlusionQuery);
     
+#ifndef OSG_2_PREP
                 const DynamicVolume& vol = node->getVolume();
+#else
+                const BoxVolume    & vol = node->getVolume();
+#endif
                 Pnt3f min,max;
                 vol.getBounds(min, max);
     
@@ -1509,7 +1517,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.35 2008/06/11 11:28:53 vossg Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.36 2008/07/01 06:43:03 vossg Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

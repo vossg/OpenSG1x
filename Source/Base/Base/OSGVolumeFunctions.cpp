@@ -54,8 +54,12 @@ bool intersect(const Volume &vol1, const Volume &vol2)
 {
     bool                  retCode = false;
 
+#ifndef OSG_2_PREP
     const DynamicVolume  *dv      = dynamic_cast<const DynamicVolume *>(&vol1);
     const Volume         *v       = dv ? &(dv->getInstance()) : &vol1;
+#else
+    const Volume         *v       = &vol1;
+#endif
     const BoxVolume      *bv;
     const SphereVolume   *sv;
     const CylinderVolume *cv;
@@ -276,8 +280,12 @@ bool intersect(const BoxVolume &box, const Volume &vol)
 {
     bool                 retCode = false;
 
-    const DynamicVolume  *dv     = dynamic_cast<const DynamicVolume *>(&vol);
-    const Volume         *v      = dv ? &(dv->getInstance()) : &vol;
+#ifndef OSG_2_PREP
+    const DynamicVolume  *dv      = dynamic_cast<const DynamicVolume *>(&vol);
+    const Volume         *v       = dv ? &(dv->getInstance()) : &vol;
+#else
+    const Volume         *v       = &vol;
+#endif
     const BoxVolume      *bv;
     const SphereVolume   *sv;
     const CylinderVolume *cv;
@@ -420,8 +428,12 @@ bool intersect(const SphereVolume &sphere, const Volume &vol)
 {
     bool                 retCode = false;
 
-    const DynamicVolume  *dv     = dynamic_cast<const DynamicVolume *>(&vol);
-    const Volume         *v      = dv ? &(dv->getInstance()) : &vol;
+#ifndef OSG_2_PREP
+    const DynamicVolume  *dv      = dynamic_cast<const DynamicVolume *>(&vol);
+    const Volume         *v       = dv ? &(dv->getInstance()) : &vol;
+#else
+    const Volume         *v       = &vol;
+#endif
     const BoxVolume      *bv;
     const SphereVolume   *sv;
     const CylinderVolume *cv;
@@ -584,8 +596,12 @@ bool intersect(const CylinderVolume &cylinder, const Volume &vol)
 {
     bool                 retCode = false;
 
-    const DynamicVolume  *dv     = dynamic_cast<const DynamicVolume *>(&vol);
-    const Volume         *v      = dv ? &(dv->getInstance()) : &vol;
+#ifndef OSG_2_PREP
+    const DynamicVolume  *dv      = dynamic_cast<const DynamicVolume *>(&vol);
+    const Volume         *v       = dv ? &(dv->getInstance()) : &vol;
+#else
+    const Volume         *v       = &vol;
+#endif
     const BoxVolume      *bv;
     const SphereVolume   *sv;
     const CylinderVolume *cv;
@@ -627,8 +643,12 @@ bool intersect(const FrustumVolume &frustum, const Volume &vol)
 {
     bool                  retCode = false;
 
+#ifndef OSG_2_PREP
     const DynamicVolume  *dv      = dynamic_cast<const DynamicVolume *>(&vol);
     const Volume         *v       = dv ? &(dv->getInstance()) : &vol;
+#else
+    const Volume         *v       = &vol;
+#endif
     const BoxVolume      *bv;
     const SphereVolume   *sv;
     const CylinderVolume *cv;
@@ -833,12 +853,15 @@ void extend(BoxVolume &srcVol, const Volume &vol)
 {
     const Volume        *v       = &vol;
     const BoxVolume     *box;
+    
+#ifndef OSG_2_PREP
     const DynamicVolume *dynamic = dynamic_cast<const DynamicVolume *>(v);
 
     if(dynamic)
     {
         v = &(dynamic->getInstance());
     }
+#endif
 
     if((box = dynamic_cast<const BoxVolume *>(v)))
     {
@@ -1060,12 +1083,15 @@ void extend(SphereVolume &srcVol, const Volume &vol)
 {
     const Volume        *v       = &vol;
     const SphereVolume  *sphere;
+    
+#ifndef OSG_2_PREP
     const DynamicVolume *dynamic = dynamic_cast<const DynamicVolume *>(v);
 
     if(dynamic)
     {
         v = &(dynamic->getInstance());
     }
+#endif
 
     if((sphere = dynamic_cast<const SphereVolume *>(v)) != NULL)
     {
@@ -1302,12 +1328,15 @@ void extend(CylinderVolume &srcVol, const Volume &vol)
 {
     const Volume         *v       = &vol;
     const CylinderVolume *cylinder;
+    
+#ifndef OSG_2_PREP
     const DynamicVolume  *dynamic = dynamic_cast<const DynamicVolume *>(v);
 
     if(dynamic)
     {
         v = &(dynamic->getInstance());
     }
+#endif
 
     if((cylinder = dynamic_cast<const CylinderVolume *>(v)) != NULL)
     {

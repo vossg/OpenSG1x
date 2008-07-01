@@ -586,10 +586,14 @@ Action::ResultE DVRVolume::intersect(Action * action)
 { 
     FDEBUG(("DVRVolume::intersect\n"));
 
-          IntersectAction *ia = dynamic_cast<IntersectAction*>(action);
-    const DynamicVolume   &dv = ia->getActNode()->getVolume();
+          IntersectAction *ia  = dynamic_cast<IntersectAction*>(action);
+#ifndef OSG_2_PREP
+    const DynamicVolume   &vol = ia->getActNode()->getVolume();
+#else
+    const BoxVolume       &vol = ia->getActNode()->getVolume();
+#endif
     
-    if(dv.isValid() && !dv.intersect(ia->getLine()))
+    if(vol.isValid() && !vol.intersect(ia->getLine()))
     {
         return Action::Skip; //bv missed -> can not hit children
     }
@@ -599,7 +603,7 @@ Action::ResultE DVRVolume::intersect(Action * action)
     Real32 t, v;
     Vec3f  norm;
 
-    if(dv.intersect(ia->getLine(), t, v))
+    if(vol.intersect(ia->getLine(), t, v))
         ia->setHit(t, ia->getActNode(), 0, norm);
     
     return Action::Continue;

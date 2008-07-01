@@ -71,12 +71,21 @@ const BitVector Node::CoreFieldMask        =
 
 FieldDescription *Node::_desc[] =
 {
+#ifndef OSG_2_PREP
     new FieldDescription(SFDynamicVolume::getClassType(),
                          "volume",
                          OSG_FC_FIELD_IDM_DESC(VolumeField),
                          false,
                          reinterpret_cast<FieldAccessMethod>(
                              &Node::editSFVolume)),
+#else
+    new FieldDescription(SFBoxVolume::getClassType(),
+                         "volume",
+                         OSG_FC_FIELD_IDM_DESC(VolumeField),
+                         false,
+                         reinterpret_cast<FieldAccessMethod>(
+                             &Node::editSFVolume)),
+#endif
 
     // Yes, this is wrong, it should be an UInt32, but changing
     // it now will break all old .osb files, and this info is
@@ -423,7 +432,11 @@ void Node::getToWorld(Matrix &result)
 /*-------------------------------------------------------------------------*/
 /*                           Volume                                        */
 
+#ifndef OSG_2_PREP
 void Node::getWorldVolume(DynamicVolume &result)
+#else
+void Node::getWorldVolume(BoxVolume &result)
+#endif
 {
     Matrix m;
 
@@ -452,6 +465,7 @@ fprintf(stderr,"%p: node 0x%p gwv (%f %f %f  %f %f %f)\n",
 
 void Node::updateVolume(void)
 {
+#ifndef OSG_2_PREP
     if(_sfVolume.getValue().getInstance().isValid() == true ||
        getTravMask()                                == 0x0000)
     {
@@ -460,7 +474,6 @@ void Node::updateVolume(void)
 
     // be careful to not change the real volume. If two threads
     // are updating the same aspect this will lead to chaos
-
     DynamicVolume vol = _sfVolume.getValue();
 
 //fprintf(stderr,"%p: node 0x%p update needed\n", Thread::getCurrent(), this);
@@ -491,11 +504,55 @@ void Node::updateVolume(void)
     _sfVolume.setValue(vol);
 
     endEditCP(thisP, VolumeFieldMask);
+    
+#else
+
+    if(_sfVolume.getValue().isValid() == true ||
+       getTravMask()                  == 0x0000)
+    {
+        return;             // still valid, nothing to do
+    }
+
+    // be careful to not change the real volume. If two threads
+    // are updating the same aspect this will lead to chaos
+    BoxVolume vol = _sfVolume.getValue();
+
+//fprintf(stderr,"%p: node 0x%p update needed\n", Thread::getCurrent(), this);
+
+    MFNodePtr::iterator it;
+
+    vol.setEmpty();
+
+    for(it = _mfChildren.begin(); it != _mfChildren.end(); ++it)
+    {
+        if(*it != NullFC && (*it)->getTravMask())
+        {
+            (*it)->updateVolume();
+            vol.extendBy((*it)->getVolume());
+        }
+    }
+
+    // test for null core. Shouldn't happen, but just in case...
+    if(getCore() != NullFC)
+        getCore()->adjustVolume(vol);
+
+    NodePtr thisP = getPtr();
+
+    beginEditCP(thisP, VolumeFieldMask);
+
+    _sfVolume.setValue(vol);
+
+    endEditCP(thisP, VolumeFieldMask);
+#endif // OSG_2_PREP
 }
 
 void Node::invalidateVolume(void)
 {
-    Volume &vol=_sfVolume.getValue().getInstance();
+#ifndef OSG_2_PREP
+    Volume &vol = _sfVolume.getValue().getInstance();
+#else
+    Volume &vol = _sfVolume.getValue();
+#endif
 
     if(vol.isValid() == true && vol.isStatic() == false)
     {
@@ -504,7 +561,9 @@ void Node::invalidateVolume(void)
         beginEditCP(thisP, VolumeFieldMask);
 
         vol.setValid(false);
+#ifndef OSG_2_PREP
         _sfVolume.getValue().instanceChanged();
+#endif
 
         endEditCP(thisP, VolumeFieldMask);
 

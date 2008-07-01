@@ -136,10 +136,14 @@ IntersectActor::setupChildrenPriorities(void)
 
     for(UInt32 i = 0; i < numChildren; ++i)
     {
-        const DynamicVolume &dynVol = getChild(i)->editVolume(true);
+#ifndef OSG_2_PREP
+        const DynamicVolume &vol = getChild(i)->editVolume(true);
+#else
+        const BoxVolume     &vol = getChild(i)->editVolume(true);
+#endif
 
-        if((dynVol.intersect(getRay(), bvEnter, bvExit) == true   ) &&
-           (bvEnter * scaleFactor                       <  hitDist)   )
+        if((vol.intersect(getRay(), bvEnter, bvExit) == true   ) &&
+           (bvEnter * scaleFactor                    <  hitDist)   )
         {
             setChildPriority(i, -bvEnter * scaleFactor);
         }
@@ -151,10 +155,14 @@ IntersectActor::setupChildrenPriorities(void)
 
     for(UInt32 i = 0; i < numExtraChildren; ++i)
     {
-        const DynamicVolume &dynVol = getExtraChild(i)->editVolume(true);
+#ifndef OSG_2_PREP
+        const DynamicVolume &vol = getChild(i)->editVolume(true);
+#else
+        const BoxVolume     &vol = getChild(i)->editVolume(true);
+#endif
 
-        if((dynVol.intersect(getRay(), bvEnter, bvExit) == true   ) &&
-           (bvEnter * scaleFactor                       <  hitDist)   )
+        if((vol.intersect(getRay(), bvEnter, bvExit) == true   ) &&
+           (bvEnter * scaleFactor                    <  hitDist)   )
         {
             setExtraChildPriority(i, -bvEnter * scaleFactor);
         }

@@ -786,7 +786,11 @@ void SimpleSceneManager::updateHighlight(void)
     // FDEBUG (("SimpleSceneManager::updateHightlight() called\n"));
 
     // calc the world bbox of the highlight object
-    DynamicVolume vol;
+#ifndef OSG_2_PREP
+     DynamicVolume vol;
+#else
+    BoxVolume      vol;
+#endif
     _highlight->getWorldVolume(vol);
 
     Pnt3f min,max;

@@ -863,7 +863,11 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
 
                     // we don't want the center we use the front most
                     // z value for the sorting.
+#ifndef OSG_2_PREP
                     DynamicVolume vol = getActNode()->getVolume();
+#else
+                    BoxVolume     vol = getActNode()->getVolume();
+#endif
                     vol.transform(_currMatrix.second);
                     objPos = vol.getMax();
 
@@ -1375,7 +1379,11 @@ bool RenderAction::isVisible( Node* node )
 
     getStatistics()->getElem(statCullTestedNodes)->inc();
     
+#ifndef OSG_2_PREP
     DynamicVolume vol;
+#else
+    BoxVolume     vol;
+#endif
 
 //    node->getWorldVolume( vol );
 
@@ -1423,7 +1431,11 @@ bool RenderAction::pushVisibility(void)
     
     NodePtr node = getActNode();
     
+#ifndef OSG_2_PREP
     DynamicVolume vol = node->editVolume(true);
+#else
+    BoxVolume     vol = node->editVolume(true);
+#endif
     FrustumVolume frustum = _frustum;
 
 #if 1
@@ -1626,7 +1638,11 @@ bool RenderAction::isSmallFeature(const NodePtr &node)
         return false;
 
     //node->updateVolume();
+#ifndef OSG_2_PREP
     DynamicVolume vol = node->getVolume();
+#else
+    BoxVolume     vol = node->getVolume();
+#endif
     vol.transform(top_matrix());
 
     Pnt3f p[8];
@@ -1766,7 +1782,11 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
                 if(_occlusionQuery == 0)
                     _glGenQueriesARB(1, &_occlusionQuery);
 
-                const DynamicVolume& vol = pRoot->getNode()->getVolume();
+#ifndef OSG_2_PREP
+                const DynamicVolume &vol = pRoot->getNode()->getVolume();
+#else
+                const BoxVolume     &vol = pRoot->getNode()->getVolume();
+#endif
                 Pnt3f min,max;
                 vol.getBounds(min, max);
 
@@ -2021,7 +2041,11 @@ void RenderAction::drawMultiFrameOcclusionBB(DrawTreeNode *pRoot)
             if(_glGenQueriesARB != NULL && ((pos_size > _occlusionCullingThreshold) ||
                (_occlusionCullingMode == OcclusionHierarchicalMultiFrame)))
             {
+#ifndef OSG_2_PREP
                 DynamicVolume vol = pRoot->getNode()->getVolume();
+#else
+                BoxVolume     vol = pRoot->getNode()->getVolume();
+#endif
                 vol.transform(pRoot->getMatrixStore().second);
                 // ignore objects behind the camera.
                 if(vol.getMax()[2] < 0.0f)
@@ -2070,7 +2094,11 @@ void RenderAction::drawHierarchicalMultiFrameOcclusionBB(const Matrix &view,
     if(node == NullFC || _glGenQueriesARB == NULL)
         return;
 
+#ifndef OSG_2_PREP
     DynamicVolume vol = node->getVolume();
+#else
+    BoxVolume     vol = node->getVolume();
+#endif
     Matrix m = view;
     if(node->getParent() != NullFC)
         m.mult(node->getParent()->getToWorld());

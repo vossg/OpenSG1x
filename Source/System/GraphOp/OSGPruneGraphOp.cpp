@@ -134,20 +134,31 @@ Action::ResultE PruneGraphOp::traverseLeave(NodePtr& node, Action::ResultE res)
     return res;
 }
 
-bool PruneGraphOp::isTooSmall(const NodePtr& node) {
+bool PruneGraphOp::isTooSmall(const NodePtr& node)
+{
     return getSize(node) < _size;
 }
 
-float PruneGraphOp::getSize(const NodePtr& node) {
-    const DynamicVolume& dv = node->editVolume(true);
-    if (_method == VOLUME) {
-        return dv.getScalarVolume();
-    } else if (_method == SUM_OF_DIMENSIONS) {
+float PruneGraphOp::getSize(const NodePtr& node)
+{
+#ifndef OSG_2_PREP
+    const DynamicVolume &vol = node->editVolume(true);
+#else
+    const BoxVolume     &vol = node->editVolume(true);
+#endif
+    if (_method == VOLUME)
+    {
+        return vol.getScalarVolume();
+    }
+    else if (_method == SUM_OF_DIMENSIONS)
+    {
         Pnt3f min, max;
-        dv.getBounds(min, max);
+        vol.getBounds(min, max);
         Vec3f diff = max - min;
         return diff[0] + diff[1] + diff[2];
-    } else {
+    }
+    else
+    {
         SWARNING << "Unknown size calculation method" << std::endl;
         return 0;
     }

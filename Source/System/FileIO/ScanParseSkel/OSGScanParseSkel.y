@@ -1040,17 +1040,27 @@ sfVolumeValueEnd:
     float
     {
         SKEL->appendValue();
+#ifndef OSG_2_PREP
         DynamicVolume dv(DynamicVolume::BOX_VOLUME);
         BoxVolume &bv = dynamic_cast<BoxVolume&>(dv.getInstance());
         bv.setBounds(SKEL->_tmpFloat1, SKEL->_tmpFloat2, SKEL->_tmpFloat3, SKEL->_tmpFloat4, $1, $3);
         SKEL->addVolumeValue(dv);
+#else
+        BoxVolume  bv;
+        bv.setBounds(SKEL->_tmpFloat1, SKEL->_tmpFloat2, SKEL->_tmpFloat3, SKEL->_tmpFloat4, $1, $3);
+        SKEL->addVolumeValue(bv);
+#endif
     }
     | /* empty */
     {
+#ifndef OSG_2_PREP
         DynamicVolume dv(DynamicVolume::SPHERE_VOLUME);
         SphereVolume &sv = dynamic_cast<SphereVolume&>(dv.getInstance());
         sv.setValue(Pnt3f(SKEL->_tmpFloat1, SKEL->_tmpFloat2, SKEL->_tmpFloat3), SKEL->_tmpFloat4);
         SKEL->addVolumeValue(dv);
+#else
+        FFASSERT(false, 0, ("ScanParseSkel::sfVolumeValueEnd: Can not parse sphere volume.\n");)
+#endif
     };
 
 mfcolor4iValue:

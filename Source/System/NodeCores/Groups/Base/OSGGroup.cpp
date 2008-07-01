@@ -145,10 +145,14 @@ Action::ResultE Group::renderLeave(Action *action)
 
 Action::ResultE Group::intersect(Action *action)
 {
-          IntersectAction *ia = dynamic_cast<IntersectAction *>(action);
-    const DynamicVolume   &dv = ia->getActNode()->getVolume();
+          IntersectAction *ia  = dynamic_cast<IntersectAction *>(action);
+#ifndef OSG_2_PREP
+    const DynamicVolume   &vol = ia->getActNode()->getVolume();
+#else
+    const BoxVolume       &vol = ia->getActNode()->getVolume();
+#endif
     
-    if(dv.isValid() && ! dv.intersect(ia->getLine()))
+    if(vol.isValid() && ! vol.intersect(ia->getLine()))
     {
         return Action::Skip;  //bv missed -> can not hit children
     }

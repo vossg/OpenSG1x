@@ -162,7 +162,11 @@ void TileGeometryLoad::updateView(Matrix &viewing,
     m.multLeft(viewing);
     // get transformed volume
     node->updateVolume();
-    DynamicVolume volume=node->getVolume();
+#ifndef OSG_2_PREP
+    DynamicVolume volume = node->getVolume();
+#else
+    BoxVolume     volume = node->getVolume();
+#endif
     // bug in osg base
     /*
     if(volume.isEmpty())
@@ -306,7 +310,7 @@ void TileGeometryLoad::updateGeometry()
     if(node == NullFC)
         return;
 
-    const OSG::Volume *volume = &(node->getVolume().getInstance());
+    const OSG::Volume &volume = node->getVolume();
     TriangleIterator   f;
     int                p,s;
     Vec3f              vmin,vmax;
@@ -327,7 +331,7 @@ void TileGeometryLoad::updateGeometry()
         return;
 
     // get volume min,max
-    volume->getBounds(vmin,vmax);
+    volume.getBounds(vmin,vmax);
 
     // count faces
     for(f=geo->beginTriangles() ; f!=geo->endTriangles() ; ++f)

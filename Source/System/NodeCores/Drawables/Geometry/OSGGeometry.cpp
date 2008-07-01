@@ -1158,10 +1158,14 @@ void Geometry::updateCachedGeoStat(void)
 
 Action::ResultE Geometry::intersect(Action * action)
 {
-    IntersectAction     * ia = dynamic_cast<IntersectAction*>(action);
-    const DynamicVolume  &dv = ia->getActNode()->editVolume(true);
+    IntersectAction     * ia  = dynamic_cast<IntersectAction*>(action);
+#ifndef OSG_2_PREP
+    const DynamicVolume  &vol = ia->getActNode()->editVolume(true);
+#else
+    const BoxVolume      &vol = ia->getActNode()->editVolume(true);
+#endif
 
-    if(dv.isValid() && !dv.intersect(ia->getLine()))
+    if(vol.isValid() && !vol.intersect(ia->getLine()))
     {
         return Action::Skip; //bv missed -> can not hit children
     }

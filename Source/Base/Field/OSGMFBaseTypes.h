@@ -124,7 +124,6 @@ typedef MField<Color4ub> MFColor4ub;
 OSG_DLLEXPORT_DECL1(MField, Color4ub, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
-
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldMulti */
 
@@ -135,6 +134,16 @@ typedef MField<DynamicVolume> MFVolume;
 OSG_DLLEXPORT_DECL1(MField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldMulti */
+
+typedef MField<BoxVolume> MFBoxVolume;
+#endif
+
+#ifndef OSG_COMPILEFIELDINST
+OSG_DLLEXPORT_DECL1(MField, BoxVolume, OSG_BASE_DLLTMPLMAPPING)
+#endif
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldMulti */

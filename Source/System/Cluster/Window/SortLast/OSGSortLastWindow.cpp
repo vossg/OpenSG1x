@@ -463,7 +463,11 @@ void SortLastWindow::collectDrawables(const NodePtr &node,
                 drawableInfo.node = node;
                 // get transformed volume
                 node->updateVolume();
+#ifndef OSG_2_PREP
                 DynamicVolume volume;
+#else
+                BoxVolume     volume;
+#endif
                 node->getWorldVolume(volume);
                 // get min,max
                 volume.getBounds(drawableInfo.bMin, drawableInfo.bMax);
@@ -485,7 +489,11 @@ void SortLastWindow::collectDrawables(const NodePtr &node,
             drawableInfo.node = node;
             // get transformed volume
             node->updateVolume();
+#ifndef OSG_2_PREP
             DynamicVolume volume;
+#else
+            BoxVolume     volume;
+#endif
             node->getWorldVolume(volume);
             // get min,max
             volume.getBounds(drawableInfo.bMin, drawableInfo.bMax);

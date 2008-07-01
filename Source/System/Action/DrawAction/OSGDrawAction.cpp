@@ -230,7 +230,11 @@ bool DrawAction::isVisible( Node* node )
         
     getStatistics()->getElem(statCullTestedNodes)->inc();
     
+#ifndef OSG_2_PREP
     DynamicVolume vol;
+#else
+    BoxVolume     vol;
+#endif
     node->getWorldVolume( vol );
 
     if ( _frustum.intersect( vol ) )

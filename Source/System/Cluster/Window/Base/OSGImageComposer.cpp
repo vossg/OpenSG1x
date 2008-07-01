@@ -212,7 +212,11 @@ bool ImageComposer::getScreenAlignedBBox(NodePtr node,ViewportPtr vp,
     m.multLeft(viewing);
     // get transformed volume
     node->updateVolume();
-    DynamicVolume volume=node->getVolume();
+#ifndef OSG_2_PREP
+    DynamicVolume volume = node->getVolume();
+#else
+    BoxVolume     volume = node->getVolume();
+#endif
     // bug in osg base
     /*
     if(volume.isEmpty())

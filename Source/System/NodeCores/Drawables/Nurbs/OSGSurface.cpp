@@ -444,10 +444,12 @@ void Surface::FindClosestPoint( Vec3f& rDist, const Pnt3f viewPos ) const
 
     for( parent_idx = 0; parent_idx < parent_cnt; ++parent_idx )
     {
+#ifndef OSG_2_PREP
         switch( getParents( )[ 0 ]->getVolume( ).getType( ) )
         {
         case DynamicVolume::BOX_VOLUME:
             {
+#endif
                 Pnt3f   bb_min, bb_max;
 
                 getParents( )[ 0 ]->getVolume( ).getBounds( bb_min, bb_max );
@@ -492,6 +494,7 @@ void Surface::FindClosestPoint( Vec3f& rDist, const Pnt3f viewPos ) const
                 {
                     temp_dist[2] = 0.0;
                 }
+#ifndef OSG_2_PREP
             }
             break;
         case DynamicVolume::SPHERE_VOLUME:
@@ -514,6 +517,7 @@ void Surface::FindClosestPoint( Vec3f& rDist, const Pnt3f viewPos ) const
             }
             break;
         }
+#endif
         curr_dist = temp_dist.squareLength( );
         if( curr_dist < min_dist )
         {

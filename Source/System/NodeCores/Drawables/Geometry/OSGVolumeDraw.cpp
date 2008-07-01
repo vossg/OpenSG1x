@@ -57,7 +57,7 @@
 
 OSG_USING_NAMESPACE
 
-
+#ifndef OSG_2_PREP
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
     Draw the given DynamicVolume using direct OpenGL calls.
 */
@@ -87,6 +87,7 @@ void OSG::drawVolume(const DynamicVolume &volume)
         drawVolume(*fv);
     }
 }
+#endif
 
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
     Draw the given BoxVolume using direct OpenGL calls.
@@ -266,9 +267,15 @@ class VolumeDrawWrapper
 {
   public:
   
+#ifndef OSG_2_PREP
     VolumeDrawWrapper(const DynamicVolume &vol, Color3f col) : 
         _vol(vol), _col(col)
     {}
+#else
+    VolumeDrawWrapper(const BoxVolume &vol, Color3f col) : 
+        _vol(vol), _col(col)
+    {}
+#endif
     
     ~VolumeDrawWrapper()
     {}
@@ -280,7 +287,11 @@ class VolumeDrawWrapper
         drop(action, node->getVolume(), col);
     }
     
+#ifndef OSG_2_PREP
     static void drop(DrawActionBase *action, const DynamicVolume &volume, Color3f col)
+#else
+    static void drop(DrawActionBase *action, const BoxVolume     &volume, Color3f col)
+#endif
     {
         VolumeDrawWrapper * vdw = new VolumeDrawWrapper(volume, col);
 
@@ -305,7 +316,11 @@ class VolumeDrawWrapper
         return Action::Continue;
     }
     
-    DynamicVolume _vol;  
+#ifndef OSG_2_PREP
+    DynamicVolume _vol;
+#else
+    BoxVolume     _vol;
+#endif
     Color3f _col; 
 };
 
@@ -319,6 +334,7 @@ void OSG::dropVolume(DrawActionBase *action, NodePtr node, Color3f col)
     return;
 }
 
+#ifndef OSG_2_PREP
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
     Draw the volume.
 */
@@ -328,3 +344,16 @@ void OSG::dropVolume(DrawActionBase *action, const DynamicVolume &volume, Color3
     VolumeDrawWrapper::drop(action, volume, col);
     return;
 }
+
+#else
+
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+    Draw the volume.
+*/
+OSG_SYSTEMLIB_DLLMAPPING 
+void OSG::dropVolume(DrawActionBase *action, const BoxVolume &volume, Color3f col)
+{
+    VolumeDrawWrapper::drop(action, volume, col);
+    return;
+}
+#endif

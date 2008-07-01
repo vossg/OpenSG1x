@@ -1815,9 +1815,13 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTexCoords(GeometryPtr geo, Int32 te
 
         if (node != NullFC)
         {
-            DynamicVolume &dVol = node->editVolume(true);
+#ifndef OSG_2_PREP
+            DynamicVolume &vol = node->editVolume(true);
+#else
+            BoxVolume     &vol = node->editVolume(true);
+#endif
             Pnt3f min, max;
-            dVol.getBounds(min, max);
+            vol.getBounds(min, max);
     
             Vec3f dia(max - min);
             for (i=0; i<3; i++)

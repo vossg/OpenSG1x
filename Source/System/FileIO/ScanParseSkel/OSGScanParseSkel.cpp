@@ -491,10 +491,17 @@ void ScanParseSkel::addPlaneValue(const Plane &p)
     addFieldValue(_tmpString1.c_str());
 }
 
+#ifndef OSG_2_PREP
 void ScanParseSkel::addVolumeValue(const DynamicVolume &v)
 {
     addFieldValue(_tmpString1.c_str());
 }
+#else
+void ScanParseSkel::addVolumeValue(const BoxVolume &v)
+{
+    addFieldValue(_tmpString1.c_str());
+}
+#endif
 
 void ScanParseSkel::addRoute(const Char8 *,
                              const Char8 *,

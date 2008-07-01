@@ -132,6 +132,16 @@ typedef SField<DynamicVolume> SFDynamicVolume;
 OSG_DLLEXPORT_DECL1(SField, DynamicVolume, OSG_BASE_DLLTMPLMAPPING)
 #endif
 
+#if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
+/*! \ingroup GrpBaseFieldSingle */
+
+typedef SField<BoxVolume> SFBoxVolume;
+#endif
+
+#ifndef OSG_COMPILEFIELDINST
+OSG_DLLEXPORT_DECL1(SField, BoxVolume, OSG_BASE_DLLTMPLMAPPING)
+#endif
+
 
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_FIELD_TYPEDEFS) 
 /*! \ingroup GrpBaseFieldSingle */

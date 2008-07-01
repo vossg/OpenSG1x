@@ -267,7 +267,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Geometry : public GeometryBase
     UInt32 _nprimitives;
     UInt32 _numBytesOnGfxCard;
 
+#ifndef OSG_2_PREP
     DynamicVolume   _volume;
+#else
+    BoxVolume       _volume;
+#endif
 };
 
 typedef Geometry *GeometryP;

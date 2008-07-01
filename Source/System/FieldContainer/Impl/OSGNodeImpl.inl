@@ -53,11 +53,19 @@ OSG_BEGIN_NAMESPACE
 /*-------------------------------------------------------------------------*/
 /*                                Get                                      */
 
+#ifndef OSG_2_PREP
 inline
 const DynamicVolume &Node::getVolume(void) const
 {
     return _sfVolume.getValue();
 }
+#else
+inline
+const BoxVolume &Node::getVolume(void) const
+{
+    return _sfVolume.getValue();
+}
+#endif
 
 #ifndef OSG_2_PREP
 inline
@@ -70,6 +78,7 @@ DynamicVolume &Node::getVolume(bool update)
 }
 #endif
 
+#ifndef OSG_2_PREP
 inline
 DynamicVolume &Node::editVolume(bool update)
 {
@@ -78,6 +87,16 @@ DynamicVolume &Node::editVolume(bool update)
 
     return _sfVolume.getValue();
 }
+#else
+inline
+BoxVolume &Node::editVolume(bool update)
+{
+    if(update == true)
+        updateVolume();
+
+    return _sfVolume.getValue();
+}
+#endif
 
 inline
 NodePtr Node::getParent(void)
@@ -140,6 +159,7 @@ UInt8 Node::getOcclusionMask(void) const
 /*-------------------------------------------------------------------------*/
 /*                          Access Fields                                  */
 
+#ifndef OSG_2_PREP
 inline
 const SFDynamicVolume *Node::getSFVolume(void) const
 {
@@ -151,6 +171,19 @@ SFDynamicVolume *Node::editSFVolume(void)
 {
     return &_sfVolume;
 }
+#else
+inline
+const SFBoxVolume *Node::getSFVolume(void) const
+{
+    return &_sfVolume;
+}
+
+inline
+SFBoxVolume *Node::editSFVolume(void)
+{
+    return &_sfVolume;
+}
+#endif
 
 #ifndef OSG_2_PREP
 inline
