@@ -930,8 +930,7 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<BoxVolume> :
     enum                  { StringConvertable = ToStringConvertable       | 
                                                 FromStringConvertable     };
 
-    static OSG_BASE_DLLMAPPING
-                 DataType  &getType     (void);
+    static       DataType  &getType     (void) { return _type;         }
 
     static const Char8     *getSName    (void) { return "SFBoxVolume"; }
 
