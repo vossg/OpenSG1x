@@ -259,11 +259,12 @@ void ExtrusionSurface::determineTopology(void)
 void ExtrusionSurface::refineCrossSection(UInt32 nTimes)
 {
     FDEBUG(("OSGExtrusion:refineCrossSection: Refinining %d times\n",nTimes));
-    std::vector<Vec2f> output;
+    std::vector<Pnt2f> output;
 
     // cast <Pnt2f> to <Vec2f> because we need the vector interface
-    std::vector<Vec2f> & csVec2f (
-        reinterpret_cast<std::vector<Vec2f>&>(_crossSection));
+    std::vector<Pnt2f> & csVec2f (_crossSection);
+
+//        reinterpret_cast<std::vector<Vec2f>&>(_crossSection));
     subdivide(csVec2f, &output, nTimes, _crossSectionClosed);
 
     // swap output data into _crossSection
@@ -279,11 +280,14 @@ void ExtrusionSurface::refineSpine(UInt32 nTimes)
 {
     FDEBUG(("OSGExtrusion:refineSpine: Refinining %d times\n",nTimes));
 
-    std::vector<Vec3f> output;
+    std::vector<Pnt3f> output;
 
     // cast <Pnt3f> to <Vec3f> because we need the vector interface    
-    std::vector<Vec3f> & spVec3f (reinterpret_cast<std::vector<Vec3f>&>(_spine));
-    subdivide<Vec3f>(spVec3f, &output, nTimes, _spineClosed);
+//    std::vector<Vec3f> & spVec3f (reinterpret_cast<std::vector<Vec3f>&>(_spine));
+
+    std::vector<Pnt3f> & spVec3f(_spine);
+
+    subdivide<Pnt3f>(spVec3f, &output, nTimes, _spineClosed);
 
     // swap output data into _spine
     output.swap(spVec3f);

@@ -237,7 +237,15 @@ void BinaryMessage::putString(const std::string &value)
 
 void BinaryMessage::putReal32(const Real32  value)
 {
-    putInt32(*(reinterpret_cast<const Int32*>(&value)));
+    union 
+    {
+        Real32 rVal;
+        Int32  iVal;
+    } convVal;
+
+    convVal.rVal = value;
+
+    putInt32(convVal.iVal);
 }
 
 /*---------------------------------------------------------------------*/

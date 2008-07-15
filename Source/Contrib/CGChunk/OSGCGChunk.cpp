@@ -104,9 +104,10 @@ void CGChunk::cgErrorCallback(void)
     if(LastError)
     {
         FWARNING(("Cg error occured!\n\n"));
-        if(cgIsContext((CGcontext) _current_context))
+        if(cgIsContext(reinterpret_cast<CGcontext>(_current_context)))
         {
-            const char *Listing = cgGetLastListing((CGcontext) _current_context);
+            const char *Listing = 
+                cgGetLastListing(reinterpret_cast<CGcontext>(_current_context));
             FWARNING(("\n---------------------------------------------------\n"));
             FWARNING(("%s\n\n", cgGetErrorString(LastError)));
             FWARNING(("%s\n", Listing));
@@ -170,12 +171,12 @@ void CGChunk::onDestroy(void)
 {
     Inherited::onDestroy();
 
-    if(cgIsProgram((CGprogram) _vProgram))
-        cgDestroyProgram((CGprogram) _vProgram);
-    if(cgIsProgram((CGprogram) _fProgram))
-        cgDestroyProgram((CGprogram) _fProgram);
-    if(cgIsContext((CGcontext) _context))
-        cgDestroyContext((CGcontext) _context);
+    if(cgIsProgram(reinterpret_cast<CGprogram>(_vProgram)))
+        cgDestroyProgram(reinterpret_cast<CGprogram>(_vProgram));
+    if(cgIsProgram(reinterpret_cast<CGprogram>(_fProgram)))
+        cgDestroyProgram(reinterpret_cast<CGprogram>(_fProgram));
+    if(cgIsContext(reinterpret_cast<CGcontext>(_context)))
+        cgDestroyContext(reinterpret_cast<CGcontext>(_context));
         
     if(getGLId() > 0)
         Window::destroyGLObject(getGLId(), 1);
@@ -248,24 +249,24 @@ void CGChunk::handleGL(Window *win, UInt32 idstatus)
 void CGChunk::updateCGContext(void)
 {
     if(_context == NULL)
-        _context = (OSGCGcontext) cgCreateContext();
+        _context = reinterpret_cast<OSGCGcontext>(cgCreateContext());
     
     _current_context = _context;
 
     // can't do this in onCreate()
     if(getVertexProfile() == CG_PROFILE_UNKNOWN)
         setVertexProfile(cgGLGetLatestProfile(CG_GL_VERTEX));
-    cgGLSetOptimalOptions((CGprofile) getVertexProfile());
+    cgGLSetOptimalOptions(CGprofile(getVertexProfile()));
     
     if(getFragmentProfile() == CG_PROFILE_UNKNOWN)
         setFragmentProfile(cgGLGetLatestProfile(CG_GL_FRAGMENT));
-    cgGLSetOptimalOptions((CGprofile) getFragmentProfile());
+    cgGLSetOptimalOptions(CGprofile(getFragmentProfile()));
 
     // reload programs
     if(hasVP() && !getVertexProgram().empty())
     {
-        if(cgIsProgram((CGprogram) _vProgram))
-            cgDestroyProgram((CGprogram) _vProgram);
+        if(cgIsProgram(reinterpret_cast<CGprogram>(_vProgram)))
+            cgDestroyProgram(reinterpret_cast<CGprogram>(_vProgram));
 
         const char *entry = NULL;
         if(!getVertexEntryPoint().empty())
@@ -281,13 +282,18 @@ void CGChunk::updateCGContext(void)
             args[asize] = NULL;
         }
         
-        _vProgram = (OSGCGprogram) cgCreateProgram((CGcontext) _context,
-                                    CG_SOURCE, getVertexProgram().c_str(),
-                                    (CGprofile) getVertexProfile(), entry, args);
+        _vProgram = 
+            reinterpret_cast<OSGCGprogram>(
+                cgCreateProgram(reinterpret_cast<CGcontext>(_context),
+                                CG_SOURCE, 
+                                getVertexProgram().c_str(),
+                                CGprofile(getVertexProfile()), 
+                                entry, 
+                                args));
         if(_vProgram)
         {
             _vp_isvalid = true;
-            cgGLLoadProgram((CGprogram) _vProgram);
+            cgGLLoadProgram(reinterpret_cast<CGprogram>(_vProgram));
         }
         else
         {
@@ -301,8 +307,8 @@ void CGChunk::updateCGContext(void)
 
     if(hasFP() && !getFragmentProgram().empty())
     {
-        if(cgIsProgram((CGprogram) _fProgram))
-            cgDestroyProgram((CGprogram) _fProgram);
+        if(cgIsProgram(reinterpret_cast<CGprogram>(_fProgram)))
+            cgDestroyProgram(reinterpret_cast<CGprogram>(_fProgram));
 
         const char *entry = NULL;
         if(!getFragmentEntryPoint().empty())
@@ -318,13 +324,19 @@ void CGChunk::updateCGContext(void)
             args[asize] = NULL;
         }
         
-        _fProgram = (OSGCGprogram) cgCreateProgram((CGcontext) _context,
-                                    CG_SOURCE, getFragmentProgram().c_str(),
-                                    (CGprofile) getFragmentProfile(), entry, args);
-        if(cgIsProgram((CGprogram) _fProgram))
+        _fProgram = 
+            reinterpret_cast<OSGCGprogram>(
+                cgCreateProgram(reinterpret_cast<CGcontext>(_context),
+                                CG_SOURCE, 
+                                getFragmentProgram().c_str(),
+                                CGprofile(getFragmentProfile()), 
+                                entry, 
+                                args));
+
+        if(cgIsProgram(reinterpret_cast<CGprogram>(_fProgram)))
         {
             _fp_isvalid = true;
-            cgGLLoadProgram((CGprogram) _fProgram);
+            cgGLLoadProgram(reinterpret_cast<CGprogram>(_fProgram));
         }
         else
         {
@@ -370,7 +382,11 @@ void CGChunk::updateParameters(Window *OSG_CHECK_ARG(win),
 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram, p->getName().c_str());
+                    CGparameter vpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_vProgram), 
+                            p->getName().c_str());
+
                     if(vpparam != 0)
                         cgGLSetParameter1f(vpparam, p->getValue());
                     //FWARNING(("Unknown parameter '%s'!\n", p->getName().c_str()));
@@ -378,7 +394,11 @@ void CGChunk::updateParameters(Window *OSG_CHECK_ARG(win),
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram, p->getName().c_str());
+                    CGparameter fpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_fProgram), 
+                            p->getName().c_str());
+
                     if(fpparam != 0)
                         cgGLSetParameter1f(fpparam, p->getValue());
                 }
@@ -390,16 +410,22 @@ void CGChunk::updateParameters(Window *OSG_CHECK_ARG(win),
 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram,
-                                                        p->getName().c_str());
+                    CGparameter vpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_vProgram),
+                            p->getName().c_str());
+
                     if(vpparam != 0)
                         cgGLSetParameter2fv(vpparam, p->getValue().getValues());
                 }
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram,
-                                                        p->getName().c_str());
+                    CGparameter fpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_fProgram),
+                            p->getName().c_str());
+
                     if(fpparam != 0)
                         cgGLSetParameter2fv(fpparam, p->getValue().getValues());
                 }
@@ -407,20 +433,27 @@ void CGChunk::updateParameters(Window *OSG_CHECK_ARG(win),
             break;
             case ShaderParameter::SHPTypeVec3f:
             {
-                ShaderParameterVec3fPtr p = ShaderParameterVec3fPtr::dcast(parameter);
+                ShaderParameterVec3fPtr p = 
+                    ShaderParameterVec3fPtr::dcast(parameter);
 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram,
-                                                        p->getName().c_str());
+                    CGparameter vpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_vProgram),
+                            p->getName().c_str());
+
                     if(vpparam != 0)
                         cgGLSetParameter3fv(vpparam, p->getValue().getValues());
                 }
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram,
-                                                        p->getName().c_str());
+                    CGparameter fpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_fProgram),
+                            p->getName().c_str());
+
                     if(fpparam != 0)
                         cgGLSetParameter3fv(fpparam, p->getValue().getValues());
                 }
@@ -428,20 +461,27 @@ void CGChunk::updateParameters(Window *OSG_CHECK_ARG(win),
             break;
             case ShaderParameter::SHPTypeVec4f:
             {
-                ShaderParameterVec4fPtr p = ShaderParameterVec4fPtr::dcast(parameter);
+                ShaderParameterVec4fPtr p = 
+                    ShaderParameterVec4fPtr::dcast(parameter);
                 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram,
-                                                        p->getName().c_str());
+                    CGparameter vpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_vProgram),
+                            p->getName().c_str());
+
                     if(vpparam != 0)
                         cgGLSetParameter4fv(vpparam, p->getValue().getValues());
                 }
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram,
-                                                        p->getName().c_str());
+                    CGparameter fpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_fProgram),
+                            p->getName().c_str());
+
                     if(fpparam != 0)
                         cgGLSetParameter4fv(fpparam, p->getValue().getValues());
                 }
@@ -449,28 +489,38 @@ void CGChunk::updateParameters(Window *OSG_CHECK_ARG(win),
             break;
             case ShaderParameter::SHPTypeMatrix:
             {
-                ShaderParameterMatrixPtr p = ShaderParameterMatrixPtr::dcast(parameter);
+                ShaderParameterMatrixPtr p = 
+                    ShaderParameterMatrixPtr::dcast(parameter);
                 
                 if(_vp_isvalid)
                 {
-                    CGparameter vpparam = cgGetNamedParameter((CGprogram) _vProgram,
-                                                        p->getName().c_str());
+                    CGparameter vpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_vProgram),
+                            p->getName().c_str());
+
                     if(vpparam != 0)
-                        cgGLSetMatrixParameterfr(vpparam, p->getValue().getValues());
+                        cgGLSetMatrixParameterfr(vpparam, 
+                                                 p->getValue().getValues());
                 }
                 
                 if(_fp_isvalid)
                 {
-                    CGparameter fpparam = cgGetNamedParameter((CGprogram) _fProgram,
-                                                        p->getName().c_str());
+                    CGparameter fpparam = 
+                        cgGetNamedParameter(
+                            reinterpret_cast<CGprogram>(_fProgram),
+                            p->getName().c_str());
+
                     if(fpparam != 0)
-                        cgGLSetMatrixParameterfr(fpparam, p->getValue().getValues());
+                        cgGLSetMatrixParameterfr(fpparam, 
+                                                 p->getValue().getValues());
                 }
             }
             break;
             default:
-                FWARNING(("Parameter '%s' has unknown tpye %d!\n", parameter->getName().c_str(),
-                                                                   parameter->getTypeId()));
+                FWARNING(("Parameter '%s' has unknown tpye %d!\n", 
+                          parameter->getName().c_str(),
+                          parameter->getTypeId()));
             break;
         }
     }
@@ -519,14 +569,14 @@ void CGChunk::activate(DrawActionBase *action, UInt32 /*idx*/)
 
     if(_vp_isvalid)
     {
-        cgGLEnableProfile((CGprofile) getVertexProfile());
-        cgGLBindProgram((CGprogram) _vProgram);
+        cgGLEnableProfile(CGprofile(getVertexProfile()));
+        cgGLBindProgram(reinterpret_cast<CGprogram>(_vProgram));
     }
 
     if(_fp_isvalid)
     {
-        cgGLEnableProfile((CGprofile) getFragmentProfile());
-        cgGLBindProgram((CGprogram) _fProgram);
+        cgGLEnableProfile(CGprofile(getFragmentProfile()));
+        cgGLBindProgram(reinterpret_cast<CGprogram>(_fProgram));
     }
 
     updateOSGParameters(action);
@@ -563,38 +613,39 @@ void CGChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
     if(old->_fp_isvalid)
     {
         // unbinds program too
-        cgGLDisableProfile((CGprofile) old->getFragmentProfile());
+        cgGLDisableProfile(CGprofile(old->getFragmentProfile()));
     }
 
     if(old->_vp_isvalid)
     {
         // unbinds program too
-        cgGLDisableProfile((CGprofile) old->getVertexProfile());
+        cgGLDisableProfile(CGprofile(old->getVertexProfile()));
     }
 
     if(_vp_isvalid)
     {
-        cgGLEnableProfile((CGprofile) getVertexProfile());
-        cgGLBindProgram((CGprogram) _vProgram);
+        cgGLEnableProfile(CGprofile(getVertexProfile()));
+        cgGLBindProgram(reinterpret_cast<CGprogram>(_vProgram));
     }
 
     if(_fp_isvalid)
     {
-        cgGLEnableProfile((CGprofile) getFragmentProfile());
-        cgGLBindProgram((CGprogram) _fProgram);
+        cgGLEnableProfile(CGprofile(getFragmentProfile()));
+        cgGLBindProgram(reinterpret_cast<CGprogram>(_fProgram));
     }
 
     updateOSGParameters(action);
 }
 
 
-void CGChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action), UInt32 OSG_CHECK_ARG(idx))
+void CGChunk::deactivate(DrawActionBase *OSG_CHECK_ARG(action),
+                         UInt32 OSG_CHECK_ARG(idx))
 {
     if(_fp_isvalid)
-        cgGLDisableProfile((CGprofile) getFragmentProfile());
+        cgGLDisableProfile(CGprofile(getFragmentProfile()));
 
     if(_vp_isvalid)
-        cgGLDisableProfile((CGprofile) getVertexProfile());
+        cgGLDisableProfile(CGprofile(getVertexProfile()));
 }
 
 /*-------------------------- Comparison -----------------------------------*/
@@ -634,24 +685,24 @@ bool CGChunk::operator != (const StateChunk &other) const
 
 bool CGChunk::hasVP(void)
 {
-    if(cgGLIsProfileSupported((CGprofile) getVertexProfile()))
+    if(cgGLIsProfileSupported(CGprofile(getVertexProfile())))
     {
         return true;
     }
     
     SWARNING << "Vertex programming extensions "
-             << cgGetProfileString((CGprofile) getVertexProfile())
+             << cgGetProfileString(CGprofile(getVertexProfile()))
              << " not supported!" << std::endl;
     return false;
 }
 
 bool CGChunk::hasFP(void)
 {
-    if (cgGLIsProfileSupported((CGprofile) getFragmentProfile()))
+    if (cgGLIsProfileSupported(CGprofile(getFragmentProfile())))
         return true;
 
     SWARNING << "Fragment programming extensions "
-             << cgGetProfileString((CGprofile) getFragmentProfile())
+             << cgGetProfileString(CGprofile(getFragmentProfile()))
              << " not supported!" << std::endl;
     return false;
 }
@@ -735,7 +786,8 @@ void CGChunk::checkOSGParameters(void)
             }
             else
             {
-                FWARNING(("CGChunk::checkOSGParameters : unknown osg paramter '%s'\n",
+                FWARNING(("CGChunk::checkOSGParameters : "
+                          "unknown osg paramter '%s'\n",
                          parameter->getName().c_str()));;
             }
         }
@@ -775,16 +827,20 @@ void CGChunk::updateWorldMatrix(DrawActionBase *action, CGChunk *cgchunk)
 
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGWorldMatrix");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGWorldMatrix");
+
         if(vpparam != 0)
             cgGLSetMatrixParameterfr(vpparam, m.getValues());
     }
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGWorldMatrix");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGWorldMatrix");
+
         if(fpparam != 0)
             cgGLSetMatrixParameterfr(fpparam, m.getValues());
     }
@@ -794,7 +850,8 @@ void CGChunk::updateInvWorldMatrix(DrawActionBase *action, CGChunk *cgchunk)
 {
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
-        FWARNING(("SHLChunk::updateInvWorldMatrix : Can't update OSGInvWorldMatrix"
+        FWARNING(("SHLChunk::updateInvWorldMatrix : Can't update "
+                  "OSGInvWorldMatrix"
                   "parameter, camera or viewport is NULL!\n"));
         return;
     }
@@ -807,16 +864,20 @@ void CGChunk::updateInvWorldMatrix(DrawActionBase *action, CGChunk *cgchunk)
 
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGInvWorldMatrix");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGInvWorldMatrix");
+
         if(vpparam != 0)
             cgGLSetMatrixParameterfr(vpparam, m.getValues());
     }
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGInvWorldMatrix");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGInvWorldMatrix");
+
         if(fpparam != 0)
             cgGLSetMatrixParameterfr(fpparam, m.getValues());
     }
@@ -826,7 +887,8 @@ void CGChunk::updateCameraOrientation(DrawActionBase *action, CGChunk *cgchunk)
 {
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
-        FWARNING(("CGChunk::updateCameraOrientation : Can't update OSGCameraOrientation"
+        FWARNING(("CGChunk::updateCameraOrientation : "
+                  "Can't update OSGCameraOrientation"
                   "parameter, camera or viewport is NULL!\n"));
         return;
     }
@@ -840,16 +902,20 @@ void CGChunk::updateCameraOrientation(DrawActionBase *action, CGChunk *cgchunk)
 
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGCameraOrientation");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGCameraOrientation");
+
         if(vpparam != 0)
             cgGLSetMatrixParameterfr(vpparam, m.getValues());
     }
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGCameraOrientation");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGCameraOrientation");
+
         if(fpparam != 0)
             cgGLSetMatrixParameterfr(fpparam, m.getValues());
     }
@@ -859,7 +925,8 @@ void CGChunk::updateCameraPosition(DrawActionBase *action, CGChunk *cgchunk)
 {
     if(action->getCamera() == NULL || action->getViewport() == NULL)
     {
-        FWARNING(("CGChunk::updateCameraPosition : Can't update OSGCameraPosition"
+        FWARNING(("CGChunk::updateCameraPosition : "
+                  "Can't update OSGCameraPosition"
                   "parameter, camera or viewport is NULL!\n"));
         return;
     }
@@ -873,16 +940,20 @@ void CGChunk::updateCameraPosition(DrawActionBase *action, CGChunk *cgchunk)
 
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGCameraPosition");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGCameraPosition");
+
         if(vpparam != 0)
             cgGLSetParameter3fv(vpparam, cameraPos.getValues());
     }
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGCameraPosition");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGCameraPosition");
+
         if(fpparam != 0)
             cgGLSetParameter3fv(fpparam, cameraPos.getValues());
     }
@@ -920,8 +991,10 @@ void CGChunk::updateProjectionMatrix(DrawActionBase *action, CGChunk *cgchunk)
 #else
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGProjection");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGProjection");
+
         if(vpparam != 0)
             cgGLSetStateMatrixParameter(vpparam,
                                   CG_GL_PROJECTION_MATRIX,
@@ -930,8 +1003,10 @@ void CGChunk::updateProjectionMatrix(DrawActionBase *action, CGChunk *cgchunk)
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGProjection");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGProjection");
+
         if(fpparam != 0)
             cgGLSetStateMatrixParameter(fpparam,
                                   CG_GL_PROJECTION_MATRIX,
@@ -940,7 +1015,8 @@ void CGChunk::updateProjectionMatrix(DrawActionBase *action, CGChunk *cgchunk)
 #endif
 }
 
-void CGChunk::updateModelViewProjectionMatrix(DrawActionBase *action, CGChunk *cgchunk)
+void CGChunk::updateModelViewProjectionMatrix(DrawActionBase *action, 
+                                              CGChunk *cgchunk)
 {
 #if 0
     if(action->getCamera() == NULL || action->getViewport() == NULL)
@@ -990,8 +1066,10 @@ void CGChunk::updateModelViewProjectionMatrix(DrawActionBase *action, CGChunk *c
 
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGModelViewProjection");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGModelViewProjection");
+
         if(vpparam != 0)
             cgGLSetStateMatrixParameter(vpparam,
                                   CG_GL_MODELVIEW_PROJECTION_MATRIX,
@@ -1000,8 +1078,10 @@ void CGChunk::updateModelViewProjectionMatrix(DrawActionBase *action, CGChunk *c
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGModelViewProjection");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGModelViewProjection");
+
         if(fpparam != 0)
             cgGLSetStateMatrixParameter(fpparam,
                                   CG_GL_MODELVIEW_PROJECTION_MATRIX,
@@ -1014,8 +1094,10 @@ void CGChunk::updateTextureMatrix(DrawActionBase *action, CGChunk *cgchunk)
 {
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGTexture");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGTexture");
+
         if(vpparam != 0)
             cgGLSetStateMatrixParameter(vpparam,
                                   CG_GL_TEXTURE_MATRIX,
@@ -1024,8 +1106,10 @@ void CGChunk::updateTextureMatrix(DrawActionBase *action, CGChunk *cgchunk)
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGTexture");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGTexture");
+
         if(fpparam != 0)
             cgGLSetStateMatrixParameter(fpparam,
                                   CG_GL_TEXTURE_MATRIX,
@@ -1066,8 +1150,10 @@ void CGChunk::updateModelViewMatrix(DrawActionBase *action, CGChunk *cgchunk)
 #else
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGModelView");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGModelView");
+
         if(vpparam != 0)
             cgGLSetStateMatrixParameter(vpparam,
                                   CG_GL_MODELVIEW_MATRIX,
@@ -1076,8 +1162,10 @@ void CGChunk::updateModelViewMatrix(DrawActionBase *action, CGChunk *cgchunk)
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGModelView");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGModelView");
+
         if(fpparam != 0)
             cgGLSetStateMatrixParameter(fpparam,
                                   CG_GL_MODELVIEW_MATRIX,
@@ -1120,8 +1208,10 @@ void CGChunk::updateModelViewMatrixI(DrawActionBase *action, CGChunk *cgchunk)
 #else
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGModelViewI");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGModelViewI");
+
         if(vpparam != 0)
             cgGLSetStateMatrixParameter(vpparam,
                                   CG_GL_MODELVIEW_MATRIX,
@@ -1130,8 +1220,10 @@ void CGChunk::updateModelViewMatrixI(DrawActionBase *action, CGChunk *cgchunk)
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGModelViewI");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGModelViewI");
+
         if(fpparam != 0)
             cgGLSetStateMatrixParameter(fpparam,
                                   CG_GL_MODELVIEW_MATRIX,
@@ -1175,8 +1267,10 @@ void CGChunk::updateModelViewMatrixIT(DrawActionBase *action, CGChunk *cgchunk)
 #else
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGModelViewIT");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGModelViewIT");
+
         if(vpparam != 0)
             cgGLSetStateMatrixParameter(vpparam,
                                   CG_GL_MODELVIEW_MATRIX,
@@ -1185,8 +1279,10 @@ void CGChunk::updateModelViewMatrixIT(DrawActionBase *action, CGChunk *cgchunk)
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGModelViewIT");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGModelViewIT");
+
         if(fpparam != 0)
             cgGLSetStateMatrixParameter(fpparam,
                                   CG_GL_MODELVIEW_MATRIX,
@@ -1211,7 +1307,9 @@ void CGChunk::updateStereoLeftEye(DrawActionBase *action, CGChunk *cgchunk)
     CameraDecoratorPtr decorator = CameraDecoratorPtr::dcast(camera);
     while(decorator != NullFC)
     {
-        StereoCameraDecoratorPtr stereoDecorator = StereoCameraDecoratorPtr::dcast(decorator);
+        StereoCameraDecoratorPtr stereoDecorator = 
+            StereoCameraDecoratorPtr::dcast(decorator);
+
         if(stereoDecorator != NullFC)
         {
             if(stereoDecorator->getLeftEye())
@@ -1225,16 +1323,20 @@ void CGChunk::updateStereoLeftEye(DrawActionBase *action, CGChunk *cgchunk)
 
     if(cgchunk->_vp_isvalid)
     {
-        CGparameter vpparam = cgGetNamedParameter((CGprogram) cgchunk->_vProgram,
-                                            "OSGStereoLeftEye");
+        CGparameter vpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_vProgram),
+                                "OSGStereoLeftEye");
+
         if(vpparam != 0)
             cgGLSetParameter1f(vpparam, leftEye);
     }
     
     if(cgchunk->_fp_isvalid)
     {
-        CGparameter fpparam = cgGetNamedParameter((CGprogram) cgchunk->_fProgram,
-                                            "OSGStereoLeftEye");
+        CGparameter fpparam = 
+            cgGetNamedParameter(reinterpret_cast<CGprogram>(cgchunk->_fProgram),
+                                "OSGStereoLeftEye");
+
         if(fpparam != 0)
             cgGLSetParameter1f(fpparam, leftEye);
     }

@@ -166,9 +166,15 @@ class OSG_BASE_DLLMAPPING DynamicVolume : public Volume
   private:
 
     Type _type;
-    Real64 _volumeMem[5]; // use Real64 to create the 32 bytes for alignment 
-                          // safety. This assumes that Real64 has the most 
-                          // stringent alignment requirements!!!
+    union
+    {
+        // use Real64 to create the 32 bytes for alignment 
+        // safety. This assumes that Real64 has the most 
+        // stringent alignment requirements!!!
+
+        Real64 _volumeMemR[5]; 
+        Char8  _volumeMem [5 * sizeof(Real64)];
+    };
 };
 
 OSG_BASE_DLLMAPPING
