@@ -104,8 +104,8 @@ endif
 else
 $(OBJDIR)/%$(OBJ_SUFFIX): $(OBJDIR)/%.cpp
 	@echo using BD := $$BD
-	$(CC) $(CCFLAGS) $(CCLOCALFLAGS) $(COMPONLY_OPTION) $(INCL) \
-	$(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
+	$(CC) $(filter-out -Werror,$(CCFLAGS)) $(CCLOCALFLAGS) $(COMPONLY_OPTION) \
+    $(INCL) $(INC_OPTION)$(OBJDIR) $(INC_OPTION).						\
 	$(OBJ_OPTION) $@ $< $($(PROJ)SODEF)
 
 $(OBJDIR)/%_ias.s: %.cpp

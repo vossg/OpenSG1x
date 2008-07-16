@@ -161,7 +161,7 @@ UInt32 PThreadBase::getAspect(void)
 #else
     UInt32 *pUint;
 
-    pUint = (UInt32 *) pthread_getspecific(_aspectKey);
+    pUint = static_cast<UInt32 *>(pthread_getspecific(_aspectKey));
 
     return *pUint;
 #endif
@@ -175,7 +175,7 @@ ChangeList *PThreadBase::getCurrentChangeList(void)
 #else
     ChangeList **pCList;
 
-    pCList = (ChangeList **) pthread_getspecific(_changeListKey);
+    pCList = static_cast<ChangeList **>(pthread_getspecific(_changeListKey));
 
     return *pCList;
 #endif
@@ -207,7 +207,7 @@ bool PThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 #if !defined(OSG_PTHREAD_ELF_TLS)
 void PThreadBase::freeAspect(void *pAspect)
 {
-    UInt32 *pUint = (UInt32 *) pAspect;
+    UInt32 *pUint = static_cast<UInt32 *>(pAspect);
 
     if(pUint != NULL)
         delete pUint;
@@ -215,7 +215,7 @@ void PThreadBase::freeAspect(void *pAspect)
 
 void PThreadBase::freeChangeList(void *pChangeList)
 {
-    ChangeList **pCl = (ChangeList **) pChangeList;
+    ChangeList **pCl = static_cast<ChangeList **>(pChangeList);
 
     if(pCl != NULL)
         delete pCl;
@@ -266,7 +266,7 @@ void PThreadBase::setupAspect(void)
 
     *pUint = Inherited::_uiAspectId;
 
-    pthread_setspecific(_aspectKey, (void *) pUint);  
+    pthread_setspecific(_aspectKey, static_cast<void *>(pUint));  
 #endif
 }
 
@@ -304,7 +304,7 @@ void PThreadBase::setupChangeList(void)
     }
 
     (*pChangeList)->setAspect(Inherited::_uiAspectId);
-    pthread_setspecific(_changeListKey, (void *) pChangeList);  
+    pthread_setspecific(_changeListKey, static_cast<void *>(pChangeList));  
 #endif
 }
 

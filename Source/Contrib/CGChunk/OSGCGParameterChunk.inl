@@ -53,9 +53,9 @@ void CGParameterChunk::updateParameters(Window *win)
         return;
     }
 
-    cg->updateParameters(win, getParameters(), true);
+    cg->updateParameters(win, *(getMFParameters()), true);
 }
 
 OSG_END_NAMESPACE
 
-#define OSGCGPARAMETERCHUNK_INLINE_CVSID "@(#)$Id: OSGCGParameterChunk.inl,v 1.2 2004/09/02 13:43:53 a-m-z Exp $"
+#define OSGCGPARAMETERCHUNK_INLINE_CVSID "@(#)$Id: OSGCGParameterChunk.inl,v 1.3 2008/07/16 05:48:16 vossg Exp $"

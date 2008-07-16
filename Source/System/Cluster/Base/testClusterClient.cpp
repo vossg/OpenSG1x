@@ -210,7 +210,11 @@ void displayInfo(int x, int y)
   void *font = 2;
 #endif
 #else
+#ifdef OSG_DEBUG_OLD_C_CASTS
+  void *font = glutBitmap9By15;
+#else
   void *font = GLUT_BITMAP_9_BY_15;
+#endif
 #endif
 
   char text[1024];
@@ -258,7 +262,7 @@ void displayInfo(int x, int y)
 
   glColor3f(1.0, 1.0, 0.0);
   glRasterPos2f(x, y);
-  len = (int) strlen(text);
+  len = int(strlen(text));
   for (i = 0; i < len; i++) {
       if(text[i] == '\n')
       {
@@ -379,9 +383,9 @@ void display(void)
     if(animate && animPos.size()>1)
     {
         if(animLength>0)
-            animTime = frameCount * (animPos.size())/(float)(animLength);
+            animTime = frameCount * (animPos.size())/float(animLength);
 
-        UInt32 i=(UInt32)animTime;
+        UInt32 i=UInt32(animTime);
         Real32 a=animTime-i;
 
         Vec3f v;
@@ -603,7 +607,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             fprintf(file,"DEF OriInter OrientationInterpolator {\n\tkey [");
             for(size_t i = 0; i < animOri.size(); ++i)
             {               
-                fprintf(file, "%f", i / (Real32)(animOri.size() - 1) );
+                fprintf(file, "%f", i / Real32(animOri.size() - 1) );
                 if(i < animOri.size() - 1)
                     fprintf(file,", ");
             }
@@ -624,7 +628,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             fprintf(file,"DEF PosInter PositionInterpolator {\n\tkey [");
             for(size_t i = 0; i < animPos.size(); ++i)
             {               
-                fprintf(file, "%f", i / (Real32)(animPos.size() - 1) );
+                fprintf(file, "%f", i / Real32(animPos.size() - 1) );
                 if(i < animPos.size() - 1)
                     fprintf(file,", ");
             }
@@ -879,9 +883,9 @@ void init(std::vector<std::string> &filenames)
 
     if(ca>0)
     {
-        sum_geometries*=(UInt32)(ca*cb*cc);
-        sum_triangles *=(UInt32)(ca*cb*cc);
-        sum_positions *=(UInt32)(ca*cb*cc);
+        sum_geometries*=UInt32(ca*cb*cc);
+        sum_triangles *=UInt32(ca*cb*cc);
+        sum_positions *=UInt32(ca*cb*cc);
     }
 //    dlight->invalidateVolume();
     OSG::endEditCP(dlight);
@@ -890,7 +894,8 @@ void init(std::vector<std::string> &filenames)
     printf("update Volume OK\n");
 
     // should check first. ok for now.
-    const OSG::BoxVolume *vol = (OSG::BoxVolume *)&dlight->getVolume();
+    const OSG::BoxVolume *vol = 
+        reinterpret_cast<const OSG::BoxVolume *>(&dlight->getVolume());
 
     OSG::Pnt3f center;
 

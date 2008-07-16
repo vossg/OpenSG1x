@@ -167,7 +167,7 @@ bool CGParameterChunk::operator == (const StateChunk &other) const
     if(!tother)
         return false;
 
-    if(getParameters().size() != tother->getParameters().size())
+    if(getMFParameters()->size() != tother->getMFParameters()->size())
         return false;
 
     return true;
@@ -191,7 +191,7 @@ bool CGParameterChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunk.cpp,v 1.2 2006/04/14 15:12:23 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGParameterChunk.cpp,v 1.3 2008/07/16 05:48:16 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGPARAMETERCHUNKBASE_INLINE_CVSID;
 

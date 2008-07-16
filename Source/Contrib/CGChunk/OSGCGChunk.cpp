@@ -237,7 +237,7 @@ void CGChunk::handleGL(Window *win, UInt32 idstatus)
             updateCGContext();
         }
 
-        updateParameters(win, getParameters());
+        updateParameters(win, *(getMFParameters()));
     }
     else
     {
@@ -273,12 +273,12 @@ void CGChunk::updateCGContext(void)
             entry = getVertexEntryPoint().c_str();
     
         const char **args = NULL;
-        if(!getVertexArguments().empty())
+        if(!getMFVertexArguments()->empty())
         {
-            UInt32 asize = getVertexArguments().size();
+            UInt32 asize = getMFVertexArguments()->size();
             args = new const char *[asize + 1];
             for(UInt32 i=0;i<asize;++i)
-                args[i] = getVertexArguments()[i].c_str();
+                args[i] = getVertexArguments(i).c_str();
             args[asize] = NULL;
         }
         
@@ -301,7 +301,7 @@ void CGChunk::updateCGContext(void)
             FWARNING(("Couldn't load vertex program!\n"));
         }
         
-        if(!getVertexArguments().empty())
+        if(!getMFVertexArguments()->empty())
             delete [] args;
     }
 
@@ -315,12 +315,12 @@ void CGChunk::updateCGContext(void)
             entry = getFragmentEntryPoint().c_str();
     
         const char **args = NULL;
-        if(!getFragmentArguments().empty())
+        if(!getMFFragmentArguments()->empty())
         {
-            UInt32 asize = getFragmentArguments().size();
+            UInt32 asize = getMFFragmentArguments()->size();
             args = new const char *[asize + 1];
             for(UInt32 i=0;i<asize;++i)
-                args[i] = getFragmentArguments()[i].c_str();
+                args[i] = getFragmentArguments(i).c_str();
             args[asize] = NULL;
         }
         
@@ -344,7 +344,7 @@ void CGChunk::updateCGContext(void)
             FWARNING(("Couldn't load fragment program!\n"));
         }
 
-        if(!getFragmentArguments().empty())
+        if(!getMFFragmentArguments()->empty())
             delete [] args;
     }
 }
@@ -671,7 +671,7 @@ bool CGChunk::operator == (const StateChunk &other) const
        getVertexProfile() != tother->getVertexProfile() ||
        getFragmentProgram() != tother->getFragmentProgram() ||
        getFragmentProfile() != tother->getFragmentProfile() ||
-       getParameters().size() != tother->getParameters().size())
+       getMFParameters()->size() != tother->getMFParameters()->size())
         return false;
 
     return true;
@@ -712,15 +712,15 @@ void CGChunk::checkOSGParameters(void)
 {
     // ok this can go wrong if you sub and add a parameter
     // between one begin/endEditCP ...
-    if(getParameters().getSize() == _oldParameterSize)
+    if(getMFParameters()->size() == _oldParameterSize)
         return;
-    _oldParameterSize = getParameters().getSize();
+    _oldParameterSize = getMFParameters()->size();
 
     _osgParametersCallbacks.clear();
-    const MFShaderParameterPtr &parameters = getParameters();
-    for(UInt32 i = 0; i < parameters.size(); ++i)
+    const MFShaderParameterPtr *parameters = getMFParameters();
+    for(UInt32 i = 0; i < parameters->size(); ++i)
     {
-        ShaderParameterPtr parameter = parameters[i];
+        ShaderParameterPtr parameter = (*parameters)[i];
         if(parameter->getName().size() > 3 &&
            parameter->getName()[0] == 'O' &&
            parameter->getName()[1] == 'S' &&
