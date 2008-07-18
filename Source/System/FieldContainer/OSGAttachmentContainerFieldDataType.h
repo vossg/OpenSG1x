@@ -78,10 +78,10 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<AttachmentContainerPtr> :
         bHasParent        = 0x01
     };
 
-    static DataType &getType (void) { return _type;                          }
+    static       DataType &getType (void) { return _type;                      }
 
-    static char     *getSName(void) { return "SFAttachmentContainerPtr";     }
-    static char     *getMName(void) { return "MFAttachmentContainerPtr";     }
+    static const Char8     *getSName(void) { return "SFAttachmentContainerPtr";}
+    static const Char8     *getMName(void) { return "MFAttachmentContainerPtr";}
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

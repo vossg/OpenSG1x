@@ -235,12 +235,12 @@ struct FieldDataTraits<ParticleBSPTree> :
     enum                  { StringConvertable = ToStringConvertable | 
                                                 FromStringConvertable    };
 
-    static DataType       &getType      (void) { return _type;          }
+    static       DataType       &getType      (void) { return _type;          }
 
-    static Char8          *getSName     (void) { return "SFParticleBSPTree"; }
-    static Char8          *getMName     (void) { return "MFParticleBSPTree"; }
+    static const Char8          *getSName     (void) { return "SFParticleBSPTree"; }
+    static const Char8          *getMName     (void) { return "MFParticleBSPTree"; }
 
-    static ParticleBSPTree getDefault   (void) { return ParticleBSPTree();   }
+    static       ParticleBSPTree getDefault   (void) { return ParticleBSPTree();   }
 
     static bool            getFromString(      ParticleBSPTree  &outVal,
                                          const Char8           *&inVal)

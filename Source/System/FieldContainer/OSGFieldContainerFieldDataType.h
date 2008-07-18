@@ -172,10 +172,10 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<FieldContainerPtr> :
 
     enum                            { StringConvertable = ToStringConvertable};
 
-    static DataType &getType (void) { return _type;                          }
+    static       DataType &getType (void) { return _type;                     }
  
-    static char     *getSName(void) { return "SFFieldContainerPtr";          }
-    static char     *getMName(void) { return "MFFieldContainerPtr";          }
+    static const char     *getSName(void) { return "SFFieldContainerPtr";     }
+    static const char     *getMName(void) { return "MFFieldContainerPtr";     }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

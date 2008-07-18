@@ -1252,7 +1252,8 @@ void GraphicStatisticsForeground::drawString(DrawActionBase *base,
 }
 
 //! Converts a Real32 to a string
-std::string GraphicStatisticsForeground::real2String(Real32 value, char *format)
+std::string GraphicStatisticsForeground::real2String(      Real32  value, 
+                                                     const char   *format)
 {
     char    buff[100];
 

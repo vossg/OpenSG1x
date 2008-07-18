@@ -38,12 +38,12 @@ struct FieldDataTraits1<QBit> :
     enum             { StringConvertable = ToStringConvertable   | 
                                            FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFQBit";            }
-    static Char8    *getMName     (void) { return "MFQBit";            }
+    static const Char8    *getSName     (void) { return "SFQBit";            }
+    static const Char8    *getMName     (void) { return "MFQBit";            }
 
-    static QBit      getDefault   (void) { return 0;                   }
+    static       QBit      getDefault   (void) { return 0;                   }
 
     static QBit      getFromString(      QBit   &outVal,
                                    const Char8 *&inVal)

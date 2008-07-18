@@ -1185,15 +1185,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits1<GLenum> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFGLenum";          }
-    static Char8    *getMName     (void) { return "MFGLenum";          }
+    static const Char8    *getSName     (void) { return "SFGLenum";          }
+    static const Char8    *getMName     (void) { return "MFGLenum";          }
 
-    static GLenum    getDefault   (void) { return 0;                   }
+    static       GLenum    getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      GLenum  &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      GLenum  &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<GLenum>::getFromString(inVal);
         

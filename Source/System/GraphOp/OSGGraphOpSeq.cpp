@@ -246,7 +246,7 @@ bool GraphOpSeq::removeGraphOp(UInt16 index)
 \*-------------------------------------------------------------------------*/
 
 UInt16 GraphOpSeq::extractStr(const std::string param, UInt16 spos, 
-        char* delim, std::string& result)
+                              const char* delim, std::string& result)
 {
     std::string::size_type pos = param.find(delim,spos);
     if (pos == std::string::npos) 

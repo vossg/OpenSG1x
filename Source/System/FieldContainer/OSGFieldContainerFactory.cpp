@@ -655,7 +655,7 @@ void FieldContainerFactory::writeSingleTypeFCD(      std::ostream       &out,
     // look for pointerfield types
            std::string s;
            Int32       pt        = 0;
-    static Char8 *pftypes[] = {"none", "single", "multi", "both"};
+    static const Char8 *pftypes[] = {"none", "single", "multi", "both"};
 
     s  = "SF";
     s += t->getCName();

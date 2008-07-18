@@ -96,9 +96,9 @@ struct FieldDataTraits<GeoPositionsPtr> :
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;               }
-    static Char8    *getSName (void) { return "SFGeoPositionsPtr"; }
-    static Char8    *getMName (void) { return "MFGeoPositionsPtr"; }
+    static       DataType &getType  (void) { return _type;               }
+    static const Char8    *getSName (void) { return "SFGeoPositionsPtr"; }
+    static const Char8    *getMName (void) { return "MFGeoPositionsPtr"; }
 
     /*! \}                                                                 */
 };
@@ -153,9 +153,9 @@ struct FieldDataTraits<GeoNormalsPtr> :
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;             }
-    static Char8    *getSName (void) { return "SFGeoNormalsPtr"; }
-    static Char8    *getMName (void) { return "MFGeoNormalsPtr"; }
+    static       DataType &getType  (void) { return _type;             }
+    static const Char8    *getSName (void) { return "SFGeoNormalsPtr"; }
+    static const Char8    *getMName (void) { return "MFGeoNormalsPtr"; }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -212,9 +212,9 @@ struct FieldDataTraits<GeoColorsPtr> :
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;             }
-    static Char8    *getSName (void) { return "SFGeoColorsPtr";  }
-    static Char8    *getMName (void) { return "MFGeoColorsPtr";  }
+    static       DataType &getType  (void) { return _type;             }
+    static const Char8    *getSName (void) { return "SFGeoColorsPtr";  }
+    static const Char8    *getMName (void) { return "MFGeoColorsPtr";  }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -270,9 +270,9 @@ struct FieldDataTraits<GeoTexCoordsPtr> :
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;               }
-    static Char8    *getSName (void) { return "SFGeoTexCoordsPtr"; }
-    static Char8    *getMName (void) { return "MFGeoTexCoordsPtr"; }
+    static       DataType &getType  (void) { return _type;               }
+    static const Char8    *getSName (void) { return "SFGeoTexCoordsPtr"; }
+    static const Char8    *getMName (void) { return "MFGeoTexCoordsPtr"; }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -328,9 +328,9 @@ struct FieldDataTraits<GeoIndicesPtr> :
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;              }
-    static Char8    *getSName (void) { return "SFGeoIndicesPtr";  }
-    static Char8    *getMName (void) { return "MFGeoIndicesPtr";  }
+    static       DataType &getType  (void) { return _type;              }
+    static const Char8    *getSName (void) { return "SFGeoIndicesPtr";  }
+    static const Char8    *getMName (void) { return "MFGeoIndicesPtr";  }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -386,9 +386,9 @@ struct FieldDataTraits<GeoPTypesPtr> :
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;             }
-    static Char8    *getSName (void) { return "SFGeoPTypesPtr";  }
-    static Char8    *getMName (void) { return "MFGeoPTypesPtr";  }
+    static       DataType &getType  (void) { return _type;             }
+    static const Char8    *getSName (void) { return "SFGeoPTypesPtr";  }
+    static const Char8    *getMName (void) { return "MFGeoPTypesPtr";  }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -444,9 +444,9 @@ struct FieldDataTraits<GeoPLengthsPtr> :
     /*! \name                    Field Get                                 */
     /*! \{                                                                 */
 
-    static DataType &getType  (void) { return _type;              }
-    static char     *getSName (void) { return "SFGeoPLengthsPtr"; }
-    static char     *getMName (void) { return "MFGeoPLengthsPtr"; }
+    static       DataType  &getType  (void) { return _type;              }
+    static const Char8     *getSName (void) { return "SFGeoPLengthsPtr"; }
+    static const Char8     *getMName (void) { return "MFGeoPLengthsPtr"; }
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

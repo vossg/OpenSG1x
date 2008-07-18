@@ -122,9 +122,9 @@ struct FieldDataTraits<ImageGenericAttPtr> :
     enum                            { StringConvertable = 0x00  };
     enum                            { bHasParent        = 0x01  };
 
-    static DataType &getType (void) { return _type;             }
-    static Char8    *getSName(void) { return "SFImageGenericAttPtr"; }
-    static Char8    *getMName(void) { return "MFImageGenericAttPtr"; }
+    static       DataType &getType (void) { return _type;             }
+    static const Char8    *getSName(void) { return "SFImageGenericAttPtr"; }
+    static const Char8    *getMName(void) { return "MFImageGenericAttPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

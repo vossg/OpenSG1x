@@ -73,15 +73,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Matrix> :
     enum             { StringConvertable = ToStringConvertable | 
                                            FromStringConvertable    };
 
-    static DataType &getType      (void) { return _type;            }
+    static       DataType &getType      (void) { return _type;            }
 
-    static Char8    *getSName     (void) { return "SFMatrix";       }
-    static Char8    *getMName     (void) { return "MFMatrix";       }
+    static const Char8    *getSName     (void) { return "SFMatrix";       }
+    static const Char8    *getMName     (void) { return "MFMatrix";       }
 
-    static Matrix    getDefault   (void) { return Matrix();         }
+    static       Matrix    getDefault   (void) { return Matrix();         }
 
-    static bool      getFromString(      Matrix   &outVal,
-                                   const Char8   *&inVal)
+    static       bool      getFromString(      Matrix   &outVal,
+                                         const Char8   *&inVal)
     {
         outVal.setValue(inVal, false);
         return true;
@@ -187,12 +187,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Matrix4d> :
     enum             { StringConvertable = ToStringConvertable | 
                                            FromStringConvertable    };
 
-    static DataType &getType      (void) { return _type;            }
+    static       DataType &getType      (void) { return _type;            }
 
-    static Char8    *getSName     (void) { return "SFMatrix4d";       }
-    static Char8    *getMName     (void) { return "MFMatrix4d";       }
+    static const Char8    *getSName     (void) { return "SFMatrix4d";       }
+    static const Char8    *getMName     (void) { return "MFMatrix4d";       }
 
-    static Matrix4d  getDefault   (void) { return Matrix4d();         }
+    static       Matrix4d  getDefault   (void) { return Matrix4d();         }
 
     static bool      getFromString(      Matrix4d   &outVal,
                                    const Char8     *&inVal)
@@ -301,12 +301,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Quaternion> :
     enum               { StringConvertable = ToStringConvertable | 
                                            FromStringConvertable    };
 
-    static DataType   &getType      (void) { return _type;          }
+    static       DataType   &getType      (void) { return _type;          }
 
-    static Char8      *getSName     (void) { return "SFQuaternion"; }
-    static Char8      *getMName     (void) { return "MFQuaternion"; }
+    static const Char8      *getSName     (void) { return "SFQuaternion"; }
+    static const Char8      *getMName     (void) { return "MFQuaternion"; }
 
-    static Quaternion  getDefault   (void) { return Quaternion();   }
+    static       Quaternion  getDefault   (void) { return Quaternion();   }
 
     static bool        getFromString(      Quaternion  &outVal,
                                      const Char8      *&inVal)

@@ -208,7 +208,7 @@ const std::string &WebInterface::getFooter(void)
 
 /*! Add a new page handler 
  */
-void WebInterface::addHandler(char *path,MethodT method)
+void WebInterface::addHandler(const char *path,MethodT method)
 {
     // This is a workaround for gcc 3.1 on OS X
 
@@ -243,7 +243,7 @@ std::string WebInterface::encodeUrl(const std::string &path,
     ParameterT::const_iterator pI;
     unsigned int c;
     char ch;
-    char *hex="0123456789abcdef";
+    const char *hex="0123456789abcdef";
 
     if(param.size())
         result += "?";

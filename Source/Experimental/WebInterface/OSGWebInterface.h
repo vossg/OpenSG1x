@@ -73,7 +73,7 @@ protected:
     /*! \name                handler management                            */
     /*! \{                                                                 */
 
-    void addHandler(char *key,MethodT method);
+    void addHandler(const char *key,MethodT method);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -581,7 +581,7 @@ LogType Log::getLogType(void)
 
 void Log::setLogType(LogType logType, bool force) 
 {
-    static Char8   *typenames[] = 
+    static const Char8 *typenames[] = 
     {
         "none", 
         "-",
@@ -669,7 +669,7 @@ LogLevel Log::getLogLevel(void)
 
 void Log::setLogLevel(LogLevel logLevel, bool force)
 { 
-    static Char8    *levelnames[] = 
+    static const Char8 *levelnames[] = 
     {
         "log", 
         "fatal", 

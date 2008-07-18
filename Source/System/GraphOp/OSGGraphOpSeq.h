@@ -109,7 +109,10 @@ private:
     std::vector<GraphOp *> _GraphOperators;
     std::list<std::string> _excludeNames;
 
-    UInt16 extractStr(const std::string param, UInt16 spos, char* delim, std::string& result);
+    UInt16 extractStr(const std::string param, 
+                            UInt16 spos, 
+                      const char* delim, 
+                            std::string& result);
 };
 
 typedef GraphOpSeq *GraphOpSeqP;

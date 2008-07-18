@@ -46,9 +46,10 @@ SYSTEM_DEFINES   = -D_OSG_HAVE_CONFIGURED_H_    \
 
 ### Warnings #######################################################
 
-WARNINGS	   	:= -Wall -W   -Wpointer-arith 			        \
-				   -Wcast-align   -Wconversion   	\
-				   -Winline -Wold-style-cast -Werror -DOSG_DEBUG_OLD_C_CASTS
+WARNINGS	   	:= -Wall -W   -Wpointer-arith 			     \
+				   -Wcast-align   -Wconversion   	         \
+				   -Winline -Wold-style-cast -Wwrite-strings \
+                   -Werror -DOSG_DEBUG_OLD_C_CASTS
 
 #-Wshadow
 #				   -Wmissing-declarations -Wmissing-noreturn    \

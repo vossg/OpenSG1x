@@ -181,7 +181,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GraphicStatisticsForeground : public GraphicStati
                     = TextLayoutParam::ALIGN_END);
 
     // converts a Real32 to a std::string
-    std::string real2String(Real32 value, char* format = 0);
+    std::string real2String(Real32 value, const char* format = 0);
 
 
     void calcPosAndSize(const UInt32& elementID,

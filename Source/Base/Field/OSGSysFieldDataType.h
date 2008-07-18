@@ -78,15 +78,15 @@ struct FieldDataTraits2<bool> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFBool";            }
-    static Char8    *getMName     (void) { return "MFBool";            }
+    static const Char8    *getSName     (void) { return "SFBool";            }
+    static const Char8    *getMName     (void) { return "MFBool";            }
 
-    static bool      getDefault   (void) { return false;               }
+    static       bool      getDefault   (void) { return false;               }
 
-    static bool      getFromString(      bool   &outVal,
-                                   const Char8 *&inVal)
+    static       bool      getFromString(      bool   &outVal,
+                                         const Char8 *&inVal)
     {
         if(inVal == NULL)
             return false;
@@ -199,15 +199,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Int8> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFInt8";            }
-    static Char8    *getMName     (void) { return "MFInt8";            }
+    static const Char8    *getSName     (void) { return "SFInt8";            }
+    static const Char8    *getMName     (void) { return "MFInt8";            }
 
-    static Int8      getDefault   (void) { return 0;                   }
+    static       Int8      getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      Int8   &outVal,
-                                   const Char8 *&inVal)
+    static       bool      getFromString(      Int8   &outVal,
+                                         const Char8 *&inVal)
     {
         outVal = TypeTraits<Int8>::getFromString(inVal);
 
@@ -242,15 +242,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt8> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFUInt8";           }
-    static Char8    *getMName     (void) { return "MFUInt8";           }
+    static const Char8    *getSName     (void) { return "SFUInt8";           }
+    static const Char8    *getMName     (void) { return "MFUInt8";           }
 
-    static UInt8     getDefault   (void) { return 0;                   }
+    static       UInt8     getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      UInt8   &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      UInt8   &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<UInt8>::getFromString(inVal);
 
@@ -285,15 +285,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Int16> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFInt16";           }
-    static Char8    *getMName     (void) { return "MFInt16";           }
+    static const Char8    *getSName     (void) { return "SFInt16";           }
+    static const Char8    *getMName     (void) { return "MFInt16";           }
 
-    static Int16     getDefault   (void) { return 0;                   }
+    static       Int16     getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      Int16  &outVal,
-                                   const Char8 *&inVal)
+    static       bool      getFromString(      Int16  &outVal,
+                                         const Char8 *&inVal)
     {
         outVal = TypeTraits<Int16>::getFromString(inVal);
         
@@ -328,15 +328,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt16> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFUInt16";          }
-    static Char8    *getMName     (void) { return "MFUInt16";          }
+    static const Char8    *getSName     (void) { return "SFUInt16";          }
+    static const Char8    *getMName     (void) { return "MFUInt16";          }
 
-    static UInt16    getDefault   (void) { return 0;                   }
+    static       UInt16    getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      UInt16  &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      UInt16  &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<UInt16>::getFromString(inVal);
         
@@ -371,15 +371,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Int32> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFInt32";           }
-    static Char8    *getMName     (void) { return "MFInt32";           }
+    static const Char8    *getSName     (void) { return "SFInt32";           }
+    static const Char8    *getMName     (void) { return "MFInt32";           }
 
-    static Int32     getDefault   (void) { return 0;                   }
+    static       Int32     getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      Int32  &outVal,
-                                   const Char8 *&inVal)
+    static       bool      getFromString(      Int32  &outVal,
+                                         const Char8 *&inVal)
     {
         outVal = TypeTraits<Int32>::getFromString(inVal);
         
@@ -414,15 +414,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt32> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFUInt32";          }
-    static Char8    *getMName     (void) { return "MFUInt32";          }
+    static const Char8    *getSName     (void) { return "SFUInt32";          }
+    static const Char8    *getMName     (void) { return "MFUInt32";          }
 
-    static UInt32    getDefault   (void) { return 0;                   }
+    static       UInt32    getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      UInt32  &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      UInt32  &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<UInt32>::getFromString(inVal);
         
@@ -457,15 +457,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Int64> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFInt64";           }
-    static Char8    *getMName     (void) { return "MFInt64";           }
+    static const Char8    *getSName     (void) { return "SFInt64";           }
+    static const Char8    *getMName     (void) { return "MFInt64";           }
 
-    static Int64     getDefault   (void) { return 0;                   }
+    static       Int64     getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      Int64   &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      Int64   &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<Int64>::getFromString(inVal);
         
@@ -500,15 +500,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<UInt64> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFUInt64";          }
-    static Char8    *getMName     (void) { return "MFUInt64";          }
+    static const Char8    *getSName     (void) { return "SFUInt64";          }
+    static const Char8    *getMName     (void) { return "MFUInt64";          }
 
-    static UInt64    getDefault   (void) { return 0;                   }
+    static       UInt64    getDefault   (void) { return 0;                   }
 
-    static bool      getFromString(      UInt64  &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      UInt64  &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<UInt64>::getFromString(inVal);
         
@@ -544,15 +544,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Real16> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFReal16";          }
-    static Char8    *getMName     (void) { return "MFReal16";          }
+    static const Char8    *getSName     (void) { return "SFReal16";          }
+    static const Char8    *getMName     (void) { return "MFReal16";          }
 
-    static Real16    getDefault   (void) { return 0.f;                 }
+    static       Real16    getDefault   (void) { return 0.f;                 }
 
-    static bool      getFromString(      Real16  &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      Real16  &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<Real16>::getFromString(inVal);
 
@@ -587,15 +587,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Real32> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFReal32";          }
-    static Char8    *getMName     (void) { return "MFReal32";          }
+    static const Char8    *getSName     (void) { return "SFReal32";          }
+    static const Char8    *getMName     (void) { return "MFReal32";          }
 
-    static Real32    getDefault   (void) { return 0.f;                 }
+    static       Real32    getDefault   (void) { return 0.f;                 }
 
-    static bool      getFromString(      Real32  &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      Real32  &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<Real32>::getFromString(inVal);
 
@@ -630,15 +630,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Real64> :
     enum             { StringConvertable = Self::ToStringConvertable   | 
                                            Self::FromStringConvertable };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFReal64";          }
-    static Char8    *getMName     (void) { return "MFReal64";          }
+    static const Char8    *getSName     (void) { return "SFReal64";          }
+    static const Char8    *getMName     (void) { return "MFReal64";          }
 
-    static Real64    getDefault   (void) { return 0.;                  }
+    static       Real64    getDefault   (void) { return 0.;                  }
 
-    static bool      getFromString(      Real64  &outVal,
-                                   const Char8  *&inVal)
+    static       bool      getFromString(      Real64  &outVal,
+                                         const Char8  *&inVal)
     {
         outVal = TypeTraits<Real64>::getFromString(inVal);
         
@@ -675,15 +675,15 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<void *> :
 
     enum             { StringConvertable = 0x00                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVoidP";           }
-    static Char8    *getMName     (void) { return "MFVoidP";           }
+    static const Char8    *getSName     (void) { return "SFVoidP";           }
+    static const Char8    *getMName     (void) { return "MFVoidP";           }
 
-    static void     *getDefault   (void) { return NULL;                }
+    static       void     *getDefault   (void) { return NULL;                }
 
-    static bool      getFromString(      FieldTypeT &voidP,
-                                   const Char8      *inStr)
+    static       bool      getFromString(      FieldTypeT &voidP,
+                                         const Char8      *inStr)
     {
         if(inStr[0] == '0' && tolower(inStr[1]) == 'x')
         {

@@ -135,9 +135,9 @@ struct FieldDataTraits<GenericAttPtr> :
     enum                            { StringConvertable = 0x00  };
     enum                            { bHasParent        = 0x01  };
 
-    static DataType &getType (void) { return _type;             }
-    static Char8    *getSName(void) { return "SFGenericAttPtr"; }
-    static Char8    *getMName(void) { return "MFGenericAttPtr"; }
+    static       DataType &getType (void) { return _type;             }
+    static const Char8    *getSName(void) { return "SFGenericAttPtr"; }
+    static const Char8    *getMName(void) { return "MFGenericAttPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)
@@ -642,9 +642,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryPartDesc : public VRMLNodeDesc
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VRMLGeometryPartDesc(Char8 *szVRMLPartname,
-                         Char8 *szOSGPartname,
-                         Char8 *szOSGProtoname);
+    VRMLGeometryPartDesc(const Char8 *szVRMLPartname,
+                         const Char8 *szOSGPartname,
+                         const Char8 *szOSGProtoname);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -731,7 +731,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLGeometryObjectDesc : public VRMLNodeDesc
     /*! \name                   Constructors                               */
     /*! \{                                                                 */
 
-    VRMLGeometryObjectDesc(Char8 *szVRMLObjectname);
+    VRMLGeometryObjectDesc(const Char8 *szVRMLObjectname);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

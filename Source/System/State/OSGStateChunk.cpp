@@ -103,7 +103,7 @@ std::vector<UInt32> *StateChunkClass::_numslots   = NULL;
     is optional, default is 1. 
 */
 
-StateChunkClass::StateChunkClass(Char8 *name, UInt32 numslots)
+StateChunkClass::StateChunkClass(const Char8 *name, UInt32 numslots)
 {
     if(!_classNames)
     {

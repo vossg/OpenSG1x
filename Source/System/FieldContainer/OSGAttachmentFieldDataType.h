@@ -69,10 +69,10 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<AttachmentPtr> :
     enum                            { StringConvertable = 0x00  };
     enum                            { bHasParent        = 0x01  };
 
-    static DataType &getType (void) { return _type;             }
+    static       DataType &getType (void) { return _type;             }
 
-    static char     *getSName(void) { return "SFAttachmentPtr"; }
-    static char     *getMName(void) { return "MFAttachmentPtr"; }
+    static const char     *getSName(void) { return "SFAttachmentPtr"; }
+    static const char     *getMName(void) { return "MFAttachmentPtr"; }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

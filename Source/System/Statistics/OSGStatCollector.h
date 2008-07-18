@@ -171,12 +171,12 @@ struct FieldDataTraits<StatCollector> :
     enum                  { StringConvertable = ToStringConvertable | 
                                                 FromStringConvertable    };
 
-    static DataType       &getType      (void) { return _type;          }
+    static       DataType       &getType      (void) { return _type;             }
 
-    static Char8          *getSName     (void) { return "SFStatCollector"; }
-    static Char8          *getMName     (void) { return "MFStatCollector"; }
+    static const Char8          *getSName     (void) { return "SFStatCollector"; }
+    static const Char8          *getMName     (void) { return "MFStatCollector"; }
 
-    static StatCollector getDefault   (void) { return StatCollector();   }
+    static       StatCollector   getDefault   (void) { return StatCollector();   }
 
     static bool            getFromString(      StatCollector  &outVal,
                                          const Char8         *&inVal)

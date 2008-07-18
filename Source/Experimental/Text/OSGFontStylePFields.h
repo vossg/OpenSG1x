@@ -98,8 +98,8 @@ struct FieldDataTraits<FontStyleP> :
 
     static DataType       &getType      (void) { return _type;          }
 
-    static Char8          *getSName     (void) { return "SFFontStyleP"; }
-    static Char8          *getMName     (void) { return "MFFontStyleP"; }
+    static const Char8    *getSName     (void) { return "SFFontStyleP"; }
+    static const Char8    *getMName     (void) { return "MFFontStyleP"; }
 
     static FontStyleP getDefault   (void) { return FontStyleP();   }
 

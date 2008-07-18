@@ -185,12 +185,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2ub> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;                }
 
-    static Char8    *getSName     (void) { return "SFVec2ub";           }
-    static Char8    *getMName     (void) { return "MFVec2ub";           }
+    static const Char8    *getSName     (void) { return "SFVec2ub";           }
+    static const Char8    *getMName     (void) { return "MFVec2ub";           }
 
-    static Vec2ub    getDefault   (void) { return Vec2ub();             }
+    static       Vec2ub    getDefault   (void) { return Vec2ub();             }
 
     static bool      getFromString(      Vec2ub  &outVal,
                                    const Char8 *&inVal)
@@ -235,12 +235,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3ub> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;                }
 
-    static Char8    *getSName     (void) { return "SFVec3ub";           }
-    static Char8    *getMName     (void) { return "MFVec3ub";           }
+    static const Char8    *getSName     (void) { return "SFVec3ub";           }
+    static const Char8    *getMName     (void) { return "MFVec3ub";           }
 
-    static Vec3ub    getDefault   (void) { return Vec3ub();             }
+    static       Vec3ub    getDefault   (void) { return Vec3ub();             }
 
     static bool      getFromString(      Vec3ub  &outVal,
                                    const Char8 *&inVal)
@@ -287,12 +287,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4ub> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;                }
 
-    static Char8    *getSName     (void) { return "SFVec4ub";           }
-    static Char8    *getMName     (void) { return "MFVec4ub";           }
+    static const Char8    *getSName     (void) { return "SFVec4ub";           }
+    static const Char8    *getMName     (void) { return "MFVec4ub";           }
 
-    static Vec4ub    getDefault   (void) { return Vec4ub();             }
+    static       Vec4ub    getDefault   (void) { return Vec4ub();             }
 
     static bool      getFromString(      Vec4ub  &outVal,
                                    const Char8  *&inVal)
@@ -344,12 +344,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2b> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec2b";           }
-    static Char8    *getMName     (void) { return "MFVec2b";           }
+    static const Char8    *getSName     (void) { return "SFVec2b";           }
+    static const Char8    *getMName     (void) { return "MFVec2b";           }
 
-    static Vec2b    getDefault   (void) { return Vec2b();             }
+    static       Vec2b     getDefault   (void) { return Vec2b();             }
 
     static bool      getFromString(      Vec2b  &outVal,
                                    const Char8 *&inVal)
@@ -394,12 +394,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3b> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec3b";           }
-    static Char8    *getMName     (void) { return "MFVec3b";           }
+    static const Char8    *getSName     (void) { return "SFVec3b";           }
+    static const Char8    *getMName     (void) { return "MFVec3b";           }
 
-    static Vec3b    getDefault   (void) { return Vec3b();             }
+    static       Vec3b     getDefault   (void) { return Vec3b();             }
 
     static bool      getFromString(      Vec3b  &outVal,
                                    const Char8 *&inVal)
@@ -446,12 +446,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4b> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec4b";           }
-    static Char8    *getMName     (void) { return "MFVec4b";           }
+    static const Char8    *getSName     (void) { return "SFVec4b";           }
+    static const Char8    *getMName     (void) { return "MFVec4b";           }
 
-    static Vec4b    getDefault   (void) { return Vec4b();             }
+    static       Vec4b     getDefault   (void) { return Vec4b();             }
 
     static bool      getFromString(      Vec4b  &outVal,
                                    const Char8  *&inVal)
@@ -502,12 +502,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2us> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec2us";           }
-    static Char8    *getMName     (void) { return "MFVec2us";           }
+    static const Char8    *getSName     (void) { return "SFVec2us";           }
+    static const Char8    *getMName     (void) { return "MFVec2us";           }
 
-    static Vec2us    getDefault   (void) { return Vec2us();             }
+    static       Vec2us    getDefault   (void) { return Vec2us();             }
 
     static bool      getFromString(      Vec2us  &outVal,
                                    const Char8 *&inVal)
@@ -552,12 +552,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3us> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;                }
 
-    static Char8    *getSName     (void) { return "SFVec3us";           }
-    static Char8    *getMName     (void) { return "MFVec3us";           }
+    static const Char8    *getSName     (void) { return "SFVec3us";           }
+    static const Char8    *getMName     (void) { return "MFVec3us";           }
 
-    static Vec3us    getDefault   (void) { return Vec3us();             }
+    static       Vec3us    getDefault   (void) { return Vec3us();             }
 
     static bool      getFromString(      Vec3us  &outVal,
                                    const Char8 *&inVal)
@@ -604,12 +604,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4us> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec4us";           }
-    static Char8    *getMName     (void) { return "MFVec4us";           }
+    static const Char8    *getSName     (void) { return "SFVec4us";           }
+    static const Char8    *getMName     (void) { return "MFVec4us";           }
 
-    static Vec4us    getDefault   (void) { return Vec4us();             }
+    static       Vec4us    getDefault   (void) { return Vec4us();             }
 
     static bool      getFromString(      Vec4us  &outVal,
                                    const Char8  *&inVal)
@@ -660,12 +660,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2s> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec2s";           }
-    static Char8    *getMName     (void) { return "MFVec2s";           }
+    static const Char8    *getSName     (void) { return "SFVec2s";           }
+    static const Char8    *getMName     (void) { return "MFVec2s";           }
 
-    static Vec2s    getDefault   (void) { return Vec2s();             }
+    static       Vec2s     getDefault   (void) { return Vec2s();             }
 
     static bool      getFromString(      Vec2s  &outVal,
                                    const Char8 *&inVal)
@@ -710,12 +710,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3s> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec3s";           }
-    static Char8    *getMName     (void) { return "MFVec3s";           }
+    static const Char8    *getSName     (void) { return "SFVec3s";           }
+    static const Char8    *getMName     (void) { return "MFVec3s";           }
 
-    static Vec3s    getDefault   (void) { return Vec3s();             }
+    static       Vec3s     getDefault   (void) { return Vec3s();             }
 
     static bool      getFromString(      Vec3s  &outVal,
                                    const Char8 *&inVal)
@@ -762,12 +762,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4s> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec4s";           }
-    static Char8    *getMName     (void) { return "MFVec4s";           }
+    static const Char8    *getSName     (void) { return "SFVec4s";           }
+    static const Char8    *getMName     (void) { return "MFVec4s";           }
 
-    static Vec4s    getDefault   (void) { return Vec4s();             }
+    static       Vec4s     getDefault   (void) { return Vec4s();             }
 
     static bool      getFromString(      Vec4s  &outVal,
                                    const Char8  *&inVal)
@@ -818,12 +818,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2f> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec2f";           }
-    static Char8    *getMName     (void) { return "MFVec2f";           }
+    static const Char8    *getSName     (void) { return "SFVec2f";           }
+    static const Char8    *getMName     (void) { return "MFVec2f";           }
 
-    static Vec2f    getDefault   (void) { return Vec2f();             }
+    static       Vec2f     getDefault   (void) { return Vec2f();             }
 
     static bool      getFromString(      Vec2f  &outVal,
                                    const Char8 *&inVal)
@@ -868,12 +868,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3f> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec3f";           }
-    static Char8    *getMName     (void) { return "MFVec3f";           }
+    static const Char8    *getSName     (void) { return "SFVec3f";           }
+    static const Char8    *getMName     (void) { return "MFVec3f";           }
 
-    static Vec3f    getDefault   (void) { return Vec3f();             }
+    static       Vec3f     getDefault   (void) { return Vec3f();             }
 
     static bool      getFromString(      Vec3f  &outVal,
                                    const Char8 *&inVal)
@@ -920,12 +920,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4f> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec4f";           }
-    static Char8    *getMName     (void) { return "MFVec4f";           }
+    static const Char8    *getSName     (void) { return "SFVec4f";           }
+    static const Char8    *getMName     (void) { return "MFVec4f";           }
 
-    static Vec4f    getDefault   (void) { return Vec4f();             }
+    static       Vec4f     getDefault   (void) { return Vec4f();             }
 
     static bool      getFromString(      Vec4f  &outVal,
                                    const Char8  *&inVal)
@@ -976,12 +976,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2d> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec2d";           }
-    static Char8    *getMName     (void) { return "MFVec2d";           }
+    static const Char8    *getSName     (void) { return "SFVec2d";           }
+    static const Char8    *getMName     (void) { return "MFVec2d";           }
 
-    static Vec2d    getDefault   (void) { return Vec2d();             }
+    static       Vec2d     getDefault   (void) { return Vec2d();             }
 
     static bool      getFromString(      Vec2d  &outVal,
                                    const Char8 *&inVal)
@@ -1026,12 +1026,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3d> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec3d";           }
-    static Char8    *getMName     (void) { return "MFVec3d";           }
+    static const Char8    *getSName     (void) { return "SFVec3d";           }
+    static const Char8    *getMName     (void) { return "MFVec3d";           }
 
-    static Vec3d    getDefault   (void) { return Vec3d();             }
+    static       Vec3d     getDefault   (void) { return Vec3d();             }
 
     static bool      getFromString(      Vec3d  &outVal,
                                    const Char8 *&inVal)
@@ -1078,12 +1078,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4d> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec4d";           }
-    static Char8    *getMName     (void) { return "MFVec4d";           }
+    static const Char8    *getSName     (void) { return "SFVec4d";           }
+    static const Char8    *getMName     (void) { return "MFVec4d";           }
 
-    static Vec4d    getDefault   (void) { return Vec4d();             }
+    static       Vec4d     getDefault   (void) { return Vec4d();             }
 
     static bool      getFromString(      Vec4d  &outVal,
                                    const Char8  *&inVal)
@@ -1134,12 +1134,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec2ld> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec2ld";           }
-    static Char8    *getMName     (void) { return "MFVec2ld";           }
+    static const Char8    *getSName     (void) { return "SFVec2ld";           }
+    static const Char8    *getMName     (void) { return "MFVec2ld";           }
 
-    static Vec2ld    getDefault   (void) { return Vec2ld();             }
+    static       Vec2ld    getDefault   (void) { return Vec2ld();             }
 
     static bool      getFromString(      Vec2ld  &outVal,
                                    const Char8 *&inVal)
@@ -1184,12 +1184,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec3ld> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec3ld";           }
-    static Char8    *getMName     (void) { return "MFVec3ld";           }
+    static const Char8    *getSName     (void) { return "SFVec3ld";           }
+    static const Char8    *getMName     (void) { return "MFVec3ld";           }
 
-    static Vec3ld    getDefault   (void) { return Vec3ld();             }
+    static       Vec3ld    getDefault   (void) { return Vec3ld();             }
 
     static bool      getFromString(      Vec3ld  &outVal,
                                    const Char8 *&inVal)
@@ -1236,12 +1236,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Vec4ld> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFVec4ld";           }
-    static Char8    *getMName     (void) { return "MFVec4ld";           }
+    static const Char8    *getSName     (void) { return "SFVec4ld";           }
+    static const Char8    *getMName     (void) { return "MFVec4ld";           }
 
-    static Vec4ld    getDefault   (void) { return Vec4ld();             }
+    static       Vec4ld    getDefault   (void) { return Vec4ld();             }
 
     static bool      getFromString(      Vec4ld  &outVal,
                                    const Char8  *&inVal)
@@ -1292,12 +1292,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2ub> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt2ub";           }
-    static Char8    *getMName     (void) { return "MFPnt2ub";           }
+    static const Char8    *getSName     (void) { return "SFPnt2ub";           }
+    static const Char8    *getMName     (void) { return "MFPnt2ub";           }
 
-    static Pnt2ub    getDefault   (void) { return Pnt2ub();             }
+    static       Pnt2ub    getDefault   (void) { return Pnt2ub();             }
 
     static bool      getFromString(      Pnt2ub  &outVal,
                                    const Char8 *&inVal)
@@ -1342,12 +1342,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3ub> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt3ub";           }
-    static Char8    *getMName     (void) { return "MFPnt3ub";           }
+    static const Char8    *getSName     (void) { return "SFPnt3ub";           }
+    static const Char8    *getMName     (void) { return "MFPnt3ub";           }
 
-    static Pnt3ub    getDefault   (void) { return Pnt3ub();             }
+    static       Pnt3ub    getDefault   (void) { return Pnt3ub();             }
 
     static bool      getFromString(      Pnt3ub  &outVal,
                                    const Char8 *&inVal)
@@ -1394,12 +1394,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4ub> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt4ub";           }
-    static Char8    *getMName     (void) { return "MFPnt4ub";           }
+    static const Char8    *getSName     (void) { return "SFPnt4ub";           }
+    static const Char8    *getMName     (void) { return "MFPnt4ub";           }
 
-    static Pnt4ub    getDefault   (void) { return Pnt4ub();             }
+    static       Pnt4ub    getDefault   (void) { return Pnt4ub();             }
 
     static bool      getFromString(      Pnt4ub  &outVal,
                                    const Char8  *&inVal)
@@ -1450,12 +1450,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2b> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt2b";           }
-    static Char8    *getMName     (void) { return "MFPnt2b";           }
+    static const Char8    *getSName     (void) { return "SFPnt2b";           }
+    static const Char8    *getMName     (void) { return "MFPnt2b";           }
 
-    static Pnt2b    getDefault   (void) { return Pnt2b();             }
+    static       Pnt2b     getDefault   (void) { return Pnt2b();             }
 
     static bool      getFromString(      Pnt2b  &outVal,
                                    const Char8 *&inVal)
@@ -1500,12 +1500,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3b> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt3b";           }
-    static Char8    *getMName     (void) { return "MFPnt3b";           }
+    static const Char8    *getSName     (void) { return "SFPnt3b";           }
+    static const Char8    *getMName     (void) { return "MFPnt3b";           }
 
-    static Pnt3b    getDefault   (void) { return Pnt3b();             }
+    static       Pnt3b     getDefault   (void) { return Pnt3b();             }
 
     static bool      getFromString(      Pnt3b  &outVal,
                                    const Char8 *&inVal)
@@ -1552,12 +1552,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4b> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt4b";           }
-    static Char8    *getMName     (void) { return "MFPnt4b";           }
+    static const Char8    *getSName     (void) { return "SFPnt4b";           }
+    static const Char8    *getMName     (void) { return "MFPnt4b";           }
 
-    static Pnt4b    getDefault   (void) { return Pnt4b();             }
+    static       Pnt4b     getDefault   (void) { return Pnt4b();             }
 
     static bool      getFromString(      Pnt4b  &outVal,
                                    const Char8  *&inVal)
@@ -1608,12 +1608,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2us> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt2us";           }
-    static Char8    *getMName     (void) { return "MFPnt2us";           }
+    static const Char8    *getSName     (void) { return "SFPnt2us";           }
+    static const Char8    *getMName     (void) { return "MFPnt2us";           }
 
-    static Pnt2us    getDefault   (void) { return Pnt2us();             }
+    static       Pnt2us    getDefault   (void) { return Pnt2us();             }
 
     static bool      getFromString(      Pnt2us  &outVal,
                                    const Char8 *&inVal)
@@ -1658,12 +1658,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3us> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt3us";           }
-    static Char8    *getMName     (void) { return "MFPnt3us";           }
+    static const Char8    *getSName     (void) { return "SFPnt3us";           }
+    static const Char8    *getMName     (void) { return "MFPnt3us";           }
 
-    static Pnt3us    getDefault   (void) { return Pnt3us();             }
+    static       Pnt3us    getDefault   (void) { return Pnt3us();             }
 
     static bool      getFromString(      Pnt3us  &outVal,
                                    const Char8 *&inVal)
@@ -1710,12 +1710,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4us> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt4us";           }
-    static Char8    *getMName     (void) { return "MFPnt4us";           }
+    static const Char8    *getSName     (void) { return "SFPnt4us";           }
+    static const Char8    *getMName     (void) { return "MFPnt4us";           }
 
-    static Pnt4us    getDefault   (void) { return Pnt4us();             }
+    static       Pnt4us    getDefault   (void) { return Pnt4us();             }
 
     static bool      getFromString(      Pnt4us  &outVal,
                                    const Char8  *&inVal)
@@ -1766,12 +1766,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2s> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt2s";           }
-    static Char8    *getMName     (void) { return "MFPnt2s";           }
+    static const Char8    *getSName     (void) { return "SFPnt2s";           }
+    static const Char8    *getMName     (void) { return "MFPnt2s";           }
 
-    static Pnt2s    getDefault   (void) { return Pnt2s();             }
+    static       Pnt2s     getDefault   (void) { return Pnt2s();             }
 
     static bool      getFromString(      Pnt2s  &outVal,
                                    const Char8 *&inVal)
@@ -1816,12 +1816,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3s> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt3s";           }
-    static Char8    *getMName     (void) { return "MFPnt3s";           }
+    static const Char8    *getSName     (void) { return "SFPnt3s";           }
+    static const Char8    *getMName     (void) { return "MFPnt3s";           }
 
-    static Pnt3s    getDefault   (void) { return Pnt3s();             }
+    static       Pnt3s     getDefault   (void) { return Pnt3s();             }
 
     static bool      getFromString(      Pnt3s  &outVal,
                                    const Char8 *&inVal)
@@ -1868,12 +1868,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4s> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt4s";           }
-    static Char8    *getMName     (void) { return "MFPnt4s";           }
+    static const Char8    *getSName     (void) { return "SFPnt4s";           }
+    static const Char8    *getMName     (void) { return "MFPnt4s";           }
 
-    static Pnt4s    getDefault   (void) { return Pnt4s();             }
+    static       Pnt4s     getDefault   (void) { return Pnt4s();             }
 
     static bool      getFromString(      Pnt4s  &outVal,
                                    const Char8  *&inVal)
@@ -1924,12 +1924,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2f> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt2f";           }
-    static Char8    *getMName     (void) { return "MFPnt2f";           }
+    static const Char8    *getSName     (void) { return "SFPnt2f";           }
+    static const Char8    *getMName     (void) { return "MFPnt2f";           }
 
-    static Pnt2f    getDefault   (void) { return Pnt2f();             }
+    static       Pnt2f     getDefault   (void) { return Pnt2f();             }
 
     static bool      getFromString(      Pnt2f  &outVal,
                                    const Char8 *&inVal)
@@ -1974,12 +1974,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3f> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt3f";           }
-    static Char8    *getMName     (void) { return "MFPnt3f";           }
+    static const Char8    *getSName     (void) { return "SFPnt3f";           }
+    static const Char8    *getMName     (void) { return "MFPnt3f";           }
 
-    static Pnt3f    getDefault   (void) { return Pnt3f();             }
+    static       Pnt3f     getDefault   (void) { return Pnt3f();             }
 
     static bool      getFromString(      Pnt3f  &outVal,
                                    const Char8 *&inVal)
@@ -2026,12 +2026,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4f> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt4f";           }
-    static Char8    *getMName     (void) { return "MFPnt4f";           }
+    static const Char8    *getSName     (void) { return "SFPnt4f";           }
+    static const Char8    *getMName     (void) { return "MFPnt4f";           }
 
-    static Pnt4f    getDefault   (void) { return Pnt4f();             }
+    static       Pnt4f     getDefault   (void) { return Pnt4f();             }
 
     static bool      getFromString(      Pnt4f  &outVal,
                                    const Char8  *&inVal)
@@ -2082,12 +2082,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2d> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt2d";           }
-    static Char8    *getMName     (void) { return "MFPnt2d";           }
+    static const Char8    *getSName     (void) { return "SFPnt2d";           }
+    static const Char8    *getMName     (void) { return "MFPnt2d";           }
 
-    static Pnt2d    getDefault   (void) { return Pnt2d();             }
+    static       Pnt2d     getDefault   (void) { return Pnt2d();             }
 
     static bool      getFromString(      Pnt2d  &outVal,
                                    const Char8 *&inVal)
@@ -2132,12 +2132,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3d> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt3d";           }
-    static Char8    *getMName     (void) { return "MFPnt3d";           }
+    static const Char8    *getSName     (void) { return "SFPnt3d";           }
+    static const Char8    *getMName     (void) { return "MFPnt3d";           }
 
-    static Pnt3d    getDefault   (void) { return Pnt3d();             }
+    static       Pnt3d     getDefault   (void) { return Pnt3d();             }
 
     static bool      getFromString(      Pnt3d  &outVal,
                                    const Char8 *&inVal)
@@ -2184,12 +2184,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4d> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt4d";           }
-    static Char8    *getMName     (void) { return "MFPnt4d";           }
+    static const Char8    *getSName     (void) { return "SFPnt4d";           }
+    static const Char8    *getMName     (void) { return "MFPnt4d";           }
 
-    static Pnt4d    getDefault   (void) { return Pnt4d();             }
+    static       Pnt4d     getDefault   (void) { return Pnt4d();             }
 
     static bool      getFromString(      Pnt4d  &outVal,
                                    const Char8  *&inVal)
@@ -2240,12 +2240,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt2ld> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt2ld";           }
-    static Char8    *getMName     (void) { return "MFPnt2ld";           }
+    static const Char8    *getSName     (void) { return "SFPnt2ld";           }
+    static const Char8    *getMName     (void) { return "MFPnt2ld";           }
 
-    static Pnt2ld    getDefault   (void) { return Pnt2ld();             }
+    static       Pnt2ld    getDefault   (void) { return Pnt2ld();             }
 
     static bool      getFromString(      Pnt2ld  &outVal,
                                    const Char8 *&inVal)
@@ -2290,12 +2290,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt3ld> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt3ld";           }
-    static Char8    *getMName     (void) { return "MFPnt3ld";           }
+    static const Char8    *getSName     (void) { return "SFPnt3ld";           }
+    static const Char8    *getMName     (void) { return "MFPnt3ld";           }
 
-    static Pnt3ld    getDefault   (void) { return Pnt3ld();             }
+    static       Pnt3ld    getDefault   (void) { return Pnt3ld();             }
 
     static bool      getFromString(      Pnt3ld  &outVal,
                                    const Char8 *&inVal)
@@ -2342,12 +2342,12 @@ struct OSG_BASE_DLLMAPPING FieldDataTraits<Pnt4ld> :
 
     enum             { bHasParent        = 0x01                        };
 
-    static DataType &getType      (void) { return _type;               }
+    static       DataType &getType      (void) { return _type;               }
 
-    static Char8    *getSName     (void) { return "SFPnt4ld";           }
-    static Char8    *getMName     (void) { return "MFPnt4ld";           }
+    static const Char8    *getSName     (void) { return "SFPnt4ld";           }
+    static const Char8    *getMName     (void) { return "MFPnt4ld";           }
 
-    static Pnt4ld    getDefault   (void) { return Pnt4ld();             }
+    static       Pnt4ld    getDefault   (void) { return Pnt4ld();             }
 
     static bool      getFromString(      Pnt4ld  &outVal,
                                    const Char8  *&inVal)

@@ -78,10 +78,10 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<DisplayP> :
     enum                        { StringConvertable = ToStringConvertable };
     enum                        { bHasParent        = 0x00                };
 
-    static DataType &getType (void) { return _type;        }
+    static       DataType &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFDisplayP"; }
-    static char     *getMName(void) { return "MFDisplayP"; }
+    static const Char8    *getSName(void) { return "SFDisplayP"; }
+    static const Char8    *getMName(void) { return "MFDisplayP"; }
 
     static bool      getFromString(      DisplayP      &display,
                                    const Char8         *)
@@ -117,10 +117,10 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits<X11Window> :
     enum                        { StringConvertable = ToStringConvertable };
     enum                        { bHasParent        = 0x00 };
 
-    static DataType &getType (void) { return _type;        }
+    static       DataType &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFX11Window"; }
-    static char     *getMName(void) { return "MFX11Window"; }
+    static const Char8    *getSName(void) { return "SFX11Window"; }
+    static const Char8    *getMName(void) { return "MFX11Window"; }
 
     static bool      getFromString(      X11Window     &window,
                                    const Char8         *)
@@ -151,10 +151,10 @@ struct OSG_WINDOWXLIB_DLLMAPPING FieldDataTraits1<GLXContext> :
     enum                        { StringConvertable = ToStringConvertable };
     enum                        { bHasParent        = 0x00 };
 
-    static DataType &getType (void) { return _type;        }
+    static       DataType &getType (void) { return _type;        }
 
-    static char     *getSName(void) { return "SFGLXContext"; }
-    static char     *getMName(void) { return "MFGLXContext"; }
+    static const Char8    *getSName(void) { return "SFGLXContext"; }
+    static const Char8    *getMName(void) { return "MFGLXContext"; }
 
     static bool      getFromString(      GLXContext    &context,
                                    const Char8         *)

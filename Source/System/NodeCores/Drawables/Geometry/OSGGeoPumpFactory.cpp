@@ -349,7 +349,7 @@ typedef void (OSG_APIENTRY *multiPumpFunc)(GLenum which, GLubyte * data);
 static const int formatBase = GL_BYTE;
 static const int numFormats = GL_DOUBLE - GL_BYTE + 1;
 
-static char *formatNames[] =
+static const char *formatNames[] =
 {   "GL_BYTE", "GL_UNSIGNED_BYTE", "GL_SHORT", "GL_UNSIGNED_SHORT",
     "GL_INT", "GL_UNSIGNED_INT", "GL_FLOAT", "GL_2_BYTES",
     "GL_3_BYTES", "GL_4_BYTES", "GL_DOUBLE"
@@ -363,7 +363,7 @@ class glextFuncInit
 {
     public:
 
-        glextFuncInit(char *name, UInt32 format, UInt32 dim) :
+        glextFuncInit(const char *name, UInt32 format, UInt32 dim) :
             _name(name), _format(format), _dim(dim) {};
 
         void init(UInt32 (&extids)[numFormats][4], UInt32 extension)
@@ -374,9 +374,9 @@ class glextFuncInit
 
     private:
 
-        char   *_name;
-        UInt32  _format;
-        UInt32  _dim;
+    const char   *_name;
+          UInt32  _format;
+          UInt32  _dim;
 };
 
 static glextFuncInit secondaryColorInitFuncs[8] = {

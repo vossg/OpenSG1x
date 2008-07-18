@@ -2040,9 +2040,9 @@ void VRMLGeometryPointSetDesc::dump(const Char8 *)
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-VRMLGeometryPartDesc::VRMLGeometryPartDesc(Char8 *szVRMLPartname,
-                                           Char8 *szOSGPartname,
-                                           Char8 *szOSGProtoname) :
+VRMLGeometryPartDesc::VRMLGeometryPartDesc(const Char8 *szVRMLPartname,
+                                           const Char8 *szOSGPartname,
+                                           const Char8 *szOSGProtoname) :
      Inherited(),
 
     _szVRMLPartname(NULL),
@@ -2226,7 +2226,7 @@ void VRMLGeometryPartDesc::dump(const Char8 *)
 /*-------------------------------------------------------------------------*/
 /*                            Constructors                                 */
 
-VRMLGeometryObjectDesc::VRMLGeometryObjectDesc(Char8 *szVRMLObjectname) :
+VRMLGeometryObjectDesc::VRMLGeometryObjectDesc(const Char8 *szVRMLObjectname) :
     Inherited(),
 
     _szVRMLObjectname(NULL)

@@ -78,9 +78,9 @@ struct FieldDataTraits<NodeCorePtr> :
         bHasParent        = 0x01
     };
 
-    static DataType &getType(void)  { return _type;                          }
-    static char     *getSName(void) { return "SFNodeCorePtr";                }
-    static char     *getMName(void) { return "MFNodeCorePtr";                }
+    static       DataType &getType(void)  { return _type;                    }
+    static const Char8    *getSName(void) { return "SFNodeCorePtr";          }
+    static const Char8    *getMName(void) { return "MFNodeCorePtr";          }
 };
 
 #if !defined(OSG_DOC_DEV_TRAITS)

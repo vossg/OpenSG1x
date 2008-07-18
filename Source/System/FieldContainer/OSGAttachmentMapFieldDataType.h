@@ -211,9 +211,9 @@ struct OSG_SYSTEMLIB_DLLMAPPING FieldDataTraits<AttachmentMap> :
     enum                            { StringConvertable = 0x01  };
     enum                            { bHasParent        = 0x00  };
 
-    static DataType &getType (void) { return _type;             }
-    static char     *getSName(void) { return "SFAttachmentMap"; }
-    static char     *getMName(void) { return "MFAttachmentMap"; }
+    static       DataType &getType  (void) { return _type;             }
+    static const Char8     *getSName(void) { return "SFAttachmentMap"; }
+    static const Char8     *getMName(void) { return "MFAttachmentMap"; }
 
     static bool        getFromString(      AttachmentMap  &,
                                      const Char8         *&)
