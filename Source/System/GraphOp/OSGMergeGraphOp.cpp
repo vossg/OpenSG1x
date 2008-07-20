@@ -203,7 +203,7 @@ void MergeGraphOp::makeExcludeList(NodePtr& node)
 
 Action::ResultE MergeGraphOp::excludeListEnter(NodePtr& node)
 {
-    if (node==NullFC) ; else ;    
+//    if (node==NullFC) ; else ;    
     return Action::Continue;
 }
 

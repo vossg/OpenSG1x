@@ -545,7 +545,7 @@ bool Log::checkModule(const Char8 *module)
         }
         else
         {
-            if(module && &module) 
+            if(module && *module) 
             {
                 if(hasModule(module))
                 {
