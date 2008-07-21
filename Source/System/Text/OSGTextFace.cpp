@@ -300,8 +300,10 @@ static wchar_t utf8Char2Unicode(const char *&str)
     for (; i > 0; --i)
     {
         c = *str++;
+#if 0
         if ((c & 0xc0) != 0x80) // should never happen
             ; // TODO
+#endif
         result <<= 6;
         result |= c & 0x3f;
     }
@@ -529,7 +531,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFace.cpp,v 1.3 2008/06/05 05:01:21 vossg Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFace.cpp,v 1.4 2008/07/21 07:49:22 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFACE_INLINE_CVSID;
 }
