@@ -285,9 +285,9 @@ void TextureManager::buildTextures(ChunkMaterialPtr  material,
                                      int(res[2]),
                                      vT->getImage()->getBpp(), volume);
 
-            Vec3f brickSize(Real32(int(res[0] / brickSubdivision[0])),
-                            Real32(int(res[1] / brickSubdivision[1])),
-                            Real32(int(res[2] / brickSubdivision[2])));
+            Vec3f brickSize(Real32((int)(res[0] / brickSubdivision[0])),
+                            Real32((int)(res[1] / brickSubdivision[1])),
+                            Real32((int)(res[2] / brickSubdivision[2])));
             
 
             FDEBUG(
@@ -298,7 +298,7 @@ void TextureManager::buildTextures(ChunkMaterialPtr  material,
             
             _brickSets[BrickSet::XY].buildBricks3D(volume, 
                                                    brickSize, 
-                                                   volume->getBrickOverlap());
+                                                   (Int32)volume->getBrickOverlap());
             
             _brickSets[BrickSet::XY].buildBrickTextures( material, 
                                                         _registeredTextures, 
