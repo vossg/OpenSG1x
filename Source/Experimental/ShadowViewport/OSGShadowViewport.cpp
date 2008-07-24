@@ -773,7 +773,7 @@ void ShadowViewport::updateLights(void)
                 {
                     Matrix  m = tmpSpot->getBeacon()->getToWorld();
                     m.mult(lightpos, lightpos);
-                    m.mult(lightdir, lightpos);
+                    m.mult(lightdir, lightdir);
                 }
 
                 //<-- ???
@@ -1517,7 +1517,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.36 2008/07/01 06:43:03 vossg Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.37 2008/07/24 16:36:06 yjung Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
