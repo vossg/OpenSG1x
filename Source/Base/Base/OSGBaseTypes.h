@@ -60,6 +60,7 @@
 #include <stdio.h>
 
 #if defined(OSG_LINUX_TYPES)
+#    define __STDC_FORMAT_MACROS
 #    include <inttypes.h>
 #endif
 

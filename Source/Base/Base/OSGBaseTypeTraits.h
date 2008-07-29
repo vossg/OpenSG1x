@@ -674,8 +674,8 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
     static std::string putToString  (const UInt64 val)
     {
         Char8 buffer[25];
-#ifdef __x86_64__
-        sprintf(buffer, "%lu", val);
+#ifdef OSG_LINUX_TYPES
+        sprintf(buffer, "%" PRIu64, val);
 #else
         sprintf(buffer, "%llu", val);
 #endif
@@ -765,8 +765,8 @@ struct TypeTraits<Int64> : public TypeTraitsBase
     {
         Char8 buffer[25];
 
-#ifdef __x86_64__
-        sprintf(buffer, "%li", val);
+#ifdef OSG_LINUX_TYPES
+        sprintf(buffer, "%" PRIi64, val);
 #else
         sprintf(buffer, "%lli", val);
 #endif
