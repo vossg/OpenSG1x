@@ -58,7 +58,7 @@ display(void)
     m.setTranslate( sin(a/1500), cos(a/1500), sin(a/1000) + 1 );
 
     beginEditCP(tr);
-    tr->getSFMatrix()->setValue( m );
+    tr->editSFMatrix()->setValue( m );
     endEditCP(tr);
     
 
@@ -158,7 +158,7 @@ int main (int argc, char **argv)
     win->init();
     
     dact = DrawAction::create();
-    dact->setWindow( win.getCPtr() );
+    dact->setWindow(get_pointer(win));
 
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();

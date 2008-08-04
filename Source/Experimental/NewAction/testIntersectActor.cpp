@@ -572,7 +572,7 @@ buildGraphRecurse(UInt32 depth, UInt32 maxDepth, GeometryPtr pGeo)
         endEditCP  (pNodeGroup, Node::CoreFieldId | Node::ChildrenFieldId);
 
         beginEditCP(pSwitch, Switch::ChoiceFieldId);
-        pSwitch->getChoice() = Switch::ALL;
+        pSwitch->editChoice() = Switch::ALL;
         endEditCP  (pSwitch, Switch::ChoiceFieldId);
 
         beginEditCP(pNodeSwitch, Node::CoreFieldId | Node::ChildrenFieldId);
@@ -613,7 +613,7 @@ buildGraphRecurse(UInt32 depth, UInt32 maxDepth, GeometryPtr pGeo)
             }
 
             beginEditCP(pTrans, Transform::MatrixFieldId);
-            pTrans->getMatrix().setTranslate(vecTrans);
+            pTrans->editMatrix().setTranslate(vecTrans);
             endEditCP  (pTrans, Transform::MatrixFieldId);
 
             beginEditCP(pNodeTrans, Node::CoreFieldId | Node::ChildrenFieldId);
@@ -698,15 +698,15 @@ updateRayGeo(void)
         res._pObj->getToWorld(matrix);
 
         point = triIt.getPosition(0);
-        matrix.multMatrixPnt(point);
+        matrix.mult(point, point);
         pPoints->setValue(point, 2);
 
         point = triIt.getPosition(1);
-        matrix.multMatrixPnt(point);
+        matrix.mult(point, point);
         pPoints->setValue(point, 3);
 
         point = triIt.getPosition(2);
-        matrix.multMatrixPnt(point);
+        matrix.mult(point, point);
         pPoints->setValue(point, 4);
     }
     else

@@ -101,7 +101,7 @@ static void connectCluster(void)
     if(_cluster_win != NullFC)
         return;
 
-    ViewportPtr clientvp = _client_win->getPort()[0];
+    ViewportPtr clientvp = _client_win->getPort(0);
     
     // create the viewports for the cluster just a simple one ...
     ViewportPtr vp = Viewport::create();
@@ -120,7 +120,7 @@ static void connectCluster(void)
     beginEditCP(_cluster_win);
 
         for(UInt32 i=0;i<_pipenames.size();++i)
-            _cluster_win->getServers().push_back(_pipenames[i]);
+            _cluster_win->editMFServers()->push_back(_pipenames[i]);
         // dummy size for navigator
         _cluster_win->setSize(300,300);
         _cluster_win->addPort(vp);
@@ -139,7 +139,7 @@ static void connectCluster(void)
     
     // if we don't do this our created changelist is stored again
     // in the store list with the next render update.
-    _cluster_win->render((RenderAction *) _mgr->getAction());
+    _cluster_win->render(dynamic_cast<RenderAction *>(_mgr->getAction()));
     Thread::getCurrentChangeList()->clearAll();
 
     glutPostRedisplay();
@@ -152,7 +152,7 @@ static void disconnectCluster(void)
 
     // merge all fieldcontainers in the scene to the current changelist.
     RemoteAspect::restoreChangeList(Thread::getCurrentChangeList());
-    _cluster_win->render((RenderAction *) _mgr->getAction());
+    _cluster_win->render(dynamic_cast<RenderAction *>(_mgr->getAction()));
     Thread::getCurrentChangeList()->clearAll();
 
     ViewportPtr vp = _cluster_win->getPort(0);
@@ -183,7 +183,7 @@ void display(void)
         if(_cluster_win != NullFC)
         {
             // redraw the server windows
-            _cluster_win->render((RenderAction *) _mgr->getAction());
+            _cluster_win->render(dynamic_cast<RenderAction *>(_mgr->getAction()));
         }
     }
     

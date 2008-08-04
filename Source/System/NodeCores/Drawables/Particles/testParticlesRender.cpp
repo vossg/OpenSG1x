@@ -138,7 +138,7 @@ int main (int argc, char **argv)
     cols->getFieldPtr()->push_back( Color3f(   0, 255,   0) );
     endEditCP(cols);
 
-    MFVec3f *size = particles->getMFSizes();
+    MFVec3f *size = particles->editMFSizes();
     size->push_back( Vec3f(.3,0,0) );
     size->push_back( Vec3f(.3,0,0) );
     size->push_back( Vec3f(.3,0,0) );
@@ -212,7 +212,7 @@ int main (int argc, char **argv)
     win = GLUTWindow::create();
 
     dact = DrawAction::create();
-    dact->setWindow( win.getCPtr() );
+    dact->setWindow(get_pointer(win));
 
     glutMainLoop();
 

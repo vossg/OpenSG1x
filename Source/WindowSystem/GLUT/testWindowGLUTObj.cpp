@@ -60,8 +60,8 @@ int lastx=0, lasty=0;
 
 // GL object test
 
-UInt32 glid2 = (UInt32) -1;
-UInt32 glid = (UInt32) -1;
+UInt32 glid2 = TypeTraits<UInt32>::getMax();
+UInt32 glid  = TypeTraits<UInt32>::getMax();
 
 void dlist( Window *, UInt32 idstatus)
 {
@@ -163,7 +163,7 @@ display(void)
 //    std::cout << tball.getRotation() << std::endl;
 
     m1.mult( m2 );
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
 
     win->draw( ract );
 }
@@ -360,10 +360,10 @@ int main (int argc, char **argv)
     geo->updateVolume();
 
     // should check first. ok for now.
-    const BoxVolume *vol = (BoxVolume *)&geo->getVolume();
+    const Volume &vol = geo->getVolume();
 
     Vec3f min,max;
-    vol->getBounds( min, max );
+    vol.getBounds( min, max );
     
     std::cout << "Volume: from " << min << " to " << max << std::endl;
 

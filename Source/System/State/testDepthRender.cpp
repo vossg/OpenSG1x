@@ -129,8 +129,8 @@ int main(int argc, char **argv)
     MultiPassMaterialPtr mpm = MultiPassMaterial::create();
     
     beginEditCP(mpm);
-    mpm->getMaterials().push_back(mat);
-    mpm->getMaterials().push_back(mat2);
+    mpm->editMFMaterials()->push_back(mat);
+    mpm->editMFMaterials()->push_back(mat2);
     endEditCP(mpm);
     
     GeometryPtr g1 = makeTorusGeo(0.2, 2, 8, 16);

@@ -253,12 +253,12 @@ int main(int argc, char **argv)
 	  mgr->getAction()->setStatistics(collector);
 	*/
 	
-	collector = &statfg->getCollector();
+	collector = &statfg->editCollector();
     collector->getElem(Drawable::statNTriangles);
     mgr->getAction()->setStatistics(collector);
 
     beginEditCP(pwin->getPort(0));
-    pwin->getPort(0)->getForegrounds().push_back(statfg);
+    pwin->getPort(0)->editMFForegrounds()->push_back(statfg);
     endEditCP  (pwin->getPort(0));
     
     // GLUT main loop

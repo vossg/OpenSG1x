@@ -71,7 +71,7 @@ void display(void)
     m2.setTranslate(tball.getPosition());
 
     m1.mult(m2);
-    cam_trans->getSFMatrix()->setValue(m1);
+    cam_trans->editSFMatrix()->setValue(m1);
 
     if(doRender)
         win->render(ract);
@@ -254,7 +254,7 @@ int main(int argc, char **argv)
     in.close();
     std::cout <<
         "MAIN: " <<
-        loader.getRootNode().getFieldContainerId() <<
+        getContainerId(loader.getRootNode()) <<
         " is root" <<
         std::endl;
 

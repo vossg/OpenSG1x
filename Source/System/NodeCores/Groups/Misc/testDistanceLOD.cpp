@@ -74,7 +74,7 @@ display(void)
     
     m1.mult( m2 );
     //transMat.setTranslate( 1, 0, 0 );
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
     //lod_trans->getSFMatrix()->setValue( transMat );
     
 
@@ -289,10 +289,10 @@ int main(int argc, char** argv)
     endEditCP(lodNode);
     
     beginEditCP(lodNodeCore);
-    lodNodeCore->getSFCenter()->setValue( Pnt3f(0, 0, 2) );
-    lodNodeCore->getMFRange()->push_back( 4.0 );
-    lodNodeCore->getMFRange()->push_back( 8.0 );
-    lodNodeCore->getMFRange()->push_back( 11.0 );
+    lodNodeCore->editSFCenter()->setValue( Pnt3f(0, 0, 2) );
+    lodNodeCore->editMFRange()->push_back( 4.0 );
+    lodNodeCore->editMFRange()->push_back( 8.0 );
+    lodNodeCore->editMFRange()->push_back( 11.0 );
     endEditCP(lodNodeCore);
     
         
@@ -301,7 +301,7 @@ int main(int argc, char** argv)
     TransformPtr transLODCore = Transform::create();
     transMat.setTranslate( 1, -1, -1 );
     beginEditCP(transLODCore);
-    transLODCore->getSFMatrix()->setValue( transMat );
+    transLODCore->editSFMatrix()->setValue( transMat );
     endEditCP(transLODCore);
     beginEditCP( transLODNode );
     transLODNode->setCore( transLODCore );

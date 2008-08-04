@@ -37,10 +37,10 @@ int putlong(FILE *outf, unsigned long val)
 {
     unsigned char buf[4];
  
-    buf[0] = (unsigned char)(val>>24);
-    buf[1] = (unsigned char)(val>>16);
-    buf[2] = (unsigned char)(val>>8);
-    buf[3] = (unsigned char)(val>>0);
+    buf[0] = static_cast<unsigned char>(val>>24);
+    buf[1] = static_cast<unsigned char>(val>>16);
+    buf[2] = static_cast<unsigned char>(val>>8);
+    buf[3] = static_cast<unsigned char>(val>>0);
     return fwrite(buf,1,4,outf);
 }
  
@@ -58,7 +58,7 @@ void save_rgb( const char* pcFileName, unsigned char* pucNormalImageData, unsign
 	}
 
 	strcpy( ac_converted_int, pcFileName );
-	ac_converted_int[79] = (char)0;
+	ac_converted_int[79] = static_cast<char>(0);
 
     // write header
 	putshort( pt_output, 474 );								/* MAGIC                       */
@@ -86,7 +86,7 @@ void save_rgb( const char* pcFileName, unsigned char* pucNormalImageData, unsign
 	fclose( pt_output );
 }
 
-void save_raw( const char* pcFileName, unsigned char* pucNormalImageData, unsigned int uiWidth, unsigned int uiHeight, int iNumColorChannels )
+void save_raw( const char* pcFileName, const unsigned char* pucNormalImageData, unsigned int uiWidth, unsigned int uiHeight, int iNumColorChannels )
 {
     FILE*	pt_output;
 	int		i_num_bytes = 0;

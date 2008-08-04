@@ -174,7 +174,7 @@ void display(void)
 
 	// Eventually switch between different hardware modes
 	float ctime   = glutGet(GLUT_ELAPSED_TIME);
-	int   dtime   = (int)(ctime / 1000 / 2);
+	int   dtime   = static_cast<int>(ctime / 1000 / 2);
 
 	newMode = dtime % numModes;
         if(newMode == 0 && newMode != curMode)
@@ -194,7 +194,7 @@ void display(void)
     if(selectedObject != currentObject) {
 #if 1
         beginEditCP(clipObjects, DVRClipObjects::ClipModeFieldMask | DVRClipObjects::ClipObjectsFieldMask);
-        clipObjects->remove((UInt32)0);
+        clipObjects->remove(UInt32(0));
         clipObjects->add(clipGeometries[selectedObject]);
         endEditCP(clipObjects, DVRClipObjects::ClipModeFieldMask | DVRClipObjects::ClipObjectsFieldMask);
 #endif

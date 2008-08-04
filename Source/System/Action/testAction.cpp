@@ -369,7 +369,7 @@ int main( int argc, char *argv[] )
     // call on node with single child:
 
     std::cerr << "Apply(list):" << std::endl;
-    act1->apply( g1->getMFChildren()->begin(), g1->getMFChildren()->end() );
+    act1->apply( g1->editMFChildren()->begin(), g1->editMFChildren()->end() );
 
 
     {

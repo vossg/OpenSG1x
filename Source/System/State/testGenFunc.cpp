@@ -162,7 +162,7 @@ int main(int argc, char **argv)
     pImg1->set(Image::OSG_RGB_PF, width, height );
     
     beginEditCP(pImg1);
-    UInt8 *d = pImg1->getData();
+    UInt8 *d = pImg1->editData();
     
     for(UInt16 y = 0; y < height; ++y)
     {

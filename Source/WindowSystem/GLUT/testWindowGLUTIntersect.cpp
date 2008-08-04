@@ -95,7 +95,7 @@ display(void)
 //    std::cout << tball.getRotation() << std::endl;
 
     m1.mult( m2 );
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
 
     win->draw( ract );
 }
@@ -246,13 +246,13 @@ void key(unsigned char key, int x, int y)
                     act->getHitObject()->getToWorld(m);
             
                     Pnt3f p = it.getPosition(0);
-                    m.multMatrixPnt( p );
+                    m.mult(p, p);
                     isect_points->setValue( p, 2 );
                     p = it.getPosition(1);
-                    m.multMatrixPnt( p );
+                    m.mult(p, p);
                     isect_points->setValue( p, 3 );
                     p = it.getPosition(2);
-                    m.multMatrixPnt( p );
+                    m.mult(p, p);
                     isect_points->setValue( p, 4 );
                 }
                 else

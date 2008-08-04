@@ -87,7 +87,7 @@ int main(int argc, char **argv)
         beginEditCP(imageP);
         imageP->set(Image::OSG_RGBA_PF,res,res,res);
 
-        UInt8 *d = imageP->getData();
+        UInt8 *d = imageP->editData();
         for(Int16 z = 0; z < res; ++z)         
         for(Int16 y = 0; y < res; ++y)         
         for(Int16 x = 0; x < res; ++x)
@@ -144,7 +144,7 @@ int main(int argc, char **argv)
         beginEditCP(imageP);
         imageP->set(Image::OSG_RGB_PF,res,res,res);
 
-        UInt8 *d = imageP->getData();
+        UInt8 *d = imageP->editData();
         for(Int16 z = 0; z < res; ++z)         
         for(Int16 y = 0; y < res; ++y)         
         for(Int16 x = 0; x < res; ++x)
@@ -198,7 +198,7 @@ int main(int argc, char **argv)
         imageP->set(Image::OSG_LA_PF,res,res,res,1,1,0,0,
                     Image::OSG_UINT16_IMAGEDATA);
 
-        UInt16 *d = reinterpret_cast<UInt16 *>(imageP->getData());
+        UInt16 *d = reinterpret_cast<UInt16 *>(imageP->editData());
         for(Int16 z = 0; z < res; ++z)         
         for(Int16 y = 0; y < res; ++y)         
         for(Int16 x = 0; x < res; ++x)
@@ -247,7 +247,7 @@ int main(int argc, char **argv)
         beginEditCP(imageP);
         imageP->set(Image::OSG_LA_PF,res,res,res);
 
-        UInt8 *d = imageP->getData();
+        UInt8 *d = imageP->editData();
         for(Int16 z = 0; z < res; ++z)         
         for(Int16 y = 0; y < res; ++y)         
         for(Int16 x = 0; x < res; ++x)
@@ -296,7 +296,7 @@ int main(int argc, char **argv)
         beginEditCP(imageP);
         imageP->set(Image::OSG_L_PF,res,res,res);
 
-        UInt8 *d = imageP->getData();
+        UInt8 *d = imageP->editData();
         for(Int16 z = 0; z < res; ++z)         
         for(Int16 y = 0; y < res; ++y)         
         for(Int16 x = 0; x < res; ++x)

@@ -77,7 +77,7 @@ display(void)
  
     m1.mult( m3 );
    
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
 
     win->draw( ract );
 }
@@ -262,10 +262,10 @@ int main (int argc, char **argv)
     file->updateVolume();
 
     // should check first. ok for now.
-    const BoxVolume *vol = (BoxVolume *)&file->getVolume();
+    const Volume &vol = file->getVolume();
 
     Vec3f min,max;
-    vol->getBounds( min, max );
+    vol.getBounds( min, max );
     
     std::cout << "Volume: from " << min << " to " << max << std::endl;
 
@@ -286,17 +286,17 @@ int main (int argc, char **argv)
     beginEditCP(sky);
     sky->setSphereRes(16);
 
-    sky->getMFSkyColor()->push_back(Color4f(0, 0, 1, 0.5));
-    sky->getMFSkyAngle()->push_back(Pi / 4);
-    sky->getMFSkyColor()->push_back(Color4f(0, 1, 0, 0.5));
-    sky->getMFSkyAngle()->push_back(Pi / 2);
-    sky->getMFSkyColor()->push_back(Color4f(1, 0, 0, 0.5)); 
+    sky->editMFSkyColor()->push_back(Color4f(0, 0, 1, 0.5));
+    sky->editMFSkyAngle()->push_back(Pi / 4);
+    sky->editMFSkyColor()->push_back(Color4f(0, 1, 0, 0.5));
+    sky->editMFSkyAngle()->push_back(Pi / 2);
+    sky->editMFSkyColor()->push_back(Color4f(1, 0, 0, 0.5)); 
 
-    sky->getMFGroundColor()->push_back(Color4f(0, 1, 1, 0.5));
-    sky->getMFGroundAngle()->push_back(Pi / 8);
-    sky->getMFGroundColor()->push_back(Color4f(1, 0, 1, 0.5));
-    sky->getMFGroundAngle()->push_back(Pi / 4);
-    sky->getMFGroundColor()->push_back(Color4f(1, 1, 1, 0.5));
+    sky->editMFGroundColor()->push_back(Color4f(0, 1, 1, 0.5));
+    sky->editMFGroundAngle()->push_back(Pi / 8);
+    sky->editMFGroundColor()->push_back(Color4f(1, 0, 1, 0.5));
+    sky->editMFGroundAngle()->push_back(Pi / 4);
+    sky->editMFGroundColor()->push_back(Color4f(1, 1, 1, 0.5));
 
     UChar8 imgdata[] = 
         {  255,0,0,128,  0,255,0,128,  0,0,255,255,  255,255,255,255 };

@@ -128,7 +128,7 @@ display(void)
 //    m2.setTranslate(0,0,8);
 //    m1.mult(m2);
 
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
 
     win->draw( ract );
 }
@@ -460,7 +460,7 @@ int main (int argc, char **argv)
         beginEditCP(imageP);
         imageP->set(Image::OSG_RGBA_PF,res,res,res);
 
-        UInt8 *d = imageP->getData();
+        UInt8 *d = imageP->editData();
         for(Int16 z = 0; z < res; ++z)         
         for(Int16 y = 0; y < res; ++y)         
         for(Int16 x = 0; x < res; ++x)

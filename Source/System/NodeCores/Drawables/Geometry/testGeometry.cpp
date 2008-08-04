@@ -140,7 +140,7 @@ int main (int argc, char **argv)
 
     p1->setCore( g1 );
 
-    std::cerr << "Geometry Node: " << std::hex << (Geometry*) g1.getCPtr() << std::endl;
+    std::cerr << "Geometry Node: " << std::hex << get_pointer(g1) << std::endl;
 
     GeoPositions3f::PtrType pnts = GeoPositions3f::create();
     GeoPositionsPtr pnt = pnts;

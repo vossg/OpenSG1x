@@ -112,7 +112,7 @@ display(void)
 //    m2.setTranslate(0,0,8);
 //    m1.mult(m2);
 
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
 
     win->draw( ract );
 }

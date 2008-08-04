@@ -186,7 +186,7 @@ int main(int argc, char **argv)
 #endif
     endEditCP(statfg);
     
-    collector = &statfg->getCollector();
+    collector = &statfg->editCollector();
     
     // add optional elements
     collector->getElem(Drawable::statNTriangles);
@@ -196,7 +196,7 @@ int main(int argc, char **argv)
     if(show)
     {
         beginEditCP(pwin->getPort(0));
-        pwin->getPort(0)->getForegrounds().push_back(statfg);
+        pwin->getPort(0)->editMFForegrounds()->push_back(statfg);
         endEditCP  (pwin->getPort(0));
     }
     

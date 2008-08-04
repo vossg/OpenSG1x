@@ -178,7 +178,7 @@ int main(int argc, char **argv)
         TransformPtr trans;
         NodePtr trans_node = makeCoredNode<Transform>(&trans);
         beginEditCP(trans);
-            trans->getMatrix().setTranslate(Real32(x), Real32(y), Real32(z));
+            trans->editMatrix().setTranslate(Real32(x), Real32(y), Real32(z));
         endEditCP(trans);
 
         MaterialGroupPtr mg;
@@ -246,9 +246,9 @@ int main(int argc, char **argv)
 
     WindowPtr win = _mgr->getWindow();
     beginEditCP(win);
-        for(int i=0;i<win->getPort().size();++i)
+        for(int i=0;i<win->getMFPort()->size();++i)
         {
-            ViewportPtr vp = win->getPort()[i];
+            ViewportPtr vp = win->getPort(i);
             beginEditCP(vp);
                 vp->setBackground(gback);
             endEditCP(vp);

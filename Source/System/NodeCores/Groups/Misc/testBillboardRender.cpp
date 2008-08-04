@@ -77,7 +77,7 @@ display(void)
 	m2.setTranslate( tball.getPosition() );
 	
 	m1.mult( m2 );
-	cam_trans->getSFMatrix()->setValue( m1 );
+	cam_trans->editSFMatrix()->setValue( m1 );
 
 
     // move the object

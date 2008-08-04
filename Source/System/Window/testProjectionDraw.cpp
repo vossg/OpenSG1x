@@ -137,16 +137,16 @@ void addPort(Pnt3f *vpproj,
         d->setLeftEye(left);  
         d->setUser(tnode);  
         d->setDecoratee(usercam);  
-        d->getSurface().push_back(vpproj[0]);
-        d->getSurface().push_back(vpproj[1]);
-        d->getSurface().push_back(vpproj[2]);
-        d->getSurface().push_back(vpproj[3]);
+        d->editMFSurface()->push_back(vpproj[0]);
+        d->editMFSurface()->push_back(vpproj[1]);
+        d->editMFSurface()->push_back(vpproj[2]);
+        d->editMFSurface()->push_back(vpproj[3]);
         endEditCP  (d);
 
         UInt32 imgw,imgh;
         
-        imgw = osgnextpower2((UInt32)(vppos[2] - vppos[0]));
-        imgh = osgnextpower2((UInt32)(vppos[3] - vppos[1]));
+        imgw = osgnextpower2(static_cast<UInt32>(vppos[2] - vppos[0]));
+        imgh = osgnextpower2(static_cast<UInt32>(vppos[3] - vppos[1]));
         
         ImagePtr image = Image::create();
         image->set(Image::OSG_RGB_PF, imgw, imgh);
@@ -163,7 +163,7 @@ void addPort(Pnt3f *vpproj,
         v->setTop(vppos[3]);
         v->setCamera(d);
         v->setBackground(back);
-        v->getForegrounds().push_back(fg);
+        v->editMFForegrounds()->push_back(fg);
         v->setRoot(root);        
         endEditCP  (v);
         
@@ -214,10 +214,10 @@ void addPort(Pnt3f *vpproj,
         GeoTexCoords2fPtr texs = GeoTexCoords2f::create();
         beginEditCP(texs);
         texs->push_back( Vec2f( 0, 0 ) );
-        texs->push_back( Vec2f( (vppos[2] - vppos[0])/(Real32)imgw, 0 ) );
-        texs->push_back( Vec2f( (vppos[2] - vppos[0])/(Real32)imgw, 
-                               (vppos[3] - vppos[1])/(Real32)imgh ) );
-        texs->push_back( Vec2f( 0, (vppos[3] - vppos[1])/(Real32)imgh ) );
+        texs->push_back( Vec2f( (vppos[2] - vppos[0]) / Real32(imgw), 0 ) );
+        texs->push_back( Vec2f( (vppos[2] - vppos[0]) / Real32(imgw),
+                                (vppos[3] - vppos[1]) / Real32(imgh) ) );
+        texs->push_back( Vec2f( 0, (vppos[3] - vppos[1]) / Real32(imgh) ) );
         endEditCP(texs);
 
         GeoPTypesPtr type = GeoPTypesUI8::create();     

@@ -71,7 +71,7 @@ void keyboard(unsigned char k, int, int)
                 endEditCP(fp, ProgramChunk::ParamValuesFieldMask);
                 break;
     case 'd':   beginEditCP(fp, ProgramChunk::ParamValuesFieldMask); 
-                fp->setParameter((int)1, Vec4f(osgrand(), osgrand(), 
+                fp->setParameter(int(1), Vec4f(osgrand(), osgrand(), 
                                           osgrand(), osgrand()) ); 
                 endEditCP(fp, ProgramChunk::ParamValuesFieldMask);
                 break;

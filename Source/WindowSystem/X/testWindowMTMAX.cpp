@@ -111,7 +111,7 @@ void doCamTrans (UInt32 )
     m2.setTranslate( tball.getPosition() );
     m1.mult( m2 );
     beginEditCP(cam_trans);
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
     endEditCP(cam_trans);
 }
 

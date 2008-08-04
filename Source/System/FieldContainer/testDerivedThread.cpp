@@ -47,7 +47,7 @@ class MyThread : public Thread
 
 MPThreadType MyThread::_type("MyThread", 
                              "Thread", 
-                             (CreateThreadF) MyThread::create, 
+                             reinterpret_cast<CreateThreadF>(MyThread::create), 
                              NULL);
 
 Thread *MyThread::create(const Char8  *szName, UInt32  uiId)

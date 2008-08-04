@@ -243,10 +243,10 @@ apply4PtScheme(const typename std::vector<VectorTypeT>::const_iterator &a,
 #endif
 
     // return the weighted sum of the four points (a,b,c,d)
-    return (-1.f/16.f) * (*a) 
-        + ( 9.f/16.f) * (*b) 
-        + ( 9.f/16.f) * (*c) 
-        + (-1.f/16.f) * (*d);
+    return (-1.f/16.f) * a->subZero()
+         + ( 9.f/16.f) * b->subZero()
+         + ( 9.f/16.f) * c->subZero()
+         + (-1.f/16.f) * d->subZero();
 }
 
 
@@ -272,9 +272,9 @@ apply3PtScheme(const typename std::vector<VectorTypeT>::const_iterator &a,
 #endif
 
     // return the weighted sum of the three points (a,b,c)
-    return ( 3.f/8.f) * (*a)
-        + ( 6.f/8.f) * (*b)
-        + (-1.f/8.f) * (*c);
+    return ( 3.f/8.f) * a->subZero()
+         + ( 6.f/8.f) * b->subZero()
+         + (-1.f/8.f) * c->subZero();
 }
 
 
@@ -555,7 +555,7 @@ ExtrusionSurface::store(PType property,
 OSG_END_NAMESPACE
 
 
-#define OSGEXTRUSIONGEOMETRY_INLINE_CVSID "@(#)$Id: OSGExtrusionGeometry.inl,v 1.2 2005/06/02 14:32:16 vossg Exp $"
+#define OSGEXTRUSIONGEOMETRY_INLINE_CVSID "@(#)$Id: OSGExtrusionGeometry.inl,v 1.3 2008/08/04 02:32:43 vossg Exp $"
 
 
 #ifdef DEBUG_SUBDIVISION

@@ -61,8 +61,8 @@ display(void)
     tchunk2->setMatrix( m );
 
 
-    tchunk2->changeFrom( dact, tchunk1.getCPtr() );
-    mchunk2->changeFrom( dact, mchunk1.getCPtr() );
+    tchunk2->changeFrom( dact, get_pointer(tchunk1));
+    mchunk2->changeFrom( dact, get_pointer(mchunk1));
     blchunk->activate( dact );
     blchunk->activate( dact );
     cchunk1->activate( dact );
@@ -96,14 +96,14 @@ void key(unsigned char key, int , int)
     case 27:    exit(0);
     case 'a':   UChar8 imgdata[32];
                 for ( int i = 0; i < 32; i++ )
-                    imgdata[i] = (UChar8) rand();
+                    imgdata[i] = static_cast<UChar8>(rand());
                 pImage->set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
                 xchunk1->imageContentChanged();
                 break;
     case 'b':   {
                 UChar8 imgdata[16];
                 for ( int i = 0; i < 16; i++ )
-                    imgdata[i] = (UChar8) rand();
+                    imgdata[i] = static_cast<UChar8>(rand());
                 pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
                 beginEditCP( xchunk1 );
                 xchunk1->setImage( pImage );
@@ -153,7 +153,7 @@ int main( int argc, char *argv[] )
     win->init();
     
     dact = DrawAction::create();
-    dact->setWindow( win.getCPtr() );
+    dact->setWindow(get_pointer(win));
 
     win->init();
 

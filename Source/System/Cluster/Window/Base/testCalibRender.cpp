@@ -82,7 +82,7 @@ void cushion(float from[2],float to[2],
             xp = rr * cos(phi) + center[0];
             yp = rr * sin(phi) + center[1];
 
-            calib->getGrid().push_back(Vec2f(xp,yp));
+            calib->editMFGrid()->push_back(Vec2f(xp,yp));
         }
     }
 }
@@ -175,20 +175,20 @@ void display( void )
     }
     else
     {
-        mgr->getWindow()->renderAllViewports((RenderActionBase*)mgr->getAction());
+        mgr->getWindow()->renderAllViewports(dynamic_cast<RenderActionBase *>(mgr->getAction()));
     }
 
-    calib->calibrate(mgr->getWindow()->getPort()[0],(RenderActionBase*)mgr->getAction());
+    calib->calibrate(mgr->getWindow()->getPort(0), dynamic_cast<RenderActionBase *>(mgr->getAction()));
     mgr->getWindow()->swap();
     mgr->getWindow()->frameExit();
 
     if(mode==4)
     {
         beginEditCP(calib);
-        Vec2f pos = calib->getGrid()[4];
+        Vec2f pos = calib->editGrid(4);
         pos[0] = fmod(pos[0]+.01,1);
         pos[1] = fmod(pos[1]+.01,1);
-        calib->getGrid()[4] = pos;
+        calib->editGrid(4) = pos;
         endEditCP(calib);
     }
 }
@@ -242,11 +242,11 @@ key(unsigned char key, int , int )
         beginEditCP(calib);
         calib->setGridWidth(2);
         calib->setGridHeight(2);
-        calib->getGrid().clear();
-        calib->getGrid().push_back(Vec2f(0,0));
-        calib->getGrid().push_back(Vec2f(1,0));
-        calib->getGrid().push_back(Vec2f(0,1));
-        calib->getGrid().push_back(Vec2f(1,1));
+        calib->editMFGrid()->clear();
+        calib->editMFGrid()->push_back(Vec2f(0,0));
+        calib->editMFGrid()->push_back(Vec2f(1,0));
+        calib->editMFGrid()->push_back(Vec2f(0,1));
+        calib->editMFGrid()->push_back(Vec2f(1,1));
         endEditCP(calib);
         break;
     case '2':   
@@ -254,11 +254,11 @@ key(unsigned char key, int , int )
         beginEditCP(calib);
         calib->setGridWidth(2);
         calib->setGridHeight(2);
-        calib->getGrid().clear();
-        calib->getGrid().push_back(Vec2f(0.1,0.1));
-        calib->getGrid().push_back(Vec2f(0.9,0.1));
-        calib->getGrid().push_back(Vec2f(0.1,0.9));
-        calib->getGrid().push_back(Vec2f(0.9,0.9));
+        calib->editMFGrid()->clear();
+        calib->editMFGrid()->push_back(Vec2f(0.1,0.1));
+        calib->editMFGrid()->push_back(Vec2f(0.9,0.1));
+        calib->editMFGrid()->push_back(Vec2f(0.1,0.9));
+        calib->editMFGrid()->push_back(Vec2f(0.9,0.9));
         endEditCP(calib);
         break;
     case '3':
@@ -267,7 +267,7 @@ key(unsigned char key, int , int )
         beginEditCP(calib);
         calib->setGridWidth(201);
         calib->setGridHeight(201);
-        calib->getGrid().clear();
+        calib->editMFGrid()->clear();
         int x,y;
         float xx,yy;
         for(y=-100 ; y<=100 ; ++y)
@@ -275,7 +275,7 @@ key(unsigned char key, int , int )
             {
                 xx = x/200.0*sqrtf(100.0f*100.0f-y*y)/100.0f + .5f;
                 yy = (y+100.0f)/200.0f;
-                calib->getGrid().push_back(Vec2f(xx,yy));
+                calib->editMFGrid()->push_back(Vec2f(xx,yy));
             }
         endEditCP(calib);
     }
@@ -286,12 +286,12 @@ key(unsigned char key, int , int )
         beginEditCP(calib);
         calib->setGridWidth(3);
         calib->setGridHeight(3);
-        calib->getGrid().clear();
+        calib->editMFGrid()->clear();
         int x,y;
         float xx,yy;
         for(y=0 ; y<=2 ; ++y)
             for(x=0 ; x<=2 ; ++x)
-                calib->getGrid().push_back(Vec2f(x/2.0,y/2.0));
+                calib->editMFGrid()->push_back(Vec2f(x/2.0,y/2.0));
         endEditCP(calib);
     }
     break;
@@ -416,8 +416,8 @@ int main (int argc, char **argv)
     WindowPtr win = mgr->getWindow();
     endEditCP(win);
 
-    if(clusterWindow->getCalibration().size() > 0)
-        calib = clusterWindow->getCalibration()[0];
+    if(clusterWindow->getMFCalibration()->size() > 0)
+        calib = clusterWindow->getCalibration(0);
     
     // GLUT main loop
     glutMainLoop();

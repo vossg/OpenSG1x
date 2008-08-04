@@ -142,18 +142,18 @@ void OSGWriter::doListFC( FieldContainerPtr fieldConPtr )
                 {
                     if( fieldPtr->getCardinality() == FieldType::SINGLE_FIELD )
                     {
-                        doListFC( ((SFFieldContainerPtr *)
-                                      fieldPtr)->getValue() );
+                        doListFC(dynamic_cast<SFFieldContainerPtr *>(
+                            fieldPtr)->getValue());
                     }
                     else if( fieldPtr->getCardinality() ==
                                                     FieldType::MULTI_FIELD )
                     {
                         for( UInt32 j=0;
-                            j<((MFFieldContainerPtr *) fieldPtr)->size();
+                            j < static_cast<MFFieldContainerPtr *>(fieldPtr)->size();
                             ++j )
                         {
-                            doListFC( (*(((MFFieldContainerPtr *)
-                                          fieldPtr)))[j] );
+                            doListFC(
+                                (*static_cast<MFFieldContainerPtr *>(fieldPtr))[j]);
                         }
                     }
                 }
@@ -215,8 +215,8 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
                     {
                         _outstream << std::endl;
                         _indention += _indentStep;
-                        doPrintListedFC( ((SFFieldContainerPtr *)
-                                          fieldPtr)->getValue() );
+                        doPrintListedFC(static_cast<SFFieldContainerPtr *>(
+                            fieldPtr)->getValue());
                         _indention -= _indentStep;
                     }
                     else if( fieldPtr->getCardinality() ==
@@ -224,11 +224,11 @@ void OSGWriter::doPrintListedFC( FieldContainerPtr fieldConPtr )
                     {
                         _outstream << " [" << std::endl;
                         _indention += _indentStep;
-                        for( UInt32 j=0;
-                          j<((MFFieldContainerPtr *) fieldPtr)->size(); ++j )
+                        for(UInt32 j = 0;
+                          j < static_cast<MFFieldContainerPtr *>(fieldPtr)->size(); ++j)
                         {
-                            doPrintListedFC( 
-                                (*(((MFFieldContainerPtr *)fieldPtr)))[j] );
+                            doPrintListedFC(
+                                (*static_cast<MFFieldContainerPtr *>(fieldPtr))[j]);
                         }
                         _indention -= _indentStep;
                         indentLine(); _outstream << "]" <<std::endl;

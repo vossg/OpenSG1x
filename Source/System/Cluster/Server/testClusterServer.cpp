@@ -82,10 +82,10 @@ void key(unsigned char key, int /*x*/, int /*y*/)
 	switch ( key )
 	{
         case 'd':
-            window->getPort()[0]->getRoot()->dump();
+            window->getPort(0)->getRoot()->dump();
             break;
         case 's':
-            SceneFileHandler::the().write(window->getPort()[0]->getRoot(),"server.osb");
+            SceneFileHandler::the().write(window->getPort(0)->getRoot(),"server.osb");
             exit(0);
             break;
 	}

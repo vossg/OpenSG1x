@@ -290,9 +290,9 @@ void vectorTestConstructAndSetTest(void)
 //    v4f8.setValue(20., 30., 40., 50.);
 
 #ifndef OSG_DISABLE_DEPRECATED
-    v2f8.setValue((char *) NULL);
-    v3f8.setValue((char *) NULL);
-    v4f8.setValue((char *) NULL);
+    v2f8.setValue(static_cast<char *>(NULL));
+    v3f8.setValue(static_cast<char *>(NULL));
+    v4f8.setValue(static_cast<char *>(NULL));
 
     std::cerr << "set vec from string NULL \n";
 
@@ -1312,7 +1312,7 @@ void matcheck( Matrix & mat, Pnt3f * vec, int nelem )
 
     for ( i = 0; i < nelem; i++ )
     {
-        mat.multFullMatrixPnt( vec[i],p2 );
+        mat.multFull(vec[i], p2);
         std::cout << "transforms " << vec[i] << " to " << p2 << std::endl;
 
     }

@@ -34,7 +34,7 @@ bool createdFunction(FieldContainerPtr &fcp, RemoteAspect *)
     if(verbose)
     {
         printf("Created:%s %d\n", fcp->getType().getName().str(),
-                       fcp.getFieldContainerId());
+                getContainerId(fcp));
     }
 
     return true;
@@ -54,7 +54,7 @@ bool destroyedFunction(FieldContainerPtr &fcp, RemoteAspect *)
     if(verbose)
     {
         printf("Destroyed:%s %d\n", fcp->getType().getName().str(),
-                       fcp.getFieldContainerId());
+               getContainerId(fcp));
     }
 
     return true;
@@ -67,7 +67,7 @@ bool changedFunction(FieldContainerPtr &fcp, RemoteAspect *)
     if(verbose)
     {
         printf("Changed:%s %d\n", fcp->getType().getName().str(),
-                       fcp.getFieldContainerId());
+               getContainerId(fcp));
     }
 
     return true;

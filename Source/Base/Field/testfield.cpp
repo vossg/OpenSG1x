@@ -60,7 +60,7 @@ int main (int argc, char **argv)
 
     fieldP = FieldFactory::the().createField("SFVec3f");
 //  vec3fP = dynamic_cast<OSGSFVec3f*>(fieldP);
-    vec3fP = (SFVec3f*)(fieldP);
+    vec3fP = static_cast<SFVec3f *>(fieldP);
 
     vec3fP->getValue().setValues(1,2,3);
 
@@ -70,7 +70,7 @@ int main (int argc, char **argv)
    
 //  uint32P = dynamic_cast<SFUInt32 *>(fieldP);
 
-    uint32P = (SFUInt32 *)(fieldP);
+    uint32P = static_cast<SFUInt32 *>(fieldP);
   
     if(uint32P != NULL)
     {
@@ -81,7 +81,7 @@ int main (int argc, char **argv)
    
 //  int32P = dynamic_cast<SFInt32 *>(fieldP);
 
-    int32P = (SFInt32 *)(fieldP);
+    int32P = static_cast<SFInt32 *>(fieldP);
 
     if(int32P != NULL)
     {
@@ -95,16 +95,16 @@ int main (int argc, char **argv)
     std::cout << "sizeof(SFVec3f): " << sizeof( vec3f ) << std::endl;
 
     SFBitVector *pSB = 
-        (SFBitVector *) FieldFactory::the().createField("SFBitVector");
+        static_cast<SFBitVector *>(FieldFactory::the().createField("SFBitVector"));
 
     MFBitVector *pMB = 
-        (MFBitVector *) FieldFactory::the().createField("MFBitVector");
+        static_cast<MFBitVector *>(FieldFactory::the().createField("MFBitVector"));
 
     SFTime      *pST = 
-        (SFTime *) FieldFactory::the().createField("SFTime");
+        static_cast<SFTime *>(FieldFactory::the().createField("SFTime"));
 
     MFTime      *pMT = 
-        (MFTime *) FieldFactory::the().createField("MFTime");
+        static_cast<MFTime *>(FieldFactory::the().createField("MFTime"));
 
     fprintf(stderr, "Got Field %p %p %p %p\n", pSB, pMB, pST, pMT);
 

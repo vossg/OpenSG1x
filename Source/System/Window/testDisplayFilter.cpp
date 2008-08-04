@@ -151,7 +151,7 @@ int main(int argc, char **argv)
     ViewportPtr vp = gwin->getPort(0);
 
     beginEditCP(vp);
-    vp->getForegrounds().push_back(fg);    
+    vp->editMFForegrounds()->push_back(fg);    
     endEditCP  (vp);
 
     colorFilterPtr = ColorDisplayFilter::create();
@@ -170,14 +170,14 @@ int main(int argc, char **argv)
 
     distortionFilterPtr->setColumns(2);
     distortionFilterPtr->setRows(2);
-    distortionFilterPtr->getPositions().push_back(Vec2f(0,.5));
-    distortionFilterPtr->getPositions().push_back(Vec2f(.5,0));
-    distortionFilterPtr->getPositions().push_back(Vec2f(.5,1));
-    distortionFilterPtr->getPositions().push_back(Vec2f(1,.5));
+    distortionFilterPtr->editMFPositions()->push_back(Vec2f(0,.5));
+    distortionFilterPtr->editMFPositions()->push_back(Vec2f(.5,0));
+    distortionFilterPtr->editMFPositions()->push_back(Vec2f(.5,1));
+    distortionFilterPtr->editMFPositions()->push_back(Vec2f(1,.5));
     
-    fg->getFilter().push_back(colorFilterPtr);
-    fg->getFilter().push_back(resolutionFilterPtr);
-    fg->getFilter().push_back(distortionFilterPtr);
+    fg->editMFFilter()->push_back(colorFilterPtr);
+    fg->editMFFilter()->push_back(resolutionFilterPtr);
+    fg->editMFFilter()->push_back(distortionFilterPtr);
 
     endEditCP(distortionFilterPtr);
     endEditCP(colorFilterPtr);

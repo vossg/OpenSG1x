@@ -134,7 +134,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
 	switch ( key )
 	{
         case 'd':
-            window->getPort()[0]->getRoot()->dump();
+            window->getPort(0)->getRoot()->dump();
             break;
         case 's':
             std::ofstream outFileStream( "server.osg" );
@@ -146,7 +146,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             else
             {
                 OSGWriter writer( outFileStream, 4 );
-                writer.write( window->getPort()[0]->getRoot() );
+                writer.write( window->getPort(0)->getRoot() );
             }
             break;
 	}

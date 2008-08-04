@@ -50,9 +50,9 @@ bool writeMemDump (OSG::ImagePtr &image, const char *fileName)
   fType = OSG::ImageFileHandler::the().getDefaultType();
 
   if (fType && outs) {
-    maxSize = (unsigned long)(fType->maxBufferSize(image));
+    maxSize = static_cast<unsigned long>(fType->maxBufferSize(image));
     data = new OSG::UChar8[maxSize];
-    dataSize = (unsigned long)(fType->store(image, (OSG::UChar8*)data ));
+    dataSize = static_cast<unsigned long>(fType->store(image, data));
     outs.write ( reinterpret_cast<char*>(data), dataSize );
     retCode = (dataSize && (dataSize <= maxSize));
   }

@@ -74,7 +74,7 @@ display(void)
     cam_trans->getSFMatrix()->setValue( m1 );
     */
 
-    cam_trans->getSFMatrix()->setValue(tball.getFullTrackballMatrix());
+    cam_trans->editSFMatrix()->setValue(tball.getFullTrackballMatrix());
 
 #ifndef INTERACTIVE
     fprintf(stderr, "Frame %d\n", iNumFrames);
@@ -399,10 +399,10 @@ int main (int argc, char **argv)
     dlight->updateVolume();
 
     // should check first. ok for now.
-    const OSG::BoxVolume *vol = (OSG::BoxVolume *)&dlight->getVolume();
+    const OSG::Volume &vol = dlight->getVolume();
         
     OSG::Vec3f min,max;
-    vol->getBounds( min, max );
+    vol.getBounds( min, max );
     
     std::cout << "Volume: from " << min << " to " << max << std::endl;
 

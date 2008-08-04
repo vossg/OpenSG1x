@@ -142,9 +142,9 @@ NodePtr createMetrics(TextTXFFace *face, UInt32 width, UInt32 height)
         indicesPtr->push_back(posOffset + 3);
         indicesPtr->push_back(1);
 
-        geoPtr->getIndexMapping().clear();
-        geoPtr->getIndexMapping().push_back(Geometry::MapPosition);
-        geoPtr->getIndexMapping().push_back(Geometry::MapColor);
+        geoPtr->editMFIndexMapping()->clear();
+        geoPtr->editMFIndexMapping()->push_back(Geometry::MapPosition);
+        geoPtr->editMFIndexMapping()->push_back(Geometry::MapColor);
 
         SimpleMaterialPtr matPtr = SimpleMaterial::create();
         geoPtr->setMaterial(matPtr);
@@ -178,7 +178,7 @@ void updateFace()
 
     // Update information on the screen
     family = face->getFamily();
-    statfg->getCollector().getElem(familyDesc)->set(family);
+    statfg->editCollector().getElem(familyDesc)->set(family);
     filename = family;
     string::size_type i;
     for (i = 0; i < filename.size(); )
@@ -187,7 +187,7 @@ void updateFace()
         else
             ++i;
     style = face->getStyle();
-    StatStringElem *statElem = statfg->getCollector().getElem(styleDesc);
+    StatStringElem *statElem = statfg->editCollector().getElem(styleDesc);
     switch (style)
     {
         case TextFace::STYLE_PLAIN:
@@ -207,12 +207,12 @@ void updateFace()
             filename.append("-BoldItalic.txf");
             break;
     }
-    statfg->getCollector().getElem(sizeDesc)->set(face->getParam().size);
-    statfg->getCollector().getElem(gapDesc)->set(face->getParam().gap);
+    statfg->editCollector().getElem(sizeDesc)->set(face->getParam().size);
+    statfg->editCollector().getElem(gapDesc )->set(face->getParam().gap);
     ImagePtr imagePtr = face->getTexture();
     ostringstream os;
     os << imagePtr->getWidth() << 'x' << imagePtr->getHeight();
-    statfg->getCollector().getElem(textureSizeDesc)->set(os.str());
+    statfg->editCollector().getElem(textureSizeDesc)->set(os.str());
     glutSetMenu(mainMenuID);
     glutChangeToMenuEntry(6, (string("Write to ") + filename).c_str(), COMMAND_WRITE_TO_FILE);
 }
@@ -295,7 +295,7 @@ void updateScene()
 
     beginEditCP(scene, Node::ChildrenFieldMask);
     {
-        scene->getMFChildren()->clear();
+        scene->editMFChildren()->clear();
         scene->addChild(createMetrics(face, imagePtr->getWidth(), imagePtr->getHeight()));
         scene->addChild(transNodePtr);
     }
@@ -370,7 +370,7 @@ int main(int argc, char **argv)
 
     // add the statistics forground
     beginEditCP(gwin->getPort(0));
-    gwin->getPort(0)->getForegrounds().push_back(statfg);
+    gwin->getPort(0)->editMFForegrounds()->push_back(statfg);
     gwin->getPort(0)->setBackground(bg);
     endEditCP(gwin->getPort(0));
 

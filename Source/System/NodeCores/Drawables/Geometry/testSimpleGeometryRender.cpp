@@ -52,7 +52,7 @@ display(void)
     win->frameInit();
     
     if ( autowire )
-        switch ( (int) ( a / 2000 ) % 3 )   
+        switch ( static_cast<int>( a / 2000 ) % 3 )   
         {
         case 0:     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); break;
         case 1:     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); break;
@@ -60,7 +60,7 @@ display(void)
         }
 
     if ( autoswitch )
-        obj = (int) ( a / 5000 ) % nobjects ;  
+        obj = static_cast<int>( a / 5000 ) % nobjects ;  
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     
@@ -117,7 +117,7 @@ void resize( int w, int h )
     glViewport( 0,0,w,h);
     glMatrixMode( GL_PROJECTION );
     glLoadIdentity();
-    gluPerspective( 60, w / (float)h, 0.1, 10 );
+    gluPerspective( 60, w / static_cast<float>(h), 0.1, 10 );
     glMatrixMode( GL_MODELVIEW );   
 }
 
@@ -304,7 +304,7 @@ int main (int argc, char **argv)
     gluLookAt( 3, 3, 3,  0, 0, 0,   0, 0, 1 );
    
     dact = DrawAction::create();
-    dact->setWindow( win.getCPtr() );
+    dact->setWindow(get_pointer(win));
     dact->setFrustumCulling( false );
 
     glutMainLoop();

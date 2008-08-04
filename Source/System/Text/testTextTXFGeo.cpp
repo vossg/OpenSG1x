@@ -119,9 +119,9 @@ NodePtr createCoordinateCross()
         indicesPtr->push_back(2);
         geoPtr->setIndices(indicesPtr);
 
-        geoPtr->getIndexMapping().clear();
-        geoPtr->getIndexMapping().push_back(Geometry::MapPosition);
-        geoPtr->getIndexMapping().push_back(Geometry::MapColor);
+        geoPtr->editMFIndexMapping()->clear();
+        geoPtr->editMFIndexMapping()->push_back(Geometry::MapPosition);
+        geoPtr->editMFIndexMapping()->push_back(Geometry::MapColor);
 
         SimpleMaterialPtr matPtr = SimpleMaterial::create();
         geoPtr->setMaterial(matPtr);
@@ -483,9 +483,9 @@ NodePtr createMetrics(TextFace *face, Real32 scale, const TextLayoutParam &layou
             pos += offset;
         }
 
-        geoPtr->getIndexMapping().clear();
-        geoPtr->getIndexMapping().push_back(Geometry::MapPosition);
-        geoPtr->getIndexMapping().push_back(Geometry::MapColor);
+        geoPtr->editMFIndexMapping()->clear();
+        geoPtr->editMFIndexMapping()->push_back(Geometry::MapPosition);
+        geoPtr->editMFIndexMapping()->push_back(Geometry::MapColor);
 
         SimpleMaterialPtr matPtr = SimpleMaterial::create();
         geoPtr->setMaterial(matPtr);
@@ -515,7 +515,7 @@ void updateFace()
 
     // Update information on the screen
     family = face->getFamily();
-    statfg->getCollector().getElem(familyDesc)->set(family);
+    statfg->editCollector().getElem(familyDesc)->set(family);
     filename = family;
     string::size_type i;
     for (i = 0; i < filename.size(); )
@@ -524,7 +524,7 @@ void updateFace()
         else
             ++i;
     style = face->getStyle();
-    StatStringElem *statElem = statfg->getCollector().getElem(styleDesc);
+    StatStringElem *statElem = statfg->editCollector().getElem(styleDesc);
     switch (style)
     {
         case TextFace::STYLE_PLAIN:
@@ -567,11 +567,11 @@ const char *alignmentToString(TextLayoutParam::Alignment alignment)
 
 void updateScene()
 {
-    statfg->getCollector().getElem(majorAlignDesc)->set(alignmentToString(layoutParam.majorAlignment));
-    statfg->getCollector().getElem(minorAlignDesc)->set(alignmentToString(layoutParam.minorAlignment));
-    statfg->getCollector().getElem(dirDesc)->set(layoutParam.horizontal ? "Horizontal" : "Vertical");
-    statfg->getCollector().getElem(horiDirDesc)->set(layoutParam.leftToRight ? "Left to right" : "Right to left");
-    statfg->getCollector().getElem(vertDirDesc)->set(layoutParam.topToBottom ? "Top to bottom" : "Bottom to top");
+    statfg->editCollector().getElem(majorAlignDesc)->set(alignmentToString(layoutParam.majorAlignment));
+    statfg->editCollector().getElem(minorAlignDesc)->set(alignmentToString(layoutParam.minorAlignment));
+    statfg->editCollector().getElem(dirDesc)->set(layoutParam.horizontal ? "Horizontal" : "Vertical");
+    statfg->editCollector().getElem(horiDirDesc)->set(layoutParam.leftToRight ? "Left to right" : "Right to left");
+    statfg->editCollector().getElem(vertDirDesc)->set(layoutParam.topToBottom ? "Top to bottom" : "Bottom to top");
 
     if(face == NULL)
         return;
@@ -658,7 +658,7 @@ void updateScene()
 
     beginEditCP(scene, Node::ChildrenFieldMask);
     {
-        scene->getMFChildren()->clear();
+        scene->editMFChildren()->clear();
         scene->addChild(createCoordinateCross());
         scene->addChild(createMetrics(face, scale, layoutParam, layoutResult));
         scene->addChild(transNodePtr);
@@ -731,8 +731,8 @@ int main(int argc, char **argv)
 
     // add the statistics forground
     beginEditCP(gwin->getPort(0));
-    gwin->getPort(0)->getForegrounds().push_back(statfg);
-    gwin->getPort(0)->setBackground(bg);
+    gwin->editPort(0)->editMFForegrounds()->push_back(statfg);
+    gwin->editPort(0)->setBackground(bg);
     endEditCP(gwin->getPort(0));
 
     // GLUT main loop

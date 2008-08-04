@@ -105,7 +105,7 @@ int main(int argc, char **argv)
     pImg1->set(Image::OSG_LA_PF, p1size, p1size );
     
     beginEditCP(pImg1);
-    UInt8 *d = pImg1->getData();
+    UInt8 *d = pImg1->editData();
     
     for(UInt16 y = 0; y < p1size; ++y)
     {
@@ -149,7 +149,7 @@ int main(int argc, char **argv)
     pImg2->set(Image::OSG_RGB_PF, p2size, p2size );
     
     beginEditCP(pImg2);
-    d = pImg2->getData();
+    d = pImg2->editData();
     
     for(UInt16 y = 0; y < p2size; ++y)
     {

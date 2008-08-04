@@ -121,8 +121,8 @@ int main (int argc, char **argv)
     m2.setIdentity();
     m2.setTranslate( 1,1,1 );
 
-    t1->getSFMatrix()->setValue( m1 );  
-    t2->getSFMatrix()->setValue( m2 );  
+    t1->editSFMatrix()->setValue( m1 );  
+    t2->editSFMatrix()->setValue( m2 );  
 
     std::cout << "Testtree:" << std::endl;
 

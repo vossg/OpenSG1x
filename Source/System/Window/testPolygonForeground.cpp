@@ -153,14 +153,14 @@ int main(int argc, char **argv)
 
         beginEditCP(pg);
         pg->setMaterial(mat);
-        pg->getTexCoords().push_back(Vec3f( 0.,0.,0.));
-        pg->getPositions().push_back(pos[ind][0]);
-        pg->getTexCoords().push_back(Vec3f( 1.,0.,0.));
-        pg->getPositions().push_back(pos[ind][1]);
-        pg->getTexCoords().push_back(Vec3f( 1.,1.,0.));
-        pg->getPositions().push_back(pos[ind][2]);
-        pg->getTexCoords().push_back(Vec3f( 0.,1.,0.));
-        pg->getPositions().push_back(pos[ind][3]);
+        pg->editMFTexCoords()->push_back(Vec3f( 0.,0.,0.));
+        pg->editMFPositions()->push_back(pos[ind][0]);
+        pg->editMFTexCoords()->push_back(Vec3f( 1.,0.,0.));
+        pg->editMFPositions()->push_back(pos[ind][1]);
+        pg->editMFTexCoords()->push_back(Vec3f( 1.,1.,0.));
+        pg->editMFPositions()->push_back(pos[ind][2]);
+        pg->editMFTexCoords()->push_back(Vec3f( 0.,1.,0.));
+        pg->editMFPositions()->push_back(pos[ind][3]);
  
         pg->setNormalizedX(normx[ind]);
         pg->setNormalizedY(normy[ind]);
@@ -170,7 +170,7 @@ int main(int argc, char **argv)
         ViewportPtr vp = gwin->getPort(0);
 
         beginEditCP(vp);
-        vp->getForegrounds().push_back(pg);    
+        vp->editMFForegrounds()->push_back(pg);    
         endEditCP  (vp);
     }
      
@@ -211,15 +211,15 @@ int main(int argc, char **argv)
 
     beginEditCP(ebpg);
     ebpg->setMaterial(ebmat);
-    ebpg->getTexCoords().push_back(Vec3f( 0.25,0.,0.));
-    ebpg->getTexCoords().push_back(Vec3f( 0.75,0.,0.));
-    ebpg->getTexCoords().push_back(Vec3f( 0.75,1.,0.));
-    ebpg->getTexCoords().push_back(Vec3f( 0.25,1.,0.));
+    ebpg->editMFTexCoords()->push_back(Vec3f( 0.25,0.,0.));
+    ebpg->editMFTexCoords()->push_back(Vec3f( 0.75,0.,0.));
+    ebpg->editMFTexCoords()->push_back(Vec3f( 0.75,1.,0.));
+    ebpg->editMFTexCoords()->push_back(Vec3f( 0.25,1.,0.));
 
-    ebpg->getPositions().push_back(Pnt2f(-blendpixel-1, 0));
-    ebpg->getPositions().push_back(Pnt2f(           -1, 0));
-    ebpg->getPositions().push_back(Pnt2f(           -1, 1));
-    ebpg->getPositions().push_back(Pnt2f(-blendpixel-1, 1));
+    ebpg->editMFPositions()->push_back(Pnt2f(-blendpixel-1, 0));
+    ebpg->editMFPositions()->push_back(Pnt2f(           -1, 0));
+    ebpg->editMFPositions()->push_back(Pnt2f(           -1, 1));
+    ebpg->editMFPositions()->push_back(Pnt2f(-blendpixel-1, 1));
 
     ebpg->setNormalizedX(false);
     ebpg->setNormalizedY(true);
@@ -229,7 +229,7 @@ int main(int argc, char **argv)
     ViewportPtr vp = gwin->getPort(0);
 
     beginEditCP(vp);
-    vp->getForegrounds().push_back(ebpg);    
+    vp->editMFForegrounds()->push_back(ebpg);    
     endEditCP  (vp);
 
 // show the whole scene

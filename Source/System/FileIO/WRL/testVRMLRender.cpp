@@ -79,7 +79,7 @@ display(void)
     m1.mult( m2 );
     */
 
-    cam_trans->getSFMatrix()->setValue( tball.getFullTrackballMatrix() );
+    cam_trans->editSFMatrix()->setValue( tball.getFullTrackballMatrix() );
 
     win->draw( ract );
 
@@ -552,7 +552,7 @@ int main (int argc, char **argv)
     dlight->updateVolume();
 
     // should check first. ok for now.
-    const OSG::DynamicVolume &vol = dlight->getVolume();
+    const OSG::Volume &vol = dlight->getVolume();
 
     OSG::Vec3f min,max;
     OSG::Vec3f size;

@@ -107,7 +107,7 @@ int main(int argc, char **argv)
     _mgr->showAll();
 
     // enable local lights.
-    RenderAction *ract = (RenderAction *) _mgr->getAction();
+    RenderAction *ract = dynamic_cast<RenderAction *>(_mgr->getAction());
     ract->setLocalLights(true);
 
     // GLUT main loop
@@ -168,17 +168,17 @@ void keyboard(unsigned char k, int x, int y)
         case 'y':
         {
             beginEditCP(_beacon_trans);
-                _beacon_trans->getMatrix()[3][0] -= 0.1f;
-                _beacon_trans->getMatrix()[3][1] -= 0.1f;
-                _beacon_trans->getMatrix()[3][2] -= 0.1f;
+                _beacon_trans->editMatrix()[3][0] -= 0.1f;
+                _beacon_trans->editMatrix()[3][1] -= 0.1f;
+                _beacon_trans->editMatrix()[3][2] -= 0.1f;
             endEditCP(_beacon_trans);
         }
         break;
         case 'x':
             beginEditCP(_beacon_trans);
-                _beacon_trans->getMatrix()[3][0] += 0.1f;
-                _beacon_trans->getMatrix()[3][1] += 0.1f;
-                _beacon_trans->getMatrix()[3][2] += 0.1f;
+                _beacon_trans->editMatrix()[3][0] += 0.1f;
+                _beacon_trans->editMatrix()[3][1] += 0.1f;
+                _beacon_trans->editMatrix()[3][2] += 0.1f;
             endEditCP(_beacon_trans);
         break;
         case 'c':

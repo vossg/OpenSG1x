@@ -59,7 +59,7 @@ display(void)
     float a = glutGet( GLUT_ELAPSED_TIME );
 
     if ( autowire )
-        switch ( (int) ( a / 2000 ) % 3 )   
+        switch (static_cast<int>( a / 2000 ) % 3 )   
         {
         case 0:     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL ); break;
         case 1:     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ); break;
@@ -67,7 +67,7 @@ display(void)
         }
 
     if ( autoswitch )
-        obj = (int) ( a / 5000 ) % nobjects ;
+        obj = static_cast<int>( a / 5000 ) % nobjects ;
 
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 

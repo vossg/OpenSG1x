@@ -117,7 +117,7 @@ int main (int argc, char **argv)
         endEditCP(root);
 
         beginEditCP(g1);
-    std::cerr << "Geometry Node: " << std::hex << (Geometry*) g1.getCPtr() << std::endl;
+    std::cerr << "Geometry Node: " << std::hex << get_pointer(g1) << std::endl;
 
     g1->setMaterial(getDefaultUnlitMaterial());
 
@@ -280,7 +280,7 @@ int main (int argc, char **argv)
     win->init();
 
     dact = DrawAction::create();
-    dact->setWindow( win.getCPtr() );
+    dact->setWindow(get_pointer(win));
     
     glutMainLoop();
 

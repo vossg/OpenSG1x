@@ -171,13 +171,13 @@ void updateGamma(Real32 gamma, UInt16 res)
     argammaimg->set(GL_RGB,res,res);
 
     beginEditCP(argammaimg);
-    data = argammaimg->getData();
+    data = argammaimg->editData();
     
     memset(data, 0, res * res * 3);
     
     for(y = 0; y < res; ++y)
     {
-        UInt8 v = (int)(pow(y/(Real32)(res-1),gamma)*255+0.5);
+        UInt8 v = static_cast<int>(pow(y / Real32(res-1), gamma) * 255 + 0.5);
         for(x = 0; x < res; ++x)
         {
             *data++ = v;
@@ -194,16 +194,16 @@ void updateGamma(Real32 gamma, UInt16 res)
     gbgammaimg->set(GL_RGB,res,res);
 
     beginEditCP(gbgammaimg);
-    data = gbgammaimg->getData();
+    data = gbgammaimg->editData();
     
     memset(data, 0, res * res * 3);
     
     for(y = 0; y < res; ++y)
     {
-        UInt8 vy = (int)(pow(y/(Real32)(res-1),gamma)*255+0.5);
+        UInt8 vy = static_cast<int>(pow(y / Real32(res-1), gamma) * 255 + 0.5);
         for(x = 0; x < res; ++x)
         {
-            UInt8 vx = (int)(pow(x/(Real32)(res-1),gamma)*255+0.5);
+            UInt8 vx = static_cast<int>(pow( x / Real32(res-1), gamma) * 255 + 0.5);
             *data++ = 0;
             *data++ = vx;
             *data++ = vy;           

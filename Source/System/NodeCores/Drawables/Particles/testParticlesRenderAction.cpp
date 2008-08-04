@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     }
     endEditCP(cols);
 
-    MFVec3f *size = particles->getMFSizes();
+    MFVec3f *size = particles->editMFSizes();
     for(i = 0; i < count; ++i)
     {
         Real32 s=osgrand()/10.f;

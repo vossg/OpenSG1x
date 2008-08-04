@@ -57,8 +57,8 @@ int main (int argc, char **argv)
 
     GeoColors4ub::PtrType cols = GeoColors4ub::create();
     g->setColors( cols );
-    g->getIndexMapping().push_back( Geometry::MapPosition | 
-                                   Geometry::MapColor );
+    g->editMFIndexMapping()->push_back( Geometry::MapPosition | 
+                                        Geometry::MapColor );
     
     beginEditCP(cols);
     cols->getFieldPtr()->push_back( Color4ub( 255, 255, 255, 255) );

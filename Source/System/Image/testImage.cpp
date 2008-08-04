@@ -93,8 +93,8 @@ int main (int argc, char **argv)
             sprintf(szImageName, "backdrop_frame%d.tif", i);
             fprintf(stderr, "writing image %s\n", szImageName);
 
-            pSrc = pImage   ->getData(0, i);
-            pDst = pOutImage->getData(0, 0);
+            pSrc = pImage   ->getData (0, i);
+            pDst = pOutImage->editData(0, 0);
 
             for(int j = 0; j < pImage->getWidth() * pImage->getHeight(); ++j)
             {

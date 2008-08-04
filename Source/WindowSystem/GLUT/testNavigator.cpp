@@ -169,7 +169,8 @@ GeometryPtr _makePlaneGeo(Real32 xsize, Real32 ysize,
         for(x = 0; x <= hor; x++)
         {
             p->push_back(Pnt3f(x * xstep - xsize / 2, ((x+y)%5) , y * ystep - ysize / 2));
-            tx->push_back(Vec2f(x / (Real32) hor, y / (Real32) vert));
+            tx->push_back(Vec2f(x / static_cast<Real32>(hor),
+                                y / static_cast<Real32>(vert) ));
         }
     }
 
@@ -211,9 +212,9 @@ GeometryPtr _makePlaneGeo(Real32 xsize, Real32 ysize,
     geo->setPositions(pnts);
     geo->setTexCoords(tex);
     geo->setIndices(index);
-    geo->getIndexMapping().push_back(Geometry::MapPosition | 
-                                    Geometry::MapNormal   |
-                                    Geometry::MapTexCoords);
+    geo->editMFIndexMapping()->push_back(Geometry::MapPosition | 
+                                         Geometry::MapNormal   |
+                                         Geometry::MapTexCoords);
     geo->setTypes(types);
     geo->setLengths(lens);
     endEditCP(geo);

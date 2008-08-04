@@ -43,7 +43,7 @@ Action::ResultE geometryEnter(CNodePtr& node, Action * action)
     
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
-    Geometry* core =  dynamic_cast<Geometry*>(n->getCore().getCPtr());
+    Geometry* core =  dynamic_cast<Geometry*>(get_pointer(n->getCore()));
 
     TriangleIterator it;
     Real32 t;
@@ -70,14 +70,14 @@ Action::ResultE transformEnter(CNodePtr& node, Action * action)
 
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
-    Transform* core =  dynamic_cast<Transform*>(n->getCore().getCPtr());
+    Transform* core =  dynamic_cast<Transform*>(get_pointer(n->getCore()));
     Matrix m = core->getMatrix();
     m.invert();
     
     Pnt3f pos;
     Vec3f dir;
-    m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
-    m.multMatrixVec( ia->getLine().getDirection(), dir );
+    m.multFull(ia->getLine().getPosition (), pos);
+    m.mult    (ia->getLine().getDirection(), dir);
     
     ia->setLine( Line( pos, dir ), ia->getMaxDist() );
     return Action::Continue; 
@@ -89,13 +89,13 @@ Action::ResultE transformLeave(CNodePtr& node, Action * action)
 
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
-    Transform* core =  dynamic_cast<Transform*>(n->getCore().getCPtr());
-    Matrix &m = core->getMatrix();
+    Transform* core =  dynamic_cast<Transform*>(get_pointer(n->getCore()));
+    Matrix &m = core->editMatrix();
     
     Pnt3f pos;
     Vec3f dir;
-    m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
-    m.multMatrixVec( ia->getLine().getDirection(), dir );
+    m.multFull(ia->getLine().getPosition (), pos);
+    m.mult    (ia->getLine().getDirection(), dir);
     
     ia->setLine( Line( pos, dir ), ia->getMaxDist() );
     return Action::Continue; 
@@ -133,7 +133,7 @@ int main (int argc, char **argv)
     NodePtr g4 = Node::create();
     TransformPtr t1 = Transform::create();
     beginEditCP(t1);
-    t1->getMatrix().setTranslate( 2,0,0 );
+    t1->editMatrix().setTranslate( 2,0,0 );
     endEditCP(t1);
     beginEditCP(g4);
     g4->setCore( t1 );

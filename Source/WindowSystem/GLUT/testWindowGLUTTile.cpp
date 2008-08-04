@@ -87,7 +87,7 @@ display(void)
 //    std::cout << tball.getRotation() << std::endl;
 
     m1.mult( m2 );
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
 
     win->draw( ract );
 }
@@ -362,11 +362,11 @@ int main (int argc, char **argv)
     SkyBackgroundPtr sbkgnd = SkyBackground::create();
 
 
-    sbkgnd->getMFSkyColor()->push_back(Color4f(1, 0, 0,0.5));
-    sbkgnd->getMFSkyAngle()->push_back(Pi / 2);
-    sbkgnd->getMFSkyColor()->push_back(Color4f(0, 1, 0,0.5));
-    sbkgnd->getMFSkyAngle()->push_back(Pi);
-    sbkgnd->getMFSkyColor()->push_back(Color4f(0, 0, 1,0.5)); 
+    sbkgnd->editMFSkyColor()->push_back(Color4f(1, 0, 0,0.5));
+    sbkgnd->editMFSkyAngle()->push_back(Pi / 2);
+    sbkgnd->editMFSkyColor()->push_back(Color4f(0, 1, 0,0.5));
+    sbkgnd->editMFSkyAngle()->push_back(Pi);
+    sbkgnd->editMFSkyColor()->push_back(Color4f(0, 0, 1,0.5)); 
 
 #else
     SolidBackgroundPtr sbkgnd = SolidBackground::create();

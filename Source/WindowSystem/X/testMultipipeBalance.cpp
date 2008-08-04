@@ -112,7 +112,8 @@ void readArgs(int argc,char **argv)
 
 int waitMapNotify(Display *, XEvent *event, char *arg)
 {
-    return( event->type == MapNotify && event->xmap.window == (::Window)arg );
+    return( event->type        == MapNotify && 
+            event->xmap.window == ::Window(arg) );
 }
 
 void openWindows(int argc,char **argv)
@@ -161,8 +162,8 @@ void openWindows(int argc,char **argv)
                  << w->dpyName << std::endl;
             exit(0);
         }
-        cmap = XCreateColormap(w->dpy, 
-                               RootWindow(w->dpy,vi->screen), 
+        cmap = XCreateColormap(w->dpy,
+                               RootWindow(w->dpy,vi->screen),
                                vi->visual, AllocNone);
         swa.colormap = cmap;
         swa.border_pixel = 0;
@@ -577,7 +578,7 @@ int main(int argc,char **argv)
         camTrans->setMatrix( tball.getFullTrackballMatrix() );
         endEditCP(camTrans);
         tileLoadBalancer->update(root);
-        tileLoadBalancer->balance(mainWindow->getPort()[0],false,region);
+        tileLoadBalancer->balance(mainWindow->getPort(0),false,region);
 #if 0        
         for(int i=0;i<region.size();i+=4)
         {

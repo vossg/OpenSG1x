@@ -43,7 +43,7 @@ display(void)
 {
     float a = glutGet( GLUT_ELAPSED_TIME );
 
-    if ( (int) ( a / 2000 ) & 1 )
+    if ( static_cast<int>( a / 2000 ) & 1 )
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     else
         glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
@@ -138,7 +138,7 @@ int main (int argc, char **argv)
     pImg2->set(Image::OSG_RGB_PF, p2size, p2size );
     
     beginEditCP(pImg2);
-    UInt8 *d = pImg2->getData();
+    UInt8 *d = pImg2->editData();
     
     for(UInt16 y = 0; y < p2size; ++y)
     {
@@ -223,7 +223,7 @@ int main (int argc, char **argv)
     glEnable( GL_LIGHT0 );
     
     dact = DrawAction::create();
-    dact->setWindow( win.getCPtr() );
+    dact->setWindow(get_pointer(win));
 
     win->init();
 

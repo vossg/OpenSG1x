@@ -110,21 +110,21 @@ key(unsigned char key, int , int )
                 break;
     case 'c':
     {
-        RenderAction *ract = (RenderAction *) mgr->getAction();
+        RenderAction *ract = dynamic_cast<RenderAction *>(mgr->getAction());
         ract->setOcclusionCulling(!ract->getOcclusionCulling());
         printf("Occlusion culling %s.\n", ract->getOcclusionCulling() ? "enabled" : "disabled");
     }
     break;
     case '1':
     {
-        RenderAction *ract = (RenderAction *) mgr->getAction();
+        RenderAction *ract = dynamic_cast<RenderAction *>(mgr->getAction());
         ract->setOcclusionCullingMode(RenderAction::OcclusionStopAndWait);
         printf("Occlusion culling mode stop and wait.\n");
     }
     break;
     case '2':
     {
-        RenderAction *ract = (RenderAction *) mgr->getAction();
+        RenderAction *ract = dynamic_cast<RenderAction *>(mgr->getAction());
         ract->setOcclusionCullingMode(RenderAction::OcclusionMultiFrame);
         printf("Occlusion culling mode multi frame.\n");
         mgr->redraw();
@@ -132,7 +132,7 @@ key(unsigned char key, int , int )
     break;
     case '3':
     {
-        RenderAction *ract = (RenderAction *) mgr->getAction();
+        RenderAction *ract = dynamic_cast<RenderAction *>(mgr->getAction());
         ract->setOcclusionCullingMode(RenderAction::OcclusionHierarchicalMultiFrame);
         printf("Occlusion culling mode hierarchical multi frame.\n");
         mgr->redraw();
@@ -192,9 +192,9 @@ int main (int argc, char **argv)
 
     WindowPtr win = mgr->getWindow();
     beginEditCP(win);
-        for(int i=0;i<win->getPort().size();++i)
+        for(int i = 0; i < win->getMFPort()->size(); ++i)
         {
-            ViewportPtr vp = win->getPort()[i];
+            ViewportPtr vp = win->getPort(i);
             beginEditCP(vp);
                 vp->setBackground(gback);
             endEditCP(vp);
@@ -202,7 +202,7 @@ int main (int argc, char **argv)
     endEditCP(win);
 
     // enable occlusion culling.
-    RenderAction *ract = (RenderAction *) mgr->getAction();
+    RenderAction *ract = dynamic_cast<RenderAction *>(mgr->getAction());
     ract->setOcclusionCulling(true);
     ract->setOcclusionCullingMode(RenderAction::OcclusionMultiFrame);
     printf("Occlusion culling enabled in mode multi frame.\n");

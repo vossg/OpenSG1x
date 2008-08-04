@@ -123,7 +123,7 @@ int main(int argc, char **argv)
     {
         useStandardScene = true;
         animateScene = true;
-        //Erstellen der benötigten Komponenten--------------------------------------
+        //Erstellen der benï¿½tigten Komponenten--------------------------------------
 
         rootNode = makeCoredNode<Group>();
         NodePtr             scene = makeCoredNode<Group>();
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
         NodePtr             point1_beacon = makeCoredNode<Transform>
             (&point1_trans);
         beginEditCP(point1_trans);
-        point1_trans->getMatrix().setTranslate(0.0, 0.0, 100.0);
+        point1_trans->editMatrix().setTranslate(0.0, 0.0, 100.0);
         endEditCP(point1_trans);
 
         beginEditCP(_point1_core);
@@ -152,7 +152,7 @@ int main(int argc, char **argv)
         NodePtr             point2_beacon = makeCoredNode<Transform>
             (&point2_trans);
         beginEditCP(point2_trans);
-        point2_trans->getMatrix().setTranslate(20.0, -30.0, 100.0);
+        point2_trans->editMatrix().setTranslate(20.0, -30.0, 100.0);
         endEditCP(point2_trans);
 
         beginEditCP(_point2_core);
@@ -169,7 +169,7 @@ int main(int argc, char **argv)
         NodePtr             point3_beacon = makeCoredNode<Transform>
             (&point3_trans);
         beginEditCP(point3_trans);
-        point3_trans->getMatrix().setTranslate(10.0, -15.0, 100.0);
+        point3_trans->editMatrix().setTranslate(10.0, -15.0, 100.0);
         endEditCP(point3_trans);
 
         beginEditCP(_point3_core);
@@ -186,7 +186,7 @@ int main(int argc, char **argv)
         NodePtr             point4_beacon = makeCoredNode<Transform>
             (&point4_trans);
         beginEditCP(point4_trans);
-        point4_trans->getMatrix().setTranslate(35.0, -45.0, 100.0);
+        point4_trans->editMatrix().setTranslate(35.0, -45.0, 100.0);
         endEditCP(point4_trans);
 
         beginEditCP(_point4_core);
@@ -203,7 +203,7 @@ int main(int argc, char **argv)
         NodePtr             point5_beacon = makeCoredNode<Transform>
             (&point5_trans);
         beginEditCP(point5_trans);
-        point5_trans->getMatrix().setTranslate(40.0, -60.0, 100.0);
+        point5_trans->editMatrix().setTranslate(40.0, -60.0, 100.0);
         endEditCP(point5_trans);
 
         beginEditCP(_point5_core);
@@ -220,7 +220,7 @@ int main(int argc, char **argv)
         NodePtr             point6_beacon = makeCoredNode<Transform>
             (&point6_trans);
         beginEditCP(point6_trans);
-        point6_trans->getMatrix().setTranslate(17.0, -55.0, 100.0);
+        point6_trans->editMatrix().setTranslate(17.0, -55.0, 100.0);
         endEditCP(point6_trans);
 
         beginEditCP(_point6_core);
@@ -237,7 +237,7 @@ int main(int argc, char **argv)
         NodePtr             point7_beacon = makeCoredNode<Transform>
             (&point7_trans);
         beginEditCP(point7_trans);
-        point7_trans->getMatrix().setTranslate(5.0, -42.0, 100.0);
+        point7_trans->editMatrix().setTranslate(5.0, -42.0, 100.0);
         endEditCP(point7_trans);
 
         beginEditCP(_point7_core);
@@ -315,7 +315,7 @@ int main(int argc, char **argv)
         NodePtr             box_trans_node = makeCoredNode<Transform>
             (&_box_trans);
         beginEditCP(_box_trans);
-        _box_trans->getMatrix().setTranslate(0.0, 0.0, 2.0);
+        _box_trans->editMatrix().setTranslate(0.0, 0.0, 2.0);
         endEditCP(_box_trans);
         NodePtr             box = makeBox(8.0, 8.0, 0.8, 10, 10, 10);
         beginEditCP(box_trans_node);
@@ -341,8 +341,8 @@ int main(int argc, char **argv)
 
         beginEditCP(_cylinder1_trans);
         q.setValueAsAxisDeg(1, 1, 0, 145.0);
-        _cylinder1_trans->getMatrix().setRotate(q);
-        _cylinder1_trans->getMatrix().setTranslate(0.0, 0.0, 5.0);
+        _cylinder1_trans->editMatrix().setRotate(q);
+        _cylinder1_trans->editMatrix().setTranslate(0.0, 0.0, 5.0);
         endEditCP(_cylinder1_trans);
 
         NodePtr             cylinder1 = OSG::makeCylinder(30.0, 0.9, 32, true,
@@ -367,7 +367,7 @@ int main(int argc, char **argv)
         NodePtr             cylinder2_trans_node = makeCoredNode<Transform>
             (&_cylinder2_trans);
         beginEditCP(_cylinder2_trans);
-        _cylinder2_trans->getMatrix().setTranslate(10.0, 0.0, 10.0);
+        _cylinder2_trans->editMatrix().setTranslate(10.0, 0.0, 10.0);
         endEditCP(_cylinder2_trans);
         NodePtr             cylinder2 = OSG::makeBox(4.0, 4.0, 1.0, 4, 4, 4);
         beginEditCP(cylinder2_trans_node);
@@ -459,13 +459,13 @@ int main(int argc, char **argv)
     if(argv[1] == NULL)
     {
         svp->setAutoSearchForLights(false);
-        svp->getLightNodes().push_back(point1);
-        svp->getLightNodes().push_back(point2);
-        svp->getLightNodes().push_back(point3);
-        svp->getLightNodes().push_back(point4);
-        svp->getLightNodes().push_back(point5);
-        svp->getLightNodes().push_back(point6);
-        svp->getLightNodes().push_back(point7);
+        svp->editMFLightNodes()->push_back(point1);
+        svp->editMFLightNodes()->push_back(point2);
+        svp->editMFLightNodes()->push_back(point3);
+        svp->editMFLightNodes()->push_back(point4);
+        svp->editMFLightNodes()->push_back(point5);
+        svp->editMFLightNodes()->push_back(point6);
+        svp->editMFLightNodes()->push_back(point7);
         svp->setOffFactor(4.0);
         svp->setOffBias(8.0);
     }
@@ -499,7 +499,7 @@ int main(int argc, char **argv)
 
     startFpsCounter();
 
-    ((RenderAction *)mgr->getAction())->setLocalLights(true);
+    dynamic_cast<RenderAction *>(mgr->getAction())->setLocalLights(true);
     mgr->turnHeadlightOff();
 
     mgr->showAll();
@@ -546,11 +546,11 @@ void Animate()
 
         beginEditCP(_cylinder1_trans);
         q.setValueAsAxisDeg(1, 0, 0, rotc1);
-        _cylinder1_trans->getMatrix().setRotate(q);
+        _cylinder1_trans->editMatrix().setRotate(q);
         endEditCP(_cylinder1_trans);
 
         beginEditCP(_cylinder2_trans);
-        _cylinder2_trans->getMatrix().setTranslate(10.0, 0.0, 10.0 +
+        _cylinder2_trans->editMatrix().setTranslate(10.0, 0.0, 10.0 +
                                                    (9.0 * sin(rotb / 10.0)));
         endEditCP(_cylinder2_trans);
 

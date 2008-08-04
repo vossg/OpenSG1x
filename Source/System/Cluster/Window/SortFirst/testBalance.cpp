@@ -83,14 +83,14 @@ void setFixCrossRegions( Int32 count,
     {
         nyA=y2;
         nyB=y1;
-        nxA=x1+UInt32((x2-x1)*c1/(float)count);
+        nxA=x1 + UInt32((x2-x1) * c1 / static_cast<float>(count));
         nxB=nxA+1;
     }
     else
     {
         nxA=x2;
         nxB=x1;
-        nyA=y1+UInt32((y2-y1)*c1/(float)count);
+        nyA=y1 + UInt32((y2-y1) * c1 / static_cast<float>(count));
         nyB=nyA+1;
     }
     setFixCrossRegions(c1,x1,y1,nxA,nyA,cutX^1,region);
@@ -142,16 +142,16 @@ public:
             Real32 a;
             UInt32 i;
             Vec3f v;
-            i=(UInt32)animTime;
+            i=static_cast<UInt32>(animTime);
             a=animTime-i;
             v=animPos[i] + (animPos[i+1] - animPos[i]) * a; 
-            _cart->getMatrix().setTranslate(v[0],v[1],v[2]);
-            _cart->getMatrix().setRotate(
+            _cart->editMatrix().setTranslate(v[0],v[1],v[2]);
+            _cart->editMatrix().setRotate(
                 Quaternion::slerp(animOri[i],animOri[i+1],a));
         }
         else
         {
-            _cart->getSFMatrix()->setValue(_navigator.getMatrix());    
+            _cart->editSFMatrix()->setValue(_navigator.getMatrix());    
         }
         updateHighlight();
         if(navigate)
@@ -169,7 +169,7 @@ public:
             rn.determinePerformance(_win);
             rn.dump();
             currentServers=0;
-            _win->getPort().resize(1);
+            _win->editMFPort()->resize(1);
         }
         if(currentServers < serverCount)
         {
@@ -177,7 +177,7 @@ public:
             addRefCP(ovp);
             addRefCP(ovp);
             TileCameraDecoratorPtr deco;
-            for(int i=_win->getPort().size()-1;i<serverCount;i++)
+            for(int i=_win->getMFPort()->size()-1;i<serverCount;i++)
             {
                 currentServers++;
                 tileLoadBalancer->addRenderNode(rn,i);
@@ -193,7 +193,7 @@ public:
                     beginEditCP(vp);
                     vp->setRoot      ( ovp->getRoot()       );
                     vp->setBackground( ovp->getBackground() );
-                    vp->getMFForegrounds()->setValues( ovp->getForegrounds() );
+                    vp->editMFForegrounds()->setValues( *(ovp->getMFForegrounds()) );
                     vp->setCamera(deco);
                     _win->addPort(vp);
                     endEditCP(_win);
@@ -203,7 +203,7 @@ public:
             }
         }
         tbalance = -getSystemTime();
-        tileLoadBalancer->update(_win->getPort()[0]->getRoot());
+        tileLoadBalancer->update(_win->getPort(0)->getRoot());
         if(useFixCrossRegions)
         {
             setFixCrossRegions( serverCount,
@@ -225,7 +225,7 @@ public:
             }
             else
             {
-                tileLoadBalancer->balance(_win->getPort()[0],false,region);
+                tileLoadBalancer->balance(_win->getPort(0),false,region);
             }
         }
         tbalance += getSystemTime();
@@ -235,7 +235,7 @@ public:
             TileCameraDecoratorPtr deco;
             for(i=0;i<region.size();++i)
             {
-                vp=_win->getPort()[i+1];
+                vp=_win->getPort(i+1);
                 deco=TileCameraDecoratorPtr::dcast(vp->getCamera());
                 beginEditCP(deco);
                 beginEditCP(vp);
@@ -243,10 +243,10 @@ public:
                             region[i].y1,
                             region[i].x2,
                             region[i].y2);
-                deco->setSize(region[i].x1/(float)_win->getWidth(),
-                              region[i].y1/(float)_win->getHeight(),
-                              region[i].x2/(float)_win->getWidth(),
-                              region[i].y2/(float)_win->getHeight());
+                deco->setSize(region[i].x1/static_cast<float>(_win->getWidth()),
+                              region[i].y1/static_cast<float>(_win->getHeight()),
+                              region[i].x2/static_cast<float>(_win->getWidth()),
+                              region[i].y2/static_cast<float>(_win->getHeight()));
                 endEditCP(deco);
                 endEditCP(vp);
             }
@@ -254,7 +254,7 @@ public:
         Time t;
         if(setRegionStatistics)
         {
-            tileLoadBalancer->setRegionStatistics(_win->getPort()[0],
+            tileLoadBalancer->setRegionStatistics(_win->getPort(0),
                                                   region);
             for(i=0;i<region.size();++i)
             {
@@ -282,11 +282,11 @@ public:
             sum_pmax    +=pmax;
 
         }
-        for(i=0;i<_win->getPort().size();++i)
+        for(i = 0; i < _win->getMFPort()->size(); ++i)
         {
-            if(i==0 && _win->getPort().size() >1)
+            if(i == 0 && _win->getMFPort()->size() > 1)
                 continue;
-            _action->setWindow( _win.getCPtr() );
+            _action->setWindow(get_pointer(_win));
             _action->setStatistics( &stats );
             _win->getPort(i)->render( _action );
             _action->setStatistics( NULL );
@@ -379,7 +379,7 @@ public:
             glPixelStorei(GL_PACK_ALIGNMENT,1);
             glReadPixels(0,0,w,h,
                          GL_RGB,GL_UNSIGNED_BYTE,
-                         pImage->getData());
+                         pImage->editData());
             imgTransType->write(pImage,filename);
 
             subRefCP(pImage);
@@ -417,7 +417,7 @@ void display( void )
     {
         if(animate)
         {
-            animTime+=animPos.size()/(double)animFrames;
+            animTime += animPos.size() / static_cast<double>(animFrames);
             if(animTime<(animPos.size()-1))
                 return;
             animTime=0;
@@ -549,7 +549,7 @@ void key(unsigned char key, int , int )
             fprintf(file,"DEF OriInter OrientationInterpolator {\n\tkey [");
             for(size_t i = 0; i < animOri.size(); ++i)
             {               
-                fprintf(file, "%f", i / (Real32)(animOri.size() - 1) );
+                fprintf(file, "%f", i / Real32(animOri.size() - 1) );
                 if(i < animOri.size() - 1)
                     fprintf(file,", ");
             }
@@ -570,7 +570,7 @@ void key(unsigned char key, int , int )
             fprintf(file,"DEF PosInter PositionInterpolator {\n\tkey [");
             for(size_t i = 0; i < animPos.size(); ++i)
             {               
-                fprintf(file, "%f", i / (Real32)(animPos.size() - 1) );
+                fprintf(file, "%f", i / Real32(animPos.size() - 1) );
                 if(i < animPos.size() - 1)
                     fprintf(file,", ");
             }
@@ -738,7 +738,7 @@ int main (int argc, char **argv)
                         beginEditCP(node);
                         
                         node->setCore(trans);
-                        trans->getMatrix().setTranslate(x,y,z);
+                        trans->editMatrix().setTranslate(x,y,z);
                         if(!filename)
                         {
                             geoNode=Node::create();

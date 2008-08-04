@@ -165,7 +165,7 @@ int main(int argc, char **argv)
     vp->setBottom(0);
     vp->setTop(1);
     
-    vp->getForegrounds().push_back(tg);
+    vp->editMFForegrounds()->push_back(tg);
     
     endEditCP  (vp);
     

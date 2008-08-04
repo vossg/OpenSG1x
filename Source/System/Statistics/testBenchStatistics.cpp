@@ -21,7 +21,7 @@ int main (int argc, char **argv)
     StatCollector collector;
     UInt32 count = 100000,i;
     Time start,stop;
-    DrawActionBaseP dummy = (DrawActionBaseP) DrawActionBase::create();
+    DrawActionBaseP dummy = static_cast<DrawActionBaseP>(DrawActionBase::create());
     dummy->setStatistics(&collector);
     
     start = getSystemTime();

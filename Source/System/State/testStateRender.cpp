@@ -34,7 +34,7 @@ display(void)
     m.setTranslate( cos(t/1000), 0, sin(t/1000) );
     tchunk2->setMatrix( m );
 
-    state2->changeFrom(  dact ,state1.getCPtr() );
+    state2->changeFrom(dact, get_pointer(state1));
 
     glCallList( dlid );
 

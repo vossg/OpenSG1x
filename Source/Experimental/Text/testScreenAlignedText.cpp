@@ -151,7 +151,7 @@ int main(int argc, char **argv)
 					scaText->setFont( pFSWrapper );
 					scaText->setVerticalLineDistance( 0.20 );
 					scaText->setAlignment( 0 );
-					scaText->getText().push_back( cString.str() );
+					scaText->editMFText()->push_back( cString.str() );
 					scaText->setMaterial( mat );
 				}
 				endEditCP(scaText);

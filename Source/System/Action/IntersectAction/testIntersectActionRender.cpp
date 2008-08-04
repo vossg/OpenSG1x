@@ -65,7 +65,7 @@ Action::ResultE geometryEnter(CNodePtr& node, Action * action)
 { 
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
-    Geometry* core =  dynamic_cast<Geometry*>(n->getCore().getCPtr());
+    Geometry* core =  dynamic_cast<Geometry*>(get_pointer(n->getCore()));
 
     TriangleIterator it;
     Real32 t;
@@ -90,14 +90,14 @@ Action::ResultE transformEnter(CNodePtr& node, Action * action)
 { 
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
-    Transform* core =  dynamic_cast<Transform*>(n->getCore().getCPtr());
+    Transform* core =  dynamic_cast<Transform*>(get_pointer(n->getCore()));
     Matrix m = core->getMatrix();
     m.invert();
     
     Pnt3f pos;
     Vec3f dir;
-    m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
-    m.multMatrixVec( ia->getLine().getDirection(), dir );
+    m.multFull(ia->getLine().getPosition (), pos);
+    m.mult    (ia->getLine().getDirection(), dir);
     
     ia->setLine( Line( pos, dir ), ia->getMaxDist() );
     return Action::Continue; 
@@ -107,13 +107,13 @@ Action::ResultE transformLeave(CNodePtr& node, Action * action)
 { 
     IntersectAction * ia = dynamic_cast<IntersectAction*>(action);
     NodePtr n( node );
-    Transform* core =  dynamic_cast<Transform*>(n->getCore().getCPtr());
-    Matrix &m = core->getMatrix();
+    Transform* core =  dynamic_cast<Transform*>(get_pointer(n->getCore()));
+    Matrix &m = core->editMatrix();
     
     Pnt3f pos;
     Vec3f dir;
-    m.multFullMatrixPnt( ia->getLine().getPosition(), pos );
-    m.multMatrixVec( ia->getLine().getDirection(), dir );
+    m.multFull(ia->getLine().getPosition (), pos);
+    m.mult    (ia->getLine().getDirection(), dir);
     
     ia->setLine( Line( pos, dir ), ia->getMaxDist() );
     return Action::Continue; 
@@ -150,8 +150,8 @@ void key( unsigned char key, int , int )
          << act->getLine().getDirection() << " hit: " << act->didHit() << " ";
 
     beginEditCP(points);
-    points->setValue( pnts[i], 0 );
-    points->setValue( pnts[i] + (dirs[i])*(Real32)(3.0), 1 );
+    points->setValue( pnts[i],                           0 );
+    points->setValue( pnts[i] + (dirs[i] * Real32(3.0)), 1 );
 
     if ( act->didHit() )
     {
@@ -166,13 +166,13 @@ void key( unsigned char key, int , int )
         act->getHitObject()->getToWorld(m);
 
         Pnt3f p = it.getPosition(0);
-        m.multMatrixPnt( p );
+        m.mult(p, p);
         points->setValue( p, 2 );
         p = it.getPosition(1);
-        m.multMatrixPnt( p );
+        m.mult(p, p);
         points->setValue( p, 3 );
         p = it.getPosition(2);
-        m.multMatrixPnt( p );
+        m.mult(p, p);
         points->setValue( p, 4 );
     }
     else
@@ -265,7 +265,7 @@ int main (int argc, char **argv)
     NodePtr g4 = Node::create();
     TransformPtr t1 = Transform::create();
     beginEditCP(t1);
-    t1->getMatrix().setRotate( Quaternion( Vec3f(1,0,0), 30 ) );
+    t1->editMatrix().setRotate( Quaternion( Vec3f(1,0,0), 30 ) );
     endEditCP(t1);
     beginEditCP(g4);
     g4->setCore( t1 );

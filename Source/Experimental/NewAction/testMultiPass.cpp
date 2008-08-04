@@ -336,7 +336,7 @@ buildGraphRecurse(UInt32 depth, UInt32 maxDepth, UInt32 &count, GeometryPtr pGeo
                                 Node::TravMaskFieldId                      );
 
         beginEditCP(pSwitch, Switch::ChoiceFieldId);
-        pSwitch->getChoice() = Switch::ALL;
+        pSwitch->editChoice() = Switch::ALL;
         endEditCP  (pSwitch, Switch::ChoiceFieldId);
 
         beginEditCP(pNodeSwitch, Node::CoreFieldId | Node::ChildrenFieldId);
@@ -382,7 +382,7 @@ buildGraphRecurse(UInt32 depth, UInt32 maxDepth, UInt32 &count, GeometryPtr pGeo
             }
 
             beginEditCP(pTrans, Transform::MatrixFieldId);
-            pTrans->getMatrix().setTranslate(vecTrans);
+            pTrans->editMatrix().setTranslate(vecTrans);
             endEditCP  (pTrans, Transform::MatrixFieldId);
 
             beginEditCP(pNodeTrans, Node::CoreFieldId | Node::ChildrenFieldId);

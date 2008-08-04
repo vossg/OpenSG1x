@@ -186,9 +186,9 @@ int main(int argc, char **argv)
 
     MFPnt3f* p=pnts->getFieldPtr();
     MFPnt3f* sp=secpnts->getFieldPtr();
-    MFVec3f *size=particles->getMFSizes();
+    MFVec3f *size=particles->editMFSizes();
 
-    indices = particles->getMFIndices();
+    indices = particles->editMFIndices();
     
     velocities=new Vec3f [numParticles];
     
@@ -260,12 +260,18 @@ int main(int argc, char **argv)
  
     // set volume static to prevent constant update
     beginEditCP(pnode, Node::VolumeFieldMask);
-    Volume &v=pnode->getVolume(false).getInstance();
+#ifndef OSG_2_PREP
+    Volume &v = pnode->editVolume(false).getInstance();
+#else
+    Volume &v = pnode->editVolume(false);
+#endif
     v.setEmpty();
     v.extendBy(Pnt3f(0,0,0));
     v.extendBy(Pnt3f(1,1,1));
     v.setStatic();
-    ((DynamicVolume&)pnode->getVolume()).instanceChanged();
+#ifndef OSG_2_PREP
+    pnode->editVolume(false).instanceChanged();
+#endif
     endEditCP  (pnode, Node::VolumeFieldMask);
   
     SimpleTexturedMaterialPtr tm;
@@ -395,7 +401,7 @@ void idle(void)
         indices->resize(pnts->getSize() / 2);
         for(UInt32 i = 0; i < pnts->getSize() / 2; ++i)
         {
-            (*indices)[i] = (UInt32)(osgrand() * 2 - 1) * pnts->getSize();
+            (*indices)[i] = static_cast<UInt32>(osgrand() * 2 - 1) * pnts->getSize();
         }
         endEditCP  (particles, Particles::IndicesFieldMask);     
     }
@@ -553,7 +559,7 @@ void keyboard(unsigned char k, int , int )
                 break;
     case 'b':   {
                 ParticleBSPTree bsp;
-                bsp.build(particles.getCPtr());
+                bsp.build(get_pointer(particles));
                 bsp.dump();
                 
                 // ASCII

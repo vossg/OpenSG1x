@@ -101,7 +101,7 @@ int main(int argc, char **argv)
     int                     winid = setupGLUT(&argc, argv);
     gwin = GLUTWindow::create();
 
-    //Erstellen der benötigten Komponenten--------------------------------------
+    //Erstellen der benï¿½tigten Komponenten--------------------------------------
 
     rootNode = makeCoredNode<Group>();
     NodePtr                 scene = makeCoredNode<Group>();
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
        NodePtr dir1 = makeCoredNode<DirectionalLight>(&_dir1_core);
        NodePtr dir1_beacon = makeCoredNode<Transform>(&dir1_trans);
        beginEditCP(dir1_trans);
-       dir1_trans->getMatrix().setTranslate(0.0, 0.0, 0.0);
+       dir1_trans->editMatrix().setTranslate(0.0, 0.0, 0.0);
        endEditCP(dir1_trans);
        
        beginEditCP(_dir1_core);
@@ -131,7 +131,7 @@ int main(int argc, char **argv)
     NodePtr                 dir1_beacon = makeCoredNode<Transform>
         (&dir1_trans);
     beginEditCP(dir1_trans);
-    dir1_trans->getMatrix().setTranslate(350.0, 300.0, 300.0);
+    dir1_trans->editMatrix().setTranslate(350.0, 300.0, 300.0);
     endEditCP(dir1_trans);
 
     beginEditCP(_dir1_core);
@@ -148,8 +148,8 @@ int main(int argc, char **argv)
        NodePtr dir2 = makeCoredNode<SpotLight>(&_dir2_core);
        NodePtr dir2_beacon = makeCoredNode<Transform>(&dir2_trans);
        beginEditCP(dir2_trans);
-       //dir2_trans->getMatrix().setTranslate(75.0, 0.0, 25.0);
-       dir2_trans->getMatrix().setTranslate(250.0, -250.0, 300.0);
+       //dir2_trans->editMatrix().setTranslate(75.0, 0.0, 25.0);
+       dir2_trans->editMatrix().setTranslate(250.0, -250.0, 300.0);
        endEditCP(dir2_trans);
        
        beginEditCP(_dir2_core);
@@ -168,7 +168,7 @@ int main(int argc, char **argv)
     NodePtr                 dir2_beacon = makeCoredNode<Transform>
         (&dir2_trans);
     beginEditCP(dir2_trans);
-    dir2_trans->getMatrix().setTranslate(40.0, 0.0, 40.0);
+    dir2_trans->editMatrix().setTranslate(40.0, 0.0, 40.0);
     endEditCP(dir2_trans);
 
     beginEditCP(_dir2_core);
@@ -193,7 +193,7 @@ int main(int argc, char **argv)
     Pcamera = PerspectiveCamera::create();
     cam_beacon = makeCoredNode<Transform>(&cam_trans);
     beginEditCP(cam_trans);
-    cam_trans->getMatrix().setTranslate(0.0, 0.0, 25.0);
+    cam_trans->editMatrix().setTranslate(0.0, 0.0, 25.0);
     endEditCP(cam_trans);
 
     beginEditCP(Pcamera);
@@ -256,48 +256,48 @@ int main(int argc, char **argv)
         (&_tree9_trans);
 
     beginEditCP(_tree1_trans);
-    _tree1_trans->getMatrix().setTranslate(-80.0, -80.0, 0.0);
-    _tree1_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree1_trans->editMatrix().setTranslate(-80.0, -80.0, 0.0);
+    _tree1_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree1_trans);
 
     beginEditCP(_tree2_trans);
-    _tree2_trans->getMatrix().setTranslate(0.0, -80.0, 0.0);
-    _tree2_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree2_trans->editMatrix().setTranslate(0.0, -80.0, 0.0);
+    _tree2_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree2_trans);
 
     beginEditCP(_tree3_trans);
-    _tree3_trans->getMatrix().setTranslate(80.0, -80.0, 0.0);
-    _tree3_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree3_trans->editMatrix().setTranslate(80.0, -80.0, 0.0);
+    _tree3_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree3_trans);
 
     beginEditCP(_tree4_trans);
-    _tree4_trans->getMatrix().setTranslate(-80.0, 0.0, 0.0);
-    _tree4_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree4_trans->editMatrix().setTranslate(-80.0, 0.0, 0.0);
+    _tree4_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree4_trans);
 
     beginEditCP(_tree5_trans);
-    _tree5_trans->getMatrix().setTranslate(0.0, 0.0, 0.0);
-    _tree5_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree5_trans->editMatrix().setTranslate(0.0, 0.0, 0.0);
+    _tree5_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree5_trans);
 
     beginEditCP(_tree6_trans);
-    _tree6_trans->getMatrix().setTranslate(80.0, 0.0, 0.0);
-    _tree6_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree6_trans->editMatrix().setTranslate(80.0, 0.0, 0.0);
+    _tree6_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree6_trans);
 
     beginEditCP(_tree7_trans);
-    _tree7_trans->getMatrix().setTranslate(-80.0, 80.0, 0.0);
-    _tree7_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree7_trans->editMatrix().setTranslate(-80.0, 80.0, 0.0);
+    _tree7_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree7_trans);
 
     beginEditCP(_tree8_trans);
-    _tree8_trans->getMatrix().setTranslate(0.0, 80.0, 0.0);
-    _tree8_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree8_trans->editMatrix().setTranslate(0.0, 80.0, 0.0);
+    _tree8_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree8_trans);
 
     beginEditCP(_tree9_trans);
-    _tree9_trans->getMatrix().setTranslate(80.0, 80.0, 0.0);
-    _tree9_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree9_trans->editMatrix().setTranslate(80.0, 80.0, 0.0);
+    _tree9_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree9_trans);
 
     NodePtr                 tree1 = SceneFileHandler::the().read("tree1.3ds");
@@ -357,8 +357,8 @@ int main(int argc, char **argv)
        NodePtr obj1_trans_node = makeCoredNode<Transform>(&_obj1_trans);
        
        beginEditCP(_obj1_trans);
-       _obj1_trans->getMatrix().setTranslate(0.0, 0.0, 10.0);
-       _obj1_trans->getMatrix().setScale(Vec3f(0.15,0.15,0.15));
+       _obj1_trans->editMatrix().setTranslate(0.0, 0.0, 10.0);
+       _obj1_trans->editMatrix().setScale(Vec3f(0.15,0.15,0.15));
        endEditCP(_obj1_trans);
        
        NodePtr object1 = SceneFileHandler::the().read("triplane.3ds");
@@ -403,23 +403,23 @@ int main(int argc, char **argv)
         (&_dino4_trans);
 
     beginEditCP(_dino1_trans);
-    _dino1_trans->getMatrix().setTranslate(-20.0, -20.0, 10.0);
-    _dino1_trans->getMatrix().setScale(Vec3f(5.0, 5.0, 5.0));
+    _dino1_trans->editMatrix().setTranslate(-20.0, -20.0, 10.0);
+    _dino1_trans->editMatrix().setScale(Vec3f(5.0, 5.0, 5.0));
     endEditCP(_dino1_trans);
 
     beginEditCP(_dino2_trans);
-    _dino2_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
-    _dino2_trans->getMatrix().setScale(Vec3f(3.0, 3.0, 3.0));
+    _dino2_trans->editMatrix().setTranslate(-20.0, -20.0, 6.0);
+    _dino2_trans->editMatrix().setScale(Vec3f(3.0, 3.0, 3.0));
     endEditCP(_dino2_trans);
 
     beginEditCP(_dino3_trans);
-    _dino3_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
-    _dino3_trans->getMatrix().setScale(Vec3f(3.0, 3.0, 3.0));
+    _dino3_trans->editMatrix().setTranslate(-20.0, -20.0, 6.0);
+    _dino3_trans->editMatrix().setScale(Vec3f(3.0, 3.0, 3.0));
     endEditCP(_dino3_trans);
 
     beginEditCP(_dino4_trans);
-    _dino4_trans->getMatrix().setTranslate(-20.0, -20.0, 6.0);
-    _dino4_trans->getMatrix().setScale(Vec3f(3.0, 3.0, 3.0));
+    _dino4_trans->editMatrix().setTranslate(-20.0, -20.0, 6.0);
+    _dino4_trans->editMatrix().setScale(Vec3f(3.0, 3.0, 3.0));
     endEditCP(_dino4_trans);
 
     NodePtr                 dino1 = SceneFileHandler::the().read(
@@ -476,50 +476,50 @@ int main(int argc, char **argv)
         (&_stone_trans9);
 
     beginEditCP(_stone_trans1);
-    _stone_trans1->getMatrix().setTranslate(-70, -70, 0);
+    _stone_trans1->editMatrix().setTranslate(-70, -70, 0);
     endEditCP(_stone_trans1);
 
     beginEditCP(_stone_trans2);
-    _stone_trans2->getMatrix().setTranslate(10, -70, 0);
+    _stone_trans2->editMatrix().setTranslate(10, -70, 0);
     endEditCP(_stone_trans2);
 
     beginEditCP(_stone_trans3);
-    _stone_trans3->getMatrix().setTranslate(90, -70, 0);
+    _stone_trans3->editMatrix().setTranslate(90, -70, 0);
     endEditCP(_stone_trans3);
 
     beginEditCP(_stone_trans4);
-    _stone_trans4->getMatrix().setTranslate(-70, 10, 0);
+    _stone_trans4->editMatrix().setTranslate(-70, 10, 0);
     endEditCP(_stone_trans4);
 
     beginEditCP(_stone_trans5);
-    _stone_trans5->getMatrix().setTranslate(10, 10, 0);
+    _stone_trans5->editMatrix().setTranslate(10, 10, 0);
     endEditCP(_stone_trans5);
 
     beginEditCP(_stone_trans6);
-    _stone_trans6->getMatrix().setTranslate(90, 10, 0);
+    _stone_trans6->editMatrix().setTranslate(90, 10, 0);
     endEditCP(_stone_trans6);
 
     beginEditCP(_stone_trans7);
-    _stone_trans7->getMatrix().setTranslate(-70, 90, 0);
+    _stone_trans7->editMatrix().setTranslate(-70, 90, 0);
     endEditCP(_stone_trans7);
 
     beginEditCP(_stone_trans8);
-    _stone_trans8->getMatrix().setTranslate(10, 90, 0);
+    _stone_trans8->editMatrix().setTranslate(10, 90, 0);
     endEditCP(_stone_trans8);
 
     beginEditCP(_stone_trans9);
-    _stone_trans9->getMatrix().setTranslate(90, 90, 0);
+    _stone_trans9->editMatrix().setTranslate(90, 90, 0);
     endEditCP(_stone_trans9);
 
-    NodePtr                 stone1 = makeSphere(1.0, 7.0);
-    NodePtr                 stone2 = makeSphere(1.0, 7.0);
-    NodePtr                 stone3 = makeSphere(1.0, 7.0);
-    NodePtr                 stone4 = makeSphere(1.0, 7.0);
-    NodePtr                 stone5 = makeSphere(1.0, 7.0);
-    NodePtr                 stone6 = makeSphere(1.0, 7.0);
-    NodePtr                 stone7 = makeSphere(1.0, 7.0);
-    NodePtr                 stone8 = makeSphere(1.0, 7.0);
-    NodePtr                 stone9 = makeSphere(1.0, 7.0);
+    NodePtr                 stone1 = makeSphere(1, 7.0);
+    NodePtr                 stone2 = makeSphere(1, 7.0);
+    NodePtr                 stone3 = makeSphere(1, 7.0);
+    NodePtr                 stone4 = makeSphere(1, 7.0);
+    NodePtr                 stone5 = makeSphere(1, 7.0);
+    NodePtr                 stone6 = makeSphere(1, 7.0);
+    NodePtr                 stone7 = makeSphere(1, 7.0);
+    NodePtr                 stone8 = makeSphere(1, 7.0);
+    NodePtr                 stone9 = makeSphere(1, 7.0);
 
     ImagePtr                plane_img2 = Image::create();
     plane_img2->read("stone.jpg");
@@ -677,9 +677,9 @@ int main(int argc, char **argv)
     //ShadowSmoothness also used to define the light size for PCSS_SHADOW_MAP
     svp->setShadowSmoothness(0.5);
     // add light sources here
-    svp->getLightNodes().push_back(dir1);
-    svp->getLightNodes().push_back(dir2);
-    svp->getExcludeNodes().push_back(obj1_trans_node);
+    svp->editMFLightNodes  ()->push_back(dir1);
+    svp->editMFLightNodes  ()->push_back(dir2);
+    svp->editMFExcludeNodes()->push_back(obj1_trans_node);
     //svp->setAutoSearchForLights(true);
     endEditCP(svp);
 
@@ -733,7 +733,7 @@ int main(int argc, char **argv)
     //activate Framecounter
     startFpsCounter();
 
-    ((RenderAction *)mgr->getAction())->setLocalLights(true);
+    dynamic_cast<RenderAction *>(mgr->getAction())->setLocalLights(true);
     mgr->turnHeadlightOff();
 
     mgr->showAll();
@@ -774,7 +774,7 @@ void Animate()
         rotd -= 360.0;
 
     //beginEditCP(dir2_trans);
-    //    dir2_trans->getMatrix().setTranslate(-100.0*sin(rota),-100.0*cos(rota), 250.0);
+    //    dir2_trans->editMatrix().setTranslate(-100.0*sin(rota),-100.0*cos(rota), 250.0);
     //endEditCP(dir2_trans);
 
     //animate Trees
@@ -782,72 +782,72 @@ void Animate()
 
     beginEditCP(_tree1_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rota));
-    _tree1_trans->getMatrix().setRotate(q);
-    _tree1_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree1_trans->editMatrix().setRotate(q);
+    _tree1_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree1_trans);
 
     q.setIdentity();
 
     beginEditCP(_tree2_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
-    _tree2_trans->getMatrix().setRotate(q);
-    _tree2_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree2_trans->editMatrix().setRotate(q);
+    _tree2_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree2_trans);
 
     q.setIdentity();
 
     beginEditCP(_tree3_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
-    _tree3_trans->getMatrix().setRotate(q);
-    _tree3_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree3_trans->editMatrix().setRotate(q);
+    _tree3_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree3_trans);
 
     q.setIdentity();
 
     beginEditCP(_tree4_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
-    _tree4_trans->getMatrix().setRotate(q);
-    _tree4_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree4_trans->editMatrix().setRotate(q);
+    _tree4_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree4_trans);
 
     q.setIdentity();
 
     beginEditCP(_tree5_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
-    _tree5_trans->getMatrix().setRotate(q);
-    _tree5_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree5_trans->editMatrix().setRotate(q);
+    _tree5_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree5_trans);
 
     q.setIdentity();
 
     beginEditCP(_tree6_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
-    _tree6_trans->getMatrix().setRotate(q);
-    _tree6_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree6_trans->editMatrix().setRotate(q);
+    _tree6_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree6_trans);
 
     q.setIdentity();
 
     beginEditCP(_tree7_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotd));
-    _tree7_trans->getMatrix().setRotate(q);
-    _tree7_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree7_trans->editMatrix().setRotate(q);
+    _tree7_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree7_trans);
 
     q.setIdentity();
 
     beginEditCP(_tree8_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotb));
-    _tree8_trans->getMatrix().setRotate(q);
-    _tree8_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree8_trans->editMatrix().setRotate(q);
+    _tree8_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree8_trans);
 
     q.setIdentity();
 
     beginEditCP(_tree9_trans);
     q.setValueAsAxisRad(1, 1, 1, 0.5 * sin(rotc));
-    _tree9_trans->getMatrix().setRotate(q);
-    _tree9_trans->getMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
+    _tree9_trans->editMatrix().setRotate(q);
+    _tree9_trans->editMatrix().setScale(Vec3f(12.0, 12.0, 10.0));
     endEditCP(_tree9_trans);
 
     q.setIdentity();
@@ -868,7 +868,7 @@ void Animate()
 
     beginEditCP(dir2_trans);
     {
-        dir2_trans->getMatrix().setTranslate(-40.0 * sin(rotb), -40.0 *
+        dir2_trans->editMatrix().setTranslate(-40.0 * sin(rotb), -40.0 *
                                              cos(rotb),
                                              50.0 + 25.0 * sin(rotd));
     }

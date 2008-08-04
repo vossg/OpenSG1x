@@ -66,7 +66,8 @@ void display(void)
      
     // transform the cube reflection texture coords
     Matrix n;
-    camera->getViewing(n, pwin->getPort()[0]->getPixelWidth(), pwin->getPort()[0]->getPixelHeight());
+    camera->getViewing(n, pwin->getPort(0)->getPixelWidth (),
+                          pwin->getPort(0)->getPixelHeight() );
     
     n.transpose();
     
@@ -318,7 +319,7 @@ int main(int argc, char **argv)
                             
                        
     // main camera, needed for texture transformation
-    camera = pwin->getPort()[0]->getCamera();
+    camera = pwin->getPort(0)->getCamera();
     // the Camera for the cubemap
     PerspectiveCameraPtr cam = PerspectiveCamera::create();
     beginEditCP(cam);
@@ -378,7 +379,7 @@ int main(int argc, char **argv)
         fg->setCopyTarget(targets[i]);      
         endEditCP(fg);
          
-        vp->getForegrounds().push_back(fg);
+        vp->editMFForegrounds()->push_back(fg);
         
         if(showports)
         {
@@ -388,7 +389,7 @@ int main(int argc, char **argv)
         {
             // add the ports before the main port, to make them invisible
             vp->setParent(pwin);
-            pwin->getPort().insert(pwin->getPort().begin(), vp);
+            pwin->editMFPort()->insert(pwin->editMFPort()->begin(), vp);
         }
        
         endEditCP(vp);

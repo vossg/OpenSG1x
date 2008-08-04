@@ -161,24 +161,24 @@ NodePtr makeScene( void )
         // set up dimensions and knot vectors:
         surface->setDimU( 3 );
         surface->setDimV( 3 );
-        surface->getKnotsU().clear();
-        surface->getKnotsU().push_back( 0 );
-        surface->getKnotsU().push_back( 0 );
-        surface->getKnotsU().push_back( 0 );
-        surface->getKnotsU().push_back( 0 );
-        surface->getKnotsU().push_back( 1 );
-        surface->getKnotsU().push_back( 1 );
-        surface->getKnotsU().push_back( 1 );
-        surface->getKnotsU().push_back( 1 );
-        surface->getKnotsV().clear();
-        surface->getKnotsV().push_back( 0 );
-        surface->getKnotsV().push_back( 0 );
-        surface->getKnotsV().push_back( 0 );
-        surface->getKnotsV().push_back( 0 );
-        surface->getKnotsV().push_back( 1 );
-        surface->getKnotsV().push_back( 1 );
-        surface->getKnotsV().push_back( 1 );
-        surface->getKnotsV().push_back( 1 );
+        surface->editMFKnotsU()->clear();
+        surface->editMFKnotsU()->push_back( 0 );
+        surface->editMFKnotsU()->push_back( 0 );
+        surface->editMFKnotsU()->push_back( 0 );
+        surface->editMFKnotsU()->push_back( 0 );
+        surface->editMFKnotsU()->push_back( 1 );
+        surface->editMFKnotsU()->push_back( 1 );
+        surface->editMFKnotsU()->push_back( 1 );
+        surface->editMFKnotsU()->push_back( 1 );
+        surface->editMFKnotsV()->clear();
+        surface->editMFKnotsV()->push_back( 0 );
+        surface->editMFKnotsV()->push_back( 0 );
+        surface->editMFKnotsV()->push_back( 0 );
+        surface->editMFKnotsV()->push_back( 0 );
+        surface->editMFKnotsV()->push_back( 1 );
+        surface->editMFKnotsV()->push_back( 1 );
+        surface->editMFKnotsV()->push_back( 1 );
+        surface->editMFKnotsV()->push_back( 1 );
         
         // set control points and texture control points
         surface->setControlPoints( cps );

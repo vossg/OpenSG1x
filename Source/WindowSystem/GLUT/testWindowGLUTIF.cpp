@@ -88,7 +88,7 @@ display(void)
 //    std::cout << tball.getRotation() << std::endl;
 
     m1.mult( m2 );
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
 
     win->draw( ract );
 }
@@ -330,7 +330,7 @@ int main (int argc, char **argv)
     }
     else
     {
-        ImageFileType::restore( lo, (UChar8*)LogoData, -1 );
+        ImageFileType::restore( lo, static_cast<UChar8 *>(LogoData), -1 );
     }
     FWARNING(( "%s: %d x %d, bpp %d\n", argv[1], lo->getWidth(),
         lo->getHeight(), lo->getBpp() ));
@@ -354,7 +354,7 @@ int main (int argc, char **argv)
     vp = Viewport::create();
     vp->setCamera( cam );
     vp->setBackground( bkgnd );
-    vp->getForegrounds().push_back( fgnd );
+    vp->editMFForegrounds()->push_back( fgnd );
     vp->setRoot( root );
     vp->setSize( 0,0, 1,1 );
 

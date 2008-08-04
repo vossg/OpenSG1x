@@ -278,7 +278,7 @@ void displayInfo(int x, int y)
   glPopAttrib();
 }
 
-void prepareSceneGraph(NodePtr &node)
+void prepareSceneGraph(NodePtr node)
 {
     if(!prepared)
     {
@@ -297,7 +297,7 @@ void prepareSceneGraph(NodePtr &node)
             if(mat != NullFC)
             {
                 ChunkMaterialPtr cmat = ChunkMaterialPtr::dcast(mat);
-                if(cmat->getChunks().find(polygonChunk) == cmat->getChunks().end())
+                if(cmat->getMFChunks()->find(polygonChunk) == cmat->getMFChunks()->end())
                 {
                     beginEditCP(cmat);
                     cmat->addChunk(polygonChunk);
@@ -326,7 +326,7 @@ void prepareSceneGraph(NodePtr &node)
                 if(mat != NullFC)
                 {
                     ChunkMaterialPtr cmat = ChunkMaterialPtr::dcast(mat);
-                    if(cmat->getChunks().find(polygonChunk) == cmat->getChunks().end())
+                    if(cmat->getMFChunks()->find(polygonChunk) == cmat->getMFChunks()->end())
                     {
                         beginEditCP(cmat);
                         cmat->addChunk(polygonChunk);
@@ -346,7 +346,7 @@ void prepareSceneGraph(NodePtr &node)
             }
         }
     }
-    for(MFNodePtr::iterator nI=node->getMFChildren()->begin();
+    for(MFNodePtr::const_iterator nI = node->getMFChildren()->begin();
         nI != node->getMFChildren()->end();
         ++nI)
     {
@@ -400,12 +400,12 @@ void display(void)
             v = animPos[i];
             q = animOri[i];
         }
-        cam_trans->getMatrix().setTranslate(v[0],v[1],v[2]);
-        cam_trans->getMatrix().setRotate(q);
+        cam_trans->editMatrix().setTranslate(v[0],v[1],v[2]);
+        cam_trans->editMatrix().setRotate(q);
     }
     else
     {
-        cam_trans->getSFMatrix()->setValue( tball.getFullTrackballMatrix() );
+        cam_trans->editSFMatrix()->setValue( tball.getFullTrackballMatrix() );
     }
     endEditCP( cam_trans );
     try
@@ -664,7 +664,7 @@ void key(unsigned char key, int /*x*/, int /*y*/)
             if(sortfirst!=NullFC)
             {
                 beginEditCP(sortfirst);
-                sortfirst->getCompression().erase();
+                sortfirst->editCompression().erase();
                 endEditCP(sortfirst);
             }
             break;
@@ -750,7 +750,6 @@ void init(std::vector<std::string> &filenames)
     size_t i;
     OSG::DirectionalLightPtr dl;
     Real32 x,y,z;
-    DynamicVolume volume;
     OSG::Vec3f min,max;
     OSG::Vec3f size;
 
@@ -833,7 +832,11 @@ void init(std::vector<std::string> &filenames)
     prepareSceneGraph(scene);
     scene->invalidateVolume();
     scene->updateVolume();
-    volume=scene->getVolume();
+#ifndef OSG_2_PREP
+    const DynamicVolume &volume = scene->getVolume();
+#else
+    const BoxVolume     &volume = scene->getVolume();
+#endif
     volume.getBounds(min,max);
     size = max-min;
 
@@ -858,13 +861,13 @@ void init(std::vector<std::string> &filenames)
                     beginEditCP(node);
                         
                     node->setCore(trans);
-                    trans->getMatrix().setTranslate(
+                    trans->editMatrix().setTranslate(
                         x*size[0]*1.1,
                         y*size[1]*1.1,
                         z*size[2]*1.1);
                     geoNode = osg::cloneTree(scene);
-                    *geoNode->getSFVolume() = *scene->getSFVolume();
-                    geoNode->getVolume(false).setValid(true);
+                    *geoNode->editSFVolume() = *scene->getSFVolume();
+                    geoNode->editVolume(false).setValid(true);
                     node->addChild( geoNode );
                     beginEditCP(dlight);
                     dlight->addChild(node);
@@ -1391,12 +1394,12 @@ int main(int argc,char **argv)
         beginEditCP(clusterWindow);
         {
             if(!autostart.empty())
-                clusterWindow->getAutostart().push_back(autostart);
+                clusterWindow->editMFAutostart()->push_back(autostart);
 
             for(i=0 ; i<servers.size() ; ++i)
-                clusterWindow->getServers().push_back(servers[i]);
+                clusterWindow->editMFServers()->push_back(servers[i]);
             if(cols < 0)
-                cols = clusterWindow->getServers().size() / rows;
+                cols = clusterWindow->getMFServers()->size() / rows;
             switch(type)
             {
                 case 'M': 

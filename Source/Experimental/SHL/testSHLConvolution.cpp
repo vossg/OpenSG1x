@@ -162,14 +162,14 @@ int main(int argc, char **argv)
 
     beginEditCP(_pf);
         _pf->setMaterial(cmat);
-        _pf->getTexCoords().push_back(Vec3f(0.0f, 0.0f, 0.0f));
-        _pf->getPositions().push_back(Pnt2f(0.0f, 0.0f));
-        _pf->getTexCoords().push_back(Vec3f(1.0f, 0.0f, 0.0f));
-        _pf->getPositions().push_back(Pnt2f(1.0f, 0.0f));
-        _pf->getTexCoords().push_back(Vec3f(1.0f, 1.0f, 0.0f));
-        _pf->getPositions().push_back(Pnt2f(1.0f, 1.0f));
-        _pf->getTexCoords().push_back(Vec3f(0.0f, 1.0f, 0.0f));
-        _pf->getPositions().push_back(Pnt2f(0.0f, 1.0f));
+        _pf->editMFTexCoords()->push_back(Vec3f(0.0f, 0.0f, 0.0f));
+        _pf->editMFPositions()->push_back(Pnt2f(0.0f, 0.0f));
+        _pf->editMFTexCoords()->push_back(Vec3f(1.0f, 0.0f, 0.0f));
+        _pf->editMFPositions()->push_back(Pnt2f(1.0f, 0.0f));
+        _pf->editMFTexCoords()->push_back(Vec3f(1.0f, 1.0f, 0.0f));
+        _pf->editMFPositions()->push_back(Pnt2f(1.0f, 1.0f));
+        _pf->editMFTexCoords()->push_back(Vec3f(0.0f, 1.0f, 0.0f));
+        _pf->editMFPositions()->push_back(Pnt2f(0.0f, 1.0f));
  
         _pf->setNormalizedX(true);
         _pf->setNormalizedY(true);
@@ -179,15 +179,15 @@ int main(int argc, char **argv)
     ViewportPtr vp = gwin->getPort(0);
 
     beginEditCP(vp);
-        vp->getForegrounds().push_back(fg);
-        vp->getForegrounds().push_back(_pf);
+        vp->editMFForegrounds()->push_back(fg);
+        vp->editMFForegrounds()->push_back(_pf);
     endEditCP  (vp);
 
     // show the whole scene
     _mgr->showAll();
 
     // enable local lights.
-    RenderAction *ract = (RenderAction *) _mgr->getAction();
+    RenderAction *ract = dynamic_cast<RenderAction *>(_mgr->getAction());
     ract->setLocalLights(true);
 
     // GLUT main loop

@@ -198,12 +198,12 @@ void display(void)
     {
 	// Eventually switch between different hardware modes
 	float ctime   = glutGet(GLUT_ELAPSED_TIME);
-	int   dtime   = (int) ctime / 1000 / 2;
+	int   dtime   = static_cast<int>(ctime / 1000 / 2);
 
 	//newMode = dtime % numModes;
     
 	// Make the volume rotate
- 	int movement = (int) ((ctime - lastFrame) * aniSpeed);
+ 	int movement = static_cast<int>((ctime - lastFrame) * aniSpeed);
  	if (movement != 0) lastFrame = ctime;
  
 	mgr->mouseButtonPress  (GLUT_LEFT_BUTTON,  0, 0);
@@ -351,7 +351,7 @@ NodePtr makeVolume( const char * datFile)
     // Initialize the lookup table
     beginEditCP(lut, DVRLookupTable::DataFieldMask);
     for (int i = 0; i < 1024; i++)
-        lut->getData()[i] = lutData[i];
+        lut->editData(i) = lutData[i];
     endEditCP(lut, DVRLookupTable::DataFieldMask);
 
     // Attach the volume texture and lookup table to the appearance

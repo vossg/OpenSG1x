@@ -110,7 +110,7 @@ static void connectCluster(void)
     if(_cluster_win != NullFC)
         return;
 
-    ViewportPtr clientvp = _client_win->getPort()[0];
+    ViewportPtr clientvp = _client_win->getPort(0);
     
     // create the viewports for the cluster just a simple one ...
     ViewportPtr vp = Viewport::create();
@@ -129,7 +129,7 @@ static void connectCluster(void)
     beginEditCP(_cluster_win);
 
         for(UInt32 i=0;i<_pipenames.size();++i)
-            _cluster_win->getServers().push_back(_pipenames[i]);
+            _cluster_win->editMFServers()->push_back(_pipenames[i]);
         // dummy size for navigator
         _cluster_win->setSize(300,300);
         _cluster_win->addPort(vp);
@@ -143,7 +143,7 @@ static void connectCluster(void)
     _cluster_win->init();
 
     // apply changelist to the servers
-    _cluster_win->render((RenderAction *) _mgr->getAction());
+    _cluster_win->render(dynamic_cast<RenderAction *>(_mgr->getAction()));
     // clear changelist
     Thread::getCurrentChangeList()->clearAll();
 
@@ -178,7 +178,7 @@ void display(void)
         if(_cluster_win != NullFC)
         {
             // redraw the server windows
-            _cluster_win->render((RenderAction *) _mgr->getAction());
+            _cluster_win->render(dynamic_cast<RenderAction *>(_mgr->getAction()));
         }
     }
     

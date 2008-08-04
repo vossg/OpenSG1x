@@ -89,7 +89,7 @@ display(void)
 //    std::cout << tball.getRotation() << std::endl;
 
     m1.mult( m2 );
-    cam_trans->getSFMatrix()->setValue( m1 );
+    cam_trans->editSFMatrix()->setValue( m1 );
 
     win->draw( ract );
 }
@@ -197,7 +197,7 @@ void key(unsigned char key, int, int)
                     break;
         case ' ':   {
                     UChar8 *data,*start;
-                    start = data = image->getData();
+                    start = data = image->editData();
                     data += image->getSize() - 1;
                     UChar8 off = UChar8(rand());
                     
@@ -326,7 +326,7 @@ int main (int argc, char **argv)
     }
     else
     {
-        ImageFileType::restore( image, (UChar8*)LogoData, -1 );
+        ImageFileType::restore( image, static_cast<UChar8 *>(LogoData), -1 );
     }
     FWARNING(( "%s: %d x %d, bpp %d\n", argv[1], image->getWidth(),
         image->getHeight(), image->getBpp() ));

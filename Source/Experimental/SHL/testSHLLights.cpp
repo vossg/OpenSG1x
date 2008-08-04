@@ -239,7 +239,7 @@ int main(int argc, char **argv)
     NodePtr point1 = makeCoredNode<PointLight>(&_point1_core);
     NodePtr point1_beacon = makeCoredNode<Transform>(&point1_trans);
     beginEditCP(point1_trans);
-        point1_trans->getMatrix().setTranslate(-10.0, 5.0, 5.0);
+        point1_trans->editMatrix().setTranslate(-10.0, 5.0, 5.0);
     endEditCP(point1_trans);
 
     beginEditCP(_point1_core);
@@ -254,7 +254,7 @@ int main(int argc, char **argv)
     NodePtr point2 = makeCoredNode<PointLight>(&_point2_core);
     NodePtr point2_beacon = makeCoredNode<Transform>(&point2_trans);
     beginEditCP(point2_trans);
-        point2_trans->getMatrix().setTranslate(10.0, 5.0, 5.0);
+        point2_trans->editMatrix().setTranslate(10.0, 5.0, 5.0);
     endEditCP(point2_trans);
 
     beginEditCP(_point2_core);
@@ -273,7 +273,7 @@ int main(int argc, char **argv)
     NodePtr point3 = makeCoredNode<PointLight>(&_point3_core);
     NodePtr point3_beacon = makeCoredNode<Transform>(&point3_trans);
     beginEditCP(point3_trans);
-        point3_trans->getMatrix().setTranslate(0.0, -12.0, 5.0);
+        point3_trans->editMatrix().setTranslate(0.0, -12.0, 5.0);
     endEditCP(point3_trans);
 
     beginEditCP(_point3_core);
@@ -318,7 +318,7 @@ int main(int argc, char **argv)
     _mgr->showAll();
 
     // enable local lights.
-    RenderAction *ract = (RenderAction *) _mgr->getAction();
+    RenderAction *ract = dynamic_cast<RenderAction *>(_mgr->getAction());
     ract->setLocalLights(true);
 
     // GLUT main loop

@@ -177,7 +177,7 @@ int main (int argc, char **argv)
     win = GLUTWindow::create();
 
     dact = DrawAction::create();
-    dact->setWindow( win.getCPtr() );
+    dact->setWindow(get_pointer(win));
 
     glutMainLoop();
 

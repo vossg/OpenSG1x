@@ -159,9 +159,9 @@ int main(int argc, char **argv)
     endEditCP  (gbkgnd, GradientBackground::LineFieldMask);
 
     // Viewport
-    if(!mgr->getWindow()->getPort().empty())
+    if(!mgr->getWindow()->getMFPort()->empty())
     {
-        ViewportPtr vp = mgr->getWindow()->getPort()[0];
+        ViewportPtr vp = mgr->getWindow()->getPort(0);
         beginEditCP(vp);
             vp->setBackground(gbkgnd);
         endEditCP(vp);

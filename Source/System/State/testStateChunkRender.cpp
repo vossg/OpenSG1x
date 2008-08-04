@@ -62,10 +62,10 @@ display(void)
     tchunk2->setMatrix( m );
 
 
-    pchunk2->changeFrom( dact, pchunk1.getCPtr() );
-    tchunk2->changeFrom( dact, tchunk1.getCPtr() );
-    mchunk2->changeFrom( dact, mchunk1.getCPtr() );
-    lichunk2->changeFrom( dact, lichunk1.getCPtr() );
+    pchunk2->changeFrom( dact, get_pointer(pchunk1) );
+    tchunk2->changeFrom( dact, get_pointer(tchunk1) );
+    mchunk2->changeFrom( dact, get_pointer(mchunk1) );
+    lichunk2->changeFrom( dact, get_pointer(lichunk1) );
     blchunk->activate( dact );
 
     glCallList( dlid );
@@ -115,14 +115,14 @@ void key(unsigned char key, int , int)
     case 27:    exit(0);
     case 'a':   UChar8 imgdata[32];
                 for ( int i = 0; i < 32; i++ )
-                    imgdata[i] = (UChar8) rand();
+                    imgdata[i] = static_cast<UChar8>(rand());
                 pImage->set( Image::OSG_RGB_PF, 2, 2, 2, 1, 1, 0, imgdata );
                 xchunk1->imageContentChanged();
                 break;
     case 'b':   {
                 UChar8 imgdata[16];
                 for ( int i = 0; i < 16; i++ )
-                    imgdata[i] = (UChar8) rand();
+                    imgdata[i] = static_cast<UChar8>(rand());
                 pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
                 beginEditCP( xchunk1 );
                 xchunk1->setImage( pImage );
@@ -146,7 +146,7 @@ void key(unsigned char key, int , int)
     case 'e':   {
                 UChar8 imgdata[16];
                 for ( int i = 0; i < 16; i++ )
-                    imgdata[i] = (UChar8) rand();
+                    imgdata[i] = static_cast<UChar8>(rand());
                 pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
                 xchunk1->imageContentChanged(1,1,1,1);
                 }
@@ -154,7 +154,7 @@ void key(unsigned char key, int , int)
     case 'f':   {
                 UChar8 imgdata[16];
                 for ( int i = 0; i < 16; i++ )
-                    imgdata[i] = (UChar8) rand();
+                    imgdata[i] = static_cast<UChar8>(rand());
                 pImage->set( Image::OSG_RGBA_PF, 2, 2, 1, 1, 1, 0, imgdata );
                 xchunk1->imageContentChanged(0,1,0,0);
                 }
@@ -188,7 +188,7 @@ int main( int argc, char *argv[] )
     win->init();
     
     dact = DrawAction::create();
-    dact->setWindow( win.getCPtr() );
+    dact->setWindow(get_pointer(win));
 
     win->init();
 
@@ -319,9 +319,9 @@ int main( int argc, char *argv[] )
         0xffff0000, 0x0000ffff, 0xffff0000, 0x0000ffff
         };
 
-    pchunk1->getMFStipple()->clear();
+    pchunk1->editMFStipple()->clear();
     for ( int i = 0; i < 32; i++ )
-        pchunk1->getMFStipple()->push_back( stipple[i] );
+        pchunk1->editMFStipple()->push_back( stipple[i] );
     }
 
     pchunk1->setFrontMode(GL_LINE);
@@ -340,9 +340,9 @@ int main( int argc, char *argv[] )
         0x00000000, 0x00000000, 0x00000000, 0x00000000,
         };
 
-    pchunk2->getMFStipple()->clear();
+    pchunk2->editMFStipple()->clear();
     for ( int i = 0; i < 32; i++ )
-        pchunk2->getMFStipple()->push_back( stipple[i] );
+        pchunk2->editMFStipple()->push_back( stipple[i] );
     }
 
 
