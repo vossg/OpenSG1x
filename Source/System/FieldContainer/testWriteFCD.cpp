@@ -11,7 +11,7 @@ int main (int argc, char **argv)
     OSG::osgInit(argc, argv);
 
     std::ostream * out = &std::cout;
-    char * name = "TextureChunk";
+    const char * name = "TextureChunk";
     std::ofstream f;
 
     switch ( argc )

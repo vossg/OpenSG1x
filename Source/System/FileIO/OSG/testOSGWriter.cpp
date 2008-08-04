@@ -37,8 +37,8 @@ int main (int argc, char *argv[])
 
     osgInit(argc, argv);
 
-    char *inFileName  = "osgWriterInput.osg";
-    char *outFileName = "osgWriterOutput.osg";
+    const char *inFileName  = "osgWriterInput.osg";
+    const char *outFileName = "osgWriterOutput.osg";
     NodePtr root;
 
     if( argc > 2 )

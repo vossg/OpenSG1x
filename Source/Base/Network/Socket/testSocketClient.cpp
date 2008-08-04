@@ -102,7 +102,7 @@ void multicastClient()
         SocketAddress("224.0.0.53",23344),
         SocketAddress("224.0.0.50",23344)
     };
-    char *msg[3]={
+    const char *msg[3]={
         "msg:1","msg:2","_END_"
     };
     int i;

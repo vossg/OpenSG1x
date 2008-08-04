@@ -130,7 +130,7 @@ int main(int argc,char **argv)
         (*i)->copyToBin(w,OSG::FieldBits::AllFields);
     }
     w.flush();
-    char *teststr="Read/Write OK\n";
+    const char *teststr="Read/Write OK\n";
     fwrite(teststr,strlen(teststr)+1,1,wfile);
     fclose(wfile);
 

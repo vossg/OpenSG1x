@@ -183,7 +183,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     /*! \name               Write FCD From Name                            */
     /*! \{                                                                 */
 
-    void writeFCD(Char8 *name = NULL, std::ostream *out = NULL);
+    void writeFCD(const Char8 *name = NULL, std::ostream *out = NULL);
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

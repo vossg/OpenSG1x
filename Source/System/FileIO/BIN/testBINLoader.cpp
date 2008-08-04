@@ -233,7 +233,7 @@ int main(int argc, char **argv)
 
     OSG::osgInit(argc, argv);
 
-    char    *inFileName = "tie.bin";
+    const char    *inFileName = "tie.bin";
 
     if(argc > 1)
         inFileName = argv[1];

@@ -61,7 +61,7 @@ FieldContainerType Core1::_type(
     "Core1",
     "NodeCore",
     0,
-    (PrototypeCreateF) &Core1::createEmpty
+    reinterpret_cast<PrototypeCreateF>(&Core1::createEmpty)
 );
 
 
@@ -96,7 +96,7 @@ FieldContainerType Core2::_type(
     "Core2",
     "Core1",
     0,
-    (PrototypeCreateF) &Core2::createEmpty
+    reinterpret_cast<PrototypeCreateF>(&Core2::createEmpty)
 );
 
 

@@ -41,8 +41,8 @@ class MyThread : public Thread
 
     UInt32 _uiThreadId;
 
-    static MyThread *get (Char8 *szName);
-    static MyThread *find(Char8 *szName);
+    static MyThread *get (const Char8 *szName);
+    static MyThread *find(const Char8 *szName);
 };
 
 MPThreadType MyThread::_type("MyThread", 
@@ -95,7 +95,7 @@ void MyThread::workProc(void)
 //  fprintf(stderr, "Leave WorkProc\n");
 }
 
-MyThread *MyThread::get(Char8 *szName)
+MyThread *MyThread::get(const Char8 *szName)
 {
     BaseThread *pThread = ThreadManager::the()->getThread(szName,
                                                           "MyThread");
@@ -103,7 +103,7 @@ MyThread *MyThread::get(Char8 *szName)
     return dynamic_cast<MyThread *>(pThread);
 }
 
-MyThread *MyThread::find(Char8 *szName)
+MyThread *MyThread::find(const Char8 *szName)
 {
     BaseThread *pThread = ThreadManager::the()->findThread(szName);
 

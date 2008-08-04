@@ -33,6 +33,19 @@
 
 #include "OSGTrackball.h"
 
+#ifdef OSG_DEBUG_OLD_C_CASTS
+#ifdef DefaultScreen
+#undef DefaultScreen
+#endif
+#ifdef ScreenOfDisplay
+#undef ScreenOfDisplay
+#endif
+
+#define DefaultScreen(dpy)((reinterpret_cast<_XPrivDisplay>(dpy))->default_screen)
+
+#define ScreenOfDisplay(dpy, scr)(&(reinterpret_cast<_XPrivDisplay>(dpy))->screens[scr])
+#endif
+
 using namespace OSG;
 
 // GLX Stuff
@@ -64,7 +77,7 @@ int           lastx=0, lasty=0;
 
 int wait_for_map_notify(Display *, XEvent *event, char *arg)
 {
-    return( event->type == MapNotify && event->xmap.window == (::Window)arg );
+    return( event->type == MapNotify && event->xmap.window == ::Window(arg) );
 }
 
 void redraw ( void )
@@ -266,7 +279,10 @@ int main (int argc, char **argv)
     win->init();
         
     XMapWindow(dpy, hwin);
-    XIfEvent(dpy, &event, wait_for_map_notify, (char *)hwin);
+    XIfEvent(dpy, 
+             &event, 
+             wait_for_map_notify, 
+             reinterpret_cast<char *>(hwin));
     
     win->activate();
     

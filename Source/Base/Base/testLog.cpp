@@ -64,7 +64,7 @@ int main (int argc, char **argv)
     // Envvar test:
 
     std::cerr << std::endl << "OSG_LOG_LEVEL=3 test" << std::endl;
-    OSG::putenv("OSG_LOG_LEVEL=3");
+    OSG::putenv(const_cast<OSG::Char8 *>("OSG_LOG_LEVEL=3"));
     osgLog().setLogLevel ( OSG::LOG_FATAL );
 
     FLOG(( "C-log test: %d\n", OSG::LOG_LOG ));
@@ -75,7 +75,7 @@ int main (int argc, char **argv)
     FDEBUG(( "C-debug test: %d\n", OSG::LOG_DEBUG ));
 
     std::cerr << std::endl << "OSG_LOG_LEVEL=info test" << std::endl;
-    OSG::putenv("OSG_LOG_LEVEL=info");
+    OSG::putenv(const_cast<OSG::Char8 *>("OSG_LOG_LEVEL=info"));
     osgLog().setLogLevel ( OSG::LOG_WARNING );
 
     FLOG(( "C-log test: %d\n", OSG::LOG_LOG ));
@@ -86,7 +86,7 @@ int main (int argc, char **argv)
     FDEBUG(( "C-debug test: %d\n", OSG::LOG_DEBUG ));
 
     std::cerr << std::endl << "OSG_LOG_LEVEL=gargl test" << std::endl;
-    OSG::putenv("OSG_LOG_LEVEL=gargl");
+    OSG::putenv(const_cast<OSG::Char8 *>("OSG_LOG_LEVEL=gargl"));
     osgLog().setLogLevel ( OSG::LOG_WARNING );
 
     FLOG(( "C-log test: %d\n", OSG::LOG_LOG ));

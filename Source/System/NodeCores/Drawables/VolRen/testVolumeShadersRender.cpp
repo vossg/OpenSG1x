@@ -52,7 +52,7 @@ float aniSpeed = 0.5;
 float lastFrame;
 
 // List of shaders to be tested
-char * shaderList[] = {
+const char * shaderList[] = {
     "DVRSimpleShader",
     "DVRSimpleLUTShader",
     "DVRIsoShader",

@@ -53,8 +53,8 @@ float lastFrame;
 
 // Test data structure
 typedef struct {
-    int    mode;
-    char * name;
+          int    mode;
+    const char * name;
 } ShaderTest;
 
 // Lists of Shader Modes
@@ -131,8 +131,8 @@ unsigned char lutData[1024] = {
 NodePtr makeVolume( const char * datFile);
 
 // forware declaration of field access methods
-template <class T> void setField(FieldContainerPtr fc, char * fieldName, T newValue);
-template <class T> T getField(FieldContainerPtr fc, char * fieldName, T* dummy = NULL);
+template <class T> void setField(FieldContainerPtr fc, const char * fieldName, T newValue);
+template <class T> T getField(FieldContainerPtr fc, const char * fieldName, T* dummy = NULL);
 
 // forward declaration so we can have the interesting stuff upfront
 int setupGLUT( int *argc, char *argv[] );
@@ -378,7 +378,7 @@ NodePtr makeVolume( const char * datFile)
 
 // Functions for generically accessing fields
 template <class T>
-void setField(FieldContainerPtr fc, char * fieldName, T newValue)
+void setField(FieldContainerPtr fc, const char * fieldName, T newValue)
 {
     const FieldDescription * desc    = fc->getType().findFieldDescription(fieldName); 
     Field *                  field   = fc->getField(desc->getFieldId()); 
@@ -389,7 +389,7 @@ void setField(FieldContainerPtr fc, char * fieldName, T newValue)
 }
 
 template <class T>
-T getField(FieldContainerPtr fc, char * fieldName, T * )
+T getField(FieldContainerPtr fc, const char * fieldName, T * )
 {
     const FieldDescription * desc    = fc->getType().findFieldDescription(fieldName); 
     Field *                  field   = fc->getField(desc->getFieldId()); 

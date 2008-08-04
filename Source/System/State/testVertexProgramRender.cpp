@@ -138,8 +138,8 @@ int main(int argc, char **argv)
     ImagePtr pImg1 = Image::create();
     ImagePtr pImg2 = Image::create();
 
-	char *iHeight = "OpenSGLogo_height.png",
-		 *iColor  = "OpenSGLogo.png";
+	const char *iHeight = "OpenSGLogo_height.png",
+		       *iColor  = "OpenSGLogo.png";
 
 	if (argc >= 3)
 	{

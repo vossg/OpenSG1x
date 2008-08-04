@@ -109,7 +109,7 @@ void acceptProc(void *)
     }
 }
 
-void testConnection(char *name)
+void testConnection(const char *name)
 {
     int i;
 

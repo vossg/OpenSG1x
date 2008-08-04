@@ -170,9 +170,9 @@ int main(int argc, char *argv[])
     fprintf(stderr, "%Le\n", r128);
 #endif
 
-    fprintf(stderr, "Real32  (%u)\n", sizeof(Real32 ));
-    fprintf(stderr, "Real64  (%u)\n", sizeof(Real64 ));
-    fprintf(stderr, "Real128 (%u)\n", sizeof(Real128));
+    fprintf(stderr, "Real32  (%zi)\n", sizeof(Real32 ));
+    fprintf(stderr, "Real64  (%zi)\n", sizeof(Real64 ));
+    fprintf(stderr, "Real128 (%zi)\n", sizeof(Real128));
 
     fprintf(stderr, "%e |\n", std::numeric_limits<Real32>::min());
     fprintf(stderr, "%e |\n", std::numeric_limits<Real32>::max());

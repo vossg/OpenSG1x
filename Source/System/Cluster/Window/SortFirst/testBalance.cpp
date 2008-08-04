@@ -24,15 +24,15 @@ OSG_USING_NAMESPACE
 
 bool            doSave=false;
 TileLoadBalancer *tileLoadBalancer;
-char           *dumpImage="balance";
+const char     *dumpImage="balance";
 int             dumpImageNr=0;
 bool            useFaceDistribution=false;
 bool            viewVolume=false;
 bool            simulateRendering=false;
 int             serverCount=10;
 int             startLoop,loop=0;
-char            *resultfile="result";
-FILE            *resultio=NULL;
+const char     *resultfile="result";
+FILE           *resultio=NULL;
 bool            navigate=false;
 bool            loopbin=false;
 bool            useCrossCut=false;

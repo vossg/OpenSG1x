@@ -178,9 +178,13 @@ static void updateSpecialParameter(SHLChunk::OSGGLGETUNIFORMLOCATIONARBPROC getU
     //std::cout << "uploading matrix " << m << std::endl;
 
     // get "glUniformMatrix4fvARB" function pointer
-    OSGGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = (OSGGLUNIFORMMATRIXFVARBPROC)
-        action->getWindow()->getFunction(SHLChunk::getFuncUniformMatrix4fv());
+    OSGGLUNIFORMMATRIXFVARBPROC uniformMatrix4fv = 
+        reinterpret_cast<OSGGLUNIFORMMATRIXFVARBPROC>(
+            action->getWindow()->getFunction(
+                SHLChunk::getFuncUniformMatrix4fv()));
+
     GLint location = getUniformLocation(program, "OSGSpecialParameter");
+
     if(location != -1)
         uniformMatrix4fv(location, 1, GL_FALSE, m.getValues());
 }

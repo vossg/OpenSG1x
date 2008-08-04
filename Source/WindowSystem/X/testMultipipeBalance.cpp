@@ -56,11 +56,24 @@ TileLoadBalancer           *tileLoadBalancer;
 TileLoadBalancer::ResultT   region;
 XWindowPtr                  mainWindow;
 
+#ifdef OSG_DEBUG_OLD_C_CASTS
+#ifdef DefaultScreen
+#undef DefaultScreen
+#endif
+#ifdef ScreenOfDisplay
+#undef ScreenOfDisplay
+#endif
+
+#define DefaultScreen(dpy)((reinterpret_cast<_XPrivDisplay>(dpy))->default_screen)
+
+#define ScreenOfDisplay(dpy, scr)(&(reinterpret_cast<_XPrivDisplay>(dpy))->screens[scr])
+#endif
+
 void readArgs(int argc,char **argv)
 {
-    char  option;
-    char *value;
-    int   valueSkip = 0;
+          char  option;
+    const char *value;
+          int   valueSkip = 0;
 
     for(int a=1;a<argc;a++)
     {
@@ -208,7 +221,10 @@ void openWindows(int argc,char **argv)
                                argv, argc, NULL);
         
         XMapWindow(w->dpy, w->hwin);
-        XIfEvent(w->dpy, &event, waitMapNotify, (char *)w->hwin);
+        XIfEvent(w->dpy, 
+                 &event, 
+                 waitMapNotify, 
+                 reinterpret_cast<char *>(w->hwin));
         XSetInputFocus(w->dpy, w->hwin, RevertToParent, CurrentTime);
 
         w->win = XWindow::create();
@@ -466,7 +482,7 @@ void createGraph()
 void drawThreadProc (void *arg) 
 {               
     RenderAction *ract = RenderAction::create();
-    WinInfo *w=(WinInfo*)arg;
+    WinInfo *w=static_cast<WinInfo*>(arg);
     ViewportPtr vp;
     TileCameraDecoratorPtr deco;
 
@@ -485,10 +501,10 @@ void drawThreadProc (void *arg)
                     region[w->tile].y2);
         if(deco!=NullFC)
         {
-            deco->setSize(region[w->tile].x1 / (float)width,
-                          region[w->tile].y1 / (float)height,
-                          region[w->tile].x2 / (float)width,
-                          region[w->tile].y2 / (float)height);
+            deco->setSize(region[w->tile].x1 / float(width),
+                          region[w->tile].y1 / float(height),
+                          region[w->tile].x2 / float(width),
+                          region[w->tile].y2 / float(height));
         }
 
         endEditCP(deco);
@@ -531,7 +547,7 @@ void startThreads()
             std::cerr << "Unable to create thread" << std::endl;
             exit(0);
         }
-        w->thread->runFunction( drawThreadProc, 1, (void *)(&(*w)) );
+        w->thread->runFunction( drawThreadProc, 1, static_cast<void *>(&(*w)) );
     }
     // start sync thread
     syncThread=

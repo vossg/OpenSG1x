@@ -210,13 +210,13 @@ void key( unsigned char key, int, int )
     case 'w':   autowire = ! autowire;
                 std::cerr << "autowire " << (autowire?"on":"off") << std::endl;
                 break;
-    case 'a':   obj = ( ++ obj ) % nobjects;
+    case 'a':   obj = ( obj + 1 ) % nobjects;
                 std::cerr << "object now " << obj << std::endl;
                 break;
     case 'n':   shownormals = ! shownormals;
                 std::cerr << "shownormals " << (shownormals?"on":"off") << std::endl;
                 break;
-    case 's':   obj = ( -- obj + nobjects ) % nobjects;
+    case 's':   obj = ( (obj - 1) + nobjects ) % nobjects;
                 std::cerr << "object now " << obj << std::endl;
                 break;
 

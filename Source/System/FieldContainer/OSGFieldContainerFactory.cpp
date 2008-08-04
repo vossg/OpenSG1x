@@ -344,7 +344,7 @@ AttachmentPtr FieldContainerFactory::createAttachment(
    no name, no out: output all types into separate files
 */
 
-void FieldContainerFactory::writeFCD(Char8 * name, std::ostream *out)
+void FieldContainerFactory::writeFCD(const Char8 * name, std::ostream *out)
 {
           TypeIdMapIt         type;
     const FieldContainerType *pType = NULL;

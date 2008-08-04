@@ -58,8 +58,8 @@ int animate = 1;
 
 // Test data structure
 typedef struct {
-    int    mode;
-    char * name;
+    int          mode;
+    const char * name;
 } Test;
 
 // Lists of Clip Modes

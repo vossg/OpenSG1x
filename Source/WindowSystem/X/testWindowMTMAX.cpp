@@ -39,6 +39,19 @@
 
 #include "OSGTrackball.h"
 
+#ifdef OSG_DEBUG_OLD_C_CASTS
+#ifdef DefaultScreen
+#undef DefaultScreen
+#endif
+#ifdef ScreenOfDisplay
+#undef ScreenOfDisplay
+#endif
+
+#define DefaultScreen(dpy)((reinterpret_cast<_XPrivDisplay>(dpy))->default_screen)
+
+#define ScreenOfDisplay(dpy, scr)(&(reinterpret_cast<_XPrivDisplay>(dpy))->screens[scr])
+#endif
+
 using namespace OSG;
 
 #define MAX_THREADS 6
@@ -160,7 +173,8 @@ void drawThreadProc (void *arg)
 
 int wait_for_map_notify(Display *, XEvent *event, char *arg)
 {
-    return( event->type == MapNotify && event->xmap.window == (::Window)arg );
+    return(event->type == MapNotify && 
+           event->xmap.window == ::Window(arg));
 }
 
 int main (int argc, char **argv)
@@ -265,9 +279,9 @@ int main (int argc, char **argv)
     
     if(argc < 2)
     {
-        static char *defarg[] = { "testWindowMTX", NULL, NULL };
+        static const char *defarg[] = { "testWindowMTX", NULL, NULL };
         argc = 3;
-        argv = defarg;       
+        argv = const_cast<char **>(defarg);       
     }
     
     // tball
@@ -343,7 +357,10 @@ int main (int argc, char **argv)
         XSetStandardProperties(dpy[i], hwin[i], "testWindowX", "testWindowX", None, argv, argc, NULL);
         
         XMapWindow(dpy[i], hwin[i]);
-        XIfEvent(dpy[i], &event, wait_for_map_notify, (char *)hwin[i]);
+        XIfEvent(dpy[i], 
+                 &event, 
+                 wait_for_map_notify, 
+                 reinterpret_cast<char *>(hwin[i]));
 
         win[i] = XWindow::create();
         beginEditCP(win[i], XWindow::DisplayFieldMask|
@@ -400,7 +417,9 @@ int main (int argc, char **argv)
             dynamic_cast<Thread *>(gThreadManager->getThread(NULL));
         if ( drawThread[i] != NULL )   // and spin it ...
         {      
-            drawThread[i]->runFunction( drawThreadProc, 1, (void *)&ids[i] );
+            drawThread[i]->runFunction( drawThreadProc, 
+                                        1, 
+                                        static_cast<void *>(&ids[i]));
         }
     }
 
