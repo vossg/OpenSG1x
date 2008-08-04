@@ -191,7 +191,7 @@ Geometry::Geometry(void) :
     _nvertices(0),
     _nprimitives(0),
     _numBytesOnGfxCard(0),
-    _volume()
+    _volumeCache()
 {
 }
 
@@ -203,7 +203,7 @@ Geometry::Geometry(const Geometry &source) :
     _nvertices(source._nvertices),
     _nprimitives(source._nprimitives),
     _numBytesOnGfxCard(source._numBytesOnGfxCard),
-    _volume(source._volume)
+    _volumeCache(source._volumeCache)
 {
 }
 
@@ -427,36 +427,38 @@ void Geometry::onDestroy(void)
 
 void Geometry::adjustVolume(Volume & volume)
 {
-    if(!_volume.isEmpty())
+    if(!_volumeCache.isEmpty())
     {
         // use cached volume.
-        volume.setValid();
-        volume.extendBy(_volume);
+        volume.setValid(            );
+        volume.extendBy(_volumeCache);
         return;
     }
 
     // calculate volume.
     GeoPositionsPtr pos = getPositions();
 
-    volume.setValid();
+    _volumeCache.setValid();
 
     if(pos == NullFC)
     {
         return;                  // Node has no points, no volume
     }
 
-    PrimitiveIterator it = this->beginPrimitives();
-    PrimitiveIterator itEnd = this->endPrimitives();
+    PrimitiveIterator it    = this->beginPrimitives();
+    PrimitiveIterator itEnd = this->endPrimitives  ();
 
     while(it != itEnd)
     {
         for(UInt32 v=0; v < it.getLength(); ++v)
         {
-            volume.extendBy(it.getPosition(v));
+            _volumeCache.extendBy(it.getPosition(v));
         }
         ++it;
     }
-    _volume.extendBy(volume);
+    
+    volume.setValid(            );
+    volume.extendBy(_volumeCache);
 }
 
 /*---------------------------- pointer ------------------------------------*/
@@ -1293,8 +1295,8 @@ void Geometry::changed(BitVector whichField,
     {
         for(UInt32 i = 0; i < _parents.size(); i++)
         {
-            _volume.setValid();
-            _volume.setEmpty();
+            _volumeCache.setValid();
+            _volumeCache.setEmpty();
             _parents[i]->invalidateVolume();
         }
 
