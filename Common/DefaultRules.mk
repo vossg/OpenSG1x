@@ -557,13 +557,19 @@ endif
 ifeq ($(OS_BASE), cygwin)
 FLEXLEXER_H_DEP := ../Base/FlexLexer.h
 
+OSG_FIX_FLEXLEXER_H := $(shell echo $$((`grep -c FLEX_STD /usr/include/FlexLexer.h` == 0)))
+
 ../Base/FlexLexer.h: /usr/include/FlexLexer.h
+ifeq ($(OSG_FIX_FLEXLEXER_H),1)
 	cat /usr/include/FlexLexer.h |									\
 	sed -e 's/iostream.h/iostream/g'  								\
 		-e 's/istream\*/\std::istream\*/g'							\
 		-e 's/ostream\*/\std::ostream\*/g'							\
 		-e 's/std::std::/std::/g'							        \
 	> ../Base/FlexLexer.h
+else
+	cp /usr/include/FlexLexer.h ../Base/FlexLexer.h
+endif
 else
 FLEXLEXER_H_DEP :=
 endif
