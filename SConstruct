@@ -562,6 +562,7 @@ class PlatformOptions:
         opts.Add(BoolOption('contrib_terrain', 'enable terrain rendering node', 0))
 
         opts.Add(PackageOption('contrib_performer_loader', 'Enable contrib performer loader', 'no'))
+        opts.Add(PackageOption('contrib_rhino3d_loader', 'Enable contrib rhino3d loader, add here the path to the opennurbs lib.', 'no'))
         opts.Add(PackageOption('contrib_cal3d', 'enable Cal3D character animation library wrapper core', 'no'))
         opts.Add(PackageOption('contrib_physics', 'enable ODE library wrapper', 'no'))
 

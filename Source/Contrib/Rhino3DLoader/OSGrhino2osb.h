@@ -42,9 +42,9 @@
 #define RHINO2OSB_H_
 
 #include <opennurbs/opennurbs.h>
-#include <OpenSG/OSGNode.h>
-#include <OpenSG/OSGSimpleMaterial.h>
-#include <OpenSG/OSGSurface.h>
+#include <OSGNode.h>
+#include <OSGSimpleMaterial.h>
+#include <OSGSurface.h>
 
 class rhino2osb{
 public:

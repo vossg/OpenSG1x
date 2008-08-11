@@ -41,6 +41,9 @@ if _po.getOption('contrib_physics'):
 if _po.getOption('contrib_performer_loader'):
     ContribDirs.append(Dir('PerformerLoader'))
 
+if _po.getOption('contrib_rhino3d_loader'):
+    ContribDirs.append(Dir('Rhino3DLoader'))
+
 headers, sources, tests, generated = ProcessDirs(ContribDirs)
 # don't forget the OSGContribDef.h file.
 headers += Glob('OSG*.h')
@@ -64,6 +67,17 @@ def custom(env):
                     env.Append(LIBS=['libpf', 'libpfdu-util'])
                 else:
                     env.Append(LIBS=['pf', 'pfutil', 'pfdu'])
+
+    if _po.getOption('contrib_rhino3d_loader'):
+        if isinstance(_po.getOption('contrib_rhino3d_loader'), str):
+                opennurbs_cpp_path = [os.path.join(_po.getOption('contrib_rhino3d_loader'), 'include')]
+                opennurbs_lib_path = [os.path.join(_po.getOption('contrib_rhino3d_loader'), 'lib')]
+                env.Append(CPPPATH=opennurbs_cpp_path)
+                env.Append(LIBPATH=opennurbs_lib_path)
+                if env.get('PLATFORM') == 'win32':
+                    env.Append(LIBS=['opennurbs', 'Rpcrt4', 'Advapi32'])
+                else:
+                    env.Append(LIBS=['opennurbs'])
 
     if _po.getOption('contrib_cal3d'):
         if isinstance(_po.getOption('contrib_cal3d'), str):
