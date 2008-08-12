@@ -497,7 +497,7 @@ NodePtr rhino2osb::process_brep(const ON_Brep& brep)
 
     beginEditCP( parent );
     {
-        printf("brep face count: %d\n", face_count);
+        //printf("brep face count: %d\n", face_count);
         for ( face_index = 0; face_index < face_count; face_index++ ) 
         {
             const ON_BrepFace& face = brep.m_F[face_index];
@@ -522,11 +522,11 @@ void rhino2osb::doTess(NodePtr node)
     if ( surf != NullFC )
     {
         beginEditCP(surf);
-        printf("tess start\n");
+        //printf("tess start\n");
         surf->forceTessellate();
-        printf("tess end\n");
+        //printf("tess end\n");
         unsigned int numtris = surf->getIndices()->size();
-        printf("number of tris: %d\n", numtris);
+        //printf("number of tris: %d\n", numtris);
         endEditCP(surf);
     }
 }
@@ -540,7 +540,7 @@ NodePtr rhino2osb::process_brepface( const ON_BrepFace& face )
     if ( mesh ) 
     {
         // use saved render mesh
-        printf("Found mesh associated with brepface, ignoring\n");
+        //printf("Found mesh associated with brepface, ignoring\n");
     }
 
     // convert to OpenSG struct
@@ -570,7 +570,7 @@ NodePtr rhino2osb::process_brepface( const ON_BrepFace& face )
     ret = process_NURBS_surface( *nurbs_srf, TRUE, knot_scale[0], knot_scale[1]);
     if ( brep->FaceIsSurface( face.m_face_index ) ) 
     {
-        printf("trivially trimmed face\n");
+        //printf("trivially trimmed face\n");
         doTess(ret);
         return ret; // face is trivially trimmed
     }
@@ -739,13 +739,13 @@ NodePtr rhino2osb::buildNode( const ONX_Model& model, int index )
     brep = ON_Brep::Cast(geometry);
     if ( brep ) 
     {
-        printf("found brep\n");
+        //printf("found brep\n");
         return process_brep(*brep);
     }
     mesh = ON_Mesh::Cast(geometry);
     if ( mesh ) 
     {
-        printf("found mesh\n");
+        //printf("found mesh\n");
         return process_mesh(mesh);
     }
 
@@ -759,34 +759,34 @@ NodePtr rhino2osb::buildNode( const ONX_Model& model, int index )
     surface = ON_Surface::Cast(geometry);
     if ( surface ) 
     {
-        printf("found surface\n");
+        //printf("found surface\n");
         return process_surface( *surface );
     }
 
     point = ON_Point::Cast(geometry);
     if ( point ) 
     {
-        printf("found point\n");
+        //printf("found point\n");
         return process_point(point);
     }
 
     cloud = ON_PointCloud::Cast(geometry);
     if ( cloud ) 
     {
-        printf("found pointcloud\n");
+        //printf("found pointcloud\n");
         return process_pointcloud(cloud);
     }
 
     grid = ON_PointGrid::Cast(geometry);
     if ( grid ) 
     {
-        printf("found pointgrid\n");
+        //printf("found pointgrid\n");
         return process_pointgrid(grid);
     }
     curve = ON_Curve::Cast(geometry);
     if ( curve ) 
     {
-        printf("found curve\n");
+        //printf("found curve\n");
         return process_curve(curve);
     }
     printf("found unkown object\n");
