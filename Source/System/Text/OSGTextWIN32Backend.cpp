@@ -1229,7 +1229,7 @@ TextWIN32TXFFace::TextWIN32TXFFace(const TextWIN32Backend *backend, HFONT hHoriF
         int bpl = (hpgm.gmBlackBoxX + 3) & ~3;
         src += bpl * (hpgm.gmBlackBoxY - 1);
         unsigned char *src2;
-        UInt8 *dst = _texture->getData() + glyph->getX() + glyph->getY() * _texture->getWidth();
+        UInt8 *dst = _texture->editData() + glyph->getX() + glyph->getY() * _texture->getWidth();
         UInt32 dstPitch = _texture->getWidth() - glyph->getPixmapWidth();
         UInt32 x, y;
         for (y = 0; y < glyph->getPixmapHeight(); ++y)
@@ -1333,7 +1333,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.5 2007/03/30 14:53:22 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextWIN32Backend.cpp,v 1.6 2008/08/12 06:37:38 vossg Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTWIN32BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTWIN32BACKEND_INLINE_CVSID;
 }
