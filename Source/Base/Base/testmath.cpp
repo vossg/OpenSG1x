@@ -46,25 +46,22 @@ using OSG::MatrixProjection;
 
 // instantiate all classes to find compile problems
 
-using OSG::VectorInterface;
-using OSG::PointInterface;
-using OSG::VecStorage2;
-using OSG::VecStorage3;
-using OSG::VecStorage4;
+using OSG::Vector;
+using OSG::Point;
 
 OSG_USING_NAMESPACE
 
-template class VectorInterface<Real32, VecStorage2<Real32> >;
-template class VectorInterface<Real32, VecStorage3<Real32> >;
-template class VectorInterface<Real32, VecStorage4<Real32> >;
+template class Vector<Real32, 2>;
+template class Vector<Real32, 3>;
+template class Vector<Real32, 4>;
 
-template class VectorInterface<UInt16, VecStorage2<UInt16> >;
-template class VectorInterface<UInt16, VecStorage3<UInt16> >;
-template class VectorInterface<UInt16, VecStorage4<UInt16> >;
+template class Vector<UInt16, 2>;
+template class Vector<UInt16, 3>;
+template class Vector<UInt16, 4>;
 
-template class VectorInterface<UInt8, VecStorage2<UInt8> >;
-template class VectorInterface<UInt8, VecStorage3<UInt8> >;
-template class VectorInterface<UInt8, VecStorage4<UInt8> >;
+template class Vector<UInt8, 2>;
+template class Vector<UInt8, 3>;
+template class Vector<UInt8, 4>;
 
 //template class PointInterface<Real32, VecStorage2<Real32> >;
 //template class PointInterface<Real32, VecStorage3<Real32> >;
