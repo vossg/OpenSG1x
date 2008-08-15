@@ -43,6 +43,7 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGBaseTypes.h>
 
 #ifdef OSG_NOGLSUBDIR
 #include <gl.h>

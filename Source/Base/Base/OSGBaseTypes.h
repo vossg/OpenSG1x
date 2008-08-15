@@ -62,13 +62,6 @@
 #if defined(OSG_LINUX_TYPES)
 #    define __STDC_FORMAT_MACROS
 #    include <inttypes.h>
-#ifndef PRIi64
-#define PRIi64 "li"
-#endif
-#ifndef PRIu64
-#define PRIu64 "lu"
-#endif
-
 #endif
 
 OSG_BEGIN_NAMESPACE
