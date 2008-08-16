@@ -801,6 +801,11 @@
 
 /* Mixed bag defines... */
 
+// Enable printf macros used in OSGBaseTypeTraits.h
+#if defined(OSG_LINUX_TYPES) && !defined(__STDC_FORMAT_MACROS)
+# define __STDC_FORMAT_MACROS
+#endif
+
 // STLPORT doesn't support all of std::math
 #if defined(STLPORT) ||defined(OSG_WITH_STLPORT)
 #undef OSG_USE_STDMATH
