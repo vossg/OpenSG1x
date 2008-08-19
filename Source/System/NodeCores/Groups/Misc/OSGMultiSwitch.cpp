@@ -159,20 +159,16 @@ Action::ResultE MultiSwitch::draw(Action *action)
         //
         // Assumption: _mfChoices is sorted; see function changed
         //
-        MFUInt32::const_iterator iter = _mfChoices.begin();
-        MFUInt32::const_iterator end  = _mfChoices.end();
+        MFUInt32::const_iterator choiceIt  = _mfChoices.begin();
+        MFUInt32::const_iterator choiceEnd = _mfChoices.end  ();
+        UInt32                   numNodes  = da->getNNodes   ();
 
-        for(UInt32 idx = 0, num = action->getNNodes(); idx < num; ++idx)
+        for(; choiceIt != choiceEnd; ++choiceIt)
         {
-            if(idx == *iter)
+            if(*choiceIt < numNodes                           &&
+               da->isVisible(getCPtr(da->getNode(*choiceIt)))   )
             {
-                if(da->isVisible(getCPtr(action->getNode(idx))))
-                    da->addNode(action->getNode(idx));
-
-                ++iter;
-
-                if(iter == end)
-                    break;
+                da->addNode(da->getNode(*choiceIt));
             }
         }
     }
@@ -211,20 +207,14 @@ Action::ResultE MultiSwitch::intersect(Action *action)
         //
         // Assumption: _mfChoices is sorted; see function changed
         //
-        MFUInt32::const_iterator iter = _mfChoices.begin();
-        MFUInt32::const_iterator end  = _mfChoices.end();
+        MFUInt32::const_iterator choiceIt  = _mfChoices.begin();
+        MFUInt32::const_iterator choiceEnd = _mfChoices.end  ();
+        UInt32                   numNodes  = da->getNNodes   ();
 
-        for(UInt32 idx = 0, num = action->getNNodes(); idx < num; ++idx)
+        for(; choiceIt != choiceEnd; ++choiceIt)
         {
-            if(idx == *iter)
-            {
-                da->addNode(action->getNode(idx));
-
-                ++iter;
-
-                if(iter == end)
-                    break;
-            }
+            if(*choiceIt < numNodes)
+                da->addNode(da->getNode(*choiceIt));
         }
     }
     break;
@@ -281,7 +271,7 @@ void MultiSwitch::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiSwitch.cpp,v 1.1 2008/08/19 15:25:07 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiSwitch.cpp,v 1.2 2008/08/19 16:23:20 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTISWITCHBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTISWITCHBASE_INLINE_CVSID;
 
