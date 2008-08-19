@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *                Copyright (C) 2008 by the OpenSG Forum                     *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,38 +36,116 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-
-// System declarations
-
-#include "OSGConfig.h"
-
-// Class declarations
-#include "OSGColor.h"
-#include "OSGColor.ins"
-
-#include "OSGMathIO.h"
-
 OSG_BEGIN_NAMESPACE
 
-// Null values
+/*! Helper struct for writing a vector-like type to a stream.
+ */
+template <class  VecTypeT,
+          class  ValueTypeT,
+          UInt32 SizeI      >
+inline void VecToStreamWriter<VecTypeT, ValueTypeT, SizeI>::apply(
+    std::ostream &os, const VecTypeT &vec)
+{
+    for(UInt32 i = 0; i < SizeI; ++i)
+    {
+        if(i != 0)
+            os << ", ";
+    
+        os << vec[i];
+    }
+}
 
-//OSG_BASE_DLLMAPPING Color3f     OSG::NullColor3f( 0,0,0 );
-//OSG_BASE_DLLMAPPING Color4f     OSG::NullColor4f( 0,0,0,0 );
-//OSG_BASE_DLLMAPPING Color3ub    OSG::NullColor3ub( 0,0,0 );
-//OSG_BASE_DLLMAPPING Color4ub    OSG::NullColor4ub( 0,0,0,0 );
+// Partial specialization to prevent output as ASCII character
+template <class  VecTypeT,
+          UInt32 SizeI    >
+inline void VecToStreamWriter<VecTypeT, Int8, SizeI>::apply(
+    std::ostream &os, const VecTypeT &vec)
+{
+    for(UInt32 i = 0; i < SizeI; ++i)
+    {
+        if(i != 0)
+            os << ", ";
+    
+        os << static_cast<Int16>(vec[i]);
+    }
+}
 
-OSG_COLOR3_OUTPUT_OP_INST(Real32)
-OSG_COLOR3_OUTPUT_OP_INST(UInt8)
+// Partial specialization to prevent output as ASCII character
+template <class  VecTypeT,
+          UInt32 SizeI    >
+inline void VecToStreamWriter<VecTypeT, UInt8, SizeI>::apply(
+    std::ostream &os, const VecTypeT &vec)
+{
+    for(UInt32 i = 0; i < SizeI; ++i)
+    {
+        if(i != 0)
+            os << ", ";
+    
+        os << static_cast<UInt16>(vec[i]);
+    }
+}
 
-OSG_COLOR3_INPUT_OP_INST(Real32)
-OSG_COLOR3_INPUT_OP_INST(UInt8)
 
+/*! Helper struct for reading a vector-like type from a stream.
+ */
+template <class  VecTypeT,
+          class  ValueTypeT,
+          UInt32 SizeI      >
+inline void VecFromStreamReader<VecTypeT, ValueTypeT, SizeI>::apply(
+    std::istream &is, VecTypeT &vec)
+{
+    for(UInt32 i = 0; i < SizeI; ++i)
+    {
+        if(i != 0)
+        {
+            while(is.peek() == ' ' || is.peek() == ',')
+                is.ignore();
+        }
+    
+        is >> vec[i];
+    }
+}
 
-OSG_COLOR4_OUTPUT_OP_INST(Real32)
-OSG_COLOR4_OUTPUT_OP_INST(UInt8)
+// Partial specialization to prevent input as ASCII character
+template <class  VecTypeT,
+          UInt32 SizeI    >
+inline void VecFromStreamReader<VecTypeT, Int8, SizeI>::apply(
+    std::istream &is, VecTypeT &vec)
+{
+    for(UInt32 i = 0; i < SizeI; ++i)
+    {
+        if(i != 0)
+        {
+            while(is.peek() == ' ' || is.peek() == ',')
+                is.ignore();
+        }
+    
+        Int16 temp;
+        
+        is >> temp;
+        vec[i] = static_cast<Int8>(temp);
+    }
+}
 
-OSG_COLOR4_INPUT_OP_INST(Real32)
-OSG_COLOR4_INPUT_OP_INST(UInt8)
+// Partial specialization to prevent input as ASCII character
+template <class  VecTypeT,
+          UInt32 SizeI    >
+inline void VecFromStreamReader<VecTypeT, UInt8, SizeI>::apply(
+    std::istream &is, VecTypeT &vec)
+{
+    for(UInt32 i = 0; i < SizeI; ++i)
+    {
+        if(i != 0)
+        {
+            while(is.peek() == ' ' || is.peek() == ',')
+                is.ignore();
+        }
+    
+        UInt16 temp;
+        
+        is >> temp;
+        vec[i] = static_cast<UInt8>(temp);
+    }
+}
 
 OSG_END_NAMESPACE

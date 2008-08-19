@@ -504,14 +504,16 @@ Point<ValueTypeT, SizeI>
                const Point<ValueTypeT,
                            SizeI     > &vec);
 
-template <class ValueTypeT,
-          UInt32 SizeI   > inline
-std::ostream &operator <<(        std::ostream      &os,
-                          const   Point<ValueTypeT,
-                                        SizeI     > &obj);
+template <class  ValueTypeT,
+          UInt32 SizeI      >
+OSG_BASE_DLLMAPPING std::ostream &operator <<(
+    std::ostream             &os,
+    const Point<ValueTypeT, SizeI> &pnt);
 
-
-
+template <class  ValueTypeT,
+          UInt32 SizeI      >
+OSG_BASE_DLLMAPPING std::istream &operator >>(std::istream             &is,
+                                              Point<ValueTypeT, SizeI> &pnt);
 
 //---------------------------------------------------------------------------
 //  Class
@@ -667,12 +669,16 @@ Vector<ValueTypeT, SizeI>
                const Vector<ValueTypeT,
                             SizeI     > &vec);
 
-template <class  ValueTypeT,
-          UInt32 SizeI     > inline
-std::ostream &operator <<(        std::ostream       &os,
-                          const   Vector<ValueTypeT,
-                                         SizeI     > &obj);
+template <class ValueTypeT,
+          UInt32 SizeI     >
+OSG_BASE_DLLMAPPING std::ostream &operator <<(
+    std::ostream              &os,
+    const Vector<ValueTypeT, SizeI> &vec);
 
+template <class  ValueTypeT,
+          UInt32 SizeI      >
+OSG_BASE_DLLMAPPING std::istream &operator >>(std::istream              &is,
+                                              Vector<ValueTypeT, SizeI> &vec);
 
 // Actual Types
 

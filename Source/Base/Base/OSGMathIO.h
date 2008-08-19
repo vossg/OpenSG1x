@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *                Copyright (C) 2008 by the OpenSG Forum                     *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,38 +36,69 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-
-// System declarations
+#ifndef _OSGMATHIO_H_
+#define _OSGMATHIO_H_
+#ifdef __sgi
+#pragma once
+#endif
 
 #include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
-// Class declarations
-#include "OSGColor.h"
-#include "OSGColor.ins"
-
-#include "OSGMathIO.h"
+#include <iostream>
+#include <sstream>
 
 OSG_BEGIN_NAMESPACE
 
-// Null values
 
-//OSG_BASE_DLLMAPPING Color3f     OSG::NullColor3f( 0,0,0 );
-//OSG_BASE_DLLMAPPING Color4f     OSG::NullColor4f( 0,0,0,0 );
-//OSG_BASE_DLLMAPPING Color3ub    OSG::NullColor3ub( 0,0,0 );
-//OSG_BASE_DLLMAPPING Color4ub    OSG::NullColor4ub( 0,0,0,0 );
+template <class  VecTypeT,
+          class  ValueTypeT = typename VecTypeT::ValueType,
+          UInt32 SizeI      =          VecTypeT::_iSize    >
+struct VecToStreamWriter
+{
+    static void apply(std::ostream &os, const VecTypeT &vec);
+};
 
-OSG_COLOR3_OUTPUT_OP_INST(Real32)
-OSG_COLOR3_OUTPUT_OP_INST(UInt8)
+template <class  VecTypeT,
+          UInt32 SizeI    >
+struct VecToStreamWriter<VecTypeT, Int8, SizeI>
+{
+    static void apply(std::ostream &os, const VecTypeT &vec);
+};
 
-OSG_COLOR3_INPUT_OP_INST(Real32)
-OSG_COLOR3_INPUT_OP_INST(UInt8)
+template <class  VecTypeT,
+          UInt32 SizeI    >
+struct VecToStreamWriter<VecTypeT, UInt8, SizeI>
+{
+    static void apply(std::ostream &os, const VecTypeT &vec);
+};
 
 
-OSG_COLOR4_OUTPUT_OP_INST(Real32)
-OSG_COLOR4_OUTPUT_OP_INST(UInt8)
+template <class  VecTypeT,
+          class  ValueTypeT = typename VecTypeT::ValueType,
+          UInt32 SizeI      =          VecTypeT::_iSize    >
+struct VecFromStreamReader
+{
+    static void apply(std::istream &is, VecTypeT &vec);
+};
 
-OSG_COLOR4_INPUT_OP_INST(Real32)
-OSG_COLOR4_INPUT_OP_INST(UInt8)
+template <class  VecTypeT,
+          UInt32 SizeI    >
+struct VecFromStreamReader<VecTypeT, Int8, SizeI>
+{
+    static void apply(std::istream &is, VecTypeT &vec);
+};
+
+template <class  VecTypeT,
+          UInt32 SizeI    >
+struct VecFromStreamReader<VecTypeT, UInt8, SizeI>
+{
+    static void apply(std::istream &is, VecTypeT &vec);
+};
+
 
 OSG_END_NAMESPACE
+
+#include "OSGMathIO.inl"
+
+#endif // _OSGMATHIO_H_

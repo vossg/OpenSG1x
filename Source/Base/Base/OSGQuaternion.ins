@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *                  Copyright (C) 2008 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,38 +36,36 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-
-// System declarations
-
-#include "OSGConfig.h"
-
-// Class declarations
-#include "OSGColor.h"
-#include "OSGColor.ins"
-
-#include "OSGMathIO.h"
-
 OSG_BEGIN_NAMESPACE
 
-// Null values
+// The following macros provide specializations of the input/output operators
+// for the Quaternion template. They are used to generate these
+// for all built in quaternion types of OpenSG.
+// Use them in your own code if you need to use other types than
+// those provided.
 
-//OSG_BASE_DLLMAPPING Color3f     OSG::NullColor3f( 0,0,0 );
-//OSG_BASE_DLLMAPPING Color4f     OSG::NullColor4f( 0,0,0,0 );
-//OSG_BASE_DLLMAPPING Color3ub    OSG::NullColor3ub( 0,0,0 );
-//OSG_BASE_DLLMAPPING Color4ub    OSG::NullColor4ub( 0,0,0,0 );
+#define OSG_QUATERNION_OUTPUT_OP_INST(OSG_VALUE_TYPE)                          \
+template <> OSG_DLL_EXPORT                                                     \
+std::ostream &operator <<(                                                     \
+    std::ostream &os, const QuaternionBase< OSG_VALUE_TYPE > &obj)             \
+{                                                                              \
+    VecToStreamWriter< QuaternionBase< OSG_VALUE_TYPE >,                       \
+                       OSG_VALUE_TYPE,                                         \
+                       4                                >::apply(os, obj);     \
+                                                                               \
+    return os;                                                                 \
+}
 
-OSG_COLOR3_OUTPUT_OP_INST(Real32)
-OSG_COLOR3_OUTPUT_OP_INST(UInt8)
-
-OSG_COLOR3_INPUT_OP_INST(Real32)
-OSG_COLOR3_INPUT_OP_INST(UInt8)
-
-
-OSG_COLOR4_OUTPUT_OP_INST(Real32)
-OSG_COLOR4_OUTPUT_OP_INST(UInt8)
-
-OSG_COLOR4_INPUT_OP_INST(Real32)
-OSG_COLOR4_INPUT_OP_INST(UInt8)
+#define OSG_QUATERNION_INPUT_OP_INST(OSG_VALUE_TYPE)                           \
+template <> OSG_DLL_EXPORT                                                     \
+std::istream &operator >>(                                                     \
+    std::istream &is, QuaternionBase< OSG_VALUE_TYPE > &obj)                   \
+{                                                                              \
+    VecFromStreamReader< QuaternionBase< OSG_VALUE_TYPE >,                     \
+                         OSG_VALUE_TYPE,                                       \
+                         4                                >::apply(is, obj);   \
+                                                                               \
+    return is;                                                                 \
+}
 
 OSG_END_NAMESPACE

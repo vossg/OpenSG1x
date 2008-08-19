@@ -40,6 +40,12 @@
 #define _OSGEXPORTDEFINES_H_
 
 #ifndef WIN32
+#define OSG_DLL_EXPORT
+#else
+#define OSG_DLL_EXPORT __declspec(dllexport)
+#endif
+
+#ifndef WIN32
 #define OSG_DLLEXPORT_DECL1(CLASSNAME, T1, DLLMAPPING)
 
 #define OSG_DLLEXPORT_DECL2(CLASSNAME, T1, T2, DLLMAPPING)

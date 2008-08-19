@@ -1,0 +1,88 @@
+/*---------------------------------------------------------------------------*\
+ *                                OpenSG                                     *
+ *                                                                           *
+ *                                                                           *
+ *                  Copyright (C) 2008 by the OpenSG Forum                   *
+ *                                                                           *
+ *                            www.opensg.org                                 *
+ *                                                                           *
+ *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                License                                    *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or modify it   *
+ * under the terms of the GNU Library General Public License as published    *
+ * by the Free Software Foundation, version 2.                               *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful, but       *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public         *
+ * License along with this library; if not, write to the Free Software       *
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.                 *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+/*---------------------------------------------------------------------------*\
+ *                                Changes                                    *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+ *                                                                           *
+\*---------------------------------------------------------------------------*/
+
+OSG_BEGIN_NAMESPACE
+
+// The following macros provide specializations of the input/output operators
+// for the Point and Vector templates. They are used to generate these
+// for all built in vector types of OpenSG.
+// Use them in your own code if you need to use other types than
+// those provided.
+
+#define OSG_POINT_OUTPUT_OP_INST(OSG_VALUE_TYPE, OSG_SIZE)                     \
+template <> OSG_DLL_EXPORT                                                     \
+std::ostream &operator << < OSG_VALUE_TYPE, OSG_SIZE >(                        \
+    std::ostream &os, const Point< OSG_VALUE_TYPE, OSG_SIZE > &obj)            \
+{                                                                              \
+    VecToStreamWriter< Point< OSG_VALUE_TYPE, OSG_SIZE > >::apply(os, obj);    \
+                                                                               \
+    return os;                                                                 \
+}
+
+#define OSG_POINT_INPUT_OP_INST(OSG_VALUE_TYPE, OSG_SIZE)                      \
+template <> OSG_DLL_EXPORT                                                     \
+std::istream &operator >> < OSG_VALUE_TYPE, OSG_SIZE >(                        \
+    std::istream &is, Point< OSG_VALUE_TYPE, OSG_SIZE > &obj)                  \
+{                                                                              \
+    VecFromStreamReader< Point< OSG_VALUE_TYPE, OSG_SIZE > >::apply(is, obj);  \
+                                                                               \
+    return is;                                                                 \
+}
+
+
+#define OSG_VECTOR_OUTPUT_OP_INST(OSG_VALUE_TYPE, OSG_SIZE)                    \
+template <> OSG_DLL_EXPORT                                                     \
+std::ostream &operator << < OSG_VALUE_TYPE, OSG_SIZE >(                        \
+    std::ostream &os, const Vector< OSG_VALUE_TYPE, OSG_SIZE > &obj)           \
+{                                                                              \
+    VecToStreamWriter< Vector< OSG_VALUE_TYPE, OSG_SIZE > >::apply(os, obj);   \
+                                                                               \
+    return os;                                                                 \
+}
+
+#define OSG_VECTOR_INPUT_OP_INST(OSG_VALUE_TYPE, OSG_SIZE)                     \
+template <> OSG_DLL_EXPORT                                                     \
+std::istream &operator >> < OSG_VALUE_TYPE, OSG_SIZE >(                        \
+    std::istream &is, Vector< OSG_VALUE_TYPE, OSG_SIZE > &obj)                 \
+{                                                                              \
+    VecFromStreamReader< Vector< OSG_VALUE_TYPE, OSG_SIZE > >::apply(is, obj); \
+                                                                               \
+    return is;                                                                 \
+}
+
+OSG_END_NAMESPACE

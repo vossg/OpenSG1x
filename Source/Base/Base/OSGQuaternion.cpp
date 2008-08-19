@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *                Copyright (C) 2008 by the OpenSG Forum                     *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,38 +36,14 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-
-
-// System declarations
-
-#include "OSGConfig.h"
-
-// Class declarations
-#include "OSGColor.h"
-#include "OSGColor.ins"
+#include "OSGQuaternion.h"
+#include "OSGQuaternion.ins"
 
 #include "OSGMathIO.h"
 
 OSG_BEGIN_NAMESPACE
 
-// Null values
-
-//OSG_BASE_DLLMAPPING Color3f     OSG::NullColor3f( 0,0,0 );
-//OSG_BASE_DLLMAPPING Color4f     OSG::NullColor4f( 0,0,0,0 );
-//OSG_BASE_DLLMAPPING Color3ub    OSG::NullColor3ub( 0,0,0 );
-//OSG_BASE_DLLMAPPING Color4ub    OSG::NullColor4ub( 0,0,0,0 );
-
-OSG_COLOR3_OUTPUT_OP_INST(Real32)
-OSG_COLOR3_OUTPUT_OP_INST(UInt8)
-
-OSG_COLOR3_INPUT_OP_INST(Real32)
-OSG_COLOR3_INPUT_OP_INST(UInt8)
-
-
-OSG_COLOR4_OUTPUT_OP_INST(Real32)
-OSG_COLOR4_OUTPUT_OP_INST(UInt8)
-
-OSG_COLOR4_INPUT_OP_INST(Real32)
-OSG_COLOR4_INPUT_OP_INST(UInt8)
+OSG_QUATERNION_OUTPUT_OP_INST(Real32)
+OSG_QUATERNION_INPUT_OP_INST(Real32)
 
 OSG_END_NAMESPACE
