@@ -158,7 +158,7 @@ public:
         endEditCP(_grabber);
 
         // Putting it to the viewport
-        _window->getPort(0)->getMFForegrounds()->push_back(_grabber);
+        _window->getPort(0)->editMFForegrounds()->push_back(_grabber);
 
         // We toggle the switch material so as to render identification colors.
         switchToIDbuffer();
@@ -176,16 +176,16 @@ public:
         
         // We get the data back
         if(_grabber->getImage()->getData() != NULL){
-            _ID_buffer = _grabber->getImage()->getData();
+            _ID_buffer = _grabber->getImage()->editData();
         }
 
         // We toggle to standard materials
         switchToNormal();
 
         // we remove the Grabber
-        MFForegroundPtr::iterator i =_window->getPort(0)->getMFForegrounds()->find(_grabber);
-        if( i != _window->getPort(0)->getMFForegrounds()->end() ){
-            _window->getPort(0)->getMFForegrounds()->erase(i);
+        MFForegroundPtr::iterator i =_window->getPort(0)->editMFForegrounds()->find(_grabber);
+        if( i != _window->getPort(0)->editMFForegrounds()->end() ){
+            _window->getPort(0)->editMFForegrounds()->erase(i);
         }
     }
 
@@ -206,10 +206,22 @@ private:
     Color4ub    create_new_color()
     {
         // With this, we are ready for 255^3 objects.
-        if(ci>1)        {ci--;}
-        else if(cj>1)    {cj--;}
-        else if(ck>1)    {ck--;}
-        else {
+        if(ci > 1)
+        {
+            ci--;
+        }
+        else if(cj > 1)
+        {
+            cj--;
+            ci = 255;
+        }
+        else if(ck > 1)
+        {
+            ck--;
+            ci = cj = 255;
+        }
+        else
+        {
             cerr << "Cdrawing::create_new_color()  NO MORE COLOR FREE !!!! TOO MANY OBJECTS ... Gloups " << endl;
             // Note that we can extend to 255^4 objects with the alpha channel
         }
@@ -231,7 +243,7 @@ private:
             // Just record them here.
             
             MaterialGroupPtr mg = MaterialGroupPtr::dcast(root->getCore());
- 
+
             _mgswitchs.push_back(pair<MaterialGroupPtr,MaterialPtr>(mg,NullFC));            
         }
         
