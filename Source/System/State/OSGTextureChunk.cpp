@@ -1919,22 +1919,28 @@ void TextureChunk::activate( DrawActionBase *action, UInt32 idx )
             }
             if ( (NpotMatScale & XFlip_TT) )
             {
-                tw = sw - 1.f;
-                sw *= -1.f;
+                tw = sw;
+                if (getTarget() == GL_TEXTURE_RECTANGLE_ARB)
+                  tw *= static_cast<Real32>(i->getWidth());
+                sw = -sw;
                 
                 setMatrix = true;
             }
             if ( (NpotMatScale & YFlip_TT) )
             {
-                th = sh - 1.f;
-                sh *= -1.f;
+                th = sh;
+                if (getTarget() == GL_TEXTURE_RECTANGLE_ARB)
+                  th *= static_cast<Real32>(i->getHeight());
+                sh = -sh;
                 
                 setMatrix = true;
             }
             if ( (NpotMatScale & ZFlip_TT) )
             {
-                td = sd - 1.f;
-                sd *= -1.f;
+                td = sd;
+                if (getTarget() == GL_TEXTURE_RECTANGLE_ARB)
+                  td *= static_cast<Real32>(i->getDepth());
+                sd = -sd;
                 
                 setMatrix = true;
             }
@@ -2274,22 +2280,28 @@ void TextureChunk::changeFrom(DrawActionBase *action,
             }
             if ( (NpotMatScale & XFlip_TT) )
             {
-                tw = sw - 1.f;
-                sw *= -1.f;
+                tw = sw;
+                if (getTarget() == GL_TEXTURE_RECTANGLE_ARB)
+                  tw *= static_cast<Real32>(i->getWidth());
+                sw = -sw;
                 
                 setMatrix = true;
             }
             if ( (NpotMatScale & YFlip_TT) )
             {
-                th = sh - 1.f;
-                sh *= -1.f;
+                th = sh;
+                if (getTarget() == GL_TEXTURE_RECTANGLE_ARB)
+                  th *= static_cast<Real32>(i->getHeight());
+                sh = -sh;
                 
                 setMatrix = true;
             }
             if ( (NpotMatScale & ZFlip_TT) )
             {
-                td = sd - 1.f;
-                sd *= -1.f;
+                td = sd;
+                if (getTarget() == GL_TEXTURE_RECTANGLE_ARB)
+                  td *= static_cast<Real32>(i->getDepth());
+                sd = -sd;
                 
                 setMatrix = true;
             }
