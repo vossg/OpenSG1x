@@ -139,7 +139,7 @@ int main(int argc, char **argv)
     NodePtr point1 = makeCoredNode<PointLight>(&point1_core);
     NodePtr point1_beacon = makeCoredNode<Transform>(&point1_trans);
     beginEditCP(point1_trans);
-        point1_trans->getMatrix().setTranslate(0.0, 100.0, 0.0);
+        point1_trans->editMatrix().setTranslate(0.0, 100.0, 0.0);
     endEditCP(point1_trans);
 
     beginEditCP(point1_core);
@@ -186,7 +186,7 @@ int main(int argc, char **argv)
     beginEditCP(bottom_trans_core);
         Quaternion q;
         q.setValueAsAxisDeg(1, 0, 0, -90);
-        bottom_trans_core->getMatrix().setRotate(q);
+        bottom_trans_core->editMatrix().setRotate(q);
     endEditCP(bottom_trans_core);
     beginEditCP(bottom_trans);
         bottom_trans->addChild(bottom);

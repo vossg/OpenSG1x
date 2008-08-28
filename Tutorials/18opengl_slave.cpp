@@ -532,7 +532,7 @@ int main(int argc, char **argv)
     mgr->setWindow(pwin );
     mgr->setRoot  (scene);
 
-    if (pwin->getPort().size() != 0) 
+    if (pwin->getMFPort()->size() != 0) 
     {
         PassiveBackgroundPtr bg = PassiveBackground::create();
         

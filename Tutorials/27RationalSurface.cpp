@@ -154,15 +154,15 @@ NodePtr makeSurface(const int numcps, const float xyzw[][4],
         // set up dimensions and knot vectors:
         surface->setDimU( dimU );
         surface->setDimV( dimV );
-        surface->getKnotsU().clear();
+        surface->editMFKnotsU()->clear();
         for (i = 0; i < numknotsU; ++i)
         {
-            surface->getKnotsU().push_back(knotsU[i]);
+            surface->editMFKnotsU()->push_back(knotsU[i]);
         }
-        surface->getKnotsV().clear();
+        surface->editMFKnotsV()->clear();
         for (i = 0; i < numknotsV; ++i)
         {
-            surface->getKnotsV().push_back(knotsV[i]);
+            surface->editMFKnotsV()->push_back(knotsV[i]);
         }
         // set control points
         surface->setControlPoints(cps);

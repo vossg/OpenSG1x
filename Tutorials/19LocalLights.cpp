@@ -64,7 +64,7 @@ int main(int argc, char **argv)
     TransformPtr light_trans;
     NodePtr light_beacon = makeCoredNode<Transform>(&light_trans);
     beginEditCP(light_trans);
-        light_trans->getMatrix().setTranslate(0.0, 0.0, 10.0);
+        light_trans->editMatrix().setTranslate(0.0, 0.0, 10.0);
     endEditCP(light_trans);
 
     // red light.
@@ -118,7 +118,7 @@ int main(int argc, char **argv)
     TransformPtr sphere1_trans_core;
     NodePtr sphere1_trans = makeCoredNode<Transform>(&sphere1_trans_core);
     beginEditCP(sphere1_trans_core);
-        sphere1_trans_core->getMatrix().setTranslate(-5.0, 0.0, 5.0);
+        sphere1_trans_core->editMatrix().setTranslate(-5.0, 0.0, 5.0);
     endEditCP(sphere1_trans_core);
     beginEditCP(sphere1_trans);
         sphere1_trans->addChild(sphere1);
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
     TransformPtr sphere2_trans_core;
     NodePtr sphere2_trans = makeCoredNode<Transform>(&sphere2_trans_core);
     beginEditCP(sphere2_trans_core);
-        sphere2_trans_core->getMatrix().setTranslate(0.0, 0.0, 5.0);
+        sphere2_trans_core->editMatrix().setTranslate(0.0, 0.0, 5.0);
     endEditCP(sphere2_trans_core);
     beginEditCP(sphere2_trans);
         sphere2_trans->addChild(sphere2);
@@ -138,7 +138,7 @@ int main(int argc, char **argv)
     TransformPtr sphere3_trans_core;
     NodePtr sphere3_trans = makeCoredNode<Transform>(&sphere3_trans_core);
     beginEditCP(sphere3_trans_core);
-        sphere3_trans_core->getMatrix().setTranslate(5.0, 0.0, 5.0);
+        sphere3_trans_core->editMatrix().setTranslate(5.0, 0.0, 5.0);
     endEditCP(sphere3_trans_core);
     beginEditCP(sphere3_trans);
         sphere3_trans->addChild(sphere3);

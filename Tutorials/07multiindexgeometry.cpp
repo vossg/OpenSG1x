@@ -236,9 +236,9 @@ int main(int argc, char **argv)
              The number of elements in the indexMapping field defines the
              number of indices used for every vertex.
         */
-        geo->getIndexMapping().push_back( Geometry::MapPosition   );
-        geo->getIndexMapping().push_back( Geometry::MapColor    |
-                                          Geometry::MapNormal     );
+        geo->editMFIndexMapping()->push_back(Geometry::MapPosition   );
+        geo->editMFIndexMapping()->push_back(Geometry::MapColor    |
+                                             Geometry::MapNormal     );
          
         geo->setPositions(pnts  );
         geo->setColors   (colors);

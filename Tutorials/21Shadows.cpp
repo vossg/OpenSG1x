@@ -70,7 +70,7 @@ int main(int argc, char **argv)
     NodePtr point1 = makeCoredNode<PointLight>(&_point1_core);
     NodePtr point1_beacon = makeCoredNode<Transform>(&point1_trans);
     beginEditCP(point1_trans);
-        point1_trans->getMatrix().setTranslate(0.0, 0.0, 25.0);
+        point1_trans->editMatrix().setTranslate(0.0, 0.0, 25.0);
     endEditCP(point1_trans);
 
     beginEditCP(_point1_core);
@@ -85,7 +85,7 @@ int main(int argc, char **argv)
     NodePtr point2 = makeCoredNode<PointLight>(&_point2_core);
     NodePtr point2_beacon = makeCoredNode<Transform>(&point2_trans);
     beginEditCP(point2_trans);
-        point2_trans->getMatrix().setTranslate(5.0, 5.0, 20.0);
+        point2_trans->editMatrix().setTranslate(5.0, 5.0, 20.0);
     endEditCP(point2_trans);
 
     beginEditCP(_point2_core);
@@ -139,7 +139,7 @@ int main(int argc, char **argv)
     // box
     NodePtr box_trans_node = makeCoredNode<Transform>(&_box_trans);
     beginEditCP(_box_trans);
-        _box_trans->getMatrix().setTranslate(0.0, 0.0, 2.0);
+        _box_trans->editMatrix().setTranslate(0.0, 0.0, 2.0);
     endEditCP(_box_trans);
     NodePtr box = makeBox(8.0, 8.0, 0.8, 10, 10 , 10);
     beginEditCP(box_trans_node);
@@ -160,7 +160,7 @@ int main(int argc, char **argv)
     // cylinder1
     NodePtr cylinder1_trans_node = makeCoredNode<Transform>(&_cylinder1_trans);
     beginEditCP(_cylinder1_trans);
-        _cylinder1_trans->getMatrix().setTranslate(0.0, 0.0, 5.0);
+        _cylinder1_trans->editMatrix().setTranslate(0.0, 0.0, 5.0);
     endEditCP(_cylinder1_trans);
     NodePtr cylinder1 = OSG::makeCylinder(10.0, 0.4, 32, true, true ,true);
     beginEditCP(cylinder1_trans_node);
@@ -181,7 +181,7 @@ int main(int argc, char **argv)
     // cylinder2
     NodePtr cylinder2_trans_node = makeCoredNode<Transform>(&_cylinder2_trans);
     beginEditCP(_cylinder2_trans);
-        _cylinder2_trans->getMatrix().setTranslate(0.0, 0.0, 8.0);
+        _cylinder2_trans->editMatrix().setTranslate(0.0, 0.0, 8.0);
     endEditCP(_cylinder2_trans);
     NodePtr cylinder2 = OSG::makeCylinder(10.0, 0.4, 32, true, true ,true);
     beginEditCP(cylinder2_trans_node);
@@ -233,8 +233,8 @@ int main(int argc, char **argv)
         svp->setMapSize(1024);
         // you can add the light sources here, as default all light source in
         // the scenegraph are used.
-        svp->getLightNodes().push_back(point1);
-        svp->getLightNodes().push_back(point2);
+        svp->editMFLightNodes()->push_back(point1);
+        svp->editMFLightNodes()->push_back(point2);
     endEditCP(svp);
 
     beginEditCP(gwin);//Window
@@ -293,17 +293,17 @@ void Animate()
     Quaternion q;
     beginEditCP(_box_trans);
         q.setValueAsAxisDeg(0,0,1, rotb);
-        _box_trans->getMatrix().setRotate(q);
+        _box_trans->editMatrix().setRotate(q);
     endEditCP(_box_trans);
 
     beginEditCP(_cylinder1_trans);
         q.setValueAsAxisDeg(0,0,1, rotc1);
-        _cylinder1_trans->getMatrix().setRotate(q);
+        _cylinder1_trans->editMatrix().setRotate(q);
     endEditCP(_cylinder1_trans);
 
     beginEditCP(_cylinder2_trans);
         q.setValueAsAxisDeg(0,0,1, rotc2);
-        _cylinder2_trans->getMatrix().setRotate(q);
+        _cylinder2_trans->editMatrix().setRotate(q);
     endEditCP(_cylinder2_trans);
 
 

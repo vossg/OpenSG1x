@@ -73,7 +73,7 @@ void grabImage(ImagePtr img)
 {
     beginEditCP(img, Image::PixelFieldMask);
     
-    UInt8* data = img->getData();
+    UInt8* data = img->editData();
     
     // for this example, just fill it with random junk    
     if(changeOnlyPart)
@@ -283,7 +283,7 @@ int main(int argc, char **argv)
     // replace the background
     // This has to be done after the viewport has been created, which the 
     // SSM does in setRoot().
-    ViewportPtr vp = gwin->getPort()[0];
+    ViewportPtr vp = gwin->getPort(0);
     
     beginEditCP(vp, Viewport::BackgroundFieldMask);
     {

@@ -164,7 +164,7 @@ void display(void)
     mgr->getWindow()->activate();
     mgr->getWindow()->frameInit();
 
-    raction->setWindow(mgr->getWindow().getCPtr());
+    raction->setWindow(getCPtr(mgr->getWindow()));
 
     ViewportPtr viewport = mgr->getWindow()->getPort(0);
 

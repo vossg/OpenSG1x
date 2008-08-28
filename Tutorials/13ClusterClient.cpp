@@ -124,7 +124,7 @@ cout << "Connection type set to SockPipeline" << endl;
         else
         {
             printf("%s\n",argv[a]);
-            mwin->getServers().push_back(argv[a]);
+            mwin->editMFServers()->push_back(argv[a]);
         }
     }
 

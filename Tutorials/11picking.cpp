@@ -128,13 +128,13 @@ void keyboard(unsigned char k, int x, int y)
             
                     // and turn them into a triangle
                     Pnt3f p = it.getPosition(0);
-                    m.multMatrixPnt(p);
+                    m.mult(p, p);
                     isectPoints->setValue(p, 4);
                     p = it.getPosition(1);
-                    m.multMatrixPnt(p);
+                    m.mult(p, p);
                     isectPoints->setValue(p, 5);
                     p = it.getPosition(2);
-                    m.multMatrixPnt(p);
+                    m.mult(p, p);
                     isectPoints->setValue(p, 6);
                 }
                 else

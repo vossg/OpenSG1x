@@ -229,9 +229,9 @@ int main (int argc, char **argv)
 
     WindowPtr win = mgr->getWindow();
     beginEditCP(win);
-        for(int i=0;i<win->getPort().size();++i)
+        for(int i = 0; i < win->getMFPort()->size(); ++i)
         {
-            ViewportPtr vp = win->getPort()[i];
+            ViewportPtr vp = win->getPort(i);
             beginEditCP(vp);
                 vp->setBackground(gback);
             endEditCP(vp);

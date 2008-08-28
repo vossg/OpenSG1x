@@ -64,7 +64,7 @@ Action::ResultE changeGeo(NodePtr& node)
             geo->setColors(colors);
             // If multi-indexed, make the colors use the same index as
             // the geometry
-            if(geo->getIndexMapping().size() > 0)
+            if(geo->getMFIndexMapping()->size() > 0)
             {
                 Int16 pind = geo->calcMappingIndex(Geometry::MapPosition);
                 
@@ -75,7 +75,7 @@ Action::ResultE changeGeo(NodePtr& node)
                 }
                 
                 // This makes the colors use the same indices as the positions
-                geo->getIndexMapping()[pind] |= Geometry::MapColor;
+                geo->editIndexMapping(pind) |= Geometry::MapColor;
             }
         endEditCP  (geo, Geometry::ColorsFieldMask);
     }
@@ -142,7 +142,11 @@ int main(int argc, char **argv)
     
     // calc size of the scene
     Vec3f min, max;
+#ifndef OSG_2_PREP
     DynamicVolume vol;
+#else
+    BoxVolume     vol;
+#endif
     scene->getWorldVolume(vol);
     vol.getBounds(min, max);
 

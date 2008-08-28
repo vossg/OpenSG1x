@@ -117,7 +117,7 @@ int main(int argc, char **argv)
         else
         {
             printf("%s\n",argv[a]);
-            mwin->getServers().push_back(argv[a]);
+            mwin->editMFServers()->push_back(argv[a]);
         }
     }
 

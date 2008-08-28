@@ -310,8 +310,9 @@ NodePtr buildFlag(TextureChunkPtr fboTexture, const int &flagHor, const int &fla
             createNoise(noise, Image::OSG_I_PF, 5, 256);
             beginEditCP(noise);
                 // make noise image darker (as it will be GL_ADDed)
+                UInt8 *data = noise->editData();
                 for(int i = 0; i < noise->getSize(); ++i)
-                    noise->getData()[i] >>= 2; // *= 0.125
+                    data[i] >>= 2; // *= 0.125
             endEditCP(noise);
             TextureChunkPtr gloss = TextureChunk::create();
             beginEditCP(gloss);
@@ -459,7 +460,7 @@ void setupFBO( TextureChunkPtr fboTexture, GLUTWindowPtr gwin, NodePtr fboScene 
         ::fboVP->setCamera(fboCam);
         ::fboVP->setParent(gwin);
         // attach texture as render target
-        ::fboVP->getTextures().push_back(fboTexture);
+        ::fboVP->editMFTextures()->push_back(fboTexture);
         ::fboVP->setRoot(fboScene);
     endEditCP(::fboVP);
 
