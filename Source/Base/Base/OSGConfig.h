@@ -566,7 +566,7 @@
 # define OSG_NO_CONCEPT_CHECKS
 # define SIZE_T_NEQ_UINT32
 # include <AvailabilityMacros.h>
-# if MAC_OS_X_VERSION_MAX_ALLOWED < 1050
+# if !defined(MAC_OS_X_VERSION_10_5) || (MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5)
 #  define OSG_GLENUM_NEQ_UINT32
 # endif
 
