@@ -704,7 +704,11 @@ void NFIOBase::writeFieldContainer(const FieldContainerPtr &fc)
     
     _out->putValue(typeName);
     _out->putValue(getContainerId(fc));
-    
+
+    // add the root fc id here! without this writing a scene with
+    // a root node referencing itself in its own attachment would fail!
+    _fcSet.insert(getContainerId(fc));
+
     NFIOFactory::the().get(typeName)->writeFC(fc);
     SceneFileHandler::the().updateWriteProgress((currentFCCount++ * 100) / fcCount);
 
@@ -1216,6 +1220,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.17 2008/06/11 11:27:27 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.18 2008/08/31 10:30:35 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }
