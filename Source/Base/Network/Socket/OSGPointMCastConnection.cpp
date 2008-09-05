@@ -194,6 +194,11 @@ Connection::Channel PointMCastConnection::selectChannel(Time timeout)
     return 0;
 }
 
+int PointMCastConnection::getAvailable(void)
+{
+    return _mcastSocket.getAvailable();
+}
+
 /*-------------------------------------------------------------------------*/
 /*                            sync                                         */
 

@@ -107,6 +107,8 @@ class OSG_BASE_DLLMAPPING Connection : public BinaryDataHandler
 
     virtual Channel selectChannel(Time timeout=-1) throw (ReadError) = 0;
 
+    virtual int getAvailable     (void           ) = 0;
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   bind to interface                          */

@@ -308,6 +308,11 @@ Connection::Channel GroupSockConnection::selectChannel(Time timeout)
     return indexToChannel(_readIndex);
 }
 
+int GroupSockConnection::getAvailable(void)
+{
+    return _sockets[_readIndex].getAvailable();
+}
+
 /*-------------------------------------------------------------------------*/
 /*                            sync                                         */
 

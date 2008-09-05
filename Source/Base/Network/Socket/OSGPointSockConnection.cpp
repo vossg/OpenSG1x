@@ -237,6 +237,11 @@ Connection::Channel PointSockConnection::selectChannel(Time timeout)
     return -1;
 }
 
+int PointSockConnection::getAvailable(void)
+{
+    return _socket.getAvailable();
+}
+
 /*-------------------------------------------------------------------------*/
 /*                            sync                                         */
 

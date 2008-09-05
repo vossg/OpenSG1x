@@ -102,6 +102,8 @@ class OSG_BASE_DLLMAPPING GroupSockConnection : public GroupConnection
 
     virtual Channel selectChannel   (Time timeout=-1) throw (ReadError);
 
+    virtual int getAvailable        (void           );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   create                                     */

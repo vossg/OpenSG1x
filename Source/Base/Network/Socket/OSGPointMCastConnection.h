@@ -102,6 +102,8 @@ class OSG_BASE_DLLMAPPING PointMCastConnection : public PointSockConnection
 
     virtual Channel selectChannel (Time timeout=-1) throw (ReadError);
 
+    virtual int getAvailable      (void           );
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   create                                     */
