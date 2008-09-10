@@ -3024,6 +3024,15 @@ Action::ResultE Particles::drawPrimitives(DrawActionBase * action)
             Vec3f refvec(  modelview[2][0],modelview[2][1],
                       modelview[2][2]);  
 
+            if(getNumParticles() == -1)
+            {
+                length = getMFIndices()->size();
+            }
+            else
+            {
+                length = getNumParticles();
+            }
+
             index = getBsp().traverse(ref,length);
         }
         freeIndex = true;
