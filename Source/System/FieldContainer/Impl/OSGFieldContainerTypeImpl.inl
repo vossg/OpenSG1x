@@ -124,29 +124,23 @@ bool FieldContainerType::isDerivedFrom(const TypeBase &other) const
 inline
 bool FieldContainerType::isDerivedFrom(const FieldContainerType &other) const
 {
-    bool                returnValue = false;
-    FieldContainerType *pCurrType   = _pParent;
-
     if(_uiTypeId == other._uiTypeId)
     {
-        returnValue = true;
+        return true;
     }
     else
     {
-        while(pCurrType != NULL && returnValue == false)
+        FieldContainerType *pCurrType   = _pParent;
+        while(pCurrType != NULL)
         {
             if(other._uiTypeId == pCurrType->_uiTypeId)
             {
-                returnValue = true;
+                return true;
             }
-            else
-            {
-                pCurrType = pCurrType->_pParent;
-            }
+            pCurrType = pCurrType->_pParent;
         }
     }
-
-    return returnValue;
+    return false;
 }
 
 inline
