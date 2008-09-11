@@ -174,9 +174,16 @@ struct FieldTraitsRecurseMapper<AttachmentMap, false> :
 
             fcp = FieldContainerFactory::the()->getMappedContainer(fcId);
 
-            key = (UInt32 (fcp->getGroupId()) << 16) | binding;
-
-            (static_cast<FieldContainerPtr &>(pObject[key])) = fcp;
+            if(fcp != NullFC)
+            {
+                key = (UInt32 (fcp->getGroupId()) << 16) | binding;
+    
+                (static_cast<FieldContainerPtr &>(pObject[key])) = fcp;
+            }
+            else
+            {
+                SFATAL << "FieldTraitsRecurseMapper<AttachmentMap, false>::copyFromBin: Couldn't find container id: " << fcId << std::endl;
+            }
         }
     }
 
