@@ -148,8 +148,15 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
  
     static StatElemDesc<StatTimeElem> statSyncTime;
 
-    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                   Callbacks                                  */
+    /*! \{                                                                 */
 
+    typedef void (*synccbfp)(const std::string &msg, Int32 progress);
+    void setSendSyncCB(synccbfp fp);
+
+    /*! \}                                                                 */
+    
     /*=========================  PROTECTED  ===============================*/
   protected:
     /*---------------------------------------------------------------------*/
@@ -189,6 +196,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     std::vector<Functor>              _destroyedFunctors;
     std::vector<Functor>              _changedFunctors;
     StatCollector                    *_statistics;
+
+    synccbfp                          _sendSyncFP;
 
     static std::map<UInt32, UInt32>   _clStore;
     

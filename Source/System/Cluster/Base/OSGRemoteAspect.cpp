@@ -96,7 +96,8 @@ RemoteAspect::RemoteAspect(UInt32 aspectId) :
     _createdFunctors(),
     _destroyedFunctors(),
     _changedFunctors(),
-    _statistics(NULL)
+    _statistics(NULL),
+    _sendSyncFP(NULL)
 {
     FieldContainerFactory::TypeMapIterator  typeI;
 
@@ -545,10 +546,18 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
 
     handleFCMapping(connection);
 
+    Real64 progress_step = 0.0;
+    Int32 progress = 0;
+    if(_sendSyncFP != NULL)
+        progress_step = 100.0 / Real64(changeList->sizeCreated());
+
     // created fct
     for(createdI = changeList->beginCreated();
         createdI != changeList->endCreated(); createdI++)
     {
+        if(_sendSyncFP != NULL)
+            _sendSyncFP("sending created objects", Int32(progress_step * Real64(++progress)));
+
         fcPtr = fcFactory->getContainer(*createdI);
         if(fcPtr == NullFC)
         {
@@ -602,10 +611,17 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
         }
     }
 
+    progress = 0;
+    if(_sendSyncFP != NULL)
+        progress_step = 100.0 / Real64(changedMap.size());
+
     for(FieldMaskMapT::iterator condensedI = changedMap.begin();
         condensedI != changedMap.end();
         ++condensedI)
     {
+        if(_sendSyncFP != NULL)
+            _sendSyncFP("sending changed objects", Int32(progress_step * Real64(++progress)));
+
         if(_mappedFC.count(condensedI->first)==0)
             continue;
 
@@ -644,11 +660,18 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
         }
     }
 
+    progress = 0;
+    if(_sendSyncFP != NULL)
+        progress_step = 100.0 / Real64(changeList->sizeDestroyed());
+
     // destroy fct
     // needs to be called after the changes (see receiveSync for more info)!!!
     for(destroyedI = changeList->beginDestroyed();
         destroyedI != changeList->endDestroyed(); destroyedI++)
     {
+        if(_sendSyncFP != NULL)
+            _sendSyncFP("sending destroyed objects", Int32(progress_step * Real64(++progress)));
+
         UInt32  id = (*destroyedI);
 
         // is it a known container
@@ -661,11 +684,18 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
         }
     }
 
+    progress = 0;
+    if(_sendSyncFP != NULL)
+        progress_step = 100.0 / Real64(changeList->sizeAddRefd());
+
     // addref
     for(addRefedI = changeList->beginAddRefd();
         addRefedI != changeList->endAddRefd();
         ++addRefedI)
     {
+        if(_sendSyncFP != NULL)
+            _sendSyncFP("sending referenced objects", Int32(progress_step * Real64(++progress)));
+
         UInt32  id = (*addRefedI);
 
         if(_mappedFC.count(id)==0)
@@ -675,11 +705,18 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
         connection.putValue(id);
     }
 
+    progress = 0;
+    if(_sendSyncFP != NULL)
+        progress_step = 100.0 / Real64(changeList->sizeSubRefd());
+
     // subref
     for(subRefedI = changeList->beginSubRefd();
         subRefedI != changeList->endSubRefd();
         ++subRefedI)
     {
+        if(_sendSyncFP != NULL)
+            _sendSyncFP("sending unreferenced objects", Int32(progress_step * Real64(++progress)));
+
         UInt32  id = (*subRefedI);
 
         // ignore addrefs for unknown fcs
@@ -1043,6 +1080,11 @@ UInt64 RemoteAspect::getFullRemoteId(UInt32 fcId)
     remoteId<<=32;
     remoteId|=fcId;
     return remoteId;
+}
+
+void RemoteAspect::setSendSyncCB(synccbfp fp)
+{
+    _sendSyncFP = fp;
 }
 
 /*-------------------------------------------------------------------------*\
