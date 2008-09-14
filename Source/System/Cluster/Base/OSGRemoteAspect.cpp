@@ -737,6 +737,9 @@ void RemoteAspect::sendSync(Connection &connection, ChangeList *changeList)
     {
         _statistics->getElem(statSyncTime)->stop();
     }
+
+    if(_sendSyncFP != NULL)
+        _sendSyncFP("ready", 100);
 }
 
 /*! The given functor is called when a create of the specified type
