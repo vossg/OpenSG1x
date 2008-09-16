@@ -491,6 +491,11 @@ void OSG::Window::subPort(const ViewportPtr &portP)
 
 }
 
+void OSG::Window::subPortByObj (const ViewportPtr &portP)
+{
+    subPort(portP);
+}
+
 void OSG::Window::subPort(UInt32  portIndex)
 {
     MFViewportPtr::iterator portIt = _mfPort.begin();

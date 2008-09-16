@@ -102,6 +102,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
 
     typedef NodePtr Ptr;
 
+#ifndef OSG_2_PREP
+    typedef DynamicVolume Volume;
+#else
+    typedef BoxVolume     Volume;
+#endif
+
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */
     /*! \{                                                                 */
