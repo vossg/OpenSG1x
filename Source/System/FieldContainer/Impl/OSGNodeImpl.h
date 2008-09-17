@@ -103,9 +103,9 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     typedef NodePtr Ptr;
 
 #ifndef OSG_2_PREP
-    typedef DynamicVolume Volume;
+    typedef DynamicVolume VolumeType;
 #else
-    typedef BoxVolume     Volume;
+    typedef BoxVolume     VolumeType;
 #endif
 
     /*---------------------------------------------------------------------*/
