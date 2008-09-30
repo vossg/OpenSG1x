@@ -174,6 +174,12 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     void useNodeList( void ); 
     
     /*------------------------- your_operators ------------------------------*/
+    
+    
+    // call the single node. used for cascading actions
+    
+    inline ResultE callEnter( NodePtr node );   
+    inline ResultE callLeave( NodePtr node );
 
 
     /*------------------------- assignment ----------------------------------*/
@@ -219,11 +225,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Action
     // protected to allow derived access
     Action(void);
     Action(const Action &source);
-
-    // call the single node. used for cascading actions
-    
-    inline ResultE callEnter( NodePtr node );   
-    inline ResultE callLeave( NodePtr node );
 
     // start/stop functions for the action.
     // called at the very beginning/end, can return a list of nodes
