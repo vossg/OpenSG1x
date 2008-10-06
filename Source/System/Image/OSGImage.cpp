@@ -2521,11 +2521,11 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
 
     if(destination != NullFC)
         destImage=destination;
-    else
+    else 
         destImage=ImagePtr(this);
 
     // get pixel
-    const MFUInt8 &srcPixel=(*getMFPixel());
+    const MFUInt8 srcPixel=getPixel();
     // set image data
     destImage->set(static_cast<PixelFormat>(getPixelFormat()),
                    width, height, depth, getMipMapCount(),
@@ -2534,7 +2534,7 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
                    getSideCount());
 
     beginEditCP(destImage,PixelFieldMask);
-
+    
     // copy every mipmap in every side in every frame
     for(frame = 0; frame < getFrameCount(); frame++)
     {
