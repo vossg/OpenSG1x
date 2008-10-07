@@ -10,8 +10,8 @@ Additional Libraries:   http://developer.nvidia.com/object/cg_toolkit.html
     Windows:            Cg:CgGL:CgFXParser
     Linux:              Cg:CgGL:CgFX:CgFXGL 
 Added:                  2005/06/11
-Last modified:          2005/06/11
-Last tested:            2005/06/11
+Last modified:          2008/10/07
+Last tested:            2008/10/07
 
 Description:
 
@@ -27,3 +27,14 @@ This is just an example you need to modify the cg paths.
 Have fun
 
     Andreas
+
+-------------------
+Addition (2008-10-07):
+
+There are some Cg shader fragments in directory shaderfragments
+which will install in <OpenSGIncludeDir>/shaderfragments.
+
+A minimal example of how to use them can be found in
+test_shaderfragments.cpp and test_shaderfragments.cgfx.
+
+- Karsten Schwenk (macnihilist@users.sourceforge.net)

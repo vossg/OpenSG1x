@@ -70,6 +70,9 @@ const OSG::BitVector  CGFXMaterialBase::EffectFileFieldMask =
 const OSG::BitVector  CGFXMaterialBase::EffectStringFieldMask = 
     (TypeTraits<BitVector>::One << CGFXMaterialBase::EffectStringFieldId);
 
+const OSG::BitVector  CGFXMaterialBase::CompilerOptionsFieldMask = 
+    (TypeTraits<BitVector>::One << CGFXMaterialBase::CompilerOptionsFieldId);
+
 const OSG::BitVector  CGFXMaterialBase::TechniqueFieldMask = 
     (TypeTraits<BitVector>::One << CGFXMaterialBase::TechniqueFieldId);
 
@@ -91,6 +94,9 @@ const OSG::BitVector CGFXMaterialBase::MTInfluenceMask =
 */
 /*! \var std::string     CGFXMaterialBase::_sfEffectString
     cgfx source string
+*/
+/*! \var std::string     CGFXMaterialBase::_mfCompilerOptions
+    effect compiler options
 */
 /*! \var Int32           CGFXMaterialBase::_sfTechnique
     
@@ -116,6 +122,11 @@ FieldDescription *CGFXMaterialBase::_desc[] =
                      EffectStringFieldId, EffectStringFieldMask,
                      false,
                      reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editSFEffectString)),
+    new FieldDescription(MFString::getClassType(), 
+                     "compilerOptions", 
+                     CompilerOptionsFieldId, CompilerOptionsFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editMFCompilerOptions)),
     new FieldDescription(SFInt32::getClassType(), 
                      "technique", 
                      TechniqueFieldId, TechniqueFieldMask,
@@ -197,6 +208,7 @@ void CGFXMaterialBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 {
     Inherited::onDestroyAspect(uiId, uiAspect);
 
+    _mfCompilerOptions.terminateShare(uiAspect, this->getContainerSize());
     _mfParameters.terminateShare(uiAspect, this->getContainerSize());
     _mfImages.terminateShare(uiAspect, this->getContainerSize());
 }
@@ -211,6 +223,7 @@ void CGFXMaterialBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 CGFXMaterialBase::CGFXMaterialBase(void) :
     _sfEffectFile             (), 
     _sfEffectString           (), 
+    _mfCompilerOptions        (), 
     _sfTechnique              (Int32(0)), 
     _mfParameters             (), 
     _mfImages                 (), 
@@ -225,6 +238,7 @@ CGFXMaterialBase::CGFXMaterialBase(void) :
 CGFXMaterialBase::CGFXMaterialBase(const CGFXMaterialBase &source) :
     _sfEffectFile             (source._sfEffectFile             ), 
     _sfEffectString           (source._sfEffectString           ), 
+    _mfCompilerOptions        (source._mfCompilerOptions        ), 
     _sfTechnique              (source._sfTechnique              ), 
     _mfParameters             (source._mfParameters             ), 
     _mfImages                 (source._mfImages                 ), 
@@ -252,6 +266,11 @@ UInt32 CGFXMaterialBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (EffectStringFieldMask & whichField))
     {
         returnValue += _sfEffectString.getBinSize();
+    }
+
+    if(FieldBits::NoField != (CompilerOptionsFieldMask & whichField))
+    {
+        returnValue += _mfCompilerOptions.getBinSize();
     }
 
     if(FieldBits::NoField != (TechniqueFieldMask & whichField))
@@ -288,6 +307,11 @@ void CGFXMaterialBase::copyToBin(      BinaryDataHandler &pMem,
         _sfEffectString.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (CompilerOptionsFieldMask & whichField))
+    {
+        _mfCompilerOptions.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (TechniqueFieldMask & whichField))
     {
         _sfTechnique.copyToBin(pMem);
@@ -321,6 +345,11 @@ void CGFXMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfEffectString.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (CompilerOptionsFieldMask & whichField))
+    {
+        _mfCompilerOptions.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (TechniqueFieldMask & whichField))
     {
         _sfTechnique.copyFromBin(pMem);
@@ -352,6 +381,9 @@ void CGFXMaterialBase::executeSyncImpl(      CGFXMaterialBase *pOther,
     if(FieldBits::NoField != (EffectStringFieldMask & whichField))
         _sfEffectString.syncWith(pOther->_sfEffectString);
 
+    if(FieldBits::NoField != (CompilerOptionsFieldMask & whichField))
+        _mfCompilerOptions.syncWith(pOther->_mfCompilerOptions);
+
     if(FieldBits::NoField != (TechniqueFieldMask & whichField))
         _sfTechnique.syncWith(pOther->_sfTechnique);
 
@@ -381,6 +413,9 @@ void CGFXMaterialBase::executeSyncImpl(      CGFXMaterialBase *pOther,
         _sfTechnique.syncWith(pOther->_sfTechnique);
 
 
+    if(FieldBits::NoField != (CompilerOptionsFieldMask & whichField))
+        _mfCompilerOptions.syncWith(pOther->_mfCompilerOptions, sInfo);
+
     if(FieldBits::NoField != (ParametersFieldMask & whichField))
         _mfParameters.syncWith(pOther->_mfParameters, sInfo);
 
@@ -395,6 +430,9 @@ void CGFXMaterialBase::execBeginEditImpl (const BitVector &whichField,
                                                  UInt32     uiContainerSize)
 {
     Inherited::execBeginEditImpl(whichField, uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (CompilerOptionsFieldMask & whichField))
+        _mfCompilerOptions.beginEdit(uiAspect, uiContainerSize);
 
     if(FieldBits::NoField != (ParametersFieldMask & whichField))
         _mfParameters.beginEdit(uiAspect, uiContainerSize);
@@ -426,7 +464,7 @@ DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "ChunkMateri
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.5 2008/06/09 12:28:00 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.6 2008/10/07 13:07:02 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIALBASE_INLINE_CVSID;
 

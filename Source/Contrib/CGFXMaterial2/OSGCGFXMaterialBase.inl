@@ -142,6 +142,29 @@ SFString *CGFXMaterialBase::getSFEffectString(void)
 }
 #endif
 
+//! Get the CGFXMaterial::_mfCompilerOptions field.
+inline
+const MFString *CGFXMaterialBase::getMFCompilerOptions(void) const
+{
+    return &_mfCompilerOptions;
+}
+
+//! Get the CGFXMaterial::_mfCompilerOptions field.
+inline
+MFString *CGFXMaterialBase::editMFCompilerOptions(void)
+{
+    return &_mfCompilerOptions;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CGFXMaterial::_mfCompilerOptions field.
+inline
+MFString *CGFXMaterialBase::getMFCompilerOptions(void)
+{
+    return &_mfCompilerOptions;
+}
+#endif
+
 //! Get the CGFXMaterial::_sfTechnique field.
 inline
 const SFInt32 *CGFXMaterialBase::getSFTechnique(void) const
@@ -303,6 +326,44 @@ void CGFXMaterialBase::setTechnique(const Int32 &value)
 }
 
 
+//! Get the value of the \a index element the CGFXMaterial::_mfCompilerOptions field.
+inline
+std::string &CGFXMaterialBase::editCompilerOptions(const UInt32 index)
+{
+    return _mfCompilerOptions[index];
+}
+
+//! Get the value of the \a index element the CGFXMaterial::_mfCompilerOptions field.
+inline
+const std::string &CGFXMaterialBase::getCompilerOptions(const UInt32 index) const
+{
+    return _mfCompilerOptions[index];
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the \a index element the CGFXMaterial::_mfCompilerOptions field.
+inline
+std::string &CGFXMaterialBase::getCompilerOptions(const UInt32 index)
+{
+    return _mfCompilerOptions[index];
+}
+
+//! Get the CGFXMaterial::_mfCompilerOptions field.
+inline
+MFString &CGFXMaterialBase::getCompilerOptions(void)
+{
+    return _mfCompilerOptions;
+}
+
+//! Get the CGFXMaterial::_mfCompilerOptions field.
+inline
+const MFString &CGFXMaterialBase::getCompilerOptions(void) const
+{
+    return _mfCompilerOptions;
+}
+
+#endif
+
 //! Get the value of the \a index element the CGFXMaterial::_mfParameters field.
 inline
 ShaderParameterPtr &CGFXMaterialBase::editParameters(const UInt32 index)
@@ -381,5 +442,5 @@ const MFImagePtr &CGFXMaterialBase::getImages(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.5 2008/06/09 12:28:00 vossg Exp $"
+#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.6 2008/10/07 13:07:02 macnihilist Exp $"
 

@@ -30,6 +30,15 @@
 	cgfx source string
 	</Field>
 	<Field
+		name="compilerOptions"
+		type="std::string"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	effect compiler options
+	</Field>
+	<Field
 		name="technique"
 		type="Int32"
 		cardinality="single"

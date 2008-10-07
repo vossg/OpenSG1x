@@ -89,11 +89,12 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
     virtual UInt32      getNPasses      (void) const;
     virtual bool        isTransparent   (void) const;
 
-            bool        isTextureParameter(const std::string &name);
+    bool        isTextureParameter(const std::string &name);
 
-            ImagePtr    findImage(const std::string &name);
-            Int32       findImage(const ImagePtr &img);
-            std::string getTechniqueString(Int32 index);
+    ImagePtr    findImage(const std::string &name);
+    Int32       findImage(const ImagePtr &img);
+    Int32       getTechniqueIndex(const std::string &name);
+    std::string getTechniqueString(Int32 index);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -191,6 +192,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXMaterialBase.inl>
 #include <OSGCGFXMaterial.inl>
 
-#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.3 2006/06/25 09:43:04 a-m-z Exp $"
+#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.4 2008/10/07 13:07:02 macnihilist Exp $"
 
 #endif /* _OSGCGFXMATERIAL_H_ */

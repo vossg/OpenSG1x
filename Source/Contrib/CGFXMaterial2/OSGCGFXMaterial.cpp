@@ -242,6 +242,11 @@ std::string CGFXMaterial::getTechniqueString(Int32 index)
     return _cgfxChunk->getTechniqueString(index);
 }
 
+Int32 CGFXMaterial::getTechniqueIndex(const std::string &name)
+{
+    return _cgfxChunk->getTechniqueIndex(name);
+}
+
 void CGFXMaterial::setTimerCB(CGFXMaterial::timercbfp fp)
 {
     _timerFP = fp;
@@ -280,6 +285,14 @@ void CGFXMaterial::changed(BitVector whichField, UInt32 origin)
         _cgfxChunk->setEffectString(getEffectString());
     }
 
+    if(whichField & CompilerOptionsFieldMask)
+    {
+        std::vector<std::string> tmp(
+            getMFCompilerOptions()->begin(),
+            getMFCompilerOptions()->end() );
+        _cgfxChunk->setCompilerOptions(tmp);
+    }
+
     if(whichField & TechniqueFieldMask)
     {
         //printf("CGFXMaterial::changed: technique %d\n", getTechnique());
@@ -289,7 +302,8 @@ void CGFXMaterial::changed(BitVector whichField, UInt32 origin)
     if(whichField & ParametersFieldMask)
     {
         //printf("CGFXMaterial::changed: parameters\n");
-        Window::refreshGLObject(_cgfxChunk->getGLId());
+        _cgfxChunk->notifyParametersChanged();
+        //Window::refreshGLObject(_cgfxChunk->getGLId());
     }
 
     Inherited::changed(whichField, origin);
@@ -474,7 +488,7 @@ void CGFXMaterial::clearImages(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.5 2006/06/25 09:43:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.6 2008/10/07 13:07:02 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 

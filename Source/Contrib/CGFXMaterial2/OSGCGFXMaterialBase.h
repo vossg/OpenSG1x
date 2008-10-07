@@ -69,6 +69,7 @@
 
 #include <OSGStringFields.h> // EffectFile type
 #include <OSGStringFields.h> // EffectString type
+#include <OSGStringFields.h> // CompilerOptions type
 #include <OSGInt32Fields.h> // Technique type
 #include <OSGShaderParameterFields.h> // Parameters type
 #include <OSGImageFields.h> // Images type
@@ -95,16 +96,18 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
 
     enum
     {
-        EffectFileFieldId   = Inherited::NextFieldId,
-        EffectStringFieldId = EffectFileFieldId   + 1,
-        TechniqueFieldId    = EffectStringFieldId + 1,
-        ParametersFieldId   = TechniqueFieldId    + 1,
-        ImagesFieldId       = ParametersFieldId   + 1,
-        NextFieldId         = ImagesFieldId       + 1
+        EffectFileFieldId      = Inherited::NextFieldId,
+        EffectStringFieldId    = EffectFileFieldId      + 1,
+        CompilerOptionsFieldId = EffectStringFieldId    + 1,
+        TechniqueFieldId       = CompilerOptionsFieldId + 1,
+        ParametersFieldId      = TechniqueFieldId       + 1,
+        ImagesFieldId          = ParametersFieldId      + 1,
+        NextFieldId            = ImagesFieldId          + 1
     };
 
     static const OSG::BitVector EffectFileFieldMask;
     static const OSG::BitVector EffectStringFieldMask;
+    static const OSG::BitVector CompilerOptionsFieldMask;
     static const OSG::BitVector TechniqueFieldMask;
     static const OSG::BitVector ParametersFieldMask;
     static const OSG::BitVector ImagesFieldMask;
@@ -147,6 +150,12 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
            SFString            *getSFEffectString   (void);
 #endif
 
+           MFString            *editMFCompilerOptions(void);
+     const MFString            *getMFCompilerOptions(void) const;
+#ifndef OSG_2_PREP
+           MFString            *getMFCompilerOptions(void);
+#endif
+
            SFInt32             *editSFTechnique      (void);
      const SFInt32             *getSFTechnique      (void) const;
 #ifndef OSG_2_PREP
@@ -182,6 +191,14 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
      const Int32               &getTechnique      (void) const;
 #ifndef OSG_2_PREP
            Int32               &getTechnique      (void);
+#endif
+
+           std::string         &editCompilerOptions(const UInt32 index);
+     const std::string         &getCompilerOptions(const UInt32 index) const;
+#ifndef OSG_2_PREP
+           std::string         &getCompilerOptions(const UInt32 index);
+           MFString            &getCompilerOptions(void);
+     const MFString            &getCompilerOptions(void) const;
 #endif
 
            ShaderParameterPtr  &editParameters     (const UInt32 index);
@@ -252,6 +269,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
 
     SFString            _sfEffectFile;
     SFString            _sfEffectString;
+    MFString            _mfCompilerOptions;
     SFInt32             _sfTechnique;
     MFShaderParameterPtr   _mfParameters;
     MFImagePtr          _mfImages;
@@ -332,6 +350,6 @@ typedef RefPtr<CGFXMaterialPtr> CGFXMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.5 2008/06/09 12:28:00 vossg Exp $"
+#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.6 2008/10/07 13:07:02 macnihilist Exp $"
 
 #endif /* _OSGCGFXMATERIALBASE_H_ */
