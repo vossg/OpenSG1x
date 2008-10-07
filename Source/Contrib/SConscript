@@ -2,8 +2,23 @@
 
 Import('*')
 import os
+import SCons.Node.FS
 
 ContribDirs = []
+
+def InstallShaderFragments(env):
+    env = env.Copy()
+    dest = env['PREFIX'].Dir('include').Dir('OpenSG').Dir('shaderfragments')
+
+    d = Dir(os.path.join('CGFXMaterial2','shaderfragments'))
+    FS = SCons.Node.FS.default_fs
+    old_fs = FS.getcwd()
+    FS.chdir(d, change_os_dir=0)
+    fragments = map(File, Glob('*.cgh'))
+    FS.chdir(old_fs, change_os_dir=0)
+
+    env.Install(dest, fragments)
+
 
 if _po.getOption('contrib_cgchunk'):
     if _po.getOption('cg'):
@@ -49,13 +64,18 @@ headers, sources, tests, generated = ProcessDirs(ContribDirs)
 headers += Glob('OSG*.h')
 InstallHeaders(env, headers)
 
+if _po.getOption('contrib_cgfxmaterial2'):
+    InstallShaderFragments(env)
+
 def custom(env):
 
     if (_po.getOption('contrib_cgchunk') or _po.getOption('contrib_cgfxmaterial')) and _po.getOption('cg'):
         env.Append(CPPPATH=env.get('CGCPPPATH'))
         env.Append(LIBPATH=env.get('CGLIBPATH'))
         env.Append(LIBS=env.get('OSG_CG_LIBS'))
-
+        if _po.getOption('tests'):
+            env.Append(LIBS=env.get('OSG_WINDOW_GLUT_LIBS', []))  # needed for test programs
+        
     if _po.getOption('contrib_performer_loader'):
         if isinstance(_po.getOption('contrib_performer_loader'), str):
                 performer_cpp_path = [os.path.join(_po.getOption('contrib_performer_loader'), 'include'),
