@@ -1,0 +1,50 @@
+#ifndef SPOTLIGHT_CGH_INCLUDED
+#define SPOTLIGHT_CGH_INCLUDED
+
+#include "Light.cgh"
+
+struct SpotLight: Light
+{
+// private:
+    float3 position;
+    float3 direction;
+    float4 fallOffParams;	// x: cosInnerAngle, y: cosOuterAngle
+    Spectrum intensity;
+    
+    float GetAttenuationFactor(
+        in float cosAlpha,
+        in float dist )
+    {
+        // simple linear fall off
+        float angleAtt = linstep( fallOffParams.y, fallOffParams.x, cosAlpha );
+        
+        // simulate decrease in solid angle
+        float distAtt = min( 1./(dist*dist), 1.f );
+        
+        return distAtt*angleAtt;
+    }
+    
+
+// Light interface
+    Spectrum GetRadiance(
+        out float3 omega_i,
+        in DifferentialSurface surface
+        )
+    {
+        Spectrum I = intensity;
+        
+        omega_i = position - surface.x;
+        float d = length( omega_i );
+        omega_i /= d;
+
+        float attenuation = GetAttenuationFactor(
+            dot( -omega_i, direction), d );
+
+        return I * attenuation;
+    }
+
+    
+};
+
+
+#endif

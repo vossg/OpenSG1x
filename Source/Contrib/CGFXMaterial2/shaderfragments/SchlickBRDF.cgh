@@ -1,0 +1,57 @@
+#ifndef SCHLICKBRDF_CGH_INCLUDED
+#define SCHLICKBRDF_CGH_INCLUDED
+
+#include "BRDF.cgh"
+#include "BRDFUtils.cgh"
+
+struct SchlickBRDF: BRDF
+{
+// private:
+    Spectrum C;
+    float r;
+    
+    // Building block of Schlick's approximation for the geometrical attenuation factor
+    // x: cosine of incident/reflected angle
+    // r: surface roughness
+    float G_Schlick( float x, float r )
+    {
+        return x / (1.f - r*x + x);    
+    }
+
+// BRDF interface
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 L,
+        in float3 V
+        )
+    {
+        BRDFInfo i; i.Construct( surface, L, V );
+//		float r = r;
+
+        float NdotH2 = i.NdotH*i.NdotH;
+        
+        float G = G_Schlick(i.NdotL, r)*G_Schlick(i.NdotV, r);
+        
+        float t = (1.f + r*NdotH2 - NdotH2);
+        t *= t;
+        float Z = r / t;
+        
+        float A = 1.f;    // no azimuth dependence
+        
+        float d = FOUR_PI*i.NdotV*i.NdotL;
+        
+        float D = (1.f-G) / (PI) * A + G / d * Z * A;
+        
+        // FIXME: something is wrong with this d...
+    //	float scale = lerp( 1.f, Z, 1.f-r );// / d;
+        Spectrum F = F_SchlickRaw(i.VdotH, C);
+        
+        return F * D;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+
+};
+
+#endif

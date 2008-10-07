@@ -1,0 +1,39 @@
+#ifndef PHONGBRDF_CGH_INCLUDED
+#define PHONGBRDF_CGH_INCLUDED
+
+#include "Math.cgh"
+#include "BRDF.cgh"
+
+struct PhongBRDF: BRDF
+{
+// private:
+    Spectrum C_s;
+    float shininess;
+
+// BRDF interface
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 L,
+        in float3 V
+        )
+    {
+        float3 N = surface.n;
+        float NdotL = max( FLT_DOT_EPSILON, dot( N, L ) );
+        
+        float3 R = 2*dot(N, L)*N - L;
+        float VdotR = max( 0.0, dot( V, R ) );
+
+        float scale = pow( VdotR, shininess ) / NdotL;
+        return C_s * scale;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+        if( slot == 0 )
+            C_s = param.rgb;
+        else if( slot == 1 )
+            shininess = param.x;
+    }
+};
+
+
+#endif

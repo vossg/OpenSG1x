@@ -1,0 +1,47 @@
+#ifndef MATH_CGH_INCLUDED
+#define MATH_CGH_INCLUDED
+
+#define PI 3.141592653589793
+#define HALF_PI (.5*PI)
+#define TWO_PI (2*PI)
+#define FOUR_PI (4*PI)
+#define REC_PI (1.f/PI)
+
+#define FLT_DOT_EPSILON 1e-05f
+
+// the values 128/255 and 127/255
+#define RGB_128 0.501960784313725
+#define RGB_127 0.498039215686275
+
+#define SIGNED_TO_RGB(X) ( (X) * RGB_127 + RGB_128 )
+#define RGB_TO_SIGNED(X) ( ( (X) - RGB_128 ) / RGB_127 )
+
+
+float linstep(float min, float max, float x)
+{
+    return saturate( (x - min) / (max - min) );
+}
+float2 linstep(float2 min, float2 max, float2 x)
+{
+    return saturate( (x - min) / (max - min) );
+}
+float3 linstep(float3 min, float3 max, float3 x)
+{
+    return saturate( (x - min) / (max - min) );
+}
+float4 linstep(float4 min, float4 max, float4 x)
+{
+    return saturate( (x - min) / (max - min) );
+}
+
+float4 TestForFPExceptions( float4 v )
+{
+    if( any(isnan(v)) ) return float4( 1,0,0,1 );
+    else if( any(isinf(v)) ) return float4( 0,1,0,1 );
+    else if( any(!isfinite(v)) ) return float4( 0,0,1,1 );
+    else return v;
+
+}
+
+
+#endif

@@ -1,0 +1,42 @@
+#ifndef ORENNAYARBRDF_CGH_INCLUDED
+#define ORENNAYARBRDF_CGH_INCLUDED
+
+#include "BRDF.cgh"
+
+struct OrenNayarBRDF: BRDF
+{
+//private:
+    Spectrum rho;
+    float s;
+    
+// BRDF interface
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 L,
+        in float3 V
+        )
+    {
+        BRDFInfo i;
+        i.Construct( surface, L, V );
+        
+        float s2 = s*s;
+        float A = 1 - 0.5 * s2 / (s2 + 0.33);
+        float B = 0.45 * s2 / (s2 + 0.09);
+        
+        float theta_r = acos( i.NdotV );
+        float theta_i = acos( i.NdotL );
+        float alpha = max( theta_r, theta_i );
+        float beta = min( theta_r, theta_i );
+        float cos_deltaPhi = dot( normalize(i.V - i.N*i.NdotV), normalize(i.L - i.N*i.NdotL) );
+        
+        float D = A + B * max( 0.f,cos_deltaPhi ) * sin(alpha) * tan(beta);
+        return rho * REC_PI * D;
+    }
+    
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+};
+
+
+#endif

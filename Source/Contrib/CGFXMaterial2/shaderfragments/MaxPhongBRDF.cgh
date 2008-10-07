@@ -1,0 +1,32 @@
+#ifndef MAXPHONGBRDF_CGH_INCLUDED
+#define MAXPHONGBRDF_CGH_INCLUDED
+
+#include "BRDFUtils.cgh"
+#include "BRDF.cgh"
+
+
+struct MaxPhongBRDF: BRDF
+{
+    Spectrum C_s;
+    float shininess;
+//	float3 _maxPhongID;
+    
+// BRDF interface:
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 L,
+        in float3 V
+        )
+    {
+        BRDFInfo i; i.Construct( surface, L, V );
+        float maxFactor = max( i.NdotL, i.NdotV );
+        float scale = pow( i.VdotR, shininess ) / maxFactor;
+        return C_s * scale;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+};
+
+
+#endif

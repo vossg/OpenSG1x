@@ -1,0 +1,11 @@
+#ifndef SPECTRUM_CGH_INCLUDED
+#define SPECTRUM_CGH_INCLUDED
+
+// I thought I could base all the fragments in this directory
+// on a generic Spectrum interface, but it was too cumbersome,
+// so now Spectrum is just a macro for float3...
+
+#define Spectrum float3
+
+
+#endif

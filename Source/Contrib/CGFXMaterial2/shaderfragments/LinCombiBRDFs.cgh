@@ -1,0 +1,82 @@
+#ifndef LINCOMBIBRDFS_CGH_INCLUDED
+#define LINCOMBIBRDFS_CGH_INCLUDED
+
+// Wrapper classes that provide a BRDF interface to a linear
+// combination of 2, 3, or 4 BRDFs.
+
+#define HAVE_LINCOMBI_BRDF
+
+// A linear combination of 2 BRDFs.
+struct LinCombi2BRDF: BRDF
+{
+    BRDF brdf1;
+    BRDF brdf2;
+    float2 weights;
+    
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 omega_i,
+        in float3 omega_o
+    )
+    {
+        return weights.x * brdf1.Evaluate( surface, omega_i, omega_o )
+             + weights.y * brdf2.Evaluate( surface, omega_i, omega_o );
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+        // THINKABOUTME: just pass through or take slot 0 as weights???
+        brdf1.SetVaryingParameter( slot, param );
+        brdf2.SetVaryingParameter( slot, param );
+    }
+};
+
+// A linear combination of 3 BRDFs.
+struct LinCombi3BRDF: BRDF
+{
+    BRDF brdf1;
+    BRDF brdf2;
+    BRDF brdf3;
+    float3 weights;
+    
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 omega_i,
+        in float3 omega_o
+    )
+    {
+        return weights.x * brdf1.Evaluate( surface, omega_i, omega_o )
+             + weights.y * brdf2.Evaluate( surface, omega_i, omega_o )
+             + weights.z * brdf3.Evaluate( surface, omega_i, omega_o );
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+};
+
+// A linear combination of 4 BRDFs.
+struct LinCombi4BRDF: BRDF
+{
+    BRDF brdf1;
+    BRDF brdf2;
+    BRDF brdf3;
+    BRDF brdf4;
+    float4 weights;
+    
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 omega_i,
+        in float3 omega_o
+    )
+    {
+        return weights.x * brdf1.Evaluate( surface, omega_i, omega_o )
+             + weights.y * brdf2.Evaluate( surface, omega_i, omega_o )
+             + weights.z * brdf3.Evaluate( surface, omega_i, omega_o )
+             + weights.w * brdf4.Evaluate( surface, omega_i, omega_o );
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+};
+
+
+#endif

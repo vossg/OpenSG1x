@@ -1,0 +1,26 @@
+#ifndef GAMMA_CGH_INCLUDED
+#define GAMMA_CGH_INCLUDED
+
+float3 GammaEncode( float3 color, float gamma = 2.2f )
+{
+    return pow( color, 1.0/gamma );
+}
+
+float3 GammaCorrect( float3 color, float gamma = 2.2f )
+{
+    return pow( color, gamma );
+}
+
+float3 GammaEncode_pp( float3 color )
+{
+    return sqrt( color );
+}
+
+float3 GammaCorrect_pp( float3 color )
+{
+    return color*color;
+}
+
+
+
+#endif

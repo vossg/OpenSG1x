@@ -1,0 +1,34 @@
+#ifndef PIXELUTILS_CGH_INCLUDED
+#define PIXELUTILS_CGH_INCLUDED
+
+// Some utility functions related to pixel shading.
+
+#include "DifferentialSurface.cgh"
+
+
+void NormalMap(
+    in sampler2D normalSampler,
+    in float2 texCoords,
+    inout DifferentialSurface s )
+{
+    float3x3 WorldToTangent = float3x3(s.tu, s.tv, s.n);
+    
+    float3 N_TS = 2 * tex2D(normalSampler, texCoords).xyz - 1;
+
+    s.n = normalize( mul( N_TS, WorldToTangent ) );
+}
+
+float3 CubeEnvMap_Biased(
+    in float3 V,
+    in float3 N,
+    in samplerCUBE envSampler,
+    in float mipLevelBias = 0.f )
+{
+    float3 R = reflect( -V, N );
+    float3 result = texCUBEbias( envSampler, float4( R, mipLevelBias ) ).rgb;
+
+    return result;
+}
+
+
+#endif

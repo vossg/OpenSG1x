@@ -1,0 +1,13 @@
+#ifndef DIFFERENTIALSURFACE_CGH_INCLUDED
+#define DIFFERENTIALSURFACE_CGH_INCLUDED
+
+struct DifferentialSurface
+{
+    float3 x;	// position
+    float3 n;	// normal
+    float2 uv;	// surface parameters (usually TexCoords)
+    float3 tu;	// tangent wrt u
+    float3 tv;	// tangent wrt v
+};
+
+#endif

@@ -1,0 +1,27 @@
+#ifndef BRDF_CGH_INCLUDED
+#define BRDF_CGH_INCLUDED
+
+#define HAVE_LAMBERT_BRDF
+
+// A generic BRDF interface.
+interface BRDF
+{
+    // Evaluate the BRDF at 'surface' for incident direction
+    // 'omega_i' out outgoing direction 'omega_o'.
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 omega_i,
+        in float3 omega_o
+    );
+    
+    // A BRDF can provide 4 slots for varying parameters,
+    // e.g. for changing surface color with a texture.
+    // Which parameter is mapped to which slot is defined
+    // by the implementing class.
+    // THINKABOUTME: There must be a better solution!
+    void SetVaryingParameter(
+        in int slot, in float4 param );
+};
+
+
+#endif

@@ -1,0 +1,33 @@
+#ifndef VARYINGPARAMETERPROVIDER_CGH_INCLUDED
+#define VARYINGPARAMETERPROVIDER_CGH_INCLUDED
+
+// Spits out a value for each t that is passed in.
+// A further abstraction to samplers.
+interface VaryingParameterProvider
+{
+    float4 Evaluate( in float4 t );
+};
+
+
+// A VPP that simply returns the input parameter values.
+// Mainly for debugging.
+struct IdentityVPP: VaryingParameterProvider
+{
+    float4 Evaluate( in float4 t )
+    {
+        return t;
+    }
+
+};
+
+struct SinVPP: VaryingParameterProvider
+{
+    float4 params;
+    float4 Evaluate( in float4 t )
+    {
+        return params.x * sin(params.y*(t-params.z) ) + params.w;
+    }
+
+};
+
+#endif

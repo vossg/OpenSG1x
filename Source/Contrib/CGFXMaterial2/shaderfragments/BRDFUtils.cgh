@@ -1,0 +1,232 @@
+#ifndef BRDFUTILS_CGH_INCLUDED
+#define BRDFUTILS_CGH_INCLUDED
+
+// Some more or less useful utility functions related to
+// local surface reflectance.
+
+#include "Math.cgh"
+
+
+// Generic structure with various directions and
+// dot products to pass to brdfs.
+struct BRDFInfo
+{
+    float3 N;       // surface normal
+    float3 T;       // primary tangent
+    float3 B;       // secondary tangent 'binormal'
+    float3 L;       // vector to light source
+    float3 V;       // vector to viewer
+    float3 H;       // halfway vector
+    float3 R;		// reflected L vector
+
+    float NdotL;
+    float NdotH;
+    float NdotV;
+    float VdotH;
+    float HdotT;
+    float HdotB;
+    float VdotR;
+    
+    void Construct(
+        in DifferentialSurface s,
+        in float3 L_,
+        in float3 V_ )
+    {
+        N = s.n;
+        T = s.tu;
+        B = s.tv;
+        L = L_;
+        V = V_;
+        H = normalize( L + V );
+        R = 2*dot(s.n, L)*s.n - L;
+
+        NdotL = max( FLT_DOT_EPSILON,dot( N, L ) );
+        NdotH = max( FLT_DOT_EPSILON,dot( N, H ) );
+        NdotV = max( FLT_DOT_EPSILON,dot( N, V ) );
+        VdotH = max( FLT_DOT_EPSILON,dot( V, H ) );
+        VdotR = max( FLT_DOT_EPSILON,dot( V, R ) );
+        HdotT = dot( H, T );
+        HdotB = dot( H, B );
+    }
+};
+
+
+// Geometrical attenuation factor after Cook & Torrance
+float G_CookTorrance( BRDFInfo i )
+{
+    float A = 2.f * i.NdotH * i.NdotV / i.VdotH;
+    float B = 2.f * i.NdotH * i.NdotL / i.VdotH;
+
+    return min( 1.f, min( A, B ) );
+}
+
+// Beckmann distribution function for microfacets
+// m: microfacet mean square slope ('roughness')
+float D_Beckmann( BRDFInfo i, float m )
+{
+    float NdotH2 = i.NdotH*i.NdotH;
+    float tmp1 = NdotH2 * m;
+    float c = tmp1*tmp1;
+    
+    float tmp2 = tan( acos( i.NdotH ) ) / m;
+    float e = tmp2*tmp2;
+    
+    return 1.f/c * exp( -e );
+}
+
+// Simple Gaussian distribution function for microfacets
+// m: microfacet mean square slope ('roughness')
+// c: scaling constant
+float D_Gauss( BRDFInfo IN, float m, float c )
+{
+    float NdotH = max( 0.f,dot( IN.N, IN.H ) );
+
+    float tmp = acos( NdotH ) / m;
+    float e = tmp*tmp;
+    
+    return c * exp( -e );
+}
+
+// Blinn-Phong-based microfacet slope distribution function
+// m: microfacet mean square slope ('roughness')
+float D_Blinn( BRDFInfo IN, float m )
+{
+    float NdotH = max( 0.f,dot( IN.N, IN.H ) );
+    float e = exp2(8.f*(1.f-m));
+//    float e = 8/m;
+    float c = (e+2.f) * .5f;
+    return c * pow( NdotH, e );
+}
+
+// Rational fraction approximation of Beckmann distribution after Schlick
+// m: microfacet mean square slope ('roughness')
+float D_Schlick( BRDFInfo IN, float m )
+{
+    float NdotH = max( 0.f,dot( IN.N, IN.H ) );
+    float NdotH2 = NdotH*NdotH;
+    float NdotH4 = NdotH2*NdotH2;
+    
+    float r = .5f/m;
+    float den = (m-r)*NdotH4 + r;
+    return NdotH2 / ( den*den );
+}
+
+Spectrum N_CookTorrance( in float3 F0 )
+{
+    float3 sF0 = sqrt( F0 );
+    return (1.f+sF0) / (1.f-sF0);
+
+    return ret;
+}
+
+// Original Fresnel equation (first set)
+// u: cosine of surface normal and incident direction
+// n: index of refraction (real part)
+// k: absorption coefficient
+Spectrum F_Fresnel( in float u, in float3 n, in float3 k )
+{
+
+    float u2 = u*u;
+    float3 n2 = n*n;
+    float3 k2 = k*k;
+    float3 d = (n2-k2+u2-1);
+    d *= d;
+    float3 s = sqrt( d + 4.f*n2*k2 );
+    float3 t = n2-k2+u2-1.f;
+    float3 a2 = ( .5f*(s+t) );
+    float3 b2 = ( .5f*(s-t) );
+    float3 a = sqrt( a2 );
+    float3 b = sqrt( b2 );
+    
+    float3 term1 = ((a-u)*(a-u)+b2) / ((a+u)*(a+u)+b2);
+    float3 term2 = ( (a+u-1.f/u)*(a+u-1.f/u)+b2 ) / ( (a-u+1.f/u)*(a-u+1.f/u)+b2 ) + 1.f;
+    
+    return .5f * term1 * term2;
+/*
+    Spectrum ret;
+    SPECTRUM_FOR_EACH_COMPONENT( i, 
+        float u2 = u*u;
+        float n2 = Spectrum_GetC(n,i) * Spectrum_GetC(n,i);
+        float k2 = Spectrum_GetC(k,i) * Spectrum_GetC(k,i);
+        float d = (n2-k2+u2-1.f);
+        d *= d;
+        float s = sqrt( d + 4.f*n2*k2 );
+        float t = n2-k2+u2-1.f;
+        float a2 = ( .5f*(s+t) );
+        float b2 = ( .5f*(s-t) );
+        float a = sqrt( a2 );
+        float b = sqrt( b2 );
+    
+        float term1 = ((a-u)*(a-u)+b2) / ((a+u)*(a+u)+b2);
+        float term2 = ( (a+u-1.f/u)*(a+u-1.f/u)+b2 ) / ( (a-u+1.f/u)*(a-u+1.f/u)+b2 ) + 1.f;
+    
+        Spectrum_SetC(ret, i, .5f * term1 * term2 );
+    );
+    return ret;
+*/
+}
+
+// Fresnel term for dielectrics (no absorption coefficient)
+// u: cosine of surface normal and incident direction
+// n: index of refraction
+float3 F_Dielectric( float u, float3 n )
+{
+    float c = u;
+    float3 g = sqrt( n*n + c*c - 1.f );
+    
+    float3 A = (g-c) / (g+c);
+    float3 B = (c*(g+c)-1.f) / (c*(g-c)+1.f);
+    
+    return .5f * A*A * ( 1.f + B*B );
+}
+
+// Fresnel term approximation for metals
+// u: cosine of surface normal and incident direction
+// n: index of refraction (real part)
+// k: absorption coefficient
+float3 F_Lazanyi( float u, float3 n, float3 k )
+{
+    float3 num = (n-1)*(n-1) + 4.f*n*pow(1.f-u,5.f) + k*k;
+    float3 den = (n+1)*(n+1) + k*k;
+    
+    return num/den;
+}
+
+
+// Fresnel term approximation if n is available after Schlick
+// u: cosine of surface normal and incident direction
+// n: index of refraction
+float3 F_Schlick( float u, float3 n )
+{
+    float3 num = (n-1.f)*(n-1.f) + 4.f*n*pow(1.f-u,5.f);
+    float3 den = (n+1.f)*(n+1.f);
+    
+    return num/den;
+   
+//    float3 F_0 = (n-1)/(n+1);
+//    F_0 = F_0 * F_0;
+//    return F_0 + (1 - F_0) * pow( 1-u, 5 );
+}
+
+// Fresnel term approximation if F_0 is available
+// u: cosine of surface normal and incident direction
+// F_0: spectral distribution of reflected light at normal incidence
+Spectrum F_SchlickRaw( float u, Spectrum F_0 )
+{
+    return F_0 + (1.f-F_0) * pow( 1.f-u, 5.f );
+}
+
+// Schlick's approximation with exponent 4 and no pow-call
+// u: cosine of surface normal and incident direction
+// F_0: spectral distribution of reflected light at normal incidence
+float3 F_SchlickEvenMoreRaw( float u, float3 F_0 )
+{
+    float t = 1.f-u;
+    t *= t;
+    t *= t;
+    return F_0 + (1.f - F_0) * t;
+}
+
+
+
+#endif

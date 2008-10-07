@@ -1,0 +1,44 @@
+#ifndef POINTLIGHT_CGH_INCLUDED
+#define POINTLIGHT_CGH_INCLUDED
+
+#include "Light.cgh"
+
+
+struct PointLight: Light
+{
+// private:
+    float3 position;
+    Spectrum intensity;
+    
+    Spectrum GetIntensity()
+    {
+        return intensity;
+    }
+
+    float GetAttenuationFactor( in float dist )
+    {
+        return min( 1.f/(dist*dist), 1.f );
+    }
+
+// Light interface
+    Spectrum GetRadiance(
+        out float3 omega_i,
+        in DifferentialSurface surface
+        )
+    {
+        Spectrum I = GetIntensity();
+        
+        omega_i = position - surface.x;
+        float d = length( omega_i );
+        float attenuation = GetAttenuationFactor( d );
+
+        omega_i /= d;
+        
+        return I * attenuation;
+    }
+
+
+};
+
+
+#endif

@@ -1,0 +1,21 @@
+#ifndef SAMPLERVPPS_CGH_INCLUDED
+#define SAMPLERVPPS_CGH_INCLUDED
+
+#include "VaryingParameterProvider.cgh"
+
+// Some VPPs that take their values from various types of samplers.
+
+
+// Values from sampler2D.
+struct Sampler2DVPP: VaryingParameterProvider
+{
+    sampler2D _sampler;
+    
+// VaryingParameterProvider interface
+    float4 Evaluate( in float4 t )
+    {
+        return tex2D( _sampler, t.xy );
+    }
+};
+
+#endif

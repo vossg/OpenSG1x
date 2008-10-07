@@ -1,0 +1,107 @@
+#ifndef VERTEXUTILS_CGH_INCLUDED
+#define VERTEXUTILS_CGH_INCLUDED
+
+// Some utility functions related to vertex shading.
+
+// TODO: Add skinning!
+
+struct StdVertexIn
+{
+    float4 Position	: POSITION;
+    float4 TexCoord	: TEXCOORD0;
+    float4 Normal   : NORMAL;
+    
+#ifdef STD_VERTEX_TANGENTS_AS_TEXCOORDS
+    float4 TangentU	: TEXCOORD1;
+    float4 TangentV	: TEXCOORD2;
+#else
+    float4 TangentU	: TANGENT;
+    float4 TangentV	: BINORMAL;
+#endif
+
+#ifdef STD_VERTEX_SKINNINGINFO_AS_TEXCOORDS
+    float4 BoneWeights  : TEXCOORD3;
+    float4 BoneIndices  : TEXCOORD4;
+#else
+    float4 BoneWeights  : BLENDWEIGHT;
+    float4 BoneIndices  : BLENDINDICES;
+#endif
+
+#ifdef STD_VERTEX_COLORS_AS_TEXCOORDS
+    float4 Diffuse		: TEXCOORD5;
+    float4 Specular		: TEXCOORD6;
+#else
+    float4 Diffuse		: COLOR0;
+    float4 Specular		: COLOR1;
+#endif
+    
+//	float PSize			: PSIZE;
+
+};
+
+struct StdVertexOut
+{
+    float4 ClipPosition  : POSITION;
+    float2 TexCoord      : TEXCOORD0;
+    float3 WorldPosition : TEXCOORD1;
+    float3 WorldNormal   : TEXCOORD2;
+    float3 WorldTangentU : TEXCOORD3;
+    float3 WorldTangentV : TEXCOORD4;
+    float4 DiffuseColor  : TEXCOORD5;	// COLOR registers are clamped!
+    float4 SpecularColor : TEXCOORD6;
+};
+
+#ifndef STD_VERTEX_MAX_BONE_INFLUENCES
+    #define STD_VERTEX_MAX_BONE_INFLUENCES 0
+#endif
+
+static float3x4 StdVertex_DummyBoneMatrices[1];
+
+void SkinStdVertex(	inout StdVertexIn v, in float3x4 matrices[] )
+{
+    // THINKABOUTME: May have to swizzle, don't know how Cg handles it!!
+    float4 weights = (float4) v.BoneWeights;
+    int4 indices = (int4) v.BoneIndices;
+
+    float3x4 m = weights[0] * matrices[ indices[0] ];
+
+    for( int i=1; i<STD_VERTEX_MAX_BONE_INFLUENCES; ++i )
+        m += weights[i] * matrices[ indices[i] ];
+
+    v.Position = float4( mul( m, v.Position ), 1 );
+    // THINKABOUTME: Wrong, but what will you do...
+    v.Normal.xyz = mul( transpose((float3x3)m), v.Normal.xyz );
+    v.TangentU.xyz = mul( (float3x3)m, v.TangentU.xyz );
+    v.TangentV.xyz = mul( (float3x3)m, v.TangentV.xyz );
+};
+
+
+StdVertexOut TransformStdVertex(
+    in StdVertexIn vin,
+    in float4x4 objectToClip,
+    in float4x4 objectToWorld,
+    in float4x4 worldToObjectTranspose,
+    in float3x4 boneMatrices[] = StdVertex_DummyBoneMatrices )
+{
+    StdVertexOut ret;// = (StdVertexOut)0;
+    
+//	float4 objectPosition = vin.Position;
+#if STD_VERTEX_MAX_BONE_INFLUENCES > 0
+    SkinStdVertex( vin, boneMatrices );
+#endif
+    ret.WorldPosition = mul( objectToWorld, vin.Position ).xyz;
+    ret.WorldNormal = normalize( mul( worldToObjectTranspose, float4(vin.Normal.xyz,0) ).xyz );
+    ret.WorldTangentU = normalize( mul( objectToWorld, float4(vin.TangentU.xyz,0) ).xyz );
+    ret.WorldTangentV = normalize( mul( objectToWorld, float4(vin.TangentV.xyz,0) ).xyz );
+
+    ret.ClipPosition = mul( objectToClip, vin.Position );
+    ret.TexCoord = vin.TexCoord.xy;
+    
+    ret.DiffuseColor = vin.Diffuse;
+    ret.SpecularColor = vin.Specular;
+
+    return ret;
+}
+
+
+#endif

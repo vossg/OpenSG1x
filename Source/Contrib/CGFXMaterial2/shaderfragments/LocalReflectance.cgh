@@ -1,0 +1,28 @@
+#ifndef LOCALREFLECTANCE_CGH_INCLUDED
+#define LOCALREFLECTANCE_CGH_INCLUDED
+
+// Returns the radiance from 'light' that is reflected
+// at a 'surface' with 'brdf' in direction 'omega_o'.
+//
+// THINKABOUTME: Could also be a member of DifferentialSurface...
+Spectrum LocalReflectance(
+    in DifferentialSurface surface,
+    in BRDF brdf,
+    in Light light,
+    in float3 omega_o
+    )
+{
+    if( dot( surface.n, omega_o ) < 0.f )
+        return 0.f;
+        
+    float3 omega_i = 0.f;
+    Spectrum L_i = light.GetRadiance( omega_i, surface );
+
+    Spectrum f_r = brdf.Evaluate( surface, omega_i, omega_o );
+
+    float NdotL = max( 0.0, dot( surface.n, omega_i ) );
+    return f_r * L_i * NdotL;
+}
+
+
+#endif

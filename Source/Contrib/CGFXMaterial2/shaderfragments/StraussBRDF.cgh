@@ -1,0 +1,113 @@
+#ifndef STRAUSSBRDF_CGH_INCLUDED
+#define STRAUSSBRDF_CGH_INCLUDED
+
+#include "BRDF.cgh"
+#include "BRDFUtils.cgh"
+
+
+struct StraussBRDF: BRDF
+{
+// private:
+    Spectrum C;
+    float smoothness;
+    float metalness;
+    float transparency;
+    
+    // Strauss' Fresnel term
+    float F_Strauss( float x )
+    {
+        const float k_f = 1.12f;
+
+        x *= 0.6366f;
+        
+        float c1 = (x-k_f);
+        float c2 = (1-k_f);
+        
+        float nom = 1.f/(c1*c1) - 1.f/(k_f*k_f);
+        float den = 1.f/(c2*c2) - 1.f/(k_f*k_f);
+        
+        return nom / den;
+    }
+
+    // Strauss' geometrical attenuation factor
+    float G_Strauss( float x )
+    {
+        const float k_g = 1.01f;
+        
+        x *= 0.6366f;
+        
+        float c1 = (x-k_g);
+        float c2 = (1.f-k_g);
+        
+        float nom = 1.f/(c2*c2) - 1.f/(c1*c1);
+        float den = 1.f/(c2*c2) - 1.f/(k_g*k_g);
+        
+        return nom / den;
+    }
+
+    // Specular component of the Strauss model
+    // s: Smoothness
+    // m: Metalness
+    // t: Transparency
+    Spectrum Specular( in BRDFInfo i )
+    {
+        const float k_j = 0.1f;
+        
+        float s = smoothness;
+        float m = metalness;
+        float t = transparency;
+        
+        float alpha = acos( i.NdotL );
+        float gamma = acos( i.NdotV );
+        
+        float F_a = F_Strauss( alpha );
+        float j = F_a * G_Strauss( alpha ) * G_Strauss( gamma );
+        float r_d = (1. - s*s*s)*(1. - t);
+        float r_n = (1.-t) - r_d;
+        float r_j = min( 1., r_n + (r_n + k_j)*j );
+        float h = 3./(1.-s);
+        float r_s = pow( i.NdotH, h ) * r_j;
+        const Spectrum I_d = Spectrum(1.f);	// THINKABOUTME: How to get real I_d?
+        Spectrum C_s = I_d + m*(1.-F_a) * (C - I_d);
+        
+        return C_s * r_s / i.NdotL;
+    }
+
+    // diffuse component of the Strauss model
+    // s: Smoothness
+    // m: Metalness
+    // t: Transparency
+    Spectrum Diffuse( in BRDFInfo i )
+    {
+        float s = smoothness;
+        float m = metalness;
+        float t = transparency;
+
+        float r_d = (1.f - s*s*s)*(1.f - t);
+        float d = 1.f - m*s;
+        
+        return C * r_d * d;
+    }
+
+// BRDF implementation
+
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 L,
+        in float3 V
+        )
+    {
+        BRDFInfo info; info.Construct( surface, L, V );
+        
+        Spectrum spec = Specular( info );
+        Spectrum diff = Diffuse( info );
+        
+        return spec + diff;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+
+};
+
+#endif

@@ -1,0 +1,162 @@
+#ifndef GUENTHERBRDF_CGH_INCLUDED
+#define GUENTHERBRDF_CGH_INCLUDED
+
+#include "BRDFUtils.cgh"
+
+
+#define GUENTHERBRDF_SPARKLE 0
+
+struct GuentherBRDF: BRDF
+{
+    float3 kd;
+    
+    float3 ks1;
+    float r1;
+    float m1;
+
+    float3 ks2;
+    float r2;
+    float m2;
+
+    float3 ks3;
+    float r3;
+    float m3;
+    
+    sampler3D sparkleSampler;
+    float4 sparkleParams;	// x: densityMod, y: falloff, z: strength
+    
+    
+    float3 Sparkle(
+        in BRDFInfo i,
+        float3 noiseCoords )
+    {
+    //return tex3D( SparkleSampler, IN.Params.xyz*1 ).xyz;
+        float3 sparkleNormal = //float3(0,0,1);
+            tex3Dlod( sparkleSampler, float4(noiseCoords*sparkleParams.x, 0) ).xyz * 2.f - 1.f;
+    //return sparkleNormal;
+        float3x3 TangentToWorld = transpose( float3x3(i.T, i.B, i.N) );
+    //    float3x3 WorldToTangent = transpose( TangentToWorld );
+        sparkleNormal = normalize( mul( TangentToWorld, sparkleNormal ) );
+        float boing = max( FLT_DOT_EPSILON, dot( i.H, sparkleNormal ) );
+        float3 sparkle = pow( boing, 128.f );
+    //	float3 sparkle = saturate(pow( boing, 128 ) -0.5);
+
+    //	float sparkleMod = brdf.sparkleParams.z * saturate( 1/(IN.Params.w*brdf.sparkleParams.y+.00001) );
+        float sparkleMod = sparkleParams.z * sparkleParams.y;
+        return sparkle * sparkleMod;// + float3(.1f,.1f,.1f);
+    }
+
+    
+    // BRDF interface
+    Spectrum Evaluate(
+        in DifferentialSurface s,
+        in float3 L,
+        in float3 V )
+    {
+        BRDFInfo i; i.Construct( s, L, V );
+
+        float G = G_CookTorrance( i );
+        float norm = 1/(PI * i.NdotV * i.NdotL);
+        
+        float3 d = kd * REC_PI;
+        
+        float3 s1 = ks1 * 
+            F_SchlickRaw( i.VdotH, r1 ) * D_Beckmann( i, m1 ) * G;
+        s1 *= norm;
+        
+        float3 s2 = ks2 * 
+            F_SchlickRaw( i.VdotH, r2 ) * D_Beckmann( i, m2 ) * G;
+        s2 *= norm;
+        
+        float3 s3 = ks3 * 
+            F_SchlickRaw( i.VdotH, r3 ) * D_Beckmann( i, m3 ) * G;
+        s3 *= norm;
+#if GUENTHERBRDF_SPARKLE
+        float3 sparkle = Sparkle( i, s.x );
+//return sparkle;
+#else
+        float3 sparkle = 0;
+#endif
+        Spectrum result = ( d + (s1 + s2 + s3) )
+         + (s1 + s2 + s3)*sparkle;
+        
+        return result;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+};
+
+/*
+float3 GuentherBRDF_Sparkle(
+  in GuentherBRDF brdf,
+  in BRDFInfo i,
+  float3 noiseCoords )
+{
+//return tex3D( SparkleSampler, IN.Params.xyz*1 ).xyz;
+    float3 sparkleNormal = //float3(0,0,1);
+        tex3Dlod( brdf.sparkleSampler, float4(noiseCoords*brdf.sparkleParams.x, 0) ).xyz * 2.f - 1.f;
+//return sparkleNormal;
+  float3x3 TangentToWorld = transpose( float3x3(i.T, i.B, i.N) );
+//    float3x3 WorldToTangent = transpose( TangentToWorld );
+    sparkleNormal = normalize( mul( TangentToWorld, sparkleNormal ) );
+    float boing = max( FLT_DOT_EPSILON, dot( i.H, sparkleNormal ) );
+    float3 sparkle = pow( boing, 128.f );
+//	float3 sparkle = saturate(pow( boing, 128 ) -0.5);
+
+//	float sparkleMod = brdf.sparkleParams.z * saturate( 1/(IN.Params.w*brdf.sparkleParams.y+.00001) );
+    float sparkleMod = brdf.sparkleParams.z * brdf.sparkleParams.y;
+    return sparkle * sparkleMod;// + float3(.1f,.1f,.1f);
+}
+
+
+Spectrum GuentherBRDF_Evaluate(
+    in GuentherBRDF brdf,
+    in DifferentialSurface surface,
+    in float3 L,
+    in float3 V
+    )
+{
+    BRDFInfo i = BRDFInfo_Create( surface, L, V );
+    
+    float G = G_CookTorrance( i );
+    float norm = 1/(PI * i.NdotV * i.NdotL);
+    
+    float3 d = brdf.kd * REC_PI;
+    
+    float3 s1 = brdf.ks1 * 
+        F_SchlickRaw( i.VdotH, brdf.r1 ) * D_Beckmann( i, brdf.m1 ) * G;
+    s1 *= norm;
+    
+    float3 s2 = brdf.ks2 * 
+        F_SchlickRaw( i.VdotH, brdf.r2 ) * D_Beckmann( i, brdf.m2 ) * G;
+    s2 *= norm;
+    
+    float3 s3 = brdf.ks3 * 
+        F_SchlickRaw( i.VdotH, brdf.r3 ) * D_Beckmann( i, brdf.m3 ) * G;
+    s3 *= norm;
+#if GUENTHERBRDF_SPARKLE
+    float3 sparkle = GuentherBRDF_Sparkle( brdf, i, surface.x );
+//return sparkle;
+#else
+    float3 sparkle = 0;
+#endif
+    Spectrum result = ( d + (s1 + s2 + s3) )
+     + (s1 + s2 + s3)*sparkle;
+    
+    return result;
+
+}
+
+Spectrum BRDF_Evaluate(
+    in GuentherBRDF brdf,
+    in DifferentialSurface surface,
+    in float3 L,
+    in float3 V
+    )
+{
+    return GuentherBRDF_Evaluate( brdf, surface, L, V );
+}
+*/
+
+#endif

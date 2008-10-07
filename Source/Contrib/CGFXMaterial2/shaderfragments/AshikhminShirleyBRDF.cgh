@@ -1,0 +1,65 @@
+#ifndef ASHIKHMINSHIRLEYBRDF_CGH_INCLUDED
+#define ASHIKHMINSHIRLEYBRDF_CGH_INCLUDED
+
+#include "BRDFUtils.cgh"
+#include "BRDF.cgh"
+
+struct AshikhminShirleyBRDF: BRDF
+{
+// private:
+    Spectrum rho_s;
+    Spectrum rho_d;
+    float s_u;
+    float s_v;
+
+    // Specular term of the Ashikhmin-Shirley model
+    Spectrum Specular(
+        in BRDFInfo info )
+    {
+        float scale = sqrt( (s_u+1.f)*(s_v+1.f) ) / (8*PI);
+        
+        float e = ( s_u*info.HdotT*info.HdotT + s_v*info.HdotB*info.HdotB ) / (1.f-info.NdotH*info.NdotH);
+    //    float e = brdf.s_u;  // isotropic version;
+        float c = info.VdotH * max( info.NdotV, info.NdotL );
+        
+        Spectrum F = F_SchlickRaw( info.VdotH, rho_s );
+        scale *= pow( info.NdotH, e ) / c;
+        return F * scale;
+    }
+
+    // Diffuse term of the Ashikhmin-Shirley model
+    Spectrum Diffuse(
+        in BRDFInfo info )
+    {
+        float A = 1.f - pow( 1.f - .5f*info.NdotL, 5.f );
+        float B = 1.f - pow( 1.f - .5f*info.NdotV, 5.f );
+
+        Spectrum scale = 28.f/(23.f*PI) * (1.f-rho_s);
+        return rho_d * A*B*scale;
+    }
+
+// BRDF interface
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 L,
+        in float3 V
+        )
+    {
+        BRDFInfo info;
+        info.Construct( surface, L, V );
+        
+        //Spectrum spec = Spectrum_Zero();
+        Spectrum spec = Specular( info );
+        Spectrum diff = Diffuse( info );
+        
+        return spec + diff;
+    }
+    
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+};
+
+
+
+#endif

@@ -1,0 +1,26 @@
+#ifndef LAMBERTBRDF_CGH_INCLUDED
+#define LAMBERTBRDF_CGH_INCLUDED
+
+struct LambertBRDF: BRDF
+{
+// private:
+    Spectrum rho;
+
+// BRDF interface:
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 omega_i,
+        in float3 omega_o
+        )
+    {
+        return rho * REC_PI;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+        if( slot == 0 )
+            rho = param.rgb;
+    }
+};
+
+
+#endif

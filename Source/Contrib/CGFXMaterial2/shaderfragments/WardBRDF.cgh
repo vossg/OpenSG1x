@@ -1,0 +1,39 @@
+#ifndef WARDBRDF_CGH_INCLUDED
+#define WARDBRDF_CGH_INCLUDED
+
+#include "BRDF.cgh"
+#include "BRDFUtils.cgh"
+
+struct WardBRDF: BRDF
+{
+// private:
+    Spectrum C_s;
+    Spectrum C_d;
+    float s_u;
+    float s_v;
+    float _wardID;
+
+// BRDF interface
+    Spectrum Evaluate(
+        in DifferentialSurface s,
+        in float3 L,
+        in float3 V )
+    {
+        BRDFInfo i; i.Construct( s, L, V );
+        
+        float c = sqrt(i.NdotL*i.NdotV) * FOUR_PI * s_u*s_v;
+        
+        float e = -2 * ( (i.HdotT*i.HdotT)/(s_u*s_u) + (i.HdotB*i.HdotB)/(s_v*s_v) ) / (1.f+i.NdotH);
+    //    float e = (i.NdotH*i.NdotH - 1.f) / (i.NdotH * brdf.s_u*brdf.s_u);  // isotropic version
+        
+        Spectrum diff = C_d * REC_PI;
+        Spectrum spec = C_s * exp(e) / c;
+        return diff + spec;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+};
+
+
+#endif

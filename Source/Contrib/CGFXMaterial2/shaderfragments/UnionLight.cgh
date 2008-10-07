@@ -1,0 +1,68 @@
+#ifndef UNIONLIGHT_CGH_INCLUDED
+#define UNIONLIGHT_CGH_INCLUDED
+
+#include "Light.cgh"
+
+// Users can provide their own defines for light types.
+#ifndef UNION_LIGHT_TYPE_POINT
+    #define UNION_LIGHT_TYPE_POINT       0
+#endif
+#ifndef UNION_LIGHT_TYPE_DIRECTIONAL
+    #define UNION_LIGHT_TYPE_DIRECTIONAL 1
+#endif
+#ifndef UNION_LIGHT_TYPE_SPOT
+    #define UNION_LIGHT_TYPE_SPOT        2
+#endif
+
+// This is a union of point-, directional-, and spot-lights.
+// The main use of this class is to aggregate lights of
+// different types in an array. (In 'Lights lights[42]' all
+// elements must have the same type.)
+struct UnionLight: Light
+{
+// private:
+    float3 position;
+    float3 direction;
+    Spectrum emission;
+    float4 fallOffParams;
+    int type;
+
+// Light interface
+    Spectrum GetRadiance(
+        out float3 omega_i,
+        in DifferentialSurface surface
+        )
+    {
+        if( type== UNION_LIGHT_TYPE_POINT )
+        {
+            PointLight pl;
+            pl.position = position;
+            pl.intensity = emission;
+            return pl.GetRadiance( omega_i, surface );
+        }
+        else if( type== UNION_LIGHT_TYPE_DIRECTIONAL )
+        {
+            DirectionalLight dl;
+            dl.direction = direction;
+            dl.radiance = emission;
+            return dl.GetRadiance( omega_i, surface );
+        }
+        else if( type== UNION_LIGHT_TYPE_SPOT )
+        {
+            SpotLight sl;
+            sl.position = position;
+            sl.direction = direction;
+            sl.fallOffParams = fallOffParams;
+            sl.intensity = emission;
+            return sl.GetRadiance( omega_i, surface );
+        }
+        else
+        {
+            return Spectrum( 0.f );
+        }
+    }
+
+};
+
+
+#endif

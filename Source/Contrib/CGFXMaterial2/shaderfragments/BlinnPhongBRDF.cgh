@@ -1,0 +1,33 @@
+#ifndef BLINNPHONGBRDF_CGH_INCLUDED
+#define BLINNPHONGBRDF_CGH_INCLUDED
+
+#include "BRDFUtils.cgh"
+#include "BRDF.cgh"
+
+struct BlinnPhongBRDF: BRDF
+{
+// private:
+    Spectrum C_s;
+    float shininess;
+//	float _blinnPhongID;
+    
+// BRDF interface:
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 L,
+        in float3 V
+        )
+    {
+        BRDFInfo i;
+        i.Construct( surface, L, V );
+        float scale = pow( i.NdotH, shininess ) / max(FLT_DOT_EPSILON,i.NdotL);
+        return C_s * scale;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+
+};
+
+
+#endif

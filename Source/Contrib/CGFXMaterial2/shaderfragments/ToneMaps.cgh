@@ -1,0 +1,17 @@
+#ifndef TONE_MAPS_CGH_INCLUDED
+#define TONE_MAPS_CGH_INCLUDED
+
+// Simple linear scaling of color by scaleFactor.
+float3 LinearToneMap( float3 color, float scaleFactor )
+{
+    return color*scaleFactor;
+}
+
+// Sigmoid tone mapping with half saturation constant sigma.
+float3 SigmoidToneMap( float3 color, float sigma )
+{
+    return color / (color+sigma);
+}
+
+
+#endif

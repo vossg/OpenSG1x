@@ -1,0 +1,23 @@
+#ifndef DIRECTIONALLIGHT_CGH_INCLUDED
+#define DIRECTIONALLIGHT_CGH_INCLUDED
+
+#include "Light.cgh"
+
+struct DirectionalLight: Light
+{
+// private:
+	float3 direction;
+	Spectrum radiance;
+
+// Light interface
+	Spectrum GetRadiance(
+		out float3 omega_i,
+		in DifferentialSurface surface
+		)
+	{
+		omega_i = direction;
+		return radiance;
+	}
+};
+
+#endif

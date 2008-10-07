@@ -1,0 +1,87 @@
+#ifndef VARYINGPARAMETERBRDF_CGH_INCLUDED
+#define VARYINGPARAMETERBRDF_CGH_INCLUDED
+
+// Some wrappers to feed BRDFs with varying parameters.
+
+#include "BRDF.cgh"
+#include "VaryingParameterProvider.cgh"
+
+// TODO: Replace with (at least a bit more) optimized versions
+struct VaryingParameterBRDF: BRDF
+{
+    // THINKABOUTME: Why is the array not working?!
+    //VaryingParameterProvider _vpp[4];
+    VaryingParameterProvider vpp0;
+    VaryingParameterProvider vpp1;
+    VaryingParameterProvider vpp2;
+    VaryingParameterProvider vpp3;
+    BRDF brdf;
+    float4 activeSlots;	// > 0.f => active; else inactive
+
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 omega_i,
+        in float3 omega_o
+    )
+    {
+//		for( int i=0; i<4; ++i )
+        {
+            if( activeSlots.x > 0.f )
+            {
+                float4 vp = vpp0.Evaluate( float4(surface.uv,0,0) );
+                brdf.SetVaryingParameter( 0, vp );
+            }
+            if( activeSlots.y > 0.f )
+            {
+                float4 vp = vpp1.Evaluate( float4(surface.uv,0,0) );
+                brdf.SetVaryingParameter( 1, vp );
+            }
+            if( activeSlots.z > 0.f )
+            {
+                float4 vp = vpp2.Evaluate( float4(surface.uv,0,0) );
+                brdf.SetVaryingParameter( 2, vp );
+            }
+            if( activeSlots.w > 0.f )
+            {
+                float4 vp = vpp3.Evaluate( float4(surface.uv,0,0) );
+                brdf.SetVaryingParameter( 3, vp );
+            }
+        }
+        return brdf.Evaluate( surface, omega_i, omega_o );
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+
+};
+
+
+
+// Only connects slot 0.
+struct VaryingParameter0BRDF: BRDF
+{
+    VaryingParameterProvider vpp0;
+    BRDF brdf;
+
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 omega_i,
+        in float3 omega_o
+    )
+    {
+        float4 vp = vpp0.Evaluate( float4(surface.uv,0,0) );
+        brdf.SetVaryingParameter( 0, vp );
+
+        return brdf.Evaluate( surface, omega_i, omega_o );
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+        // pass through
+        brdf.SetVaryingParameter( slot, param );
+    }
+
+};
+
+
+
+#endif

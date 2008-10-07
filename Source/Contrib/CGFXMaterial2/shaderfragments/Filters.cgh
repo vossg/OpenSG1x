@@ -1,0 +1,86 @@
+#ifndef FILTERS_CGH_INCLUDED
+#define FILTERS_CGH_INCLUDED
+
+// Some more or less useful filters.
+// NOT REALLY TESTED!!
+
+
+// 7 tap 1D Gaussian
+float4 Gauss_7( in sampler2D sampl, in float2 texCoord, in float2 texelSize )
+{
+    const float weights[] = { 0.383, 0.242, 0.061, 0.006 };
+
+    float4 accu = tex2D( sampl, texCoord ) * weights[0];
+    accu += tex2D( sampl, texCoord + texelSize ) * weights[1];
+    accu += tex2D( sampl, texCoord - texelSize ) * weights[1];
+    accu += tex2D( sampl, texCoord + 2*texelSize ) * weights[2];
+    accu += tex2D( sampl, texCoord - 2*texelSize ) * weights[2];
+    accu += tex2D( sampl, texCoord + 3*texelSize ) * weights[3];
+    accu += tex2D( sampl, texCoord - 3*texelSize ) * weights[3];
+
+    return accu;
+}
+
+
+// 5x5 cut Gaussian
+float4 Gauss_5x5( in sampler2D sampl, float2 texCoord, float2 texelSize )
+{
+    float4 accu = tex2D( sampl, texCoord ) * 16;
+
+    accu += tex2D( sampl, texCoord + float2(texelSize.x,0) ) * 8;
+    accu += tex2D( sampl, texCoord + float2(-texelSize.x,0) ) * 8;
+    accu += tex2D( sampl, texCoord + float2(0,texelSize.y) ) * 8;
+    accu += tex2D( sampl, texCoord + float2(0,-texelSize.y) ) * 8;
+
+    accu += tex2D( sampl, texCoord + float2(texelSize.x,texelSize.y) ) * 4;
+    accu += tex2D( sampl, texCoord + float2(-texelSize.x,texelSize.y) ) * 4;
+    accu += tex2D( sampl, texCoord + float2(texelSize.x,-texelSize.y) ) * 4;
+    accu += tex2D( sampl, texCoord + float2(-texelSize.x,-texelSize.y) ) * 4;
+
+    accu += tex2D( sampl, texCoord + float2(2*texelSize.x,0) ) * 2;
+    accu += tex2D( sampl, texCoord + float2(-2*texelSize.x,0) ) * 2;
+    accu += tex2D( sampl, texCoord + float2(0,2*texelSize.y) ) * 2;
+    accu += tex2D( sampl, texCoord + float2(0,-2*texelSize.y) ) * 2;
+
+    accu += tex2D( sampl, texCoord + float2(texelSize.x,-2*texelSize.y) ) * 1;
+    accu += tex2D( sampl, texCoord + float2(2*texelSize.x,-texelSize.y) ) * 1;
+    accu += tex2D( sampl, texCoord + float2(2*texelSize.x,texelSize.y) ) * 1;
+    accu += tex2D( sampl, texCoord + float2(texelSize.x,2*texelSize.y) ) * 1;
+    accu += tex2D( sampl, texCoord + float2(-texelSize.x,-2*texelSize.y) ) * 1;
+    accu += tex2D( sampl, texCoord + float2(-2*texelSize.x,-texelSize.y) ) * 1;
+    accu += tex2D( sampl, texCoord + float2(-2*texelSize.x,texelSize.y) ) * 1;
+    accu += tex2D( sampl, texCoord + float2(-texelSize.x,2*texelSize.y) ) * 1;
+
+    return accu / 80;
+}
+
+
+// Growable Poisson disc (13 samples)
+float4 Poisson_13( in sampler2D sampl, in float2 texCoord, in float2 texelSize )
+{
+    // tap locations for unit disc
+    const float radius = 2;
+    float2 taps[12] = {
+        float2(-0.326212,-0.40581),float2(-0.840144,-0.07358),
+        float2(-0.695914,0.457137),float2(-0.203345,0.620716),
+        float2(0.96234,-0.194983),float2(0.473434,-0.480026),
+        float2(0.519456,0.767022),float2(0.185461,-0.893124),
+        float2(0.507431,0.064425),float2(0.89642,0.412458),
+        float2(-0.32194,-0.932615),float2(-0.791559,-0.59771)
+    };
+
+    // sample disc’s center
+    float4 ret = tex2D( sampl, texCoord );
+    // sample in disc
+    for ( int i=0; i<12; ++i )
+    {
+        float2 tapCoord = texCoord + texelSize * taps[i] * radius;
+        ret += tex2D( sampl, tapCoord );
+    }
+
+    return ret / 13.0;
+}
+
+
+
+#endif

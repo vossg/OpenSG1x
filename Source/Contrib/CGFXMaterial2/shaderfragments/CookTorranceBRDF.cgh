@@ -1,0 +1,46 @@
+#ifndef COOKTORRANCEBRDF_CGH_INCLUDED
+#define COOKTORRANCEBRDF_CGH_INCLUDED
+
+#include "BRDF.cgh"
+#include "BRDFUtils.cgh"
+
+
+struct CookTorranceBRDF: BRDF
+{
+// private:
+    Spectrum n;
+    Spectrum k;
+    float m;
+    
+// BRDF interface
+    Spectrum Evaluate(
+        in DifferentialSurface surface,
+        in float3 L,
+        in float3 V
+        )
+    {
+        BRDFInfo i; i.Construct( surface, L, V );
+        
+    //    float3 F = F_Dielectric( VdotH, n );
+        Spectrum F = F_Fresnel( i.VdotH, n, k );
+    //    float F = F_Schlick( VdotH, n );
+    //    float3 F = F_Lazanyi( VdotH, n, k );
+
+        float G = G_CookTorrance( i );
+
+        float D = D_Beckmann( i, m );
+    //    float D = D_Gauss( IN, m, 2 );
+    //    float D = D_Blinn( IN, m );
+    //    float D = D_Schlick( IN, m );
+        
+        float scale = ( D*G ) / (  PI * i.NdotV * i.NdotL );
+        return F * scale;
+    }
+    void SetVaryingParameter( in int slot, in float4 param )
+    {
+    }
+
+};
+
+
+#endif
