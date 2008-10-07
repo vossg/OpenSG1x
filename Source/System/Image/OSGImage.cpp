@@ -2525,7 +2525,9 @@ bool Image::scale(Int32 width, Int32 height, Int32 depth,
         destImage=ImagePtr(this);
 
     // get pixel
-    const MFUInt8 srcPixel=getPixel();
+    // !!!!!!!!        WARNING WARNING        !!!!!!!!!!!
+    // !!!!!!!! Obscure copy of the old Image !!!!!!!!!!!
+    const MFUInt8 srcPixel=(*getMFPixel());
     // set image data
     destImage->set(static_cast<PixelFormat>(getPixelFormat()),
                    width, height, depth, getMipMapCount(),
