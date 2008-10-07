@@ -1,0 +1,191 @@
+// A simple cgfx file that illustrates how to the shader fragments
+// that come with OSG::CGFXMaterial2
+
+// These are more includes than we need for the effect,
+// I just wanted to list all the important stuff.
+#include "Math.cgh"
+#include "Spectrum.cgh"
+#include "DifferentialSurface.cgh"
+#include "Light.cgh"
+#include "PointLight.cgh"
+#include "DirectionalLight.cgh"
+#include "SpotLight.cgh"
+#include "UnionLight.cgh"
+#include "BRDF.cgh"
+#include "LambertBRDF.cgh"
+#include "PhongBRDF.cgh"
+#include "BlinnPhongBRDF.cgh"
+#include "ModifiedBlinnPhongBRDF.cgh"
+#include "MaxPhongBRDF.cgh"
+#include "AshikhminShirleyBRDF.cgh"
+#include "CookTorranceBRDF.cgh"
+#include "OrenNayarBRDF.cgh"
+#include "WardBRDF.cgh"
+#include "StraussBRDF.cgh"
+#include "SchlickBRDF.cgh"
+#include "GuentherBRDF.cgh"
+#include "LinCombiBRDFs.cgh"
+#include "LocalReflectance.cgh"
+#include "VertexUtils.cgh"
+#include "PixelUtils.cgh"
+#include "BRDFUtils.cgh"
+#include "ToneMaps.cgh"
+#include "Gamma.cgh"
+#include "Color.cgh"
+#include "Filters.cgh"
+#include "VaryingParameterProvider.cgh"
+#include "SamplerVPPs.cgh"
+#include "VaryingParameterBRDF.cgh"
+
+//////////////////////////////////////////////////////////////////////////////////
+// Some transformations
+float4x4 WorldToObjectTranspose : WorldInverseTranspose < string UIWidget="None"; >;
+float4x4 ObjectToClip : WorldViewProjection < string UIWidget="None"; >;
+float4x4 ObjectToWorld : World < string UIWidget="None"; >;
+float4x4 ViewToWorld : ViewInverse < string UIWidget="None"; >;
+float4x4 WorldToClip : ViewProjection < string UIWidget="None"; >;
+
+
+//////////////////////////////////////////////////////////////////////////////////
+// Global parameters
+
+float toneMappingParameter = 1.0f;
+
+BRDF brdf;
+
+#ifndef NUM_LIGHTS
+#define NUM_LIGHTS 1
+#endif
+UnionLight lights[NUM_LIGHTS];
+
+
+//////////////////////////////////////////////////////////////////////////////////
+// Connector structures
+
+struct VSOut
+{
+    float4 ClipPosition : POSITION;
+    float2 TexCoord     : TEXCOORD0;
+    float3 P            : TEXCOORD1;
+    float3 T            : TEXCOORD2;
+    float3 B            : TEXCOORD3;
+    float3 N            : TEXCOORD4;
+    float3 V            : TEXCOORD5;
+};
+ 
+
+//////////////////////////////////////////////////////////////////////////////////
+// Vertex shading
+
+float3 GetVectorToViewer( in float3 worldPosition, in float4x4 viewToWorld )
+{
+    float3 cameraPosition = transpose(viewToWorld)[3].xyz;
+	return /*normalize*/( cameraPosition - worldPosition );
+}
+
+VSOut VS_Default( StdVertexIn vin )
+{
+	
+    VSOut vout = (VSOut)0;
+    
+	// apply the default transformations to our vertex...
+	StdVertexOut v = TransformStdVertex( vin,
+		ObjectToClip, ObjectToWorld, WorldToObjectTranspose );
+	
+	// ... and copy things over
+    vout.N = v.WorldNormal;
+    vout.T = v.WorldTangentU;
+    vout.B = v.WorldTangentV;
+    vout.P = v.WorldPosition;
+
+    vout.TexCoord = v.TexCoord.xy;
+    vout.ClipPosition = v.ClipPosition;
+
+	vout.V = GetVectorToViewer( vout.P, ViewToWorld );
+	
+    return vout;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// Pixel shading
+
+float4 PS_Fragments( VSOut pin ) : COLOR
+{
+	//return float4(0,1,0,1);
+	// set up the differential surface for this fragment
+	DifferentialSurface surface;
+	surface.x = pin.P;
+	surface.n = normalize( pin.N );
+	surface.uv = pin.TexCoord;
+	surface.tu = normalize( pin.T );
+	surface.tv = normalize( pin.B );
+	
+	// direction to viewer
+	float3 V = normalize(pin.V);
+
+	// do the local reflectance calculations
+	Spectrum reflectedRadiance = Spectrum(0.f);
+	for( int i=0; i<NUM_LIGHTS; ++i )
+	{
+		reflectedRadiance += 
+			LocalReflectance( surface, brdf, lights[i], V );
+	}
+	float3 result = reflectedRadiance;
+
+	// do some simple tone mapping
+	result = SigmoidToneMap( result, toneMappingParameter );
+//	result = LinearToneMap( result, ToneMappingParameter );
+
+//    result = GammaEncode_pp( result );
+
+    return float4(result,1);
+}
+
+float4 PS_MultiPass( uniform float4 color ) : COLOR
+{
+	return color;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+// Techniques
+
+technique TestFragments < string Script = "Pass=p0;"; >
+{
+    pass p0 < string Script = "Draw=geometry;"; >
+    {
+        VertexShader = compile gp4vp VS_Default();
+        PixelShader = compile gp4fp PS_Fragments();
+
+        ZEnable = true;
+        ZWriteEnable = true;
+    }
+
+}
+
+technique TestMultiPass < string Script = "Pass=p0;"; >
+{
+    pass p0 < string Script = "Draw=geometry;"; >
+    {
+        VertexShader = compile gp4vp VS_Default();
+        PixelShader = compile gp4fp PS_MultiPass( float4(1,0,0,1) );
+
+        ZEnable = true;
+        ZWriteEnable = true;
+    }
+
+    pass p1 < string Script = "Draw=geometry;"; >
+    {
+        VertexShader = compile gp4vp VS_Default();
+        PixelShader = compile gp4fp PS_MultiPass( float4(0,0,1,1) );
+
+        ZEnable = true;
+        ZWriteEnable = true;
+		ZFunc = LESSEQUAL;
+		AlphaBlendEnable = true;
+		BlendOp = ADD;
+		SrcBlend = 1;
+		DestBlend = 1;
+    }
+}
+
+
