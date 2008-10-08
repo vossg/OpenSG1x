@@ -631,13 +631,15 @@ void FieldContainerFactory::unregisterType(FieldContainerType *pType)
 
 bool FieldContainerFactory::pluginInit(void)
 {
-    FieldContainerFactory::the()->initializePendingTypes();
+    return FieldContainerFactory::the()->initializePendingTypes();
 }
 
 bool FieldContainerFactory::registerPlugin(void)
 {
     if(GlobalSystemState == Running)
         addInitFunction(&FieldContainerFactory::pluginInit);
+
+    return true;
 }
 
 /*-------------------------------------------------------------------------*/
