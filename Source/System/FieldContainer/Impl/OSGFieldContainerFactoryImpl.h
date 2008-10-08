@@ -202,6 +202,13 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
     void checkThrowInvalidPointerException(void) const;
 
     /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                 Plugin init                                  */
+    /*! \{                                                                 */
+
+    static bool registerPlugin(void);
+
+    /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 
   protected:
@@ -216,6 +223,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerFactory
 
     static bool initializeFactory(void);
     static bool terminateFactory (void);
+    static bool pluginInit       (void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

@@ -731,6 +731,9 @@ bool osgInit(Int32 argc, Char8 **argv,
     );
 
 OSG_BASE_DLLMAPPING
+bool osgPostLoadInit(void);
+   
+OSG_BASE_DLLMAPPING
 bool osgExit(void);
 
 OSG_END_NAMESPACE

@@ -474,6 +474,30 @@ bool osgInit(Int32, Char8 **, UInt16 major, UInt16 minor, UInt16 release,
     return returnValue;
 }
 
+bool osgPostLoadInit(void)
+{
+    bool returnValue = true;
+
+    if(GlobalSystemState != Running)
+        return returnValue;
+
+    if(osgInitFunctions != NULL)
+    {
+        for(UInt32 i = 0; i < osgInitFunctions->size(); i++)
+        {
+            returnValue &= (*osgInitFunctions)[i]();
+            
+            if(returnValue == false)
+                break;         
+        }
+
+        osgInitFunctions->clear();
+    }
+    
+    if(returnValue == false)
+        return returnValue;
+}
+
 /*! \ingroup GrpBaseBaseInitExit
  */
 

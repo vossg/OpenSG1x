@@ -383,7 +383,7 @@ SharedObjectP SharedObjectHandler::getSharedObject(
 
         if(GlobalSystemState == Running)
         {
-//            FactoryController::the()->initializePendingElements();
+            osgPostLoadInit();
         }
     }
 
@@ -442,7 +442,7 @@ SharedObjectP SharedObjectHandler::findSharedObject(
     {
         returnValue = mapIt->second;
     }
-    
+
     return returnValue;
 }
 
