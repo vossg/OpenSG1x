@@ -311,6 +311,16 @@ typename MField<FieldTypeT,
 }
 
 template <class FieldTypeT, Int32 fieldNameSpace> inline
+typename MField<FieldTypeT,
+                fieldNameSpace>::iterator MField<FieldTypeT,
+                                                 fieldNameSpace>::erase(
+                                                    iterator first,
+                                                    iterator last  )
+{
+    return _values.erase(first, last);
+}
+
+template <class FieldTypeT, Int32 fieldNameSpace> inline
 typename MField<FieldTypeT, 
                 fieldNameSpace>::iterator MField<FieldTypeT, 
                                                  fieldNameSpace>::find(

@@ -199,6 +199,7 @@ class MField : public Field
     iterator               insert   (iterator     pos, 
                                      ArgumentType value                );
     iterator               erase    (iterator     pos                  );
+    iterator               erase    (iterator     first, iterator last );
     
     iterator               find     (ArgumentType value                );
     const_iterator         find     (ArgumentType value                ) const;

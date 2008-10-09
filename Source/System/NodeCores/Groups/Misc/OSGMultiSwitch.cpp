@@ -244,10 +244,9 @@ void MultiSwitch::changed(BitVector whichField, UInt32 origin)
         
         std::sort(_mfChoices.begin(), _mfChoices.end());
         
-        _mfChoices.resize(
-            std::distance(_mfChoices.begin(),
-                          std::unique(_mfChoices.begin(),
-                                      _mfChoices.end  () )));
+        _mfChoices.erase(std::unique(_mfChoices.begin(),
+                                     _mfChoices.end  () ),
+                         _mfChoices.end()                 );
     }
 }
 
@@ -271,7 +270,7 @@ void MultiSwitch::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiSwitch.cpp,v 1.2 2008/08/19 16:23:20 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiSwitch.cpp,v 1.3 2008/10/09 15:35:22 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTISWITCHBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTISWITCHBASE_INLINE_CVSID;
 
