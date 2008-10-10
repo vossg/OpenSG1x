@@ -1169,6 +1169,13 @@ void SHLChunk::checkOSGParameters(bool force)
                 _osgParametersCallbacks.push_back(
                     std::make_pair(std::make_pair(oldfp, fp), parameter));
             }
+            else if(parameter->getName() == "OSGNearFar")
+            {
+                parametercbfp oldfp = NULL;
+                osgparametercbfp fp = updateNearFar;
+                _osgParametersCallbacks.push_back(
+                    std::make_pair(std::make_pair(oldfp, fp), parameter));
+            }
             else if(parameter->getName() == "OSGViewMatrix")
             {
                 parametercbfp oldfp = NULL;
@@ -1566,6 +1573,36 @@ void SHLChunk::updateCameraPosition(const ShaderParameterPtr &parameter,
         updateParameterLocation(action->getWindow(), program, parameter);
     if(parameter->getLocation() != -1)
         uniform3fv(parameter->getLocation(), 1, cameraPos.getValues());
+}
+
+void SHLChunk::updateNearFar(const ShaderParameterPtr &parameter,
+                                    DrawActionBase *action, GLuint program)
+{
+    if(parameter->getFlags() & ShaderParameter::SHPFlagUpdate)
+        return;
+
+    if(action->getCamera() == NULL || action->getViewport() == NULL)
+    {
+        FWARNING(("SHLChunk::updateNearFar : Can't update OSGNearFar"
+                  "parameter, camera or viewport is NULL!\n"));
+        return;
+    }
+
+    float n = action->getCamera()->getNear();
+    float f = action->getCamera()->getFar();
+
+    Vec2f nearFar(n,f);
+    
+
+    // get "glUniform2fvARB" function pointer
+    OSGGLUNIFORMFVARBPROC uniform2fv = 
+        reinterpret_cast<OSGGLUNIFORMFVARBPROC>(
+            action->getWindow()->getFunction(_funcUniform2fv));
+
+    if(parameter->getLocation() == -1)
+        updateParameterLocation(action->getWindow(), program, parameter);
+    if(parameter->getLocation() != -1)
+        uniform2fv(parameter->getLocation(), 1, nearFar.getValues());
 }
 
 void SHLChunk::updateViewMatrix(const ShaderParameterPtr &parameter,
@@ -1998,7 +2035,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.64 2008/06/09 07:30:32 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.65 2008/10/10 12:43:50 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 
