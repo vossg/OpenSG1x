@@ -174,7 +174,11 @@ Action::ResultE DistanceLOD::draw(Action *action)
         if (numRanges >= numLevels)
             numRanges = numLevels - 1;
 
-        if (dist >= range[numRanges - 1])
+        if(numRanges == 0)
+        {
+            index = 0;
+        }
+        else if (dist >= range[numRanges - 1])
         {
             index = numRanges;
         }
