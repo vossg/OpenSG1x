@@ -292,6 +292,7 @@ RenderAction::RenderAction(void) :
     _useGLFinish            (true),
     _depth_only_pass        (false),
     _noDepthPathMatTypes    (),
+    _render_depth_pass_only (false),
 
     _vLights(),
     _lightsMap(),
@@ -425,6 +426,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _useGLFinish            (source._useGLFinish),
     _depth_only_pass        (source._depth_only_pass),
     _noDepthPathMatTypes    (source._noDepthPathMatTypes),
+    _render_depth_pass_only (source._render_depth_pass_only),
 
     _vLights             (source._vLights),
     _lightsMap           (source._lightsMap),
@@ -577,6 +579,16 @@ bool RenderAction::isNoDepthPassMat(Material *mat)
     }
 
     return false;
+}
+
+void RenderAction::setRenderDepthPassOnly(bool s)
+{
+    _render_depth_pass_only = s;
+}
+
+bool RenderAction::getRenderDepthPassOnly(void) const
+{
+    return _render_depth_pass_only;
 }
 
 
@@ -2196,6 +2208,10 @@ void RenderAction::drawDepth(DrawTreeNode *pRoot)
                         pRoot->getFunctor().call(this);
                         vbo->setDrawPropertiesMask(mask);
                     }
+                    else
+                    {
+                        pRoot->getFunctor().call(this);
+                    }
                 }
                 else
                 {
@@ -2669,7 +2685,7 @@ Action::ResultE RenderAction::stop(ResultE res)
 
 
     // do a depth only render pass.
-    if(_depth_only_pass)
+    if(_depth_only_pass || _render_depth_pass_only)
     {
         glColorMask(GL_FALSE,GL_FALSE,GL_FALSE,GL_FALSE);
         glDisable(GL_ALPHA_TEST);
@@ -2682,6 +2698,20 @@ Action::ResultE RenderAction::stop(ResultE res)
         }
 
         glColorMask(GL_TRUE,GL_TRUE,GL_TRUE,GL_TRUE);
+
+        if(_render_depth_pass_only)
+        {
+            if(_useGLFinish)
+                glFinish();
+
+            StatTimeElem* elemDraw = getStatistics()->getElem(statDrawTime);
+            elemDraw->stop();
+
+            _viewport->setDrawTime(Real32(elemDraw->getTime()));
+
+            Inherited::stop(res);
+            return res;
+        }
     }
 
     glDepthMask(GL_TRUE);

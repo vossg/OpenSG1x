@@ -230,6 +230,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void setNoDepthPassMatTypes(const std::vector<FieldContainerType *> &matTypes);
     std::vector<FieldContainerType *> getNoDepthPassMatTypes(void);
 
+    void setRenderDepthPassOnly(bool s);
+    bool getRenderDepthPassOnly(void) const;
+
     /*------------------------- comparison ----------------------------------*/
 
     bool isSmallFeature(const NodePtr &node);
@@ -344,6 +347,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     bool                      _useGLFinish;
     bool                      _depth_only_pass;
     std::vector<FieldContainerType *> _noDepthPathMatTypes;
+    bool                      _render_depth_pass_only;
 
     std::vector<LightStore>   _vLights;
     std::vector<Light *>      _lightsMap;
