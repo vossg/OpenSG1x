@@ -67,6 +67,9 @@ OSG_BEGIN_NAMESPACE
 const OSG::BitVector  PerspectiveCameraBase::FovFieldMask = 
     (TypeTraits<BitVector>::One << PerspectiveCameraBase::FovFieldId);
 
+const OSG::BitVector  PerspectiveCameraBase::FovModeFieldMask = 
+    (TypeTraits<BitVector>::One << PerspectiveCameraBase::FovModeFieldId);
+
 const OSG::BitVector  PerspectiveCameraBase::AspectFieldMask = 
     (TypeTraits<BitVector>::One << PerspectiveCameraBase::AspectFieldId);
 
@@ -78,7 +81,10 @@ const OSG::BitVector PerspectiveCameraBase::MTInfluenceMask =
 // Field descriptions
 
 /*! \var Real32          PerspectiveCameraBase::_sfFov
-    The vertical field of view, in radians.
+    The field of view, in radians.
+*/
+/*! \var UInt32          PerspectiveCameraBase::_sfFovMode
+    Defines whether the field of view is measured vertically, horizontally or in the smaller direction. See OSG::PerspectiveCamera::FovMode enum for the actual values,
 */
 /*! \var Real32          PerspectiveCameraBase::_sfAspect
     The aspect ratio (i.e. width / height) of a pixel.
@@ -93,6 +99,11 @@ FieldDescription *PerspectiveCameraBase::_desc[] =
                      FovFieldId, FovFieldMask,
                      false,
                      reinterpret_cast<FieldAccessMethod>(&PerspectiveCameraBase::editSFFov)),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "fovMode", 
+                     FovModeFieldId, FovModeFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&PerspectiveCameraBase::editSFFovMode)),
     new FieldDescription(SFReal32::getClassType(), 
                      "aspect", 
                      AspectFieldId, AspectFieldMask,
@@ -175,6 +186,7 @@ void PerspectiveCameraBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 
 PerspectiveCameraBase::PerspectiveCameraBase(void) :
     _sfFov                    (), 
+    _sfFovMode                (UInt32(0)), 
     _sfAspect                 (Real32(1)), 
     Inherited() 
 {
@@ -186,6 +198,7 @@ PerspectiveCameraBase::PerspectiveCameraBase(void) :
 
 PerspectiveCameraBase::PerspectiveCameraBase(const PerspectiveCameraBase &source) :
     _sfFov                    (source._sfFov                    ), 
+    _sfFovMode                (source._sfFovMode                ), 
     _sfAspect                 (source._sfAspect                 ), 
     Inherited                 (source)
 {
@@ -208,6 +221,11 @@ UInt32 PerspectiveCameraBase::getBinSize(const BitVector &whichField)
         returnValue += _sfFov.getBinSize();
     }
 
+    if(FieldBits::NoField != (FovModeFieldMask & whichField))
+    {
+        returnValue += _sfFovMode.getBinSize();
+    }
+
     if(FieldBits::NoField != (AspectFieldMask & whichField))
     {
         returnValue += _sfAspect.getBinSize();
@@ -225,6 +243,11 @@ void PerspectiveCameraBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (FovFieldMask & whichField))
     {
         _sfFov.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FovModeFieldMask & whichField))
+    {
+        _sfFovMode.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (AspectFieldMask & whichField))
@@ -245,6 +268,11 @@ void PerspectiveCameraBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfFov.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (FovModeFieldMask & whichField))
+    {
+        _sfFovMode.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (AspectFieldMask & whichField))
     {
         _sfAspect.copyFromBin(pMem);
@@ -263,6 +291,9 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
     if(FieldBits::NoField != (FovFieldMask & whichField))
         _sfFov.syncWith(pOther->_sfFov);
 
+    if(FieldBits::NoField != (FovModeFieldMask & whichField))
+        _sfFovMode.syncWith(pOther->_sfFovMode);
+
     if(FieldBits::NoField != (AspectFieldMask & whichField))
         _sfAspect.syncWith(pOther->_sfAspect);
 
@@ -278,6 +309,9 @@ void PerspectiveCameraBase::executeSyncImpl(      PerspectiveCameraBase *pOther,
 
     if(FieldBits::NoField != (FovFieldMask & whichField))
         _sfFov.syncWith(pOther->_sfFov);
+
+    if(FieldBits::NoField != (FovModeFieldMask & whichField))
+        _sfFovMode.syncWith(pOther->_sfFovMode);
 
     if(FieldBits::NoField != (AspectFieldMask & whichField))
         _sfAspect.syncWith(pOther->_sfAspect);

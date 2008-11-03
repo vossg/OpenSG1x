@@ -61,6 +61,13 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCamera : public PerspectiveCameraBase
  public:
     
     /*---------------------------------------------------------------------*/
+    /*! \name              Field of view Modes                             */
+    /*! \{                                                                 */
+
+    enum { FOV_vertical=0, FOV_horizontal, FOV_smaller } FovMode;
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */
 

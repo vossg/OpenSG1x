@@ -141,64 +141,7 @@ void OffCenterPerspectiveCamera::draw(      DrawAction *OSG_CHECK_ARG(action),
 {
 }
 
-bool OffCenterPerspectiveCamera::
-MatrixPerspectivePrincipalPnt(Matrix &result,
-			      Real32 rFovy,
-			      Real32 rAspect,
-			      Real32 rNear,
-			      Real32 rFar,
-			      Real32 rPrincipalPointX,
-			      Real32 rPrincipalPointY)
-{
-    Real32 ct = osgtan(rFovy);
-    bool error = false;
-    
-    if(rNear > rFar)
-    {
-        SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
-                 << "!\n" << std::endl;
-        error = true;
-    }
-
-    if(rFovy <= Eps)
-    {
-        SWARNING << "MatrixPerspective: fovy " << rFovy << " very small!\n"
-                 << std::endl;
-        error = true;
-    }
-
-    if(osgabs(rNear - rFar) < Eps)
-    {
-        SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
-                 << "!\n" << std::endl;
-        error = true;
-    }
-
-    if(rAspect < Eps)
-    {
-        SWARNING << "MatrixPerspective: aspect ratio " << rAspect
-                 << " very small!\n" << std::endl;
-        error = true;
-    }
-
-    if(error)
-    {
-        result.setIdentity();
-        return true;
-    }
-    
-    MatrixFrustum( result, 
-                    -rNear * ct * rAspect * (Real32(1)+rPrincipalPointX), 
-                     rNear * ct * rAspect * (Real32(1)-rPrincipalPointX),
-                    -rNear * ct * (Real32(1)+rPrincipalPointY), 
-                     rNear * ct * (Real32(1)-rPrincipalPointY), 
-                     rNear, 
-                     rFar                );
-
-    return false;
-}
-
-void OffCenterPerspectiveCamera::getProjection(Matrix& result, 
+void OffCenterPerspectiveCamera::getProjection(Matrix& result,
     UInt32 width, UInt32 height)
 {
     Real32 fov = getFov();
@@ -209,29 +152,93 @@ void OffCenterPerspectiveCamera::getProjection(Matrix& result,
         result.setIdentity();
         return;
     }
-    
+
     // try to be nice to people giving degrees...
     if(fov > Pi)
         fov = osgdegree2rad(fov);
+
+    Real32 near = getNear(), far = getFar();
+    Real32 aspect = Real32(width) / Real32(height) * getAspect();
+    Real32 ct = osgtan(fov / 2);
+
+    if(near > far)
+    {
+        SWARNING << "MatrixPerspective: near " << near << " > far " << far
+                 << "!\n" << std::endl;
+        result.setIdentity();
+        return;
+    }
+
+    if(fov <= Eps)
+    {
+        SWARNING << "MatrixPerspective: fov " << fov << " very small!\n"
+                 << std::endl;
+        result.setIdentity();
+        return;
+    }
+
+    if(osgabs(near - far) < Eps)
+    {
+        SWARNING << "MatrixPerspective: near " << near << " ~= far " << far
+                 << "!\n" << std::endl;
+        result.setIdentity();
+        return;
+    }
+
+    if(aspect < Eps)
+    {
+        SWARNING << "MatrixPerspective: aspect ratio " << aspect
+                 << " very small!\n" << std::endl;
+        result.setIdentity();
+        return;
+    }
+
+    Real32 x = ct * near, y = ct * near;
+    UInt32 fovMode = getFovMode();
+    switch (fovMode)
+    {
+    case FOV_vertical:
+        x *= aspect;
+        break;
+    case FOV_horizontal:
+        y /= aspect;
+        break;
+    case FOV_smaller:
+        if (width * getAspect() >= height)
+            x *= aspect;
+        else
+            y /= aspect;
+        break;
+    default:
+        result.setIdentity();
+        return;
+    }
 
     Real32 principalPointX = getPrincipalPoint()[0];
     Real32 principalPointY = getPrincipalPoint()[1];
 
     // if principal point (x,y) is default (==(0,0)) everything works
     // like before or rather for an symmetical camera
-    if ( principalPointX==Real32(0) && principalPointY==Real32(0) ) {
-      MatrixPerspective(result, fov / 2, 
-                        width /Real32(height) * getAspect(), 
-                        getNear(), getFar());
-    } 
+    if ((principalPointX == 0.f) && (principalPointY == 0.f)) {
+        MatrixFrustum(result,
+                      -x,
+                       x,
+                      -y,
+                       y,
+                       near,
+                       far);
+    }
     else {
-      MatrixPerspectivePrincipalPnt(result, fov / 2, 
-                                    width /Real32(height) * getAspect(), 
-                                    getNear(), getFar(),
-                                    principalPointX, principalPointY);
+        MatrixFrustum(result,
+                      -x * (1.f + principalPointX),
+                       x * (1.f - principalPointX),
+                      -y * (1.f + principalPointY),
+                       y * (1.f - principalPointY),
+                       near,
+                       far);
     }
 }
-    
+
 
 /*------------------------------- dump ----------------------------------*/
 
@@ -241,7 +248,7 @@ void OffCenterPerspectiveCamera::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     SLOG << "Dump OffCenterPerspectiveCamera NI" << std::endl;
 }
 
-    
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -256,7 +263,7 @@ void OffCenterPerspectiveCamera::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCamera.cpp,v 1.2 2008/06/05 05:02:30 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCamera.cpp,v 1.3 2008/11/03 14:33:44 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFCENTERPERSPECTIVECAMERA_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFCENTERPERSPECTIVECAMERA_INLINE_CVSID;
 
@@ -266,4 +273,3 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-

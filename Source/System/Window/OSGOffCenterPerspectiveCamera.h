@@ -122,15 +122,6 @@ class OSG_SYSTEMLIB_DLLMAPPING OffCenterPerspectiveCamera : public OffCenterPers
     static void initMethod( void );
 
     void operator =(const OffCenterPerspectiveCamera &source);
-
-
-    bool MatrixPerspectivePrincipalPnt(Matrix &result,
-				       Real32 rFovy,
-				       Real32 rAspect,
-				       Real32 rNear,
-				       Real32 rFar,
-				       Real32 rPrincipalPointX,
-				       Real32 rPrincipalPointY);
 };
 
 //---------------------------------------------------------------------------
@@ -144,6 +135,6 @@ OSG_END_NAMESPACE
 #include <OSGOffCenterPerspectiveCameraBase.inl>
 #include <OSGOffCenterPerspectiveCamera.inl>
 
-#define OSGOFFCENTERPERSPECTIVECAMERA_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCamera.h,v 1.1 2005/07/18 18:46:23 dirk Exp $"
+#define OSGOFFCENTERPERSPECTIVECAMERA_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCamera.h,v 1.2 2008/11/03 14:33:44 pdaehne Exp $"
 
 #endif /* _OSGOFFCENTERPERSPECTIVECAMERA_H_ */

@@ -68,6 +68,7 @@
 #include <OSGCamera.h> // Parent
 
 #include <OSGReal32Fields.h> // Fov type
+#include <OSGUInt32Fields.h> // FovMode type
 #include <OSGReal32Fields.h> // Aspect type
 
 #include <OSGPerspectiveCameraFields.h>
@@ -92,12 +93,14 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
 
     enum
     {
-        FovFieldId    = Inherited::NextFieldId,
-        AspectFieldId = FovFieldId    + 1,
-        NextFieldId   = AspectFieldId + 1
+        FovFieldId     = Inherited::NextFieldId,
+        FovModeFieldId = FovFieldId     + 1,
+        AspectFieldId  = FovModeFieldId + 1,
+        NextFieldId    = AspectFieldId  + 1
     };
 
     static const OSG::BitVector FovFieldMask;
+    static const OSG::BitVector FovModeFieldMask;
     static const OSG::BitVector AspectFieldMask;
 
 
@@ -132,6 +135,12 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
            SFReal32            *getSFFov            (void);
 #endif
 
+           SFUInt32            *editSFFovMode        (void);
+     const SFUInt32            *getSFFovMode        (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFFovMode        (void);
+#endif
+
            SFReal32            *editSFAspect         (void);
      const SFReal32            *getSFAspect         (void) const;
 #ifndef OSG_2_PREP
@@ -143,6 +152,12 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
      const Real32              &getFov            (void) const;
 #ifndef OSG_2_PREP
            Real32              &getFov            (void);
+#endif
+
+           UInt32              &editFovMode        (void);
+     const UInt32              &getFovMode        (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getFovMode        (void);
 #endif
 
            Real32              &editAspect         (void);
@@ -157,6 +172,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \{                                                                 */
 
      void setFov            ( const Real32 &value );
+     void setFovMode        ( const UInt32 &value );
      void setAspect         ( const Real32 &value );
 
     /*! \}                                                                 */
@@ -201,6 +217,7 @@ class OSG_SYSTEMLIB_DLLMAPPING PerspectiveCameraBase : public Camera
     /*! \{                                                                 */
 
     SFReal32            _sfFov;
+    SFUInt32            _sfFovMode;
     SFReal32            _sfAspect;
 
     /*! \}                                                                 */
@@ -279,6 +296,6 @@ typedef RefPtr<PerspectiveCameraPtr> PerspectiveCameraRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
+#define OSGPERSPECTIVECAMERABASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGPERSPECTIVECAMERABASE_H_ */

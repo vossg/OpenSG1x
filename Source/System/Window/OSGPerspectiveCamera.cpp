@@ -124,7 +124,7 @@ void PerspectiveCamera::draw(      DrawAction *OSG_CHECK_ARG(action),
 {
 }
 
-void PerspectiveCamera::getProjection(Matrix& result, 
+void PerspectiveCamera::getProjection(Matrix& result,
     UInt32 width, UInt32 height)
 {
     Real32 fov = getFov();
@@ -135,16 +135,77 @@ void PerspectiveCamera::getProjection(Matrix& result,
         result.setIdentity();
         return;
     }
-    
+
     // try to be nice to people giving degrees...
     if(fov > Pi)
         fov = osgdegree2rad(fov);
 
-    MatrixPerspective(result, fov / 2, 
-                      width /Real32(height) * getAspect(), 
-                      getNear(), getFar());
+    Real32 near = getNear(), far = getFar();
+    Real32 aspect = Real32(width) / Real32(height) * getAspect();
+    Real32 ct = osgtan(fov / 2);
+
+    if(near > far)
+    {
+        SWARNING << "MatrixPerspective: near " << near << " > far " << far
+                 << "!\n" << std::endl;
+        result.setIdentity();
+        return;
+    }
+
+    if(fov <= Eps)
+    {
+        SWARNING << "MatrixPerspective: fov " << fov << " very small!\n"
+                 << std::endl;
+        result.setIdentity();
+        return;
+    }
+
+    if(osgabs(near - far) < Eps)
+    {
+        SWARNING << "MatrixPerspective: near " << near << " ~= far " << far
+                 << "!\n" << std::endl;
+        result.setIdentity();
+        return;
+    }
+
+    if(aspect < Eps)
+    {
+        SWARNING << "MatrixPerspective: aspect ratio " << aspect
+                 << " very small!\n" << std::endl;
+        result.setIdentity();
+        return;
+    }
+
+    Real32 x = ct * near, y = ct * near;
+    UInt32 fovMode = getFovMode();
+    switch (fovMode)
+    {
+    case FOV_vertical:
+        x *= aspect;
+        break;
+    case FOV_horizontal:
+        y /= aspect;
+        break;
+    case FOV_smaller:
+        if (width * getAspect() >= height)
+            x *= aspect;
+        else
+            y /= aspect;
+        break;
+    default:
+        result.setIdentity();
+        return;
+    }
+
+    MatrixFrustum(result,
+                  -x,
+                   x,
+                  -y,
+                   y,
+                   near,
+                   far);
 }
-    
+
 
 /*------------------------------- dump ----------------------------------*/
 
@@ -154,7 +215,7 @@ void PerspectiveCamera::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
     SLOG << "Dump PerspectiveCamera NI" << std::endl;
 }
 
-    
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
@@ -179,4 +240,3 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-

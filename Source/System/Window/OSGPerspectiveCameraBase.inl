@@ -119,6 +119,29 @@ SFReal32 *PerspectiveCameraBase::getSFFov(void)
 }
 #endif
 
+//! Get the PerspectiveCamera::_sfFovMode field.
+inline
+const SFUInt32 *PerspectiveCameraBase::getSFFovMode(void) const
+{
+    return &_sfFovMode;
+}
+
+//! Get the PerspectiveCamera::_sfFovMode field.
+inline
+SFUInt32 *PerspectiveCameraBase::editSFFovMode(void)
+{
+    return &_sfFovMode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PerspectiveCamera::_sfFovMode field.
+inline
+SFUInt32 *PerspectiveCameraBase::getSFFovMode(void)
+{
+    return &_sfFovMode;
+}
+#endif
+
 //! Get the PerspectiveCamera::_sfAspect field.
 inline
 const SFReal32 *PerspectiveCameraBase::getSFAspect(void) const
@@ -173,6 +196,36 @@ void PerspectiveCameraBase::setFov(const Real32 &value)
     _sfFov.setValue(value);
 }
 
+//! Get the value of the PerspectiveCamera::_sfFovMode field.
+inline
+UInt32 &PerspectiveCameraBase::editFovMode(void)
+{
+    return _sfFovMode.getValue();
+}
+
+//! Get the value of the PerspectiveCamera::_sfFovMode field.
+inline
+const UInt32 &PerspectiveCameraBase::getFovMode(void) const
+{
+    return _sfFovMode.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the PerspectiveCamera::_sfFovMode field.
+inline
+UInt32 &PerspectiveCameraBase::getFovMode(void)
+{
+    return _sfFovMode.getValue();
+}
+#endif
+
+//! Set the value of the PerspectiveCamera::_sfFovMode field.
+inline
+void PerspectiveCameraBase::setFovMode(const UInt32 &value)
+{
+    _sfFovMode.setValue(value);
+}
+
 //! Get the value of the PerspectiveCamera::_sfAspect field.
 inline
 Real32 &PerspectiveCameraBase::editAspect(void)
@@ -206,5 +259,5 @@ void PerspectiveCameraBase::setAspect(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
+#define OSGPERSPECTIVECAMERABASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.22 2008/06/09 12:26:59 vossg Exp $"
 
