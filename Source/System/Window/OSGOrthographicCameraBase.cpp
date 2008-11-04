@@ -67,6 +67,9 @@ OSG_BEGIN_NAMESPACE
 const OSG::BitVector  OrthographicCameraBase::VerticalSizeFieldMask = 
     (TypeTraits<BitVector>::One << OrthographicCameraBase::VerticalSizeFieldId);
 
+const OSG::BitVector  OrthographicCameraBase::HorizontalSizeFieldMask = 
+    (TypeTraits<BitVector>::One << OrthographicCameraBase::HorizontalSizeFieldId);
+
 const OSG::BitVector  OrthographicCameraBase::AspectFieldMask = 
     (TypeTraits<BitVector>::One << OrthographicCameraBase::AspectFieldId);
 
@@ -78,7 +81,10 @@ const OSG::BitVector OrthographicCameraBase::MTInfluenceMask =
 // Field descriptions
 
 /*! \var Real32          OrthographicCameraBase::_sfVerticalSize
-    The vertical size of the camera box, in world units.
+    The vertical size of the camera box, in world units. Ignored when less then or equal to zero.
+*/
+/*! \var Real32          OrthographicCameraBase::_sfHorizontalSize
+    The horizontal size of the camera box, in world units. Ignored when less then or equal to zero.
 */
 /*! \var Real32          OrthographicCameraBase::_sfAspect
     The aspect ratio (i.e. width / height) of a pixel.
@@ -93,6 +99,11 @@ FieldDescription *OrthographicCameraBase::_desc[] =
                      VerticalSizeFieldId, VerticalSizeFieldMask,
                      false,
                      reinterpret_cast<FieldAccessMethod>(&OrthographicCameraBase::editSFVerticalSize)),
+    new FieldDescription(SFReal32::getClassType(), 
+                     "horizontalSize", 
+                     HorizontalSizeFieldId, HorizontalSizeFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&OrthographicCameraBase::editSFHorizontalSize)),
     new FieldDescription(SFReal32::getClassType(), 
                      "aspect", 
                      AspectFieldId, AspectFieldMask,
@@ -175,6 +186,7 @@ void OrthographicCameraBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 
 OrthographicCameraBase::OrthographicCameraBase(void) :
     _sfVerticalSize           (), 
+    _sfHorizontalSize         (Real32(-1)), 
     _sfAspect                 (Real32(1)), 
     Inherited() 
 {
@@ -186,6 +198,7 @@ OrthographicCameraBase::OrthographicCameraBase(void) :
 
 OrthographicCameraBase::OrthographicCameraBase(const OrthographicCameraBase &source) :
     _sfVerticalSize           (source._sfVerticalSize           ), 
+    _sfHorizontalSize         (source._sfHorizontalSize         ), 
     _sfAspect                 (source._sfAspect                 ), 
     Inherited                 (source)
 {
@@ -208,6 +221,11 @@ UInt32 OrthographicCameraBase::getBinSize(const BitVector &whichField)
         returnValue += _sfVerticalSize.getBinSize();
     }
 
+    if(FieldBits::NoField != (HorizontalSizeFieldMask & whichField))
+    {
+        returnValue += _sfHorizontalSize.getBinSize();
+    }
+
     if(FieldBits::NoField != (AspectFieldMask & whichField))
     {
         returnValue += _sfAspect.getBinSize();
@@ -225,6 +243,11 @@ void OrthographicCameraBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (VerticalSizeFieldMask & whichField))
     {
         _sfVerticalSize.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (HorizontalSizeFieldMask & whichField))
+    {
+        _sfHorizontalSize.copyToBin(pMem);
     }
 
     if(FieldBits::NoField != (AspectFieldMask & whichField))
@@ -245,6 +268,11 @@ void OrthographicCameraBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfVerticalSize.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (HorizontalSizeFieldMask & whichField))
+    {
+        _sfHorizontalSize.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (AspectFieldMask & whichField))
     {
         _sfAspect.copyFromBin(pMem);
@@ -263,6 +291,9 @@ void OrthographicCameraBase::executeSyncImpl(      OrthographicCameraBase *pOthe
     if(FieldBits::NoField != (VerticalSizeFieldMask & whichField))
         _sfVerticalSize.syncWith(pOther->_sfVerticalSize);
 
+    if(FieldBits::NoField != (HorizontalSizeFieldMask & whichField))
+        _sfHorizontalSize.syncWith(pOther->_sfHorizontalSize);
+
     if(FieldBits::NoField != (AspectFieldMask & whichField))
         _sfAspect.syncWith(pOther->_sfAspect);
 
@@ -278,6 +309,9 @@ void OrthographicCameraBase::executeSyncImpl(      OrthographicCameraBase *pOthe
 
     if(FieldBits::NoField != (VerticalSizeFieldMask & whichField))
         _sfVerticalSize.syncWith(pOther->_sfVerticalSize);
+
+    if(FieldBits::NoField != (HorizontalSizeFieldMask & whichField))
+        _sfHorizontalSize.syncWith(pOther->_sfHorizontalSize);
 
     if(FieldBits::NoField != (AspectFieldMask & whichField))
         _sfAspect.syncWith(pOther->_sfAspect);
@@ -325,7 +359,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(OrthographicCameraPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCameraBase.cpp,v 1.5 2008/06/09 12:28:23 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCameraBase.cpp,v 1.6 2008/11/04 15:23:45 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID;
 

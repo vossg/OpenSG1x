@@ -109,25 +109,41 @@ void OrthographicCamera::draw(      DrawAction *OSG_CHECK_ARG(action),
 {
 }
 
-void OrthographicCamera::getProjection(Matrix& result, 
+void OrthographicCamera::getProjection(Matrix& result,
     UInt32 width, UInt32 height)
 {
-    Real32 vs = getVerticalSize();
+    Real32 vs = getVerticalSize() / 2;
+    Real32 hs = getHorizontalSize() / 2;
 
     // catch some illegal cases
-    if(vs < 0 || width == 0 || height == 0)
+    if(((vs <= 0) && (hs <= 0)) || width == 0 || height == 0)
     {
         result.setIdentity();
         return;
     }
 
-    Real32 a = width /Real32(height) * getAspect();
-    
-    MatrixOrthogonal(result, -vs / 2 * a,  vs / 2 * a, 
-                             -vs / 2, vs / 2,
+    Real32 winAspect = width / Real32(height) * getAspect();
+    if (vs <= 0)
+    {
+        vs = hs / winAspect;
+    }
+    else if (hs <= 0)
+    {
+        hs = vs * winAspect;
+    }
+    else
+    {
+        Real32 camAspect = hs / vs;
+        if (winAspect < camAspect)
+            vs = hs / winAspect;
+        else
+            hs = vs * winAspect;
+    }
+    MatrixOrthogonal(result, -hs, hs,
+                             -vs, vs,
                              getNear(), getFar());
 }
-    
+
 
 void OrthographicCamera::dump(      UInt32    , 
                          const BitVector ) const
@@ -149,7 +165,7 @@ void OrthographicCamera::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCamera.cpp,v 1.2 2008/06/05 05:01:21 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOrthographicCamera.cpp,v 1.3 2008/11/04 15:23:45 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID;
 
@@ -159,4 +175,3 @@ namespace
 #ifdef __sgi
 #pragma reset woff 1174
 #endif
-

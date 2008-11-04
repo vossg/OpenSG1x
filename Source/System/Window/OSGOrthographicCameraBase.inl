@@ -119,6 +119,29 @@ SFReal32 *OrthographicCameraBase::getSFVerticalSize(void)
 }
 #endif
 
+//! Get the OrthographicCamera::_sfHorizontalSize field.
+inline
+const SFReal32 *OrthographicCameraBase::getSFHorizontalSize(void) const
+{
+    return &_sfHorizontalSize;
+}
+
+//! Get the OrthographicCamera::_sfHorizontalSize field.
+inline
+SFReal32 *OrthographicCameraBase::editSFHorizontalSize(void)
+{
+    return &_sfHorizontalSize;
+}
+
+#ifndef OSG_2_PREP
+//! Get the OrthographicCamera::_sfHorizontalSize field.
+inline
+SFReal32 *OrthographicCameraBase::getSFHorizontalSize(void)
+{
+    return &_sfHorizontalSize;
+}
+#endif
+
 //! Get the OrthographicCamera::_sfAspect field.
 inline
 const SFReal32 *OrthographicCameraBase::getSFAspect(void) const
@@ -173,6 +196,36 @@ void OrthographicCameraBase::setVerticalSize(const Real32 &value)
     _sfVerticalSize.setValue(value);
 }
 
+//! Get the value of the OrthographicCamera::_sfHorizontalSize field.
+inline
+Real32 &OrthographicCameraBase::editHorizontalSize(void)
+{
+    return _sfHorizontalSize.getValue();
+}
+
+//! Get the value of the OrthographicCamera::_sfHorizontalSize field.
+inline
+const Real32 &OrthographicCameraBase::getHorizontalSize(void) const
+{
+    return _sfHorizontalSize.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the OrthographicCamera::_sfHorizontalSize field.
+inline
+Real32 &OrthographicCameraBase::getHorizontalSize(void)
+{
+    return _sfHorizontalSize.getValue();
+}
+#endif
+
+//! Set the value of the OrthographicCamera::_sfHorizontalSize field.
+inline
+void OrthographicCameraBase::setHorizontalSize(const Real32 &value)
+{
+    _sfHorizontalSize.setValue(value);
+}
+
 //! Get the value of the OrthographicCamera::_sfAspect field.
 inline
 Real32 &OrthographicCameraBase::editAspect(void)
@@ -206,5 +259,5 @@ void OrthographicCameraBase::setAspect(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID "@(#)$Id: OSGOrthographicCameraBase.inl,v 1.5 2008/06/09 12:28:23 vossg Exp $"
+#define OSGORTHOGRAPHICCAMERABASE_INLINE_CVSID "@(#)$Id: OSGOrthographicCameraBase.inl,v 1.6 2008/11/04 15:23:45 pdaehne Exp $"
 

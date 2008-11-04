@@ -68,6 +68,7 @@
 #include <OSGCamera.h> // Parent
 
 #include <OSGReal32Fields.h> // VerticalSize type
+#include <OSGReal32Fields.h> // HorizontalSize type
 #include <OSGReal32Fields.h> // Aspect type
 
 #include <OSGOrthographicCameraFields.h>
@@ -92,12 +93,14 @@ class OSG_SYSTEMLIB_DLLMAPPING OrthographicCameraBase : public Camera
 
     enum
     {
-        VerticalSizeFieldId = Inherited::NextFieldId,
-        AspectFieldId       = VerticalSizeFieldId + 1,
-        NextFieldId         = AspectFieldId       + 1
+        VerticalSizeFieldId   = Inherited::NextFieldId,
+        HorizontalSizeFieldId = VerticalSizeFieldId   + 1,
+        AspectFieldId         = HorizontalSizeFieldId + 1,
+        NextFieldId           = AspectFieldId         + 1
     };
 
     static const OSG::BitVector VerticalSizeFieldMask;
+    static const OSG::BitVector HorizontalSizeFieldMask;
     static const OSG::BitVector AspectFieldMask;
 
 
@@ -132,6 +135,12 @@ class OSG_SYSTEMLIB_DLLMAPPING OrthographicCameraBase : public Camera
            SFReal32            *getSFVerticalSize   (void);
 #endif
 
+           SFReal32            *editSFHorizontalSize (void);
+     const SFReal32            *getSFHorizontalSize (void) const;
+#ifndef OSG_2_PREP
+           SFReal32            *getSFHorizontalSize (void);
+#endif
+
            SFReal32            *editSFAspect         (void);
      const SFReal32            *getSFAspect         (void) const;
 #ifndef OSG_2_PREP
@@ -143,6 +152,12 @@ class OSG_SYSTEMLIB_DLLMAPPING OrthographicCameraBase : public Camera
      const Real32              &getVerticalSize   (void) const;
 #ifndef OSG_2_PREP
            Real32              &getVerticalSize   (void);
+#endif
+
+           Real32              &editHorizontalSize (void);
+     const Real32              &getHorizontalSize (void) const;
+#ifndef OSG_2_PREP
+           Real32              &getHorizontalSize (void);
 #endif
 
            Real32              &editAspect         (void);
@@ -157,6 +172,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OrthographicCameraBase : public Camera
     /*! \{                                                                 */
 
      void setVerticalSize   ( const Real32 &value );
+     void setHorizontalSize ( const Real32 &value );
      void setAspect         ( const Real32 &value );
 
     /*! \}                                                                 */
@@ -201,6 +217,7 @@ class OSG_SYSTEMLIB_DLLMAPPING OrthographicCameraBase : public Camera
     /*! \{                                                                 */
 
     SFReal32            _sfVerticalSize;
+    SFReal32            _sfHorizontalSize;
     SFReal32            _sfAspect;
 
     /*! \}                                                                 */
@@ -279,6 +296,6 @@ typedef RefPtr<OrthographicCameraPtr> OrthographicCameraRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID "@(#)$Id: OSGOrthographicCameraBase.h,v 1.5 2008/06/09 12:28:23 vossg Exp $"
+#define OSGORTHOGRAPHICCAMERABASE_HEADER_CVSID "@(#)$Id: OSGOrthographicCameraBase.h,v 1.6 2008/11/04 15:23:45 pdaehne Exp $"
 
 #endif /* _OSGORTHOGRAPHICCAMERABASE_H_ */
