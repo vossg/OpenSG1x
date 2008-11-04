@@ -157,13 +157,13 @@ void OffCenterPerspectiveCamera::getProjection(Matrix& result,
     if(fov > Pi)
         fov = osgdegree2rad(fov);
 
-    Real32 near = getNear(), far = getFar();
+    Real32 rNear = getNear(), rFar = getFar();
     Real32 aspect = Real32(width) / Real32(height) * getAspect();
     Real32 ct = osgtan(fov / 2);
 
-    if(near > far)
+    if(rNear > rFar)
     {
-        SWARNING << "MatrixPerspective: near " << near << " > far " << far
+        SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
                  << "!\n" << std::endl;
         result.setIdentity();
         return;
@@ -177,9 +177,9 @@ void OffCenterPerspectiveCamera::getProjection(Matrix& result,
         return;
     }
 
-    if(osgabs(near - far) < Eps)
+    if(osgabs(rNear - rFar) < Eps)
     {
-        SWARNING << "MatrixPerspective: near " << near << " ~= far " << far
+        SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
                  << "!\n" << std::endl;
         result.setIdentity();
         return;
@@ -193,7 +193,7 @@ void OffCenterPerspectiveCamera::getProjection(Matrix& result,
         return;
     }
 
-    Real32 x = ct * near, y = ct * near;
+    Real32 x = ct * rNear, y = ct * rNear;
     UInt32 fovMode = getFovMode();
     switch (fovMode)
     {
@@ -225,8 +225,8 @@ void OffCenterPerspectiveCamera::getProjection(Matrix& result,
                        x,
                       -y,
                        y,
-                       near,
-                       far);
+                       rNear,
+                       rFar);
     }
     else {
         MatrixFrustum(result,
@@ -234,8 +234,8 @@ void OffCenterPerspectiveCamera::getProjection(Matrix& result,
                        x * (1.f - principalPointX),
                       -y * (1.f + principalPointY),
                        y * (1.f - principalPointY),
-                       near,
-                       far);
+                       rNear,
+                       rFar);
     }
 }
 
@@ -263,7 +263,7 @@ void OffCenterPerspectiveCamera::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCamera.cpp,v 1.3 2008/11/03 14:33:44 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGOffCenterPerspectiveCamera.cpp,v 1.4 2008/11/04 11:58:44 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGOFFCENTERPERSPECTIVECAMERA_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGOFFCENTERPERSPECTIVECAMERA_INLINE_CVSID;
 

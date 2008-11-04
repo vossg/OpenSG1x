@@ -140,13 +140,13 @@ void PerspectiveCamera::getProjection(Matrix& result,
     if(fov > Pi)
         fov = osgdegree2rad(fov);
 
-    Real32 near = getNear(), far = getFar();
+    Real32 rNear = getNear(), rFar = getFar();
     Real32 aspect = Real32(width) / Real32(height) * getAspect();
     Real32 ct = osgtan(fov / 2);
 
-    if(near > far)
+    if(rNear > rFar)
     {
-        SWARNING << "MatrixPerspective: near " << near << " > far " << far
+        SWARNING << "MatrixPerspective: near " << rNear << " > far " << rFar
                  << "!\n" << std::endl;
         result.setIdentity();
         return;
@@ -160,9 +160,9 @@ void PerspectiveCamera::getProjection(Matrix& result,
         return;
     }
 
-    if(osgabs(near - far) < Eps)
+    if(osgabs(rNear - rFar) < Eps)
     {
-        SWARNING << "MatrixPerspective: near " << near << " ~= far " << far
+        SWARNING << "MatrixPerspective: near " << rNear << " ~= far " << rFar
                  << "!\n" << std::endl;
         result.setIdentity();
         return;
@@ -176,7 +176,7 @@ void PerspectiveCamera::getProjection(Matrix& result,
         return;
     }
 
-    Real32 x = ct * near, y = ct * near;
+    Real32 x = ct * rNear, y = ct * rNear;
     UInt32 fovMode = getFovMode();
     switch (fovMode)
     {
@@ -202,8 +202,8 @@ void PerspectiveCamera::getProjection(Matrix& result,
                    x,
                   -y,
                    y,
-                   near,
-                   far);
+                   rNear,
+                   rFar);
 }
 
 
