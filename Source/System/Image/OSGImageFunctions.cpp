@@ -619,10 +619,17 @@ bool OSG::splitRGBA(ImagePtr rgba,
         return false;
     }
 
-    if (rgb == NullFC)
-        rgb = Image::create();
-    if (alpha == NullFC)
-        alpha = Image::create();
+    if(rgb == NullFC)
+    {
+        FFATAL(("No appropriate (rgb) target given!\n"));
+        return false;
+    }
+    
+    if(alpha == NullFC)
+    {
+        FFATAL(("No appropriate (alpha) target given!\n"));
+        return false;
+    }
 
     Int32 w = rgba->getWidth();
     Int32 h = rgba->getHeight();
@@ -666,12 +673,18 @@ bool OSG::mergeRGBA(ImagePtr rgb,
                     ImagePtr alpha,
                     ImagePtr rgba)
 {
-    if (rgb == NullFC || alpha == NullFC ||
-        rgb->getDepth() > 1 || alpha->getDepth() > 1 || 
-        rgb->getPixelFormat() != Image::OSG_RGB_PF ||
+    if (rgb             == NullFC || alpha == NullFC        ||
+        rgb  ->getDepth() >  1    || alpha->getDepth() > 1  ||
+        rgb  ->getPixelFormat() != Image::OSG_RGB_PF        ||
         alpha->getPixelFormat() != Image::OSG_L_PF)
     {
         FFATAL(("No appropriate images given!\n"));
+        return false;
+    }
+
+    if(rgba == NullFC)
+    {
+        FFATAL(("No appropriate target given!\n"));
         return false;
     }
 
@@ -684,9 +697,6 @@ bool OSG::mergeRGBA(ImagePtr rgb,
         return false;
     }
 
-    if (rgba == NullFC)
-        rgba = Image::create();
-    
     beginEditCP( rgba );
     {
         rgba->set(Image::OSG_RGBA_PF, w, h);
