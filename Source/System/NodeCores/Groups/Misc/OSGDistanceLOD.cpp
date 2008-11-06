@@ -155,21 +155,12 @@ Action::ResultE DistanceLOD::draw(Action *action)
     }
     else
     {
-        Pnt3f eyepos;
-        da->getCameraToWorld().mult(eyepos, eyepos);
-
-        Pnt3f objpos;
+        Real32 dist;
         RenderAction *ra = dynamic_cast<RenderAction *>(action);
         if(ra != NULL)
-        {
-            ra->top_matrix().mult(getCenter(), objpos);
-        }
+            dist = calcDistance(da, ra->top_matrix());
         else
-        {
-            da->getActNode()->getToWorld().mult(getCenter(), objpos);
-        }
-
-        Real32 dist = eyepos.dist(objpos);
+            dist = calcDistance(da, da->getActNode()->getToWorld());
 
         if (numRanges >= numLevels)
             numRanges = numLevels - 1;
@@ -199,6 +190,23 @@ Action::ResultE DistanceLOD::draw(Action *action)
     }
 
     return Action::Continue;
+}
+
+/*-------------------------------------------------------------------------*/
+/*                            Calc Distance                                */
+
+Real32 DistanceLOD::calcDistance(DrawActionBase *pAction, const Matrix &mToWorld)
+{
+    Matrix m;
+    m.invertFrom(mToWorld);
+    m.mult(pAction->getCameraToWorld());
+    Pnt3f eyepos;
+    m.mult(eyepos, eyepos);
+
+    Pnt3f objpos;
+    mToWorld.mult(getCenter(), objpos);
+
+    return eyepos.dist(objpos);
 }
 
 /*-------------------------------------------------------------------------*/

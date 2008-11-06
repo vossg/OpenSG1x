@@ -49,6 +49,8 @@
 
 OSG_BEGIN_NAMESPACE
 
+class DrawActionBase;
+
 /*! \brief Distance-based Level Of Detail
     \ingroup GrpSystemNodeCoresMisc
 */
@@ -99,6 +101,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
     /*! \{                                                                 */
 
     Action::ResultE draw( Action* action );
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name               calc the distance                              */
+    /*! \{                                                                 */
+
+    Real32 calcDistance(DrawActionBase *pAction, const Matrix &mToWorld);
 
     /*! \}                                                                 */
     /*==========================  PRIVATE  ================================*/
