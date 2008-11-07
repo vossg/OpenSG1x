@@ -59,10 +59,12 @@ inline bool Window::isResizePending(void)
 }
 
 /*! Check if the window has the indicated extension.
-    \warning No error checks are done on the passed index!
 */
 inline bool Window::hasExtension(UInt32 id)
 {
+    if(id >= _availExtensions.size())
+        return false;
+
     return _availExtensions[id];
 }
 
