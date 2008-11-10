@@ -63,7 +63,11 @@ inline bool Window::isResizePending(void)
 inline bool Window::hasExtension(UInt32 id)
 {
     if(id >= _availExtensions.size())
+    {
+        FWARNING(("Extension id [%u] out-of-range!\n", id));
+
         return false;
+    }
 
     return _availExtensions[id];
 }
