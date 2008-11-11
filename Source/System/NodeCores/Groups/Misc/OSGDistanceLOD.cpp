@@ -203,10 +203,7 @@ Real32 DistanceLOD::calcDistance(DrawActionBase *pAction, const Matrix &mToWorld
     Pnt3f eyepos;
     m.mult(eyepos, eyepos);
 
-    Pnt3f objpos;
-    mToWorld.mult(getCenter(), objpos);
-
-    return eyepos.dist(objpos);
+    return eyepos.dist(getCenter());
 }
 
 /*-------------------------------------------------------------------------*/
