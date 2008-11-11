@@ -108,7 +108,7 @@ void WalkNavigator::setMinWallDistance (Real32 wallDistance)
 {
     _wallDistance=wallDistance;
 }
-    
+
 void WalkNavigator::setPersonDimensions(Real32 height,Real32 width,Real32 fatness)
 {
     _height  = height;
@@ -125,7 +125,7 @@ void WalkNavigator::rotate (Real32 deltaX, Real32 deltaY)
 {
     FlyNavigator::rotate(deltaX, deltaY);
 }
-   
+
 /*! "walks" forward
  */
 
@@ -145,40 +145,43 @@ Real32 WalkNavigator::forward(Real32 step)
     sv.crossThis(upn);
     sv.normalize();
 
-    Pnt3f rFrom = _rFrom + step*mv;
-    Pnt3f rAt = _rAt + step*mv;
+    Pnt3f rFrom = _rFrom + step * mv;
+    Pnt3f rAt   = _rAt   + step * mv;
 
     Real32 dist;
     Line line(rFrom, -upn);
 
     //keep the walker at a constant distance from the ground
-    _act->setLine(line);
-    _act->apply(_ground);
+    _act->setLine(line   );
+    _act->apply  (_ground);
 
-    if (_act->didHit()) {
+    if(_act->didHit())
+    {
         dist = _act->getHitT();
-        if (dist >= _height) {
-            rFrom = rFrom + (_groundDistance-dist+_height)*upn;
-            rAt = rAt + (_groundDistance-dist+_height)*upn;
+        if(dist >= _height)
+        {
+            rFrom = rFrom + (_groundDistance - dist + _height) * upn;
+            rAt   = rAt   + (_groundDistance - dist + _height) * upn;
         }
         else return 0.0;    //can't jump so high
     }
 
     //finally check if the move is correct or not
 
-    line.setValue(_rFrom, mv);
-    _act->setLine(line);
-    _act->apply(_world);
+    line.setValue(rFrom, -mv);
+    _act->setLine(line  );
+    _act->apply  (_world);
 
-    if (_act->didHit()) {
+    if(_act->didHit())
+    {
         dist = _act->getHitT();
-        if (dist <= (rFrom-_rFrom).length()+_fatness+_wallDistance)
+        if(dist <= _fatness + _wallDistance)
             return 0.0;     //running against a wall
     }
 
     //move was ok, store new values
     _rFrom = rFrom;
-    _rAt = rAt;
+    _rAt   = rAt;
     return step;
 }
 
@@ -208,39 +211,42 @@ Real32 WalkNavigator::right(Real32 step)
     sv.crossThis(upn);
     sv.normalize();
 
-    Pnt3f rFrom = _rFrom + step*sv;
-    Pnt3f rAt = _rAt + step*sv;
+    Pnt3f rFrom = _rFrom + step * sv;
+    Pnt3f rAt    = _rAt  + step * sv;
 
     Real32 dist;
     Line line(rFrom, -upn);
 
     //keep the walker at a constant distance from the ground
-    _act->setLine(line);
-    _act->apply(_ground);
+    _act->setLine(line   );
+    _act->apply  (_ground);
 
-    if (_act->didHit()) {
+    if(_act->didHit())
+    {
         dist = _act->getHitT();
-        if (dist >= _height) {
-            rFrom = rFrom + (_groundDistance-dist+_height)*upn;
-            rAt = rAt + (_groundDistance-dist+_height)*upn;
+        if(dist >= _height)
+        {
+            rFrom = rFrom + (_groundDistance - dist + _height) * upn;
+            rAt   = rAt   + (_groundDistance - dist + _height) * upn;
         }
         else return 0.0;    //can't jump so high
     }
 
     //finally check if the move is correct or not
 
-    line.setValue(_rFrom, sv);
-    _act->setLine(line);
-    _act->apply(_world);
+    line.setValue(rFrom, sv);
+    _act->setLine(line  );
+    _act->apply  (_world);
 
-    if (_act->didHit()) {
+    if(_act->didHit())
+    {
         dist = _act->getHitT();
-        if (dist <= (rFrom-_rFrom).length()+_fatness+_wallDistance)
+        if (dist <= _fatness + _wallDistance)
             return 0.0;     //running against a wall
     }
 
     //move was ok, store new values
     _rFrom = rFrom;
-    _rAt = rAt;
+    _rAt   = rAt;
     return step;
 }
