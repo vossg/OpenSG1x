@@ -72,10 +72,8 @@
 hex         [+\-]?0[xX][0-9a-fA-F]+
 int32       [+\-]?[0-9]+
 double      [+\-]?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+\-]?[0-9]+)?)
-    /* Not VRML conformant */
-IdFirstChar [^\x00-\x19 "#'+,\-.0-9[\\\]{}\x7f]
-    /* Not VRML conformant */
-IdRestChar  [^\x00-\x19 "#',.[\\\]{}\x7f]
+IdFirstChar [^\x00-\x19 "#'+,\-.0-9:[\\\]{}\x7f]
+IdRestChar  [^\x00-\x19 "#',.:[\\\]{}\x7f]
 Id          {IdFirstChar}{IdRestChar}*
 ws          [\r\n \t,]
 utf8bom     \xef\xbb\xbf
@@ -225,7 +223,7 @@ NULL                 BEGIN(NODE); return TOK_NULL;
 "[" BEGIN(NODE); return '[';
 "]" BEGIN(NODE); return ']';
 "." BEGIN(NODE); return '.';
-    /*":" BEGIN(NODE); return ':';*/
+":" BEGIN(NODE); return ':';
 
 <NODE>"#"     BEGIN(COMMENT);
 <COMMENT>.

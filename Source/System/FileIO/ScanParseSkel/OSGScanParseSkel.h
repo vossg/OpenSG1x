@@ -329,7 +329,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
 
     virtual void profileElement   (const Char8 *szProfileName);
 
-    virtual void componentElement (const Char8 *szComponentName);
+    virtual void componentElement (const Char8 *szComponentName, Int32 level);
 
     virtual void metaElement      (const Char8 *szMetaKey,
                                    const Char8 *szMetaValue);

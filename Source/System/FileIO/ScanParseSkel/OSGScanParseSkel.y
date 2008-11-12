@@ -169,7 +169,7 @@ int OSGScanParseSkel_lex(YYSTYPE *lvalp, void *);
 
 %type <stringVal> profileNameId
 %type <stringVal> componentNameId
-/*%type <intVal> componentSupportLevel*/
+%type <intVal> componentSupportLevel
 %type <stringVal> metakey
 %type <stringVal> metavalue
 %type <stringVal> asStatement
@@ -214,18 +214,16 @@ componentStatements:
     | /* empty */;
 
 componentStatement:
-    /* Not VRML conformant */
     TOK_COMPONENT
-    componentNameId
-    { SKEL->componentElement($2); };
+    componentNameId { SKEL->_tmpString1 = $2; }
+    ':'
+    componentSupportLevel { SKEL->componentElement(SKEL->_tmpString1.c_str(), $5); };
 
 componentNameId:
-    TOK_Id
-    | TOK_string;
-/*
+    TOK_Id;
+
 componentSupportLevel:
     int32;
-*/
 
 metaStatements:
     metaStatements metaStatement

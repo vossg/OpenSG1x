@@ -315,9 +315,9 @@ void ScanParseSkel::profileElement(const Char8 *szProfileName)
     fprintf(stderr, "PROFILE %s\n", szProfileName);
 }
 
-void ScanParseSkel::componentElement    (const Char8 *szComponentName)
+void ScanParseSkel::componentElement    (const Char8 *szComponentName, Int32 level)
 {
-    fprintf(stderr, "COMPONENT %s\n", szComponentName);
+    fprintf(stderr, "COMPONENT %s:%i\n", szComponentName, level);
 }
 
 void ScanParseSkel::metaElement  (const Char8 *szMetaKey,
