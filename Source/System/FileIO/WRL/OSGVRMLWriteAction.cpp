@@ -1232,6 +1232,9 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     }
     
     StatePtr st = pMat->makeState();
+	
+	if(st == NullFC)
+		return;
     
     StateChunkPtr sChunk =
         st->getChunk(MaterialChunk::getStaticClassId());
