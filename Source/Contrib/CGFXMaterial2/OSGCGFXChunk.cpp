@@ -153,8 +153,6 @@ void CGFXChunk::EffectS::reset(void)
 CGFXChunk::CGFXChunk(void) :
     Inherited(),
     _effect(),
-    _textures(),
-    _cgfx_changed(false),
     _npasses(1),
     _state_parameters(),
     _action(NULL),
@@ -168,8 +166,6 @@ CGFXChunk::CGFXChunk(void) :
 CGFXChunk::CGFXChunk(const CGFXChunk &source) :
     Inherited(source),
     _effect(source._effect),
-    _textures(source._textures),
-    _cgfx_changed(source._cgfx_changed),
     _npasses(source._npasses),
     _state_parameters(source._state_parameters),
     _action(source._action),
@@ -212,10 +208,6 @@ void CGFXChunk::onDestroy(void)
     for(UInt32 i=1;i<_effect.size();++i)
         _effect[i].reset();
     _effect.clear();
-
-    for(TexturesMap::iterator it = _textures.begin();it != _textures.end();++it)
-        subRefCP((*it).second.first);
-    _textures.clear();
 
     if(getGLId() > 0)
         Window::destroyGLObject(getGLId(), 1);
@@ -360,7 +352,6 @@ void CGFXChunk::notifyParametersChanged()
 
     if( interfaceChanged )
     {
-        _cgfx_changed = true;
         Window::reinitializeGLObject(getGLId());
     }
     else
@@ -621,8 +612,8 @@ void CGFXChunk::extractParameters(
                     std::string filename;
                     if(!cgfxMat->getParameter(paramName.c_str(), filename))
                     {
-                        // ok first look for a tweakable File parameter in the sampler itself.
-                        // get texture filename
+                        // parameter not yet set.
+                        // => first look for a tweakable File parameter in the sampler itself.
                         if(cgGetFirstParameterAnnotation(param) != NULL)
                         {
                             CGannotation anno = cgGetNamedParameterAnnotation(param, "File");
@@ -637,9 +628,9 @@ void CGFXChunk::extractParameters(
                             }
                         }
         
+                        // ok, now look for a tweakable parameter in the texture parameter.
                         if(filename.empty())
                         {
-                            // ok second look for a tweakable parameter in the texture parameter.
                             CGstateassignment ss = cgGetFirstSamplerStateAssignment(param);
                             if(ss)
                             {
@@ -668,23 +659,18 @@ void CGFXChunk::extractParameters(
                         }
                     }
 
-                    // we do this also for a empty filename could be set later
-                    // via setParameter().
-                    if(_cgfx_changed)
+                    TextureChunkPtr texc;
+                    cgfxMat->getParameter( paramName.c_str(), texc );
+                    if( !texc )
                     {
-                        TextureChunkPtr texc = TextureChunk::create();
-                        _textures.insert(std::make_pair(paramName, std::make_pair(texc, filename)));
+                        texc = TextureChunk::create();
+                        cgfxMat->setParameter( paramName.c_str(), texc );
                     }
-                    else
+
+					if( _action )
                     {
-                        // just upload the texture for the new context.
-                        TexturesMap::iterator it = _textures.find(paramName);
-                        if(it != _textures.end())
-                        {
-                            TextureChunkPtr texc = (*it).second.first;
-                            texc->activate(_action, 0);
-                            texc->deactivate(_action, 0);
-                        }
+                        texc->activate(_action, 0);
+                        texc->deactivate(_action, 0);
                     }
 
                     addEffectParameter( paramName, (OSGCGparameter)param );
@@ -767,6 +753,7 @@ void CGFXChunk::extractParameters(
             {
                 // now add the Annotation Attachment.
     
+                // THINKABOUTME: Hmm, a bit inefficient...
                 // search for the parameter via name.
                 ShaderParameterPtr sp = NullFC;
                 for(UInt32 j=0;j<cgfxMat->getParameters().getSize();++j)
@@ -989,21 +976,13 @@ void CGFXChunk::updateEffect(Window *win)
 
     CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
 
-    if(_cgfx_changed)
-    {
-        // ok the whole cgfx file changed destroy old textures.
-        for(TexturesMap::iterator it = _textures.begin();it != _textures.end();++it)
-            subRefCP((*it).second.first);
-        _textures.clear();
-    }
-
     // Search for known parameters
     beginEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
     
     _effectParameters.clear();
     _interfaceMappings.clear();
     CGparameter param = cgGetFirstEffectParameter(effect);
-    std::vector< std::pair< std::string, std::string > > interfaceMapping;
+//    std::vector< std::pair< std::string, std::string > > interfaceMapping;
     extractParameters( (OSGCGparameter)param, _effect[id] );
 
     endEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
@@ -1024,7 +1003,9 @@ void CGFXChunk::updateEffect(Window *win)
     }
     beginEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
         for(UInt32 i=0;i<remove_params.size();++i)
+		{
             cgfxMat->subParameter(remove_params[i].c_str());
+		}
     endEditCP(cgfxMat, CGFXMaterial::ParametersFieldMask);
 
     if(!updateTechnique(win, (OSGCGeffect) effect))
@@ -1034,7 +1015,6 @@ void CGFXChunk::updateEffect(Window *win)
         return;
     }
 
-    _cgfx_changed = false;
     // ok effect is valid set id.
     win->setGLObjectId(getGLId(), id);
     //printf("updateEffect ready\n");
@@ -1047,6 +1027,7 @@ void CGFXChunk::setParentMaterial(const ChunkMaterialPtr &parentMat)
 
 void CGFXChunk::updateImages(void)
 {
+    OSG_ASSERT(false);
     CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
     if(cgfxMat == NullFC)
         return;
@@ -1081,9 +1062,7 @@ void CGFXChunk::updateImages(void)
     }
 
     // destroy old TextureChunks and images.
-    for(TexturesMap::iterator it = _textures.begin();it != _textures.end();++it)
-        subRefCP((*it).second.first);
-    _textures.clear();
+    // THINKABOUTME: Hmm, this seems a bit drastic...?
     cgfxMat->clearImages();
 
     CGparameter param = cgGetFirstEffectParameter(effect);
@@ -1159,19 +1138,21 @@ void CGFXChunk::updateImages(void)
 
                     if(img != NullFC)
                     {
-                        beginEditCP(img);
+                        beginEditCP(img, Image::NameFieldMask );
                             img->setName(filename.c_str());
-                        endEditCP(img);
+                        endEditCP(img, Image::NameFieldMask);
 
                         beginEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
                             cgfxMat->addImage(img);
                         endEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
 
                         TextureChunkPtr texc = TextureChunk::create();
-                        beginEditCP(texc);
+                        beginEditCP(texc, TextureChunk::ImageFieldMask);
                             texc->setImage(img);
-                        endEditCP(texc);
-                        _textures.insert(std::make_pair(paramName, std::make_pair(texc, filename)));
+                        endEditCP(texc, TextureChunk::ImageFieldMask);
+
+                        cgfxMat->setParameter( paramName.c_str(), texc );
+
                         //printf("added texture '%s'\n", filename.c_str());
                     }
                 }
@@ -1281,91 +1262,109 @@ void CGFXChunk::updateParameters(Window *win)
             case ShaderParameter::SHPTypeString:
             {
                 ShaderParameterStringPtr p = ShaderParameterStringPtr::dcast(parameter);
-                TexturesMap::iterator it = _textures.find(parameter->getName());
-                if(it != _textures.end()) // ok it was a texture
+                TextureChunkPtr texc = TextureChunkPtr::dcast(p->findAttachment(TextureChunk::getClassType()));
+                if( texc )
                 {
-                    TextureChunkPtr texc = (*it).second.first;
-                    std::string filename = (*it).second.second;
+                    // => it's a texture
 
                     ImagePtr img = texc->getImage();
-                    std::string pfilename = p->getValue();
-                    image_filenames.push_back(pfilename);
 
-                    std::string filename2 = filename;
-                    for(UInt32 i=0;i<filename2.size();++i)
+                    std::string oldname;
+                    if( img )
+                        oldname = img->getName();
+
+                    std::string newname = p->getValue();
+                    image_filenames.push_back(newname);
+#if 0
+                    std::string oldname2 = oldname;
+                    for(UInt32 i=0;i<oldname2.size();++i)
                     {
-                        if(filename2[i] == '\\')
-                            filename2[i] = '/';
+                        if(oldname2[i] == '\\')
+                            oldname2[i] = '/';
                     }
 
-                    std::string pfilename2 = pfilename;
-                    for(UInt32 i=0;i<pfilename2.size();++i)
+                    std::string newname2 = newname;
+                    for(UInt32 i=0;i<newname2.size();++i)
                     {
-                        if(pfilename2[i] == '\\')
-                            pfilename2[i] = '/';
+                        if(newname2[i] == '\\')
+                            newname2[i] = '/';
                     }
-
+#endif
                     // now check if the image filename has changed or we need
                     // to create a image.
-                    if(img == NullFC || filename2 != pfilename2)
+                    if( !newname.empty() )
                     {
-                        /*
-                        if(img == NullFC)
-                            printf("texture image is NULL\n");
-                        else
-                            printf("texture image filename changed '%s' == '%s' !!!\n",
-                                   filename2.c_str(), pfilename2.c_str());
-                        */
-                        
-                        // ok now look in our own images list.
-
-                        ImagePtr newimg = cgfxMat->findImage(pfilename);
-                        if(newimg == NullFC)
+                        if( img == NullFC || oldname != newname )
                         {
-                            //printf("loading image '%s' from filesystem.\n", pfilename.c_str());
-                            addTextureSearchPaths();
-                            img = OSG::ImageFileHandler::the().read(pfilename.c_str());
-                            subTextureSearchPaths();
+                            // filename changed or file was never loaded
+                            // => try to bind new image to chunk
 
-                            if(img != NullFC)
+                            // first try our own images list.
+                            ImagePtr newimg = cgfxMat->findImage(newname);
+                            if(newimg == NullFC)
                             {
-                                // need to add some image conversion for hdr textures in
-                                // CG_SAMPLERCUBE format. Actually convert the cross format
-                                // in 6 images and add them as 6 sides to the image.
-                                beginEditCP(img);
-                                    img->setName(pfilename.c_str());
-                                endEditCP(img);
+                                // image not found in list
+                                // => try to load it
 
-                                beginEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
-                                    cgfxMat->addImage(img);
-                                endEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
+                                //printf("loading image '%s' from filesystem.\n", pfilename.c_str());
+                                addTextureSearchPaths();
+                                img = OSG::ImageFileHandler::the().read(newname.c_str());
+                                subTextureSearchPaths();
+
+                                if(img != NullFC)   // => file loaded
+                                {
+                                    // need to add some image conversion for hdr textures in
+                                    // CG_SAMPLERCUBE format. Actually convert the cross format
+                                    // in 6 images and add them as 6 sides to the image.
+                                    beginEditCP(img, Image::NameFieldMask);
+                                        img->setName(newname.c_str());
+                                    endEditCP(img, Image::NameFieldMask);
+
+                                    beginEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
+                                        cgfxMat->addImage(img);
+                                    endEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
+                                }
+                                else    // => loading failed
+                                {
+                                    FWARNING(("CGFXChunk: Couldn't load image file '%s' for parameter '%s'!\n",
+                                           newname.c_str(), parameter->getName().c_str()));
+                                }
                             }
-                        }
-                        else
-                        {
-                            //printf("using image '%s' from cgfxMat images.\n", pfilename.c_str());
-                            img = newimg;
-                        }
+                            else
+                            {
+                                // image found in list => use it!
+                                //printf("using image '%s' from cgfxMat images.\n", pfilename.c_str());
+                                img = newimg;
+                            }
 
-                        if(img != NullFC)
-                        {
-                            beginEditCP(texc);
+                            // bind image to chunk
+                            // THINKABOUTME: reset chunk's state (or create new chunk)??
+                            beginEditCP(texc, TextureChunk::ImageFieldMask);
                                 texc->setImage(img);
-                                //texc->setInternalFormat(GL_RGBA32F_ARB);
-                            endEditCP(texc);
+                            //texc->setInternalFormat(GL_RGBA32F_ARB);
+                            endEditCP(texc, TextureChunk::ImageFieldMask);
 
-                            if(_action != NULL)
-                            {
-                                texc->activate(_action, 0);
-                                texc->deactivate(_action, 0);
-                            }
                         }
+						// else
+						// filename not changed and image != null
+						// => everything set up correctly
+                    }
+					//else
+                    // new filename empty
+                    // => chunk is already set up correctly
+                    // (well, at least we're not responsible, but the user...)
+
+                    if(_action != NULL)
+                    {
+                        texc->activate(_action, 0);
+                        texc->deactivate(_action, 0);
                     }
 
-                    //cgGLSetupSampler(param, win->getGLObjectId(texc->getGLId()));
+					OSG_ASSERT(texc->getGLId());
+                    cgGLSetupSampler(param, win->getGLObjectId(texc->getGLId()));
                     cgGLSetTextureParameter(param, win->getGLObjectId(texc->getGLId()));
                 }
-                else // a string
+                else // parameter is a string
                 {
                     // structs are also added as string parameters,
                     // but we don't really want to set them.
@@ -1381,46 +1380,47 @@ void CGFXChunk::updateParameters(Window *win)
         }
     }
 
-    // remove unused images.
-    std::vector<ImagePtr> used_images;
-    for(UInt32 i=0;i<image_filenames.size();++i)
-    {
-        ImagePtr img = cgfxMat->findImage(image_filenames[i]);
-        if(img != NullFC)
-            used_images.push_back(img);
-    }
-
-    //printf("used images %u\n", used_images.size());
-    if(used_images.size() != cgfxMat->getImages().size())
-    {
-        //printf("recreating images list!\n");
-
-        // destroy old images.
-#if 0
-        for(UInt32 i=0;i<cgfxMat->getImages().size();++i)
-        {
-            ImagePtr img = cgfxMat->getImages()[i];
-            bool found = false;
-            for(UInt32 j=0;j<used_images.size();++j)
-            {
-                if(img == used_images[j])
-                {
-                    found = true;
-                    break;
-                }
-            }
-            if(!found)
-                subRefCP(img);
-        }
-#endif
-
-        // recreate new image list.
-        beginEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
-            cgfxMat->clearImages();
-            for(UInt32 i=0;i<used_images.size();++i)
-                cgfxMat->addImage(used_images[i]);
-        endEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
-    }
+    // THINKABOUTME: what to do with the image list??
+//    std::vector<ImagePtr> used_images;
+//    for( TexturesMap::const_iterator iter = _textures.begin();
+//        iter != _textures.end(); ++iter )
+//    {
+//        ImagePtr img = iter->second.first->getImage();
+//        if(img != NullFC)
+//            used_images.push_back(img);
+//    }
+//
+//    //printf("used images %u\n", used_images.size());
+//    if(used_images.size() != cgfxMat->getImages().size())
+//    {
+//        //printf("recreating images list!\n");
+//
+//        // destroy old images.
+//#if 0
+//        for(UInt32 i=0;i<cgfxMat->getImages().size();++i)
+//        {
+//            ImagePtr img = cgfxMat->getImages()[i];
+//            bool found = false;
+//            for(UInt32 j=0;j<used_images.size();++j)
+//            {
+//                if(img == used_images[j])
+//                {
+//                    found = true;
+//                    break;
+//                }
+//            }
+//            if(!found)
+//                subRefCP(img);
+//        }
+//#endif
+//
+//        // recreate new image list.
+//        beginEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
+//            cgfxMat->clearImages();
+//            for(UInt32 i=0;i<used_images.size();++i)
+//                cgfxMat->addImage(used_images[i]);
+//        endEditCP(cgfxMat, CGFXMaterial::ImagesFieldMask);
+//    }
 
 }
 
@@ -1428,6 +1428,9 @@ void CGFXChunk::setEffectFile(const std::string &effectFile)
 {
     //printf("CGFXChunk::setEffectFile\n");
     _effectFile = effectFile;
+    
+    if( _effectFile.empty() )
+        return;
 
     const Char8 *tmp_current = Directory::getCurrent();
     std::string old_current = tmp_current;
@@ -1459,6 +1462,8 @@ void CGFXChunk::setEffectFile(const std::string &effectFile)
         path = ".";
 
     _effectFilePath = path;
+//    FWARNING(("CGFXChunk : effectFilePath is '%s'!\n", _effectFilePath.c_str()));
+	
 
     // ok without setting the current path relative includes in the cgfx file
     // doesn't work!
@@ -1469,9 +1474,9 @@ void CGFXChunk::setEffectFile(const std::string &effectFile)
 
     // create cgfx string.
     std::string effectString;
-    if(!read(fullFilePath, effectString))
+    if( !read(fullFilePath, effectString) )
     {
-        FWARNING(("CGFXChunk : Couldn't read cgfx file '%s'!\n", effectFile.c_str()));
+        FWARNING(("CGFXChunk : Couldn't read cgfx file '%s' in '%s'!\n", effectFile.c_str(), fullFilePath.c_str() ));
         Directory::setCurrent(old_current.c_str());
         return;
     }
@@ -1581,7 +1586,6 @@ void CGFXChunk::setEffectString(const std::string &effectString)
         return;
     }
 
-    _cgfx_changed = true;
     _technique = 0;
     Window::reinitializeGLObject(getGLId());
 }
@@ -1594,9 +1598,6 @@ void CGFXChunk::setCompilerOptions(const std::vector<std::string> &compilerOptio
     }
 
     _compilerOptions = compilerOptions;
-    
-    // THINKABOUTME: Hmm, this seems to influence only textures, so we wouldn't really need it...
-    _cgfx_changed = true;
     
     Window::reinitializeGLObject(getGLId());
 }
@@ -1746,11 +1747,6 @@ bool CGFXChunk::updateTechnique(Window *win, OSGCGeffect effect)
     }
 
     return true;
-}
-
-bool CGFXChunk::isTextureParameter(const std::string &name)
-{
-    return (_textures.find(name) != _textures.end());
 }
 
 void CGFXChunk::setStateParameter(UInt32 type, const std::string &parameterName)
@@ -2177,7 +2173,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.12 2008/10/07 13:07:02 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.13 2008/11/14 11:44:47 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 

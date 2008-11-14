@@ -83,6 +83,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterAccess
     template<class ParameterType, class ValueType> 
     bool    getMParameter(const char *name, ValueType &value);
 
+
+    template<class ParameterType>
+    FCPtr<ShaderParameterPtr, ParameterType> getParameterFC(
+        const char *name);
+
     bool    subParameter(const char *name);
 
     void updateMap(void);
@@ -109,6 +114,6 @@ OSG_END_NAMESPACE
 
 #include <OSGShaderParameterAccess.inl>
 
-#define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.7 2008/06/09 07:30:32 vossg Exp $"
+#define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.8 2008/11/14 11:44:47 macnihilist Exp $"
 
 #endif /* _OSGSHADERPARAMETERACCESS_H_ */

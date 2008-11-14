@@ -114,7 +114,8 @@ void CGFXMaterial::onCreate(const CGFXMaterial *source)
     Inherited::onCreate(source);
 
     // ignore prototypes.
-    if(GlobalSystemState == Startup)
+    if(GlobalSystemState == Startup
+    	|| FieldContainerFactory::the()->findUninitializedType("CGFXChunk") )
         return;
 
 #if 0
@@ -125,7 +126,8 @@ void CGFXMaterial::onCreate(const CGFXMaterial *source)
 #endif
 
     _cgfxChunk = CGFXChunk::create();
-    addRefCP(_cgfxChunk);
+    OSG_ASSERT( _cgfxChunk );
+   	addRefCP(_cgfxChunk);
 
     _parameter_access = new ShaderParameterAccess(getParameters());
 
@@ -192,13 +194,19 @@ bool CGFXMaterial::isTransparent(void) const
     return _cgfxChunk->isTransparent();
 }
 
+// THINKABOUTME: is this needed any more?
 bool CGFXMaterial::isTextureParameter(const std::string &name)
 {
-    return _cgfxChunk->isTextureParameter(name);
+    //return _cgfxChunk->isTextureParameter(name);
+    TextureChunkPtr dummy;
+    return getParameter( name.c_str(), dummy );
 }
 
 ImagePtr CGFXMaterial::findImage(const std::string &name)
 {
+	if( name.empty() )
+		return NullFC;
+
     std::string name2 = name;
     for(UInt32 i=0;i<name2.size();++i)
     {
@@ -361,6 +369,58 @@ bool CGFXMaterial::setParameter(const char *name, const std::string &value)
     return _parameter_access->setParameter<ShaderParameterString>(name, value);
 }
 
+
+bool CGFXMaterial::setParameter(
+    const char *name,
+    TextureChunkPtr chunk)
+{
+    
+    ImagePtr img = chunk->getImage();
+    std::string imageName;
+
+    if( img )
+    {
+        imageName = img->getName();
+        setParameter( name, imageName );
+    }
+    else
+    {
+        if( !getParameter( name, imageName ) );
+        {
+            setParameter( name, imageName );
+        }
+    }
+
+    // add chunk as attachment
+    FCPtr<ShaderParameterPtr, ShaderParameterString> p =
+        _parameter_access->getParameterFC< ShaderParameterString >(name);
+    OSG_ASSERT( p );
+
+    beginEditCP( p, ShaderParameter::AttachmentsFieldMask );
+        p->addAttachment( chunk );
+    endEditCP( p, ShaderParameter::AttachmentsFieldMask );
+
+    return true;
+}
+
+bool CGFXMaterial::getParameter(
+    const char *name,
+    TextureChunkPtr &chunk)
+{
+    TextureChunkPtr ret;
+
+    FCPtr<ShaderParameterPtr, ShaderParameterString> p =
+        _parameter_access->getParameterFC< ShaderParameterString >(name);
+    if( p )
+    {
+        ret = TextureChunkPtr::dcast(
+            p->findAttachment(TextureChunk::getClassType()) );
+    }
+
+    chunk = ret;
+    return ret != NullFC;
+}
+
 /*------------------------------------ Get --------------------------------*/
 
 bool CGFXMaterial::getParameter(const char *name, bool &value)
@@ -488,7 +548,7 @@ void CGFXMaterial::clearImages(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.6 2008/10/07 13:07:02 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.7 2008/11/14 11:44:47 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 

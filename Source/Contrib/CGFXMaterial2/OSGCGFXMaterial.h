@@ -43,10 +43,7 @@
 #endif
 
 #include <OSGConfig.h>
-#include <OSGMaterialChunk.h>
 #include <OSGTextureChunk.h>
-#include <OSGTexGenChunk.h>
-#include <OSGBlendChunk.h>
 #include <OSGShaderParameterAccess.h>
 #include <OSGCGFXChunk.h>
 
@@ -118,6 +115,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
     bool    setParameter(const char *name, const Vec4f  &value);
     bool    setParameter(const char *name, const Matrix &value);
     bool    setParameter(const char *name, const std::string &value);
+    bool    setParameter(const char *name, TextureChunkPtr chunk);
 
     bool    getParameter(const char *name, bool   &value);
     bool    getParameter(const char *name, Int32  &value);
@@ -127,6 +125,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
     bool    getParameter(const char *name, Vec4f  &value);
     bool    getParameter(const char *name, Matrix &value);
     bool    getParameter(const char *name, std::string &value);
+    bool    getParameter(const char *name, TextureChunkPtr &chunk);
 
     bool    subParameter(const char *name);
 
@@ -192,6 +191,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXMaterialBase.inl>
 #include <OSGCGFXMaterial.inl>
 
-#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.4 2008/10/07 13:07:02 macnihilist Exp $"
+#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.5 2008/11/14 11:44:47 macnihilist Exp $"
 
 #endif /* _OSGCGFXMATERIAL_H_ */

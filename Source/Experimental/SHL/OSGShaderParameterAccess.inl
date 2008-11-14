@@ -184,6 +184,26 @@ bool ShaderParameterAccess::getMParameter(const char *name, ValueType &value)
     return true;
 }
 
+template<class ParameterType>
+inline
+FCPtr<ShaderParameterPtr, ParameterType> ShaderParameterAccess::getParameterFC(
+    const char *name)
+{
+    if(name == NULL)
+        return NullFC;
+
+    updateMap();
+
+    parameterIt it = _parametermap.find(name);
+    
+    FCPtr<ShaderParameterPtr, ParameterType> p;
+    if(it != _parametermap.end())
+    {
+        p = FCPtr<ShaderParameterPtr, ParameterType>::dcast(_parameters[(*it).second]);
+    }
+    return p;
+}
+
 OSG_END_NAMESPACE
 
-#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.13 2008/06/09 07:30:32 vossg Exp $"
+#define OSGSHADERPARAMETERACCESS_INLINE_CVSID "@(#)$Id: OSGShaderParameterAccess.inl,v 1.14 2008/11/14 11:44:47 macnihilist Exp $"

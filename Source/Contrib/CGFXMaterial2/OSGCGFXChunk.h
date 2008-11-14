@@ -150,8 +150,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     std::string getTechniqueString(Int32 index) const;
     void notifyParametersChanged();
 
-    bool isTextureParameter(const std::string &name);
-
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -233,10 +231,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     };
 
     std::vector<EffectS> _effect;
-    typedef std::map<std::string, std::pair<TextureChunkPtr, std::string> > TexturesMap;
-    TexturesMap _textures;
 
-//    typedef std::map<std::string, std::pair<OSGCGparameter, std::string> > EffectParametersMap;
     typedef std::map<std::string, OSGCGparameter> EffectParametersMap;
     EffectParametersMap _effectParameters;
 
@@ -249,7 +244,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     typedef std::vector<InterfaceMappingS> InterfaceMappings;
     InterfaceMappings _interfaceMappings;
 
-    bool _cgfx_changed;
     UInt32 _npasses;
 
     std::vector<std::string> _state_parameters;
@@ -298,6 +292,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.7 2008/10/07 13:07:02 macnihilist Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.8 2008/11/14 11:44:47 macnihilist Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */
