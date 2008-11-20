@@ -1323,6 +1323,11 @@ void SHLChunk::setParameterCallback(parametercbfp fp)
     _userParametersCallback = fp;
 }
 
+SHLChunk::parametercbfp SHLChunk::getParameterCallback(void)
+{
+    return _userParametersCallback;
+}
+
 void SHLChunk::addProgramParameter(GLenum name, UInt32 value)
 {
     editMFProgramParameterNames ()->push_back(name);
@@ -2035,7 +2040,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.65 2008/10/10 12:43:50 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.66 2008/11/20 12:58:09 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

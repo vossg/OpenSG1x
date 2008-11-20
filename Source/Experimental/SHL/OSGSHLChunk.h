@@ -159,6 +159,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     void addParameterCallback(const char *name, osgparametercbfp fp);
 
     static void setParameterCallback(parametercbfp fp);
+    static parametercbfp getParameterCallback(void);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -356,6 +357,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.35 2008/10/10 12:43:50 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.36 2008/11/20 12:58:09 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
