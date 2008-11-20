@@ -215,9 +215,22 @@ componentStatements:
 
 componentStatement:
     TOK_COMPONENT
-    componentNameId { SKEL->_tmpString1 = $2; }
-    ':'
-    componentSupportLevel { SKEL->componentElement(SKEL->_tmpString1.c_str(), $5); };
+    componentNameId
+    {{
+        long level;
+        const char *colon = strchr($2, ':');
+        if (colon != 0)
+        {
+            SKEL->_tmpString1.assign($2, colon - $2);
+            level = strtol(colon + 1, 0, 10);
+        }
+        else
+        {
+            SKEL->_tmpString1 = $2;
+            level = 0;
+        }
+        SKEL->componentElement(SKEL->_tmpString1.c_str(), level);
+    }};
 
 componentNameId:
     TOK_Id;
