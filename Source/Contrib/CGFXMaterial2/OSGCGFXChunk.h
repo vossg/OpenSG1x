@@ -42,16 +42,17 @@
 #pragma once
 #endif
 
+#include <string>
+#include <vector>
+#include <map>
+
 #include <OSGConfig.h>
 #include <OSGDrawActionBase.h>
 #include <OSGWindow.h>
 #include <OSGTextureChunk.h>
 #include <OSGMaterial.h>
 #include <OSGChunkMaterial.h>
-
-#include <string>
-#include <vector>
-#include <map>
+#include <OSGShaderParameterString.h>
 
 #include "OSGCGFXChunkBase.h"
 
@@ -135,12 +136,13 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     /*! \name                       Parameters                            */
     /*! \{                                                                 */
 
-    void updateEffect(Window *win);
-
     void setParentMaterial(const ChunkMaterialPtr &parentMaterial);
 
+    void prepareParameters(void);
+    void notifyParametersChanged(void);
+
     void updateImages(void);
-    void updateParameters(Window *win);
+    void updateTextureParameter( ShaderParameterStringPtr parameter );
 
     void setEffectFile(const std::string &effectFile);
     void setEffectString(const std::string &effectString);
@@ -148,7 +150,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     void setTechnique(Int32 technique);
     Int32 getTechniqueIndex(const std::string &name) const;
     std::string getTechniqueString(Int32 index) const;
-    void notifyParametersChanged();
 
 
     /*! \}                                                                 */
@@ -218,7 +219,11 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     typedef struct _OSGCGparameter  *OSGCGparameter;
     typedef struct _OSGCGtechnique  *OSGCGtechnique;
     typedef struct _OSGCGpass       *OSGCGpass;
-    
+
+    typedef std::vector< std::pair< std::string, std::string > > Dictionary;
+    // maps interface parameters to concrete implementation types
+    Dictionary _interfaceImplTypes;
+
     struct EffectS
     {
         OSGCGcontext context;
@@ -229,20 +234,11 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
         EffectS(void);
         void reset(void);
     };
+    void compileEffect( EffectS& effect );
+    void extractParametersOfEffect( EffectS& effect );
+    void updateParametersOfEffect( EffectS& effect );
 
     std::vector<EffectS> _effect;
-
-    typedef std::map<std::string, OSGCGparameter> EffectParametersMap;
-    EffectParametersMap _effectParameters;
-
-    struct InterfaceMappingS
-    {
-        std::string paramName;
-        std::string implTypeName;
-        std::string implParamName;
-    };
-    typedef std::vector<InterfaceMappingS> InterfaceMappings;
-    InterfaceMappings _interfaceMappings;
 
     UInt32 _npasses;
 
@@ -257,27 +253,33 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
 
     // class. Used for indexing in State
     static StateChunkClass _class;
-    static bool _initializedCGFXGL;
+//    static bool _initializedCGFXGL;
     static Real64 _time;
 
     static void initMethod(void);
 
     static void cgErrorCallback(void);
 
+    static void cgIncludeCallback( OSGCGcontext context, const char* filename );
+    static void registerIncludeCallback( OSGCGcontext context, CGFXChunk* chunk );
+    static std::map< OSGCGcontext, CGFXChunk* > _includeCallbackInstances;
+
+    void initCGFXGL(void);
+
     void handleGL(Window *win, UInt32 id);
+    void updateEffect(Window *win);
+    bool updateTechnique(Window *win, OSGCGeffect effect = NULL);
+    void updateParameters(Window *win);
     void updateStateParameters(DrawActionBase *action);
     
     void addTextureSearchPaths(void);
     void subTextureSearchPaths(void);
-    void initCGFXGL(void);
     bool read(const std::string &filename, std::string &data);
-    bool updateTechnique(Window *win, OSGCGeffect effect = NULL);
-    bool addEffectParameter(
-        const std::string &paramName,
-        const OSGCGparameter &param );
-    void extractParameters(
+    void extractParametersRecursiveHelper(
         const OSGCGparameter &firstParam,
-        const EffectS& effect );
+        EffectS& effect,
+        Dictionary& interfaceNameMappings );
+    void processIncludeCallback( OSGCGcontext context, const char* filename );
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const CGFXChunk &source);
@@ -292,6 +294,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.8 2008/11/14 11:44:47 macnihilist Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.9 2008/11/24 16:05:59 macnihilist Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

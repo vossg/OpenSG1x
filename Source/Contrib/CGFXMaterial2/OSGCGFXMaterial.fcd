@@ -63,4 +63,14 @@
 		access="public"
 	>
 	</Field>
+	<Field
+		name="virtualIncludeFiles"
+		type="ShaderParameterStringPtr"
+		cardinality="multi"
+		visibility="external"
+		access="public"
+	>
+	used to provide a virtual filesystem of include-files to the cgfx compiler.
+	Useful for clusters, where servers can't load the files themselves.
+	</Field>
 </FieldContainer>

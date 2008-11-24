@@ -88,8 +88,6 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
 
     bool        isTextureParameter(const std::string &name);
 
-    ImagePtr    findImage(const std::string &name);
-    Int32       findImage(const ImagePtr &img);
     Int32       getTechniqueIndex(const std::string &name);
     std::string getTechniqueString(Int32 index);
 
@@ -129,13 +127,48 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
 
     bool    subParameter(const char *name);
 
+    /// Deprecated. Use #prepareParameters().
     void updateImages(void);
 
+    /// Can be called to populate the shader parameter list and load
+    /// images needed for texture parameters.
+    /// Normally this is done upon the first activate, but this can
+    /// cause problems in clusters that discard changelists that are
+    /// build during rendering.
+    void prepareParameters(void);
+
+    // Image handling. Images are assigned via name to sampler params.
     void addImage(ImagePtr img);
     void subImage(ImagePtr img);
-
     bool hasImage(ImagePtr img);
     void clearImages(void);
+    ImagePtr    findImage(const std::string &name);
+    Int32       findImage(const ImagePtr &img);
+
+    // From cg v2.1 on this can be used to provide code of include files that an effect
+    // may need, but that are not available on the local file system.
+    // (useful for cluster rendering).
+    void addVirtualIncludeFile( const std::string& filename, const std::string& filecontent );
+    void clearVirtualIncludeFiles();
+
+    // model is 'bool someFunc( std::string const* filename, std::string& filecontent )'
+    // filename is passed by pointer, because (by the time of this writing) osg has no
+    // means to wrap a instance member function call into a matching functor.
+    typedef TypedFunctor2Base<
+        bool, PtrCallArg< std::string const >, ArgsCollector< std::string& >
+    > VirtualIncludeFileCallback;
+
+    // From cg 2.1 on, every time the cg compiler encounters a #include directive,
+    // - first the virtual include files will be searched for a matching filename
+    // - if no match is found, this callback is called to give the user of this
+    //   material the chance to provide the file's content
+    // - if the callback returns false (or is not set), the local filesystem is
+    //   searched
+    void setVirtualIncludeFileCallback( const VirtualIncludeFileCallback& cb );
+    void clearVirtualIncludeFileCallback();
+
+    // FIXME: this is only called by CGFXChunk and should be more private...
+    bool requestVirtualIncludeFile( const std::string& filename, std::string& filecontent );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -179,6 +212,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterial : public CGFXMaterialBase
 
     CGFXChunkPtr          _cgfxChunk;
     ShaderParameterAccess *_parameter_access;
+    std::vector< VirtualIncludeFileCallback > _virtualIncludeFileCBs;
 
     // prohibit default functions (move to 'public' if you need one)
     void operator =(const CGFXMaterial &source);
@@ -191,6 +225,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXMaterialBase.inl>
 #include <OSGCGFXMaterial.inl>
 
-#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.5 2008/11/14 11:44:47 macnihilist Exp $"
+#define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.6 2008/11/24 16:05:59 macnihilist Exp $"
 
 #endif /* _OSGCGFXMATERIAL_H_ */

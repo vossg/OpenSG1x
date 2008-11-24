@@ -82,6 +82,9 @@ const OSG::BitVector  CGFXMaterialBase::ParametersFieldMask =
 const OSG::BitVector  CGFXMaterialBase::ImagesFieldMask = 
     (TypeTraits<BitVector>::One << CGFXMaterialBase::ImagesFieldId);
 
+const OSG::BitVector  CGFXMaterialBase::VirtualIncludeFilesFieldMask = 
+    (TypeTraits<BitVector>::One << CGFXMaterialBase::VirtualIncludeFilesFieldId);
+
 const OSG::BitVector CGFXMaterialBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -106,6 +109,9 @@ const OSG::BitVector CGFXMaterialBase::MTInfluenceMask =
 */
 /*! \var ImagePtr        CGFXMaterialBase::_mfImages
     
+*/
+/*! \var ShaderParameterStringPtr CGFXMaterialBase::_mfVirtualIncludeFiles
+    used to provide a virtual filesystem of include-files to the cgfx compiler. 	Useful for clusters, where servers can't load the files themselves.
 */
 
 //! CGFXMaterial description
@@ -141,7 +147,12 @@ FieldDescription *CGFXMaterialBase::_desc[] =
                      "images", 
                      ImagesFieldId, ImagesFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editMFImages))
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editMFImages)),
+    new FieldDescription(MFShaderParameterStringPtr::getClassType(), 
+                     "virtualIncludeFiles", 
+                     VirtualIncludeFilesFieldId, VirtualIncludeFilesFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&CGFXMaterialBase::editMFVirtualIncludeFiles))
 };
 
 
@@ -211,6 +222,7 @@ void CGFXMaterialBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
     _mfCompilerOptions.terminateShare(uiAspect, this->getContainerSize());
     _mfParameters.terminateShare(uiAspect, this->getContainerSize());
     _mfImages.terminateShare(uiAspect, this->getContainerSize());
+    _mfVirtualIncludeFiles.terminateShare(uiAspect, this->getContainerSize());
 }
 #endif
 
@@ -227,6 +239,7 @@ CGFXMaterialBase::CGFXMaterialBase(void) :
     _sfTechnique              (Int32(0)), 
     _mfParameters             (), 
     _mfImages                 (), 
+    _mfVirtualIncludeFiles    (), 
     Inherited() 
 {
 }
@@ -242,6 +255,7 @@ CGFXMaterialBase::CGFXMaterialBase(const CGFXMaterialBase &source) :
     _sfTechnique              (source._sfTechnique              ), 
     _mfParameters             (source._mfParameters             ), 
     _mfImages                 (source._mfImages                 ), 
+    _mfVirtualIncludeFiles    (source._mfVirtualIncludeFiles    ), 
     Inherited                 (source)
 {
 }
@@ -288,6 +302,11 @@ UInt32 CGFXMaterialBase::getBinSize(const BitVector &whichField)
         returnValue += _mfImages.getBinSize();
     }
 
+    if(FieldBits::NoField != (VirtualIncludeFilesFieldMask & whichField))
+    {
+        returnValue += _mfVirtualIncludeFiles.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -325,6 +344,11 @@ void CGFXMaterialBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
     {
         _mfImages.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (VirtualIncludeFilesFieldMask & whichField))
+    {
+        _mfVirtualIncludeFiles.copyToBin(pMem);
     }
 
 
@@ -365,6 +389,11 @@ void CGFXMaterialBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfImages.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (VirtualIncludeFilesFieldMask & whichField))
+    {
+        _mfVirtualIncludeFiles.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -392,6 +421,9 @@ void CGFXMaterialBase::executeSyncImpl(      CGFXMaterialBase *pOther,
 
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
         _mfImages.syncWith(pOther->_mfImages);
+
+    if(FieldBits::NoField != (VirtualIncludeFilesFieldMask & whichField))
+        _mfVirtualIncludeFiles.syncWith(pOther->_mfVirtualIncludeFiles);
 
 
 }
@@ -422,6 +454,9 @@ void CGFXMaterialBase::executeSyncImpl(      CGFXMaterialBase *pOther,
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
         _mfImages.syncWith(pOther->_mfImages, sInfo);
 
+    if(FieldBits::NoField != (VirtualIncludeFilesFieldMask & whichField))
+        _mfVirtualIncludeFiles.syncWith(pOther->_mfVirtualIncludeFiles, sInfo);
+
 
 }
 
@@ -439,6 +474,9 @@ void CGFXMaterialBase::execBeginEditImpl (const BitVector &whichField,
 
     if(FieldBits::NoField != (ImagesFieldMask & whichField))
         _mfImages.beginEdit(uiAspect, uiContainerSize);
+
+    if(FieldBits::NoField != (VirtualIncludeFilesFieldMask & whichField))
+        _mfVirtualIncludeFiles.beginEdit(uiAspect, uiContainerSize);
 
 }
 #endif
@@ -464,7 +502,7 @@ DataType FieldDataTraits<CGFXMaterialPtr>::_type("CGFXMaterialPtr", "ChunkMateri
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.6 2008/10/07 13:07:02 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterialBase.cpp,v 1.7 2008/11/24 16:05:59 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIALBASE_INLINE_CVSID;
 

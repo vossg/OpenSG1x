@@ -73,6 +73,7 @@
 #include <OSGInt32Fields.h> // Technique type
 #include <OSGShaderParameterFields.h> // Parameters type
 #include <OSGImageFields.h> // Images type
+#include <OSGShaderParameterStringFields.h> // VirtualIncludeFiles type
 
 #include <OSGCGFXMaterialFields.h>
 
@@ -96,13 +97,14 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
 
     enum
     {
-        EffectFileFieldId      = Inherited::NextFieldId,
-        EffectStringFieldId    = EffectFileFieldId      + 1,
-        CompilerOptionsFieldId = EffectStringFieldId    + 1,
-        TechniqueFieldId       = CompilerOptionsFieldId + 1,
-        ParametersFieldId      = TechniqueFieldId       + 1,
-        ImagesFieldId          = ParametersFieldId      + 1,
-        NextFieldId            = ImagesFieldId          + 1
+        EffectFileFieldId          = Inherited::NextFieldId,
+        EffectStringFieldId        = EffectFileFieldId          + 1,
+        CompilerOptionsFieldId     = EffectStringFieldId        + 1,
+        TechniqueFieldId           = CompilerOptionsFieldId     + 1,
+        ParametersFieldId          = TechniqueFieldId           + 1,
+        ImagesFieldId              = ParametersFieldId          + 1,
+        VirtualIncludeFilesFieldId = ImagesFieldId              + 1,
+        NextFieldId                = VirtualIncludeFilesFieldId + 1
     };
 
     static const OSG::BitVector EffectFileFieldMask;
@@ -111,6 +113,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
     static const OSG::BitVector TechniqueFieldMask;
     static const OSG::BitVector ParametersFieldMask;
     static const OSG::BitVector ImagesFieldMask;
+    static const OSG::BitVector VirtualIncludeFilesFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -174,6 +177,12 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
            MFImagePtr          *getMFImages         (void);
 #endif
 
+           MFShaderParameterStringPtr *editMFVirtualIncludeFiles(void);
+     const MFShaderParameterStringPtr *getMFVirtualIncludeFiles(void) const;
+#ifndef OSG_2_PREP
+           MFShaderParameterStringPtr *getMFVirtualIncludeFiles(void);
+#endif
+
 
            std::string         &editEffectFile     (void);
      const std::string         &getEffectFile     (void) const;
@@ -215,6 +224,14 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
            ImagePtr            &getImages         (const UInt32 index);
            MFImagePtr          &getImages         (void);
      const MFImagePtr          &getImages         (void) const;
+#endif
+
+           ShaderParameterStringPtr &editVirtualIncludeFiles(const UInt32 index);
+     const ShaderParameterStringPtr &getVirtualIncludeFiles(const UInt32 index) const;
+#ifndef OSG_2_PREP
+           ShaderParameterStringPtr &getVirtualIncludeFiles(const UInt32 index);
+           MFShaderParameterStringPtr &getVirtualIncludeFiles(void);
+     const MFShaderParameterStringPtr &getVirtualIncludeFiles(void) const;
 #endif
 
     /*! \}                                                                 */
@@ -273,6 +290,7 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXMaterialBase : public ChunkMaterial
     SFInt32             _sfTechnique;
     MFShaderParameterPtr   _mfParameters;
     MFImagePtr          _mfImages;
+    MFShaderParameterStringPtr   _mfVirtualIncludeFiles;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -350,6 +368,6 @@ typedef RefPtr<CGFXMaterialPtr> CGFXMaterialRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.6 2008/10/07 13:07:02 macnihilist Exp $"
+#define OSGCGFXMATERIALBASE_HEADER_CVSID "@(#)$Id: OSGCGFXMaterialBase.h,v 1.7 2008/11/24 16:05:59 macnihilist Exp $"
 
 #endif /* _OSGCGFXMATERIALBASE_H_ */

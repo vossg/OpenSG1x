@@ -146,6 +146,7 @@ void CGFXMaterial::onDestroy(void)
         delete _parameter_access;
 
     clearImages();
+    clearVirtualIncludeFiles();
 }
 
 StatePtr CGFXMaterial::makeState(void)
@@ -341,7 +342,7 @@ bool CGFXMaterial::setParameter(const char *name, Int32 value)
 
 bool CGFXMaterial::setParameter(const char *name, Real32 value)
 {
-    return _parameter_access->setParameter<ShaderParameterReal>(name, value);
+        return _parameter_access->setParameter<ShaderParameterReal>(name, value);
 }
 
 bool CGFXMaterial::setParameter(const char *name, const Vec2f &value)
@@ -351,7 +352,7 @@ bool CGFXMaterial::setParameter(const char *name, const Vec2f &value)
 
 bool CGFXMaterial::setParameter(const char *name, const Vec3f &value)
 {
-    return _parameter_access->setParameter<ShaderParameterVec3f>(name, value);
+   return _parameter_access->setParameter<ShaderParameterVec3f>(name, value);
 }
 
 bool CGFXMaterial::setParameter(const char *name, const Vec4f &value)
@@ -468,12 +469,18 @@ bool CGFXMaterial::subParameter(const char *name)
     return _parameter_access->subParameter(name);
 }
 
+
+void CGFXMaterial::prepareParameters()
+{
+    return _cgfxChunk->prepareParameters();
+}
 // the images are actually created while rendering the first frame if you just
 // want to create a cgfx material and immediately write it out as a osb file you
 // have to call updateImages() without it the cgfx textures are not inlined
 // in the osb file!
 void CGFXMaterial::updateImages(void)
 {
+    SWARNING << "CGFXMaterial::updateImages() is deprecated. Use prepareParameters() instead." << std::endl;
     _cgfxChunk->updateImages();
 }
 
@@ -535,6 +542,60 @@ void CGFXMaterial::clearImages(void)
 }
 
 
+void CGFXMaterial::addVirtualIncludeFile(
+    const std::string& filename, const std::string& filecontent )
+{
+    ShaderParameterStringPtr sp = ShaderParameterString::create();
+    addRefCP( sp );
+    beginEditCP( sp );
+        sp->setName( filename );
+        sp->setValue( filecontent );
+    endEditCP( sp );
+    getVirtualIncludeFiles().push_back(sp);
+}
+
+void CGFXMaterial::clearVirtualIncludeFiles()
+{
+    MFShaderParameterStringPtr::iterator iter  = getVirtualIncludeFiles().begin();
+    MFShaderParameterStringPtr::iterator end = getVirtualIncludeFiles().end ();
+
+    while(iter != end)
+    {
+        subRefCP(*iter);
+        ++iter;
+    }
+
+    getVirtualIncludeFiles().clear();
+
+}
+
+
+bool CGFXMaterial::requestVirtualIncludeFile( const std::string& filename, std::string& filecontent )
+{
+    MFShaderParameterStringPtr vif = getVirtualIncludeFiles();
+    for( MFShaderParameterStringPtr::const_iterator iter = vif.begin();
+        iter != vif.end(); ++iter )
+    {
+        ShaderParameterStringPtr p = *iter;
+
+        if( p->getName() == filename )
+        {
+            filecontent = p->getValue();
+            return true;
+        }
+    }
+
+    // try callback...
+    std::string tmpfilename = filename; // to get the const away without casting
+    if( !_virtualIncludeFileCBs.empty()
+        && _virtualIncludeFileCBs.front().call( &tmpfilename, filecontent ) )
+    {
+        return true;
+    }
+
+    return false;
+}
+
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */
 
@@ -548,7 +609,7 @@ void CGFXMaterial::clearImages(void)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.7 2008/11/14 11:44:47 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.8 2008/11/24 16:05:59 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 

@@ -42,7 +42,24 @@
 
 OSG_BEGIN_NAMESPACE
 
+
+inline
+void CGFXMaterial::setVirtualIncludeFileCallback( const VirtualIncludeFileCallback& cb )
+{
+    if( _virtualIncludeFileCBs.empty() )
+        _virtualIncludeFileCBs.push_back( cb );
+    else
+        _virtualIncludeFileCBs.front() = cb;
+}
+
+inline
+void CGFXMaterial::clearVirtualIncludeFileCallback()
+{
+    _virtualIncludeFileCBs.clear();
+}
+
+
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIAL_INLINE_CVSID "@(#)$Id: OSGCGFXMaterial.inl,v 1.1 2006/04/05 16:10:24 a-m-z Exp $"
+#define OSGCGFXMATERIAL_INLINE_CVSID "@(#)$Id: OSGCGFXMaterial.inl,v 1.2 2008/11/24 16:05:59 macnihilist Exp $"
 

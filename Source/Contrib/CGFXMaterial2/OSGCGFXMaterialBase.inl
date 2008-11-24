@@ -234,6 +234,29 @@ MFImagePtr *CGFXMaterialBase::getMFImages(void)
 }
 #endif
 
+//! Get the CGFXMaterial::_mfVirtualIncludeFiles field.
+inline
+const MFShaderParameterStringPtr *CGFXMaterialBase::getMFVirtualIncludeFiles(void) const
+{
+    return &_mfVirtualIncludeFiles;
+}
+
+//! Get the CGFXMaterial::_mfVirtualIncludeFiles field.
+inline
+MFShaderParameterStringPtr *CGFXMaterialBase::editMFVirtualIncludeFiles(void)
+{
+    return &_mfVirtualIncludeFiles;
+}
+
+#ifndef OSG_2_PREP
+//! Get the CGFXMaterial::_mfVirtualIncludeFiles field.
+inline
+MFShaderParameterStringPtr *CGFXMaterialBase::getMFVirtualIncludeFiles(void)
+{
+    return &_mfVirtualIncludeFiles;
+}
+#endif
+
 
 //! Get the value of the CGFXMaterial::_sfEffectFile field.
 inline
@@ -440,7 +463,45 @@ const MFImagePtr &CGFXMaterialBase::getImages(void) const
 
 #endif
 
+//! Get the value of the \a index element the CGFXMaterial::_mfVirtualIncludeFiles field.
+inline
+ShaderParameterStringPtr &CGFXMaterialBase::editVirtualIncludeFiles(const UInt32 index)
+{
+    return _mfVirtualIncludeFiles[index];
+}
+
+//! Get the value of the \a index element the CGFXMaterial::_mfVirtualIncludeFiles field.
+inline
+const ShaderParameterStringPtr &CGFXMaterialBase::getVirtualIncludeFiles(const UInt32 index) const
+{
+    return _mfVirtualIncludeFiles[index];
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the \a index element the CGFXMaterial::_mfVirtualIncludeFiles field.
+inline
+ShaderParameterStringPtr &CGFXMaterialBase::getVirtualIncludeFiles(const UInt32 index)
+{
+    return _mfVirtualIncludeFiles[index];
+}
+
+//! Get the CGFXMaterial::_mfVirtualIncludeFiles field.
+inline
+MFShaderParameterStringPtr &CGFXMaterialBase::getVirtualIncludeFiles(void)
+{
+    return _mfVirtualIncludeFiles;
+}
+
+//! Get the CGFXMaterial::_mfVirtualIncludeFiles field.
+inline
+const MFShaderParameterStringPtr &CGFXMaterialBase::getVirtualIncludeFiles(void) const
+{
+    return _mfVirtualIncludeFiles;
+}
+
+#endif
+
 OSG_END_NAMESPACE
 
-#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.6 2008/10/07 13:07:02 macnihilist Exp $"
+#define OSGCGFXMATERIALBASE_INLINE_CVSID "@(#)$Id: OSGCGFXMaterialBase.inl,v 1.7 2008/11/24 16:05:59 macnihilist Exp $"
 
