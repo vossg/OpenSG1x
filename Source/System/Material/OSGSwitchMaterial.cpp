@@ -292,10 +292,18 @@ StatePtr SwitchMaterial::getState(UInt32 index)
 
     if(_mfMaterials[choice] != NullFC)
     {
-        if(_mfMaterials[choice]->getState(index) == NullFC)
-            rebuildState();
-
         SwitchMaterialPtr tmpPtr(*this);
+
+        if(_mfMaterials[choice] != tmpPtr)
+        {
+            if(_mfMaterials[choice]->getState(index) == NullFC)
+                rebuildState();
+        }
+        else
+        {
+            SFATAL << "SwitchMaterial::getState: material recursion!" << std::endl;
+        }
+
         if(_mfMaterials[choice] != tmpPtr)
             return _mfMaterials[choice]->getState(index);
         else
@@ -414,7 +422,7 @@ void SwitchMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.5 2008/12/02 11:16:16 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.6 2008/12/02 11:37:11 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSWITCHMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSWITCHMATERIALBASE_INLINE_CVSID;
 
