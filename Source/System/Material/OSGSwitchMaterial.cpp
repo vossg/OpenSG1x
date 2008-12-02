@@ -236,7 +236,15 @@ StatePtr SwitchMaterial::makeState(void)
 
     if(_mfMaterials[choice] != NullFC)
     {
-        return _mfMaterials[choice]->makeState();
+        SwitchMaterialPtr tmpPtr(*this);
+        if(_mfMaterials[choice] != tmpPtr)
+        {
+            return _mfMaterials[choice]->makeState();
+        }
+        else
+        {
+            SFATAL << "SwitchMaterial::makeState: material recursion!" << std::endl;
+        }
     }
 
     return OSG::getDefaultMaterial()->makeState();
@@ -253,20 +261,23 @@ void SwitchMaterial::rebuildState(void)
         if(!_mfMaterials.empty())
             SWARNING << "SwitchMaterial::rebuildState: choice index (" << choice << ") out of range!" << std::endl;
         OSG::getDefaultMaterial()->rebuildState();
-        //_pState = OSG::getDefaultMaterial()->getState();
         return;
     }
 
     if(_mfMaterials[choice] != NullFC)
     {
-        _mfMaterials[choice]->rebuildState();
-        //_pState = _mfMaterials[choice]->getState();
+        SwitchMaterialPtr tmpPtr(*this);
+        if(_mfMaterials[choice] != tmpPtr)
+        {
+            _mfMaterials[choice]->rebuildState();
+        }
+        else
+        {
+            SFATAL << "SwitchMaterial::rebuildState: material recursion!" << std::endl;
+        }
     }
-    else
-    {
-        OSG::getDefaultMaterial()->rebuildState();
-        //_pState = OSG::getDefaultMaterial()->getState();
-    }
+
+    OSG::getDefaultMaterial()->rebuildState();
 }
 
 StatePtr SwitchMaterial::getState(UInt32 index)
@@ -284,7 +295,11 @@ StatePtr SwitchMaterial::getState(UInt32 index)
         if(_mfMaterials[choice]->getState(index) == NullFC)
             rebuildState();
 
-        return _mfMaterials[choice]->getState(index);
+        SwitchMaterialPtr tmpPtr(*this);
+        if(_mfMaterials[choice] != tmpPtr)
+            return _mfMaterials[choice]->getState(index);
+        else
+            SFATAL << "SwitchMaterial::getState: material recursion!" << std::endl;
     }
 
     return NullFC;
@@ -301,7 +316,13 @@ bool SwitchMaterial::isMultiPass(void) const
     }
 
     if(_mfMaterials[choice] != NullFC)
-        return _mfMaterials[choice]->isMultiPass();
+    {
+        SwitchMaterialPtr tmpPtr(*this);
+        if(_mfMaterials[choice] != tmpPtr)
+            return _mfMaterials[choice]->isMultiPass();
+        else
+            SFATAL << "SwitchMaterial::isMultiPass: material recursion!" << std::endl;
+    }
 
     return false;
 }
@@ -317,7 +338,13 @@ UInt32 SwitchMaterial::getNPasses(void) const
     }
 
     if(_mfMaterials[choice] != NullFC)
-        return _mfMaterials[choice]->getNPasses();
+    {
+        SwitchMaterialPtr tmpPtr(*this);
+        if(_mfMaterials[choice] != tmpPtr)
+            return _mfMaterials[choice]->getNPasses();
+        else
+            SFATAL << "SwitchMaterial::getNPasses: material recursion!" << std::endl;
+    }
 
     return 1;
 }
@@ -335,7 +362,13 @@ bool SwitchMaterial::isTransparent(void) const
     }
 
     if(_mfMaterials[choice] != NullFC)
-        return _mfMaterials[choice]->isTransparent();
+    {
+        SwitchMaterialPtr tmpPtr(*this);
+        if(_mfMaterials[choice] != tmpPtr)
+            return _mfMaterials[choice]->isTransparent();
+        else
+            SFATAL << "SwitchMaterial::isTransparent: material recursion!" << std::endl;
+    }
 
     return false;
 }
@@ -351,7 +384,13 @@ Int32 SwitchMaterial::getRealSortKey(void) const
     }
 
     if(_mfMaterials[choice] != NullFC)
-        return _mfMaterials[choice]->getRealSortKey();
+    {
+        SwitchMaterialPtr tmpPtr(*this);
+        if(_mfMaterials[choice] != tmpPtr)
+            return _mfMaterials[choice]->getRealSortKey();
+        else
+            SFATAL << "SwitchMaterial::getRealSortKey: material recursion!" << std::endl;
+    }
 
     return Inherited::getRealSortKey();
 }
@@ -375,7 +414,7 @@ void SwitchMaterial::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.4 2006/08/22 10:11:44 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSwitchMaterial.cpp,v 1.5 2008/12/02 11:16:16 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSWITCHMATERIALBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSWITCHMATERIALBASE_INLINE_CVSID;
 
