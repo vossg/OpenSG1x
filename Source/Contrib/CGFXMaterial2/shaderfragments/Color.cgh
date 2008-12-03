@@ -31,4 +31,27 @@ float CIE_Y( in float3 linearSRGB )
     return dot( linearSRGB, weights );
 }
 
+// White point transform with bradford matrices 
+float3 WhitePointTransform( float3 XYZ_source, float3 XYZ_sourceWP, float3 XYZ_destWP )
+{
+    const float3x3 M_Bradford = float3x3(
+     0.8951,   -0.7502,    0.0389,  
+     0.2664,    1.7135,   -0.0685,  
+    -0.1614,    0.0367,    1.0296
+    );
+    const float3x3 Minv_Bradford = float3x3(
+     0.986993,  0.432305, -0.008529,
+    -0.147054,  0.518360,  0.040043,
+     0.159963,  0.049291,  0.968487
+    );
+
+    float3 LMS_sourceWP = mul( XYZ_sourceWP, M_Bradford );
+    float3 LMS_destWP = mul( XYZ_destWP, M_Bradford );
+    float3 LMS_dest = mul( XYZ_source, M_Bradford );
+    LMS_dest *= LMS_destWP / LMS_sourceWP;
+    float3 XYZ_dest = mul( LMS_dest, Minv_Bradford );
+    
+    return XYZ_dest;
+}
+
 #endif
