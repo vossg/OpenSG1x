@@ -84,7 +84,7 @@ ShaderParameter::ShaderParameter(void) :
     Inherited(),
     _changed(false),
     _typeid(SHPTypeUnknown),
-    _location(-1)
+    _location(-2)
 {
 }
 
@@ -127,7 +127,7 @@ void ShaderParameter::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameter.cpp,v 1.4 2006/11/10 13:37:46 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameter.cpp,v 1.5 2008/12/05 14:54:47 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERBASE_INLINE_CVSID;
 

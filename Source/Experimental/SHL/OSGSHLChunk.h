@@ -161,6 +161,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     static void setParameterCallback(parametercbfp fp);
     static parametercbfp getParameterCallback(void);
 
+    typedef void (*programcbfp) (GLuint program);
+
+    static void setCreateProgramCallback(programcbfp fp);
+    static programcbfp getCreateProgramCallback(void);
+
+    static void setDeleteProgramCallback(programcbfp fp);
+    static programcbfp getDeleteProgramCallback(void);
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Program Parameter                         */
@@ -348,6 +356,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
     
     UserParameterCallbacksMap _userParameterCallbacks;
     static parametercbfp      _userParametersCallback;
+
+    static programcbfp        _userCreateProgramCallback;
+    static programcbfp        _userDeleteProgramCallback;
 };
 
 typedef SHLChunk *SHLChunkP;
@@ -357,6 +368,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.36 2008/11/20 12:58:09 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.37 2008/12/05 14:54:47 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
