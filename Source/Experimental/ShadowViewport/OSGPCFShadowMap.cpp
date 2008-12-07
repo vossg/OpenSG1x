@@ -20,6 +20,7 @@
 #include <OSGMatrixCameraDecorator.h>
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
+#include <OSGRenderAction.h>
 #include "OSGPCFShadowMap.h"
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
@@ -4914,7 +4915,6 @@ void PCFShadowMap::render(RenderActionBase *action)
     }
     else
     {
-
         glPushAttrib(GL_ENABLE_BIT);
 
         if(!_initTexturesDone)
@@ -5203,6 +5203,10 @@ void PCFShadowMap::render(RenderActionBase *action)
             }
         }
 
+		// need possibility to tell cores like billboard not to change state
+		RenderAction *rAct = dynamic_cast<RenderAction*>(action);
+		bool effectsPassSave = rAct ? rAct->getEffectsPass() : false;
+		
         if(_shadowVP->getMapAutoUpdate())
         {
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
@@ -5215,6 +5219,8 @@ void PCFShadowMap::render(RenderActionBase *action)
             //deactivate transparent Nodes
             for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                 _shadowVP->_transparent[t]->setActive(false);
+			
+			rAct->setEffectsPass(true);
 
             if(_useFBO)
                 createShadowMapsFBO(action);
@@ -5246,6 +5252,8 @@ void PCFShadowMap::render(RenderActionBase *action)
                 //deactivate transparent Nodes
                 for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                     _shadowVP->_transparent[t]->setActive(false);
+				
+				rAct->setEffectsPass(true);
 
                 if(_useFBO)
                     createShadowMapsFBO(action);
@@ -5266,6 +5274,8 @@ void PCFShadowMap::render(RenderActionBase *action)
                 _shadowVP->_trigger_update = false;
             }
         }
+		
+		rAct->setEffectsPass(effectsPassSave);
 
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 

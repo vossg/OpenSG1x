@@ -331,7 +331,7 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
         }
     }
 
-    glErr("material:changed:precheck");
+    glErr("material:changed:postcheck");
 }
 
 void MaterialChunk::deactivate(DrawActionBase *, UInt32)

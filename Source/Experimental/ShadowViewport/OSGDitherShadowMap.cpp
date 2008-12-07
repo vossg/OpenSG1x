@@ -21,6 +21,7 @@
 #include <OSGMatrixCameraDecorator.h>
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
+#include <OSGRenderAction.h>
 #include "OSGDitherShadowMap.h"
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
@@ -2856,7 +2857,6 @@ void DitherShadowMap::render(RenderActionBase *action)
         _shadowVP->Viewport::render(action);
     else
     {
-
         glPushAttrib(GL_ENABLE_BIT);
 
         if(!_initTexturesDone)
@@ -2951,6 +2951,10 @@ void DitherShadowMap::render(RenderActionBase *action)
                 endEditCP(_shadowFactorMap2);
             }
         }
+		
+		// need possibility to tell cores like billboard not to change state
+		RenderAction *rAct = dynamic_cast<RenderAction*>(action);
+		bool effectsPassSave = rAct ? rAct->getEffectsPass() : false;
 
         if(_shadowVP->getMapAutoUpdate())
         {
@@ -2964,6 +2968,8 @@ void DitherShadowMap::render(RenderActionBase *action)
             //deactivate transparent Nodes
             for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                 _shadowVP->_transparent[t]->setActive(false);
+			
+			rAct->setEffectsPass(true);
 
             if(_useFBO)
                 createShadowMapsFBO(action);
@@ -2995,6 +3001,8 @@ void DitherShadowMap::render(RenderActionBase *action)
                 //deactivate transparent Nodes
                 for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                     _shadowVP->_transparent[t]->setActive(false);
+				
+				rAct->setEffectsPass(true);
 
                 if(_useFBO)
                     createShadowMapsFBO(action);
@@ -3014,6 +3022,8 @@ void DitherShadowMap::render(RenderActionBase *action)
                 _shadowVP->_trigger_update = false;
             }
         }
+		
+		rAct->setEffectsPass(effectsPassSave);
 
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 
@@ -3026,6 +3036,5 @@ void DitherShadowMap::render(RenderActionBase *action)
         {
             _shadowVP->getForegrounds(i)->draw(action, _shadowVP);
         }
-
     }
 }

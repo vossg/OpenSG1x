@@ -19,6 +19,7 @@
 #include <OSGSimpleGeometry.h>
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
+#include <OSGRenderAction.h>
 #include "OSGPCSSShadowMap.h"
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
@@ -1311,7 +1312,10 @@ void PCSSShadowMap::render(RenderActionBase *action)
                 endEditCP(_shadowFactorMap);
             }
         }
-
+		
+		// need possibility to tell cores like billboard not to change state
+		RenderAction *rAct = dynamic_cast<RenderAction*>(action);
+		bool effectsPassSave = rAct ? rAct->getEffectsPass() : false;
 
         if(_shadowVP->getMapAutoUpdate())
         {
@@ -1325,6 +1329,8 @@ void PCSSShadowMap::render(RenderActionBase *action)
             //deactivate transparent Nodes
             for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                 _shadowVP->_transparent[t]->setActive(false);
+			
+			rAct->setEffectsPass(true);
 
             if(_useFBO)
                 createShadowMapsFBO(action);
@@ -1367,6 +1373,8 @@ void PCSSShadowMap::render(RenderActionBase *action)
                 //deactivate transparent Nodes
                 for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                     _shadowVP->_transparent[t]->setActive(false);
+				
+				rAct->setEffectsPass(true);
 
                 if(_useFBO)
                     createShadowMapsFBO(action);
@@ -1396,6 +1404,8 @@ void PCSSShadowMap::render(RenderActionBase *action)
                 _shadowVP->_trigger_update = false;
             }
         }
+		
+		rAct->setEffectsPass(effectsPassSave);
 
         drawCombineMap(action);
 

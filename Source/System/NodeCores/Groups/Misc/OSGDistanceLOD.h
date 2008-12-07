@@ -124,6 +124,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+	
+	Real32 _lastDist;
 
     /*!\brief prohibit default function (move to 'public' if needed) */
     void operator =(const DistanceLOD &source);

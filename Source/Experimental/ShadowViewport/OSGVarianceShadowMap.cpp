@@ -23,6 +23,7 @@
 
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
+#include <OSGRenderAction.h>
 
 #include "OSGVarianceShadowMap.h"
 #include "OSGShadowViewport.h"
@@ -1434,6 +1435,10 @@ void VarianceShadowMap::render(RenderActionBase *action)
 
             }
         }
+		
+		// need possibility to tell cores like billboard not to change state
+		RenderAction *rAct = dynamic_cast<RenderAction*>(action);
+		bool effectsPassSave = rAct ? rAct->getEffectsPass() : false;
 
         if(_shadowVP->getMapAutoUpdate())
         {
@@ -1447,6 +1452,8 @@ void VarianceShadowMap::render(RenderActionBase *action)
             //deactivate transparent Nodes
             for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                 _shadowVP->_transparent[t]->setActive(false);
+			
+			rAct->setEffectsPass(true);
 
             createShadowMapsFBO(action);
 
@@ -1486,6 +1493,8 @@ void VarianceShadowMap::render(RenderActionBase *action)
                 //deactivate transparent Nodes
                 for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                     _shadowVP->_transparent[t]->setActive(false);
+				
+				rAct->setEffectsPass(true);
 
                 createShadowMapsFBO(action);
 
@@ -1513,6 +1522,8 @@ void VarianceShadowMap::render(RenderActionBase *action)
                 _shadowVP->_trigger_update = false;
             }
         }
+		
+		rAct->setEffectsPass(effectsPassSave);
 
         drawCombineMap(action);
 

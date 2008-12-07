@@ -305,7 +305,10 @@ Action::ResultE ScreenGroup::renderEnter(Action *action)
 
     Matrix mMat;
 
-    calcMatrix(pAction, pAction->top_matrix(), mMat);
+    if (!pAction->getEffectsPass())
+		calcMatrix(pAction, pAction->top_matrix(), mMat);
+	else
+		mMat = _camTransform;
 
     pAction->push_matrix(mMat);
 
@@ -338,7 +341,7 @@ Action::ResultE ScreenGroup::renderLeave(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.5 2008/06/11 11:28:56 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGScreenGroup.cpp,v 1.6 2008/12/07 20:28:20 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGSCREENGROUPBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSCREENGROUPBASE_INLINE_CVSID;
 

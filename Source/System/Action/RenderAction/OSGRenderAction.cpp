@@ -290,6 +290,7 @@ RenderAction::RenderAction(void) :
     _worldToScreenMatrix    (),
 
     _useGLFinish            (true),
+	_effects_pass			(false),
     _depth_only_pass        (false),
     _noDepthPathMatTypes    (),
     _render_depth_pass_only (false),
@@ -424,6 +425,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _worldToScreenMatrix    (source._worldToScreenMatrix),
 
     _useGLFinish            (source._useGLFinish),
+	_effects_pass			(source._effects_pass),
     _depth_only_pass        (source._depth_only_pass),
     _noDepthPathMatTypes    (source._noDepthPathMatTypes),
     _render_depth_pass_only (source._render_depth_pass_only),
@@ -589,6 +591,19 @@ void RenderAction::setRenderDepthPassOnly(bool s)
 bool RenderAction::getRenderDepthPassOnly(void) const
 {
     return _render_depth_pass_only;
+}
+
+// need possibility to tell cores like billboard not to change state
+// needs to be called from application or e.g. within ShadowViewport
+void RenderAction::setEffectsPass(bool s)
+{
+	_effects_pass = s;
+}
+
+// needs to be called from within e.g. Billboard or ScreenGroup
+bool RenderAction::getEffectsPass(void) const
+{
+	return _effects_pass;
 }
 
 

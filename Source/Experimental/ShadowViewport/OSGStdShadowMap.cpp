@@ -20,6 +20,7 @@
 #include <OSGMatrixCameraDecorator.h>
 #include <OSGLight.h>
 #include <OSGMaterialGroup.h>
+#include <OSGRenderAction.h>
 #include "OSGStdShadowMap.h"
 #include "OSGShadowViewport.h"
 #include "OSGTreeRenderer.h"
@@ -3778,7 +3779,6 @@ void StdShadowMap::render(RenderActionBase *action)
         _shadowVP->Viewport::render(action);
     else
     {
-
         glPushAttrib(GL_ENABLE_BIT);
 
         if(!_initTexturesDone)
@@ -3815,9 +3815,14 @@ void StdShadowMap::render(RenderActionBase *action)
         else
             _PLMapSize = _shadowVP->getMapSize() / 4;
 
+		// need possibility to tell cores like billboard not to change state
+		RenderAction *rAct = dynamic_cast<RenderAction*>(action);
+		bool effectsPassSave = rAct ? rAct->getEffectsPass() : false;
+		
         if(!_useGLSL)
         {
-
+			rAct->setEffectsPass(true);
+			
             if(_shadowVP->getMapAutoUpdate())
             {
                 createShadowMapsNOGLSL(action);
@@ -3830,9 +3835,10 @@ void StdShadowMap::render(RenderActionBase *action)
                     _shadowVP->_trigger_update = false;
                 }
             }
+			
+			rAct->setEffectsPass(effectsPassSave);
 
-            if(!_shadowVP->_lights.empty() || !_shadowVP->_lightCameras.empty
-               ())
+            if(!_shadowVP->_lights.empty() || !_shadowVP->_lightCameras.empty())
             {
                 projectShadowMaps(action);
             }
@@ -3905,7 +3911,6 @@ void StdShadowMap::render(RenderActionBase *action)
                 }
             }
 
-
             if(_shadowVP->getMapAutoUpdate())
             {
 #ifdef USE_FBO_FOR_COLOR_AND_FACTOR_MAP
@@ -3918,6 +3923,8 @@ void StdShadowMap::render(RenderActionBase *action)
                 //deactivate transparent Nodes
                 for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                     _shadowVP->_transparent[t]->setActive(false);
+				
+				rAct->setEffectsPass(true);
 
                 if(_useFBO)
                     createShadowMapsFBO(action);
@@ -3949,6 +3956,8 @@ void StdShadowMap::render(RenderActionBase *action)
                     //deactivate transparent Nodes
                     for(UInt32 t = 0;t < _shadowVP->_transparent.size();++t)
                         _shadowVP->_transparent[t]->setActive(false);
+					
+					rAct->setEffectsPass(true);
 
                     if(_useFBO)
                         createShadowMapsFBO(action);
@@ -3968,9 +3977,10 @@ void StdShadowMap::render(RenderActionBase *action)
                     _shadowVP->_trigger_update = false;
                 }
             }
+			
+			rAct->setEffectsPass(effectsPassSave);
 
             drawCombineMap(action);
-
         }
 
         glPopAttrib();

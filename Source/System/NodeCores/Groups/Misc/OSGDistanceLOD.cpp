@@ -117,12 +117,14 @@ void DistanceLOD::dump(      UInt32    OSG_CHECK_ARG(uiIndent),
 /*                            Constructors                                 */
 
 DistanceLOD::DistanceLOD(void) :
-    Inherited()
+    Inherited(),
+	_lastDist(0)
 {
 }
 
 DistanceLOD::DistanceLOD(const DistanceLOD &source) :
-    Inherited(source)
+    Inherited(source),
+	_lastDist(source._lastDist)
 {
 }
 
@@ -149,6 +151,7 @@ Action::ResultE DistanceLOD::draw(Action *action)
 
     const MFReal32 &range = (*getMFRange());
     UInt32 numRanges = range.size();
+	
     if (numRanges == 0)
     {
         index = 0;
@@ -157,8 +160,14 @@ Action::ResultE DistanceLOD::draw(Action *action)
     {
         Real32 dist;
         RenderAction *ra = dynamic_cast<RenderAction *>(action);
-        if(ra != NULL)
-            dist = calcDistance(da, ra->top_matrix());
+		
+        if (ra != NULL)
+		{
+			if (!ra->getEffectsPass())
+				dist = calcDistance(da, ra->top_matrix());
+			else
+				dist = _lastDist;
+		}
         else
             dist = calcDistance(da, da->getActNode()->getToWorld());
 
@@ -202,8 +211,10 @@ Real32 DistanceLOD::calcDistance(DrawActionBase *pAction, const Matrix &mToWorld
     m.mult(pAction->getCameraToWorld());
     Pnt3f eyepos;
     m.mult(eyepos, eyepos);
+	
+	_lastDist = eyepos.dist(getCenter());
 
-    return eyepos.dist(getCenter());
+    return _lastDist;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -226,6 +237,8 @@ void DistanceLOD::initMethod (void)
             DistanceLODPtr  ,
             CNodePtr        ,
             Action         *>(&DistanceLOD::draw));
+	
+	// TODO; what about intersect?
 }
 
 

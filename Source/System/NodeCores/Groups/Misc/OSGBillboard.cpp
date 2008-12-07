@@ -436,7 +436,10 @@ Action::ResultE Billboard::renderEnter(Action *action)
 
     Matrix mMat;
 
-    calcMatrix(pAction, pAction->top_matrix(), mMat);
+	if (!pAction->getEffectsPass())
+		calcMatrix(pAction, pAction->top_matrix(), mMat);
+	else
+		mMat = _camTransform;
 
     pAction->push_matrix(mMat);
 

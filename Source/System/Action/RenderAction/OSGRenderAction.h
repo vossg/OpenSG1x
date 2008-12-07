@@ -226,6 +226,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     void setDepthOnlyPass(bool s);
     bool getDepthOnlyPass(void) const;
+	void setEffectsPass(bool s);
+    bool getEffectsPass(void) const;
 
     void setNoDepthPassMatTypes(const std::vector<FieldContainerType *> &matTypes);
     std::vector<FieldContainerType *> getNoDepthPassMatTypes(void);
@@ -345,6 +347,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32                    _smallFeaturesThreshold;
     Matrix                    _worldToScreenMatrix;
     bool                      _useGLFinish;
+	bool					  _effects_pass;
     bool                      _depth_only_pass;
     std::vector<FieldContainerType *> _noDepthPathMatTypes;
     bool                      _render_depth_pass_only;
