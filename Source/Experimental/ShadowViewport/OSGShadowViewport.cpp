@@ -270,7 +270,7 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
     if(whichField & OffBiasFieldMask ||
        whichField & OffFactorFieldMask)
     {
-        FDEBUG(("ShadowViewport::changed : ofsset bias/factor changed.\n"));
+        FDEBUG(("ShadowViewport::changed : offset bias/factor changed.\n"));
         // Setting up Polygon-Chunk with Depth-Offset
         beginEditCP(_poly);
         {
@@ -285,8 +285,17 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
     {
         FDEBUG(("ShadowViewport::changed : light nodes changed.\n"));
         _lights.clear();
-        for(UInt32 i = 0;i < getMFLightNodes()->getSize();++i)
-            _lights.push_back(std::make_pair(getLightNodes(i), LightPtr::dcast(getLightNodes(i)->getCore())));
+        for(UInt32 i = 0;i < getMFLightNodes()->getSize();++i) 
+		{
+			LightPtr lPtr = LightPtr::dcast(getLightNodes(i)->getCore());
+			if (lPtr != NullFC) {
+				_lights.push_back(std::make_pair(getLightNodes(i), lPtr));
+			}
+			else {
+				FFATAL(("ShadowViewport::changed - LightPtr is NullFC / %s\n",
+						getLightNodes(i)->getCore()->getTypeName()));
+			}
+		}
     }
 
     if(whichField & MapAutoUpdateFieldMask)
@@ -1517,7 +1526,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.37 2008/07/24 16:36:06 yjung Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.38 2008/12/08 11:22:41 yjung Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
