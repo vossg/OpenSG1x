@@ -72,13 +72,7 @@ void display(void)
     // spin the fbo scene
     spinFBOScene(t);
 
-    // get the RenderAction from SimpleSceneManager
-    RenderAction *rAct = static_cast<RenderAction*>(::mgr->getAction());
-
-    // render fbo scene
-    ::fboVP->render(rAct);
-
-    // render main scene
+    // render fbo and main scene
     ::mgr->redraw();
 }
 
@@ -181,9 +175,20 @@ int main(int argc, char **argv)
         bkg->addLine(Color3f(0.0, 0.1, 0.3), 1);
     endEditCP(bkg);
     gwin->getPort(0)->setBackground(bkg);
-        
+    
     // enable logo
     mgr->useOpenSGLogo();
+    
+    // add the FBOViewport as first vp to the window - it must be rendered
+    // before the full scene
+    beginEditCP(gwin);
+        ViewportPtr vp = gwin->getPort(0);
+        addRefCP(vp);
+        
+        gwin->subPort(0);
+        gwin->addPort(fboVP);
+        gwin->addPort(vp   );
+    endEditCP  (gwin);
     
     // make sure the window is setup before rendering to the FBO
     mgr->redraw();
