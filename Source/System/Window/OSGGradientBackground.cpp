@@ -69,7 +69,7 @@ OSG_USING_NAMESPACE
     \ingroup GrpSystemWindowBackgrounds
 
 A background showing a vertical color gradient, see
-\ref PageSystemWindowBackgroundGradient. 
+\ref PageSystemWindowBackgroundGradient.
 
 The colors (_mfColor) and positions (_mfPosition) correspond to each other, so
 both have to have the same number of elements. The addColor() method should
@@ -81,8 +81,8 @@ be used for defining the gradient, as it ensures that constarint.
  *                           Class variables                               *
 \***************************************************************************/
 
-const OSG::BitVector  GradientBackground::LineFieldMask = 
-                     (GradientBackground::PositionFieldMask | 
+const OSG::BitVector  GradientBackground::LineFieldMask =
+                     (GradientBackground::PositionFieldMask |
                       GradientBackground::ColorFieldMask   );
 
 /***************************************************************************\
@@ -123,21 +123,21 @@ void GradientBackground::changed(BitVector whichField, UInt32 origin)
 void GradientBackground::clear(DrawActionBase *act, Viewport *port)
 {
     Int32 bit = getClearStencilBit();
-	
-	glClearDepth(1.f);
-    
+
+    glClearDepth(1.f);
+
     if(_mfPosition.size() < 2)
     {
         Real32 r = 0, g = 0, b = 0;
-        
+
         if(_mfPosition.size() == 1)
         {
             Color3f col = _mfColor[0];
             col.getValuesRGB(r, g, b);
         }
-        
+
         glClearColor(r, g, b, 1);
-        
+
         if (bit >= 0)
         {
             glClearStencil(bit);
@@ -150,7 +150,7 @@ void GradientBackground::clear(DrawActionBase *act, Viewport *port)
     }
     else
     {
-        glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | 
+        glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT |
                      GL_LIGHTING_BIT);
 
         glDisable(GL_LIGHTING);
@@ -202,34 +202,79 @@ void GradientBackground::clear(DrawActionBase *act, Viewport *port)
         UInt32 size = _mfPosition.size();
 
         glBegin(GL_QUAD_STRIP);
-        
-        Real32 pos = _mfPosition[0];
-        if(pos > 0) 
+
+        Real32 pos   = _mfPosition[0];
+        UInt32 style = getStyle();
+
+        switch(style)
         {
-            glColor3f(0.0, 0.0, 0.0);
-            glVertex3f(0, 0, 0);
-            glVertex3f(1, 0, 0);
+        case VERTICAL:
+        {
+            if(pos > 0)
+            {
+                glColor3f(0.0, 0.0, 0.0);
+                glVertex3f(0, 0, 0);
+                glVertex3f(1, 0, 0);
+            }
+
+            for(UInt32 i = 0; i < size; i++)
+            {
+                               pos = _mfPosition[i];
+                const Color3f &col = _mfColor   [i];
+
+                glColor3f(col[0], col[1], col[2]);
+                glVertex3f(0, pos, 0);
+                glVertex3f(1, pos, 0);
+            }
+
+            if(pos < 1)
+            {
+                glColor3f(0.0, 0.0, 0.0);
+                glVertex3f(0, 1, 0);
+                glVertex3f(1, 1, 0);
+            }
+
+            break;
         }
 
-        for(UInt32 i = 0; i < size; i++)
+        case HORIZONTAL:
         {
-            pos = _mfPosition[i];
+            if(pos > 0)
+            {
+                glColor3f(0.0, 0.0, 0.0);
+                glVertex3f(0, 0, 0);
+                glVertex3f(0, 1, 0);
+            }
 
-            Color3f col1 = _mfColor[i];
-            col1.getValuesRGB(r1, g1, b1);
+            for(UInt32 i = 0; i < size; i++)
+            {
+                               pos = _mfPosition[i];
+                const Color3f &col = _mfColor   [i];
 
-            glColor3f(r1, g1, b1);
-            glVertex3f(0, pos, 0);
-            glVertex3f(1, pos, 0);
+                glColor3f(col[0], col[1], col[2]);
+                glVertex3f(pos, 0, 0);
+                glVertex3f(pos, 1, 0);
+            }
+
+            if(pos < 1)
+            {
+                glColor3f(0.0, 0.0, 0.0);
+                glVertex3f(1, 0, 0);
+                glVertex3f(1, 1, 0);
+            }
+
+            break;
         }
 
-        if(pos < 1) 
+        default:
         {
-            glColor3f(0.0, 0.0, 0.0);
-            glVertex3f(0, 1, 0);
-            glVertex3f(1, 1, 0);
+            FWARNING(("GradientBackground: "
+                      "SFStyle has invalid value [%u].\n", style));
+            break;
         }
-        
+
+        };
+
         glEnd();
 
         glPopMatrix();
@@ -237,7 +282,7 @@ void GradientBackground::clear(DrawActionBase *act, Viewport *port)
         glPopMatrix();
 
         glPopAttrib();
-        
+
         if (bit >= 0)
         {
             glClearStencil(bit);
@@ -252,13 +297,13 @@ void GradientBackground::clear(DrawActionBase *act, Viewport *port)
 
 /*------------------------------- dump ----------------------------------*/
 
-void GradientBackground::dump(     UInt32    OSG_CHECK_ARG(uiIndent), 
+void GradientBackground::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
                               const BitVector OSG_CHECK_ARG(bvFlags)) const
 {
     SLOG << "Dump GradientBackground NI" << std::endl;
 }
 
- 
+
 
 /*------------------------------------------------------------------------*/
 /*                              cvs id's                                  */

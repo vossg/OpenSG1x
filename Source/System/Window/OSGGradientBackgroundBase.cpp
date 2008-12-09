@@ -73,6 +73,9 @@ const OSG::BitVector  GradientBackgroundBase::PositionFieldMask =
 const OSG::BitVector  GradientBackgroundBase::ClearStencilBitFieldMask = 
     (TypeTraits<BitVector>::One << GradientBackgroundBase::ClearStencilBitFieldId);
 
+const OSG::BitVector  GradientBackgroundBase::StyleFieldMask = 
+    (TypeTraits<BitVector>::One << GradientBackgroundBase::StyleFieldId);
+
 const OSG::BitVector GradientBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -88,6 +91,9 @@ const OSG::BitVector GradientBackgroundBase::MTInfluenceMask =
 */
 /*! \var Int32           GradientBackgroundBase::_sfClearStencilBit
     Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
+*/
+/*! \var UInt32          GradientBackgroundBase::_sfStyle
+    Gradient style. Allowed values are VERTICAL and HORIZONTAL.
 */
 
 //! GradientBackground description
@@ -108,7 +114,12 @@ FieldDescription *GradientBackgroundBase::_desc[] =
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&GradientBackgroundBase::editSFClearStencilBit))
+                     reinterpret_cast<FieldAccessMethod>(&GradientBackgroundBase::editSFClearStencilBit)),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "style", 
+                     StyleFieldId, StyleFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&GradientBackgroundBase::editSFStyle))
 };
 
 
@@ -190,6 +201,7 @@ GradientBackgroundBase::GradientBackgroundBase(void) :
     _mfColor                  (), 
     _mfPosition               (), 
     _sfClearStencilBit        (Int32(-1)), 
+    _sfStyle                  (UInt32(GradientBackground::VERTICAL)), 
     Inherited() 
 {
 }
@@ -202,6 +214,7 @@ GradientBackgroundBase::GradientBackgroundBase(const GradientBackgroundBase &sou
     _mfColor                  (source._mfColor                  ), 
     _mfPosition               (source._mfPosition               ), 
     _sfClearStencilBit        (source._sfClearStencilBit        ), 
+    _sfStyle                  (source._sfStyle                  ), 
     Inherited                 (source)
 {
 }
@@ -233,6 +246,11 @@ UInt32 GradientBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfClearStencilBit.getBinSize();
     }
 
+    if(FieldBits::NoField != (StyleFieldMask & whichField))
+    {
+        returnValue += _sfStyle.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -255,6 +273,11 @@ void GradientBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
     {
         _sfClearStencilBit.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (StyleFieldMask & whichField))
+    {
+        _sfStyle.copyToBin(pMem);
     }
 
 
@@ -280,6 +303,11 @@ void GradientBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfClearStencilBit.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (StyleFieldMask & whichField))
+    {
+        _sfStyle.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -299,6 +327,9 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
         _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
 
+    if(FieldBits::NoField != (StyleFieldMask & whichField))
+        _sfStyle.syncWith(pOther->_sfStyle);
+
 
 }
 #else
@@ -311,6 +342,9 @@ void GradientBackgroundBase::executeSyncImpl(      GradientBackgroundBase *pOthe
 
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
         _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
+    if(FieldBits::NoField != (StyleFieldMask & whichField))
+        _sfStyle.syncWith(pOther->_sfStyle);
 
 
     if(FieldBits::NoField != (ColorFieldMask & whichField))

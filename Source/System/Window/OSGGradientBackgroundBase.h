@@ -70,6 +70,7 @@
 #include <OSGColor3fFields.h> // Color type
 #include <OSGReal32Fields.h> // Position type
 #include <OSGInt32Fields.h> // ClearStencilBit type
+#include <OSGUInt32Fields.h> // Style type
 
 #include <OSGGradientBackgroundFields.h>
 
@@ -96,12 +97,14 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
         ColorFieldId           = Inherited::NextFieldId,
         PositionFieldId        = ColorFieldId           + 1,
         ClearStencilBitFieldId = PositionFieldId        + 1,
-        NextFieldId            = ClearStencilBitFieldId + 1
+        StyleFieldId           = ClearStencilBitFieldId + 1,
+        NextFieldId            = StyleFieldId           + 1
     };
 
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector PositionFieldMask;
     static const OSG::BitVector ClearStencilBitFieldMask;
+    static const OSG::BitVector StyleFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -135,11 +138,23 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
            SFInt32             *getSFClearStencilBit(void);
 #endif
 
+           SFUInt32            *editSFStyle          (void);
+     const SFUInt32            *getSFStyle          (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFStyle          (void);
+#endif
+
 
            Int32               &editClearStencilBit(void);
      const Int32               &getClearStencilBit(void) const;
 #ifndef OSG_2_PREP
            Int32               &getClearStencilBit(void);
+#endif
+
+           UInt32              &editStyle          (void);
+     const UInt32              &getStyle          (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getStyle          (void);
 #endif
 
 
@@ -150,6 +165,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     /*! \{                                                                 */
 
      void setClearStencilBit( const Int32 &value );
+     void setStyle          ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -195,6 +211,7 @@ class OSG_SYSTEMLIB_DLLMAPPING GradientBackgroundBase : public Background
     MFColor3f           _mfColor;
     MFReal32            _mfPosition;
     SFInt32             _sfClearStencilBit;
+    SFUInt32            _sfStyle;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -309,6 +326,6 @@ typedef RefPtr<GradientBackgroundPtr> GradientBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGGRADIENTBACKGROUNDBASE_H_ */

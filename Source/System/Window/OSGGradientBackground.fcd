@@ -10,7 +10,7 @@
 	parentsystemcomponent="true"
 	decoratable="false"
 >
-A background showing a vertical color gradient. The colors and positions correspond to each other, so both have to have the same number of elements.
+A background showing a color gradient. The colors and positions correspond to each other, so both have to have the same number of elements. The style field (_sfStyle) selects the kind of gradient drawn (HORIZONTAL, VERTICAL).
 	<Field
 		name="color"
 		type="Color3f"
@@ -38,5 +38,15 @@ A background showing a vertical color gradient. The colors and positions corresp
 		access="public"
 	>
 	Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
+	</Field>
+	<Field
+		name="style"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+        defaultValue="GradientBackground::VERTICAL"
+		access="public"
+	>
+	Gradient style. Allowed values are VERTICAL and HORIZONTAL.
 	</Field>
 </FieldContainer>

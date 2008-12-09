@@ -165,6 +165,29 @@ SFInt32 *GradientBackgroundBase::getSFClearStencilBit(void)
 }
 #endif
 
+//! Get the GradientBackground::_sfStyle field.
+inline
+const SFUInt32 *GradientBackgroundBase::getSFStyle(void) const
+{
+    return &_sfStyle;
+}
+
+//! Get the GradientBackground::_sfStyle field.
+inline
+SFUInt32 *GradientBackgroundBase::editSFStyle(void)
+{
+    return &_sfStyle;
+}
+
+#ifndef OSG_2_PREP
+//! Get the GradientBackground::_sfStyle field.
+inline
+SFUInt32 *GradientBackgroundBase::getSFStyle(void)
+{
+    return &_sfStyle;
+}
+#endif
+
 
 //! Get the value of the GradientBackground::_sfClearStencilBit field.
 inline
@@ -194,6 +217,36 @@ inline
 void GradientBackgroundBase::setClearStencilBit(const Int32 &value)
 {
     _sfClearStencilBit.setValue(value);
+}
+
+//! Get the value of the GradientBackground::_sfStyle field.
+inline
+UInt32 &GradientBackgroundBase::editStyle(void)
+{
+    return _sfStyle.getValue();
+}
+
+//! Get the value of the GradientBackground::_sfStyle field.
+inline
+const UInt32 &GradientBackgroundBase::getStyle(void) const
+{
+    return _sfStyle.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the GradientBackground::_sfStyle field.
+inline
+UInt32 &GradientBackgroundBase::getStyle(void)
+{
+    return _sfStyle.getValue();
+}
+#endif
+
+//! Set the value of the GradientBackground::_sfStyle field.
+inline
+void GradientBackgroundBase::setStyle(const UInt32 &value)
+{
+    _sfStyle.setValue(value);
 }
 
 
@@ -275,5 +328,5 @@ const MFReal32 &GradientBackgroundBase::getPosition(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
+#define OSGGRADIENTBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.22 2008/06/09 12:26:59 vossg Exp $"
 
