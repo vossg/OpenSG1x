@@ -1226,6 +1226,13 @@ void SHLChunk::checkOSGParameters(bool force)
                 _osgParametersCallbacks.push_back(
                     std::make_pair(std::make_pair(oldfp, fp), parameter));
             }
+            else if(parameter->getName() == "OSGActiveLightsCount")
+            {
+                parametercbfp oldfp = NULL;
+                osgparametercbfp fp = updateActiveLightsCount;
+                _osgParametersCallbacks.push_back(
+                    std::make_pair(std::make_pair(oldfp, fp), parameter));
+            }
             else if(parameter->getName() == "OSGLight0Active")
             {
                 parametercbfp oldfp = NULL;
@@ -1786,6 +1793,23 @@ void SHLChunk::updateActiveLightsMask(const ShaderParameterPtr &parameter,
                   GLint(ract->getActiveLightsMask()));
 }
 
+void SHLChunk::updateActiveLightsCount(const ShaderParameterPtr &parameter,
+                                      DrawActionBase *action, GLuint program)
+{
+    RenderAction *ract = static_cast<RenderAction *>(action);
+
+    // get "glUniform1iARB" function pointer
+    OSGGLUNIFORM1IARBPROC uniform1i = 
+        reinterpret_cast<OSGGLUNIFORM1IARBPROC>(
+            action->getWindow()->getFunction(_funcUniform1i));
+
+    if(parameter->getLocation() == -2)
+        updateParameterLocation(action->getWindow(), program, parameter);
+    if(parameter->getLocation() >= 0)
+        uniform1i(parameter->getLocation(), 
+                  GLint(ract->getActiveLightsCount()));
+}
+
 void SHLChunk::updateLight0Active(const ShaderParameterPtr &parameter,
                                       DrawActionBase *action, GLuint program)
 {
@@ -2075,7 +2099,7 @@ bool SHLChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.67 2008/12/05 14:54:47 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGSHLChunk.cpp,v 1.68 2008/12/12 11:28:45 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGSHLCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHLCHUNKBASE_INLINE_CVSID;
 

@@ -327,6 +327,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SHLChunk : public SHLChunkBase
                                          DrawActionBase *action, GLuint program);
     static void updateActiveLightsMask  (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
+    static void updateActiveLightsCount(const ShaderParameterPtr &parameter,
+                                         DrawActionBase *action, GLuint program);
     static void updateLight0Active      (const ShaderParameterPtr &parameter,
                                          DrawActionBase *action, GLuint program);
     static void updateLight1Active      (const ShaderParameterPtr &parameter,
@@ -368,6 +370,6 @@ OSG_END_NAMESPACE
 #include <OSGSHLChunkBase.inl>
 #include <OSGSHLChunk.inl>
 
-#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.37 2008/12/05 14:54:47 a-m-z Exp $"
+#define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.38 2008/12/12 11:28:45 a-m-z Exp $"
 
 #endif /* _OSGCGCHUNK_H_ */
