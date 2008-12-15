@@ -48,8 +48,6 @@
 #include <set>
 
 // CgFX
-#include <Cg/cg.h>
-#include <Cg/cgGL.h>
 
 #include <OSGConfig.h>
 
@@ -76,6 +74,9 @@
 #include <OSGShaderParameterVec4f.h>
 #include <OSGShaderParameterMatrix.h>
 #include <OSGShaderParameterString.h>
+
+#include <Cg/cg.h>
+#include <Cg/cgGL.h>
 
 #include "OSGCGFXChunk.h"
 #include "OSGCGFXMaterial.h"
@@ -2020,7 +2021,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.14 2008/11/24 16:05:59 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.15 2008/12/15 15:35:44 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
