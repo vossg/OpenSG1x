@@ -1,3 +1,4 @@
+#include <memory>
 #include <iostream>
 #include <OpenSG/OSGGraphOpFactory.h>
 #include <OpenSG/OSGGraphOpSeq.h>

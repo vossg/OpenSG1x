@@ -492,6 +492,8 @@ class PlatformOptions:
         opts.Add(PackageOption('qt', 'Enable qt3 support', 'no'))
         opts.Add(PackageOption('qt4', 'Enable qt4 support', 'no'))
 
+        opts.Add(PackageOption('stlport', 'Enable stlport support', 'no'))
+
         opts.Add(PackageOption('cg', 'Enable cg support', 'no'))
 
         opts.Add(PackageOption('text', 'Enable text support', 'no'))
@@ -720,6 +722,22 @@ class ToolChain:
                     print "Couldn't find qt-mt*.lib file!"
             else:
                 self.env['OSG_WINDOW_QT_LIBS'] = ['qt-mt']
+
+        if _po.getOption('stlport'):
+            self.env.Prepend(CPPPATH = [os.path.join(_po.getOption('stlport'), 'stlport')])
+            self.env.Append(LIBPATH = [os.path.join(_po.getOption('stlport'), 'lib')])
+
+            if self.env.get('PLATFORM') == 'win32':
+                # auto detect stlport lib name with version number
+                libnames = glob.glob(os.path.join(_po.getOption('stlport'), 'lib', 'stlport.?.?.lib'))
+                if len(libnames) > 0:
+                    libname = os.path.basename(libnames[0])
+                    libname = libname[:-4]
+                    self.env.Append(LIBS = [libname])
+                else:
+                    print "Couldn't find stlport.?.?.lib file!"
+            else:
+                self.env.Append(LIBS = ['stlport'])
 
         if _po.getOption('qt4'):
             #if isinstance(_po.getOption('qt4'), str):
