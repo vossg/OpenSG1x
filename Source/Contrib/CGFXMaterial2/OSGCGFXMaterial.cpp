@@ -39,7 +39,7 @@
 //---------------------------------------------------------------------------
 //  Includes
 //---------------------------------------------------------------------------
-
+ 
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -386,7 +386,7 @@ bool CGFXMaterial::setParameter(
     }
     else
     {
-        if( !getParameter( name, imageName ) );
+        if( !getParameter( name, imageName ) )
         {
             setParameter( name, imageName );
         }
@@ -609,7 +609,7 @@ bool CGFXMaterial::requestVirtualIncludeFile( const std::string& filename, std::
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.8 2008/11/24 16:05:59 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.9 2009/01/05 18:22:27 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 
