@@ -36,6 +36,7 @@ __revision__ = "/home/scons/scons/branch.0/branch.96/baseline/src/engine/SCons/T
 import os.path
 import re
 import string
+import sys
 
 import SCons.Action
 import SCons.Builder
@@ -48,6 +49,16 @@ import SCons.Warnings
 
 CSuffixes = ['.c', '.C']
 CXXSuffixes = ['.cc', '.cpp', '.cxx', '.c++', '.C++']
+
+# ok visual studio writes into the 32bit registry so running with a 64bit python
+# we need to look explicitly in the Wow6432Node!
+def getSoftwareMicrosoft(path):
+    new_path = 'Software\\'
+    if sys.version.find('64 bit') != -1:
+        new_path += 'Wow6432Node\\'
+    new_path += 'Microsoft\\'
+    new_path += path
+    return new_path
 
 def _parse_msvc7_overrides(version):
     """ Parse any overridden defaults for MSVS directory locations in MSVS .NET. """
@@ -363,14 +374,14 @@ def get_visualstudio8_suites(version = '8.0'):
     # Detect Standard, Professional and Team edition
     try:
         idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-            'Software\\Microsoft\\VisualStudio\\' + version)
+            getSoftwareMicrosoft('VisualStudio\\' + version))
         #id = SCons.Util.RegQueryValueEx(idk, 'InstallDir')
         editions = { 'PRO': r'Setup\VS\Pro' }       # ToDo: add standard and team editions
         edition_name = 'STD'
         for name, key_suffix in editions.items():
             try:
                 idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-                    'Software\\Microsoft\\VisualStudio\\' + version + '\\' + key_suffix )
+                    getSoftwareMicrosoft('VisualStudio\\' + version + '\\' + key_suffix ))
                 edition_name = name
             except SCons.Util.RegError:
                 pass
@@ -381,7 +392,7 @@ def get_visualstudio8_suites(version = '8.0'):
     # Detect Express edition
     try:
         idk = SCons.Util.RegOpenKeyEx(SCons.Util.HKEY_LOCAL_MACHINE,
-            'Software\\Microsoft\\VCExpress\\' + version)
+            getSoftwareMicrosoft('VCExpress\\' + version))
         #id = SCons.Util.RegQueryValueEx(idk, 'InstallDir')
         suites.append('EXPRESS')
     except SCons.Util.RegError:
@@ -399,6 +410,8 @@ def msvs_parse_version(s):
     """
     num, suite = version_re.match(s).groups()
     return float(num), suite
+
+
 
 def get_msvs8_install_dirs(version = None, vs8suite = None):
     """
@@ -420,7 +433,8 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
 
     version_num, suite = msvs_parse_version(version)
 
-    K = 'Software\\Microsoft\\VisualStudio\\' + str(version_num)
+    K = getSoftwareMicrosoft('VisualStudio\\' + str(version_num))
+
     if (version_num >= 8.0):
         if vs8suite == None:
             # We've been given no guidance about which Visual Studio 8
@@ -442,7 +456,7 @@ def get_msvs8_install_dirs(version = None, vs8suite = None):
                 rv['VS8SUITE'] = vs8suite
 
         if vs8suite == 'EXPRESS' or not suites:
-            K = 'Software\\Microsoft\\VCExpress\\' + str(version_num)
+            K = getSoftwareMicrosoft('VCExpress\\' + str(version_num))
 
     # vc++ install dir
     if (version_num < 7.0):
