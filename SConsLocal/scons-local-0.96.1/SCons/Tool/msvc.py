@@ -733,37 +733,45 @@ def _get_msvc9_default_paths(version = None, vs8suite = None):
         PlatformSdkDir = os.path.join(MVSVCdir, 'PlatformSDK')
 
     include_path += os.path.join(PlatformSdkDir, 'include') + ';'
-    include_path += os.path.join(PlatformSdkDir, 'include', 'atl')
-
-    # In the express edition there is no PlatformSDK.
-    #if rv['VS8SUITE'] == 'EXPRESS':
-    #    if rv.has_key('PLATFORMSDKDIR'):
-    #        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include') + ';'
-    #        include_path += os.path.join(rv['PLATFORMSDKDIR'], 'include', 'atl')
-    #    else:
-    #        print "Couldn't find platform sdk install directory!"
-    #else:
-    #    include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include') + ';'
-    #    include_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'include', 'atl')
 
     lib_path = ""
     lib_path += os.path.join(rv['VCINSTALLDIR'], 'lib') + ';'
-    lib_path += os.path.join(rv['VSINSTALLDIR'], 'SDK', 'v2.0', 'lib') + ';'
 
     lib_path += os.path.join(PlatformSdkDir, 'lib')
-    #if rv['VS8SUITE'] == 'EXPRESS':
-    #    if rv.has_key('PLATFORMSDKDIR'):
-    #        lib_path += os.path.join(rv['PLATFORMSDKDIR'], 'lib')
-    #    else:
-    #        print "Couldn't find platform sdk install directory!"
-    #else:
-    #    lib_path += os.path.join(rv['VCINSTALLDIR'], 'PlatformSDK', 'lib')
 
     exe_path = ""
     exe_path += os.path.join(rv['VSINSTALLDIR'], 'Common7', 'IDE') + ';'
     exe_path += os.path.join(rv['VCINSTALLDIR'], 'bin') + ';'
     exe_path += os.path.join(rv['VSINSTALLDIR'], 'Common7', 'Tools') + ';'
-    exe_path += os.path.join(rv['VSINSTALLDIR'], 'SDK', 'v2.0', 'bin') + ';'
+    exe_path += os.path.join(rv['FRAMEWORKDIR'], rv['FRAMEWORKVERSION']) + ';'
+    exe_path += os.path.join(rv['VCINSTALLDIR'], 'VCPackages')
+
+    return (include_path, lib_path, exe_path)
+
+def _get_msvc9_x64_default_paths(version = None, vs8suite = None):
+
+    rv = get_msvs8_install_dirs(version, vs8suite)
+    include_path = ""
+    include_path += os.path.join(rv['VCINSTALLDIR'], 'include') + ';'
+
+    if rv.has_key('PLATFORMSDKSDIR'):
+        PlatformSdkDir = rv['PLATFORMSDKSDIR']
+    else:
+        PlatformSdkDir = os.path.join(MVSVCdir, 'PlatformSDK')
+
+    include_path += os.path.join(PlatformSdkDir, 'include') + ';'
+
+    lib_path = ""
+    lib_path += os.path.join(rv['VCINSTALLDIR'], 'lib', 'amd64') + ';'
+
+    # people from MS are braindead all 64bit sub directories are named amd64
+    # except this one.
+    lib_path += os.path.join(PlatformSdkDir, 'lib', 'x64')
+
+    exe_path = ""
+    exe_path += os.path.join(rv['VSINSTALLDIR'], 'Common7', 'IDE') + ';'
+    exe_path += os.path.join(rv['VCINSTALLDIR'], 'bin', 'amd64') + ';'
+    exe_path += os.path.join(rv['VSINSTALLDIR'], 'Common7', 'Tools') + ';'
     exe_path += os.path.join(rv['FRAMEWORKDIR'], rv['FRAMEWORKVERSION']) + ';'
     exe_path += os.path.join(rv['VCINSTALLDIR'], 'VCPackages')
 
