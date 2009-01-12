@@ -77,12 +77,13 @@
 
 #include <Cg/cg.h>
 #include <Cg/cgGL.h>
+#if CG_VERSION_NUM < 1500
+#error CGFXMaterial2 needs Cg 1.5 or later
+#endif
 
 #include "OSGCGFXChunk.h"
 #include "OSGCGFXMaterial.h"
 #include "OSGCGFXAnnotation.h"
-
-#include <Cg/cgGL.h>
 
 #ifndef GL_CLIENT_ALL_ATTRIB_BITS
 #define GL_CLIENT_ALL_ATTRIB_BITS 0xffffffff
@@ -2021,7 +2022,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.15 2008/12/15 15:35:44 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.16 2009/01/12 10:18:06 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
