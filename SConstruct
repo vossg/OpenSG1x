@@ -390,6 +390,9 @@ def CreateConfiguredHeader(env):
     if _po.getOption('invalid_pointer_check'):
         new_configured_h += '#define OSG_INVALID_PTR_CHECK\n'
 
+    if _po.getOption('osg2_prep'):
+        new_configured_h += '#define OSG_2_PREP 1\n'
+
     new_configured_h += '\n' # add new line
     new_configured_h += '#endif /* _OSGCONFIGURED_H_ */'
     new_configured_h += '\n' # add new line
@@ -547,6 +550,7 @@ class PlatformOptions:
         opts.Add(BoolOption('gv_beta', 'enable gv beta', 0))
 
         opts.Add(BoolOption('invalid_pointer_check', 'enable invalid pointer check', 0))
+        opts.Add(BoolOption('osg2_prep', 'enable OSG 2 prep', 0))
 
         opts.Add(BoolOption('force_inline', 'enable force inline, msvc compiler only', 0))
         opts.Add(BoolOption('no_secure_stl', 'disables secure stl for msvc 80 compiler', 0))
