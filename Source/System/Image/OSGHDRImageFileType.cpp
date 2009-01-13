@@ -415,8 +415,7 @@ bool HDRImageFileType::checkHDR(FILE *file, int &width, int &height)
             // empty line found, next is resolution info, format: -Y N +X N
             // directly followed by data
             fgets(cs, 255, file);
-            sscanf(cs, "%s %d %s %d", reinterpret_cast<char*>(&st1), 
-                   &height, reinterpret_cast<char*>(&st2), &width);
+            sscanf(cs, "%79s %d %79s %d", st1, &height, st2, &width);
             resok = true;
         }
     }
