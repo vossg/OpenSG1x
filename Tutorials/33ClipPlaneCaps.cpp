@@ -36,6 +36,7 @@ typedef std::vector<ClipPlaneData> VecClipPlaneData;
 struct ClipPlaneDetails
 {
     ClipPlaneChunkPtr  _clipPlaneChunk;
+    NodePtr            _clipPlaneBeacon;
     NodePtr            _planeTrafoNode;
     MaterialGroupPtr   _materialCore;
 };
@@ -64,7 +65,9 @@ void createClipPlaneDetails(void)
             details._clipPlaneChunk->setEquation(Vec4f(1,0,0,0));
             details._clipPlaneChunk->setEnable(false);
 
-            details._clipPlaneChunk->setBeacon(Node::create());
+            details._clipPlaneBeacon = Node::create();
+            addRefCP(details._clipPlaneBeacon);
+            details._clipPlaneChunk->setBeacon(details._clipPlaneBeacon);
         }
 
         //
@@ -127,6 +130,7 @@ void destroyClipPlaneDetails(void)
     for (int i = 0; i < iNumClipPlanes; ++i)
     {
         subRefCP(vecClipPlaneDetails[i]._clipPlaneChunk);
+        subRefCP(vecClipPlaneDetails[i]._clipPlaneBeacon);
         subRefCP(vecClipPlaneDetails[i]._planeTrafoNode);
         subRefCP(vecClipPlaneDetails[i]._materialCore);
     }
