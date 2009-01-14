@@ -604,7 +604,7 @@ GIFImageFileType::~GIFImageFileType(void) {}
 #define LOCALCOLORMAP               0x80
 
 #define BitSet(byte, bit)           (((byte) & (bit)) == (bit))
-#define ReadOK(is, buffer, len)     (is.read(reinterpret_cast<char*>(buffer), len).gcount() == len)
+#define ReadOK(is, buffer, len)     ((is).read(reinterpret_cast<char*>(buffer), len).gcount() == len)
 #define MKINT(a, b)                 (((b) << 8) | (a))
 #define NEW(x)                      (static_cast<x *>(malloc(sizeof(x))))
 /***************************************************************************
@@ -623,21 +623,35 @@ GIFImageFileType::~GIFImageFileType(void) {}
 #define ERROR(str) do { RWSetMsg(str); longjmp(setjmp_buffer, 1); } while(0)
 #else
 #define INFO_MSG(fmt)   { FINFO(("Info loading gif: '%s'!\n", fmt)); }
-#define GIF_ERROR(str)      { FWARNING(("Error loading gif: '%s'!\n", str)); \
-                              longjmp(setjmp_buffer, 1); }
+#define GIF_ERROR(state, str)      { FWARNING(("Error loading gif: '%s'!\n", str)); \
+                              longjmp((state).setjmp_buffer, 1); }
 #endif
 #endif
 
 /***************************************************************************/
 
+struct GIFReadState
+{
+	std::istream *is;
+    jmp_buf setjmp_buffer;
+    int ZeroDataBlock;
+    int curbit, lastbit, get_done, last_byte;
+    int return_clear;
+    int stack[(1 << (MAX_LWZ_BITS)) * 2], *sp;
+    int code_size, set_code_size;
+    int max_code, max_code_size;
+    int clear_code, end_code;
+    unsigned char buf[280];
+    int table[2][(1 << MAX_LWZ_BITS)];
+    int firstcode, oldcode;
+};
+
 static int readColorMap(std::istream &, int, unsigned char [GIF_MAXCOLORS][3]);
-static int GetDataBlock(std::istream &, unsigned char *);
-static void readImage(std::istream &, int, int, int, unsigned char *);
+static int GetDataBlock(GIFReadState *state, unsigned char *);
+static void readImage(GIFReadState *state, int, int, int, unsigned char *);
 
-static jmp_buf                  setjmp_buffer;
-
-static int    verbose = GIF_FALSE;
-//static int    showComment = GIF_FALSE;
+static const int    verbose = GIF_FALSE;
+//static const int    showComment = GIF_FALSE;
 
 /* */
 static GIFStream *GIFRead(std::istream &is)
@@ -649,27 +663,30 @@ static GIFStream *GIFRead(std::istream &is)
     GIF89info       info = {0, 0, 0, gif_no_disposal};
     int             resetInfo = GIF_TRUE;
     int             n;
+    GIFReadState    state;
 
-    if(setjmp(setjmp_buffer))
+    state.is = &is;
+    state.ZeroDataBlock = GIF_FALSE;
+    if(setjmp(state.setjmp_buffer))
         goto out;
 
     if(!ReadOK(is, buf, 6))
     {
-        GIF_ERROR("error reading magic number");
+        GIF_ERROR(state, "error reading magic number");
     }
 
     if(strncmp(reinterpret_cast<char *>(buf), "GIF", 3) != 0)
-        GIF_ERROR("not a GIF file");
+        GIF_ERROR(state, "not a GIF file");
 
     if((strncmp((reinterpret_cast<char *>(buf)) + 3, "87a", 3) != 0) &&
        (strncmp((reinterpret_cast<char *>(buf)) + 3, "89a", 3) != 0))
     {
-        GIF_ERROR("bad version number, not '87a' or '89a'");
+        GIF_ERROR(state, "bad version number, not '87a' or '89a'");
     }
 
     if(!ReadOK(is, buf, 7))
     {
-        GIF_ERROR("failed to read screen descriptor");
+        GIF_ERROR(state, "failed to read screen descriptor");
     }
 
     gifStream = NEW(GIFStream);
@@ -694,7 +711,7 @@ static GIFStream *GIFRead(std::istream &is)
     {
         if(readColorMap(is, gifStream->cmapSize, gifStream->cmapData))
         {
-            GIF_ERROR("unable to get global colormap");
+            GIF_ERROR(state, "unable to get global colormap");
         }
     }
     else
@@ -725,19 +742,19 @@ static GIFStream *GIFRead(std::istream &is)
         {           /* Extension */
             if(!ReadOK(is, &c, 1))
             {
-                GIF_ERROR("EOF / read error on extention function code");
+                GIF_ERROR(state, "EOF / read error on extention function code");
             }
 
             if(c == 0xf9)
             {       /* graphic control */
-                (void) GetDataBlock(is, buf);
+                (void) GetDataBlock(&state, buf);
                 info.disposal = GIFDisposalType((buf[0] >> 2) & 0x7);
                 info.inputFlag = (buf[0] >> 1) & 0x1;
                 info.delayTime = MKINT(buf[1], buf[2]);
                 if(BitSet(buf[0], 0x1))
                     info.transparent = buf[3];
 
-                while(GetDataBlock(is, buf) != 0)
+                while(GetDataBlock(&state, buf) != 0)
                     ;
             }
             else if(c == 0xfe || c == 0x01)
@@ -753,7 +770,7 @@ static GIFStream *GIFRead(std::istream &is)
 
                 if(c == 0x01)
                 {
-                    (void) GetDataBlock(is, buf);
+                    (void) GetDataBlock(&state, buf);
 
                     cur->type = gif_text;
                     cur->info = info;
@@ -776,7 +793,7 @@ static GIFStream *GIFRead(std::istream &is)
 
                 text = static_cast<char *>(malloc(size));
 
-                while((n = GetDataBlock(is, buf)) != 0)
+                while((n = GetDataBlock(&state, buf)) != 0)
                 {
                     if(n + len >= size)
                     {
@@ -803,7 +820,7 @@ static GIFStream *GIFRead(std::istream &is)
                 /*
                 **  Unrecogonized extension, consume it.
                 */
-                while(GetDataBlock(is, buf) > 0)
+                while(GetDataBlock(&state, buf) > 0)
                     ;
             }
         }
@@ -811,7 +828,7 @@ static GIFStream *GIFRead(std::istream &is)
         {
             if(!ReadOK(is, buf, 9))
             {
-                GIF_ERROR("couldn't read left/top/width/height");
+                GIF_ERROR(state, "couldn't read left/top/width/height");
             }
 
             cur = NEW(GIFData);
@@ -828,7 +845,7 @@ static GIFStream *GIFRead(std::istream &is)
                 if(readColorMap(is, cur->data.image.cmapSize,
                                          cur->data.image.cmapData))
                 {
-                    GIF_ERROR("unable to get local colormap");
+                    GIF_ERROR(state, "unable to get local colormap");
                 }
             }
             else
@@ -839,7 +856,7 @@ static GIFStream *GIFRead(std::istream &is)
             cur->data.image.data = static_cast<unsigned char *>( 
                 malloc(cur->width * cur->height));
             cur->data.image.interlaced = BitSet(buf[8], INTERLACE);
-            readImage(is, BitSet(buf[8], INTERLACE), cur->width, cur->height,
+            readImage(&state, BitSet(buf[8], INTERLACE), cur->width, cur->height,
                       cur->data.image.data);
 
             resetInfo = GIF_TRUE;
@@ -858,7 +875,7 @@ static GIFStream *GIFRead(std::istream &is)
     }
 
     if(c != ';')
-        GIF_ERROR("EOF / data stream");
+        GIF_ERROR(state, "EOF / data stream");
 
 out:
     return gifStream;
@@ -942,26 +959,20 @@ static int readColorMap(std::istream &is, int size, unsigned char data[GIF_MAXCO
     return GIF_FALSE;
 }
 
-/*
-**
-*/
-static int  ZeroDataBlock = GIF_FALSE;
-
 /* */
-
-static int GetDataBlock(std::istream &is, unsigned char *buf)
+static int GetDataBlock(GIFReadState *state, unsigned char *buf)
 {
     unsigned char   count;
 
-    if(!ReadOK(is, &count, 1))
+    if(!ReadOK(*(state->is), &count, 1))
     {
         INFO_MSG(("error in getting DataBlock size"));
         return -1;
     }
 
-    ZeroDataBlock = count == 0;
+    state->ZeroDataBlock = count == 0;
 
-    if((count != 0) && (!ReadOK(is, buf, count)))
+    if((count != 0) && (!ReadOK(*(state->is), buf, count)))
     {
         INFO_MSG(("error in reading DataBlock"));
         return -1;
@@ -970,51 +981,31 @@ static int GetDataBlock(std::istream &is, unsigned char *buf)
     return count;
 }
 
-/*
-**
-**
-*/
-/*
-**  Pulled out of nextCode
-*/
-static int  curbit, lastbit, get_done, last_byte;
-static int  return_clear;
-
-/*
-**  Out of nextLWZ
-*/
-static int  stack[(1 << (MAX_LWZ_BITS)) * 2], *sp;
-static int  code_size, set_code_size;
-static int  max_code, max_code_size;
-static int  clear_code, end_code;
-
 /* */
-
-static void initLWZ(int input_code_size)
+static void initLWZ(GIFReadState *state, int input_code_size)
 {
-//  static int  inited = GIF_FALSE;
+//  static const int  inited = GIF_FALSE;
 
-    set_code_size = input_code_size;
-    code_size     = set_code_size + 1;
-    clear_code    = 1 << set_code_size ;
-    end_code      = clear_code + 1;
-    max_code_size = 2 * clear_code;
-    max_code      = clear_code + 2;
+    state->set_code_size = input_code_size;
+    state->code_size     = state->set_code_size + 1;
+    state->clear_code    = 1 << state->set_code_size ;
+    state->end_code      = state->clear_code + 1;
+    state->max_code_size = 2 * state->clear_code;
+    state->max_code      = state->clear_code + 2;
 
-    curbit = lastbit = 0;
-    last_byte = 2;
-    get_done = GIF_FALSE;
+    state->curbit = state->lastbit = 0;
+    state->last_byte = 2;
+    state->get_done = GIF_FALSE;
 
-    return_clear = GIF_TRUE;
+    state->return_clear = GIF_TRUE;
 
-    sp = stack;
+    state->sp = state->stack;
 }
 
 /* */
-static int nextCode(std::istream &is, int code_size)
+static int nextCode(GIFReadState *state, int code_size)
 {
-    static unsigned char    buf[280];
-    static int              maskTbl[16] =
+    static const int              maskTbl[16] =
     {
         0x0000,
         0x0001,
@@ -1035,103 +1026,101 @@ static int nextCode(std::istream &is, int code_size)
     };
     int                     i, j, ret, end;
 
-    if(return_clear)
+    if(state->return_clear)
     {
-        return_clear = GIF_FALSE;
-        return clear_code;
+        state->return_clear = GIF_FALSE;
+        return state->clear_code;
     }
 
-    end = curbit + code_size;
+    end = state->curbit + code_size;
 
-    if(end >= lastbit)
+    if(end >= state->lastbit)
     {
         int count;
 
-        if(get_done)
+        if(state->get_done)
         {
-            if(curbit >= lastbit)
+            if(state->curbit >= state->lastbit)
             {
-                GIF_ERROR("ran off the end of my bits");
+                GIF_ERROR(*state, "ran off the end of my bits");
             }
 
             return -1;
         }
 
-        buf[0] = buf[last_byte - 2];
-        buf[1] = buf[last_byte - 1];
+        state->buf[0] = state->buf[state->last_byte - 2];
+        state->buf[1] = state->buf[state->last_byte - 1];
 
-        if((count = GetDataBlock(is, &buf[2])) == 0)
-            get_done = GIF_TRUE;
+        if((count = GetDataBlock(state, &(state->buf[2]))) == 0)
+            state->get_done = GIF_TRUE;
 
-        last_byte = 2 + count;
-        curbit = (curbit - lastbit) + 16;
-        lastbit = (2 + count) * 8;
+        state->last_byte = 2 + count;
+        state->curbit = (state->curbit - state->lastbit) + 16;
+        state->lastbit = (2 + count) * 8;
 
-        end = curbit + code_size;
+        end = state->curbit + code_size;
     }
 
     j = end / 8;
-    i = curbit / 8;
+    i = state->curbit / 8;
 
     if(i == j)
-        ret = buf[i];
+        ret = state->buf[i];
     else if(i + 1 == j)
-        ret = buf[i] | (buf[i + 1] << 8);
+        ret = state->buf[i] | (state->buf[i + 1] << 8);
     else
     {
-        ret = buf[i] | (buf[i + 1] << 8) | (buf[i + 2] << 16);
+        ret = state->buf[i] | (state->buf[i + 1] << 8) | (state->buf[i + 2] << 16);
     }
 
-    ret = (ret >> (curbit % 8)) & maskTbl[code_size];
+    ret = (ret >> (state->curbit % 8)) & maskTbl[code_size];
 
-    curbit += code_size;
+    state->curbit += code_size;
 
     return ret;
 }
 
-#define readLWZ(fd) ((sp > stack) ? *--sp : nextLWZ(fd))
+#define readLWZ(state) ((state->sp > state->stack) ? *--(state->sp) : nextLWZ(state))
 
 /* */
-static int nextLWZ(std::istream &is)
+static int nextLWZ(GIFReadState *state)
 {
-    static int      table[2][(1 << MAX_LWZ_BITS)];
-    static int      firstcode, oldcode;
     int             code, incode;
     register int    i;
 
-    while((code = nextCode(is, code_size)) >= 0)
+    while((code = nextCode(state, state->code_size)) >= 0)
     {
-        if(code == clear_code)
+        if(code == state->clear_code)
         {
-            for(i = 0; i < clear_code; ++i)
+            for(i = 0; i < state->clear_code; ++i)
             {
-                table[0][i] = 0;
-                table[1][i] = i;
+                state->table[0][i] = 0;
+                state->table[1][i] = i;
             }
 
             for(; i < (1 << MAX_LWZ_BITS); ++i)
-                table[0][i] = table[1][i] = 0;
-            code_size = set_code_size + 1;
-            max_code_size = 2 * clear_code;
-            max_code = clear_code + 2;
-            sp = stack;
+                state->table[0][i] = state->table[1][i] = 0;
+            state->code_size = state->set_code_size + 1;
+            state->max_code_size = 2 * state->clear_code;
+            state->max_code = state->clear_code + 2;
+            state->sp = state->stack;
             do
             {
-                firstcode = oldcode = nextCode(is, code_size);
-            } while(firstcode == clear_code);
+                state->firstcode = state->oldcode = nextCode(state, state->code_size);
+            } while(state->firstcode == state->clear_code);
 
-            return firstcode;
+            return state->firstcode;
         }
 
-        if(code == end_code)
+        if(code == state->end_code)
         {
             int             count;
             unsigned char   buf[260];
 
-            if(ZeroDataBlock)
+            if(state->ZeroDataBlock)
                 return -2;
 
-            while((count = GetDataBlock(is, buf)) > 0)
+            while((count = GetDataBlock(state, buf)) > 0)
                 ;
 
             if(count != 0)
@@ -1144,49 +1133,49 @@ static int nextLWZ(std::istream &is)
 
         incode = code;
 
-        if(code >= max_code)
+        if(code >= state->max_code)
         {
-            *sp++ = firstcode;
-            code = oldcode;
+            *(state->sp)++ = state->firstcode;
+            code = state->oldcode;
         }
 
-        while(code >= clear_code)
+        while(code >= state->clear_code)
         {
-            *sp++ = table[1][code];
-            if(code == table[0][code])
+            *(state->sp)++ = state->table[1][code];
+            if(code == state->table[0][code])
             {
-                GIF_ERROR("circular table entry BIG ERROR");
+                GIF_ERROR(*state, "circular table entry BIG ERROR");
             }
 
-            code = table[0][code];
+            code = state->table[0][code];
         }
 
-        *sp++ = firstcode = table[1][code];
+        *(state->sp)++ = state->firstcode = state->table[1][code];
 
-        if((code = max_code) < (1 << MAX_LWZ_BITS))
+        if((code = state->max_code) < (1 << MAX_LWZ_BITS))
         {
-            table[0][code] = oldcode;
-            table[1][code] = firstcode;
-            ++max_code;
-            if((max_code >= max_code_size) &&
-               (max_code_size < (1 << MAX_LWZ_BITS)))
+            state->table[0][code] = state->oldcode;
+            state->table[1][code] = state->firstcode;
+            ++(state->max_code);
+            if((state->max_code >= state->max_code_size) &&
+               (state->max_code_size < (1 << MAX_LWZ_BITS)))
             {
-                max_code_size *= 2;
-                ++code_size;
+                state->max_code_size *= 2;
+                ++(state->code_size);
             }
         }
 
-        oldcode = incode;
+        state->oldcode = incode;
 
-        if(sp > stack)
-            return *--sp;
+        if(state->sp > state->stack)
+            return *--(state->sp);
     }
 
     return code;
 }
 
 /* */
-static void readImage(std::istream &is, int interlace, int width, int height,
+static void readImage(GIFReadState *state, int interlace, int width, int height,
                       unsigned char *data)
 {
     unsigned char   *dp, c;
@@ -1197,12 +1186,12 @@ static void readImage(std::istream &is, int interlace, int width, int height,
     /*
     **  Initialize the Compression routines
     */
-    if(!ReadOK(is, &c, 1))
+    if(!ReadOK(*(state->is), &c, 1))
     {
-        GIF_ERROR("EOF / read error on image data");
+        GIF_ERROR(*state, "EOF / read error on image data");
     }
 
-    initLWZ(c);
+    initLWZ(state, c);
 
     if(verbose)
     {
@@ -1220,7 +1209,7 @@ static void readImage(std::istream &is, int interlace, int width, int height,
             dp = &data[width * ypos];
             for(xpos = 0; xpos < width; xpos++)
             {
-                if((v = readLWZ(is)) < 0)
+                if((v = readLWZ(state)) < 0)
                     goto fini;
 
                 *dp++ = v;
@@ -1244,7 +1233,7 @@ static void readImage(std::istream &is, int interlace, int width, int height,
         {
             for(xpos = 0; xpos < width; xpos++)
             {
-                if((v = readLWZ(is)) < 0)
+                if((v = readLWZ(state)) < 0)
                     goto fini;
 
                 *dp++ = v;
@@ -1253,7 +1242,7 @@ static void readImage(std::istream &is, int interlace, int width, int height,
     }
 
 fini:
-    if(readLWZ(is) >= 0)
+    if(readLWZ(state) >= 0)
     {
         INFO_MSG(("too much input data, ignoring extra..."));
     }
