@@ -768,6 +768,7 @@ ac_gdz_conf_package_text_e1='0'
 ac_gdz_with_add_incdirs=
 ac_gdz_with_add_libdirs=
 ac_gdz_with_add_libs=
+ac_gdz_with_add_frameworks=
 
 ac_gdz_mpatrol_inc_dir_e1=
 ac_gdz_mpatrol_lib_dir_e1=
@@ -2539,7 +2540,22 @@ else
 	ac_gdz_with_add_libs=$with_add_lib 
 fi
 
+# Check whether --with-add-framework or --without-add-framework was given.
+if test "${with_add_framework+set}" = set; then
+  withval="$with_add_framework"
+  :
+else
+  with_add_framework=no
+fi
 
+
+if test "$with_add_framework" = yes; then
+	ac_gdz_with_add_frameworks=
+elif test "$with_add_framework" = no; then
+	ac_gdz_with_add_frameworks=
+else
+	ac_gdz_with_add_frameworks=$with_add_framework 
+fi
 
 
 
@@ -4510,6 +4526,7 @@ fi
 ac_gdz_additional_inc_dirs_e1=$ac_gdz_with_add_incdirs
 ac_gdz_additional_lib_dirs_e1=$ac_gdz_with_add_libdirs
 ac_gdz_additional_libs_e1=$ac_gdz_with_add_libs
+ac_gdz_additional_frameworks_e1=$ac_gdz_with_add_frameworks
 
 if test "$disable_compilerLogo" = yes; then
 	ac_gdz_compiler_logo_e1=-nologo
@@ -4786,6 +4803,7 @@ s%@ac_gdz_system_lib_dir_e1@%$ac_gdz_system_lib_dir_e1%g
 s%@ac_gdz_additional_inc_dirs_e1@%$ac_gdz_additional_inc_dirs_e1%g
 s%@ac_gdz_additional_lib_dirs_e1@%$ac_gdz_additional_lib_dirs_e1%g
 s%@ac_gdz_additional_libs_e1@%$ac_gdz_additional_libs_e1%g
+s%@ac_gdz_additional_frameworks_e1@%$ac_gdz_additional_frameworks_e1%g
 s%@ac_gdz_compiler_incl@%$ac_gdz_compiler_incl%g
 s%@ac_gdz_compiler_lib@%$ac_gdz_compiler_lib%g
 s%@ac_gdz_base_system_libs@%$ac_gdz_base_system_libs%g

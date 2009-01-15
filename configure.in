@@ -68,6 +68,7 @@ ac_gdz_conf_package_text_e1='0'
 ac_gdz_with_add_incdirs=
 ac_gdz_with_add_libdirs=
 ac_gdz_with_add_libs=
+ac_gdz_with_add_frameworks=
 
 ac_gdz_mpatrol_inc_dir_e1=
 ac_gdz_mpatrol_lib_dir_e1=
@@ -1325,6 +1326,17 @@ else
 	ac_gdz_with_add_libs=$with_add_lib 
 fi
 
+AC_ARG_WITH(add-framework,   [  --with-add-framework=FRAMEWORK{:FRAMEWORK}*           use additional frameworks (Mac OS X only)],
+			,with_add_framework=no) 
+
+if test "$with_add_framework" = yes; then
+	ac_gdz_with_add_frameworks=
+elif test "$with_add_framework" = no; then
+	ac_gdz_with_add_frameworks=
+else
+	ac_gdz_with_add_frameworks=$with_add_framework 
+fi
+
 dnl ############# Helper #####################
 
 sinclude(./acinclude.m4)
@@ -1789,6 +1801,7 @@ fi
 ac_gdz_additional_inc_dirs_e1=$ac_gdz_with_add_incdirs
 ac_gdz_additional_lib_dirs_e1=$ac_gdz_with_add_libdirs
 ac_gdz_additional_libs_e1=$ac_gdz_with_add_libs
+ac_gdz_additional_frameworks_e1=$ac_gdz_with_add_frameworks
 
 if test "$disable_compilerLogo" = yes; then
 	ac_gdz_compiler_logo_e1=-nologo
@@ -1830,6 +1843,7 @@ AC_SUBST(ac_gdz_system_lib_dir_e1)
 AC_SUBST(ac_gdz_additional_inc_dirs_e1)
 AC_SUBST(ac_gdz_additional_lib_dirs_e1)
 AC_SUBST(ac_gdz_additional_libs_e1)
+AC_SUBST(ac_gdz_additional_frameworks_e1)
 
 AC_SUBST(ac_gdz_compiler_incl)
 AC_SUBST(ac_gdz_compiler_lib)

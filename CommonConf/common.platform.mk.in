@@ -93,6 +93,7 @@ LINK_SYSTEM     := @ac_gdz_system_lib_dir_e1@
 ADD_INCLUDE     := @ac_gdz_additional_inc_dirs_e1@
 ADD_LINK        := @ac_gdz_additional_lib_dirs_e1@
 ADD_LIBS        := @ac_gdz_additional_libs_e1@
+ADD_FRAMEWORKS  := @ac_gdz_additional_frameworks_e1@
 
 INCLUDE_MPATROL := @ac_gdz_mpatrol_inc_dir_e1@
 LINK_MPATROL    := @ac_gdz_mpatrol_lib_dir_e1@
@@ -182,6 +183,18 @@ ADD_LIBS_$(OS_BASE) := $(foreach lib,$(ADD_LIBS),$(LIBLNK_OPTION)$(lib))
 endif
 
 LIBS_$(OS_BASE) := $(ADD_LIBS_$(OS_BASE)) $(LIBS_$(OS_BASE))
+
+endif
+
+ifneq ($(ADD_FRAMEWORKS),)
+
+ADD_FRAMEWORKS := $(subst :, ,$(ADD_FRAMEWORKS))
+
+ifeq ($(OS_BASE),darwin)
+ADD_FRAMEWORKS_$(OS_BASE) := $(foreach framework,$(ADD_FRAMEWORKS),-framework $(framework))
+endif
+
+LIBS_$(OS_BASE) := $(ADD_FRAMEWORKS_$(OS_BASE)) $(LIBS_$(OS_BASE))
 
 endif
 
