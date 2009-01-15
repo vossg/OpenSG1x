@@ -131,12 +131,6 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
             tex->activate(action);
         }
         
-        if(tex->isTransparent())
-        {
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            glEnable(GL_BLEND);
-        }
-
         // ENRICO: this part holds the informations about
         // custom texture coordinates
         // Mess with the best, die like the rest
@@ -151,11 +145,6 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
         glVertex3fv  (static_cast<const GLfloat*>(p4.getValues()));
         glEnd();
 
-        if(tex->isTransparent())
-        {
-            glDisable(GL_BLEND);
-        }
-        
         oldtex = getCPtr(tex);
     }
    
@@ -164,11 +153,14 @@ void SkyBackground::drawFace(      DrawActionBase  * action,
 void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 {
     glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT | 
-                 GL_LIGHTING_BIT);
+                 GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT);
 
     glDisable(GL_LIGHTING);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDisable(GL_DEPTH_TEST);
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
 
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
