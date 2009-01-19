@@ -260,12 +260,17 @@ FieldContainerPtr SharePtrGraphOp::compareFCs(const FieldContainerPtr &fc)
         if(strcmp(fdesc->getCName(), "attachments") == 0)
             continue;
 
+        // ignore beacons -- This is a hack that prevents entering infinite
+        // loops when the beacon points to a "parent" of fc. -- cneumann
+        if(strcmp(fdesc->getCName(), "beacon") == 0)
+            continue;
+
         BitVector mask = fdesc->getFieldMask();
 
         Field *fc_field = fc->getField(i);
         const FieldType &ftype = fc_field->getType();
         std::string fieldType = ftype.getName().str();
-        
+
         // field
         if(strstr(ftype.getCName(), "Ptr") != NULL)
         {
