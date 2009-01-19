@@ -81,6 +81,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Billboard : public BillboardBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                  Transformation                              */
+    /*! \{                                                                 */
+
+    virtual void accumulateMatrix(Matrix &result);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
@@ -108,14 +115,11 @@ class OSG_SYSTEMLIB_DLLMAPPING Billboard : public BillboardBase
     virtual ~Billboard(void); 
 
     /*! \}                                                                 */
-
     /*---------------------------------------------------------------------*/
     /*! \name                      NodeCore Specific                       */
     /*! \{                                                                 */
 
-    virtual void accumulateMatrix(Matrix &result);
-
-    void         adjustVolume   (Volume & volume);
+    virtual void adjustVolume(Volume & volume);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

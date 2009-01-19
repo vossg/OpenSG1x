@@ -69,12 +69,10 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                    Helper                                    */
+    /*! \name                  Transformation                              */
     /*! \{                                                                 */
 
     virtual void accumulateMatrix(Matrix &result);
-
-            void adjustVolume    (Volume &volume);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -103,6 +101,13 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
     /*! \{                                                                 */
 
     virtual ~Transform(void);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                      NodeCore Specific                       */
+    /*! \{                                                                 */
+
+    virtual void adjustVolume(Volume &volume);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

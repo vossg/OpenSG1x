@@ -82,6 +82,13 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenGroup : public ScreenGroupBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                  Transformation                              */
+    /*! \{                                                                 */
+
+    virtual void accumulateMatrix(Matrix &result);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                     Output                                   */
     /*! \{                                                                 */
 
@@ -113,8 +120,6 @@ class OSG_SYSTEMLIB_DLLMAPPING ScreenGroup : public ScreenGroupBase
     /*---------------------------------------------------------------------*/
     /*! \name                      NodeCore Specific                       */
     /*! \{                                                                 */
-
-    virtual void accumulateMatrix(Matrix &result);
 
     void         adjustVolume   (Volume & volume);
 
@@ -156,6 +161,6 @@ OSG_END_NAMESPACE
 #include <OSGScreenGroupBase.inl>
 #include <OSGScreenGroup.inl>
 
-#define OSGSCREENGROUP_HEADER_CVSID "@(#)$Id: OSGScreenGroup.h,v 1.1 2007/05/07 11:50:36 pdaehne Exp $"
+#define OSGSCREENGROUP_HEADER_CVSID "@(#)$Id: OSGScreenGroup.h,v 1.2 2009/01/19 22:51:43 neumannc Exp $"
 
 #endif /* _OSGSCREENGROUP_H_ */

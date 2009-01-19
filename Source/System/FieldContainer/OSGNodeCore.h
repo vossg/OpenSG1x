@@ -143,6 +143,13 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Transformation                             */
+    /*! \{                                                                 */
+
+    virtual void accumulateMatrix(Matrix &result);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                CoredNodePtr helper                           */
     /*! \{                                                                 */
     
@@ -229,13 +236,6 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
                                  const SyncInfo  &sInfo     );
 #endif
 
-    /*! \}                                                                 */
-    /*---------------------------------------------------------------------*/
-    /*! \name                   Transformation                             */
-    /*! \{                                                                 */
-
-    virtual void accumulateMatrix(Matrix &result);
- 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Volume                                  */
