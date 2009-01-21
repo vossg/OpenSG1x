@@ -49,6 +49,14 @@
 //
 //------------------------------------------------------------------------------
 
+#include <OSGGeometry.h>
+#include <OSGGeoFunctions.h>
+#include <OSGGroup.h>
+#include <OSGSimpleGeometry.h>
+#include <OSGSimpleMaterial.h>
+#include <OSGTransform.h>
+#include <OSGSimpleAttachments.h>
+
 #include <string>
 
 #include <Inventor/SoDB.h>
@@ -64,14 +72,7 @@
 #include <Inventor/nodes/SoSeparator.h>
 #include <Inventor/nodes/SoSphere.h>
 #include <Inventor/nodes/SoTransform.h>
-
-#include <OSGGeometry.h>
-#include <OSGGeoFunctions.h>
-#include <OSGGroup.h>
-#include <OSGSimpleGeometry.h>
-#include <OSGSimpleMaterial.h>
-#include <OSGTransform.h>
-#include <OSGSimpleAttachments.h>
+#include <Inventor/nodes/SoMatrixTransform.h>
 
 //------------------------------------------------------------------------------
 //
@@ -359,6 +360,25 @@ osg::NodePtr InventorLoader::traverseGraph( SoNode* OIVNode,
         return _OSGTransform;
     }
 
+    ///////////////////////
+    // MatrixTransformation node
+    ///////////////////////
+
+    if( OIVNode->isOfType( SoMatrixTransform::getClassTypeId() ) )
+    {
+        osg::NodePtr _OSGTransform = convertMatrixTransformation( OIVNode );
+
+        // Add the transformation to the current OSG node
+        beginEditCP ( OSGNode, Node::ChildrenFieldMask );
+        {
+            OSGNode->addChild( _OSGTransform );
+        }
+        endEditCP   ( OSGNode, Node::ChildrenFieldMask );
+
+        // Return the new transform node as the current OSG node
+        return _OSGTransform;
+    }
+
 
     ////////////////////
     // Indexed face set
@@ -438,6 +458,9 @@ osg::NodePtr InventorLoader::traverseGraph( SoNode* OIVNode,
         // Return the end of the group as current OSG node
         return _CurrentNode;
     }
+
+    FWARNING (( "Unhandled Inventor node: %s\n",
+                OIVNode->getTypeId().getName().getString() ));
 
     return OSGNode;
 }
@@ -630,6 +653,8 @@ osg::GeoNormals3fPtr InventorLoader::convertNormals( SoNode* OIVNode )
 
 osg::NodePtr InventorLoader::convertTransformation( SoNode* OIVNode )
 {
+  std::cerr << "In convertTransformation\n" << std::endl;
+
     ////////////////////////////////////////////////////////////////////////////
   FDEBUG(("   InventorLoader::convertTransformation( %x )\n",
                           OIVNode ));
@@ -672,6 +697,58 @@ osg::NodePtr InventorLoader::convertTransformation( SoNode* OIVNode )
     _Matrix.setScale(   _OIVTransform->scaleFactor.getValue()[0],
                         _OIVTransform->scaleFactor.getValue()[1],
                         _OIVTransform->scaleFactor.getValue()[2] );
+
+    // Set the transform's matrix
+    beginEditCP ( _Transform, Transform::MatrixFieldMask );
+    {
+        _Transform->setMatrix( _Matrix );
+    }
+    endEditCP   ( _Transform, Transform::MatrixFieldMask );
+
+
+    /////////////////////////////
+    // Copy the name of the node
+    /////////////////////////////
+
+    copyName( OIVNode, _OSGNode );
+
+
+    return _OSGNode;
+}
+
+//------------------------------------------------------------------------------
+
+osg::NodePtr InventorLoader::convertMatrixTransformation( SoNode* OIVNode )
+{
+    ////////////////////////////////////////////////////////////////////////////
+    FDEBUG(("   InventorLoader::convertMatrixTransformation( %x )\n",
+                          OIVNode ));
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////
+    // Create the OpenSG transform node
+    ////////////////////////////////////
+
+    osg::NodePtr _OSGNode = Node::create();
+    osg::TransformPtr _Transform = Transform::create();
+
+    beginEditCP ( _OSGNode, Node::CoreFieldMask );
+    {
+        _OSGNode->setCore( _Transform );
+    }
+    endEditCP   ( _OSGNode, Node::CoreFieldMask );
+
+
+    //////////////////////////////////////
+    // Copy the transformation parameters
+    //////////////////////////////////////
+
+    SoMatrixTransform* _OIVMatrixTransform = ( SoMatrixTransform* ) OIVNode;
+    const SbMatrix & m = _OIVMatrixTransform->matrix.getValue();
+    osg::Matrix _Matrix ( m[0][0],  m[1][0], m[2][0], m[3][0],
+                          m[0][1],  m[1][1], m[2][1], m[3][1],
+                          m[0][2],  m[1][2], m[2][2], m[3][2],
+                          m[0][3],  m[1][3], m[2][3], m[3][3] );
 
     // Set the transform's matrix
     beginEditCP ( _Transform, Transform::MatrixFieldMask );

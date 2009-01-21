@@ -273,6 +273,14 @@ protected:
 
 //------------------------------------------------------------------------------
 
+/*! Converts an inventor Matrixtransformation to an OpenSG transformation
+	\param OIVNode Pointer to inventor transformation node
+    \return Pointer to an OSG transformation node
+*/
+	osg::NodePtr convertMatrixTransformation( SoNode* OIVNode );	
+
+//------------------------------------------------------------------------------
+
 /*! Converts an inventor geometry to an OpenSG geometry
 	\param OIVNode Pointer to inventor geometry
     \return Pointer to an OSG geometry
