@@ -67,6 +67,7 @@
 #include <Inventor/nodes/SoCoordinate3.h>
 #include <Inventor/nodes/SoGroup.h>
 #include <Inventor/nodes/SoIndexedFaceSet.h>
+#include <Inventor/nodes/SoFaceSet.h>
 #include <Inventor/nodes/SoMaterial.h>
 #include <Inventor/nodes/SoNormal.h>
 #include <Inventor/nodes/SoSeparator.h>
@@ -386,7 +387,26 @@ osg::NodePtr InventorLoader::traverseGraph( SoNode* OIVNode,
 
     if( OIVNode->isOfType( SoIndexedFaceSet::getClassTypeId() ) )
     {
-        osg::NodePtr _OSGGeometry = convertGeometry( OIVNode );
+        osg::NodePtr _OSGGeometry = convertIFSGeometry( OIVNode );
+
+        // Add the geometry to the current OSG node
+        beginEditCP ( OSGNode, Node::ChildrenFieldMask );
+        {
+            OSGNode->addChild( _OSGGeometry );
+        }
+        endEditCP   ( OSGNode, Node::ChildrenFieldMask );
+
+        // Return the old OSG node as the current OSG node
+        return OSGNode;
+    }
+
+    ////////////////////
+    // Face set
+    ////////////////////
+
+    if( OIVNode->isOfType( SoFaceSet::getClassTypeId() ) )
+    {
+        osg::NodePtr _OSGGeometry = convertFSGeometry( OIVNode );
 
         // Add the geometry to the current OSG node
         beginEditCP ( OSGNode, Node::ChildrenFieldMask );
@@ -653,8 +673,6 @@ osg::GeoNormals3fPtr InventorLoader::convertNormals( SoNode* OIVNode )
 
 osg::NodePtr InventorLoader::convertTransformation( SoNode* OIVNode )
 {
-  std::cerr << "In convertTransformation\n" << std::endl;
-
     ////////////////////////////////////////////////////////////////////////////
   FDEBUG(("   InventorLoader::convertTransformation( %x )\n",
                           OIVNode ));
@@ -771,10 +789,10 @@ osg::NodePtr InventorLoader::convertMatrixTransformation( SoNode* OIVNode )
 
 //------------------------------------------------------------------------------
 
-osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
+osg::NodePtr InventorLoader::convertIFSGeometry( SoNode* OIVNode )
 {
     ////////////////////////////////////////////////////////////////////////////
-  FDEBUG(("   InventorLoader::convertGeometry( %x )\n",
+  FDEBUG(("   InventorLoader::convertIFSGeometry( %x )\n",
                           OIVNode ));
     ////////////////////////////////////////////////////////////////////////////
 
@@ -898,7 +916,7 @@ osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
     osg::GeoPositions3fPtr _Positions;
     if( _FaceSet->vertexProperty.getValue() != 0 )
     {
-        FWARNING(("InventorLoader::convertGeometry() --> "
+        FWARNING(("InventorLoader::convertIFSGeometry() --> "
                   "Use of vertexProperty in indexedFaceSet "
                   "not yet implemented.\n" ));
 
@@ -909,7 +927,7 @@ osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
     }
     else
     {
-        FWARNING(("InventorLoader::convertGeometry() --> "
+        FWARNING(("InventorLoader::convertIFSGeometry() --> "
                   "No GeoPositions in current state.\n" ));
     }
 
@@ -977,6 +995,163 @@ osg::NodePtr InventorLoader::convertGeometry( SoNode* OIVNode )
         // single-indexmapping )
         if( mOptimizePrimitives )
         {
+            osg::createSharedIndex ( _Geometry );
+            osg::createSingleIndex ( _Geometry );
+            osg::createOptimizedPrimitives( _Geometry, mNumIterations );
+        }
+    }
+    endEditCP   ( _Geometry,    Geometry::TypesFieldMask        |
+                                Geometry::LengthsFieldMask      |
+                                Geometry::IndicesFieldMask      |
+                                Geometry::IndexMappingFieldMask |
+                                Geometry::NormalsFieldMask      |
+                                Geometry::PositionsFieldMask    |
+                                Geometry::MaterialFieldMask );
+
+
+    /////////////////////////////
+    // Add geometry core to node
+    /////////////////////////////
+
+    osg::NodePtr _OSGNode = Node::create();
+    beginEditCP( _OSGNode, Node::CoreFieldMask );
+    {
+        _OSGNode->setCore( _Geometry );
+    }
+    endEditCP( _OSGNode, Node::CoreFieldMask );
+
+
+    /////////////////////////////
+    // Copy the name of the node
+    /////////////////////////////
+
+    // Copy the name from the inventor node
+    copyName( OIVNode, _OSGNode );
+
+    return _OSGNode;
+}
+
+//------------------------------------------------------------------------------
+
+osg::NodePtr InventorLoader::convertFSGeometry( SoNode* OIVNode )
+{
+    ////////////////////////////////////////////////////////////////////////////
+  FDEBUG(("   InventorLoader::convertFSGeometry( %x )\n",
+                          OIVNode ));
+    ////////////////////////////////////////////////////////////////////////////
+
+
+    /////////////////////////////////////////////////////
+    // Convert indices (incl. polygon types and lengths)
+    /////////////////////////////////////////////////////
+
+
+    SoFaceSet* _FaceSet = ( SoFaceSet* ) OIVNode;
+    GeoPTypesPtr _Types = GeoPTypesUI8::create();
+    GeoPLengthsPtr _Lengths = GeoPLengthsUI32::create();
+    //GeoIndicesUI32Ptr _Indices = GeoIndicesUI32::create();
+
+    beginEditCP ( _Types,   GeoPTypesUI8::GeoPropDataFieldMask);
+    beginEditCP ( _Lengths, GeoPLengthsUI32::GeoPropDataFieldMask);
+    //beginEditCP ( _Indices, GeoIndicesUI32::GeoPropDataFieldMask );
+    {
+        for ( int i=0; i < _FaceSet->numVertices.getNum(); ++i ) 
+        {
+          int numV = _FaceSet->numVertices[i];
+          int fType;
+          switch ( numV ) {
+          case 3:
+            fType = GL_TRIANGLES;
+            break;
+          case 4:
+            fType = GL_QUADS;
+            break;
+          default:
+            fType = GL_POLYGON;
+            break;
+          }
+          _Types->addValue   ( fType );
+          _Lengths->addValue ( numV  );
+        }
+    }
+    //endEditCP   ( _Indices, GeoIndicesUI32::GeoPropDataFieldMask );
+    endEditCP   ( _Lengths, GeoPLengthsUI32::GeoPropDataFieldMask);
+    endEditCP   ( _Types,   GeoPTypesUI8::GeoPropDataFieldMask);
+
+
+    ///////////////////
+    // Get coordinates
+    ///////////////////
+
+    osg::GeoPositions3fPtr _Positions;
+    if( _FaceSet->vertexProperty.getValue() != 0 )
+    {
+        FWARNING(("InventorLoader::convertFSGeometry() --> "
+                  "Use of vertexProperty in indexedFaceSet "
+                  "not yet implemented.\n" ));
+
+    }
+    else if( mCurrentState.Positions != NullFC )
+    {
+        _Positions = mCurrentState.Positions;
+    }
+    else
+    {
+        FWARNING(("InventorLoader::convertFSGeometry() --> "
+                  "No GeoPositions in current state.\n" ));
+    }
+
+    ////////////////
+
+    // Get material
+    ////////////////
+
+    osg::MaterialPtr _Material;
+    if( mCurrentState.Material != NullFC)
+    {
+        _Material = mCurrentState.Material;
+    }
+    else
+    {
+        _Material = getDefaultMaterial();
+    }
+
+    ///////////////////
+    // Create geometry
+    ///////////////////
+
+    osg::GeometryPtr _Geometry = Geometry::create();
+    beginEditCP ( _Geometry,    Geometry::TypesFieldMask        |
+                                Geometry::LengthsFieldMask      |
+                                Geometry::IndicesFieldMask      |
+                                Geometry::IndexMappingFieldMask |
+                                Geometry::NormalsFieldMask      |
+                                Geometry::PositionsFieldMask    |
+                                Geometry::MaterialFieldMask );
+    {
+        _Geometry->setTypes    ( _Types );
+        _Geometry->setLengths  ( _Lengths );
+        //_Geometry->setIndices  ( _Indices );
+        _Geometry->setPositions( _Positions );
+        _Geometry->setMaterial ( _Material );
+
+        // Handle normals
+        // (convert from inventor if possible, otherwise calculate)
+        if( mCurrentState.Normals != NullFC )
+        {
+            _Geometry->setNormals( mCurrentState.Normals );
+        }
+        else
+        {
+            calcFaceNormals( _Geometry );
+        }
+
+        // Do striping and fanning (currently only works with
+        // single-indexmapping )
+        if( mOptimizePrimitives )
+        {
+            osg::createSharedIndex ( _Geometry );
+            osg::createSingleIndex ( _Geometry );
             osg::createOptimizedPrimitives( _Geometry, mNumIterations );
         }
     }

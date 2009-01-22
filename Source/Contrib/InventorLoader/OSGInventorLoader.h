@@ -281,11 +281,19 @@ protected:
 
 //------------------------------------------------------------------------------
 
-/*! Converts an inventor geometry to an OpenSG geometry
+/*! Converts an inventor IndexedFaceSet geometry to an OpenSG geometry
 	\param OIVNode Pointer to inventor geometry
     \return Pointer to an OSG geometry
 */
-	osg::NodePtr convertGeometry( SoNode* OIVNode );	
+	osg::NodePtr convertIFSGeometry( SoNode* OIVNode );	
+
+//------------------------------------------------------------------------------
+
+/*! Converts an inventor FaceSet geometry to an OpenSG geometry
+	\param OIVNode Pointer to inventor geometry
+    \return Pointer to an OSG geometry
+*/
+	osg::NodePtr convertFSGeometry( SoNode* OIVNode );	
 
 //------------------------------------------------------------------------------
 

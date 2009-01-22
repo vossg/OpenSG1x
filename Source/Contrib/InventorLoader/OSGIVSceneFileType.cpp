@@ -74,7 +74,7 @@ namespace {
 
     // Call createOptimizedPrimitives() from OSGGeoFunctions
     l.setOptimizePrimitives( true );
-    l.setNumIterations( 3 );
+    l.setNumIterations( 1 );
 
     // Convert the inventor file to OpenSG
     return l.convertToOSG();
