@@ -286,7 +286,7 @@ protoStatements:
 
 proto:
     TOK_PROTO nodeTypeId { SKEL->beginProto($2); }
-    '[' interfaceDeclarations ']'
+    '[' interfaceDeclarations ']'  { SKEL->endProtoInterface(); }
     '{' statements '}' { SKEL->endProto(); }; /* Not VRML conformant */
 
 interfaceDeclarations:
