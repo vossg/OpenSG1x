@@ -167,9 +167,9 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
 
     // calc the vertices
 
-    GeoPositions3f::StoredFieldType  * p  = pnts->getFieldPtr();
-    GeoNormals3f::StoredFieldType    * n  = norms->getFieldPtr();
-    GeoTexCoords2f::StoredFieldType  * tx = tex->getFieldPtr();
+    GeoPositions3f::StoredFieldType  * p  = pnts->editFieldPtr();
+    GeoNormals3f::StoredFieldType    * n  = norms->editFieldPtr();
+    GeoTexCoords2f::StoredFieldType  * tx = tex->editFieldPtr();
 
     beginEditCP(pnts);
     beginEditCP(norms);
@@ -191,9 +191,9 @@ GeometryPtr OSG::makePlaneGeo(Real32 xsize, Real32 ysize,
 
     // create the faces
     
-    GeoIndicesUI32::StoredFieldType    * i = index->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType   * l = lens->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType      * t = types->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType    * i = index->editFieldPtr();
+    GeoPLengthsUI32::StoredFieldType   * l = lens->editFieldPtr();
+    GeoPTypesUI8::StoredFieldType      * t = types->editFieldPtr();
 
     beginEditCP(index);
     beginEditCP(lens);
@@ -402,15 +402,15 @@ GeometryPtr OSG::makeConicalFrustumGeo(Real32 height,
     
     // vertices
 
-    GeoPositions3f::StoredFieldType     * p  = pnts->getFieldPtr();
-    GeoNormals3f::StoredFieldType       * n  = norms->getFieldPtr();
-    GeoTexCoords2f::StoredFieldType     * tx = tex->getFieldPtr();
+    GeoPositions3f::StoredFieldType     * p  = pnts->editFieldPtr();
+    GeoNormals3f::StoredFieldType       * n  = norms->editFieldPtr();
+    GeoTexCoords2f::StoredFieldType     * tx = tex->editFieldPtr();
 
     // faces
     
-    GeoIndicesUI32::StoredFieldType     * i  = index->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType    * l  = lens->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType       * t  = types->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType     * i  = index->editFieldPtr();
+    GeoPLengthsUI32::StoredFieldType    * l  = lens->editFieldPtr();
+    GeoPTypesUI8::StoredFieldType       * t  = types->editFieldPtr();
 
     // 
     
@@ -594,9 +594,9 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
 
     // calc the vertices
 
-    GeoPositions3f::StoredFieldType   * p  = pnts->getFieldPtr();
-    GeoNormals3f::StoredFieldType     * n  = norms->getFieldPtr();
-    GeoTexCoords2f::StoredFieldType   * tx = tex->getFieldPtr();
+    GeoPositions3f::StoredFieldType   * p  = pnts->editFieldPtr();
+    GeoNormals3f::StoredFieldType     * n  = norms->editFieldPtr();
+    GeoTexCoords2f::StoredFieldType   * tx = tex->editFieldPtr();
 
     beginEditCP(pnts);
     beginEditCP(norms);
@@ -634,9 +634,9 @@ GeometryPtr OSG::makeTorusGeo(Real32 innerRadius, Real32 outerRadius, UInt16 sid
 
     // create the faces
     
-    GeoIndicesUI32::StoredFieldType  * i = index->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType * l = lens->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType    * t = types->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType  * i = index->editFieldPtr();
+    GeoPLengthsUI32::StoredFieldType * l = lens->editFieldPtr();
+    GeoPTypesUI8::StoredFieldType    * t = types->editFieldPtr();
 
     beginEditCP(index);
     beginEditCP(lens);
@@ -852,10 +852,10 @@ GeometryPtr OSG::makeSphereGeo(UInt16 depth, Real32 radius)
                         {3,10,7}, {10,6,7}, {6,11,7}, {6,0,11}, {6,1,0},
                         {10,1,6}, {11,0,9}, {2,11,9}, {5,2,9},  {11,2,7} };                  
                 
-    GeoPositions3f::StoredFieldType     * p = pnts->getFieldPtr();
-    GeoNormals3f::StoredFieldType       * n = norms->getFieldPtr();
-    GeoTexCoords2f::StoredFieldType    * tx = tex->getFieldPtr();
-    GeoIndicesUI32::StoredFieldType     * i = index->getFieldPtr();
+    GeoPositions3f::StoredFieldType     * p = pnts->editFieldPtr();
+    GeoNormals3f::StoredFieldType       * n = norms->editFieldPtr();
+    GeoTexCoords2f::StoredFieldType    * tx = tex->editFieldPtr();
+    GeoIndicesUI32::StoredFieldType     * i = index->editFieldPtr();
 
     beginEditCP(pnts);
     beginEditCP(norms);
@@ -1054,9 +1054,9 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
 
     // calc the vertices
 
-    GeoPositions3f::StoredFieldType   * p  = pnts->getFieldPtr();
-    GeoNormals3f::StoredFieldType     * n  = norms->getFieldPtr();
-    GeoTexCoords2f::StoredFieldType   * tx = tex->getFieldPtr();
+    GeoPositions3f::StoredFieldType   * p  = pnts->editFieldPtr();
+    GeoNormals3f::StoredFieldType     * n  = norms->editFieldPtr();
+    GeoTexCoords2f::StoredFieldType   * tx = tex->editFieldPtr();
 
     beginEditCP(pnts);
     beginEditCP(norms);
@@ -1094,9 +1094,9 @@ GeometryPtr OSG::makeLatLongSphereGeo(UInt16 latres, UInt16 longres,
 
     // create the faces
     
-    GeoIndicesUI32::StoredFieldType  * i = index->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType * l = lens->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType    * t = types->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType  * i = index->editFieldPtr();
+    GeoPLengthsUI32::StoredFieldType * l = lens->editFieldPtr();
+    GeoPTypesUI8::StoredFieldType    * t = types->editFieldPtr();
 
     beginEditCP(index);
     beginEditCP(lens);
@@ -1194,9 +1194,9 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
 
     // calc the vertices
 
-    GeoPositions3f::StoredFieldType  * p = pnts->getFieldPtr();
-    GeoNormals3f::StoredFieldType    * n = norms->getFieldPtr();
-    GeoTexCoords2f::StoredFieldType * tx = tex->getFieldPtr();
+    GeoPositions3f::StoredFieldType  * p = pnts->editFieldPtr();
+    GeoNormals3f::StoredFieldType    * n = norms->editFieldPtr();
+    GeoTexCoords2f::StoredFieldType * tx = tex->editFieldPtr();
 
     beginEditCP(pnts);
     beginEditCP(norms);
@@ -1237,9 +1237,9 @@ GeometryPtr OSG::makeBoxGeo(Real32 xsize, Real32 ysize, Real32 zsize,
 
     // create the faces
     
-    GeoIndicesUI32::StoredFieldType     * i = index->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType * l = lens->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType    * t = types->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType     * i = index->editFieldPtr();
+    GeoPLengthsUI32::StoredFieldType * l = lens->editFieldPtr();
+    GeoPTypesUI8::StoredFieldType    * t = types->editFieldPtr();
 
     beginEditCP(index);
     beginEditCP(lens);

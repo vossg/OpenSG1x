@@ -114,10 +114,8 @@ class OSG_SYSTEMLIB_DLLMAPPING AttachmentContainerPtr :
     AttachmentContainer &operator *(void);
     AttachmentContainer &operator *(void) const;
 
-#ifndef OSG_2_PREP
     AttachmentContainer *getCPtr   (void);
     AttachmentContainer *getCPtr   (void) const;
-#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

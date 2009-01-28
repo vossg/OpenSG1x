@@ -53,6 +53,7 @@ OSG_USING_NAMESPACE
 
 FieldDescription *GeoColors3fPropertyDesc::_desc[] =
 {
+    
     new FieldDescription(
         StoredFieldType::getClassType(), 
         getFieldName(), 
@@ -63,7 +64,7 @@ FieldDescription *GeoColors3fPropertyDesc::_desc[] =
         GeoProperty<GeoColors3fPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                         GeoColors3fPropertyDesc>::getFieldPtr))
+                                         GeoColors3fPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -79,7 +80,7 @@ FieldDescription *GeoColors4fPropertyDesc::_desc[] =
         GeoProperty<GeoColors4fPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoColors4fPropertyDesc>::getFieldPtr))
+                                GeoColors4fPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -95,7 +96,7 @@ FieldDescription *GeoColors3ubPropertyDesc::_desc[] =
         GeoProperty<GeoColors3ubPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoColors3ubPropertyDesc>::getFieldPtr))
+                                GeoColors3ubPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -111,7 +112,7 @@ FieldDescription *GeoColors4ubPropertyDesc::_desc[] =
         (FieldAccessMethod) NULL)
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoColors4ubPropertyDesc>::getFieldPtr))
+                                GeoColors4ubPropertyDesc>::editFieldPtr))
 #endif
 };
 

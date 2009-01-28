@@ -106,6 +106,10 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiPassMaterial : public MultiPassMaterialBase
 
     bool hasMaterial(MaterialPtr mat);
 
+#ifdef OSG_2_PREP
+    void subMaterialByObj(MaterialPtr value);
+#endif
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -148,6 +152,6 @@ OSG_END_NAMESPACE
 #include <OSGMultiPassMaterialBase.inl>
 #include <OSGMultiPassMaterial.inl>
 
-#define OSGMULTIPASSMATERIAL_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterial.h,v 1.4 2006/02/02 15:15:36 a-m-z Exp $"
+#define OSGMULTIPASSMATERIAL_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterial.h,v 1.5 2009/01/28 03:06:14 vossg Exp $"
 
 #endif /* _OSGMULTIPASSMATERIAL_H_ */

@@ -63,7 +63,7 @@ FieldDescription *GeoPLengthsUI32PropertyDesc::_desc[] =
         GeoProperty<GeoPLengthsUI32PropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                               GeoPLengthsUI32PropertyDesc>::getFieldPtr))
+                               GeoPLengthsUI32PropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -79,7 +79,7 @@ FieldDescription *GeoPLengthsUI16PropertyDesc::_desc[] =
         GeoProperty<GeoPLengthsUI16PropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                               GeoPLengthsUI16PropertyDesc>::getFieldPtr))
+                               GeoPLengthsUI16PropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -95,7 +95,7 @@ FieldDescription *GeoPLengthsUI8PropertyDesc::_desc[] =
         GeoProperty<GeoPLengthsUI8PropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                               GeoPLengthsUI8PropertyDesc>::getFieldPtr))
+                               GeoPLengthsUI8PropertyDesc>::editFieldPtr))
 #endif
 };
 

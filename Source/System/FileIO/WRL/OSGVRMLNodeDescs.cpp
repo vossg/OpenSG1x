@@ -1751,10 +1751,10 @@ void VRMLGeometryPointSetDesc::endNode(FieldContainerPtr pFC)
         return;
 
     GeoPLengthsUI32::StoredFieldType *pLenField  =
-        pLengths->getFieldPtr();
+        pLengths->editFieldPtr();
 
     GeoPTypesUI8   ::StoredFieldType *pTypeField =
-        pTypes ->getFieldPtr();
+        pTypes ->editFieldPtr();
 
     beginEditCP(pLengths);
     {

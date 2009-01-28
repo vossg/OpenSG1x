@@ -200,17 +200,17 @@ NodePtr A3DSSceneFileType::createMesh(L3DS &scene, LMesh &mesh) const
         {
             const LTriangle2 &t = mesh.GetTriangle2(i);
 
-            points->getFieldPtr()->push_back(Pnt3f(t.vertices[0].x, t.vertices[0].y, t.vertices[0].z));
-            points->getFieldPtr()->push_back(Pnt3f(t.vertices[1].x, t.vertices[1].y, t.vertices[1].z));
-            points->getFieldPtr()->push_back(Pnt3f(t.vertices[2].x, t.vertices[2].y, t.vertices[2].z));
+            points->editFieldPtr()->push_back(Pnt3f(t.vertices[0].x, t.vertices[0].y, t.vertices[0].z));
+            points->editFieldPtr()->push_back(Pnt3f(t.vertices[1].x, t.vertices[1].y, t.vertices[1].z));
+            points->editFieldPtr()->push_back(Pnt3f(t.vertices[2].x, t.vertices[2].y, t.vertices[2].z));
 
-            normals->getFieldPtr()->push_back(Vec3f(t.vertexNormals[0].x, t.vertexNormals[0].y, t.vertexNormals[0].z));
-            normals->getFieldPtr()->push_back(Vec3f(t.vertexNormals[1].x, t.vertexNormals[1].y, t.vertexNormals[1].z));
-            normals->getFieldPtr()->push_back(Vec3f(t.vertexNormals[2].x, t.vertexNormals[2].y, t.vertexNormals[2].z));
+            normals->editFieldPtr()->push_back(Vec3f(t.vertexNormals[0].x, t.vertexNormals[0].y, t.vertexNormals[0].z));
+            normals->editFieldPtr()->push_back(Vec3f(t.vertexNormals[1].x, t.vertexNormals[1].y, t.vertexNormals[1].z));
+            normals->editFieldPtr()->push_back(Vec3f(t.vertexNormals[2].x, t.vertexNormals[2].y, t.vertexNormals[2].z));
 
-            texcoords->getFieldPtr()->push_back(Vec2f(t.textureCoords[0].x, t.textureCoords[0].y));
-            texcoords->getFieldPtr()->push_back(Vec2f(t.textureCoords[1].x, t.textureCoords[1].y));
-            texcoords->getFieldPtr()->push_back(Vec2f(t.textureCoords[2].x, t.textureCoords[2].y));
+            texcoords->editFieldPtr()->push_back(Vec2f(t.textureCoords[0].x, t.textureCoords[0].y));
+            texcoords->editFieldPtr()->push_back(Vec2f(t.textureCoords[1].x, t.textureCoords[1].y));
+            texcoords->editFieldPtr()->push_back(Vec2f(t.textureCoords[2].x, t.textureCoords[2].y));
         }
 
     endEditCP(texcoords);
@@ -226,9 +226,9 @@ NodePtr A3DSSceneFileType::createMesh(L3DS &scene, LMesh &mesh) const
 
     GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
     beginEditCP(indices);
-        indices->getFieldPtr()->reserve(nv);
+        indices->editFieldPtr()->reserve(nv);
         for (int i = 0; i < nv; ++i)
-            indices->getFieldPtr()->push_back(i);
+            indices->editFieldPtr()->push_back(i);
     endEditCP(indices);
     
     GeoPLengthsUI32Ptr lengths = GeoPLengthsUI32::create();

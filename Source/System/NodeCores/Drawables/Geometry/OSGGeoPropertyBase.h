@@ -225,9 +225,16 @@ class GeoProperty :
     /*! \name                      Access                                  */
     /*! \{                                                                 */
 
+          StoredFieldType *editFieldPtr(void);
+#ifndef OSG_2_PREP
           StoredFieldType *getFieldPtr(void);
+#endif
+    const StoredFieldType *getFieldPtr(void) const;
 
+          StoredFieldType &editField(void);
+#ifndef OSG_2_PREP
           StoredFieldType &getField(void);
+#endif
     const StoredFieldType &getField(void) const;
 
     virtual LocalInheritedPtr clone(void);
@@ -239,6 +246,9 @@ class GeoProperty :
     virtual UInt32  getSize      (void) const;
     virtual UInt32  size         (void) const;
     virtual UInt8  *getData      (void) const;
+#ifdef OSG_2_PREP
+    virtual UInt8  *editData     (void) const;
+#endif
 
             StoredFieldType &operator->() { return _field; }
 

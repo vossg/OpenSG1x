@@ -683,8 +683,8 @@ Int32 Surface::convertSurface( void )
         SLOG << "Surface::tessellate: null surfacecontrol prop " << endLog;
         return -1;
     }
-    MFPnt3f *polyControlPoints = NULL;
-    MFPnt4f *ratControlPoints  = NULL;
+    const MFPnt3f *polyControlPoints = NULL;
+    const MFPnt4f *ratControlPoints  = NULL;
     UInt32 cpsize;
     if ( !israt )
     {
@@ -1331,7 +1331,7 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
             {
                 if( vi_new_idx[ ui_vert ] >= 0 )
                 {
-                    pcl_tangents->getFieldPtr( )->push_back( Vec3f( 0.0, 0.0, 0.0 ) );
+                    pcl_tangents->editFieldPtr( )->push_back( Vec3f( 0.0, 0.0, 0.0 ) );
                 }
             }
             for( ui_loop = 0; ui_loop < cui_loop_cnt; ++ui_loop )
@@ -1371,8 +1371,8 @@ Int32 Surface::buildSurface( std::vector< SimplePolygon > &triangles,
 
                     cl_tangent *= sqrt( getError( ) );
 
-                    pcl_tangents->getFieldPtr( )->push_back( -cl_tangent );
-                    pcl_tangents->getFieldPtr( )->push_back( cl_tangent );
+                    pcl_tangents->editFieldPtr( )->push_back( -cl_tangent );
+                    pcl_tangents->editFieldPtr( )->push_back( cl_tangent );
                 }
             }
         }
@@ -1950,7 +1950,7 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
 
     beginEditCP(pPos, GeoPositions4f::GeoPropDataFieldMask);
 
-    MFPnt4f &_mfControlPoints = pPos->getField();
+    MFPnt4f &_mfControlPoints = pPos->editField();
 //    MFPnt3f &_mfControlPoints = pPos->getField();
       
 //    _mfControlPoints.resize( cpusize * cpvsize );
@@ -2045,7 +2045,7 @@ void Surface::readfromtso( std::istream &infile, bool useTextures )
 
         beginEditCP(pTexPos, GeoTexCoords2f::GeoPropDataFieldMask);
 
-        MFVec2f &_mfTextureControlPoints = pTexPos->getField();
+        MFVec2f &_mfTextureControlPoints = pTexPos->editField();
         _mfTextureControlPoints.clear();
 
         Vec2f temp;

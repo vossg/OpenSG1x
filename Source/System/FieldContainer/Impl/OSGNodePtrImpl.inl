@@ -119,7 +119,6 @@ Node &NodePtr::operator *(void) const
 #endif
 }
 
-#ifndef OSG_2_PREP
 inline
 Node *NodePtr::getCPtr(void)
 {
@@ -139,7 +138,6 @@ Node *NodePtr::getCPtr(void) const
     return reinterpret_cast<Node *>(Inherited::getCPtr());
 #endif
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */

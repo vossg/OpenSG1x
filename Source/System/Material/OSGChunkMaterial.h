@@ -68,6 +68,10 @@ class OSG_SYSTEMLIB_DLLMAPPING ChunkMaterial : public ChunkMaterialBase
     /*! \name                    Constants                                 */
     /*! \{                                                                 */
 
+#ifdef OSG_2_PREP
+    StateChunkPtr getChunk(const UInt32 index) const;
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                      Sync                                    */

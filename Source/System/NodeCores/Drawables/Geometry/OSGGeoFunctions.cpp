@@ -2586,10 +2586,10 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         B.normalize(); 
         
         vect.setValues(T[0], T[1], T[2], sign);
-        tangentP->getField().push_back(vect); 
+        tangentP->editField().push_back(vect); 
         
         vect.setValues(B[0], B[1], B[2], sign);
-        binormalP->getField().push_back(vect); 
+        binormalP->editField().push_back(vect); 
     }
 
     endEditCP(tangentP);
@@ -3640,9 +3640,9 @@ OSG_SYSTEMLIB_DLLMAPPING UInt32 OSG::calcPrimitiveCount(GeometryPtr geoPtr,
     GeoPTypesUI8Ptr geoTypePtr;
     GeoPLengthsUI32Ptr lens32Ptr;
     GeoPLengthsUI16Ptr lens16Ptr;
-    GeoPTypesUI8Ptr::StoredObjectType::StoredFieldType::iterator typeI, endTypeI;
-    GeoPLengthsUI32Ptr::StoredObjectType::StoredFieldType::iterator len32I;
-    GeoPLengthsUI16Ptr::StoredObjectType::StoredFieldType::iterator len16I;
+    GeoPTypesUI8Ptr::StoredObjectType::StoredFieldType::const_iterator typeI, endTypeI;
+    GeoPLengthsUI32Ptr::StoredObjectType::StoredFieldType::const_iterator len32I;
+    GeoPLengthsUI16Ptr::StoredObjectType::StoredFieldType::const_iterator len16I;
 
     UInt32 lN, tN, len, type;
 

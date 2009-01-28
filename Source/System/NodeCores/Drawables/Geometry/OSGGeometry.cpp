@@ -892,7 +892,7 @@ bool Geometry::merge( const GeometryPtr other )
             GeoIndicesPtr indices = getIndices();
             UInt32 indices_size = indices->getSize();
             GeoIndicesUI32Ptr indicesUI32 = GeoIndicesUI32::create();
-            MFUInt32 &dst = indicesUI32->getField();
+            MFUInt32 &dst = indicesUI32->editField();
             dst.reserve(indices_size);
             beginEditCP(indicesUI32);
                 for (UInt32 i = 0; i < indices_size; ++i)
@@ -2169,7 +2169,7 @@ Int16 Geometry::MergeIndex( const GeometryPtr other )
         Name##Base = prop1->getSize(); \
         prop1->resize(Name##Base + prop2->getSize()); \
         for(i = 0; i < prop2->getSize(); ++i) \
-            prop1->getField()[Name##Base + i] = prop2->getField()[i]; \
+            prop1->editField()[Name##Base + i] = prop2->getField()[i]; \
         endEditCP(prop1); \
     } \
     }
@@ -2757,7 +2757,7 @@ bool Geometry::updateLowHighIndices( void )
 
     if(ind16P != NullFC)
     {
-        MFUInt16 &indices = ind16P->getField();
+        const MFUInt16 &indices = ind16P->getField();
         UInt32 isize = indices.size();
         for (UInt32 i = 0, cur = 0; i < primcount; ++i)
         {
@@ -2786,7 +2786,7 @@ bool Geometry::updateLowHighIndices( void )
     }
     else
     {
-        MFUInt32 &indices = ind32P->getField();
+        const MFUInt32 &indices = ind32P->getField();
         UInt32 isize = indices.size();
         for (UInt32 i = 0, cur = 0; i < primcount; ++i)
         {

@@ -61,6 +61,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
     /*==========================  PUBLIC  =================================*/
   public:
 
+    typedef MFForegroundPtr MFForegroundsType;
+
     /*---------------------------------------------------------------------*/
     /*! \name                    Class Get                                 */
     /*! \{                                                                 */

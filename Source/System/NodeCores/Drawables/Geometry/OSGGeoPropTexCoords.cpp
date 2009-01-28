@@ -63,7 +63,7 @@ FieldDescription *GeoTexCoords1fPropertyDesc::_desc[] =
         GeoProperty<GeoTexCoords1fPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoTexCoords1fPropertyDesc>::getFieldPtr))
+                                GeoTexCoords1fPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -79,7 +79,7 @@ FieldDescription *GeoTexCoords2fPropertyDesc::_desc[] =
         GeoProperty<GeoTexCoords2fPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoTexCoords2fPropertyDesc>::getFieldPtr))
+                                GeoTexCoords2fPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -95,7 +95,7 @@ FieldDescription *GeoTexCoords3fPropertyDesc::_desc[] =
         GeoProperty<GeoTexCoords3fPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoTexCoords3fPropertyDesc>::getFieldPtr))
+                                GeoTexCoords3fPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -111,7 +111,7 @@ FieldDescription *GeoTexCoords4fPropertyDesc::_desc[] =
         GeoProperty<GeoTexCoords4fPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoTexCoords4fPropertyDesc>::getFieldPtr))
+                                GeoTexCoords4fPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -127,7 +127,7 @@ FieldDescription *GeoTexCoords1dPropertyDesc::_desc[] =
         GeoProperty<GeoTexCoords1dPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoTexCoords1dPropertyDesc>::getFieldPtr))
+                                GeoTexCoords1dPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -143,7 +143,7 @@ FieldDescription *GeoTexCoords2dPropertyDesc::_desc[] =
         GeoProperty<GeoTexCoords2dPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoTexCoords2dPropertyDesc>::getFieldPtr))
+                                GeoTexCoords2dPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -159,7 +159,7 @@ FieldDescription *GeoTexCoords3dPropertyDesc::_desc[] =
         GeoProperty<GeoTexCoords3dPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoTexCoords3dPropertyDesc>::getFieldPtr))
+                                GeoTexCoords3dPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -175,7 +175,7 @@ FieldDescription *GeoTexCoords4dPropertyDesc::_desc[] =
         GeoProperty<GeoTexCoords4dPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoTexCoords4dPropertyDesc>::getFieldPtr))
+                                GeoTexCoords4dPropertyDesc>::editFieldPtr))
 #endif
 };
 

@@ -283,7 +283,29 @@ void GeoProperty<GeoPropertyDesc>::copyFromBin(
 */
 template <class GeoPropertyDesc> inline 
 typename GeoProperty<GeoPropertyDesc>::StoredFieldType * 
+    GeoProperty<GeoPropertyDesc>::editFieldPtr(void)
+{
+    return &_field;
+}
+
+#ifndef OSG_2_PREP
+template <class GeoPropertyDesc> inline 
+typename GeoProperty<GeoPropertyDesc>::StoredFieldType * 
     GeoProperty<GeoPropertyDesc>::getFieldPtr(void)
+{
+    return &_field;
+}
+#endif
+
+/*! Returns a pointer to the Stored field. 
+
+    This allows direct access to the data, which is faster than the access via 
+    the generic Interface that the AbstractGeoProperty provides, but it
+    necessitates compile-time knowledge about the involved concrete types.
+*/
+template <class GeoPropertyDesc> inline 
+const typename GeoProperty<GeoPropertyDesc>::StoredFieldType * 
+    GeoProperty<GeoPropertyDesc>::getFieldPtr(void) const
 {
     return &_field;
 }
@@ -296,10 +318,19 @@ typename GeoProperty<GeoPropertyDesc>::StoredFieldType *
 */
 template <class GeoPropertyDesc> inline 
 typename GeoProperty<GeoPropertyDesc>::StoredFieldType & 
+    GeoProperty<GeoPropertyDesc>::editField(void)
+{
+    return _field;
+}
+
+#ifndef OSG_2_PREP
+template <class GeoPropertyDesc> inline 
+typename GeoProperty<GeoPropertyDesc>::StoredFieldType & 
     GeoProperty<GeoPropertyDesc>::getField(void)
 {
     return _field;
 }
+#endif
 
 /*! Returns a const reference to the Stored field. 
 
@@ -379,6 +410,14 @@ UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
         const_cast<UInt8 *>(reinterpret_cast<const UInt8 *>(&(_field[0])));
 }
 
+#ifdef OSG_2_PREP
+template <class GeoPropertyDesc> inline
+UInt8 *GeoProperty<GeoPropertyDesc>::editData(void) const
+{
+    return _field.empty() ? NULL : 
+        const_cast<UInt8 *>(reinterpret_cast<const UInt8 *>(&(_field[0])));
+}
+#endif
 
 template <class GeoPropertyDesc> inline 
 typename GeoProperty<GeoPropertyDesc>::StoredGenericType

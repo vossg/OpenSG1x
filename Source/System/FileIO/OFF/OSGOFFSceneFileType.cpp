@@ -278,7 +278,7 @@ NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
                                     Real32(y), 
                                     Real32(z), 
                                     Real32(a));
-                colors->getField().push_back(color);
+                colors->editField().push_back(color);
             }
             
             if(hasTexCoords)
@@ -342,7 +342,7 @@ NodePtr OFFSceneFileType::read(std::istream &is, const Char8 *) const
                 n += vN = faceVec[j].size();
                 for(k = vN - 1; k >= 0; k--)
                 {
-                    index->getFieldPtr()->push_back(faceVec[j][k]);
+                    index->editFieldPtr()->push_back(faceVec[j][k]);
                 }
 
                 if(i == 5)

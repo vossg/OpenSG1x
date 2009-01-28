@@ -790,7 +790,7 @@ struct PosTrait3f : public ParticleTraits
     {
         GeoPositions3fPtr pos3f = GeoPositions3fPtr::dcast(pos);
  
-        data.pos  = pos3f->getFieldPtr();
+        data.pos  = pos3f->editFieldPtr();
     }
     
     static inline bool particle(dataType &data, UInt32 particle)
@@ -1160,7 +1160,7 @@ struct NormalTraitGeneric3f : public ParticleTraits
     {
         GeoNormals3fPtr norms3f = GeoNormals3fPtr::dcast(part->getNormals());
         
-        data.norms = norms3f->getFieldPtr();
+        data.norms = norms3f->editFieldPtr();
         
         data.perParticle = false;
         

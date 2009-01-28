@@ -74,10 +74,10 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
         GeoNormals3fPtr normals3f = GeoNormals3fPtr::dcast(normals);
         if (normals3f != NullFC)
         {
-            MFVec3f &src = normals3f->getField();
+            const MFVec3f &src = normals3f->getField();
             
             GeoNormals3bPtr normals3b = GeoNormals3b::create();
-            MFVec3b &dst = normals3b->getField();
+            MFVec3b &dst = normals3b->editField();
             dst.reserve(src.size());
             beginEditCP(normals3b);
                 for (UInt32 i = 0; i < src.size(); ++i)
@@ -104,7 +104,7 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
         GeoPLengthsUI32Ptr lengthsUI32 = GeoPLengthsUI32Ptr::dcast(geo->getLengths());
         if(lengthsUI32 != NullFC)
         {
-            MFUInt32 &src = lengthsUI32->getField();
+            const MFUInt32 &src = lengthsUI32->getField();
     
             // now check if maximum length is greater than 65535
             UInt32 max_length = UInt32(TypeTraits<UInt16>::getMax());
@@ -121,7 +121,7 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
             if(max_length_ok)
             {
                 GeoPLengthsUI16Ptr lengthsUI16 = GeoPLengthsUI16::create();
-                MFUInt16 &dst = lengthsUI16->getField();
+                MFUInt16 &dst = lengthsUI16->editField();
                 dst.reserve(src.size());
                 beginEditCP(lengthsUI16);
                     for (UInt32 i = 0; i < src.size(); ++i)
@@ -141,7 +141,7 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
         GeoIndicesUI32Ptr indicesUI32 = GeoIndicesUI32Ptr::dcast(geo->getIndices());
         if(indicesUI32 != NullFC)
         {
-            MFUInt32 &src = indicesUI32->getField();
+            const MFUInt32 &src = indicesUI32->getField();
     
             // now check if maximum index is greater than 65535
             UInt32 max_index = UInt32(TypeTraits<UInt16>::getMax());
@@ -158,7 +158,7 @@ bool GeoTypeGraphOp::travNodeEnter(NodePtr node)
             if(max_index_ok)
             {
                 GeoIndicesUI16Ptr indicesUI16 = GeoIndicesUI16::create();
-                MFUInt16 &dst = indicesUI16->getField();
+                MFUInt16 &dst = indicesUI16->editField();
                 dst.reserve(src.size());
                 beginEditCP(indicesUI16);
                     for (UInt32 i = 0; i < src.size(); ++i)

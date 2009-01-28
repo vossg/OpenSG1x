@@ -368,10 +368,8 @@ class OSG_SYSTEMLIB_DLLMAPPING FieldContainerPtr : public FieldContainerPtrBase
     FieldContainer &operator *(void);
     FieldContainer &operator *(void) const;
  
-#ifndef OSG_2_PREP
     FieldContainer *getCPtr   (void);
     FieldContainer *getCPtr   (void) const;
-#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -517,10 +515,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ConstFieldContainerPtr :
     const FieldContainer &operator *(void);
     const FieldContainer &operator *(void) const;
  
-#ifndef OSG_2_PREP
     const FieldContainer *getCPtr   (void);
     const FieldContainer *getCPtr   (void) const;
-#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -622,10 +618,8 @@ class FCPtr : public BasePtrTypeT
     FieldContainerTypeT &operator *(void);
     FieldContainerTypeT &operator *(void) const;
 
-#ifndef OSG_2_PREP
     FieldContainerTypeT *getCPtr   (void);
     FieldContainerTypeT *getCPtr   (void) const;
-#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -724,10 +718,8 @@ class ConstFCPtr : public BasePtrTypeT
     const FieldContainerTypeT &operator *(void);
     const FieldContainerTypeT &operator *(void) const;
 
-#ifndef OSG_2_PREP
     const FieldContainerTypeT *getCPtr   (void);
     const FieldContainerTypeT *getCPtr   (void) const;
-#endif
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

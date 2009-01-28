@@ -639,7 +639,6 @@ FieldContainer &FieldContainerPtr::operator *(void) const
 #endif
 }
 
-#ifndef OSG_2_PREP
 inline
 FieldContainer *FieldContainerPtr::getCPtr(void)
 {
@@ -681,7 +680,6 @@ FieldContainer *FieldContainerPtr::getCPtr(void) const
     return (FieldContainer *) (getFirstElemP());
 #endif
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
@@ -898,7 +896,6 @@ const FieldContainer &ConstFieldContainerPtr::operator *(void) const
 #endif
 }
 
-#ifndef OSG_2_PREP
 inline
 const FieldContainer *ConstFieldContainerPtr::getCPtr(void)
 {
@@ -920,7 +917,6 @@ const FieldContainer *ConstFieldContainerPtr::getCPtr(void) const
     return (const FieldContainer *) (getFirstElemP());
 #endif
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
@@ -1104,7 +1100,6 @@ FieldContainerTypeT &FCPtr<BasePtrTypeT,
 }
 
 
-#ifndef OSG_2_PREP
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 FieldContainerTypeT *FCPtr<BasePtrTypeT, FieldContainerTypeT>::getCPtr(void)
 
@@ -1129,7 +1124,6 @@ FieldContainerTypeT *
     return (FieldContainerTypeT *) Self::getFirstElemP();
 #endif
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */
@@ -1307,7 +1301,6 @@ const FieldContainerTypeT &ConstFCPtr<BasePtrTypeT,
 }
 
 
-#ifndef OSG_2_PREP
 template <class BasePtrTypeT, class FieldContainerTypeT> inline
 const FieldContainerTypeT *ConstFCPtr<BasePtrTypeT,
                                       FieldContainerTypeT>::getCPtr(void)
@@ -1334,7 +1327,6 @@ const FieldContainerTypeT *
     return (const FieldContainerTypeT *) Self::getFirstElemP();
 #endif
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */

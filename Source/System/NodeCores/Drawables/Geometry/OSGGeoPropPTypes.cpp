@@ -63,7 +63,7 @@ FieldDescription *GeoPTypesUI8PropertyDesc::_desc[] =
         GeoProperty<GeoPTypesUI8PropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                  GeoPTypesUI8PropertyDesc>::getFieldPtr))
+                                  GeoPTypesUI8PropertyDesc>::editFieldPtr))
 #endif
 };
 

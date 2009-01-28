@@ -108,6 +108,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Node : public AttachmentContainer
     typedef BoxVolume     VolumeType;
 #endif
 
+    typedef MFNodePtr MFChildrenType;
+
     /*---------------------------------------------------------------------*/
     /*! \name        General Fieldcontainer Declaration                    */
     /*! \{                                                                 */

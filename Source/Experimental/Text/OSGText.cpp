@@ -214,7 +214,7 @@ bool Text::fillTXFGeo(Geometry &mesh, bool isNew,
     pos->resize(numVerts);
     tex->resize(numVerts);
 
-    fillTXFArrays(lineVec, &pos->getField()[0], &tex->getField()[0]);
+    fillTXFArrays(lineVec, &pos->editField()[0], &tex->editField()[0]);
     
     return true;
 }

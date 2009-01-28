@@ -358,18 +358,18 @@ void DXFEntitiesEntry::flushGeometry(bool forceNewNode)
 		
 		GeoPositions3dPtr pointsP =  
 			GeoPositions3dPtr::dcast(geoCore->getPositions());
-		MFPnt3d *pointsF =  pointsP->getFieldPtr();
-		_pointsF         = _pointsP->getFieldPtr();
+		MFPnt3d *pointsF =  pointsP->editFieldPtr();
+		_pointsF         = _pointsP->editFieldPtr();
 		
 		GeoPLengthsUI32Ptr faceLengthP =  
 			GeoPLengthsUI32Ptr::dcast(geoCore->getLengths());
-		MFUInt32 *faceLengthF =  faceLengthP->getFieldPtr();
-		_faceLengthF          = _faceLengthP->getFieldPtr();
+		MFUInt32 *faceLengthF =  faceLengthP->editFieldPtr();
+		_faceLengthF          = _faceLengthP->editFieldPtr();
 
 		GeoPTypesUI8Ptr faceTypeP =  
 			GeoPTypesUI8Ptr::dcast(geoCore->getTypes());
-		MFUInt8 *faceTypeF =  faceTypeP->getFieldPtr();
-		_faceTypeF         = _faceTypeP->getFieldPtr();
+		MFUInt8 *faceTypeF =  faceTypeP->editFieldPtr();
+		_faceTypeF         = _faceTypeP->editFieldPtr();
 		
         
 		beginEditCP(geoCore);
@@ -458,7 +458,7 @@ DXFEntitiesEntry::~DXFEntitiesEntry(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFEntitiesEntry.cpp,v 1.3 2008/06/13 04:59:48 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFEntitiesEntry.cpp,v 1.4 2009/01/28 03:06:14 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDXFENTITIESENTRY_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFENTITIESENTRY_INLINE_CVSID;
 }

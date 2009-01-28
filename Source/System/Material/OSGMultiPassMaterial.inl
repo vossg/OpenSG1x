@@ -42,7 +42,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef OSG_2_PREP
+inline
+void MultiPassMaterial::subMaterialByObj(MaterialPtr value)
+{
+    this->subMaterial(value);
+}
+#endif
+
 OSG_END_NAMESPACE
 
-#define OSGMULTIPASSMATERIAL_INLINE_CVSID "@(#)$Id: OSGMultiPassMaterial.inl,v 1.1 2005/04/14 15:43:45 a-m-z Exp $"
+#define OSGMULTIPASSMATERIAL_INLINE_CVSID "@(#)$Id: OSGMultiPassMaterial.inl,v 1.2 2009/01/28 03:06:14 vossg Exp $"
 

@@ -63,7 +63,7 @@ FieldDescription *GeoIndicesUI32PropertyDesc::_desc[] =
         GeoProperty<GeoIndicesUI32PropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoIndicesUI32PropertyDesc>::getFieldPtr))
+                                GeoIndicesUI32PropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -79,7 +79,7 @@ FieldDescription *GeoIndicesUI16PropertyDesc::_desc[] =
         GeoProperty<GeoIndicesUI16PropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                GeoIndicesUI16PropertyDesc>::getFieldPtr))
+                                GeoIndicesUI16PropertyDesc>::editFieldPtr))
 #endif
 };
 

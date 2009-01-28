@@ -173,7 +173,7 @@ DXFResult DXFPolyline::endEntity(void)
 			else
 			{
 				// 3D polyline
-				_pointsF = _pointsP->getFieldPtr();
+				_pointsF = _pointsP->editFieldPtr();
 				for(MFPnt3d::iterator itr = _pointsF->begin();
 					itr != _pointsF->end();
 					++itr)
@@ -243,7 +243,7 @@ DXFPolyline::~DXFPolyline(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFPolyline.cpp,v 1.2 2005/10/14 08:33:35 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFPolyline.cpp,v 1.3 2009/01/28 03:06:14 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGDXFPOLYLINE_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFPOLYLINE_INLINE_CVSID;
 }

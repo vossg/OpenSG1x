@@ -63,7 +63,7 @@ FieldDescription *GeoNormals3fPropertyDesc::_desc[] =
         GeoProperty<GeoNormals3fPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                  GeoNormals3fPropertyDesc>::getFieldPtr))
+                                  GeoNormals3fPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -79,7 +79,7 @@ FieldDescription *GeoNormals3sPropertyDesc::_desc[] =
         GeoProperty<GeoNormals3sPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                  GeoNormals3sPropertyDesc>::getFieldPtr))
+                                  GeoNormals3sPropertyDesc>::editFieldPtr))
 #endif
 };
 
@@ -96,7 +96,7 @@ FieldDescription *GeoNormals3bPropertyDesc::_desc[] =
         GeoProperty<GeoNormals3sPropertyDesc>::getFPtrAccessMethod())
 #else
         reinterpret_cast<FieldAccessMethod>(&GeoProperty<
-                                  GeoNormals3bPropertyDesc>::getFieldPtr))
+                                  GeoNormals3bPropertyDesc>::editFieldPtr))
 #endif
 };
 #endif

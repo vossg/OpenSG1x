@@ -161,7 +161,7 @@ NodePtr RAWSceneFileType::read(std::istream &is, const Char8 *) const
             if (is.eof())
                 break;
             else {
-                points->getFieldPtr()->push_back( Pnt3f ( x, y, z) );
+                points->editFieldPtr()->push_back( Pnt3f ( x, y, z) );
                 vec[i].setValues(x,y,z);
                 if (i == 2) {
                     vec[0] -= vec[1];
@@ -169,9 +169,9 @@ NodePtr RAWSceneFileType::read(std::istream &is, const Char8 *) const
                     vec[0].crossThis(vec[1]);
                     vec[0].normalize();
 
-                    normals->getFieldPtr()->push_back ( vec[0] );
-                    normals->getFieldPtr()->push_back ( vec[0] );
-                    normals->getFieldPtr()->push_back ( vec[0] );
+                    normals->editFieldPtr()->push_back ( vec[0] );
+                    normals->editFieldPtr()->push_back ( vec[0] );
+                    normals->editFieldPtr()->push_back ( vec[0] );
 
                     i = 0;
                     triCount++;
@@ -192,7 +192,7 @@ NodePtr RAWSceneFileType::read(std::istream &is, const Char8 *) const
             beginEditCP(index, FieldBits::AllFields);
             n = triCount * 3;
             for (i = 0; i < n; i++)
-                index->getFieldPtr()->push_back( i );
+                index->editFieldPtr()->push_back( i );
             endEditCP(index, FieldBits::AllFields);
 
 

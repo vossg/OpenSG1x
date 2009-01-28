@@ -42,6 +42,14 @@
 
 OSG_BEGIN_NAMESPACE
 
+#ifdef OSG_2_PREP
+inline
+StateChunkPtr ChunkMaterial::getChunk(const UInt32 index) const
+{
+    return this->getChunks(index);
+}
+#endif
+
 OSG_END_NAMESPACE
 
 #define OSGCHUNKMATERIAL_INLINE_CVSID "@(#)$Id: FCTemplate_inl.h,v 1.7 2001/09/17 14:15:07 vossg Exp $"

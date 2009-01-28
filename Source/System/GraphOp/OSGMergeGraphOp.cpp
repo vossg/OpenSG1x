@@ -501,7 +501,7 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                         Vec3f v=texcoord0->getField()[i];
                                         m.mult(v, v);
                                         v.normalize();
-                                        texcoord0->getField()[i] = v;
+                                        texcoord0->editField()[i] = v;
                                     }
                                     endEditCP( texcoord0 );
                                 }
@@ -514,7 +514,7 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                         Vec3f v=texcoord1->getField()[i];
                                         m.mult(v, v);
                                         v.normalize();
-                                        texcoord1->getField()[i] = v;
+                                        texcoord1->editField()[i] = v;
                                     }
                                     endEditCP( texcoord1 );
                                 }
@@ -527,7 +527,7 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                         Vec3f v=texcoord2->getField()[i];
                                         m.mult(v, v);
                                         v.normalize();
-                                        texcoord2->getField()[i] = v;
+                                        texcoord2->editField()[i] = v;
                                     }
                                     endEditCP( texcoord2 );
                                 }
@@ -540,7 +540,7 @@ void MergeGraphOp::processTransformations(NodePtr& node)
                                         Vec3f v=texcoord3->getField()[i];
                                         m.mult(v, v);
                                         v.normalize();
-                                        texcoord3->getField()[i] = v;
+                                        texcoord3->editField()[i] = v;
                                     }
                                     endEditCP( texcoord3 );
                                 }

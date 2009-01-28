@@ -703,23 +703,23 @@ void SimpleSceneManager::highlightChanged(void)
 
         GeoIndicesUI32Ptr index = GeoIndicesUI32::create();
         beginEditCP(index);
-        index->getFieldPtr()->push_back(0);
-        index->getFieldPtr()->push_back(1);
-        index->getFieldPtr()->push_back(3);
-        index->getFieldPtr()->push_back(2);
-        index->getFieldPtr()->push_back(0);
-        index->getFieldPtr()->push_back(4);
-        index->getFieldPtr()->push_back(5);
-        index->getFieldPtr()->push_back(7);
-        index->getFieldPtr()->push_back(6);
-        index->getFieldPtr()->push_back(4);
+        index->editFieldPtr()->push_back(0);
+        index->editFieldPtr()->push_back(1);
+        index->editFieldPtr()->push_back(3);
+        index->editFieldPtr()->push_back(2);
+        index->editFieldPtr()->push_back(0);
+        index->editFieldPtr()->push_back(4);
+        index->editFieldPtr()->push_back(5);
+        index->editFieldPtr()->push_back(7);
+        index->editFieldPtr()->push_back(6);
+        index->editFieldPtr()->push_back(4);
 
-        index->getFieldPtr()->push_back(1);
-        index->getFieldPtr()->push_back(5);
-        index->getFieldPtr()->push_back(2);
-        index->getFieldPtr()->push_back(6);
-        index->getFieldPtr()->push_back(3);
-        index->getFieldPtr()->push_back(7);
+        index->editFieldPtr()->push_back(1);
+        index->editFieldPtr()->push_back(5);
+        index->editFieldPtr()->push_back(2);
+        index->editFieldPtr()->push_back(6);
+        index->editFieldPtr()->push_back(3);
+        index->editFieldPtr()->push_back(7);
         endEditCP(index);
 
         _highlightPoints = GeoPositions3f::create();

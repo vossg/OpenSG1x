@@ -123,7 +123,6 @@ AttachmentContainer &AttachmentContainerPtr::operator *(void) const
 #endif
 }
 
-#ifndef OSG_2_PREP
 inline
 AttachmentContainer *AttachmentContainerPtr::getCPtr(void)
 {
@@ -143,7 +142,6 @@ AttachmentContainer *AttachmentContainerPtr::getCPtr(void) const
     return static_cast<AttachmentContainer *>(Inherited::getCPtr());
 #endif
 }
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                             Assignment                                  */

@@ -236,7 +236,7 @@ void NFIOGeometry::readPackedIndices(GeometryPtr &geo)
 
     if(using_16bit)
     {
-        MFUInt16 *ind = GeoIndicesUI16Ptr::dcast(indices)->getFieldPtr();
+        MFUInt16 *ind = GeoIndicesUI16Ptr::dcast(indices)->editFieldPtr();
         ind->reserve(indices_size);
         beginEditCP(indices);
             BitUnpacker unpacker(buffer, max);
@@ -246,7 +246,7 @@ void NFIOGeometry::readPackedIndices(GeometryPtr &geo)
     }
     else
     {
-        MFUInt32 *ind = GeoIndicesUI32Ptr::dcast(indices)->getFieldPtr();
+        MFUInt32 *ind = GeoIndicesUI32Ptr::dcast(indices)->editFieldPtr();
         ind->reserve(indices_size);
         beginEditCP(indices);
             BitUnpacker unpacker(buffer, max);
@@ -276,7 +276,7 @@ void NFIOGeometry::readQuantizedVectors(const GeoPropType &prop)
     _in->getValue(max);
     _in->getValue(noe);
     
-    prop->getFieldPtr()->reserve(noe);
+    prop->editFieldPtr()->reserve(noe);
     beginEditCP(prop);
     VecType t;
     
@@ -552,6 +552,6 @@ void NFIOGeometry::writeQuantizedVectors(const GeoPropType &prop,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.5 2005/09/30 21:27:48 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeometry.cpp,v 1.6 2009/01/28 03:06:14 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOGEOMETRY_HEADER_CVSID;
 }
