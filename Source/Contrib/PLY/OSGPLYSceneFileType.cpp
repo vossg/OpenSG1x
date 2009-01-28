@@ -134,7 +134,7 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
             pos3f = GeoPositions3f::create();
             beginEditCP(pos3f);
 
-            MFPnt3f& data = pos3f->getField();
+            MFPnt3f& data = pos3f->editField();
             data.resize(num_elems);
 
             ply_get_property(ply, elem_name, &vert_props[0]);
@@ -155,7 +155,7 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
             indices = GeoIndicesUI32::create();
             beginEditCP(indices);
 
-            MFUInt32& data = indices->getField();
+            MFUInt32& data = indices->editField();
             // At least three vertices per face...
             data.reserve(num_elems * 3);
 
@@ -260,6 +260,6 @@ PLYSceneFileType::PLYSceneFileType(const PLYSceneFileType& obj) :
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.1 2005/06/08 19:12:03 dirk Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.2 2009/01/28 04:02:05 vossg Exp $";
     static Char8 cvsid_hpp[] = OSGPLYSCENEFILETYPE_HEADER_CVSID;
 }
