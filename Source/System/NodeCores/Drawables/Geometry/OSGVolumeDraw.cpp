@@ -238,8 +238,8 @@ void OSG::drawVolume(const FrustumVolume &volume)
     glVertex3fv(pnts[2].getValues());
     glVertex3fv(pnts[1].getValues());
     glVertex3fv(pnts[5].getValues());
-    glVertex3fv(pnts[2].getValues());
-    glVertex3fv(pnts[6].getValues());
+    glVertex3fv(pnts[3].getValues());
+    glVertex3fv(pnts[7].getValues());
     glVertex3fv(pnts[4].getValues());
     glVertex3fv(pnts[6].getValues());
     glEnd();
