@@ -201,4 +201,24 @@ A sky-sphere background showing a color gradient. The colors and angles correspo
 	>
 	Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
 	</Field>
+	<Field
+		name="dlistCache"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Flag to activate caching the geometry inside a display list.
+	</Field>
+	<Field
+		name="GLId"
+		type="Int32"
+		cardinality="single"
+		visibility="internal"
+		defaultValue="0"
+		access="protected"
+	>
+	The dlist id, if used.
+	</Field>
 </FieldContainer>

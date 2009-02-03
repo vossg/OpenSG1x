@@ -124,6 +124,12 @@ const OSG::BitVector  SkyBackgroundBase::BeaconFieldMask =
 const OSG::BitVector  SkyBackgroundBase::ClearStencilBitFieldMask = 
     (TypeTraits<BitVector>::One << SkyBackgroundBase::ClearStencilBitFieldId);
 
+const OSG::BitVector  SkyBackgroundBase::DlistCacheFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::DlistCacheFieldId);
+
+const OSG::BitVector  SkyBackgroundBase::GLIdFieldMask = 
+    (TypeTraits<BitVector>::One << SkyBackgroundBase::GLIdFieldId);
+
 const OSG::BitVector SkyBackgroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -190,6 +196,12 @@ const OSG::BitVector SkyBackgroundBase::MTInfluenceMask =
 */
 /*! \var Int32           SkyBackgroundBase::_sfClearStencilBit
     Usually 0 is used to clear all stencil bitplanes (clear is deactivated if smaller zero).
+*/
+/*! \var bool            SkyBackgroundBase::_sfDlistCache
+    Flag to activate caching the geometry inside a display list.
+*/
+/*! \var Int32           SkyBackgroundBase::_sfGLId
+    The dlist id, if used.
 */
 
 //! SkyBackground description
@@ -295,7 +307,17 @@ FieldDescription *SkyBackgroundBase::_desc[] =
                      "clearStencilBit", 
                      ClearStencilBitFieldId, ClearStencilBitFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&SkyBackgroundBase::editSFClearStencilBit))
+                     reinterpret_cast<FieldAccessMethod>(&SkyBackgroundBase::editSFClearStencilBit)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "dlistCache", 
+                     DlistCacheFieldId, DlistCacheFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&SkyBackgroundBase::editSFDlistCache)),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "GLId", 
+                     GLIdFieldId, GLIdFieldMask,
+                     true,
+                     reinterpret_cast<FieldAccessMethod>(&SkyBackgroundBase::editSFGLId))
 };
 
 
@@ -402,6 +424,8 @@ SkyBackgroundBase::SkyBackgroundBase(void) :
     _mfBackTexCoord           (), 
     _sfBeacon                 (), 
     _sfClearStencilBit        (Int32(-1)), 
+    _sfDlistCache             (bool(true)), 
+    _sfGLId                   (Int32(0)), 
     Inherited() 
 {
 }
@@ -431,6 +455,8 @@ SkyBackgroundBase::SkyBackgroundBase(const SkyBackgroundBase &source) :
     _mfBackTexCoord           (source._mfBackTexCoord           ), 
     _sfBeacon                 (source._sfBeacon                 ), 
     _sfClearStencilBit        (source._sfClearStencilBit        ), 
+    _sfDlistCache             (source._sfDlistCache             ), 
+    _sfGLId                   (source._sfGLId                   ), 
     Inherited                 (source)
 {
 }
@@ -547,6 +573,16 @@ UInt32 SkyBackgroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfClearStencilBit.getBinSize();
     }
 
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+    {
+        returnValue += _sfDlistCache.getBinSize();
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        returnValue += _sfGLId.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -654,6 +690,16 @@ void SkyBackgroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
     {
         _sfClearStencilBit.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+    {
+        _sfDlistCache.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        _sfGLId.copyToBin(pMem);
     }
 
 
@@ -764,6 +810,16 @@ void SkyBackgroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfClearStencilBit.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+    {
+        _sfDlistCache.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+    {
+        _sfGLId.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -834,6 +890,12 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
         _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
 
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+        _sfDlistCache.syncWith(pOther->_sfDlistCache);
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+        _sfGLId.syncWith(pOther->_sfGLId);
+
 
 }
 #else
@@ -873,6 +935,12 @@ void SkyBackgroundBase::executeSyncImpl(      SkyBackgroundBase *pOther,
 
     if(FieldBits::NoField != (ClearStencilBitFieldMask & whichField))
         _sfClearStencilBit.syncWith(pOther->_sfClearStencilBit);
+
+    if(FieldBits::NoField != (DlistCacheFieldMask & whichField))
+        _sfDlistCache.syncWith(pOther->_sfDlistCache);
+
+    if(FieldBits::NoField != (GLIdFieldMask & whichField))
+        _sfGLId.syncWith(pOther->_sfGLId);
 
 
     if(FieldBits::NoField != (SkyColorFieldMask & whichField))

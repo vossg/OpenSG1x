@@ -43,6 +43,7 @@
 #endif
 
 #include <OSGConfig.h>
+#include <OSGWindow.h>
 
 #include <OSGSkyBackgroundBase.h>
 
@@ -108,17 +109,32 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackground : public SkyBackgroundBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
+    /*! \name                   Class Specific                             */
+    /*! \{                                                                 */
+
+    void onCreate(const SkyBackground *source = NULL);
+
+    void onDestroy(void);
+
+    void handleGL(Window* win, UInt32 id);
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
     /*! \name                   Draw Helper                                */
     /*! \{                                                                 */
 
     void drawFace(      DrawActionBase  * action, 
-                        TextureChunkPtr   tex, 
+                  const TextureChunkPtr  &tex, 
                         StateChunk      *&oldtex, 
                   const Pnt3f            &p1, 
                   const Pnt3f            &p2, 
                   const Pnt3f            &p3, 
                   const Pnt3f            &p4,  
                   const Vec3f          * texCoord);
+
+    void drawBox(DrawActionBase *action);
+
+    void drawSpheres();
 
     /*! \}                                                                 */
     
@@ -130,8 +146,14 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackground : public SkyBackgroundBase
 
     static void initMethod(void);
 
-    std::vector<Real32> _cosval;
-    std::vector<Real32> _sinval;
+    std::vector<Real32>  _hcos;
+    std::vector<Real32>  _hsin;
+    std::vector<Real32>  _sky_vcos;
+    std::vector<Real32>  _sky_vsin;
+    std::vector<Color4f> _skyColor;
+    std::vector<Real32>  _ground_vcos;
+    std::vector<Real32>  _ground_vsin;
+    std::vector<Color4f> _groundColor;
 
     // prohibit default functions (move to 'public' if you need one)
 

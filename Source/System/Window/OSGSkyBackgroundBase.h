@@ -87,6 +87,8 @@
 #include <OSGVec3fFields.h> // BackTexCoord type
 #include <OSGNodeFields.h> // Beacon type
 #include <OSGInt32Fields.h> // ClearStencilBit type
+#include <OSGBoolFields.h> // DlistCache type
+#include <OSGInt32Fields.h> // GLId type
 
 #include <OSGSkyBackgroundFields.h>
 
@@ -130,7 +132,9 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
         BackTexCoordFieldId    = FrontTexCoordFieldId   + 1,
         BeaconFieldId          = BackTexCoordFieldId    + 1,
         ClearStencilBitFieldId = BeaconFieldId          + 1,
-        NextFieldId            = ClearStencilBitFieldId + 1
+        DlistCacheFieldId      = ClearStencilBitFieldId + 1,
+        GLIdFieldId            = DlistCacheFieldId      + 1,
+        NextFieldId            = GLIdFieldId            + 1
     };
 
     static const OSG::BitVector SkyColorFieldMask;
@@ -153,6 +157,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     static const OSG::BitVector BackTexCoordFieldMask;
     static const OSG::BitVector BeaconFieldMask;
     static const OSG::BitVector ClearStencilBitFieldMask;
+    static const OSG::BitVector DlistCacheFieldMask;
+    static const OSG::BitVector GLIdFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -300,6 +306,12 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
            SFInt32             *getSFClearStencilBit(void);
 #endif
 
+           SFBool              *editSFDlistCache     (void);
+     const SFBool              *getSFDlistCache     (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFDlistCache     (void);
+#endif
+
 
            UInt32              &editSphereRes      (void);
      const UInt32              &getSphereRes      (void) const;
@@ -360,6 +372,13 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
 #ifndef OSG_2_PREP
            Int32               &getClearStencilBit(void);
 #endif
+
+           bool                &editDlistCache     (void);
+     const bool                &getDlistCache     (void) const;
+#ifndef OSG_2_PREP
+           bool                &getDlistCache     (void);
+#endif
+
 
            Color4f             &editSkyColor       (const UInt32 index);
      const Color4f             &getSkyColor       (const UInt32 index) const;
@@ -456,6 +475,7 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
      void setBoxInside      ( const bool &value );
      void setBeacon         ( const NodePtr &value );
      void setClearStencilBit( const Int32 &value );
+     void setDlistCache     ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -518,6 +538,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     MFVec3f             _mfBackTexCoord;
     SFNodePtr           _sfBeacon;
     SFInt32             _sfClearStencilBit;
+    SFBool              _sfDlistCache;
+    SFInt32             _sfGLId;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -533,6 +555,30 @@ class OSG_SYSTEMLIB_DLLMAPPING SkyBackgroundBase : public Background
     /*! \{                                                                 */
 
     virtual ~SkyBackgroundBase(void); 
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Get                                 */
+    /*! \{                                                                 */
+
+           SFInt32             *editSFGLId           (void);
+     const SFInt32             *getSFGLId           (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFGLId           (void);
+#endif
+
+           Int32               &editGLId           (void);
+     const Int32               &getGLId           (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getGLId           (void);
+#endif
+
+    /*! \}                                                                 */
+    /*---------------------------------------------------------------------*/
+    /*! \name                    Field Set                                 */
+    /*! \{                                                                 */
+
+     void setGLId           (const Int32 &value);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -595,6 +641,6 @@ typedef RefPtr<SkyBackgroundPtr> SkyBackgroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGSKYBACKGROUNDBASE_H_ */

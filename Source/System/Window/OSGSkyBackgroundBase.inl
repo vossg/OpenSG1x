@@ -556,6 +556,52 @@ SFInt32 *SkyBackgroundBase::getSFClearStencilBit(void)
 }
 #endif
 
+//! Get the SkyBackground::_sfDlistCache field.
+inline
+const SFBool *SkyBackgroundBase::getSFDlistCache(void) const
+{
+    return &_sfDlistCache;
+}
+
+//! Get the SkyBackground::_sfDlistCache field.
+inline
+SFBool *SkyBackgroundBase::editSFDlistCache(void)
+{
+    return &_sfDlistCache;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SkyBackground::_sfDlistCache field.
+inline
+SFBool *SkyBackgroundBase::getSFDlistCache(void)
+{
+    return &_sfDlistCache;
+}
+#endif
+
+//! Get the SkyBackground::_sfGLId field.
+inline
+const SFInt32 *SkyBackgroundBase::getSFGLId(void) const
+{
+    return &_sfGLId;
+}
+
+//! Get the SkyBackground::_sfGLId field.
+inline
+SFInt32 *SkyBackgroundBase::editSFGLId(void)
+{
+    return &_sfGLId;
+}
+
+#ifndef OSG_2_PREP
+//! Get the SkyBackground::_sfGLId field.
+inline
+SFInt32 *SkyBackgroundBase::getSFGLId(void)
+{
+    return &_sfGLId;
+}
+#endif
+
 
 //! Get the value of the SkyBackground::_sfSphereRes field.
 inline
@@ -855,6 +901,66 @@ inline
 void SkyBackgroundBase::setClearStencilBit(const Int32 &value)
 {
     _sfClearStencilBit.setValue(value);
+}
+
+//! Get the value of the SkyBackground::_sfDlistCache field.
+inline
+bool &SkyBackgroundBase::editDlistCache(void)
+{
+    return _sfDlistCache.getValue();
+}
+
+//! Get the value of the SkyBackground::_sfDlistCache field.
+inline
+const bool &SkyBackgroundBase::getDlistCache(void) const
+{
+    return _sfDlistCache.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the SkyBackground::_sfDlistCache field.
+inline
+bool &SkyBackgroundBase::getDlistCache(void)
+{
+    return _sfDlistCache.getValue();
+}
+#endif
+
+//! Set the value of the SkyBackground::_sfDlistCache field.
+inline
+void SkyBackgroundBase::setDlistCache(const bool &value)
+{
+    _sfDlistCache.setValue(value);
+}
+
+//! Get the value of the SkyBackground::_sfGLId field.
+inline
+Int32 &SkyBackgroundBase::editGLId(void)
+{
+    return _sfGLId.getValue();
+}
+
+//! Get the value of the SkyBackground::_sfGLId field.
+inline
+const Int32 &SkyBackgroundBase::getGLId(void) const
+{
+    return _sfGLId.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the SkyBackground::_sfGLId field.
+inline
+Int32 &SkyBackgroundBase::getGLId(void)
+{
+    return _sfGLId.getValue();
+}
+#endif
+
+//! Set the value of the SkyBackground::_sfGLId field.
+inline
+void SkyBackgroundBase::setGLId(const Int32 &value)
+{
+    _sfGLId.setValue(value);
 }
 
 
@@ -1240,5 +1346,5 @@ const MFVec3f &SkyBackgroundBase::getBackTexCoord(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
+#define OSGSKYBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.22 2008/06/09 12:26:59 vossg Exp $"
 
