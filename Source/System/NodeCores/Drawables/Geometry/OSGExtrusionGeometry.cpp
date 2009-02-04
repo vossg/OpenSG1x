@@ -1469,6 +1469,16 @@ void ExtrusionSurface::storeMaps(GeoPositions3fPtr posPtr,
 
 
 //-----------------------------------------------------------------------------
+// Helper function that creates a new geometry and fills it with the extrusion
+//-----------------------------------------------------------------------------
+GeometryPtr ExtrusionSurface::createGeometry(UInt32 nSubdivs)
+{
+    GeometryPtr geoPtr = Geometry::create();
+    fillGeometry(geoPtr, nSubdivs);
+    return geoPtr;
+}
+
+//-----------------------------------------------------------------------------
 // Creates an extrusion surface consisting of a sweep surface and two optional
 // cap surfaces. The positions, normal and texture coordinates are shared where
 // possible.
@@ -1479,14 +1489,14 @@ void ExtrusionSurface::storeMaps(GeoPositions3fPtr posPtr,
 //
 // Author: afischle
 //-----------------------------------------------------------------------------
-GeometryPtr ExtrusionSurface::createGeometry(UInt32 nSubdivs)
+void ExtrusionSurface::fillGeometry(GeometryPtr &geoPtr, UInt32 nSubdivs)
 {
     // do some sanity checks on and determines the topology
     // of the _spine and _crossSection member fields
     if(!verifyInput())
     {
         FWARNING(("OSGExtrusion:createGeometry: Invalid input. Returning NullFC\n"));
-        return NullFC;
+        return;
     }
 
     // initialize topology flags (i.e spine/_crossSection closure)
@@ -1519,23 +1529,75 @@ GeometryPtr ExtrusionSurface::createGeometry(UInt32 nSubdivs)
         calcSweepSurfaceTexCoords();
     }
 
-    // create opensg geometry field containers
-    GeoPositions3fPtr  posPtr     = GeoPositions3f::create();
-    GeoPLengthsUI32Ptr lensPtr    = GeoPLengthsUI32::create();
-    GeoIndicesUI32Ptr  indicesPtr = GeoIndicesUI32::create();
-    GeoPTypesUI8Ptr    typesPtr   = GeoPTypesUI8::create();
-    GeoNormals3fPtr    normalsPtr = NullFC;
-    GeoTexCoords2fPtr  texPtr     = NullFC;
+    beginEditCP(geoPtr);
 
-    if(_createNormals)
-        normalsPtr = GeoNormals3f::create();
+    // cast the field containers down to the needed type and create them
+    // when they have the wrong type
+    GeoPositions3fPtr posPtr = GeoPositions3fPtr::dcast(geoPtr->getPositions());
+    if (posPtr == NullFC)
+    {
+        posPtr = GeoPositions3f::create();
+        geoPtr->setPositions(posPtr);
+    }
+    GeoPLengthsUI32Ptr lensPtr = GeoPLengthsUI32Ptr::dcast(geoPtr->getLengths());
+    if (lensPtr == NullFC)
+    {
+        lensPtr = GeoPLengthsUI32::create();
+        geoPtr->setLengths(lensPtr);
+    }
+    GeoIndicesUI32Ptr indicesPtr = GeoIndicesUI32Ptr::dcast(geoPtr->getIndices());
+    if (indicesPtr == NullFC)
+    {
+        indicesPtr = GeoIndicesUI32::create();
+        geoPtr->setIndices(indicesPtr);
+    }
+    GeoPTypesUI8Ptr typesPtr = GeoPTypesUI8Ptr::dcast(geoPtr->getTypes());
+    if (typesPtr == NullFC)
+    {
+        typesPtr = GeoPTypesUI8::create();
+        geoPtr->setTypes(typesPtr);
+    }
 
-    if(_createTexCoords)
-        texPtr = GeoTexCoords2f::create();
+    GeoNormals3fPtr normalsPtr;
+    if(_createNormals == true)
+    {
+        normalsPtr = GeoNormals3fPtr::dcast(geoPtr->getNormals());
+        if (normalsPtr == NullFC)
+        {
+            normalsPtr = GeoNormals3f::create();
+            geoPtr->setNormals(normalsPtr);
+        }
+    }
+    else
+        geoPtr->setNormals(NullFC);
+
+    GeoTexCoords2fPtr texPtr;
+    if(_createTexCoords == true)
+    {
+        texPtr = GeoTexCoords2fPtr::dcast(geoPtr->getTexCoords());
+        if (texPtr == NullFC)
+        {
+            texPtr = GeoTexCoords2f::create();
+            geoPtr->setTexCoords(texPtr);
+        }
+    }
+    else
+        geoPtr->setTexCoords(NullFC);
+
+    geoPtr->setColors(NullFC);
+    geoPtr->setSecondaryColors(NullFC);
+    geoPtr->setTexCoords1(NullFC);
+    geoPtr->setTexCoords2(NullFC);
+    geoPtr->setTexCoords3(NullFC);
+    geoPtr->editMFIndexMapping()->clear();
 
     beginEditCP(indicesPtr, GeoIndicesUI32::GeoPropDataFieldMask);
     beginEditCP(lensPtr,    GeoPLengthsUI32::GeoPropDataFieldMask);
     beginEditCP(typesPtr,   GeoPTypesUI8::GeoPropDataFieldMask);
+
+    indicesPtr->clear();
+    lensPtr->clear();
+    typesPtr->clear();
 
     if(_createNormals)
     {
@@ -1593,17 +1655,6 @@ GeometryPtr ExtrusionSurface::createGeometry(UInt32 nSubdivs)
     // store the shared vertex data into the vertex data field containers
     storeMaps(posPtr, normalsPtr, texPtr);
 
-    // create a new OpenSG geometry
-    GeometryPtr geoPtr = Geometry::create();
-
-    beginEditCP(geoPtr, Geometry::TypesFieldMask  |
-                Geometry::LengthsFieldMask        |
-                Geometry::IndicesFieldMask        |
-                Geometry::IndexMappingFieldMask   |
-                Geometry::PositionsFieldMask      |
-                Geometry::NormalsFieldMask        |
-                Geometry::TexCoordsFieldMask      );
-
     // The interleaved multi-index blocks have one of the following 
     // layouts (depending on _createNormals and _createTexCoords):
     //
@@ -1617,24 +1668,7 @@ GeometryPtr ExtrusionSurface::createGeometry(UInt32 nSubdivs)
     if(_createTexCoords)
         geoPtr->editMFIndexMapping()->push_back(Geometry::MapTexCoords);
 
-    // set primitive data field containers
-    geoPtr->setLengths(lensPtr);
-    geoPtr->setIndices(indicesPtr);
-    geoPtr->setTypes(typesPtr);
-   
-    // set vertex data field containers
-    geoPtr->setPositions(posPtr);
-    geoPtr->setNormals(normalsPtr);
-    geoPtr->setTexCoords(texPtr);
-   
-    endEditCP(geoPtr, Geometry::TypesFieldMask  |
-              Geometry::LengthsFieldMask        |
-              Geometry::IndicesFieldMask        |
-              Geometry::IndexMappingFieldMask   |
-              Geometry::PositionsFieldMask      |
-              Geometry::NormalsFieldMask        |
-              Geometry::TexCoordsFieldMask      );
-
+    endEditCP(geoPtr);
 
     SINFO << "OSGExtrusion:createGeometry: Stats: ("
           << _primitiveCount     << '/'
@@ -1644,8 +1678,6 @@ GeometryPtr ExtrusionSurface::createGeometry(UInt32 nSubdivs)
           << _texCoordMap.size() << ')'
           << "(Prims/Verts/Pos/Norms/TexCoords)"
           << std::endl; 
-        
-    return geoPtr;
 }
 
 

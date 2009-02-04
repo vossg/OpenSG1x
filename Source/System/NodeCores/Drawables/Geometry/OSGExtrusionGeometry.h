@@ -194,6 +194,14 @@ public:
      */
     GeometryPtr createGeometry(UInt32 nSubDivisions);
 
+    /** 
+     * \brief Fills an existing %Geometry with the extrusion surface
+     * 
+     * \param geoPtr The geometry that gets filled
+     * \param nSubDivisions The number of subdivisions to apply
+     */
+    void fillGeometry(GeometryPtr &geoPtr, UInt32 nSubDivisions);
+
     /*! \}                                                                 */
 
     /*==========================  PROTECTED  ===============================*/
