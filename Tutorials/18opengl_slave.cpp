@@ -67,7 +67,7 @@ bool m_bPaused;
 bool m_bFullscreen, m_bCalibrate = false;
 
 // Load texture into memory
-GLvoid LoadGLTextures(GLvoid) 
+void LoadGLTextures(void) 
 {
     ImagePtr image = Image::create();
     if(!image->read("./Data/worldground.jpg"))
@@ -87,7 +87,7 @@ GLvoid LoadGLTextures(GLvoid)
 }
 
 /* A general OpenGL initialization function.  Sets all of the initial parameters. */
-GLvoid InitGL(GLsizei Width, GLsizei Height)	// We call this right after our OpenGL window is created.
+void InitGL(GLsizei Width, GLsizei Height)	// We call this right after our OpenGL window is created.
 {
     LoadGLTextures();					// Load the textures
     
@@ -307,7 +307,7 @@ void keyPressed(unsigned char key, int x, int y)
 }
 
 /* The main drawing function. */
-GLvoid DrawGLScene(GLvoid)
+void DrawGLScene(void)
 {
     glMatrixMode(GL_MODELVIEW);
     
