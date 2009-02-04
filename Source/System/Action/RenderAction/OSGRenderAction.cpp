@@ -2724,6 +2724,10 @@ Action::ResultE RenderAction::stop(ResultE res)
 
             _viewport->setDrawTime(Real32(elemDraw->getTime()));
 
+            // clear the matrix stack - it contains values from processing the
+            // draw tree
+            glLoadIdentity();
+
             Inherited::stop(res);
             return res;
         }
@@ -3048,6 +3052,10 @@ Action::ResultE RenderAction::stop(ResultE res)
     }
 
     glDepthMask(GL_TRUE);
+
+    // clear the matrix stack - it contains values from processing the
+    // draw tree
+    glLoadIdentity();
 
     if(_useGLFinish)
         glFinish();
