@@ -137,7 +137,7 @@ DEF_ORIENTATION[DEF_N_ORIENTATION_PARAMS][4] = {{0.f, 0.f, 1.f, 0.f}};
  *  Not intended to be directly used. Use construction functions
  *  \ref makeExtrusion and \ref makeExtrusionGeo instead
  */
-class ExtrusionSurface
+class OSG_SYSTEMLIB_DLLMAPPING ExtrusionSurface
 {
 
     /*==========================  PUBLIC  =================================*/
