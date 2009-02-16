@@ -226,24 +226,22 @@ void RenderOptions::activateOptions(RenderAction *action)
         glCullFace(GL_BACK);
     } 
 
-    // active multi-sample buffer
+    // activate multi-sample buffer
     if ((getMultiSample() > 1) && (getMultiSampleFilterMode())) 
     {
-        GLint bufs, samples;
+        GLint bufs = 0, samples = 0;
         glGetIntegerv (GL_SAMPLE_BUFFERS, &bufs);
-        glGetIntegerv (GL_SAMPLES, &samples );
+        glGetIntegerv (GL_SAMPLES, &samples);
         
-        if (bufs > 1 ||(samples != getMultiSample())) 
+        if (bufs > 1 || (samples != getMultiSample())) 
         {
             static bool firstTime = true;
             if (firstTime) 
             {
               FWARNING (( "Invalid multi-sample window setting: %d/%d\n",
                           bufs, samples ));
+			  firstTime = false;
             }
-            else 
-              firstTime = false;
-
         }
 
         glEnable ( GL_MULTISAMPLE );
