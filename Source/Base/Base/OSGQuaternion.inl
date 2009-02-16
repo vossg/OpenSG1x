@@ -804,8 +804,8 @@ const QuaternionBase<ValueTypeT>QuaternionBase<ValueTypeT>::inverse(void) const
 // (grest@mip.informatik.uni-kiel.de) for the code. (DR, 20030626)
 
 template <class ValueTypeT> inline
-void QuaternionBase<ValueTypeT>::multVec(const VectorType &src,
-                                               VectorType &dst) const
+void QuaternionBase<ValueTypeT>::multVec(const PointType &src,
+                                               PointType &dst) const
 {
     ValueTypeT rx,ry,rz;
     ValueTypeT QwQx, QwQy, QwQz, QxQy, QxQz, QyQz;

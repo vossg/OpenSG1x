@@ -65,6 +65,7 @@ class QuaternionBase
     /*! \{                                                                 */
 
     typedef Vector              <ValueTypeT, 3> VectorType;
+    typedef Point               <ValueTypeT, 3> PointType;
     typedef TransformationMatrix<ValueTypeT   > MatrixType;
 
 
@@ -184,8 +185,8 @@ class QuaternionBase
           void            invert    (void                        );
     const QuaternionBase  inverse   (void                        ) const;
 
-          void            multVec   (const VectorType &src,
-                                           VectorType &dst       ) const;
+          void            multVec   (const PointType &src,
+                                           PointType &dst        ) const;
 
           void            scaleAngle(      ValueTypeT scaleFactor);
 
