@@ -349,6 +349,52 @@ SFUInt32 *RenderOptionsBase::getSFOcclusionCullingPixels(void)
 }
 #endif
 
+//! Get the RenderOptions::_sfMultiSample field.
+inline
+const SFUInt32 *RenderOptionsBase::getSFMultiSample(void) const
+{
+    return &_sfMultiSample;
+}
+
+//! Get the RenderOptions::_sfMultiSample field.
+inline
+SFUInt32 *RenderOptionsBase::editSFMultiSample(void)
+{
+    return &_sfMultiSample;
+}
+
+#ifndef OSG_2_PREP
+//! Get the RenderOptions::_sfMultiSample field.
+inline
+SFUInt32 *RenderOptionsBase::getSFMultiSample(void)
+{
+    return &_sfMultiSample;
+}
+#endif
+
+//! Get the RenderOptions::_sfMultiSampleFilterMode field.
+inline
+const SFUInt32 *RenderOptionsBase::getSFMultiSampleFilterMode(void) const
+{
+    return &_sfMultiSampleFilterMode;
+}
+
+//! Get the RenderOptions::_sfMultiSampleFilterMode field.
+inline
+SFUInt32 *RenderOptionsBase::editSFMultiSampleFilterMode(void)
+{
+    return &_sfMultiSampleFilterMode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the RenderOptions::_sfMultiSampleFilterMode field.
+inline
+SFUInt32 *RenderOptionsBase::getSFMultiSampleFilterMode(void)
+{
+    return &_sfMultiSampleFilterMode;
+}
+#endif
+
 //! Get the RenderOptions::_sfAntialiasing field.
 inline
 const SFBool *RenderOptionsBase::getSFAntialiasing(void) const
@@ -1048,6 +1094,66 @@ void RenderOptionsBase::setOcclusionCullingPixels(const UInt32 &value)
     _sfOcclusionCullingPixels.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfMultiSample field.
+inline
+UInt32 &RenderOptionsBase::editMultiSample(void)
+{
+    return _sfMultiSample.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfMultiSample field.
+inline
+const UInt32 &RenderOptionsBase::getMultiSample(void) const
+{
+    return _sfMultiSample.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfMultiSample field.
+inline
+UInt32 &RenderOptionsBase::getMultiSample(void)
+{
+    return _sfMultiSample.getValue();
+}
+#endif
+
+//! Set the value of the RenderOptions::_sfMultiSample field.
+inline
+void RenderOptionsBase::setMultiSample(const UInt32 &value)
+{
+    _sfMultiSample.setValue(value);
+}
+
+//! Get the value of the RenderOptions::_sfMultiSampleFilterMode field.
+inline
+UInt32 &RenderOptionsBase::editMultiSampleFilterMode(void)
+{
+    return _sfMultiSampleFilterMode.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfMultiSampleFilterMode field.
+inline
+const UInt32 &RenderOptionsBase::getMultiSampleFilterMode(void) const
+{
+    return _sfMultiSampleFilterMode.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfMultiSampleFilterMode field.
+inline
+UInt32 &RenderOptionsBase::getMultiSampleFilterMode(void)
+{
+    return _sfMultiSampleFilterMode.getValue();
+}
+#endif
+
+//! Set the value of the RenderOptions::_sfMultiSampleFilterMode field.
+inline
+void RenderOptionsBase::setMultiSampleFilterMode(const UInt32 &value)
+{
+    _sfMultiSampleFilterMode.setValue(value);
+}
+
 //! Get the value of the RenderOptions::_sfAntialiasing field.
 inline
 bool &RenderOptionsBase::editAntialiasing(void)
@@ -1531,5 +1637,5 @@ void RenderOptionsBase::setFogMode(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.12 2008/06/09 12:28:08 vossg Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.13 2009/02/16 10:59:36 jbehr Exp $"
 

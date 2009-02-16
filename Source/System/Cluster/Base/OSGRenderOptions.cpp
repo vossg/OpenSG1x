@@ -45,6 +45,23 @@
 #include "OSGRenderOptions.h"
 #include "OSGRenderAction.h"
 
+// the following tokens are not defined under WIN
+#ifndef GL_NV_multisample_filter_hint
+# define GL_MULTISAMPLE_FILTER_HINT_NV     0x8534
+#endif
+
+#ifndef GL_VERSION_1_3
+# define GL_MULTISAMPLE                    0x809D
+# define GL_SAMPLE_ALPHA_TO_COVERAGE       0x809E
+# define GL_SAMPLE_ALPHA_TO_ONE            0x809F
+# define GL_SAMPLE_COVERAGE                0x80A0
+# define GL_SAMPLE_BUFFERS                 0x80A8
+# define GL_SAMPLES                        0x80A9
+# define GL_SAMPLE_COVERAGE_VALUE          0x80AA
+# define GL_SAMPLE_COVERAGE_INVERT         0x80AB
+# define GL_MULTISAMPLE_BIT                0x20000000
+#endif
+
 OSG_USING_NAMESPACE
 
 
@@ -209,6 +226,33 @@ void RenderOptions::activateOptions(RenderAction *action)
         glCullFace(GL_BACK);
     } 
 
+    // active multi-sample buffer
+    if ((getMultiSample() > 1) && (getMultiSampleFilterMode())) 
+    {
+        GLint bufs, samples;
+        glGetIntegerv (GL_SAMPLE_BUFFERS, &bufs);
+        glGetIntegerv (GL_SAMPLES, &samples );
+        
+        if (bufs > 1 ||(samples != getMultiSample())) 
+        {
+            static bool firstTime = true;
+            if (firstTime) 
+            {
+              FWARNING (( "Invalid multi-sample window setting: %d/%d\n",
+                          bufs, samples ));
+            }
+            else 
+              firstTime = false;
+
+        }
+
+        glEnable ( GL_MULTISAMPLE );
+        glHint   ( GL_MULTISAMPLE_FILTER_HINT_NV, 
+                   getMultiSampleFilterMode () );
+    }
+    else 
+      glDisable ( GL_MULTISAMPLE );
+    
     if(_two_sided_lighting)
         glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
     else

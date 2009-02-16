@@ -78,6 +78,8 @@
 #include <OSGBoolFields.h> // OcclusionCulling type
 #include <OSGInt32Fields.h> // OcclusionCullingMode type
 #include <OSGUInt32Fields.h> // OcclusionCullingPixels type
+#include <OSGUInt32Fields.h> // MultiSample type
+#include <OSGUInt32Fields.h> // MultiSampleFilterMode type
 #include <OSGBoolFields.h> // Antialiasing type
 #include <OSGReal32Fields.h> // AntialiasingDistance type
 #include <OSGReal32Fields.h> // AntialiasingScale type
@@ -128,7 +130,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         OcclusionCullingFieldId        = CorrectTwoSidedLightingFieldId + 1,
         OcclusionCullingModeFieldId    = OcclusionCullingFieldId        + 1,
         OcclusionCullingPixelsFieldId  = OcclusionCullingModeFieldId    + 1,
-        AntialiasingFieldId            = OcclusionCullingPixelsFieldId  + 1,
+        MultiSampleFieldId             = OcclusionCullingPixelsFieldId  + 1,
+        MultiSampleFilterModeFieldId   = MultiSampleFieldId             + 1,
+        AntialiasingFieldId            = MultiSampleFilterModeFieldId   + 1,
         AntialiasingDistanceFieldId    = AntialiasingFieldId            + 1,
         AntialiasingScaleFieldId       = AntialiasingDistanceFieldId    + 1,
         AntialiasingTriggerFieldId     = AntialiasingScaleFieldId       + 1,
@@ -158,6 +162,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector OcclusionCullingFieldMask;
     static const OSG::BitVector OcclusionCullingModeFieldMask;
     static const OSG::BitVector OcclusionCullingPixelsFieldMask;
+    static const OSG::BitVector MultiSampleFieldMask;
+    static const OSG::BitVector MultiSampleFilterModeFieldMask;
     static const OSG::BitVector AntialiasingFieldMask;
     static const OSG::BitVector AntialiasingDistanceFieldMask;
     static const OSG::BitVector AntialiasingScaleFieldMask;
@@ -265,6 +271,18 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const SFUInt32            *getSFOcclusionCullingPixels(void) const;
 #ifndef OSG_2_PREP
            SFUInt32            *getSFOcclusionCullingPixels(void);
+#endif
+
+           SFUInt32            *editSFMultiSample    (void);
+     const SFUInt32            *getSFMultiSample    (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFMultiSample    (void);
+#endif
+
+           SFUInt32            *editSFMultiSampleFilterMode(void);
+     const SFUInt32            *getSFMultiSampleFilterMode(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFMultiSampleFilterMode(void);
 #endif
 
            SFBool              *editSFAntialiasing   (void);
@@ -430,6 +448,18 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            UInt32              &getOcclusionCullingPixels(void);
 #endif
 
+           UInt32              &editMultiSample    (void);
+     const UInt32              &getMultiSample    (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getMultiSample    (void);
+#endif
+
+           UInt32              &editMultiSampleFilterMode(void);
+     const UInt32              &getMultiSampleFilterMode(void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getMultiSampleFilterMode(void);
+#endif
+
            bool                &editAntialiasing   (void);
      const bool                &getAntialiasing   (void) const;
 #ifndef OSG_2_PREP
@@ -542,6 +572,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setOcclusionCulling( const bool &value );
      void setOcclusionCullingMode( const Int32 &value );
      void setOcclusionCullingPixels( const UInt32 &value );
+     void setMultiSample    ( const UInt32 &value );
+     void setMultiSampleFilterMode( const UInt32 &value );
      void setAntialiasing   ( const bool &value );
      void setAntialiasingDistance( const Real32 &value );
      void setAntialiasingScale( const Real32 &value );
@@ -611,6 +643,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFBool              _sfOcclusionCulling;
     SFInt32             _sfOcclusionCullingMode;
     SFUInt32            _sfOcclusionCullingPixels;
+    SFUInt32            _sfMultiSample;
+    SFUInt32            _sfMultiSampleFilterMode;
     SFBool              _sfAntialiasing;
     SFReal32            _sfAntialiasingDistance;
     SFReal32            _sfAntialiasingScale;
@@ -704,6 +738,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.12 2008/06/09 12:28:08 vossg Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.13 2009/02/16 10:59:36 jbehr Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

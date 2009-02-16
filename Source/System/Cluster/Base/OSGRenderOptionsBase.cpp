@@ -98,6 +98,12 @@ const OSG::BitVector  RenderOptionsBase::OcclusionCullingModeFieldMask =
 const OSG::BitVector  RenderOptionsBase::OcclusionCullingPixelsFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::OcclusionCullingPixelsFieldId);
 
+const OSG::BitVector  RenderOptionsBase::MultiSampleFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::MultiSampleFieldId);
+
+const OSG::BitVector  RenderOptionsBase::MultiSampleFilterModeFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::MultiSampleFilterModeFieldId);
+
 const OSG::BitVector  RenderOptionsBase::AntialiasingFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::AntialiasingFieldId);
 
@@ -185,6 +191,12 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
 */
 /*! \var UInt32          RenderOptionsBase::_sfOcclusionCullingPixels
     culls objects with this number of visible pixels default is zero.
+*/
+/*! \var UInt32          RenderOptionsBase::_sfMultiSample
+    number of multi-sample-buffer used for FSAA
+*/
+/*! \var UInt32          RenderOptionsBase::_sfMultiSampleFilterMode
+    defindes the filter-method for multi-sample buffer, must be GL_FALSE/0 (off), GL_DONT_CARE, GL_FASTEST or GL_NICEST
 */
 /*! \var bool            RenderOptionsBase::_sfAntialiasing
     
@@ -294,6 +306,16 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      OcclusionCullingPixelsFieldId, OcclusionCullingPixelsFieldMask,
                      false,
                      reinterpret_cast<FieldAccessMethod>(&RenderOptionsBase::editSFOcclusionCullingPixels)),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "multiSample", 
+                     MultiSampleFieldId, MultiSampleFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&RenderOptionsBase::editSFMultiSample)),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "multiSampleFilterMode", 
+                     MultiSampleFilterModeFieldId, MultiSampleFilterModeFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&RenderOptionsBase::editSFMultiSampleFilterMode)),
     new FieldDescription(SFBool::getClassType(), 
                      "antialiasing", 
                      AntialiasingFieldId, AntialiasingFieldMask,
@@ -461,6 +483,8 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfOcclusionCulling       (bool(false)), 
     _sfOcclusionCullingMode   (Int32(1)), 
     _sfOcclusionCullingPixels (UInt32(0)), 
+    _sfMultiSample            (UInt32(1)), 
+    _sfMultiSampleFilterMode  (UInt32(0)), 
     _sfAntialiasing           (bool(false)), 
     _sfAntialiasingDistance   (Real32(0.2)), 
     _sfAntialiasingScale      (Real32(2.0)), 
@@ -497,6 +521,8 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfOcclusionCulling       (source._sfOcclusionCulling       ), 
     _sfOcclusionCullingMode   (source._sfOcclusionCullingMode   ), 
     _sfOcclusionCullingPixels (source._sfOcclusionCullingPixels ), 
+    _sfMultiSample            (source._sfMultiSample            ), 
+    _sfMultiSampleFilterMode  (source._sfMultiSampleFilterMode  ), 
     _sfAntialiasing           (source._sfAntialiasing           ), 
     _sfAntialiasingDistance   (source._sfAntialiasingDistance   ), 
     _sfAntialiasingScale      (source._sfAntialiasingScale      ), 
@@ -582,6 +608,16 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
     {
         returnValue += _sfOcclusionCullingPixels.getBinSize();
+    }
+
+    if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
+    {
+        returnValue += _sfMultiSample.getBinSize();
+    }
+
+    if(FieldBits::NoField != (MultiSampleFilterModeFieldMask & whichField))
+    {
+        returnValue += _sfMultiSampleFilterMode.getBinSize();
     }
 
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
@@ -728,6 +764,16 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
         _sfOcclusionCullingPixels.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
+    {
+        _sfMultiSample.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MultiSampleFilterModeFieldMask & whichField))
+    {
+        _sfMultiSampleFilterMode.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
     {
         _sfAntialiasing.copyToBin(pMem);
@@ -871,6 +917,16 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfOcclusionCullingPixels.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
+    {
+        _sfMultiSample.copyFromBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MultiSampleFilterModeFieldMask & whichField))
+    {
+        _sfMultiSampleFilterMode.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
     {
         _sfAntialiasing.copyFromBin(pMem);
@@ -994,6 +1050,12 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
         _sfOcclusionCullingPixels.syncWith(pOther->_sfOcclusionCullingPixels);
 
+    if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
+        _sfMultiSample.syncWith(pOther->_sfMultiSample);
+
+    if(FieldBits::NoField != (MultiSampleFilterModeFieldMask & whichField))
+        _sfMultiSampleFilterMode.syncWith(pOther->_sfMultiSampleFilterMode);
+
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
         _sfAntialiasing.syncWith(pOther->_sfAntialiasing);
 
@@ -1084,6 +1146,12 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
         _sfOcclusionCullingPixels.syncWith(pOther->_sfOcclusionCullingPixels);
+
+    if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
+        _sfMultiSample.syncWith(pOther->_sfMultiSample);
+
+    if(FieldBits::NoField != (MultiSampleFilterModeFieldMask & whichField))
+        _sfMultiSampleFilterMode.syncWith(pOther->_sfMultiSampleFilterMode);
 
     if(FieldBits::NoField != (AntialiasingFieldMask & whichField))
         _sfAntialiasing.syncWith(pOther->_sfAntialiasing);
@@ -1176,7 +1244,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.12 2008/06/09 12:28:08 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.13 2009/02/16 10:59:36 jbehr Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 
