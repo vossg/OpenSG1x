@@ -25,6 +25,7 @@
 */
 
 // needed includes
+#include <stdio.h>
 #include "OSGXmlparser.h"
 
 // namespace declaration

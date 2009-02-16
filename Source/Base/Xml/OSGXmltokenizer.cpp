@@ -25,6 +25,7 @@
 */
 
 // needed includes
+#include <stdio.h>
 #include "OSGXmlpp.h"
 #include "OSGXmltokenizer.h"
 
