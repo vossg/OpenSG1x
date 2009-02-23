@@ -45,41 +45,206 @@
 #include "OSGLog.h"
 #include "OSGExtrusionGeometry.h"
 
-#include <sstream>
-
-// #define DEBUG_SUBDIVISION
-// #define DEBUG_VERTEX_STORE
-// #define DEBUG_PROPERTY_STORE
-#define DEBUG_PRIMITIVE_STORE
 
 OSG_BEGIN_NAMESPACE
 
 
 //-----------------------------------------------------------------------------
-// Compare operator for vector types. Used to map properties with a
-// distance (taken component-wise) of less than Eps to the same index.
-//
-// Author: jbehr, afischle (cut'n pasted from OSGGeoFunctions.cpp) 
+// Sets the cross section.
 //-----------------------------------------------------------------------------
-template<class type>
-inline bool ExtrusionSurface::vecless<type>::operator () (const type &a,
-                                                          const type &b) const
+inline void ExtrusionSurface::setCrossSection(const std::vector<Pnt2f> &crossSection)
 {
-    UInt32  i;
-    bool    ret = false;
-    for(i = 0; i < type::_iSize; i++)
-    {
-        if(osgabs(a[i] - b[i]) < Eps)
-            continue;
-        if(a[i] > b[i])
-        {
-            ret = false;
-            break;
-        }
-        ret = true;
-        break;
-    }
-    return ret;
+    editCrossSection() = crossSection;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns the cross section.
+//-----------------------------------------------------------------------------
+inline const std::vector<Pnt2f> &ExtrusionSurface::getCrossSection() const
+{
+    return _crossSection;
+}
+
+
+//-----------------------------------------------------------------------------
+// Sets the orientation.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setOrientation(const std::vector<Quaternion> &orientation)
+{
+    editOrientation() = orientation;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns the orientation.
+//-----------------------------------------------------------------------------
+inline const std::vector<Quaternion> &ExtrusionSurface::getOrientation() const
+{
+    return _orientation;
+}
+
+
+//-----------------------------------------------------------------------------
+// Sets the scale.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setScale(const std::vector<Vec2f> &scale)
+{
+    editScale() = scale;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns the scale.
+//-----------------------------------------------------------------------------
+inline const std::vector<Vec2f> &ExtrusionSurface::getScale() const
+{
+    return _scale;
+}
+
+
+//-----------------------------------------------------------------------------
+// Sets the spine.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setSpine(const std::vector<Pnt3f> &spine)
+{
+    editSpine() = spine;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns the spine.
+//-----------------------------------------------------------------------------
+inline const std::vector<Pnt3f> &ExtrusionSurface::getSpine() const
+{
+    return _spine;
+}
+
+
+//-----------------------------------------------------------------------------
+// Sets the crease angle.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setCreaseAngle(Real32 creaseAngle)
+{
+    _creaseAngle = creaseAngle;
+    _cosCreaseAngle = osgcos(creaseAngle);
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns the crease angle.
+//-----------------------------------------------------------------------------
+inline Real32 ExtrusionSurface::getCreaseAngle() const
+{
+    return _creaseAngle;
+}
+
+
+//-----------------------------------------------------------------------------
+// Switches the cap at the beginning on or off.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setBeginCap(bool beginCap)
+{
+    _beginCap = beginCap;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns whether to draw a cap at the beginning.
+//-----------------------------------------------------------------------------
+inline bool ExtrusionSurface::getBeginCap() const
+{
+    return _beginCap;
+}
+
+
+//-----------------------------------------------------------------------------
+// Switches the cap at the end on or off.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setEndCap(bool endCap)
+{
+    _endCap = endCap;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns whether to draw a cap at the end.
+//-----------------------------------------------------------------------------
+inline bool ExtrusionSurface::getEndCap() const
+{
+    return _endCap;
+}
+
+
+//-----------------------------------------------------------------------------
+// Sets the vertex order of faces.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setCcw(bool ccw)
+{
+    _ccw = ccw;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns the vertex order of faces.
+//-----------------------------------------------------------------------------
+inline bool ExtrusionSurface::getCcw() const
+{
+    return _ccw;
+}
+
+
+//-----------------------------------------------------------------------------
+// Sets whether the cross section is convex.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setConvex(bool convex)
+{
+    _convex = convex;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns whether the cross section is convex.
+//-----------------------------------------------------------------------------
+inline bool ExtrusionSurface::getConvex() const
+{
+    return _convex;
+}
+
+
+//-----------------------------------------------------------------------------
+// Switches normal generation on or off.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setBuildNormal(bool buildNormal)
+{
+    _createNormals = buildNormal;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns whether normals should be generated.
+//-----------------------------------------------------------------------------
+inline bool ExtrusionSurface::getBuildNormal() const
+{
+    return _createNormals;
+}
+
+
+//-----------------------------------------------------------------------------
+// Switches texture coordinate generation on or off.
+//-----------------------------------------------------------------------------
+inline void ExtrusionSurface::setBuildTexCoord(bool buildTexCoord)
+{
+    _createTexCoords = buildTexCoord;
+}
+
+
+//-----------------------------------------------------------------------------
+// Returns whether texture coordinates should be generated.
+//-----------------------------------------------------------------------------
+inline bool ExtrusionSurface::getBuildTexCoord() const
+{
+    return _createTexCoords;
 }
 
 
@@ -214,362 +379,7 @@ inline Vec3f ExtrusionSurface::calcXAxis(const MatrixConstIt &mIt)
 }
 
 
-//-----------------------------------------------------------------------------
-//                            Subdivision schemes                              
-//-----------------------------------------------------------------------------
-
-
-//-----------------------------------------------------------------------------
-// Returns an interpolated vector to be inserted between points b and c,
-// obtained by applying the scheme (-1/16, 9/16, 9/16, -1/16)
-//
-// Author: afischle
-//-----------------------------------------------------------------------------
-template <class VectorTypeT> 
-inline VectorTypeT 
-apply4PtScheme(const typename std::vector<VectorTypeT>::const_iterator &a,
-               const typename std::vector<VectorTypeT>::const_iterator &b,
-               const typename std::vector<VectorTypeT>::const_iterator &c,
-               const typename std::vector<VectorTypeT>::const_iterator &d)
-{
-
-#ifdef DEBUG_SUBDIVISION
-     SLOG << "4ptScheme: interior: "
-          << "( " << *a << " ) "
-          << "(_" << *b << "_) " 
-          << "( " << *c << " ) "
-          << "( " << *d << " ) "
-          << endl;
-#endif
-
-    // return the weighted sum of the four points (a,b,c,d)
-    return (-1.f/16.f) * a->subZero()
-         + ( 9.f/16.f) * b->subZero()
-         + ( 9.f/16.f) * c->subZero()
-         + (-1.f/16.f) * d->subZero();
-}
-
-
-//-----------------------------------------------------------------------------
-// Returns an interpolated vector to be inserted between points a and b,
-// obtained by applying the scheme (3/8, 6/8, -1/8)
-//
-// Author: afischle
-//-----------------------------------------------------------------------------
-template <class VectorTypeT>
-inline VectorTypeT 
-apply3PtScheme(const typename std::vector<VectorTypeT>::const_iterator &a,
-               const typename std::vector<VectorTypeT>::const_iterator &b,
-               const typename std::vector<VectorTypeT>::const_iterator &c)
-{
-
-#ifdef DEBUG_SUBDIVISION    
-     SLOG << "3PtScheme: exterior"
-          << "( " << *a << " ) "
-          << "(_" << *b << "_) " 
-          << "( " << *c << " ) "
-          << endl;
-#endif
-
-    // return the weighted sum of the three points (a,b,c)
-    return ( 3.f/8.f) * a->subZero()
-         + ( 6.f/8.f) * b->subZero()
-         + (-1.f/8.f) * c->subZero();
-}
-
-
-//-----------------------------------------------------------------------------
-//                        Normals calculation helpers                          
-//-----------------------------------------------------------------------------
-
-
-//-----------------------------------------------------------------------------
-// Returns the right handed face normal of the triangle ABC if _ccw is true
-// and the negated one if _ccw is false.
-//
-// Author: afischle
-//-----------------------------------------------------------------------------
-inline Vec3f ExtrusionSurface::calcTriangleFaceNormal(const Pnt3f &a,
-                                                      const Pnt3f &b,
-                                                      const Pnt3f &c)
-{
-    Vec3f d1 = b - a;
-    Vec3f d2 = c - a;
-    Vec3f faceNormal = _ccw ? d1.cross(d2) : d2.cross(d1);
-
-    return faceNormal;
-}
-
-//-----------------------------------------------------------------------------
-// Returns the right handed unit-length face normal of the quad ABCD if _ccw
-// is true and the negated one if _ccw is false. If the four corners are not
-// the boundary of a surface, the return value is 0.
-//
-// Author: afischle
-//-----------------------------------------------------------------------------
-inline Vec3f ExtrusionSurface::calcQuadFaceNormal(const Pnt3f &a,
-                                                  const Pnt3f &b,
-                                                  const Pnt3f &c,
-                                                  const Pnt3f &d)
-{
-    Vec3f faceNormal = calcTriangleFaceNormal(a, b, d);
-    if(faceNormal.length() > Eps)
-    {
-        faceNormal.normalize();
-        return faceNormal;
-    }
-
-    faceNormal = calcTriangleFaceNormal(b, c, a);
-    if(faceNormal.length() > Eps)
-    {
-        faceNormal.normalize();
-        return faceNormal;
-    }
-
-    faceNormal = calcTriangleFaceNormal(c, d, b);
-    if(faceNormal.length() > Eps)
-    {
-        faceNormal.normalize();
-        return faceNormal;
-    }
-
-    // if we get here, the quad is completely degenerate and has no normal
-    return Vec3f(0.f, 0.f, 0.f);
-}
-
-
-//-----------------------------------------------------------------------------
-// Calculates the vertex normal of a corner of a quad face. The quadrant
-// argument is used to deduce in which quadrant the quad lies from the point of
-// view of the vertex. The admissible quadrant arguments are 0,1,2,3.
-// The vertex normal is obtained by averaging all normals of adjacent faces
-// enclosing an angle less than the _creaseAngle with the face located at
-// the specified quadrant of the vertex.
-//
-// The result is stored in the normal component of the vertex pointed to by
-// vPtr.
-// 
-// Author: afischle
-//-----------------------------------------------------------------------------
-inline void ExtrusionSurface::calcVertexNormal(Vertex *vPtr, UInt32 quadrant)
-{
-    assert(quadrant < 4);
-    
-    Vec3f refFN = vPtr->adjFaceNormals[quadrant];
-
-    // set the vertex normal to the reference face normal
-    vPtr->normal = refFN;    
-
-    if(_creaseAngle < Eps)
-    {   
-        // we don't need to smooth across faces
-        return;
-    }
-
-    // we need to smooth the normals
-    for(UInt32 k = 0; k < 4; k++)
-    {
-        if(k != quadrant) // check the other 3 adjacent faces of the vertex 
-        {
-            Vec3f fN = vPtr->adjFaceNormals[k];
-            if(refFN.enclosedAngle(fN) - Eps < _creaseAngle + Eps)
-            {
-                vPtr->normal += fN;
-            }
-        }
-    }
-
-    vPtr->normal.normalize();
-}
-
-//-----------------------------------------------------------------------------
-//                          Geometry store helpers                             
-//-----------------------------------------------------------------------------
-
-
-
-
-
-//-----------------------------------------------------------------------------
-// Determines indices for the position, normal and texCoord components of a
-// vertex and stores them into the specified index field container. The indices
-// are stored in the following order:
-// 
-//   1. position index
-//   2. normal index (if _createNormals is true)
-//   3. texCoord index (if _createTexCoords is true)
-// 
-// Author: afischle
-//-----------------------------------------------------------------------------
-inline void ExtrusionSurface::storeVertex(const Vertex &vertex, 
-                                          const GeoIndicesUI32Ptr indicesPtr)
-{
-    assert(indicesPtr != NullFC);
-
-#ifdef DEBUG_VERTEX_STORE
-    std::ostringstream strout;
-    strout << "OSGExtrusion:storeVertex:Storing:" << std::endl;
-    strout << "\t[ (Pos: " << vertex.position << ")" << std::endl;
-#endif
-    
-    // store position
-    store(vertex.position, _posMap, indicesPtr);
-
-    if(_createNormals)
-    {
-#ifdef DEBUG_VERTEX_STORE        
-        strout << "\t  (Normal:" << vertex.normal << ")" << std::endl;
-#endif
-        // store normal
-        store(vertex.normal, _normalMap, indicesPtr);
-    }
-    
-    if(_createTexCoords)
-    {
-#ifdef DEBUG_VERTEX_STORE        
-        strout << "\t  (TexCoord:" << vertex.texCoord << ")" << std::endl;
-#endif
-        // store texture coordinate
-        store(vertex.texCoord, _texCoordMap, indicesPtr);
-    }
-    
-    // increase the vertex count of the current primitive
-    _vertexCount++;
-    
-#ifdef DEBUG_VERTEX_STORE        
-    strout << "\t  (vc:" << _vertexCount << "/tvc:" << _totalVertexCount << ")]";
-    SLOG << strout.str() << std::endl;
-#endif
-}
-
-
-//-----------------------------------------------------------------------------
-// Stores the number of vertices of the current primitive and its specified
-// type into the specified field length and type field containers.
-//
-// Author: afischle
-//-----------------------------------------------------------------------------
-inline void ExtrusionSurface::storePrimitive(GLenum type, 
-                                             GeoPLengthsUI32Ptr lensPtr, 
-                                             GeoPTypesUI8Ptr    typesPtr)
-{
-    assert(lensPtr != NullFC);
-    assert(typesPtr != NullFC);
-
-#ifdef DEBUG_PRIMITIVE_STORE
-    switch(type)
-    {
-        case GL_TRIANGLE_STRIP:
-            assert(_vertexCount > 2);
-            assert(_vertexCount % 2 == 0);
-            break;
-
-        case GL_TRIANGLE_FAN:
-            assert(_vertexCount > 2);
-            break;
-            
-        case GL_QUADS:
-            assert(_vertexCount == 4);
-            break;
-            
-        case GL_LINES:
-            assert(_vertexCount == 2);
-            break;
-    };
-#endif
-    
-    if(_vertexCount != 0)
-    {
-        lensPtr->push_back(_vertexCount);
-        typesPtr->push_back(type);
-        _totalVertexCount += _vertexCount;
-
-        // reset vertex count
-        _vertexCount = 0;
-
-        // increment primitive count (for stats only)
-        _primitiveCount++;
-    }
-    else
-    {
-        FFATAL(("OSGExtrusion::storePrimitive: Tried to store empty primitive\n"));
-    }
-}
-
-
-//-----------------------------------------------------------------------------
-// Computes a new index of type UInt32 for the specified property and
-// stores the (property -> index) pair in the specified pIndexMap of type
-// 'PType -> UInt32'. Two properties map to the same index iff their
-// componentwise distance is less than Eps.
-//
-// Author: afischle
-//-----------------------------------------------------------------------------
-template <typename PType> 
-inline UInt32 
-ExtrusionSurface::store(PType property, 
-                        std::map<PType, UInt32, vecless<PType> > &pIndexMap)
-{
-    typedef typename std::map<PType, 
-                              UInt32,
-                              vecless<PType> >::iterator   PTypeMapIterator;
-    typedef typename std::map<PType, 
-                              UInt32,
-                              vecless<PType> >::value_type PTypeMapValueType;
-    
-    UInt32 newIndex = pIndexMap.size();
-    const std::pair<PTypeMapIterator, bool>& result
-        = pIndexMap.insert(PTypeMapValueType(property, newIndex));
-
-#ifdef DEBUG_PROPERTY_STORE
-    std::ostringstream strout;
-    strout << "OSGExtrusion:store: Storing property:" << std::endl;
-    strout << "\t"
-           << result.first->first << " -> " << result.first->second
-           << " (new insert: " << (result.second ? "TRUE" : "FALSE") << ")";
-    SLOG << strout.str() << std::endl;
-#endif
-
-    // return index of property
-    return result.first->second;
-}
-
-
-//-----------------------------------------------------------------------------
-// Stores the index of the property argument into the specified map and index
-// field container.
-//
-// Author: afischle
-//-----------------------------------------------------------------------------
-template <typename PType>
-inline void
-ExtrusionSurface::store(PType property, 
-                        std::map<PType, UInt32, vecless<PType> > &propertyIndexMap,
-                        GeoIndicesUI32Ptr indicesPtr)
-{
-    assert(indicesPtr != NullFC);
-    indicesPtr->push_back(store(property, propertyIndexMap));
-}
-
-
 OSG_END_NAMESPACE
 
 
-#define OSGEXTRUSIONGEOMETRY_INLINE_CVSID "@(#)$Id: OSGExtrusionGeometry.inl,v 1.3 2008/08/04 02:32:43 vossg Exp $"
-
-
-#ifdef DEBUG_SUBDIVISION
-#undef DEBUG_SUBDIVISION
-#endif
-
-#ifdef DEBUG_VERTEX_STORE
-#undef DEBUG_VERTEX_STORE
-#endif
-
-#ifdef DEBUG_PROPERTY_STORE
-#undef DEBUG_PROPERTY_STORE
-#endif
-
-#ifdef DEBUG_PRIMITIVE_STORE
-#undef DEBUG_PRIMITIVE_STORE
-#endif
+#define OSGEXTRUSIONGEOMETRY_INLINE_CVSID "@(#)$Id: OSGExtrusionGeometry.inl,v 1.4 2009/02/23 18:59:22 pdaehne Exp $"
