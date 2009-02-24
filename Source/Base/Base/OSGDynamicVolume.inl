@@ -61,13 +61,11 @@ DynamicVolume::~DynamicVolume(void)
 {
 }
 
-
 inline
 const Volume &DynamicVolume::getInstance(void) const
 { 
     return *(reinterpret_cast<const OSG::Volume *>(_volumeMem)); 
 }
-
 
 inline
 Volume &DynamicVolume::getInstance(void)
@@ -88,6 +86,39 @@ void DynamicVolume::instanceChanged(void)
     _state = getInstance().getState(); 
 }
 
+inline
+void DynamicVolume::updateInstanceState(void)
+{
+    getInstance().setState(_state);
+}
+
+inline
+void DynamicVolume::setValid(const bool value)
+{
+    Volume::setValid(value);
+    updateInstanceState();
+}
+
+inline
+void DynamicVolume::setEmpty(const bool value)
+{
+    Volume::setEmpty(value);
+    updateInstanceState();
+}
+
+inline
+void DynamicVolume::setStatic(const bool value)
+{
+    Volume::setStatic(value);
+    updateInstanceState();
+}
+
+inline
+void DynamicVolume::setInfinite(const bool value)
+{
+    Volume::setInfinite(value);
+    updateInstanceState();
+}
 
 OSG_END_NAMESPACE
 
