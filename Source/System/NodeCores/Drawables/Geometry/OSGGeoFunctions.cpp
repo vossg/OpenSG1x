@@ -3016,7 +3016,7 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
   std::vector< UInt32 >    outIndexV;
   std::vector< GLdouble >  positionV;
 
-  inIndexV.reserve(4096);
+  inIndexV.reserve(4096);  
   outIndexV.reserve(4096);
   positionV.reserve(4096);
 
@@ -3026,24 +3026,22 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
       return;
   }
 
-  //scan the geometry for GL_QUADSs and GL_POLYGONs
+  //scan the geometry for GL_POLYGONs
   bool containsPolygon = false; 
   PrimitiveIterator primI = geoPtr->beginPrimitives();
-  for(; (primI != geoPtr->endPrimitives()) && (containsPolygon == false); ++primI)
+  for(;primI != geoPtr->endPrimitives(); ++primI)
   {
-      switch(primI.getType())
+      if(primI.getType() == GL_POLYGON)
       {
-      case GL_QUADS:
-      case GL_POLYGON:
           containsPolygon = true;
           break;
       }
   }
 
-  // skip geometry if it doesn't contain a GL_QUADS or GL_POLYGON
+  // skip geometry if it doesn't contain a GL_POLYGON
   if(!containsPolygon)
   {
-      FINFO(("Geometry with no GL_QUADS or GL_POLYGONs in createConvexPrimitives:\n"));
+      FINFO(("Geometry with no GL_POLYGONs in createConvexPrimitives:\n"));
       FINFO(("Nothing to do for createConvexPrimitives: Returning\n"));
       return;
   }
@@ -3134,12 +3132,11 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
   for(;primI != geoPtr->endPrimitives(); ++primI)
   {
       FDEBUG(("Primitive index: %d\n", primI.getIndex()));
-
-      switch(primI.getType())
+      
+      // if the primitive is not of type GL_POLYGON just copy its contents
+      if(primI.getType() != GL_POLYGON)
       {
-      default:
-          // if the primitive is not of type GL_QUADS or GL_POLYGON just copy its contents
-          FDEBUG(("Not a GL_QUADS or GL_POLYGON. Copying properties\n"));
+          FDEBUG(("Not a GL_POLYGON. Copying properties\n"));
           if(!indexed)
           {
               FWARNING(("createConvexPrimitives(): Nonindexed geometries are not implemented!\n"));
@@ -3163,17 +3160,17 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
               }
               newLengthsPtr->push_back(primI.getLength());
           }
-          break;
-      case GL_QUADS:
-      case GL_POLYGON:
-          // Process GL_QUADSs and GL_POLYGONs i.e. tesselate them
-          FDEBUG(("Tesselating GL_QUADS or GL_POLYGON (PrimitiveIndex: %d, Vertices %d)\n",
+      }
+      // Process GL_POLYGONs i.e. tesselate them
+      else
+      {
+          FDEBUG(("Tesselating GL_POLYGON (PrimitiveIndex: %d, Vertices %d)\n",
                  primI.getIndex(), primI.getLength()));
 
-          inIndexV.clear();
+          inIndexV.clear();  
           outIndexV.clear();
           positionV.clear();
-
+          
           for(UInt32 i = 0; i < primI.getLength(); i++)
           {
               // Convert the vertices to double precision
@@ -3191,7 +3188,7 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
               inIndexV.push_back(curIndex);
           }
 
-#ifdef OSG_DEBUG
+#ifdef OSG_DEBUG          
 
           for(UInt32 i = 0; i < primI.getLength(); i++) 
 					{
@@ -3264,23 +3261,22 @@ void OSG::createConvexPrimitives(GeometryPtr geoPtr)
           FINFO(("Vertex count: %d/%d (before/after tesselation)\n",
                  primI.getLength(), outIndexV.size()));
           newLengthsPtr->push_back(outIndexV.size());
-          break;
       }
   }
-
+  
   endEditCP(newTypesPtr);
   endEditCP(newIndexPtr);
   endEditCP(newLengthsPtr);
-
+  
   beginEditCP(geoPtr);
 
   // update the geometry properties 
   geoPtr->setTypes(newTypesPtr);
   geoPtr->setIndices(newIndexPtr);
   geoPtr->setLengths(newLengthsPtr);
-
+  
   endEditCP(geoPtr);
-
+    
   FDEBUG(("gluDeleteTess(%p)\n", tess));
   gluDeleteTess(tess);
 
