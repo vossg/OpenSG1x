@@ -982,7 +982,7 @@ Int32 OSG::setIndexFromVRMLData(GeometryPtr geoPtr,
     specify bindings. See the X3D specification at
     http://www.web3d.org for details.
 
-    Note: the \a convex and \a createNormals parameters are ignored right now!
+    Note: the \a createNormals parameter is ignored right now!
 */
 
 OSG_SYSTEMLIB_DLLMAPPING 
@@ -992,7 +992,7 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
                                         std::vector<Int32> &colorIndex,
                                         std::vector<Int32> &texCoordIndex,
                                         Int32 primitiveType, 
-                                        bool OSG_CHECK_ARG(convex), 
+                                        bool convex, 
                                         bool ccw,
                                         bool normalPerVertex, 
                                         bool colorPerVertex,
@@ -1614,7 +1614,9 @@ else
                     sysPType = GL_TRIANGLES;
                     break;
                   case 4:
-                    sysPType = GL_QUADS;
+                    // Do not generate QUADS when convex is false, but POLYGONS -
+                    // polygons of 4 points indeed can be concave (L-shapes)!
+                    sysPType = convex == true ? GL_QUADS : 0;
                     break;
                 }
             }
@@ -1653,11 +1655,10 @@ else
                     localPType = (len > maxPType) ? maxPType : len;
                     if((beginIndex >= 0) && (localPType == pType))
                     {
-                        if(len >= maxPType)
+                        if(sysPType == 0)
                         {
-                            sysPType = primitiveType;
                             lensPtr->push_back(len);
-                            geoTypePtr->push_back(sysPType);
+                            geoTypePtr->push_back(primitiveType);
                         }
 
                         // add index data
