@@ -41,6 +41,9 @@
 #ifndef RHINO2OSB_H_
 #define RHINO2OSB_H_
 
+#include <string>
+#include <map>
+
 #include <opennurbs/opennurbs.h>
 #include <OSGNode.h>
 #include <OSGSimpleMaterial.h>
@@ -49,7 +52,7 @@
 class rhino2osb{
 public:
 
-    rhino2osb(int curveInterpolationSteps = 100, float tessError = 0.1f, bool doTessellation = true);
+    rhino2osb(int curveInterpolationSteps = 100, float tessError = 0.1f, bool doTessellation = true, const std::string &options = "");
     virtual ~rhino2osb();
 
     OSG::NodePtr load( const char *fileName );
@@ -122,6 +125,7 @@ protected:
     int m_curveInterpolationSteps;
     float m_tessellationError;
     bool m_bDoTessellation;
-    
+    std::string m_options;
+    std::map<int, OSG::SimpleMaterialPtr> m_materials;
 };
 #endif // RHINO2OSB_H_

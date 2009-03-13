@@ -48,6 +48,7 @@
 
 #include <OSGLog.h>
 
+#include "OSGSceneFileHandler.h"
 #include "OSGRhinoSceneFileType.h"
 
 #include "OSGrhino2osb.h"
@@ -77,7 +78,7 @@ RhinoSceneFileType RhinoSceneFileType::_the(_suffixA, sizeof(_suffixA),
 
 NodePtr RhinoSceneFileType::read3DM(const Char8  *fileName) const
 {
-    rhino2osb ro(m_curveInterpolationSteps, m_tessellationError, m_bDoTessellation);
+    rhino2osb ro(m_curveInterpolationSteps, m_tessellationError, m_bDoTessellation, SceneFileHandler::the().getOptions(_suffixA[0]));
     osg::NodePtr root = ro.load(fileName);
     return root;
 }
@@ -163,7 +164,7 @@ RhinoSceneFileType::~RhinoSceneFileType (void )
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRhinoSceneFileType.cpp,v 1.1 2008/08/07 00:01:58 edhellon Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRhinoSceneFileType.cpp,v 1.2 2009/03/13 09:17:04 a-m-z Exp $";
     static Char8 cvsid_hpp[] = OSGRHINOSCENEFILETYPE_HEADER_CVSID;
 }
 

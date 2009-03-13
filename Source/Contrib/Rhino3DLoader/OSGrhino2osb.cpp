@@ -46,14 +46,17 @@
 #include <OSGCoredNodePtr.h>
 #include <OSGBaseFunctions.h>
 #include <OSGMaterialMergeGraphOp.h>
+#include <OSGSimpleAttachments.h>
 
 OSG_USING_NAMESPACE
 
 
-rhino2osb::rhino2osb(int curveInterpolationSteps, float tessError, bool doTessellation):
+rhino2osb::rhino2osb(int curveInterpolationSteps, float tessError, bool doTessellation, const std::string &options):
     m_curveInterpolationSteps(curveInterpolationSteps),
     m_tessellationError(tessError),
-    m_bDoTessellation(doTessellation)
+    m_bDoTessellation(doTessellation),
+    m_options(options),
+    m_materials()
 {
     // OpenNURBS init can be run multiple times so it should be safe here
     ON::Begin();
@@ -541,6 +544,8 @@ NodePtr rhino2osb::process_brepface( const ON_BrepFace& face )
     {
         // use saved render mesh
         //printf("Found mesh associated with brepface, ignoring\n");
+        if(m_options.find("importRenderMeshes=true") != std::string::npos)
+            return process_mesh(mesh);
     }
 
     // convert to OpenSG struct
@@ -641,7 +646,6 @@ NodePtr rhino2osb::process_surface(const ON_Surface& surface)
 
 void rhino2osb::process_material( const ONX_Model& model, int index )
 {
-    m_actMaterial = SimpleMaterial::create();
     ON_Color actcol;
     // debug checks for material
 /*
@@ -676,6 +680,13 @@ void rhino2osb::process_material( const ONX_Model& model, int index )
     const ON_Curve* curve = NULL;
     ON_Material mat;
     model.GetRenderMaterial(mo.m_attributes, mat);
+    std::map<int, SimpleMaterialPtr>::iterator it = m_materials.find(mat.MaterialIndex());
+    if(it != m_materials.end())
+    {
+        m_actMaterial = (*it).second;
+        return;
+    }
+
     curve = ON_Curve::Cast(geometry);
     if (NULL != curve)
     {
@@ -687,6 +698,8 @@ void rhino2osb::process_material( const ONX_Model& model, int index )
         mat.SetSpecular(black);
         mat.SetEmission(c);
     }
+
+    m_actMaterial = SimpleMaterial::create();
     beginEditCP(m_actMaterial);
     {
         actcol = mat.Diffuse();
@@ -713,7 +726,14 @@ void rhino2osb::process_material( const ONX_Model& model, int index )
         }
         m_actMaterial->setShininess( 128.0*(mat.Shine() / ON_Material::MaxShine() ) );
     }
-    endEditCP(m_actMaterial); 
+    endEditCP(m_actMaterial);
+
+    ON_String mat_name = mat.m_material_name;
+    if(mat_name.Array() != NULL)
+        OSG::setName(m_actMaterial, mat_name.Array());
+
+    m_materials.insert(std::make_pair(mat.MaterialIndex(), m_actMaterial));
+
     //m_actMaterial->dump();
 }
 
@@ -735,17 +755,19 @@ NodePtr rhino2osb::buildNode( const ONX_Model& model, int index )
     {
         return NullFC;
     }
-    process_material(model, index);
+
     brep = ON_Brep::Cast(geometry);
     if ( brep ) 
     {
         //printf("found brep\n");
+        process_material(model, index);
         return process_brep(*brep);
     }
     mesh = ON_Mesh::Cast(geometry);
     if ( mesh ) 
     {
         //printf("found mesh\n");
+        process_material(model, index);
         return process_mesh(mesh);
     }
 
@@ -753,6 +775,7 @@ NodePtr rhino2osb::buildNode( const ONX_Model& model, int index )
 //    if ( curve ) 
 //    {
 //        printf("found curve\n");
+//        process_material(model, index);
 //        return process_curve( *curve, 0 );
 //    }
 
@@ -760,6 +783,7 @@ NodePtr rhino2osb::buildNode( const ONX_Model& model, int index )
     if ( surface ) 
     {
         //printf("found surface\n");
+        process_material(model, index);
         return process_surface( *surface );
     }
 
@@ -767,6 +791,7 @@ NodePtr rhino2osb::buildNode( const ONX_Model& model, int index )
     if ( point ) 
     {
         //printf("found point\n");
+        process_material(model, index);
         return process_point(point);
     }
 
@@ -774,6 +799,7 @@ NodePtr rhino2osb::buildNode( const ONX_Model& model, int index )
     if ( cloud ) 
     {
         //printf("found pointcloud\n");
+        process_material(model, index);
         return process_pointcloud(cloud);
     }
 
@@ -781,12 +807,14 @@ NodePtr rhino2osb::buildNode( const ONX_Model& model, int index )
     if ( grid ) 
     {
         //printf("found pointgrid\n");
+        process_material(model, index);
         return process_pointgrid(grid);
     }
     curve = ON_Curve::Cast(geometry);
     if ( curve ) 
     {
         //printf("found curve\n");
+        process_material(model, index);
         return process_curve(curve);
     }
     printf("found unkown object\n");
@@ -1142,133 +1170,174 @@ OSG::NodePtr rhino2osb::process_linecurve(const ON_LineCurve* theGeometry)
 OSG::NodePtr rhino2osb::process_mesh(const ON_Mesh* theMesh)
 {
     NodePtr result = NullFC;
-    if (theMesh != NULL)
+    if (theMesh == NULL)
+        return result;
+
+    const int face_count = theMesh->FaceCount();
+
+    if(face_count <= 0)
+        return result;
+
+    result = Node::create();
+    GeometryPtr geo = Geometry::create();
+    beginEditCP(result, Node::CoreFieldMask);
+        result->setCore(geo);
+    endEditCP(result, Node::CoreFieldMask);
+
+    const bool bHasNormals = theMesh->HasVertexNormals();
+    const bool bHasTCoords = theMesh->HasTextureCoordinates();
+
+    GeoPositions3fPtr points = GeoPositions3f::create();
+    GeoNormals3fPtr normals = NullFC;
+    if(bHasNormals)
+        normals = GeoNormals3f::create();
+    GeoTexCoords2fPtr texcoords  = NullFC;
+    if(bHasTCoords)
+        texcoords  = GeoTexCoords2f::create();
+
+    beginEditCP(points);
+    if(normals != NullFC)
+        beginEditCP(normals);
+    if(texcoords != NullFC)
+        beginEditCP(texcoords);
+
+    int tri_count = 0;
+    int i0, i1, i2, j0, j1, j2;
+    ON_3fPoint v[4];
+    ON_3fVector n[4];
+    ON_2fPoint t[4];
+    for(int fi = 0; fi < face_count; ++fi)
     {
+        const ON_MeshFace& f = theMesh->m_F[fi];
 
-        long nbFaces = theMesh->m_F.Count();
-        long nbPoints = theMesh->m_V.Count();
-        long nbFaceNormals = theMesh->m_N.Count();
-        long nbVertexNormals = theMesh->m_FN.Count();
+        v[0] = theMesh->m_V[f.vi[0]];
+        v[1] = theMesh->m_V[f.vi[1]];
+        v[2] = theMesh->m_V[f.vi[2]];
 
-        GeometryPtr         geo;
-        Pnt3f               point;
-        osg::Vec3f          norm;
-        GeoPositions3fPtr   points;
-        GeoPLengthsPtr      lens;
-        GeoPTypesPtr        type;
-
-        result = Node::create();
-
-        geo = Geometry::create();
-        points = GeoPositions3f::create();
-//        norms = GeoNormals3f::create();
-        lens = GeoPLengthsUI32::create();
-        type = GeoPTypesUI8::create();
-
-        //-------------------------------------------------------------------
-        // set the points and normals
-    
-        int normalsMode = 0;
-        if (nbFaceNormals == nbFaces)
-            normalsMode = 1;
-        if (nbVertexNormals == nbPoints)
-            normalsMode = 2;
-        if (nbVertexNormals == 3*nbFaces)
-            normalsMode = 3;
-
-        beginEditCP(points, GeoPositions3f::GeoPropDataFieldMask);
-        GeoNormals3fPtr     norms;
-        if (normalsMode != 0)
+        if ( bHasNormals )
         {
-            norms = GeoNormals3f::create();
-            beginEditCP(norms);
+            n[0] = theMesh->m_N[f.vi[0]];
+            n[1] = theMesh->m_N[f.vi[1]];
+            n[2] = theMesh->m_N[f.vi[2]];
         }
-        beginEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
-        beginEditCP(lens, GeoPLengthsUI32::GeoPropDataFieldMask);
-        for (long i = 0; i < nbFaces; i++)
+
+        if ( bHasTCoords )
         {
-            const ON_MeshFace* tmpFace = theMesh->m_F.At(i);
-            if (tmpFace->IsTriangle())
+            t[0] = theMesh->m_T[f.vi[0]];
+            t[1] = theMesh->m_T[f.vi[1]];
+            t[2] = theMesh->m_T[f.vi[2]];
+        }
+
+        if (f.IsQuad() )
+        {
+            // quadrangle - render as two triangles
+            v[3] = theMesh->m_V[f.vi[3]];
+            if ( bHasNormals )
+                n[3] = theMesh->m_N[f.vi[3]];
+            if ( bHasTCoords )
+                t[3] = theMesh->m_T[f.vi[3]];
+            if ( v[0].DistanceTo(v[2]) <= v[1].DistanceTo(v[3]) )
             {
-                type->addValue( GL_TRIANGLES );
-                lens->addValue(3);
-                for (int j = 0; j < 3; j++)
-                {
-//                    indices->addValue(tmpFace->vi[j]);
-                    const ON_3fPoint* tmpPoint = theMesh->m_V.At(tmpFace->vi[j]);
-                    points->addValue(Pnt3f(tmpPoint->x, tmpPoint->y, tmpPoint->z));
-                    if (1 == normalsMode)
-                    {
-                        const ON_3fVector* tmpNorm = theMesh->m_FN.At(i);
-                        norms->addValue(osg::Vec3f(tmpNorm->x, tmpNorm->y, tmpNorm->z));
-                    }
-                    else if (2 == normalsMode)
-                    {
-                        const ON_3fVector* tmpNorm = theMesh->m_N.At(tmpFace->vi[j]);
-                        norms->addValue(osg::Vec3f(tmpNorm->x, tmpNorm->y, tmpNorm->z));
-                    }
-                    else if (3 == normalsMode)
-                    {
-                        const ON_3fVector* tmpNorm = theMesh->m_N.At(3*i+j);
-                        norms->addValue(osg::Vec3f(tmpNorm->x, tmpNorm->y, tmpNorm->z));
-                    }
-                }
+                i0 = 0; i1 = 1; i2 = 2;
+                j0 = 0; j1 = 2; j2 = 3;
             }
             else
             {
-                type->addValue( GL_QUADS);
-                lens->addValue(4);
-                for (int j = 0; j < 4; j++)
-                {
-                    //indices->addValue(tmpFace->vi[j]);
-                    const ON_3fPoint* tmpPoint = theMesh->m_V.At(tmpFace->vi[j]);
-                    points->addValue(Pnt3f(tmpPoint->x, tmpPoint->y, tmpPoint->z));
-                    if (1 == normalsMode)
-                    {
-                        const ON_3fVector* tmpNorm = theMesh->m_FN.At(i);
-                        norms->addValue(osg::Vec3f(tmpNorm->x, tmpNorm->y, tmpNorm->z));
-                    }
-                    else if (2 == normalsMode)
-                    {
-                        const ON_3fVector* tmpNorm = theMesh->m_N.At(tmpFace->vi[j]);
-                        norms->addValue(osg::Vec3f(tmpNorm->x, tmpNorm->y, tmpNorm->z));
-                    }
-                    else if (3 == normalsMode)
-                    {
-                        const ON_3fVector* tmpNorm = theMesh->m_N.At(4*i+j);
-                        norms->addValue(osg::Vec3f(tmpNorm->x, tmpNorm->y, tmpNorm->z));
-                    }
-                }
+                i0 = 1; i1 = 2; i2 = 3;
+                j0 = 1; j1 = 3; j2 = 0;
+            }
+            tri_count += 2;
+        }
+        else
+        {
+            // single triangle
+            i0 = 0; i1 = 1; i2 = 2;
+            j0 = j1 = j2 = 0;
+            ++tri_count;
+        }
+
+        // first triangle
+        points->editFieldPtr()->push_back(Pnt3f(v[i0].x, v[i0].y, v[i0].z));
+        points->editFieldPtr()->push_back(Pnt3f(v[i1].x, v[i1].y, v[i1].z));
+        points->editFieldPtr()->push_back(Pnt3f(v[i2].x, v[i2].y, v[i2].z));
+        if ( bHasNormals )
+        {
+            normals->editFieldPtr()->push_back(Vec3f(n[i0].x, n[i0].y, n[i0].z));
+            normals->editFieldPtr()->push_back(Vec3f(n[i1].x, n[i1].y, n[i1].z));
+            normals->editFieldPtr()->push_back(Vec3f(n[i2].x, n[i2].y, n[i2].z));
+        }
+        if ( bHasTCoords )
+        {
+            texcoords->editFieldPtr()->push_back(Vec2f(t[i0].x, t[i0].y ));
+            texcoords->editFieldPtr()->push_back(Vec2f(t[i1].x, t[i1].y ));
+            texcoords->editFieldPtr()->push_back(Vec2f(t[i2].x, t[i2].y ));
+        }
+
+        if ( j0 != j1 )
+        {
+            // if we have a quad, second triangle
+            points->editFieldPtr()->push_back(Pnt3f(v[j0].x, v[j0].y, v[j0].z));
+            points->editFieldPtr()->push_back(Pnt3f(v[j1].x, v[j1].y, v[j1].z));
+            points->editFieldPtr()->push_back(Pnt3f(v[j2].x, v[j2].y, v[j2].z));
+            if ( bHasNormals )
+            {
+                normals->editFieldPtr()->push_back(Vec3f(n[j0].x, n[j0].y, n[j0].z));
+                normals->editFieldPtr()->push_back(Vec3f(n[j1].x, n[j1].y, n[j1].z));
+                normals->editFieldPtr()->push_back(Vec3f(n[j2].x, n[j2].y, n[j2].z));
+            }
+            if ( bHasTCoords )
+            {
+                texcoords->editFieldPtr()->push_back(Vec2f(t[j0].x, t[j0].y ));
+                texcoords->editFieldPtr()->push_back(Vec2f(t[j1].x, t[j1].y ));
+                texcoords->editFieldPtr()->push_back(Vec2f(t[j2].x, t[j2].y ));
             }
         }
-        endEditCP(lens, GeoPLengthsUI32::GeoPropDataFieldMask);
-        endEditCP(type, GeoPTypesUI8::GeoPropDataFieldMask);
-        if (normalsMode != 0)
-            endEditCP(norms);
-        endEditCP(points, GeoPositions3f::GeoPropDataFieldMask);
-
-        beginEditCP(geo, Geometry::TypesFieldMask     |
-                     Geometry::LengthsFieldMask   |
-                     Geometry::PositionsFieldMask |
-                     Geometry::MaterialFieldMask  );
-        {
-            geo->setTypes    (type);
-            geo->setLengths  (lens);
-//            geo->setIndices(indices);
-            geo->setPositions(points);
-            if (normalsMode != 0)
-                geo->setNormals  (norms);
-            geo->setMaterial (m_actMaterial);
-        }
-        endEditCP(geo, Geometry::TypesFieldMask     |
-                     Geometry::LengthsFieldMask   |
-                     Geometry::PositionsFieldMask |
-                     Geometry::MaterialFieldMask  );
-                    
-        beginEditCP(result, Node::CoreFieldMask);
-        result->setCore(geo);
-        endEditCP(result, Node::CoreFieldMask);
     }
+
+    if(texcoords != NullFC)
+        endEditCP(texcoords);
+    if(normals != NullFC)
+        endEditCP(normals);
+    endEditCP(points);
+
+    int nv = tri_count * 3;
+
+    GeoPLengthsUI32Ptr lengths = GeoPLengthsUI32::create();
+    beginEditCP(lengths);
+        lengths->push_back(nv);
+    endEditCP(lengths);
+    
+    GeoPTypesUI8Ptr types = GeoPTypesUI8::create();
+    beginEditCP(types);
+        types->push_back(GL_TRIANGLES);
+    endEditCP(types);
+
+    GeoIndicesUI32Ptr indices = GeoIndicesUI32::create();
+    beginEditCP(indices);
+        indices->getFieldPtr()->reserve(nv);
+        for (int i = 0; i < nv; ++i)
+            indices->editFieldPtr()->push_back(i);
+    endEditCP(indices);
+
+    int imapping = Geometry::MapPosition;
+    if(normals != NullFC)
+        imapping |= Geometry::MapNormal;
+    if(texcoords != NullFC)
+        imapping |= Geometry::MapTexCoords;
+
+    beginEditCP(geo);
+        geo->setMaterial(m_actMaterial);
+        geo->setPositions(points);
+        if(normals != NullFC)
+            geo->setNormals(normals);
+        if(texcoords != NullFC)
+            geo->setTexCoords(texcoords);
+        geo->setIndices(indices);
+        geo->setLengths(lengths);
+        geo->setTypes(types);
+        geo->editMFIndexMapping()->push_back(imapping);
+    endEditCP(geo);
+
     return result;
 }
 
@@ -1298,11 +1367,17 @@ NodePtr rhino2osb::load( const char *fileName )
         child = buildNode(model, i);
         if( child != NullFC )
         {
+            ON_3dmObjectAttributes &attr = model.m_object_table[i].m_attributes;
+            ON_String node_name = attr.m_name;
+            if(node_name.Array() != NULL)
+                OSG::setName(child, node_name.Array());
             m_pRootNode->addChild( child );
         }
     }
     endEditCP( m_pRootNode );
-    
+
+    // disabled it, duplicated materials are already removed via material map.
+#if 0
     // merge materials
     MaterialMergeGraphOp *mergematop = new MaterialMergeGraphOp;
     bool res = mergematop->traverse(m_pRootNode);
@@ -1311,6 +1386,7 @@ NodePtr rhino2osb::load( const char *fileName )
         FWARNING(("Material merge graphOp failed\n"));
     }
     delete mergematop;
+#endif
 
     return m_pRootNode;
 }
