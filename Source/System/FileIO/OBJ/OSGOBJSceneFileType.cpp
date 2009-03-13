@@ -169,6 +169,7 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
     std::list<Face>::iterator faceI;
     std::list<Mesh>::iterator meshI;
     bool isSingleIndex;
+    std::string name;
 
     // create the first mesh entry
     meshList.push_back(emptyMesh);
@@ -200,7 +201,8 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                     case OBJECT_DE:
                     case GROUP_DE:
                     case SMOOTHING_GROUP_DE:
-                        is.ignore(INT_MAX, '\n');
+                        is >> name;
+                        //is.ignore(INT_MAX, '\n');
                         break;
                     case VERTEX_DE:
                         primCount[0]++;
@@ -239,6 +241,7 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                         {
                             meshList.push_front(emptyMesh);
                             meshI = meshList.begin();
+                            meshI->name = name;
                         }
                         mtlI = mtlMap.find(elem);
                         if (mtlI == mtlMap.end())
@@ -506,6 +509,8 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
 
                     // create and link the node
                     nodePtr = Node::create();
+                    if(!meshI->name.empty())
+                        OSG::setName(nodePtr, meshI->name);
                     beginEditCP ( nodePtr );
                     {
                         nodePtr->setCore( geoPtr );
