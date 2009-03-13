@@ -48,6 +48,7 @@
 
 #include <OSGGL.h>
 
+#include <string>
 #include <iostream>
 #include <fstream>
 
@@ -65,6 +66,7 @@
 #include <OSGGroup.h>
 #include <OSGSceneFileHandler.h>
 #include <OSGTriangleIterator.h>
+#include <OSGSimpleAttachments.h>
 
 #include "OSGOBJSceneFileType.h"
 
@@ -219,9 +221,17 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                         normalPtr->push_back(vec3f);
                         break;
                     case LIB_MTL_DE:
-                        is >> elem;
+                        //is >> elem;
+                        // operator>> doesn't work for filenames with a space.
+                        elem = "";
+                        std::getline (is, elem);
+                        // remove white space.
+                        while(!elem.empty() && isspace(elem[0]))
+                            elem.erase(0, 1);
+                        while(!elem.empty() && isspace(elem[elem.length()-1]))
+                            elem.erase(elem.length()-1, 1);
                         readMTL ( elem.c_str(), mtlMap );
-                        is.ignore(INT_MAX, '\n');
+                        //is.ignore(INT_MAX, '\n');
                         break;
                     case USE_MTL_DE:
                         is >> elem;
@@ -233,15 +243,40 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                         mtlI = mtlMap.find(elem);
                         if (mtlI == mtlMap.end())
                         {
-                            FFATAL (("Unkown mtl %s\n", elem.c_str()));
+                            FFATAL (("Unkown mtl '%s'\n", elem.c_str()));
                         }
                         else
                             meshI->mtlPtr = mtlI->second;
                         break;
                     case FACE_DE:
+                    {
                         meshI->faceList.push_front(emptyFace);
                         faceI = meshI->faceList.begin();
-                        is.get(strBuf,strBufSize);
+                        // support for new lines via backslash.
+                        Char8 *b = &strBuf[0];
+                        int bsize = strBufSize;
+                        do
+                        {
+                            is.get(b, bsize);
+                            is.ignore(INT_MAX, '\n');
+                            int l = strlen(b);
+                            bsize -= l;
+                            if(l == 0)
+                                break;
+
+                            b = &b[l-1];
+
+                            // skip whitespace.
+                            while(isspace(*b))
+                                --b;
+
+                            if(*b == '\\')
+                                *b++ = ' ';
+                            else
+                                break;
+                        }
+                        while(true);
+
                         token = strBuf;
                         indexType = 0;
                         while (token && *token)
@@ -262,6 +297,7 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
                             faceI->tieVec.back().index[indexType] = index;
                             token = nextToken;
                         }
+                    }
                         break;
                     case UNKNOWN_DE:
                     default:
@@ -812,9 +848,13 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
     bool constDiffuse = false, constAmbient = false, constSpecular = false;
 
     if (in)
+    {
         for (in >> elem; in.eof() == false; in >> elem)
+        {
             if (elem[0] == '#' || elem[0] == '$' )
+            {
                 in.ignore(INT_MAX, '\n');
+            }
             else
             {
                 elemI = _mtlElemMap.find(elem);
@@ -826,10 +866,11 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                     if (mtlPtr != NullFC)
                         endEditCP(mtlPtr);
                     mtlPtr = SimpleTexturedMaterial::create();
+                    OSG::setName(mtlPtr, elem.c_str());
                     beginEditCP(mtlPtr);
                     mtlPtr->setColorMaterial(GL_NONE);
                     mtlPtr->setEnvMode(GL_MODULATE);
-                    mtlMap[elem] = mtlPtr;
+                    mtlMap.insert(std::make_pair(elem, mtlPtr));
                     mtlCount++;
                     constDiffuse  = false;
                     constAmbient  = false;
@@ -944,6 +985,12 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                     }
                 }
             }
+        }
+    }
+    else
+    {
+        FWARNING (("Couldn't open '%s'!\n", fileName));
+    }
 
     if (mtlPtr != NullFC)
         endEditCP(mtlPtr);
