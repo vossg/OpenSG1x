@@ -66,7 +66,8 @@ OSG_USING_NAMESPACE
 OSG_SYSTEMLIB_DLLMAPPING
 bool OSG::createComposedImage ( std::vector<ImagePtr> imageVec,
                                 ImagePtr              image,
-                                SliceDataType         sliceDataType )
+                                SliceDataType         sliceDataType,
+                                bool                  flipY )
 {
   UInt32 dataSize, i, n = imageVec.size();
   Int32 w = 0, h = 0;
@@ -150,6 +151,7 @@ bool OSG::createComposedImage ( std::vector<ImagePtr> imageVec,
 
     destData = image->editData();
     dataSize = image->getSize() / n;
+    UInt32 bpl = dataSize / h;
 
     if (needCopy) {
       FLOG (("Image data/type/size missmatch while composing\n"));
@@ -169,8 +171,21 @@ bool OSG::createComposedImage ( std::vector<ImagePtr> imageVec,
       else 
         srcData = imageVec[i]->getData();
       
-      memcpy ( destData, srcData, dataSize );
-      destData += dataSize;
+      if (flipY == true)
+      {
+        srcData += dataSize;
+        for (UInt32 y = 0; y < h; ++y)
+        {
+          srcData -= bpl;
+          memcpy ( destData, srcData, bpl );
+          destData += bpl;
+        }
+      }
+      else
+      {
+        memcpy ( destData, srcData, dataSize );
+        destData += dataSize;
+      }
     }
   }
 

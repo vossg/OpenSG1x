@@ -63,7 +63,8 @@ enum SliceDataType {
 OSG_SYSTEMLIB_DLLMAPPING
 bool createComposedImage ( std::vector<ImagePtr> srcImageVec,
                            ImagePtr              dstImage,
-                           SliceDataType sliceDataType = DEPTH_SDT );
+                           SliceDataType         sliceDataType = DEPTH_SDT,
+                           bool                  flipY = false );
 
 
 OSG_SYSTEMLIB_DLLMAPPING 
