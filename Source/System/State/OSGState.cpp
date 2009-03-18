@@ -178,10 +178,11 @@ void State::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
 void State::activate(DrawActionBase *action)
 {
     MFStateChunkPtr::iterator it;
+    const MFStateChunkPtr::iterator itEnd = _mfChunks.end();
     Int32 ind = 0;
     UInt32 cind;
 
-    for(it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
+    for(it = _mfChunks.begin(), cind = 0; it != itEnd;
           ++it, ++cind)
     {
         if(*it != NullFC && !(*it)->getIgnore())
@@ -201,11 +202,12 @@ void State::activate(DrawActionBase *action)
 void State::changeFrom(DrawActionBase *action, State *old)
 {
     MFStateChunkPtr::iterator it;
+    const MFStateChunkPtr::iterator itEnd = _mfChunks.end();
     Int32 ind = 0;
     UInt32 i;
     UInt32 cind;
 
-    for(it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
+    for(it = _mfChunks.begin(), cind = 0; it != itEnd;
           ++it, ++cind)
     {
         StateChunkPtr o = old->getChunk(cind);
@@ -254,10 +256,11 @@ void State::changeFrom(DrawActionBase *action, State *old)
 void State::deactivate(DrawActionBase *action)
 {
     MFStateChunkPtr::iterator it;
+    const MFStateChunkPtr::iterator itEnd = _mfChunks.end();
     Int32 ind = 0;
     UInt32 cind;
 
-    for(it = _mfChunks.begin(), cind = 0; it != _mfChunks.end();
+    for(it = _mfChunks.begin(), cind = 0; it != itEnd;
           ++it, ++cind)
     {
         if(*it != NullFC && !(*it)->getIgnore())
