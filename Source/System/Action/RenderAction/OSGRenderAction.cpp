@@ -2318,12 +2318,10 @@ void RenderAction::draw(DrawTreeNode *pRoot)
                         pNewState->changeFrom(this, previous_state);
                         _uiNumMaterialChanges++;
                     }
-                    else
-                    {
-                        // even if the state didn't change we need to update
-                        // the shaders to provide the right world matrix.
-                        updateShader(pNewState);
-                    }
+
+                    // we need to update the shaders independent from state
+                    // changes so that shaders provide the right world matrix.
+                    updateShader(pNewState);
                 }
                 else
                 {
@@ -2666,6 +2664,8 @@ Action::ResultE RenderAction::stop(ResultE res)
 //    dump(_pTransMatRoot, 0);
 
     //    _pNodeFactory->printStat();    
+
+    glPushMatrix();
 
     if(!_bLocalLights)
     {
@@ -3106,6 +3106,8 @@ Action::ResultE RenderAction::stop(ResultE res)
         }
     }
 
+
+    glPopMatrix();
 
 //    FINFO (("Material %d Matrix %d Light %d Geometry %d Transparent %d\r",
 //            _uiNumMaterialChanges,
