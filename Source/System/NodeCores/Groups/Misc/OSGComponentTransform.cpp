@@ -67,15 +67,37 @@ void ComponentTransform::changed(BitVector whichField, UInt32 origin)
        (whichField & ScaleOrientationFieldMask) ||
        (whichField & TranslationFieldMask     )  )
     {
-        beginEditCP(ptr, MatrixFieldMask);
-        {
-            editMatrix().setTransform(getTranslation     (),
-                                      getRotation        (),
-                                      getScale           (),
-                                      getScaleOrientation(),
-                                      getCenter          ());
-        }
-        endEditCP  (ptr, MatrixFieldMask);
+        // be careful not to mark the matrix as changed here to avoid
+        // bouncing changes back and forth
+        _sfMatrix.getValue().setTransform(getTranslation     (),
+                                          getRotation        (),
+                                          getScale           (),
+                                          getScaleOrientation(),
+                                          getCenter          () );
+
+        invalidateVolume();
+    }
+    else if(whichField & Inherited::MatrixFieldMask)
+    {
+        Vec3f      translation;
+        Quaternion rotation;
+        Vec3f      scale;
+        Quaternion scaleOrientation;
+        Vec3f      center;
+
+        _sfMatrix.getValue().getTransform(translation,
+                                          rotation,
+                                          scale,
+                                          scaleOrientation,
+                                          center           );
+
+        // be careful not to mark the components as changed here to avoid
+        // bouncing changes back and forth
+        _sfTranslation     .setValue(translation     );
+        _sfRotation        .setValue(rotation        );
+        _sfScale           .setValue(scale           );
+        _sfScaleOrientation.setValue(scaleOrientation);
+        _sfCenter          .setValue(center          );
     }
 
     Inherited::changed(whichField, origin);
