@@ -128,7 +128,15 @@ int main(int argc, char **argv)
         scene->setCore(g);
         
         for(UInt16 i = 1; i < argc; ++i)
+        {
+            Time t0 = getSystemTime();
+            
             scene->addChild(SceneFileHandler::the().read(argv[i]));
+            
+            Time t1 = getSystemTime();
+            
+            std::cout << "Load time: " << (t1 - t0) << std::endl;
+        }
         
         endEditCP(scene);
     }

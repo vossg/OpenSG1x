@@ -49,7 +49,7 @@ int main(int argc, char **argv)
     GeoPositions3fPtr pnts = GeoPositions3f::create();
     particles->setPositions( pnts );
 
-    MFPnt3f* p = pnts->getFieldPtr();
+    MFPnt3f* p = pnts->editFieldPtr();
 
     beginEditCP(pnts);
     UInt32 i;
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
     beginEditCP(cols);
     for(i = 0; i < count; ++i)
     {
-        cols->getFieldPtr()->push_back( Color3f(osgrand(),osgrand(),osgrand()) );
+        cols->editFieldPtr()->push_back( Color3f(osgrand(),osgrand(),osgrand()) );
     }
     endEditCP(cols);
 

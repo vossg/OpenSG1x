@@ -159,7 +159,7 @@ int main(int argc, char **argv)
     GeoPositions3fPtr pnts = GeoPositions3f::create();
     g1->setPositions(pnts);
 
-    MFPnt3f* p = pnts->getFieldPtr();
+    MFPnt3f* p = pnts->editFieldPtr();
 
     beginEditCP(pnts);
     p->push_back(Pnt3f(-1, -1, -1));

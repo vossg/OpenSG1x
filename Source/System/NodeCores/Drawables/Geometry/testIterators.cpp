@@ -41,7 +41,7 @@ int main (int argc, char **argv)
     GeoPositions3f::PtrType pnts = GeoPositions3f::create();
     g->setPositions( pnts );
 
-    MFPnt3f* p = pnts->getFieldPtr();
+    MFPnt3f* p = pnts->editFieldPtr();
 
     beginEditCP(pnts);
     p->push_back( Pnt3f( -1, -1, -1) );
@@ -61,14 +61,14 @@ int main (int argc, char **argv)
                                         Geometry::MapColor );
     
     beginEditCP(cols);
-    cols->getFieldPtr()->push_back( Color4ub( 255, 255, 255, 255) );
-    cols->getFieldPtr()->push_back( Color4ub( 255, 255, 255, 255) );
-    cols->getFieldPtr()->push_back( Color4ub(   0, 255, 255, 255) );
-    cols->getFieldPtr()->push_back( Color4ub(   0, 255, 255, 255) );
-    cols->getFieldPtr()->push_back( Color4ub( 255,   0, 255, 255) );
-    cols->getFieldPtr()->push_back( Color4ub( 255, 255,   0, 255) );
-    cols->getFieldPtr()->push_back( Color4ub( 255,   0,   0, 255) );
-    cols->getFieldPtr()->push_back( Color4ub(   0, 255,   0, 255) );
+    cols->editFieldPtr()->push_back( Color4ub( 255, 255, 255, 255) );
+    cols->editFieldPtr()->push_back( Color4ub( 255, 255, 255, 255) );
+    cols->editFieldPtr()->push_back( Color4ub(   0, 255, 255, 255) );
+    cols->editFieldPtr()->push_back( Color4ub(   0, 255, 255, 255) );
+    cols->editFieldPtr()->push_back( Color4ub( 255,   0, 255, 255) );
+    cols->editFieldPtr()->push_back( Color4ub( 255, 255,   0, 255) );
+    cols->editFieldPtr()->push_back( Color4ub( 255,   0,   0, 255) );
+    cols->editFieldPtr()->push_back( Color4ub(   0, 255,   0, 255) );
     endEditCP(cols);
 
     // don't use normals to test non-existing attributes
@@ -78,19 +78,19 @@ int main (int argc, char **argv)
     GeoPTypesUI8Ptr type = GeoPTypesUI8::create();  
     g->setTypes( type );
     beginEditCP(type);
-    type->getFieldPtr()->push_back( GL_POINTS );
-    type->getFieldPtr()->push_back( GL_LINES );
-    type->getFieldPtr()->push_back( GL_LINE_LOOP );
-    type->getFieldPtr()->push_back( GL_LINE_STRIP );
-    type->getFieldPtr()->push_back( GL_TRIANGLES );
-    type->getFieldPtr()->push_back( GL_TRIANGLE_STRIP );
-    type->getFieldPtr()->push_back( GL_TRIANGLE_FAN );
-    type->getFieldPtr()->push_back( GL_QUADS );
-    type->getFieldPtr()->push_back( GL_QUAD_STRIP );
-    type->getFieldPtr()->push_back( GL_POLYGON );
-    type->getFieldPtr()->push_back( GL_POLYGON );
-    type->getFieldPtr()->push_back( GL_POLYGON );
-    type->getFieldPtr()->push_back( GL_TRIANGLE_STRIP );
+    type->editFieldPtr()->push_back( GL_POINTS );
+    type->editFieldPtr()->push_back( GL_LINES );
+    type->editFieldPtr()->push_back( GL_LINE_LOOP );
+    type->editFieldPtr()->push_back( GL_LINE_STRIP );
+    type->editFieldPtr()->push_back( GL_TRIANGLES );
+    type->editFieldPtr()->push_back( GL_TRIANGLE_STRIP );
+    type->editFieldPtr()->push_back( GL_TRIANGLE_FAN );
+    type->editFieldPtr()->push_back( GL_QUADS );
+    type->editFieldPtr()->push_back( GL_QUAD_STRIP );
+    type->editFieldPtr()->push_back( GL_POLYGON );
+    type->editFieldPtr()->push_back( GL_POLYGON );
+    type->editFieldPtr()->push_back( GL_POLYGON );
+    type->editFieldPtr()->push_back( GL_TRIANGLE_STRIP );
     endEditCP(type);
 
 
@@ -100,7 +100,7 @@ int main (int argc, char **argv)
     {
     static Int32 l[] = { 2,4,3,3,9,5,5,12,6,3,4,5,5,-1};
     for ( int ind = 0; l[ind] >= 0; ind++ )
-        lens->getFieldPtr()->push_back( l[ind] );
+        lens->editFieldPtr()->push_back( l[ind] );
     }
     endEditCP(lens);
 
@@ -114,7 +114,7 @@ int main (int argc, char **argv)
                           6,5,7,4,3,0, 0,1,2, 0,1,2,3, 0,1,2,3,4, 
                           0,1,2,1,3, -1};
     for ( int ind = 0; i[ind] >= 0; ind++ )
-        index->getFieldPtr()->push_back( i[ind] );
+        index->editFieldPtr()->push_back( i[ind] );
     }
     endEditCP(index);
 

@@ -176,7 +176,7 @@ void TextureChunk::setShaderOffsetMatrix(Real32 m11, Real32 m12,
 inline void
 TextureChunk::triggerRefresh(void)
 {
-    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    if(Int32(Thread::getAspect()) != _sfIgnoreGLForAspect.getValue())
     {
         Window::refreshGLObject(getGLId());
     }
@@ -185,7 +185,7 @@ TextureChunk::triggerRefresh(void)
 inline void
 TextureChunk::triggerReInit(void)
 {
-    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    if(Int32(Thread::getAspect()) != _sfIgnoreGLForAspect.getValue())
     {
         Window::reinitializeGLObject(getGLId());
     }

@@ -55,7 +55,7 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
     \
     SLOG << "Resize...";\
     p->resize(32);\
-    MF##etype *f = p->getFieldPtr();\
+    MF##etype *f = p->editFieldPtr();\
     PLOG << "FieldPtr push_back...";\
     for(i = 0; i < 128; ++i)\
     {\
@@ -64,7 +64,7 @@ OSG::Pnt3f calcMean(const MFPnt3f &mfIn)
     PLOG << "Property push_back" << endLog;\
     for(i = 0; i < 128; ++i)\
     {\
-		p->getField().push_back( etype() );\
+		p->editField().push_back( etype() );\
 	}\
 	SLOG << "Dim:" << p->getDimension() << " Format: " << p->getFormat() \
 		 << " FormatSize: " << p->getFormatSize() \
@@ -158,11 +158,11 @@ int main (int argc, char **argv)
 
     beginEditCP(g1, FieldBits::AllFields);
 
-    MFPnt3f *p = pnts->getFieldPtr();       // The p pointer is not MT-safe!!
+    MFPnt3f *p = pnts->editFieldPtr();       // The p pointer is not MT-safe!!
     // generic access
     pnts->push_back( Pnt3f( -1, -1, -1) );
     // via the property
-    pnts->getFieldPtr()->push_back( Pnt3f(  1, -1, -1) );
+    pnts->editFieldPtr()->push_back( Pnt3f(  1, -1, -1) );
     // via the field
     p->push_back( Pnt3f( -1,  1, -1) );
     p->push_back( Pnt3f(  1,  1, -1) );

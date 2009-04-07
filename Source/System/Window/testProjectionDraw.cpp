@@ -205,10 +205,10 @@ void addPort(Pnt3f *vpproj,
         GeoPositions3fPtr pnts = GeoPositions3f::create();
 
         beginEditCP(pnts);
-        pnts->getFieldPtr()->push_back(vpproj[0]);
-        pnts->getFieldPtr()->push_back(vpproj[1]);
-        pnts->getFieldPtr()->push_back(vpproj[2]);
-        pnts->getFieldPtr()->push_back(vpproj[3]);
+        pnts->editFieldPtr()->push_back(vpproj[0]);
+        pnts->editFieldPtr()->push_back(vpproj[1]);
+        pnts->editFieldPtr()->push_back(vpproj[2]);
+        pnts->editFieldPtr()->push_back(vpproj[3]);
         endEditCP(pnts);
 
         GeoTexCoords2fPtr texs = GeoTexCoords2f::create();

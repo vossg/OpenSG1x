@@ -135,8 +135,8 @@ NodePtr makeSurface(const int numcps, const float xyzw[][4],
         cps->clear();
         for (i = 0; i < numcps; ++i)
         {
-            cps->getField().push_back(Pnt4f(xyzw[i][0], xyzw[i][1], 
-                                            xyzw[i][2], xyzw[i][3]));
+            cps->editField().push_back(Pnt4f(xyzw[i][0], xyzw[i][1], 
+                                             xyzw[i][2], xyzw[i][3]));
         }
     }
     endEditCP(cps, GeoPositions4f::GeoPropDataFieldMask);

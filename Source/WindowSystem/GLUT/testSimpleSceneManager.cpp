@@ -68,6 +68,8 @@ key(unsigned char key, int , int )
                 break;
     case 't':   mgr->setNavigationMode(Navigator::TRACKBALL);
                 break;
+    case 'k':   mgr->setNavigationMode(Navigator::WALK);
+                break;
     case 'q':   mgr->setStatistics(true);
                 break;
     case 'w':   mgr->setStatistics(false);

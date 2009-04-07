@@ -111,7 +111,7 @@ int main (int argc, char **argv)
     GeoPositions3fPtr pnts = GeoPositions3f::create();
     particles->setPositions( pnts );
 
-    MFPnt3f* p = pnts->getFieldPtr();
+    MFPnt3f* p = pnts->editFieldPtr();
 
     beginEditCP(pnts);
     p->push_back( Pnt3f( -.5, -.5, -0.5) );
@@ -128,14 +128,14 @@ int main (int argc, char **argv)
     GeoColors3fPtr cols = GeoColors3f::create();
     particles->setColors( cols );
     beginEditCP(cols);
-    cols->getFieldPtr()->push_back( Color3f( 255, 255, 255) );
-    cols->getFieldPtr()->push_back( Color3f(   0, 255, 255) );
-    cols->getFieldPtr()->push_back( Color3f( 255,   0, 255) );
-    cols->getFieldPtr()->push_back( Color3f( 255, 255,   0) );
-    cols->getFieldPtr()->push_back( Color3f( 255,   0,   0) );
-    cols->getFieldPtr()->push_back( Color3f(   0, 255,   0) );
-    cols->getFieldPtr()->push_back( Color3f( 255,   0,   0) );
-    cols->getFieldPtr()->push_back( Color3f(   0, 255,   0) );
+    cols->editFieldPtr()->push_back( Color3f( 255, 255, 255) );
+    cols->editFieldPtr()->push_back( Color3f(   0, 255, 255) );
+    cols->editFieldPtr()->push_back( Color3f( 255,   0, 255) );
+    cols->editFieldPtr()->push_back( Color3f( 255, 255,   0) );
+    cols->editFieldPtr()->push_back( Color3f( 255,   0,   0) );
+    cols->editFieldPtr()->push_back( Color3f(   0, 255,   0) );
+    cols->editFieldPtr()->push_back( Color3f( 255,   0,   0) );
+    cols->editFieldPtr()->push_back( Color3f(   0, 255,   0) );
     endEditCP(cols);
 
     MFVec3f *size = particles->editMFSizes();

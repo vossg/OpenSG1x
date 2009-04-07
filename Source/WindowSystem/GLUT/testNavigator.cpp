@@ -158,8 +158,8 @@ GeometryPtr _makePlaneGeo(Real32 xsize, Real32 ysize,
 
     // calc the vertices
 
-    GeoPositions3f::StoredFieldType  * p  = pnts->getFieldPtr();
-    GeoTexCoords2f::StoredFieldType  * tx = tex->getFieldPtr();
+    GeoPositions3f::StoredFieldType  * p  = pnts->editFieldPtr();
+    GeoTexCoords2f::StoredFieldType  * tx = tex ->editFieldPtr();
 
     beginEditCP(pnts);
     beginEditCP(tex);
@@ -168,7 +168,7 @@ GeometryPtr _makePlaneGeo(Real32 xsize, Real32 ysize,
     {
         for(x = 0; x <= hor; x++)
         {
-            p->push_back(Pnt3f(x * xstep - xsize / 2, ((x+y)%5) , y * ystep - ysize / 2));
+            p ->push_back(Pnt3f(x * xstep - xsize / 2, ((x+y)%5) , y * ystep - ysize / 2));
             tx->push_back(Vec2f(x / static_cast<Real32>(hor),
                                 y / static_cast<Real32>(vert) ));
         }
@@ -179,9 +179,9 @@ GeometryPtr _makePlaneGeo(Real32 xsize, Real32 ysize,
 
     // create the faces
     
-    GeoIndicesUI32::StoredFieldType    * i = index->getFieldPtr();
-    GeoPLengthsUI32::StoredFieldType   * l = lens->getFieldPtr();
-    GeoPTypesUI8::StoredFieldType      * t = types->getFieldPtr();
+    GeoIndicesUI32::StoredFieldType    * i = index->editFieldPtr();
+    GeoPLengthsUI32::StoredFieldType   * l = lens ->editFieldPtr();
+    GeoPTypesUI8::StoredFieldType      * t = types->editFieldPtr();
 
     beginEditCP(index);
     beginEditCP(lens);
@@ -268,7 +268,7 @@ NodePtr _makePlane(Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert)
     
 
     NodePtr g2;
-    g2 = makePlane( 10, 10, 1, 1 );
+    g2 = makePlane( 30, 10, 1, 1 );
 
     NodePtr node = Node::create();
 
@@ -281,7 +281,7 @@ NodePtr _makePlane(Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert)
     NodePtr tnode = Node::create();
     TransformPtr tr = Transform::create();
     Matrix m;
-    m.setTranslate(0,0,4);
+    m.setTranslate(0,5,0);
     beginEditCP(tr);
     tr->setMatrix(m);
     endEditCP(tr);
@@ -297,6 +297,7 @@ NodePtr _makePlane(Real32 xsize, Real32 ysize, UInt16 hor, UInt16 vert)
     beginEditCP(plight);
     plight->setCore( pl );
     plight->addChild(node);
+    plight->addChild(tnode);
     endEditCP(plight);
 
     beginEditCP(pl);

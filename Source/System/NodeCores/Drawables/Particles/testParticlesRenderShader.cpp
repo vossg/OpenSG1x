@@ -240,8 +240,8 @@ int main(int argc, char **argv)
     GeoColors3fPtr  cols  = GeoColors3f::create();
     GeoNormals3fPtr norms = GeoNormals3f::create();
 
-    MFPnt3f* p=pnts->getFieldPtr();
-    MFPnt3f* sp=secpnts->getFieldPtr();
+    MFPnt3f* p=pnts->editFieldPtr();
+    MFPnt3f* sp=secpnts->editFieldPtr();
     MFVec3f *size=particles->editMFSizes();
 
     indices = particles->editMFIndices();
@@ -260,7 +260,7 @@ int main(int argc, char **argv)
             p->push_back(pnt);  
             sp->push_back(pnt);  
             velocities[i].setValues(osgrand()/30.f/2, osgrand()/30.f/2, osgrand()/30.f/2);
-            cols->getFieldPtr()->push_back( 
+            cols->editFieldPtr()->push_back( 
                 Color3f(osgrand()/2.f + .5f,osgrand()/2.f + .5f,osgrand()/2.f + .5f) );
             size->push_back(
                 Vec3f(osgrand()/20.f+0.05,osgrand()/20.f+0.05,5));
@@ -295,7 +295,7 @@ int main(int argc, char **argv)
             p->push_back(tpos[i]);  
             sp->push_back(tsecpos[i]);  
             velocities[i].setValue(tvel[i]);
-            cols->getFieldPtr()->push_back(tcol[i]);
+            cols->editFieldPtr()->push_back(tcol[i]);
             size->push_back(tsize[i]);
         }
        
@@ -435,8 +435,8 @@ void idle(void)
         beginEditCP(pnts);
         beginEditCP(secpnts);
 
-        MFPnt3f *p=pnts->getFieldPtr();
-        MFPnt3f *sp=secpnts->getFieldPtr();
+        MFPnt3f *p=pnts->editFieldPtr();
+        MFPnt3f *sp=secpnts->editFieldPtr();
 
         for(UInt32 i=0; i<p->size(); ++i)
         {

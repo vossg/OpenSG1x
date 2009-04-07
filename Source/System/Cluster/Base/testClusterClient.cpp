@@ -104,7 +104,7 @@ UInt32 primitiveCount(GeometryPtr geoPtr,
 {
     UInt32 lenI;
     GeoPTypesUI8Ptr geoTypePtr;
-    GeoPTypesUI8Ptr::StoredObjectType::StoredFieldType::iterator typeI, endTypeI;
+    GeoPTypesUI8Ptr::StoredObjectType::StoredFieldType::const_iterator typeI, endTypeI;
     GeoPLengthsPtr lensPtr;
 
     UInt32 lN, tN, len, type;
