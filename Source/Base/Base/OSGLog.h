@@ -450,7 +450,8 @@ class OSG_BASE_DLLMAPPING LogLock
     /*! \name                   Class Specific                             */
     /*! \{                                                                 */
 
-    inline operator std::ostream &();
+    inline               operator std::ostream &(void);
+    inline std::ostream &getStream              (void);
 
     /*! \}                                                                 */
     /*===========================  PRIVATE  ===============================*/
@@ -487,35 +488,35 @@ inline              void          indentLog   (     UInt32        indent,
 */
 
 #define SLOG     \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 /*! \brief SFATAL
     \ingroup GrpBaseLog
 */
 
 #define SFATAL   \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 /*! \brief SWARNING
     \ingroup GrpBaseLog
 */
 
 #define SWARNING \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 /*! \brief SNOTICE
     \ingroup GrpBaseLog
 */
 
 #define SNOTICE  \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 /*! \brief SINFO
     \ingroup GrpBaseLog
 */
 
 #define SINFO    \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 
 /*! \brief PLOG
@@ -523,35 +524,35 @@ inline              void          indentLog   (     UInt32        indent,
 */
 
 #define PLOG     \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 /*! \brief PFATAL
     \ingroup GrpBaseLog
 */
 
 #define PFATAL   \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 /*! \brief PWARNING
     \ingroup GrpBaseLog
 */
 
 #define PWARNING \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 /*! \brief PNOTICE
     \ingroup GrpBaseLog
 */
 
 #define PNOTICE  \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 /*! \brief PINFO
     \ingroup GrpBaseLog
 */
 
 #define PINFO    \
-    static_cast<std::ostream&>(OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)))
+    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
 
 
 // C interface, because it can be compiled away

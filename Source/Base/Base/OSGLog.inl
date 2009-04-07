@@ -242,7 +242,12 @@ inline LogLock::~LogLock()
     osgLogP->unlock();
 }
 
-inline LogLock::operator std::ostream &()
+inline LogLock::operator std::ostream &(void)
+{
+    return _os;
+}
+
+inline std::ostream &LogLock::getStream(void)
 {
     return _os;
 }
