@@ -149,7 +149,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DXFentityname : public DXFparentclass
 
 OSG_END_NAMESPACE
 
-#define OSGDXFENTITYNAME_HEADER_CVSID "@(#)$Id: OSGDXFEntityType.h,v 1.1 2004/02/19 16:45:44 a-m-z Exp $"
+#define OSGDXFENTITYNAME_HEADER_CVSID "@(#)$Id: OSGDXFEntityType.h,v 1.2 2009/04/07 17:09:30 neumannc Exp $"
 
 //#include "OSGDXFentityname.inl"
 

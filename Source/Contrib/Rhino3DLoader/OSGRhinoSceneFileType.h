@@ -141,6 +141,6 @@ typedef RhinoSceneFileType* RhinoSceneFileTypeP;
 
 OSG_END_NAMESPACE
 
-#define OSGRHINOSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRhinoSceneFileType.h,v 1.1 2008/08/07 00:01:58 edhellon Exp $"
+#define OSGRHINOSCENEFILETYPE_HEADER_CVSID "@(#)$Id: OSGRhinoSceneFileType.h,v 1.2 2009/04/07 17:09:28 neumannc Exp $"
 
 #endif // _OSGRHINOSCENEFILETYPE_H_

@@ -119,6 +119,6 @@ OSG_END_NAMESPACE
 #include <OSGTiledTerrainBase.inl>
 #include <OSGTiledTerrain.inl>
 
-#define OSGTILEDTERRAIN_HEADER_CVSID "@(#)$Id: OSGTiledTerrain.h,v 1.1 2005/04/24 19:45:49 dirk Exp $"
+#define OSGTILEDTERRAIN_HEADER_CVSID "@(#)$Id: OSGTiledTerrain.h,v 1.2 2009/04/07 17:09:29 neumannc Exp $"
 
 #endif /* _OSGTILEDTERRAIN_H_ */

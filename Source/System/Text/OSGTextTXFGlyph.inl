@@ -84,4 +84,4 @@ inline Real32 TextTXFGlyph::getTexCoord(UInt32 index) const
 OSG_END_NAMESPACE
 
 
-#define OSGTEXTTXFGLYPH_INLINE_CVSID "@(#)$Id: OSGTextTXFGlyph.inl,v 1.1 2005/03/03 13:43:07 a-m-z Exp $"
+#define OSGTEXTTXFGLYPH_INLINE_CVSID "@(#)$Id: OSGTextTXFGlyph.inl,v 1.2 2009/04/07 17:09:31 neumannc Exp $"

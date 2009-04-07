@@ -813,7 +813,7 @@ void TiledTerrain::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrain.cpp,v 1.1 2005/04/24 19:45:49 dirk Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGTiledTerrain.cpp,v 1.2 2009/04/07 17:09:29 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGTILEDTERRAINBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGTILEDTERRAINBASE_INLINE_CVSID;
 

@@ -44,5 +44,5 @@ OSG_BEGIN_NAMESPACE
 
 OSG_END_NAMESPACE
 
-#define OSGMULTISWITCH_INLINE_CVSID "@(#)$Id: OSGMultiSwitch.inl,v 1.1 2008/08/19 15:25:08 neumannc Exp $"
+#define OSGMULTISWITCH_INLINE_CVSID "@(#)$Id: OSGMultiSwitch.inl,v 1.2 2009/04/07 17:09:31 neumannc Exp $"
 

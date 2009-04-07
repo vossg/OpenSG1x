@@ -15,7 +15,7 @@ LIBTYPE ?= dbg
 
 # try to guess the OSGCONFIG path
 
-OSGCONFIG := notset
+OSGCONFIG := /store/home/carsten/devel/opensg1/cvs/head/OpenSG/Builds/x86_64-unknown-linux-gnu-g++-osg2prep/bin/osg-config
 
 # use OSGPOOL if set
 

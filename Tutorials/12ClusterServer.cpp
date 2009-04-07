@@ -132,6 +132,22 @@ int main(int argc,char **argv)
 /* render loop */
 void display()
 {
+    static UInt32 frameCount = 0;
+    static int    lastTime   = 0;
+
+    ++frameCount;
+    int time = glutGet(GLUT_ELAPSED_TIME);
+
+    if(time - lastTime > 1000)
+    {
+        std::cout << "time [" << time - lastTime
+                  << "] frames [" << 1000.f * frameCount / (time - lastTime)
+                  << "]" << std::endl;
+
+        frameCount = 0;
+        lastTime   = time;
+    }
+
     try
     {
         // receive scenegraph and do rendering

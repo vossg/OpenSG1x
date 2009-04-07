@@ -164,7 +164,7 @@ RhinoSceneFileType::~RhinoSceneFileType (void )
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRhinoSceneFileType.cpp,v 1.2 2009/03/13 09:17:04 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGRhinoSceneFileType.cpp,v 1.3 2009/04/07 17:09:28 neumannc Exp $";
     static Char8 cvsid_hpp[] = OSGRHINOSCENEFILETYPE_HEADER_CVSID;
 }
 

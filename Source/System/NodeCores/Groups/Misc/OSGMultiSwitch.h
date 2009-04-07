@@ -140,6 +140,6 @@ OSG_END_NAMESPACE
 #include <OSGMultiSwitchBase.inl>
 #include <OSGMultiSwitch.inl>
 
-#define OSGMULTISWITCH_HEADER_CVSID "@(#)$Id: OSGMultiSwitch.h,v 1.1 2008/08/19 15:25:08 neumannc Exp $"
+#define OSGMULTISWITCH_HEADER_CVSID "@(#)$Id: OSGMultiSwitch.h,v 1.2 2009/04/07 17:09:31 neumannc Exp $"
 
 #endif /* _OSGMULTISWITCH_H_ */

@@ -44,5 +44,5 @@ OSG_BEGIN_NAMESPACE
 
 OSG_END_NAMESPACE
 
-#define OSGTILEDTERRAIN_INLINE_CVSID "@(#)$Id: OSGTiledTerrain.inl,v 1.1 2005/04/24 19:45:49 dirk Exp $"
+#define OSGTILEDTERRAIN_INLINE_CVSID "@(#)$Id: OSGTiledTerrain.inl,v 1.2 2009/04/07 17:09:29 neumannc Exp $"
 

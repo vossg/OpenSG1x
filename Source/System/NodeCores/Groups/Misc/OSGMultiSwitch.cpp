@@ -270,7 +270,7 @@ void MultiSwitch::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiSwitch.cpp,v 1.3 2008/10/09 15:35:22 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGMultiSwitch.cpp,v 1.4 2009/04/07 17:09:31 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGMULTISWITCHBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGMULTISWITCHBASE_INLINE_CVSID;
 

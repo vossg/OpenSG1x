@@ -184,7 +184,7 @@ DXFentityname::~DXFentityname(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFEntityType.cpp,v 1.1 2004/02/19 16:45:44 a-m-z Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFEntityType.cpp,v 1.2 2009/04/07 17:09:29 neumannc Exp $";
     static Char8 cvsid_hpp[] = OSGDXFENTITYNAME_HEADER_CVSID;
 //    static Char8 cvsid_inl[] = OSGDXFENTITYNAME_INLINE_CVSID;
 }
