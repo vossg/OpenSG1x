@@ -480,6 +480,10 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                 _localFC[fullRemoteId] = localId;
                 break;
             }
+        case IGNORE:
+            // quite usefull if you want to send some custom unsynced stuff to the servers. 
+            connection.getValue(_remoteAspectId);
+            break;
         default:
             {
                 SFATAL << "Unknown tag:" << int(cmd) << std::endl;
