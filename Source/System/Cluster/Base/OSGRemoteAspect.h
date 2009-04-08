@@ -72,7 +72,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
         ADDREFED  =6,
         SUBREFED  =7,
         IDMAPPING =8,
-        IGNORE    =9
+        PASSOVER  =9
     };
 
     /** functor called for changed containers **/
