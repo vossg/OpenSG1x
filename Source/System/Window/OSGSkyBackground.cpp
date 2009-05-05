@@ -239,7 +239,7 @@ void SkyBackground::changed(BitVector whichField, UInt32 origin)
                 angle += deltaAngle;
                 interpolateColor(startColor, endColor, Real32(stepIndex) / steps, color);
             }
-            if (osgabs(angle - Pi) < Eps)
+            if (osgabs(angle - Pi) < Eps || stepIndex >= steps)
                 break;
             _sky_vcos.push_back(osgcos(angle));
             _sky_vsin.push_back(osgsin(angle));
