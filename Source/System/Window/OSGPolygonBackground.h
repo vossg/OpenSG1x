@@ -89,7 +89,9 @@ class OSG_SYSTEMLIB_DLLMAPPING PolygonBackground : public PolygonBackgroundBase
     /*! \{                                                                 */
 
     Real32 mapCoordinate(Real32 val, Real32 max, bool norm);
-
+    
+    enum { VERTICAL=0, HORIZONTAL, SMALLER } FitMode;
+    
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
   protected:
@@ -132,6 +134,6 @@ OSG_END_NAMESPACE
 #include <OSGPolygonBackgroundBase.inl>
 #include <OSGPolygonBackground.inl>
 
-#define OSGPOLYGONBACKGROUND_HEADER_CVSID "@(#)$Id: OSGPolygonBackground.h,v 1.1 2005/06/06 17:16:01 yjung Exp $"
+#define OSGPOLYGONBACKGROUND_HEADER_CVSID "@(#)$Id: OSGPolygonBackground.h,v 1.2 2009/05/07 14:16:35 sawebel Exp $"
 
 #endif /* _OSGPOLYGONBACKGROUND_H_ */

@@ -119,4 +119,14 @@ A Background that renders a single polygon using the specified material.
 	>
 	If true the image tiles in multi window settings.
 	</Field>
+	<Field
+		name="mode"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+	Defines whether the background fits vertically, horizontally or in the smaller direction. 0=VERTICAL, 1=HORIZONTAL, 2=SMALLER
+	</Field>
 </FieldContainer>

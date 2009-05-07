@@ -159,12 +159,23 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
         glDepthMask(GL_FALSE);
 
     Real32 aspectX = 1.0f, aspectY = 1.0f;
+    UInt32 mode = getMode();
     
     if (getAspectHeight() && getAspectWidth())
     {
-        aspectX = 
-            (Real32(port->getPixelHeight()) / getAspectHeight()) /
-            (Real32(port->getPixelWidth ()) / getAspectWidth());
+        if (mode==HORIZONTAL || 
+            (mode==SMALLER && (port->getPixelWidth() < port->getPixelHeight())))
+        {
+            aspectY = 
+                (Real32(port->getPixelWidth ()) / getAspectWidth()) /
+                (Real32(port->getPixelHeight()) / getAspectHeight());
+        }
+        else
+        {
+            aspectX = 
+                (Real32(port->getPixelHeight()) / getAspectHeight()) /
+                (Real32(port->getPixelWidth ()) / getAspectWidth());
+        }
     }
 	
 	glMatrixMode(GL_TEXTURE);
@@ -210,11 +221,23 @@ void PolygonBackground::clear(DrawActionBase *act, Viewport *port)
         if (getAspectHeight() && getAspectWidth() &&
             height != 0 && width != 0)
         {
-            aspectX = 
-                (Real32(height)/getAspectHeight()) /
-                (Real32(width) / getAspectWidth());
-            t  = Real32(width) * (1 - aspectX) * 0.5f;
-            t *= Real32(port->getPixelWidth()) / width;
+            if (mode==HORIZONTAL || 
+                (mode==SMALLER && (port->getPixelWidth() < port->getPixelHeight())))
+            {
+                aspectY = 
+                    (Real32(width) / getAspectWidth()) /
+                    (Real32(height)/getAspectHeight());
+                t  = Real32(height) * (1 - aspectY) * 0.5f;
+                t *= Real32(port->getPixelHeight()) / height;
+            }
+            else
+            {
+                aspectX = 
+                    (Real32(height)/getAspectHeight()) /
+                    (Real32(width) / getAspectWidth());
+                t  = Real32(width) * (1 - aspectX) * 0.5f;
+                t *= Real32(port->getPixelWidth()) / width;
+            }
         }
 		
 		Matrix sm;
@@ -304,7 +327,7 @@ void PolygonBackground::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.10 2008/06/10 05:52:20 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonBackground.cpp,v 1.11 2009/05/07 14:16:34 sawebel Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONBACKGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID;
 

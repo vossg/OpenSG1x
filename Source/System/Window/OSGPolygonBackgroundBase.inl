@@ -349,6 +349,29 @@ SFBool *PolygonBackgroundBase::getSFTile(void)
 }
 #endif
 
+//! Get the PolygonBackground::_sfMode field.
+inline
+const SFUInt32 *PolygonBackgroundBase::getSFMode(void) const
+{
+    return &_sfMode;
+}
+
+//! Get the PolygonBackground::_sfMode field.
+inline
+SFUInt32 *PolygonBackgroundBase::editSFMode(void)
+{
+    return &_sfMode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the PolygonBackground::_sfMode field.
+inline
+SFUInt32 *PolygonBackgroundBase::getSFMode(void)
+{
+    return &_sfMode;
+}
+#endif
+
 
 //! Get the value of the PolygonBackground::_sfMaterial field.
 inline
@@ -620,6 +643,36 @@ void PolygonBackgroundBase::setTile(const bool &value)
     _sfTile.setValue(value);
 }
 
+//! Get the value of the PolygonBackground::_sfMode field.
+inline
+UInt32 &PolygonBackgroundBase::editMode(void)
+{
+    return _sfMode.getValue();
+}
+
+//! Get the value of the PolygonBackground::_sfMode field.
+inline
+const UInt32 &PolygonBackgroundBase::getMode(void) const
+{
+    return _sfMode.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the PolygonBackground::_sfMode field.
+inline
+UInt32 &PolygonBackgroundBase::getMode(void)
+{
+    return _sfMode.getValue();
+}
+#endif
+
+//! Set the value of the PolygonBackground::_sfMode field.
+inline
+void PolygonBackgroundBase::setMode(const UInt32 &value)
+{
+    _sfMode.setValue(value);
+}
+
 
 //! Get the value of the \a index element the PolygonBackground::_mfTexCoords field.
 inline
@@ -699,5 +752,5 @@ const MFPnt2f &PolygonBackgroundBase::getPositions(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.11 2008/06/09 12:28:23 vossg Exp $"
+#define OSGPOLYGONBACKGROUNDBASE_INLINE_CVSID "@(#)$Id: OSGPolygonBackgroundBase.inl,v 1.12 2009/05/07 14:16:35 sawebel Exp $"
 
