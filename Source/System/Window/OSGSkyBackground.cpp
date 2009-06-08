@@ -224,7 +224,7 @@ void SkyBackground::changed(BitVector whichField, UInt32 origin)
                     endAngle = Pi;
                 }
                 deltaAngle = endAngle - startAngle;
-                steps = osgMax(UInt32(osgfloor(deltaAngle / optAngle + 0.5f)), UInt32(1));
+                steps = osgMax(Int32(osgfloor(deltaAngle / optAngle + 0.5f)), Int32(1));
                 deltaAngle /= steps;
                 stepIndex = 0;
             }
