@@ -93,9 +93,11 @@ SimpleTexturedMaterial::SimpleTexturedMaterial(
 }
 
 SimpleTexturedMaterial::~SimpleTexturedMaterial(void)
-{
-    subRefCP(_textureChunk);
-    subRefCP(_texGenChunk);
+{  
+    subRefCP(_sfImage.getValue());
+
+    subRefCP(_textureChunk      );
+    subRefCP(_texGenChunk       );
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -269,8 +271,8 @@ void SimpleTexturedMaterial::dump(     UInt32    OSG_CHECK_ARG(uiIndent),
 }
 
 
-/* Create the chunks needed by this Material, one for the material properties,
-   one for the optional transparency blending.
+/* Create the chunks needed by this Material, one for the texture and one
+   for automatically generated texture coordinates (for environment maps).
 */
 
 void SimpleTexturedMaterial::prepareLocalChunks(void)

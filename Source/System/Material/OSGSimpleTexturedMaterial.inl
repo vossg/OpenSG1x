@@ -42,6 +42,12 @@
 
 OSG_BEGIN_NAMESPACE
 
+inline
+void SimpleTexturedMaterial::setImage(const ImagePtr &image)
+{
+    setRefdCP(_sfImage.getValue(), image);
+}
+
 /*! As the image data can be manipulated by the user at any time, the system 
     cannot know when that happens. Thus it has to be informed by the 
     application when the texture data has chnaged and the texture needs to be 
