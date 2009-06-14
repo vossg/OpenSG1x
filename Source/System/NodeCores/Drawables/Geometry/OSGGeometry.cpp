@@ -212,39 +212,6 @@ Geometry::Geometry(const Geometry &source) :
 */
 Geometry::~Geometry(void)
 {
-}
-
-void Geometry::onCreate(const Geometry *)
-{
-    // if we're in startup this is the prototype, which shouldn't have an id
-    if(GlobalSystemState == Startup)
-        return;
-
-    // !!! this temporary is needed to work around compiler problems(sgi)
-    // CHECK CHECK
-
-    //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
-    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
-    {
-        GeometryPtr tmpPtr(*this);
-
-        beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
-
-        setGLId(
-            Window::registerGLObject(
-                osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr,
-                                                     Window ,
-                                                     UInt32>(tmpPtr,
-                                                         &Geometry::handleGL),
-                2));
-        
-        endEditCP(tmpPtr, Geometry::GLIdFieldMask);
-    }
-}
-
-void Geometry::onDestroy(void)
-{
-    Inherited::onDestroy();
 
     GeometryPtr thisP = getPtr();
 
@@ -416,6 +383,39 @@ void Geometry::onDestroy(void)
     }
 
     subRefCP(_sfMaterial.getValue());
+}
+
+void Geometry::onCreate(const Geometry *)
+{
+    // if we're in startup this is the prototype, which shouldn't have an id
+    if(GlobalSystemState == Startup)
+        return;
+
+    // !!! this temporary is needed to work around compiler problems(sgi)
+    // CHECK CHECK
+
+    //  TextureChunkPtr tmpPtr = FieldContainer::getPtr<TextureChunkPtr>(*this);
+    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    {
+        GeometryPtr tmpPtr(*this);
+
+        beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
+
+        setGLId(
+            Window::registerGLObject(
+                osgTypedMethodVoidFunctor2ObjCPtrPtr<GeometryPtr,
+                                                     Window ,
+                                                     UInt32>(tmpPtr,
+                                                         &Geometry::handleGL),
+                2));
+        
+        endEditCP(tmpPtr, Geometry::GLIdFieldMask);
+    }
+}
+
+void Geometry::onDestroy(void)
+{
+    Inherited::onDestroy();
 
     if(getGLId() > 0)
     {
