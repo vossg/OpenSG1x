@@ -586,10 +586,11 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
 
     // Save old state
     glPushAttrib(GL_POLYGON_BIT | GL_DEPTH_BUFFER_BIT |
-                 GL_LIGHTING_BIT | GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+                 GL_LIGHTING_BIT | GL_FOG_BIT | GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     // Set new state
     glDisable(GL_LIGHTING);
+    glDisable(GL_FOG);
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_STENCIL_TEST);
