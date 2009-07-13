@@ -2451,16 +2451,14 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     
     beginEditCP(ip);
 
-    // calc max index.
-    UInt32 maxindex = 0;
-    for(i=0;i<ip->size();++i)
-        maxindex = ip->getValue(i) > maxindex ? ip->getValue(i) : maxindex;
+    // Size of properties is number of unique index tuples, which requires
+    // looking at all of them - we take a best effort guess here and resize
+    // in the loop below
+    tangent .resize(positions->size());
+    binormal.resize(positions->size());
+    normal  .resize(positions->size());
 
-    // init property arrays
-    // amz we can't use the indices size (nind) here!
-    tangent.resize(maxindex + 1);
-    binormal.resize(maxindex + 1);
-    normal.resize(maxindex + 1);
+    UInt32 propSize = 0;
 
     for (tI=geo->beginTriangles(), i=0; tI!=geo->endTriangles(); ++tI, ++i) 
     {         
@@ -2482,6 +2480,18 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
             else 
             {
                 v[k] = tI.getPositionIndex(k); //index;
+            }
+
+            // keep track of needed size for properties
+            if(v[k] > propSize)
+                propSize = v[k];
+
+            // resize properties if inital guess was too small
+            if(v[k] >= tangent.size())
+            {
+                tangent .resize(1.5f * tangent .size() + 1);
+                binormal.resize(1.5f * binormal.size() + 1);
+                normal  .resize(1.5f * normal  .size() + 1);
             }
         }
         
@@ -2556,22 +2566,33 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         
         for (k=0; k<3; ++k) 
         {
-            tangent[v[k]] += sdir;
-            binormal[v[k]] += tdir;
-            normal[v[k]] = tI.getNormal(k);
+            tangent.at(v[k]) += sdir;
+            binormal.at(v[k]) += tdir;
+            normal.at(v[k]) = tI.getNormal(k);
             ip->setValue(v[k], tI.getIndexIndex(k) + tanOffset); 
         }
     }
     endEditCP(ip);
     
+    // adjust size - resizing above may have been to big
+    if(tangent.size() > propSize)
+    {
+        tangent .resize(propSize);
+        binormal.resize(propSize);
+        normal  .resize(propSize);
+    }
+
     // orthogonalize vectors (Gram-Schmidt) and calc handedness    
     Vec3f T, B, N;
     Real32 sign = 0, l1, l2;
-    tangentP->clear();
-    binormalP->clear();
 
-    beginEditCP(tangentP);
+    beginEditCP(tangentP );
     beginEditCP(binormalP);
+
+    tangentP ->clear    ();
+    tangentP ->editField().reserve(tangent .size());
+    binormalP->clear    ();
+    binormalP->editField().reserve(binormal.size());
 
     for (i=0;i < tangent.size();++i)
     {
@@ -2593,7 +2614,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         binormalP->editField().push_back(vect); 
     }
 
-    endEditCP(tangentP);
+    endEditCP(tangentP );
     endEditCP(binormalP);
 }
 
