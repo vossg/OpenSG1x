@@ -2566,9 +2566,9 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         
         for (k=0; k<3; ++k) 
         {
-            tangent.at(v[k]) += sdir;
-            binormal.at(v[k]) += tdir;
-            normal.at(v[k]) = tI.getNormal(k);
+            tangent [v[k]] += sdir;
+            binormal[v[k]] += tdir;
+            normal  [v[k]]  = tI.getNormal(k);
             ip->setValue(v[k], tI.getIndexIndex(k) + tanOffset); 
         }
     }
