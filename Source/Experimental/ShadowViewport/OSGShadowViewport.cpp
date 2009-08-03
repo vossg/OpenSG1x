@@ -261,6 +261,8 @@ ShadowViewport::~ShadowViewport(void)
 {
     if(_light_render_transform != NullFC)
         subRefCP(_light_render_transform);
+    if(_treeRenderer != NULL)
+        delete _treeRenderer;
 }
 
 /*----------------------------- class specific ----------------------------*/
@@ -1526,7 +1528,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.38 2008/12/08 11:22:41 yjung Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.39 2009/08/03 12:20:32 pdaehne Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
