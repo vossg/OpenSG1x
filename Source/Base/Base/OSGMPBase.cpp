@@ -102,21 +102,28 @@ MPThreadType::~MPThreadType(void)
 
 BaseThread *MPThreadType::create(const Char8 *szName)
 {
-    Char8  *szTmp;
-    UInt32  uiNewId = _uiThreadCount++;
-
-    if(szName == NULL)
-    {
-        szTmp = new Char8[16];
-        sprintf(szTmp, "OSGThread_%u", uiNewId);
-    }
-    else
-    {
-        szTmp = const_cast<Char8 *>(szName);
-    }
-
     if(_fCreateThread != NULL)
-        return _fCreateThread(szTmp, uiNewId);
+    {
+        Char8  *szTmp;
+        UInt32  uiNewId = _uiThreadCount++;
+
+        if(szName == NULL)
+        {
+            szTmp = new Char8[16];
+            sprintf(szTmp, "OSGThread_%u", uiNewId);
+        }
+        else
+        {
+            szTmp = const_cast<Char8 *>(szName);
+        }
+
+        BaseThread *result = _fCreateThread(szTmp, uiNewId);
+
+        if(szName == NULL)
+            delete [] szTmp;
+
+        return result;
+    }
     else
         return NULL;
 }
