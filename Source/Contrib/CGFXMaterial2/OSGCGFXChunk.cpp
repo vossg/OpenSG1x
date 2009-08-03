@@ -921,7 +921,7 @@ void CGFXChunk::compileEffect( EffectS& effect )
     // Load new effect
 
     // THINKABOUTME: Is this thread save?
-    std::string savedWorkingDir = std::string( Directory::getCurrent() );
+    const Char8 *savedWorkingDir = Directory::getCurrent();
     Directory::setCurrent( _effectFilePath.c_str() );
 
     // we have to transform _compilerOptions to an array of
@@ -939,7 +939,8 @@ void CGFXChunk::compileEffect( EffectS& effect )
     if( lastListing )
         FWARNING(("CGFXChunk : Cg compiler complains:\n'%s'\n", lastListing));
 
-    Directory::setCurrent( savedWorkingDir.c_str() );
+    Directory::setCurrent( savedWorkingDir );
+    delete [] savedWorkingDir;
 
     if(cgEffect == NULL)
     {
@@ -2022,7 +2023,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.16 2009/01/12 10:18:06 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.17 2009/08/03 15:51:58 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
