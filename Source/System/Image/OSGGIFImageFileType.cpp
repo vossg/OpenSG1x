@@ -934,6 +934,7 @@ static int GIFFree(GIFStream *gifStream)
             free(gifData);
             gifData = gifNext;
         }
+        free(gifStream);
     }
 
     return retCode;
