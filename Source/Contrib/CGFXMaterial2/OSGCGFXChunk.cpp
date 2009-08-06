@@ -1827,8 +1827,8 @@ void CGFXChunk::activate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
         // unter einer eigenen draw tree root gehaengt werden (wie trans root) dann
         // wird fuer alle cgfx materialien nur ein activate/deactivate aufgerufen der
         // rest waeren nur noch changeFrom.
-        glPushAttrib(GL_ALL_ATTRIB_BITS);
-        glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+        //glPushAttrib(GL_ALL_ATTRIB_BITS);
+        //glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
 
         //UInt32 numPasses;
         //_effect[id].effect->Begin(&numPasses, 0);
@@ -1964,8 +1964,25 @@ void CGFXChunk::deactivate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
     _effect[id].pass = NULL;
 
     // restore opengl state.
-    glPopClientAttrib();
-    glPopAttrib();
+    // This is needed, because OSG's default state differs somewhat from
+    // OpenGL's (which is set by cgResetPassState()).
+    // By calling this in deactivate we can deactivate the Chunk more cleanly
+    // than with glPush/Pop.
+    // Because Chunks are deactivated in the same order as they are activated,
+    // CGFXChunk would push a state that was modified by other chunks and then
+    // pop this state _after_ the other chunks had their deactivate, de facto
+    // disabling the deactivate of the other chunks.
+    {
+        glDepthFunc( GL_LEQUAL );
+        glEnable( GL_DEPTH_TEST );
+        glEnable( GL_NORMALIZE );
+        GLfloat nul[4]={0,0,0,0};
+        glLightfv(GL_LIGHT0, GL_DIFFUSE, nul);
+        glLightfv(GL_LIGHT0, GL_SPECULAR, nul);
+    }
+
+    //glPopClientAttrib();
+    //glPopAttrib();
 }
 
 bool CGFXChunk::isTransparent(void) const
@@ -2023,7 +2040,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.17 2009/08/03 15:51:58 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.18 2009/08/06 10:54:52 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
