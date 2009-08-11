@@ -1664,7 +1664,32 @@ else
                         // add index data
                         for(pi = beginIndex; pi != endIndex; pi += step)
                         {
-                            indexPtr->push_back(coordIndex[pi]);
+                            Int32 fi = pi;
+                            // >>> Triangle fans & strips need more complex
+                            //     remapping for cw primitives. Simply reversing
+                            //     order won't work.
+                            if( primitiveType == GL_TRIANGLE_FAN && !ccw )
+                            {
+                                // - first vertex of cw fan is first of ccw
+                                // - all other vertices are reversed
+                                fi = (pi == beginIndex) ?
+                                    endIndex+1
+                                    :
+                                    pi+1;
+                            }
+                            if( primitiveType == GL_TRIANGLE_STRIP && !ccw &&
+                                (beginIndex-endIndex)%2 == 0 )
+                            {
+                                // if #vertices is even we have to
+                                // swap every second pair
+                                fi = (pi-(endIndex+1)) % 2 ?
+                                    pi-1
+                                    :
+                                    pi+1;
+                            }
+                            // <<< End fan & strip remapping.
+
+                            indexPtr->push_back(coordIndex[fi]);
                             for(mapi = 1; (mapi <= 3) && (indexMap[mapi]);
                                                             mapi++)
                             {
@@ -1681,7 +1706,7 @@ else
                                             FFATAL(("Fatal index mapping error \n"));
                                             break;
                                         case VERTEX_IT:
-                                            index = (*indexBag[typei])[pi];
+                                            index = (*indexBag[typei])[fi];
                                             break;
                                         case PRIMITIVE_IT:
                                             index = primitiveN;
