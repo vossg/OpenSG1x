@@ -402,9 +402,9 @@ void SimpleSceneManager::setCamera(PerspectiveCameraPtr camera)
     }
 
     // destroy old camera.
+    addRefCP(camera );
     subRefCP(_camera);
     _camera = camera;
-    addRefCP(_camera);
 }
 
 /*! set the highlight object
