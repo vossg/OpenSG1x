@@ -199,6 +199,9 @@ FieldContainerPtr NFIOGeneric::createFCReplacement(UInt8 fcPtrType)
         case NFIOGeneric::FCPtrAttachment:
             // do nothing.
         break;
+        case NFIOGeneric::FCPtrFieldContainer:
+            // do nothing.
+        break;
         default:
             fc = Node::create();
         break;
@@ -219,6 +222,6 @@ FieldContainerPtr NFIOGeneric::createFCReplacement(UInt8 fcPtrType)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeneric.cpp,v 1.1 2004/01/08 18:00:04 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOGeneric.cpp,v 1.2 2009/08/13 17:16:35 a-m-z Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOATEST_HEADER_CVSID;
 }
