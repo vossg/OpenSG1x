@@ -210,38 +210,38 @@ void Billboard::calcMatrix(      DrawActionBase *pAction,
     {
         if(_sfFocusOnCamera.getValue() == true)
         {
-            Vec3f vUp;
-            Vec3f uW;
-            Vec3f vX;
-
+            // Transform the camera position into the local coordinate system
+            // of the billboard (mResult contains mToWorld^-1)
             mCamToWorld.mult(eyepos, eyepos);
-            mToWorld   .mult(objpos, objpos);
-            
-            vDir = eyepos - objpos;
-            
-            vUp.setValue (mCamToWorld[0]);
-            
-            vUp = vDir.cross(vUp);
+            mResult.mult(eyepos, eyepos);
 
-            vUp.normalize();
+            // Transform the camera "up" vector into the local coordinate system
+            // of the billboard
+            Vec3f vUp;
+            mResult.mult(mCamToWorld[1], vUp);
+
+            // Calculate the vector from the center of the billboard (0 0 0)
+            // to the camera position
+            vDir = eyepos.subZero();
             vDir.normalize();
 
-            Matrix mTr;
+            // Calculate the "right" vector using the camera "up" vector as
+            // a temporary "up" vector
+            Vec3f vRight = vUp.cross(vDir);
+            vRight.normalize();
 
-            vX = vUp.cross(vDir);
-            vX.normalize();
+            // Calculate the final "up" vector
+            vUp = vDir.cross(vRight);
+            vUp.normalize();
 
-            mTr[0][0] = vX[0];
-            mTr[0][1] = vX[1];
-            mTr[0][2] = vX[2];
-            mTr[1][0] = vUp[0];
-            mTr[1][1] = vUp[1];
-            mTr[1][2] = vUp[2];
-            mTr[2][0] = vDir[0];
-            mTr[2][1] = vDir[1];
-            mTr[2][2] = vDir[2];
+            // Calculate the final rotation matrix
+            mResult[0] = vRight;
+            mResult[1] = vUp;
+            mResult[2] = vDir;
+            mResult[3] = Vec4f(0, 0, 0, 1);
 
-            q1.setValue(mTr);
+            _camTransform = mResult;
+            return;
         }
         else
         {
