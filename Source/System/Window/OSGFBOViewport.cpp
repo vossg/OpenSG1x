@@ -285,7 +285,7 @@ FBOViewport::FBOViewport(const FBOViewport &source) :
 
     _funcDrawBuffers =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glDrawBuffers", 
-                                  GL_ARB_draw_buffers);
+                                  _draw_buffers_extension);
 
     _funcBindFramebuffer =
         Window::registerFunction (OSG_DLSYM_UNDERSCORE"glBindFramebufferEXT", 
@@ -1626,7 +1626,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.24 2009/04/28 09:24:26 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.25 2009/08/24 10:40:24 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
