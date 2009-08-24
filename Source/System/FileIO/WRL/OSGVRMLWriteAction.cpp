@@ -1574,9 +1574,8 @@ void VRMLWriteAction::writeLineSet(NodePtr          pNode,
             
             pWriter->printIndent();
             fprintf(pFile, "}\n");
-
-            writeMaterial(pGeo, pFile, pWriter);
         }
+        writeMaterial(pGeo, pFile, pWriter);
 
         pWriter->setCurrentUse(false);
     }
@@ -1606,9 +1605,8 @@ void VRMLWriteAction::writeFaceSet(NodePtr          pNode,
             
             pWriter->printIndent();
             fprintf(pFile, "}\n");
-
-            writeMaterial(pGeo, pFile, pWriter);
         }
+        writeMaterial(pGeo, pFile, pWriter);
 
         pWriter->setCurrentUse(false);
     }
