@@ -188,6 +188,42 @@ ShadowViewport::ShadowViewport(void) :
                             0, 1, 0, 0,
                             1, 0, 0, 0,
                             0, 0, 0, 1);
+
+    // if we're in startup this is the prototype ...
+    if(OSG::GlobalSystemState == OSG::Startup)
+        return;
+
+    _treeRenderer = NULL;
+
+    _mapRenderSize = 128;
+
+    _dummy = makeCoredNode<Group>();
+    addRefCP(_dummy);
+
+    _texGen = TexGenChunk::create();
+    addRefCP(_texGen);
+    beginEditCP(_texGen);//------Setting up TexGen--------------
+    {
+        _texGen->setSBeacon(_dummy);
+        _texGen->setTBeacon(_dummy);
+        _texGen->setRBeacon(_dummy);
+        _texGen->setQBeacon(_dummy);
+
+        _texGen->setGenFuncS(GL_EYE_LINEAR);
+        _texGen->setGenFuncT(GL_EYE_LINEAR);
+        _texGen->setGenFuncR(GL_EYE_LINEAR);
+        _texGen->setGenFuncQ(GL_EYE_LINEAR);
+    }
+    endEditCP(_texGen);
+
+    _poly = PolygonChunk::create();
+    addRefCP(_poly);
+
+    _offset = PolygonChunk::create();
+    addRefCP(_offset);
+
+    _silentBack = PassiveBackground::create();
+    addRefCP(_silentBack);
 }
 
 ShadowViewport::ShadowViewport(const ShadowViewport &source) :
@@ -255,10 +291,54 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
                             1, 0, 0, 0,
                             0, 0, 0, 1);
 
+
+    // if we're in startup this is the prototype ...
+    if(OSG::GlobalSystemState == OSG::Startup)
+        return;
+
+    _treeRenderer = NULL;
+
+    _mapRenderSize = 128;
+
+    _dummy = makeCoredNode<Group>();
+    addRefCP(_dummy);
+
+    _texGen = TexGenChunk::create();
+    addRefCP(_texGen);
+    beginEditCP(_texGen);//------Setting up TexGen--------------
+    {
+        _texGen->setSBeacon(_dummy);
+        _texGen->setTBeacon(_dummy);
+        _texGen->setRBeacon(_dummy);
+        _texGen->setQBeacon(_dummy);
+
+        _texGen->setGenFuncS(GL_EYE_LINEAR);
+        _texGen->setGenFuncT(GL_EYE_LINEAR);
+        _texGen->setGenFuncR(GL_EYE_LINEAR);
+        _texGen->setGenFuncQ(GL_EYE_LINEAR);
+    }
+    endEditCP(_texGen);
+
+    _poly = PolygonChunk::create();
+    addRefCP(_poly);
+
+    _offset = PolygonChunk::create();
+    addRefCP(_offset);
+
+    _silentBack = PassiveBackground::create();
+    addRefCP(_silentBack);
+
 }
 
 ShadowViewport::~ShadowViewport(void)
 {
+    clearLights(_lights.size());
+    subRefCP(_silentBack);
+    subRefCP(_offset);
+    subRefCP(_poly);
+    subRefCP(_texGen);
+    subRefCP(_dummy);
+
     if(_light_render_transform != NullFC)
         subRefCP(_light_render_transform);
     if(_treeRenderer != NULL)
@@ -369,50 +449,10 @@ void ShadowViewport::triggerMapUpdate(void)
 
 void ShadowViewport::onCreate(const ShadowViewport *OSG_CHECK_ARG(source))
 {
-    // if we're in startup this is the prototype ...
-    if(OSG::GlobalSystemState == OSG::Startup)
-        return;
-
-    _treeRenderer = NULL;
-
-    _mapRenderSize = 128;
-
-    _dummy = makeCoredNode<Group>();
-    addRefCP(_dummy);
-
-    _texGen = TexGenChunk::create();
-    addRefCP(_texGen);
-    beginEditCP(_texGen);//------Setting up TexGen--------------
-    {
-        _texGen->setSBeacon(_dummy);
-        _texGen->setTBeacon(_dummy);
-        _texGen->setRBeacon(_dummy);
-        _texGen->setQBeacon(_dummy);
-
-        _texGen->setGenFuncS(GL_EYE_LINEAR);
-        _texGen->setGenFuncT(GL_EYE_LINEAR);
-        _texGen->setGenFuncR(GL_EYE_LINEAR);
-        _texGen->setGenFuncQ(GL_EYE_LINEAR);
-    }
-    endEditCP(_texGen);
-
-    _poly = PolygonChunk::create();
-    addRefCP(_poly);
-
-    _offset = PolygonChunk::create();
-    addRefCP(_offset);
-
-    _silentBack = PassiveBackground::create();
-    addRefCP(_silentBack);
 }
 
 void ShadowViewport::onDestroy(void)
 {
-    clearLights(_lights.size());
-    subRefCP(_silentBack);
-    subRefCP(_poly);
-    subRefCP(_texGen);
-    subRefCP(_dummy);
 }
 
 void ShadowViewport::activateSize(void)
@@ -1528,7 +1568,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.39 2009/08/03 12:20:32 pdaehne Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.40 2009/09/16 14:15:44 neumannc Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
