@@ -3425,7 +3425,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
                 masterPropMask <<= 1;
 
             if((masterProp = geoPtr->getProperty(masterPropMask)) &&
-                           (masterData = masterProp->getData()))
+                           (masterData = masterProp->editData()))
             {
                 // calc master data element size
                 masterDSize = masterProp->getFormatSize() *
@@ -3442,7 +3442,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
                     {
                         if((slaveProp = geoPtr->getProperty(mapMask & propMask)))
                         {
-                            slaveDataVec.push_back(slaveProp->getData());
+                            slaveDataVec.push_back(slaveProp->editData());
                             slaveDSizeVec.push_back(slaveProp->getFormatSize() *
                                                                                 slaveProp->getDimension());
                         }
@@ -3618,10 +3618,10 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
                         finalMask |= maskID;
                         memSize = pP->size() * valueSize;
                         data = new UInt8[memSize];
-                        pData = pP->getData();
+                        pData = pP->editData();
                         memcpy(data, pData, memSize);
                         pP->resize(vCount);
-                        pData = pP->getData();
+                        pData = pP->editData();
                         for(j = 0; j < vCount; j++)
                         {
                             index = indexDic.entry(j)[i];

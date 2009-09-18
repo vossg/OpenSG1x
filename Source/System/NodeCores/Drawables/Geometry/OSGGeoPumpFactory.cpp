@@ -155,9 +155,9 @@ GeoPumpFactory::~GeoPumpFactory(void)
 GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 {
     if (geo->getPositions() == NullFC ||
-       !geo->getPositions()->getData() ) return 0; //INVALID
+       !geo->getPositions()->editData() ) return 0; //INVALID
 
-    if (geo->getTypes() == NullFC || !geo->getTypes()->getData() ||
+    if (geo->getTypes() == NullFC || !geo->getTypes()->editData() ||
         geo->getTypes()->getSize() == 0) return 0; //INVALID
 
     if (geo->getIndices() == NullFC) return 128; //NON_INDEXED
@@ -180,16 +180,16 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
     // ok the multi index table supports only 4 texcoord units!
     if((uiIndexMask & Geometry::MapTexCoords4 &&
        geo->getTexCoords4() != NullFC         &&
-       geo->getTexCoords4()->getData()          ) ||
+       geo->getTexCoords4()->editData()          ) ||
        (uiIndexMask & Geometry::MapTexCoords5 &&
        geo->getTexCoords5() != NullFC         &&
-       geo->getTexCoords5()->getData()          ) ||
+       geo->getTexCoords5()->editData()          ) ||
        (uiIndexMask & Geometry::MapTexCoords6 &&
        geo->getTexCoords6() != NullFC         &&
-       geo->getTexCoords6()->getData()          ) ||
+       geo->getTexCoords6()->editData()          ) ||
        (uiIndexMask & Geometry::MapTexCoords7 &&
        geo->getTexCoords7() != NullFC         &&
-       geo->getTexCoords7()->getData()          ))
+       geo->getTexCoords7()->editData()          ))
     {
         return 130; // Needd to use the master pump
     }
@@ -198,7 +198,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 
     if(uiIndexMask & Geometry::MapColor &&
        geo->getColors() != NullFC       &&
-       geo->getColors()->getData()        ) 
+       geo->getColors()->editData()        ) 
     {
         a[0]=1;
     } 
@@ -209,7 +209,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
     
     if(uiIndexMask & Geometry::MapSecondaryColor &&
        geo->getSecondaryColors() != NullFC       &&
-       geo->getSecondaryColors()->getData()       ) 
+       geo->getSecondaryColors()->editData()       ) 
     {
         a[1]=1;
     }
@@ -220,7 +220,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 
     if(uiIndexMask & Geometry::MapNormal &&
        geo->getNormals() != NullFC       &&
-       geo->getNormals()->getData()        ) 
+       geo->getNormals()->editData()        ) 
     {
         a[2]=1;
     }
@@ -231,7 +231,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 
     if(uiIndexMask & Geometry::MapTexCoords &&
        geo->getTexCoords() != NullFC        &&
-       geo->getTexCoords()->getData()        ) 
+       geo->getTexCoords()->editData()        ) 
     {
         a[3]=1; 
     }
@@ -242,7 +242,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 
     if(uiIndexMask & Geometry::MapTexCoords1 &&
        geo->getTexCoords1() != NullFC        &&
-       geo->getTexCoords1()->getData()        ) 
+       geo->getTexCoords1()->editData()        ) 
     {
         a[4]=1; 
     }
@@ -253,7 +253,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 
     if(uiIndexMask & Geometry::MapTexCoords2 &&
        geo->getTexCoords2() != NullFC        &&
-       geo->getTexCoords2()->getData()        ) 
+       geo->getTexCoords2()->editData()        ) 
     {
         a[5]=1;
     }
@@ -264,7 +264,7 @@ GeoPumpFactory::Index GeoPumpFactory::getIndex(Geometry * geo)
 
     if(uiIndexMask & Geometry::MapTexCoords3 &&
        geo->getTexCoords3() != NullFC        &&
-       geo->getTexCoords3()->getData()        ) 
+       geo->getTexCoords3()->editData()        ) 
     {
         a[6]=1;
     }
@@ -608,7 +608,7 @@ void GeoPump0(Window   *OSG_CHECK_ARG(win),
     name##Ptr = geo->getmethod();                                           \
     if ( name##Ptr != NullFC )                                              \
     {                                                                       \
-        name##Data = name##Ptr->getData();                                  \
+        name##Data = name##Ptr->editData();                                 \
         if ( ! ( name##Stride = name##Ptr->getStride() ) )                  \
             name##Stride = name##Ptr->getFormatSize() *                     \
             name##Ptr->getDimension();                                      \
@@ -1437,7 +1437,7 @@ void GeoPump129(Window   *win,
     }                                                                       \
     else if(name##Ptr != NullFC)                                            \
     {                                                                       \
-        name##Data = name##Ptr->getData();                                  \
+        name##Data = name##Ptr->editData();                                 \
         if(!(name##Stride = name##Ptr->getStride()))                        \
             name##Stride =  name##Ptr->getFormatSize() *                    \
                             name##Ptr->getDimension();                      \
@@ -1458,7 +1458,7 @@ void GeoPump129(Window   *win,
     name##Ptr = geo->getmethod();                                           \
     if(name##Ptr != NullFC)                                                 \
     {                                                                       \
-        name##Data = name##Ptr->getData();                                  \
+        name##Data = name##Ptr->editData();                                 \
         if(!(name##Stride = name##Ptr->getStride()))                        \
             name##Stride = name##Ptr->getFormatSize() *                     \
             name##Ptr->getDimension();                                      \
@@ -1492,7 +1492,7 @@ void GeoPump129(Window   *win,
     name##Ptr = geo->getmethod();                                           \
     if(name##Ptr != NullFC)                                                 \
     {                                                                       \
-        name##Data = name##Ptr->getData();                                  \
+        name##Data = name##Ptr->editData();                                 \
         if(!(name##Stride = name##Ptr->getStride()))                        \
             name##Stride = name##Ptr->getFormatSize() *                     \
             name##Ptr->getDimension();                                      \
@@ -1539,7 +1539,7 @@ void GeoPump129(Window   *win,
     name##Ptr = geo->getmethod();                                           \
     if(name##Ptr != NullFC)                                                 \
     {                                                                       \
-        name##Data = name##Ptr->getData();                                  \
+        name##Data = name##Ptr->editData();                                 \
         if(!(name##Stride = name##Ptr->getStride() ) )                      \
             name##Stride = name##Ptr->getFormatSize() *                     \
             name##Ptr->getDimension();                                      \
@@ -2411,7 +2411,7 @@ bool GeoPumpFactory::glextInitFunction(void)
     name##Ptr = geo->getmethod();                                           \
     if ( name##Ptr != NullFC )                                              \
     {                                                                       \
-        name##Data = name##Ptr->getData();                                  \
+        name##Data = name##Ptr->editData();                                 \
         name##Size = name##Ptr->getSize() * name##Ptr->getFormatSize() * name##Ptr->getDimension(); \
     }
 

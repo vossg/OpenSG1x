@@ -582,7 +582,7 @@ struct ColTraitSingle : public ColTraitBase
             }
             else
             {
-                col_func(const_cast<GLubyte*>(col->getData()));
+                col_func(const_cast<GLubyte*>(col->editData()));
             }
         }
     }
@@ -611,7 +611,7 @@ struct ColTraitParticle : public ColTraitBase
     {
         GeoColorsPtr col = part->getColors();
 
-        data.data = col->getData();
+        data.data = col->editData();
         if((data.stride = col->getStride()) == 0)
             data.stride = col->getFormatSize() * col->getDimension();
         
@@ -661,7 +661,7 @@ struct ColTraitGeneric : public ColTraitBase
 
         if(col != NullFC)
         {
-            data.data = col->getData();
+            data.data = col->editData();
             if((data.stride = col->getStride()) == 0)
                 data.stride = col->getFormatSize() * col->getDimension();
 
@@ -679,7 +679,7 @@ struct ColTraitGeneric : public ColTraitBase
             
             if(col->getSize() == 1)
             {
-                data.func(const_cast<GLubyte*>(col->getData()));
+                data.func(const_cast<GLubyte*>(col->editData()));
             }
             else if(col->getSize() == part->getPositions()->getSize())
             {

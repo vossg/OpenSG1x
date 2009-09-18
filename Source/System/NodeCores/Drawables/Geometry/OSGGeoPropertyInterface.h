@@ -82,7 +82,10 @@ class GeoPropertyArrayInterface
     virtual UInt32  getDimension (void) const = 0;
     virtual UInt32  getSize      (void) const = 0;
     virtual UInt32  size         (void) const = 0;
+#ifndef OSG_2_PREP
     virtual UInt8  *getData      (void) const = 0;
+#endif
+    virtual UInt8  *editData     (void) const = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
