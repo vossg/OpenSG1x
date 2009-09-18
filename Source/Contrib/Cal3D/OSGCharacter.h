@@ -195,7 +195,7 @@ class OSG_CONTRIBLIB_DLLMAPPING Character : public CharacterBase
 
             RenderAction *ra = dynamic_cast<RenderAction*>(action);
 
-            ra->dropFunctor(func, mat.getCPtr());
+            ra->dropFunctor(func, getCPtr(mat));
         }
 
       private:
@@ -226,6 +226,6 @@ OSG_END_NAMESPACE
 #include <OSGCharacterBase.inl>
 #include <OSGCharacter.inl>
 
-#define OSGCHARACTER_HEADER_CVSID "@(#)$Id: OSGCharacter.h,v 1.2 2005/10/06 14:22:40 dirk Exp $"
+#define OSGCHARACTER_HEADER_CVSID "@(#)$Id: OSGCharacter.h,v 1.3 2009/09/18 09:42:27 vossg Exp $"
 
 #endif /* _OSGCHARACTER_H_ */

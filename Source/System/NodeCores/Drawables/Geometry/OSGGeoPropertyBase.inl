@@ -403,21 +403,21 @@ UInt32 GeoProperty<GeoPropertyDesc>::size(void) const
 }
 
 
+#ifndef OSG_2_PREP
 template <class GeoPropertyDesc> inline
 UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
 {
     return _field.empty() ? NULL : 
         const_cast<UInt8 *>(reinterpret_cast<const UInt8 *>(&(_field[0])));
 }
+#endif
 
-#ifdef OSG_2_PREP
 template <class GeoPropertyDesc> inline
 UInt8 *GeoProperty<GeoPropertyDesc>::editData(void) const
 {
     return _field.empty() ? NULL : 
         const_cast<UInt8 *>(reinterpret_cast<const UInt8 *>(&(_field[0])));
 }
-#endif
 
 template <class GeoPropertyDesc> inline 
 typename GeoProperty<GeoPropertyDesc>::StoredGenericType

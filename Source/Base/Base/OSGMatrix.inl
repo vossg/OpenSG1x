@@ -917,7 +917,7 @@ bool TransformationMatrix<ValueTypeT>::factor(TransformationMatrix &r,
 
 /*---------------------------- transform objects ---------------------------*/
 
-#ifndef OSG_2_PREP
+#ifndef OSG_2_PREP_FULL
 
 /*! \brief Multiplies matrix by given column point, where the resulting point
     is given
@@ -1187,7 +1187,7 @@ void TransformationMatrix<ValueTypeT>::multVecMatrix(VectorType3f &vec) const
     multVecMatrix(vec, vec);
 }
 
-#endif  // OSG_2_PREP
+#endif  // OSG_2_PREP_FULL
 
 /*! Multiply the point \a pIn by this complete 4x4 matrix and store
     the result in \a pntOut.

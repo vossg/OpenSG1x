@@ -284,7 +284,7 @@ class TransformationMatrix
     /*! \name                   Transform                                  */
     /*! \{                                                                 */
 
-#ifndef OSG_2_PREP
+#ifndef OSG_2_PREP_FULL
     void multMatrixPnt    (const PointType3f  &src, 
                                  PointType3f  &dst) const;
     void multMatrixPnt    (      PointType3f  &pnt) const;
@@ -316,7 +316,7 @@ class TransformationMatrix
                                  VectorType &dst) const;
     void multMatrixVec    (      VectorType &vec) const;
 
-#endif  // OSG_2_PREP
+#endif  // OSG_2_PREP_FULL
 
     void mult        (const PointType    &pntIn, PointType    &pntOut) const;
     void multFull    (const PointType3f  &pntIn, PointType3f  &pntOut) const;

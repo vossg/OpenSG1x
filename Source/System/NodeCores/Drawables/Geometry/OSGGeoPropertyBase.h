@@ -245,10 +245,10 @@ class GeoProperty :
     virtual UInt32  getDimension (void) const;
     virtual UInt32  getSize      (void) const;
     virtual UInt32  size         (void) const;
+#ifndef OSG_2_PREP
     virtual UInt8  *getData      (void) const;
-#ifdef OSG_2_PREP
-    virtual UInt8  *editData     (void) const;
 #endif
+    virtual UInt8  *editData     (void) const;
 
             StoredFieldType &operator->() { return _field; }
 
