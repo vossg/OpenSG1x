@@ -1227,26 +1227,6 @@ Point<ValueTypeT, SizeI>
     return returnValue;
 }
 
-//! Write point to the given stream
-
-template <class  ValueTypeT,
-          UInt32 SizeI     > inline
-std::ostream &operator <<(        std::ostream      &os,
-                          const   Point<ValueTypeT,
-                                        SizeI     > &obj)
-{
-    for(UInt32 i = 0; i < Point<ValueTypeT, SizeI>::_iSize; i++)
-    {
-        os << obj[i];
-
-        if(i != Point<ValueTypeT, SizeI>::_iSize - 1)
-            os << ", ";
-    }
-
-    return os;
-}
-
-
 
 //---------------------------------------------------------------------------
 //  Class
@@ -1828,26 +1808,6 @@ Vector<ValueTypeT, SizeI>
 
     return returnValue;
 }
-
-//! Write vector to stream
-
-template <class  ValueTypeT,
-          UInt32 SizeI     > inline
-std::ostream &operator <<(        std::ostream       &os,
-                          const   Vector<ValueTypeT,
-                                         SizeI     > &obj)
-{
-    for(UInt32 i = 0; i < Vector<ValueTypeT, SizeI>::_iSize; i++)
-    {
-        os << obj[i];
-
-        if(i != Vector<ValueTypeT, SizeI>::_iSize - 1)
-            os << ", ";
-    }
-
-    return os;
-}
-
 
 OSG_END_NAMESPACE
 

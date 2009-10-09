@@ -38,53 +38,79 @@
 
 OSG_BEGIN_NAMESPACE
 
-#define OSG_COLOR3_OUTPUT_OP_INST(OSG_VALUE_TYPE)                              \
-template <> OSG_DLL_EXPORT                                                     \
-std::ostream &operator <<(                                                     \
-    std::ostream &os, const Color3< OSG_VALUE_TYPE > &obj)                     \
-{                                                                              \
-    VecToStreamWriter< Color3< OSG_VALUE_TYPE >,                               \
-                       OSG_VALUE_TYPE,                                         \
-                       3                        >::apply(os, obj);             \
-                                                                               \
-    return os;                                                                 \
+// To support IO for additional value types include this file into
+// a .cpp and use the macros below to generate explicit instantiations
+// of the operators - cf. OSGColor.cpp
+
+// Color input/ouput operator implementations
+
+template <class ValueTypeT> OSG_DLL_EXPORT
+std::ostream &operator <<(
+    std::ostream &os, const Color3<ValueTypeT> &obj)
+{
+    VecToStreamWriter< Color3<ValueTypeT>,
+                       ValueTypeT,
+                       3                   >::apply(os, obj);
+
+    return os;
 }
 
-#define OSG_COLOR3_INPUT_OP_INST(OSG_VALUE_TYPE)                               \
-template <> OSG_DLL_EXPORT                                                     \
-std::istream &operator >>(                                                     \
-    std::istream &is, Color3< OSG_VALUE_TYPE > &obj)                           \
-{                                                                              \
-    VecFromStreamReader< Color3< OSG_VALUE_TYPE >,                             \
-                         OSG_VALUE_TYPE,                                       \
-                         3                        >::apply(is, obj);           \
-                                                                               \
-    return is;                                                                 \
+template <class ValueTypeT> OSG_DLL_EXPORT
+std::istream &operator >>(
+    std::istream &is, Color3<ValueTypeT> &obj)
+{
+    VecFromStreamReader< Color3<ValueTypeT>,
+                         ValueTypeT,
+                         3                   >::apply(is, obj);
+
+    return is;
 }
 
 
-#define OSG_COLOR4_OUTPUT_OP_INST(OSG_VALUE_TYPE)                              \
-template <> OSG_DLL_EXPORT                                                     \
-std::ostream &operator <<(                                                     \
-    std::ostream &os, const Color4< OSG_VALUE_TYPE > &obj)                     \
-{                                                                              \
-    VecToStreamWriter< Color4< OSG_VALUE_TYPE >,                               \
-                       OSG_VALUE_TYPE,                                         \
-                       4                        >::apply(os, obj);             \
-                                                                               \
-    return os;                                                                 \
+template <class ValueTypeT> OSG_DLL_EXPORT
+std::ostream &operator <<(
+    std::ostream &os, const Color4<ValueTypeT> &obj)
+{
+    VecToStreamWriter< Color4<ValueTypeT>,
+                       ValueTypeT,
+                       4                   >::apply(os, obj);
+
+    return os;
 }
 
-#define OSG_COLOR4_INPUT_OP_INST(OSG_VALUE_TYPE)                               \
-template <> OSG_DLL_EXPORT                                                     \
-std::istream &operator >>(                                                     \
-    std::istream &is, Color4< OSG_VALUE_TYPE > &obj)                           \
-{                                                                              \
-    VecFromStreamReader< Color4< OSG_VALUE_TYPE >,                             \
-                         OSG_VALUE_TYPE,                                       \
-                         4                        >::apply(is, obj);           \
-                                                                               \
-    return is;                                                                 \
+template <class ValueTypeT> OSG_DLL_EXPORT
+std::istream &operator >>(
+    std::istream &is, Color4<ValueTypeT> &obj)
+{
+    VecFromStreamReader< Color4<ValueTypeT>,
+                         ValueTypeT,
+                         4                   >::apply(is, obj);
+
+    return is;
 }
+
+
+// Macros to generate explicit instantiations
+
+#define OSG_COLOR3_OUTPUT_OP_INST(OSG_VALUE_TYPE)                       \
+template OSG_DLL_EXPORT                                                 \
+std::ostream &operator <<(                                              \
+    std::ostream &os, const Color3< OSG_VALUE_TYPE > &obj)
+
+#define OSG_COLOR3_INPUT_OP_INST(OSG_VALUE_TYPE)                        \
+template OSG_DLL_EXPORT                                                 \
+std::istream &operator >>(                                              \
+    std::istream &is, Color3< OSG_VALUE_TYPE > &obj);
+
+
+#define OSG_COLOR4_OUTPUT_OP_INST(OSG_VALUE_TYPE)                       \
+template OSG_DLL_EXPORT                                                 \
+std::ostream &operator <<(                                              \
+    std::ostream &os, const Color4< OSG_VALUE_TYPE > &obj)
+
+#define OSG_COLOR4_INPUT_OP_INST(OSG_VALUE_TYPE)                        \
+template OSG_DLL_EXPORT                                                 \
+std::istream &operator >>(                                              \
+    std::istream &is, Color4< OSG_VALUE_TYPE > &obj)
 
 OSG_END_NAMESPACE

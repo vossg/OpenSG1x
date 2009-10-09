@@ -1157,32 +1157,10 @@ bool Color4<ValueTypeT>::operator ==(const Color4 &other) const
     return returnValue;
 }
 
-
 template <class ValueTypeT> inline
 bool Color4<ValueTypeT>::operator !=(const Color4 &other) const
 {
     return ! (*this == other);
-}
-
-
-template <class ValueTypeT> inline
-std::ostream &operator <<(      std::ostream       &outStream,
-                          const Color3<ValueTypeT> &color)
-{
-    return outStream << color.red()   << ' '
-                     << color.green() << ' '
-                     << color.blue();
-}
-
-
-template <class ValueTypeT> inline
-std::ostream &operator <<(      std::ostream       &outStream,
-                          const Color4<ValueTypeT> &color)
-{
-    return outStream << color.red()   << ' '
-                     << color.green() << ' '
-                     << color.blue()  << ' '
-                     << color.alpha();
 }
 
 OSG_END_NAMESPACE

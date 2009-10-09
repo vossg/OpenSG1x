@@ -37,13 +37,14 @@
 \*---------------------------------------------------------------------------*/
 
 #include "OSGQuaternion.h"
-#include "OSGQuaternion.ins"
 
 #include "OSGMathIO.h"
+#include "OSGQuaternion.ins"
+
 
 OSG_BEGIN_NAMESPACE
 
-OSG_QUATERNION_OUTPUT_OP_INST(Real32)
-OSG_QUATERNION_INPUT_OP_INST(Real32)
+OSG_QUATERNION_OUTPUT_OP_INST(Real32);
+OSG_QUATERNION_INPUT_OP_INST(Real32);
 
 OSG_END_NAMESPACE
