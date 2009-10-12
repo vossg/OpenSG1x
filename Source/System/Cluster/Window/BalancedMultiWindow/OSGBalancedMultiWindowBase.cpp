@@ -79,6 +79,9 @@ const OSG::BitVector  BalancedMultiWindowBase::TileSizeFieldMask =
 const OSG::BitVector  BalancedMultiWindowBase::ShortFieldMask = 
     (TypeTraits<BitVector>::One << BalancedMultiWindowBase::ShortFieldId);
 
+const OSG::BitVector  BalancedMultiWindowBase::MaxDepthFieldMask = 
+    (TypeTraits<BitVector>::One << BalancedMultiWindowBase::MaxDepthFieldId);
+
 const OSG::BitVector BalancedMultiWindowBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -100,6 +103,9 @@ const OSG::BitVector BalancedMultiWindowBase::MTInfluenceMask =
 */
 /*! \var bool            BalancedMultiWindowBase::_sfShort
     
+*/
+/*! \var Int32           BalancedMultiWindowBase::_sfMaxDepth
+    Maximum depth in scene to create load groups for load balancing. Bigger values are more precise but slower.
 */
 
 //! BalancedMultiWindow description
@@ -130,7 +136,12 @@ FieldDescription *BalancedMultiWindowBase::_desc[] =
                      "short", 
                      ShortFieldId, ShortFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::editSFShort))
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::editSFShort)),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "maxDepth", 
+                     MaxDepthFieldId, MaxDepthFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&BalancedMultiWindowBase::editSFMaxDepth))
 };
 
 
@@ -212,6 +223,7 @@ BalancedMultiWindowBase::BalancedMultiWindowBase(void) :
     _sfShowBalancing          (bool(false)), 
     _sfTileSize               (UInt32(44)), 
     _sfShort                  (bool(true)), 
+    _sfMaxDepth               (Int32(999)), 
     Inherited() 
 {
 }
@@ -226,6 +238,7 @@ BalancedMultiWindowBase::BalancedMultiWindowBase(const BalancedMultiWindowBase &
     _sfShowBalancing          (source._sfShowBalancing          ), 
     _sfTileSize               (source._sfTileSize               ), 
     _sfShort                  (source._sfShort                  ), 
+    _sfMaxDepth               (source._sfMaxDepth               ), 
     Inherited                 (source)
 {
 }
@@ -267,6 +280,11 @@ UInt32 BalancedMultiWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfShort.getBinSize();
     }
 
+    if(FieldBits::NoField != (MaxDepthFieldMask & whichField))
+    {
+        returnValue += _sfMaxDepth.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -299,6 +317,11 @@ void BalancedMultiWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (ShortFieldMask & whichField))
     {
         _sfShort.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (MaxDepthFieldMask & whichField))
+    {
+        _sfMaxDepth.copyToBin(pMem);
     }
 
 
@@ -334,6 +357,11 @@ void BalancedMultiWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfShort.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (MaxDepthFieldMask & whichField))
+    {
+        _sfMaxDepth.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -359,6 +387,9 @@ void BalancedMultiWindowBase::executeSyncImpl(      BalancedMultiWindowBase *pOt
     if(FieldBits::NoField != (ShortFieldMask & whichField))
         _sfShort.syncWith(pOther->_sfShort);
 
+    if(FieldBits::NoField != (MaxDepthFieldMask & whichField))
+        _sfMaxDepth.syncWith(pOther->_sfMaxDepth);
+
 
 }
 #else
@@ -383,6 +414,9 @@ void BalancedMultiWindowBase::executeSyncImpl(      BalancedMultiWindowBase *pOt
 
     if(FieldBits::NoField != (ShortFieldMask & whichField))
         _sfShort.syncWith(pOther->_sfShort);
+
+    if(FieldBits::NoField != (MaxDepthFieldMask & whichField))
+        _sfMaxDepth.syncWith(pOther->_sfMaxDepth);
 
 
 

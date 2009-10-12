@@ -259,6 +259,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindow : public BalancedMultiWindowB
     void createLoadGroups(void);
     // collect load for a subtree
     void collectLoadGroups(NodePtr node,NodePtr root);
+    // collect load for a subtree and to a maximal depth
+    void collectLoadGroups(NodePtr node, NodePtr root, Int32 maxDepth, LoadGroup *parentLoad = 0);
     // collect visible viewports
     void collectVisibleViewports(Server &server);
     // calculate server viewport

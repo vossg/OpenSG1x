@@ -211,6 +211,29 @@ SFBool *BalancedMultiWindowBase::getSFShort(void)
 }
 #endif
 
+//! Get the BalancedMultiWindow::_sfMaxDepth field.
+inline
+const SFInt32 *BalancedMultiWindowBase::getSFMaxDepth(void) const
+{
+    return &_sfMaxDepth;
+}
+
+//! Get the BalancedMultiWindow::_sfMaxDepth field.
+inline
+SFInt32 *BalancedMultiWindowBase::editSFMaxDepth(void)
+{
+    return &_sfMaxDepth;
+}
+
+#ifndef OSG_2_PREP
+//! Get the BalancedMultiWindow::_sfMaxDepth field.
+inline
+SFInt32 *BalancedMultiWindowBase::getSFMaxDepth(void)
+{
+    return &_sfMaxDepth;
+}
+#endif
+
 
 //! Get the value of the BalancedMultiWindow::_sfBalance field.
 inline
@@ -362,8 +385,38 @@ void BalancedMultiWindowBase::setShort(const bool &value)
     _sfShort.setValue(value);
 }
 
+//! Get the value of the BalancedMultiWindow::_sfMaxDepth field.
+inline
+Int32 &BalancedMultiWindowBase::editMaxDepth(void)
+{
+    return _sfMaxDepth.getValue();
+}
+
+//! Get the value of the BalancedMultiWindow::_sfMaxDepth field.
+inline
+const Int32 &BalancedMultiWindowBase::getMaxDepth(void) const
+{
+    return _sfMaxDepth.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the BalancedMultiWindow::_sfMaxDepth field.
+inline
+Int32 &BalancedMultiWindowBase::getMaxDepth(void)
+{
+    return _sfMaxDepth.getValue();
+}
+#endif
+
+//! Set the value of the BalancedMultiWindow::_sfMaxDepth field.
+inline
+void BalancedMultiWindowBase::setMaxDepth(const Int32 &value)
+{
+    _sfMaxDepth.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGBALANCEDMULTIWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
+#define OSGBALANCEDMULTIWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.22 2008/06/09 12:26:59 vossg Exp $"
 

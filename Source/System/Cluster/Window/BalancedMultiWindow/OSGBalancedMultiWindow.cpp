@@ -400,7 +400,9 @@ void BalancedMultiWindow::clientRender (RenderActionBase *action)
     if(getHServers() * getVServers() != 0 &&
        getClientWindow() != NullFC)
     {
+        _drawTime -= getSystemTime();
         getClientWindow()->renderAllViewports( action );
+        _drawTime += getSystemTime();
     }
 
     // statistics
@@ -707,9 +709,106 @@ void BalancedMultiWindow::createLoadGroups(void)
 #endif
         _cluster.rootNodes.push_back(root);
         // recousiveley collect groups
-        collectLoadGroups(root,root);
+        //collectLoadGroups(root,root);
+        collectLoadGroups(root,root, getMaxDepth());
     }
     _rebuildLoadGroups = false;
+}
+
+/*! collect load for a subtree and write it to the group list. This method
+    is called for the client and the server. The palancing expects that
+    the loadGroup vector is equal on client and server. maxDepth gives the 
+    depth in scenegraph to which the load groups should be generated. Can 
+    be set to low value if load calculation is too slow, but precision will 
+    decrease.
+ */
+void BalancedMultiWindow::collectLoadGroups(NodePtr node, NodePtr root, Int32 maxDepth, LoadGroup *parentLoad)
+{
+    LoadGroup load;
+    UInt32 l;
+    MFNodePtr::const_iterator child;
+
+    //node->getCore()->dump();
+
+    // ignore null node
+    if(node == NullFC)
+        return;
+    
+    NodeCorePtr core = node->getCore();
+    if(core != NullFC)
+    {
+        ChunkMaterialPtr mat;
+        GeometryPtr geo;
+        ProxyGroupPtr proxy;
+
+        load.root = root;
+        load.constant = 0;
+        load.pixel = 0;
+        load.ratio = 0;
+        load.node = node;
+
+        // handle poxy groups
+        proxy = ProxyGroupPtr::dcast(core);
+        if(proxy != NullFC)
+        {
+            load.constant = proxy->getIndices() / MW_INDICES_PER_SEC;
+            load.ratio    = proxy->getIndices() / MW_VISIBLE_INDICES_PER_SEC;
+        }
+        geo = GeometryPtr::dcast(core);
+        if(geo != NullFC)
+        {
+            GeoIndicesPtr indices = geo->getIndices();
+            GeoPositionsPtr positions = geo->getPositions();
+            ChunkMaterialPtr mat = ChunkMaterialPtr::dcast (geo->getMaterial ());
+            // constant geometry setup cost
+            if ((indices != NullFC)) 
+            {
+                load.constant = indices->getSize() / MW_INDICES_PER_SEC;
+                load.ratio    = indices->getSize() / MW_VISIBLE_INDICES_PER_SEC;
+            }
+            else
+                if(positions != NullFC) 
+                {
+                    load.constant = positions->getSize() / MW_INDICES_PER_SEC;
+                    load.ratio    = positions->getSize() / MW_VISIBLE_INDICES_PER_SEC;
+                }
+            // pixel cost for shaders
+            if (mat != NullFC && mat->find (SHLChunk::getClassType ()) != NullFC)
+                load.pixel =  1.0 / float(MW_SHADED_PIXEL_PER_SEC);
+            else
+                load.pixel = 1.0 / float(MW_PIXEL_PER_SEC);
+        }        
+    }
+
+    // loop over all child nodes
+    for(child = node->getMFChildren()->begin() ;
+        child != node->getMFChildren()->end() ;
+        ++child)
+    {
+        if (maxDepth == 0) // make this load act as new parent
+        {
+            collectLoadGroups(*child,root, maxDepth - 1, &load); 
+        }
+        else // give parentLoad to children
+        {
+            collectLoadGroups(*child,root, maxDepth - 1, parentLoad);
+        }
+    }
+
+    if (maxDepth >= 0) // create load group
+    {
+        if (load.pixel > 0 || load.constant > 0)
+            _cluster.loadGroups.push_back(load);
+    }
+    else // summarize load to parent load (TODO)
+    {
+        if (parentLoad != 0)
+        {
+            parentLoad->constant += load.constant;
+            parentLoad->ratio += load.ratio;
+            parentLoad->pixel += load.pixel;
+        }
+    }
 }
 
 /*! collect load for a subtree and write it to the group list. This method
@@ -1006,6 +1105,12 @@ void BalancedMultiWindow::createBBoxes(Server &server)
 
         sumLoad = 0;
         vI->loadCenter[0] = vI->loadCenter[1] = 0;
+        
+        if (getShowBalancing())
+        {
+            printf("maxDepth = %d, load groups = %d\n", getMaxDepth(), _cluster.loadGroups.size());
+        }
+
         for(gI = 0 ; gI != _cluster.loadGroups.size() ; ++gI)
         {
             LoadGroup &group = _cluster.loadGroups[gI];
@@ -1799,11 +1904,13 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
                 // new area
                 _cluster.areas.resize(_cluster.areas.size()+1);
                 _cluster.areas.back().workpackageId = wpId;
+                _drawTime -= getSystemTime();
                 renderViewport(window,
                                wI->sendToServer,
                                action,
                                wI->viewportId,
                                wI->rect);
+                _drawTime += getSystemTime();
                 glFinish();
                 _pixelTime -= getSystemTime();
                 storeViewport (_cluster.areas.back(),getPort(wI->viewportId),wI->rect);
@@ -1814,7 +1921,9 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
         }
 
         // clear viewports with background
+        _drawTime -= getSystemTime();
         clearViewports(window,id,action);
+        _drawTime += getSystemTime();
 
         // render own viewports
         for(wI  = _cluster.workpackages.begin() ; 
@@ -1824,14 +1933,16 @@ void BalancedMultiWindow::drawSendAndRecv(WindowPtr window,
             if(wI->drawServer == id &&
                wI->sendToServer == id)
             {
+                _drawTime -= getSystemTime();
                 // render local viewport
                 renderViewport(window,
                                id,
                                action,
                                wI->viewportId,
                                wI->rect);
+                _drawTime += getSystemTime();
                 _triCount += UInt32(action->getStatistics()->getElem( Drawable::statNTriangles )->getValue());
-                _drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
+                //_drawTime += action->getStatistics()->getElem( RenderAction::statDrawTime )->getValue();
             }
         }
         // send tiles

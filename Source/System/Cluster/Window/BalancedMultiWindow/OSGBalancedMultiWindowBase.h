@@ -72,6 +72,7 @@
 #include <OSGBoolFields.h> // ShowBalancing type
 #include <OSGUInt32Fields.h> // TileSize type
 #include <OSGBoolFields.h> // Short type
+#include <OSGInt32Fields.h> // MaxDepth type
 
 #include "OSGBalancedMultiWindowFields.h"
 
@@ -100,7 +101,8 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindowBase : public MultiDisplayWind
         ShowBalancingFieldId = BestCutFieldId       + 1,
         TileSizeFieldId      = ShowBalancingFieldId + 1,
         ShortFieldId         = TileSizeFieldId      + 1,
-        NextFieldId          = ShortFieldId         + 1
+        MaxDepthFieldId      = ShortFieldId         + 1,
+        NextFieldId          = MaxDepthFieldId      + 1
     };
 
     static const OSG::BitVector BalanceFieldMask;
@@ -108,6 +110,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindowBase : public MultiDisplayWind
     static const OSG::BitVector ShowBalancingFieldMask;
     static const OSG::BitVector TileSizeFieldMask;
     static const OSG::BitVector ShortFieldMask;
+    static const OSG::BitVector MaxDepthFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -165,6 +168,12 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindowBase : public MultiDisplayWind
            SFBool              *getSFShort          (void);
 #endif
 
+           SFInt32             *editSFMaxDepth       (void);
+     const SFInt32             *getSFMaxDepth       (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFMaxDepth       (void);
+#endif
+
 
            bool                &editBalance        (void);
      const bool                &getBalance        (void) const;
@@ -196,6 +205,12 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindowBase : public MultiDisplayWind
            bool                &getShort          (void);
 #endif
 
+           Int32               &editMaxDepth       (void);
+     const Int32               &getMaxDepth       (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getMaxDepth       (void);
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
@@ -206,6 +221,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindowBase : public MultiDisplayWind
      void setShowBalancing  ( const bool &value );
      void setTileSize       ( const UInt32 &value );
      void setShort          ( const bool &value );
+     void setMaxDepth       ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +269,7 @@ class OSG_SYSTEMLIB_DLLMAPPING BalancedMultiWindowBase : public MultiDisplayWind
     SFBool              _sfShowBalancing;
     SFUInt32            _sfTileSize;
     SFBool              _sfShort;
+    SFInt32             _sfMaxDepth;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -330,6 +347,6 @@ typedef RefPtr<BalancedMultiWindowPtr> BalancedMultiWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGBALANCEDMULTIWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
+#define OSGBALANCEDMULTIWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGBALANCEDMULTIWINDOWBASE_H_ */
