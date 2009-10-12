@@ -96,6 +96,7 @@ std::string              connectionInterface="";
 OSG::SolidBackgroundPtr  bkgnd;
 Int32                    subtilesize=-1;
 bool                     pipelinedBufferRead = false;
+int                      maxDepth = 999;
 
 UInt32 primitiveCount(GeometryPtr geoPtr,
                       UInt32 &triangle,
@@ -1166,6 +1167,8 @@ int main(int argc,char **argv)
                     break;
                 case 'X':
                     type='X';
+                    opt = argv[i][2] ? argv[i]+2 : argv[++i];
+                    maxDepth=atoi(opt);
                     break;
                 case 'P':
                     type='P';
@@ -1411,6 +1414,7 @@ int main(int argc,char **argv)
                     balancedmultidisplay->setVServers(rows);
 //                    balancedmultidisplay->setShowBalancing(true);
                     balancedmultidisplay->setShowBalancing(info);
+					balancedmultidisplay->setMaxDepth(maxDepth);
                     break;
             }
 #ifdef FRAMEINTERLEAVE
