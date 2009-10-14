@@ -206,6 +206,30 @@ static void errorHandler (const char *module, const char *fmt, va_list ap)
     FFATAL (("TiffLib: %s;%s\n", module ? module : "Mod", buffer));
 }
 
+static void put16bitbwtile(
+    TIFFRGBAImage* img,
+    uint32* cp,
+    uint32 x, uint32 y,
+    uint32 w, uint32 h,
+    int32 fromskew, int32 toskew,
+    unsigned char* pp)
+{
+    int samplesperpixel = img->samplesperpixel;
+    uint16 *dst = (uint16*) (cp - (y * img->width + x) / 2);
+    while (h-- > 0)
+    {
+        uint16 *wp = (uint16 *) pp;
+        for (x = w; x-- > 0;)
+        {
+            *dst++ = *wp;
+            pp += 2 * samplesperpixel;
+            wp += samplesperpixel;
+        }
+        dst += toskew;
+        pp += fromskew;
+    }
+}
+
 #endif // OSG_WITH_TIF
 
 // Static Class Varible implementations:
@@ -277,10 +301,6 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
     if (in == 0)
         return false;
 
-    uint32 w, h;
-    TIFFGetField(in, TIFFTAG_IMAGEWIDTH, &w);
-    TIFFGetField(in, TIFFTAG_IMAGELENGTH, &h);
-
     float res_x, res_y;
     uint16 res_unit;
     TIFFGetField(in, TIFFTAG_XRESOLUTION, &res_x);
@@ -308,11 +328,31 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
             TIFFSetField(in, TIFFTAG_EXTRASAMPLES, 1, &si);
         }
     }
+
+    char errorMessage[1024];
+    if (TIFFRGBAImageOK(in, errorMessage) == 0)
+    {
+        SWARNING << "Tiff reader failed: " << errorMessage << std::endl;
+        TIFFClose(in);
+        return false;
+    }
+
+    TIFFRGBAImage img;
+    if (TIFFRGBAImageBegin(&img, in, 1, errorMessage) == 0)
+    {
+        SWARNING << "Tiff reader failed: " << errorMessage << std::endl;
+        TIFFClose(in);
+        return false;
+    }
+
     Image::PixelFormat type = Image::OSG_INVALID_PF;
-    switch (bpp)
+    Image::Type dataType = Image::OSG_UINT8_IMAGEDATA;
+    switch (img.samplesperpixel)
     {
     case 1:
         type = Image::OSG_L_PF;
+        if (img.bitspersample == 16)
+            dataType = Image::OSG_UINT16_IMAGEDATA;
         break;
     case 2:
         type = Image::OSG_LA_PF;
@@ -325,65 +365,71 @@ bool TIFImageFileType::read(ImagePtr &OSG_TIF_ARG(image), std::istream &OSG_TIF_
         break;
     }
 
-    char errorMessage[1024];
-    if (TIFFRGBAImageOK(in, errorMessage) == 0)
-    {
-        SWARNING << "Tiff reader failed: " << errorMessage << std::endl;
-        TIFFClose(in);
-        return false;
-    }
-
-    UInt32 numPixels = w * h;
-    uint32 *buffer = new uint32[numPixels];
-    if (TIFFReadRGBAImage(in, w, h, buffer, 1) == 0)
-    {
-        delete [] buffer;
-        TIFFClose(in);
-        return false;
-    }
-
-    TIFFClose(in);
-
-    image->set(type, w, h);
+    image->set(type, img.width, img.height, 1, 1, 1, 0.0, 0, dataType);
     image->setResX(res_x);
     image->setResY(res_y);
     image->setResUnit(res_unit);
 
-    UChar8 *dst = image->editData();
-    uint32 *src = buffer;
-    switch (bpp)
+    if ((img.samplesperpixel == 1) && (img.bitspersample == 16))
     {
-    case 4:
-        for (UInt32 i = numPixels; i > 0; --i)
+        img.put.contig = put16bitbwtile;
+        if (TIFFRGBAImageGet(&img, (uint32*)(image->editData()), img.width, img.height) == 0)
         {
-            *dst++ = TIFFGetR(*src);
-            *dst++ = TIFFGetG(*src);
-            *dst++ = TIFFGetB(*src);
-            *dst++ = TIFFGetA(*src++);
+            TIFFRGBAImageEnd(&img);
+            TIFFClose(in);
+            return false;
         }
-        break;
-    case 3:
-        for (UInt32 i = numPixels; i > 0; --i)
+    }
+    else
+    {
+        UInt32 numPixels = img.width * img.height;
+        uint32 *buffer = new uint32[numPixels];
+        if (TIFFRGBAImageGet(&img, buffer, img.width, img.height) == 0)
         {
-            *dst++ = TIFFGetR(*src);
-            *dst++ = TIFFGetG(*src);
-            *dst++ = TIFFGetB(*src++);
+            delete [] buffer;
+            TIFFRGBAImageEnd(&img);
+            TIFFClose(in);
+            return false;
         }
-        break;
-    case 2:
-        for (UInt32 i = numPixels; i > 0; --i)
+
+        UChar8 *dst = image->editData();
+        uint32 *src = buffer;
+        switch (img.samplesperpixel)
         {
-            *dst++ = TIFFGetG(*src);
-            *dst++ = TIFFGetA(*src++);
+        case 4:
+            for (UInt32 i = numPixels; i > 0; --i)
+            {
+                *dst++ = TIFFGetR(*src);
+                *dst++ = TIFFGetG(*src);
+                *dst++ = TIFFGetB(*src);
+                *dst++ = TIFFGetA(*src++);
+            }
+            break;
+        case 3:
+            for (UInt32 i = numPixels; i > 0; --i)
+            {
+                *dst++ = TIFFGetR(*src);
+                *dst++ = TIFFGetG(*src);
+                *dst++ = TIFFGetB(*src++);
+            }
+            break;
+        case 2:
+            for (UInt32 i = numPixels; i > 0; --i)
+            {
+                *dst++ = TIFFGetG(*src);
+                *dst++ = TIFFGetA(*src++);
+            }
+            break;
+        case 1:
+            for (UInt32 i = numPixels; i > 0; --i)
+                *dst++ = TIFFGetG(*src++);
+            break;
         }
-        break;
-    case 1:
-        for (UInt32 i = numPixels; i > 0; --i)
-            *dst++ = TIFFGetG(*src++);
-        break;
+        delete [] buffer;
     }
 
-    delete [] buffer;
+    TIFFRGBAImageEnd(&img);
+    TIFFClose(in);
 
     return true;
 
