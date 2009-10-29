@@ -75,14 +75,14 @@ class OSG_SYSTEMLIB_DLLMAPPING Viewport : public ViewportBase
 
     void setSize(Real32 left,  Real32 bottom, 
                  Real32 right, Real32 top);
-    
-    Int32 getPixelLeft  (void) const;
-    Int32 getPixelRight (void) const;
-    Int32 getPixelBottom(void) const;
-    Int32 getPixelTop   (void) const;
-    Int32 getPixelWidth (void) const;
-    Int32 getPixelHeight(void) const;
-    
+
+    virtual Int32 getPixelLeft  (void) const;
+    virtual Int32 getPixelRight (void) const;
+    virtual Int32 getPixelBottom(void) const;
+    virtual Int32 getPixelTop   (void) const;
+    virtual Int32 getPixelWidth (void) const;
+    virtual Int32 getPixelHeight(void) const;
+
     bool isFullWindow( void ) const;
 
     /*! \}                                                                 */

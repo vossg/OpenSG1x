@@ -41,22 +41,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-/*------------------------------- size ----------------------------------*/
-
-/*! Calculate the width of the viewport in Pixel.
-*/ 
-inline Int32 Viewport::getPixelWidth( void ) const
-{
-    return getPixelRight() - getPixelLeft() + 1;
-}
-
-/*! Calculate the height of the viewport in Pixel.
-*/ 
-inline Int32 Viewport::getPixelHeight( void ) const
-{
-    return getPixelTop() - getPixelBottom() + 1;
-}
-
 /*---------------------------- properties ---------------------------------*/
 
 /*! Set all of the size-related fields of the viewport.

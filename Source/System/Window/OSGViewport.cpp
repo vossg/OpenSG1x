@@ -204,6 +204,22 @@ Int32 Viewport::getPixelTop(void) const
     return Int32(getParent()->getHeight() * getTop() - 1);
 }
 
+/*------------------------------- size ----------------------------------*/
+
+/*! Calculate the width of the viewport in Pixel.
+*/ 
+Int32 Viewport::getPixelWidth( void ) const
+{
+    return getPixelRight() - getPixelLeft() + 1;
+}
+
+/*! Calculate the height of the viewport in Pixel.
+*/ 
+Int32 Viewport::getPixelHeight( void ) const
+{
+    return getPixelTop() - getPixelBottom() + 1;
+}
+
 /*! Checks if the viewport fills the whole window. Needs a valid
     _sfParent value.
 */
