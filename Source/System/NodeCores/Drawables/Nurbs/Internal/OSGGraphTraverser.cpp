@@ -254,12 +254,15 @@ int GraphTraverser::Traverse( void ) {
 //				std::cerr << " act_node: " << act_node << " start_node: " << start_node << " leave: " << leave << std::endl;
 				start_node = leave; leave = -1;
 				if ( start_node != -1 ) {
-					node_ids.push_back( start_node );
-					edgeID = getOutGoingEdge( start_node );
-					act_node = getOtherEnd( edgeID, start_node );
-//					std::cerr << "new actnode: " << act_node << std::endl;
-					node_ids.push_back( act_node );
-				}
+                    edgeID = getOutGoingEdge( start_node );
+                    if ( edgeID != -1 )
+                    {
+                        node_ids.push_back( start_node );
+                        act_node = getOtherEnd( edgeID, start_node );
+//                        std::cerr << "new actnode: " << act_node << std::endl;
+                        node_ids.push_back( act_node );
+                    }
+                }
 				else edgeID = -1;
 			}
 			else
