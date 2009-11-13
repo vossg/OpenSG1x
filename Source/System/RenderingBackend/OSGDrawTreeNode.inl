@@ -219,6 +219,18 @@ UInt32 DrawTreeNode::getClipPlanesState(void)
 }
 
 inline
+void DrawTreeNode::setFogState(UInt32 state)
+{
+    _fogState = state;
+}
+
+inline
+UInt32 DrawTreeNode::getFogState(void)
+{
+    return _fogState;
+}
+
+inline
 void DrawTreeNode::setMultiPass(void)
 {
     _flags |= DrawTreeNode::MultiPass;
@@ -283,6 +295,9 @@ void DrawTreeNode::reset(void)
     _rScalarVal = 0.f;
 
     _lightsState = 0;
+	_clipPlanesState = 0;
+	_fogState = 0;
+	
     _flags = 0;
 }
 

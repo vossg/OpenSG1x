@@ -73,6 +73,8 @@ class LightEnv;
 class LightChunk;
 class ClipPlane;
 class SClipPlaneChunk;
+class Fog;
+class FogChunk;
 
 class DrawTreeNodeFactory;
 
@@ -102,6 +104,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     typedef std::map <Material   *,      DrawTreeNode *         > MaterialMap;
     typedef std::pair<LightChunk *,      Matrix                 > LightStore;
     typedef std::pair<SClipPlaneChunk *, Matrix                 > ClipPlaneStore;
+    typedef std::pair<FogChunk   *,      Matrix                 > FogStore;
 
     //-----------------------------------------------------------------------
     //   constants                                                               
@@ -178,6 +181,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     void dropClipPlane  (ClipPlane     *pClipPlane);
     void undropClipPlane(ClipPlane     *pClipPlane);
+	
+	void dropFog  (Fog *pFog);
+	void undropFog(Fog *pFog);
 
     void setStateSorting(bool s);
     bool getStateSorting(void);
@@ -363,7 +369,6 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     std::vector<UInt32>               _lightsPath;
     std::vector<UInt32>               _lightEnvsLightsState;
 
-
     std::vector<ClipPlaneStore> _vClipPlanes;
     std::vector<ClipPlane *>    _clipPlanesMap;
     UInt32                      _clipPlanesState;
@@ -373,6 +378,16 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     std::vector<std::vector<UInt32> > _clipPlanesTable;
     std::vector<UInt32>               _clipPlanesPath;
+	
+    std::vector<FogStore> _vFog;
+    std::vector<Fog *>    _fogMap;
+    UInt32                _fogState;
+    UInt32                _activeFogState;
+    UInt32                _activeFogCount;
+    UInt32                _activeFogMask;
+	
+	std::vector<std::vector<UInt32> > _fogTable;
+    std::vector<UInt32>               _fogPath;
 
     bool                      _stateSorting;
 
@@ -421,6 +436,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     inline  void updateTopMatrix(void);
             void activateLocalLights(DrawTreeNode *pRoot);
             void activateLocalClipPlanes(DrawTreeNode *pRoot);
+			void activateLocalFog(DrawTreeNode *pRoot);
 
     void getMaterialStates(Material *mat, std::vector<State *> &states);
 

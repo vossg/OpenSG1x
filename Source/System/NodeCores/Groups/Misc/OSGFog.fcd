@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+	name="Fog"
+	parent="Group"
+	library="System"
+	pointerfieldtypes="single"
+	structure="concrete"
+	systemcomponent="true"
+	parentsystemcomponent="true"
+	decoratable="false"
+	useLocalIncludes="false"
+>
+The fog chunk contains the parameters that are specific for rendering fog.
+	<Field
+		name="on"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="true"
+		access="public"
+	>
+	Whether the fog should be enabled or not.
+	</Field>
+	<Field
+		name="mode"
+		type="GLenum"
+		cardinality="single"
+		visibility="external"
+		defaultValue="GL_LINEAR"
+		defaultHeader="<OSGGL.h>"
+		access="public"
+	>
+	The fog type to use. The default is LINEAR.
+	</Field>
+	<Field
+		name="color"
+		type="Color4f"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.0, 1.0, 1.0, 1.0"
+		access="public"
+	>
+	The color of the fog.
+	</Field>
+	<Field
+		name="start"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0.0f"
+		access="public"
+	>
+	The near value for the fog, defaults to 0.
+	</Field>
+	<Field
+		name="end"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.0f"
+		access="public"
+	>
+	The far value for the fog, defaults to 1.
+	</Field>
+	<Field
+		name="density"
+		type="Real32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1.0f"
+		access="public"
+	>
+	The density of the fog, defaults to 1.
+	</Field>
+</FieldContainer>

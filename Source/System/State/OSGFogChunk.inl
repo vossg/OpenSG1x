@@ -2,9 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
- *                                                                           *
- *                            www.opensg.org                                 *
+ *               Copyright (C) 2000-2002 by the OpenSG Forum                 *
  *                                                                           *
  *   contact: dirk@opensg.org, gerrit.voss@vossg.org, jbehr@zgdv.de          *
  *                                                                           *
@@ -36,82 +34,27 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <stdlib.h>
-#include <stdio.h>
+//---------------------------------------------------------------------------
+//  Includes
+//---------------------------------------------------------------------------
 
-#include "OSGConfig.h"
+#include <OSGConfig.h>
 
-#include "OSGDrawTreeNode.h"
-#include <OSGBaseFunctions.h>
+OSG_BEGIN_NAMESPACE
 
-#if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-#include "OSGTime.h"
-#endif
-
-OSG_USING_NAMESPACE
-
-/*! \class osg::DrawTreeNode
-    \ingroup GrpSystemRenderingBackend
- */
-
-/*-------------------------------------------------------------------------*/
-/*                            Statistics                                   */
-
-Int32 DrawTreeNode::_iCreateCount = 0;
-Int32 DrawTreeNode::_iDeleteCount = 0;
-
-/*-------------------------------------------------------------------------*/
-/*                            Flags                                        */
-
-const UInt8 DrawTreeNode::MultiPass = 1;
-const UInt8 DrawTreeNode::LastMultiPass = 2;
-const UInt8 DrawTreeNode::NoStateSorting = 4;
-const UInt8 DrawTreeNode::NoDepthPass = 8;
-
-/*-------------------------------------------------------------------------*/
-/*                            Constructors                                 */
-
-DrawTreeNode::DrawTreeNode(void) :
-     Inherited       (),
-    _pFirstChild     (NULL),
-    _pLastChild      (NULL),
-    _pBrother        (NULL),
-    _pState          (NULL),
-    _pGeo            (NULL),
-    _functor         (),
-    _hasFunctor      (false),
-    _oMatrixStore    (),
-    _rScalarVal      (0.f),
-    _lightsState     (0),
-    _clipPlanesState (0),
-	_fogState		 (0),
-    _flags           (0)
+inline
+UInt32 FogChunk::getStaticClassId(void)
 {
-    _oMatrixStore.first = 0;
+    return getStaticClass()->getId();
 }
 
-/*-------------------------------------------------------------------------*/
-/*                             Destructor                                  */
-
-DrawTreeNode::~DrawTreeNode(void)
+inline
+const StateChunkClass *FogChunk::getStaticClass(void)
 {
+    return &FogChunk::_class;
 }
 
+OSG_END_NAMESPACE
 
-/*-------------------------------------------------------------------------*/
-/*                              cvs id's                                   */
+#define OSGFOGCHUNK_INLINE_CVSID "@(#)$Id: OSGFogChunk.inl,v 1.1 2009/11/13 15:44:27 yjung Exp $"
 
-#ifdef __sgi
-#pragma set woff 1174
-#endif
-
-#ifdef OSG_LINUX_ICC
-#pragma warning( disable : 177 )
-#endif
-
-namespace
-{
-    static Char8 cvsid_cpp[] = "@(#)$Id: $";
-    static Char8 cvsid_hpp[] = OSGDRAWTREENODE_HEADER_CVSID;
-    static Char8 cvsid_inl[] = OSGDRAWTREENODE_INLINE_CVSID;
-}

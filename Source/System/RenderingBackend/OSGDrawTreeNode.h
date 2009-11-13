@@ -120,6 +120,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
 
     void          setClipPlanesState  (UInt32 state               );
     UInt32        getClipPlanesState  (void                       );
+	
+	void          setFogState  	(UInt32 state               );
+    UInt32        getFogState  	(void                       );
 
     void          setMultiPass    (void                           );
     void          setLastMultiPass(void                           );
@@ -162,6 +165,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
 
     UInt32                     _lightsState;
     UInt32                     _clipPlanesState;
+    UInt32                     _fogState;
 
     Int8                       _flags;
 

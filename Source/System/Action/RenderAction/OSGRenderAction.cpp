@@ -77,6 +77,7 @@
 #include <OSGLightEnv.h>
 
 #include <OSGClipPlane.h>
+#include <OSGFog.h>
 
 #include <OSGGL.h>
 #include <OSGVolumeDraw.h>
@@ -316,7 +317,17 @@ RenderAction::RenderAction(void) :
 
     _clipPlanesTable(),
     _clipPlanesPath(),
-
+	
+	_vFog(),
+    _fogMap(),
+    _fogState(0),
+	_activeFogState(0),
+    _activeFogCount(0),
+    _activeFogMask(0),
+	
+	_fogTable(),
+	_fogPath(),
+	
 
     _stateSorting(true),
     _visibilityStack(),
@@ -452,6 +463,17 @@ RenderAction::RenderAction(const RenderAction &source) :
     _clipPlanesTable        (source._clipPlanesTable),
     _clipPlanesPath         (source._clipPlanesPath),
 
+	_vFog 				(source._vFog),
+    _fogMap				(source._fogMap),
+    _fogState			(source._fogState),
+	_activeFogState		(source._activeFogState),
+    _activeFogCount		(source._activeFogCount),
+    _activeFogMask		(source._activeFogMask),
+	
+	_fogTable			(source._fogTable),
+	_fogPath			(source._fogPath),
+	
+	
     _stateSorting        (source._stateSorting),
     _visibilityStack     (source._visibilityStack),
 
@@ -657,6 +679,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
+			pNewElem->setFogState	(_fogState);
             pNewElem->setState(pState);
             if(noDepthPass)
                 pNewElem->setNoDepthPass();
@@ -721,6 +744,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
+			pNewElem->setFogState	(_fogState);
             if(noDepthPass)
                 pNewElem->setNoDepthPass();
 
@@ -763,6 +787,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 pNewElem->setClipPlanesState(_clipPlanesState);
+				pNewElem->setFogState	(_fogState);
                 if(noDepthPass)
                     pNewElem->setNoDepthPass();
     
@@ -788,6 +813,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
                 pNewMatElem->setClipPlanesState(_clipPlanesState);
+				pNewMatElem->setFogState(_fogState);
                 if(noDepthPass)
                     pNewMatElem->setNoDepthPass();
 
@@ -803,6 +829,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 pNewElem->setClipPlanesState(_clipPlanesState);
+				pNewElem->setFogState	(_fogState);
                 if(noDepthPass)
                     pNewElem->setNoDepthPass();
     
@@ -864,6 +891,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
+			pNewElem->setFogState	(_fogState);
             pNewElem->setState      (pState);
             if(noDepthPass)
                 pNewElem->setNoDepthPass();
@@ -973,6 +1001,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setMatrixStore(_currMatrix);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
+			pNewElem->setFogState	(_fogState);
             pNewElem->setState(pState);
             if(noDepthPass)
                 pNewElem->setNoDepthPass();
@@ -1039,6 +1068,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             pNewElem->setScalar     (objPos[2]);
             pNewElem->setLightsState(_lightsState);
             pNewElem->setClipPlanesState(_clipPlanesState);
+			pNewElem->setFogState	(_fogState);
             if(noDepthPass)
                 pNewElem->setNoDepthPass();
 
@@ -1082,6 +1112,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
                 pNewMatElem->setClipPlanesState(_clipPlanesState);
+				pNewMatElem->setFogState(_fogState);
                 if(noDepthPass)
                     pNewMatElem->setNoDepthPass();
 
@@ -1091,6 +1122,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 pNewElem->setClipPlanesState(_clipPlanesState);
+				pNewElem->setFogState	(_fogState);
                 if(noDepthPass)
                     pNewElem->setNoDepthPass();
 
@@ -1106,6 +1138,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewMatElem->setNode(getActNode());
                 pNewMatElem->setLightsState(_lightsState);
                 pNewMatElem->setClipPlanesState(_clipPlanesState);
+				pNewMatElem->setFogState	(_fogState);
                 if(noDepthPass)
                     pNewMatElem->setNoDepthPass();
 
@@ -1118,6 +1151,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewPassElem->setNode(getActNode());
                     pNewPassElem->setLightsState(_lightsState);
                     pNewPassElem->setClipPlanesState(_clipPlanesState);
+					pNewPassElem->setFogState(_fogState);
                     if(noDepthPass)
                         pNewPassElem->setNoDepthPass();
                     pNewMatElem->addChild(pNewPassElem);
@@ -1128,6 +1162,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewElem->setMatrixStore(_currMatrix);
                     pNewElem->setLightsState(_lightsState);
                     pNewElem->setClipPlanesState(_clipPlanesState);
+					pNewElem->setFogState	(_fogState);
                     if(noDepthPass)
                         pNewElem->setNoDepthPass();
 
@@ -1158,6 +1193,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                 pNewElem->setMatrixStore(_currMatrix);
                 pNewElem->setLightsState(_lightsState);
                 pNewElem->setClipPlanesState(_clipPlanesState);
+				pNewElem->setFogState	(_fogState);
                 if(noDepthPass)
                     pNewElem->setNoDepthPass();
                 it->second->addChild(pNewElem);
@@ -1180,6 +1216,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     pNewElem->setMatrixStore(_currMatrix);
                     pNewElem->setLightsState(_lightsState);
                     pNewElem->setClipPlanesState(_clipPlanesState);
+					pNewElem->setFogState	(_fogState);
                     if(noDepthPass)
                         pNewElem->setNoDepthPass();
 
@@ -1389,6 +1426,39 @@ void RenderAction::undropClipPlane(ClipPlane *pClipPlane)
         _clipPlanesState = _clipPlanesPath.back();
     else
         _clipPlanesState = 0;
+}
+
+void RenderAction::dropFog(Fog *pFog)
+{
+    if (pFog == NULL)
+        return;
+
+	pFog->makeChunk();
+	
+    FogStore oStore;
+	
+    oStore.first  =  getCPtr(pFog->getChunk());
+    oStore.second = _currMatrix.second;
+
+    _vFog.push_back(oStore);
+    _fogMap.push_back(pFog);	
+	
+	UInt32 fogState = _vFog.size();
+    _fogPath.push_back(fogState);
+    _fogTable.push_back(_fogPath);
+    _fogState = fogState;	//probably not necessary
+}
+
+void RenderAction::undropFog(Fog *pFog)
+{
+    if (pFog == NULL)
+        return;
+
+    _fogPath.pop_back();
+    if (!_fogPath.empty())
+        _fogState = _fogPath.back();
+    else
+        _fogState = 0;
 }
 
 bool RenderAction::isVisible( Node* node )
@@ -1654,6 +1724,56 @@ void RenderAction::activateLocalClipPlanes(DrawTreeNode *pRoot)
 
     _activeClipPlanesState = pRoot->getClipPlanesState();
     _activeClipPlanesCount = clipPlane_id;
+}
+
+void RenderAction::activateLocalFog(DrawTreeNode *pRoot)
+{
+    if (_activeFogState == pRoot->getFogState()) {
+		//printf("fogState: %u %u\n", _activeFogState, pRoot->getFogState());
+        return;
+	}
+
+    UInt32 fog_id = 0;
+	
+    if (pRoot->getFogState() > 0)
+    {
+        const std::vector<UInt32> &fog = _fogTable[pRoot->getFogState() - 1];
+
+        _activeFogMask = 0;
+        //printf("activate fog: %u : ", pRoot->getFogState() - 1);
+		
+		// TODO; only one fog possible, use last(?) one
+        for (UInt32 i=0; i<fog.size(); ++i)
+        {
+            UInt32 fog_index = fog[i] - 1;
+            glPushMatrix();
+            glLoadMatrixf(_vFog[fog_index].second.getValues());
+			
+            _activeFogMask |= (1 << fog_id);
+            //printf("%u, ", fog_id);
+            _vFog[fog_index].first->activate(this, fog_id++);
+            glPopMatrix();
+        }
+        //printf(" (size=%d)\n",fog.size());
+    }
+
+    if (fog_id > 1)
+    {
+        SWARNING << "RenderAction::activateLocalFog: maximum fog nodes limit is " <<  1
+                 << std::endl;
+    }
+
+    //printf("idCnt=%d, deactivate fog: ", fog_id);
+    for (UInt32 i=fog_id; i<_activeFogCount; ++i)
+    {
+        //printf("%u, ", i);
+        _activeFogMask &= ~(1 << i);
+        glDisable(GL_FOG);
+    }
+    //printf("\n");
+	
+	_activeFogState = pRoot->getFogState();
+    _activeFogCount = fog_id;
 }
 
 bool RenderAction::isSmallFeature(const NodePtr &node)
@@ -2298,6 +2418,8 @@ void RenderAction::draw(DrawTreeNode *pRoot)
                 activateLocalLights(pRoot);
 
             activateLocalClipPlanes(pRoot);
+			
+			activateLocalFog(pRoot);
 
             State *pNewState = NULL;
 
@@ -2648,6 +2770,16 @@ Action::ResultE RenderAction::start(void)
 
     _clipPlanesTable.clear();
     _clipPlanesPath.clear();
+	
+	_vFog.clear();
+    _fogMap.clear();
+    _fogState       = 0;
+	_activeFogState = 0;
+    _activeFogCount = 0;
+    _activeFogMask  = 0;
+	
+	_fogTable.clear();
+    _fogPath.clear();
 
     _stateSorting = true;
 
@@ -2697,7 +2829,9 @@ Action::ResultE RenderAction::stop(ResultE res)
     // disable all clipping planes.
     for(i = 0;i < 6;++i)
         glDisable(GL_CLIP_PLANE0 + i);
-
+	
+	//disable fog
+	//glDisable(GL_FOG);
 
     // do a depth only render pass.
     if(_depth_only_pass || _render_depth_pass_only)
