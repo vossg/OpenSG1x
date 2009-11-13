@@ -69,6 +69,7 @@ StateChunkClass FogChunk::_class("Fog");
 
 void FogChunk::initMethod (void)
 {
+    Inherited::initMethod();
 }
 
 
@@ -119,31 +120,25 @@ void FogChunk::dump(      UInt32    ,
 /*------------------------------ State ------------------------------------*/
 
 void FogChunk::activate(DrawActionBase *, UInt32)
-{
-    if (getEnable())
-    {
-        glEnable( GL_FOG );
-		
-		glFogi  ( GL_FOG_MODE,    getMode()    );
-		glFogf  ( GL_FOG_DENSITY, getDensity() );
-		glFogf  ( GL_FOG_START,   getStart()   );
-		glFogf  ( GL_FOG_END,     getEnd()     );
-		glFogfv ( GL_FOG_COLOR,   getColor().getValuesRGBA() );
-    }
+{	
+    glFogi  (GL_FOG_MODE,    getMode   ()                );
+    glFogf  (GL_FOG_DENSITY, getDensity()                );
+    glFogf  (GL_FOG_START,   getStart  ()                );
+    glFogf  (GL_FOG_END,     getEnd    ()                );
+    glFogfv (GL_FOG_COLOR,   getColor  ().getValuesRGBA());
+
+    glEnable(GL_FOG);
 }
 
-void FogChunk::changeFrom( DrawActionBase *act, StateChunk * old_chunk, UInt32 index )
+void FogChunk::changeFrom( DrawActionBase *act, StateChunk * oldChunk, UInt32 index )
 {
-    old_chunk->deactivate( act, index );
-    activate( act, index );
+    oldChunk->deactivate(act, index);
+    this    ->activate  (act, index);
 }
 
 void FogChunk::deactivate ( DrawActionBase *, UInt32 )
 {
-    if (getEnable())
-    {
-        glDisable( GL_FOG );
-    }
+    glDisable(GL_FOG);
 }
 
 /*-------------------------- Comparison -----------------------------------*/
@@ -174,8 +169,7 @@ bool FogChunk::operator == (const StateChunk &other) const
     if(tother == this)
         return true;
 
-    if(getEnable()  != tother->getEnable() ||
-       getMode()    != tother->getMode()   ||
+    if(getMode()    != tother->getMode()   ||
        getColor()   != tother->getColor()  ||
        getStart()   != tother->getStart()  ||   
        getEnd()     != tother->getEnd()    ||
@@ -206,7 +200,7 @@ bool FogChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFogChunk.cpp,v 1.1 2009/11/13 15:44:27 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFogChunk.cpp,v 1.2 2009/11/13 18:07:01 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFOGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFOGCHUNKBASE_INLINE_CVSID;
 

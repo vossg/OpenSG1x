@@ -96,29 +96,6 @@ FogChunkPtr FogChunkBase::createEmpty(void)
 
 /*------------------------------ get -----------------------------------*/
 
-//! Get the FogChunk::_sfEnable field.
-inline
-const SFBool *FogChunkBase::getSFEnable(void) const
-{
-    return &_sfEnable;
-}
-
-//! Get the FogChunk::_sfEnable field.
-inline
-SFBool *FogChunkBase::editSFEnable(void)
-{
-    return &_sfEnable;
-}
-
-#ifndef OSG_2_PREP
-//! Get the FogChunk::_sfEnable field.
-inline
-SFBool *FogChunkBase::getSFEnable(void)
-{
-    return &_sfEnable;
-}
-#endif
-
 //! Get the FogChunk::_sfMode field.
 inline
 const SFGLenum *FogChunkBase::getSFMode(void) const
@@ -234,36 +211,6 @@ SFReal32 *FogChunkBase::getSFDensity(void)
 }
 #endif
 
-
-//! Get the value of the FogChunk::_sfEnable field.
-inline
-bool &FogChunkBase::editEnable(void)
-{
-    return _sfEnable.getValue();
-}
-
-//! Get the value of the FogChunk::_sfEnable field.
-inline
-const bool &FogChunkBase::getEnable(void) const
-{
-    return _sfEnable.getValue();
-}
-
-#ifndef OSG_2_PREP
-//! Get the value of the FogChunk::_sfEnable field.
-inline
-bool &FogChunkBase::getEnable(void)
-{
-    return _sfEnable.getValue();
-}
-#endif
-
-//! Set the value of the FogChunk::_sfEnable field.
-inline
-void FogChunkBase::setEnable(const bool &value)
-{
-    _sfEnable.setValue(value);
-}
 
 //! Get the value of the FogChunk::_sfMode field.
 inline
@@ -418,5 +365,5 @@ void FogChunkBase::setDensity(const Real32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGFOGCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGFogChunkBase.inl,v 1.1 2009/11/13 15:44:27 yjung Exp $"
+#define OSGFOGCHUNKBASE_INLINE_CVSID "@(#)$Id: OSGFogChunkBase.inl,v 1.2 2009/11/13 18:07:01 neumannc Exp $"
 

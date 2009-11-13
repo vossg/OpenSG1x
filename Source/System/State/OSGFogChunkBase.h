@@ -67,7 +67,6 @@
 
 #include <OSGStateChunk.h> // Parent
 
-#include <OSGBoolFields.h> // Enable type
 #include <OSGGLenumFields.h> // Mode type
 #include <OSGColor4fFields.h> // Color type
 #include <OSGReal32Fields.h> // Start type
@@ -96,8 +95,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FogChunkBase : public StateChunk
 
     enum
     {
-        EnableFieldId  = Inherited::NextFieldId,
-        ModeFieldId    = EnableFieldId  + 1,
+        ModeFieldId    = Inherited::NextFieldId,
         ColorFieldId   = ModeFieldId    + 1,
         StartFieldId   = ColorFieldId   + 1,
         EndFieldId     = StartFieldId   + 1,
@@ -105,7 +103,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FogChunkBase : public StateChunk
         NextFieldId    = DensityFieldId + 1
     };
 
-    static const OSG::BitVector EnableFieldMask;
     static const OSG::BitVector ModeFieldMask;
     static const OSG::BitVector ColorFieldMask;
     static const OSG::BitVector StartFieldMask;
@@ -138,12 +135,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FogChunkBase : public StateChunk
     /*! \{                                                                 */
 
 
-           SFBool              *editSFEnable         (void);
-     const SFBool              *getSFEnable         (void) const;
-#ifndef OSG_2_PREP
-           SFBool              *getSFEnable         (void);
-#endif
-
            SFGLenum            *editSFMode           (void);
      const SFGLenum            *getSFMode           (void) const;
 #ifndef OSG_2_PREP
@@ -174,12 +165,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FogChunkBase : public StateChunk
            SFReal32            *getSFDensity        (void);
 #endif
 
-
-           bool                &editEnable         (void);
-     const bool                &getEnable         (void) const;
-#ifndef OSG_2_PREP
-           bool                &getEnable         (void);
-#endif
 
            GLenum              &editMode           (void);
      const GLenum              &getMode           (void) const;
@@ -216,7 +201,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FogChunkBase : public StateChunk
     /*! \name                    Field Set                                 */
     /*! \{                                                                 */
 
-     void setEnable         ( const bool &value );
      void setMode           ( const GLenum &value );
      void setColor          ( const Color4f &value );
      void setStart          ( const Real32 &value );
@@ -264,7 +248,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FogChunkBase : public StateChunk
     /*! \name                      Fields                                  */
     /*! \{                                                                 */
 
-    SFBool              _sfEnable;
     SFGLenum            _sfMode;
     SFColor4f           _sfColor;
     SFReal32            _sfStart;
@@ -347,6 +330,6 @@ typedef RefPtr<FogChunkPtr> FogChunkRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFOGCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGFogChunkBase.h,v 1.1 2009/11/13 15:44:27 yjung Exp $"
+#define OSGFOGCHUNKBASE_HEADER_CVSID "@(#)$Id: OSGFogChunkBase.h,v 1.2 2009/11/13 18:07:01 neumannc Exp $"
 
 #endif /* _OSGFOGCHUNKBASE_H_ */

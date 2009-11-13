@@ -65,9 +65,6 @@
 
 OSG_BEGIN_NAMESPACE
 
-const OSG::BitVector  FogChunkBase::EnableFieldMask = 
-    (TypeTraits<BitVector>::One << FogChunkBase::EnableFieldId);
-
 const OSG::BitVector  FogChunkBase::ModeFieldMask = 
     (TypeTraits<BitVector>::One << FogChunkBase::ModeFieldId);
 
@@ -90,9 +87,6 @@ const OSG::BitVector FogChunkBase::MTInfluenceMask =
 
 // Field descriptions
 
-/*! \var bool            FogChunkBase::_sfEnable
-    Whether the fog should be enabled or not.
-*/
 /*! \var GLenum          FogChunkBase::_sfMode
     The fog type to use. The default is LINEAR.
 */
@@ -113,11 +107,6 @@ const OSG::BitVector FogChunkBase::MTInfluenceMask =
 
 FieldDescription *FogChunkBase::_desc[] = 
 {
-    new FieldDescription(SFBool::getClassType(), 
-                     "enable", 
-                     EnableFieldId, EnableFieldMask,
-                     false,
-                     reinterpret_cast<FieldAccessMethod>(&FogChunkBase::editSFEnable)),
     new FieldDescription(SFGLenum::getClassType(), 
                      "mode", 
                      ModeFieldId, ModeFieldMask,
@@ -219,7 +208,6 @@ void FogChunkBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 #endif
 
 FogChunkBase::FogChunkBase(void) :
-    _sfEnable                 (bool(true)), 
     _sfMode                   (GLenum(GL_LINEAR)), 
     _sfColor                  (Color4f(1.0, 1.0, 1.0, 1.0)), 
     _sfStart                  (Real32(0.0f)), 
@@ -234,7 +222,6 @@ FogChunkBase::FogChunkBase(void) :
 #endif
 
 FogChunkBase::FogChunkBase(const FogChunkBase &source) :
-    _sfEnable                 (source._sfEnable                 ), 
     _sfMode                   (source._sfMode                   ), 
     _sfColor                  (source._sfColor                  ), 
     _sfStart                  (source._sfStart                  ), 
@@ -255,11 +242,6 @@ FogChunkBase::~FogChunkBase(void)
 UInt32 FogChunkBase::getBinSize(const BitVector &whichField)
 {
     UInt32 returnValue = Inherited::getBinSize(whichField);
-
-    if(FieldBits::NoField != (EnableFieldMask & whichField))
-    {
-        returnValue += _sfEnable.getBinSize();
-    }
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
     {
@@ -295,11 +277,6 @@ void FogChunkBase::copyToBin(      BinaryDataHandler &pMem,
 {
     Inherited::copyToBin(pMem, whichField);
 
-    if(FieldBits::NoField != (EnableFieldMask & whichField))
-    {
-        _sfEnable.copyToBin(pMem);
-    }
-
     if(FieldBits::NoField != (ModeFieldMask & whichField))
     {
         _sfMode.copyToBin(pMem);
@@ -332,11 +309,6 @@ void FogChunkBase::copyFromBin(      BinaryDataHandler &pMem,
                                     const BitVector    &whichField)
 {
     Inherited::copyFromBin(pMem, whichField);
-
-    if(FieldBits::NoField != (EnableFieldMask & whichField))
-    {
-        _sfEnable.copyFromBin(pMem);
-    }
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
     {
@@ -373,9 +345,6 @@ void FogChunkBase::executeSyncImpl(      FogChunkBase *pOther,
 
     Inherited::executeSyncImpl(pOther, whichField);
 
-    if(FieldBits::NoField != (EnableFieldMask & whichField))
-        _sfEnable.syncWith(pOther->_sfEnable);
-
     if(FieldBits::NoField != (ModeFieldMask & whichField))
         _sfMode.syncWith(pOther->_sfMode);
 
@@ -400,9 +369,6 @@ void FogChunkBase::executeSyncImpl(      FogChunkBase *pOther,
 {
 
     Inherited::executeSyncImpl(pOther, whichField, sInfo);
-
-    if(FieldBits::NoField != (EnableFieldMask & whichField))
-        _sfEnable.syncWith(pOther->_sfEnable);
 
     if(FieldBits::NoField != (ModeFieldMask & whichField))
         _sfMode.syncWith(pOther->_sfMode);
@@ -462,7 +428,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(FogChunkPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFogChunkBase.cpp,v 1.1 2009/11/13 15:44:27 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFogChunkBase.cpp,v 1.2 2009/11/13 18:07:00 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFOGCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFOGCHUNKBASE_INLINE_CVSID;
 

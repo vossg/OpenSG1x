@@ -57,7 +57,7 @@ OSG_BEGIN_NAMESPACE
 \***************************************************************************/
 
 /*! \class osg::Fog
-The fog chunk contains the parameters that are specific for rendering fog. 	
+The fog chunk contains the parameters that are specific for rendering fog.  
 */
 
 /***************************************************************************\
@@ -70,7 +70,7 @@ The fog chunk contains the parameters that are specific for rendering fog.
 
 void Fog::initMethod (void)
 {
-	DrawAction::registerEnterDefault(
+    DrawAction::registerEnterDefault(
         getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<
             Action::ResultE,
@@ -85,7 +85,7 @@ void Fog::initMethod (void)
             FogPtr,
             CNodePtr,
             Action*>(&Fog::drawLeave));
-	
+    
     RenderAction::registerEnterDefault( 
         getClassType(), 
         osgTypedMethodFunctor2BaseCPtrRef<
@@ -136,52 +136,51 @@ Fog::~Fog(void)
 
 FogChunkPtr Fog::getChunk(void)
 {
-	if (_pChunk == NullFC)
-	{
-		makeChunk();
-	}
-	
+    if (_pChunk == NullFC)
+    {
+        makeChunk();
+    }
+    
     return _pChunk;
 }
 
 void Fog::makeChunk(void)
 {
-	if (_pChunk == NullFC)
-	{
-		_pChunk = FogChunk::create();
-		
-		_pChunk->setEnable(true);
-		_pChunk->setMode(getMode());
-		_pChunk->setColor(getColor());
-		_pChunk->setStart(getStart());
-		_pChunk->setEnd(getEnd());
-		_pChunk->setDensity(getDensity());
-	}
+    if (_pChunk == NullFC)
+    {
+        _pChunk = FogChunk::create();
+        
+        _pChunk->setMode(getMode());
+        _pChunk->setColor(getColor());
+        _pChunk->setStart(getStart());
+        _pChunk->setEnd(getEnd());
+        _pChunk->setDensity(getDensity());
+    }
 }
 
 /*----------------------------- class specific ----------------------------*/
 
 void Fog::changed(BitVector whichField, UInt32 origin)
 {
-	// pass through values
-    if (whichField & OnFieldMask || 
-        whichField & ModeFieldMask ||  
+    // pass through values
+    if (whichField & OnFieldMask    || 
+        whichField & ModeFieldMask  ||  
         whichField & ColorFieldMask ||  
-        whichField & StartFieldMask||  
-        whichField & EndFieldMask ||  
+        whichField & StartFieldMask ||  
+        whichField & EndFieldMask   ||  
         whichField & DensityFieldMask)
     {
         FogChunkPtr fog = getChunk();
         
         beginEditCP(fog);
-		  fog->setMode(getMode());
-          fog->setColor(getColor());
-          fog->setStart(getStart());
-          fog->setEnd(getEnd());
-          fog->setDensity(getDensity());
+            fog->setMode(getMode());
+            fog->setColor(getColor());
+            fog->setStart(getStart());
+            fog->setEnd(getEnd());
+            fog->setDensity(getDensity());
         endEditCP(fog);
     }
-	
+    
     Inherited::changed(whichField, origin);
 }
 
@@ -194,9 +193,9 @@ void Fog::dump(      UInt32    ,
 /*-----------------------------Rendering-----------------------------------*/
 Action::ResultE Fog::drawEnter(Action *action)
 {
-	DrawActionBase *da = dynamic_cast<DrawActionBase*>(action);
-	
-    if (getOn())
+    DrawActionBase *da = dynamic_cast<DrawActionBase*>(action);
+    
+    if(getOn())
         getChunk()->activate(da);
 
     return Action::Continue;
@@ -204,9 +203,9 @@ Action::ResultE Fog::drawEnter(Action *action)
 
 Action::ResultE Fog::drawLeave(Action *action)
 {
-	DrawActionBase *da = dynamic_cast<DrawActionBase*>(action);
-	
-    if (getOn())
+    DrawActionBase *da = dynamic_cast<DrawActionBase*>(action);
+    
+    if(getOn())
         getChunk()->deactivate(da);
 
     return Action::Continue;
@@ -214,12 +213,12 @@ Action::ResultE Fog::drawLeave(Action *action)
 
 Action::ResultE Fog::renderEnter(Action *action)
 {
-    if (!getOn())
+    if(!getOn())
         return Action::Continue;
 
     RenderAction *pAction = dynamic_cast<RenderAction *>(action);
-	
-    if (pAction->pushVisibility())
+    
+    if(pAction->pushVisibility())
     {
         if(pAction->selectVisibles() == 0)
         {
@@ -260,7 +259,7 @@ Action::ResultE Fog::renderLeave(Action *action)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFog.cpp,v 1.1 2009/11/13 15:44:26 yjung Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFog.cpp,v 1.2 2009/11/13 18:07:01 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFOGBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFOGBASE_INLINE_CVSID;
 
