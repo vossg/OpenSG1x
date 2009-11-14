@@ -911,10 +911,25 @@ void PCSSShadowMap::createShadowMapsFBO(RenderActionBase *action)
 
 void PCSSShadowMap::createColorMap(RenderActionBase *action)
 {
-
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    _shadowVP->getBackground()->clear(action, _shadowVP);
+    if(_shadowVP->isFullWindow())
+    {
+        _shadowVP->getBackground()->clear(action, _shadowVP);
+    }
+    else
+    {
+        // HACK but we need this for a correct clear.
+        GLint   pl = _shadowVP->getPixelLeft(), 
+                pr = _shadowVP->getPixelRight(),
+                pb = _shadowVP->getPixelBottom(),
+                pt = _shadowVP->getPixelTop();
+        GLint   pw = pr - pl + 1, ph = pt - pb + 1;
+        
+        glViewport(pl, pb, pw, ph);
+        glScissor(pl, pb, pw, ph);
+        glEnable(GL_SCISSOR_TEST);
+        _shadowVP->getBackground()->clear(action, _shadowVP);
+        glDisable(GL_SCISSOR_TEST);
+    }
 
     action->apply(_shadowVP->getRoot());
 
@@ -930,15 +945,19 @@ void PCSSShadowMap::createColorMap(RenderActionBase *action)
                         _shadowVP->getPixelWidth(),
                         _shadowVP->getPixelHeight());
     glBindTexture(GL_TEXTURE_2D, 0);
-
 }
 
 void PCSSShadowMap::createColorMapFBO(RenderActionBase *action)
 {
-
-    glClearColor(0.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+    Real32  vpTop, vpBottom, vpLeft, vpRight;
+    vpTop = _shadowVP->getTop();
+    vpBottom = _shadowVP->getBottom();
+    vpLeft = _shadowVP->getLeft();
+    vpRight = _shadowVP->getRight();
+    
+    _shadowVP->setVPSize(0, 0, _shadowVP->getPixelWidth() - 1,
+                         _shadowVP->getPixelHeight() - 1);
+    
     Window  *win = action->getWindow();
 
     GLenum  *buffers = NULL;
@@ -949,7 +968,15 @@ void PCSSShadowMap::createColorMapFBO(RenderActionBase *action)
 	
     glDrawBuffer(*buffers);
 
+    GLint pw = _shadowVP->getPixelWidth();
+    GLint ph = _shadowVP->getPixelHeight();
+    
+    glViewport(0, 0, pw, ph);
+    glScissor(0, 0, pw, ph);
+    glEnable(GL_SCISSOR_TEST);
     _shadowVP->getBackground()->clear(action, _shadowVP);
+    glDisable(GL_SCISSOR_TEST);
+    
     action->apply(_shadowVP->getRoot());
 
     // disable occluded lights.
@@ -959,6 +986,7 @@ void PCSSShadowMap::createColorMapFBO(RenderActionBase *action)
 	
     delete[] buffers;
 
+    _shadowVP->setVPSize(vpLeft, vpBottom, vpRight, vpTop);
 }
 
 void PCSSShadowMap::createShadowFactorMapFBO(RenderActionBase *action,
