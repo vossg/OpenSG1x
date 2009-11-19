@@ -27,6 +27,7 @@
 #include "OSGTreeRenderer.h"
 
 //#define USE_FBO_FOR_COLOR_AND_FACTOR_MAP
+#define COLORMAP_FORMAT GL_RGBA
 
 //--------------------------------------------------------------------
 #ifndef GL_CLAMP_TO_EDGE
@@ -651,8 +652,8 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source) :
 
     beginEditCP(_colorMap);
     _colorMap->setImage(_colorMapImage);
-    _colorMap->setInternalFormat(GL_RGB);
-    _colorMap->setExternalFormat(GL_RGB);
+    _colorMap->setInternalFormat(COLORMAP_FORMAT);
+    _colorMap->setExternalFormat(COLORMAP_FORMAT);
     _colorMap->setMinFilter(GL_NEAREST);
     _colorMap->setMagFilter(GL_NEAREST);
     _colorMap->setWrapS(GL_REPEAT);
@@ -663,13 +664,13 @@ DitherShadowMap::DitherShadowMap(ShadowViewport *source) :
     if(_useNPOTTextures)
     {
         beginEditCP(_colorMapImage);
-        _colorMapImage->set(GL_RGB, _width, _height);
+        _colorMapImage->set(COLORMAP_FORMAT, _width, _height);
         endEditCP(_colorMapImage);
     }
     else
     {
         beginEditCP(_colorMapImage);
-        _colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+        _colorMapImage->set(COLORMAP_FORMAT, _widthHeightPOT, _widthHeightPOT);
         endEditCP(_colorMapImage);
     }
 
@@ -1078,7 +1079,7 @@ void DitherShadowMap::initTextures(Window *win)
 
         beginEditCP(_colorMap);
         beginEditCP(_colorMapImage);
-        _colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+        _colorMapImage->set(COLORMAP_FORMAT, _widthHeightPOT, _widthHeightPOT);
         endEditCP(_colorMapImage);
         endEditCP(_colorMap);
 
@@ -2905,7 +2906,7 @@ void DitherShadowMap::render(RenderActionBase *action)
             {
                 beginEditCP(_colorMap);
                 beginEditCP(_colorMapImage);
-                _colorMapImage->set(GL_RGB, _width, _height);
+                _colorMapImage->set(COLORMAP_FORMAT, _width, _height);
                 endEditCP(_colorMapImage);
                 endEditCP(_colorMap);
 
@@ -2932,7 +2933,7 @@ void DitherShadowMap::render(RenderActionBase *action)
 
                 beginEditCP(_colorMap);
                 beginEditCP(_colorMapImage);
-                _colorMapImage->set(GL_RGB, _widthHeightPOT, _widthHeightPOT);
+                _colorMapImage->set(COLORMAP_FORMAT, _widthHeightPOT, _widthHeightPOT);
                 endEditCP(_colorMapImage);
                 endEditCP(_colorMap);
 

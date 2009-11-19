@@ -113,9 +113,9 @@ std::string TreeRenderer::_shadow_combine_fp =
     "void main(void)\n"
     "{\n"
     "    vec2 tc = texCoord * vec2(xFactor, yFactor);\n"
-    "    vec3 color = texture2D(colorMap, tc).rgb;\n"
-    "    color *= hasFactorMap ? (1.0 - texture2D(shadowFactorMap, tc).r) : 1.0;\n"
-    "    gl_FragColor = vec4(color, 1.0);\n"
+    "    vec4 color = texture2D(colorMap, tc);\n"
+    "    color.rgb *= hasFactorMap ? (1.0 - texture2D(shadowFactorMap, tc).r) : 1.0;\n"
+    "    gl_FragColor = color;\n"
     "}\n";
 
 TreeRenderer::TreeRenderer(ShadowViewport *source) :
