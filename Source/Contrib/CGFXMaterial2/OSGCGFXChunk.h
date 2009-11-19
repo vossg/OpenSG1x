@@ -271,7 +271,8 @@ class OSG_CONTRIBLIB_DLLMAPPING CGFXChunk : public CGFXChunkBase
     bool updateTechnique(Window *win, OSGCGeffect effect = NULL);
     void updateParameters(Window *win);
     void updateStateParameters(DrawActionBase *action);
-    
+    void checkTextureIds(DrawActionBase *action, OSGCGeffect effect);
+
     void addTextureSearchPaths(void);
     void subTextureSearchPaths(void);
     bool read(const std::string &filename, std::string &data);
@@ -294,6 +295,6 @@ OSG_END_NAMESPACE
 #include <OSGCGFXChunkBase.inl>
 #include <OSGCGFXChunk.inl>
 
-#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.9 2008/11/24 16:05:59 macnihilist Exp $"
+#define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.10 2009/11/19 16:32:57 macnihilist Exp $"
 
 #endif /* _OSGCGFXCHUNK_H_ */

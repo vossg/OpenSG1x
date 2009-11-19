@@ -911,6 +911,7 @@ void CGFXChunk::compileEffect( EffectS& effect )
     cgSetCompilerIncludeCallback( context, (CGIncludeCallbackFunc)cgIncludeCallback );
 #endif
 
+    cgGLSetManageTextureParameters(context, GL_TRUE);
     cgGLRegisterStates(context);
 
     CGeffect cgEffect = NULL;
@@ -1251,6 +1252,7 @@ void CGFXChunk::updateParameters(Window *win)
                     }
 
 //                    OSG_ASSERT(texc->getGLId());
+//                    printf("gloid: %d, glid: %d\n",win->getGLObjectId(texc->getGLId()),texc->getGLId());
                     cgGLSetupSampler(param, win->getGLObjectId(texc->getGLId()));
                     cgGLSetTextureParameter(param, win->getGLObjectId(texc->getGLId()));
                 }
@@ -1796,6 +1798,47 @@ void CGFXChunk::update(DrawActionBase *action)
     updateStateParameters(action);
 }
 
+// Another Hack to check whether GLids for texture parameters are
+// still valid (and if not to update them).
+void CGFXChunk::checkTextureIds(DrawActionBase *action, OSGCGeffect effect)
+{
+    CGeffect cgEffect = (CGeffect) effect;
+    Window* win = action->getWindow();
+    CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
+    MFShaderParameterPtr parameters = cgfxMat->getParameters();
+
+    for(UInt32 i = 0; i < parameters.size(); ++i)
+    {
+        ShaderParameterPtr parameter = parameters[i];
+
+        std::string paramName = parameter->getName();
+        std::string cgParamName = paramName;
+
+        CGparameter param = cgGetNamedEffectParameter(cgEffect, paramName.c_str());
+
+        if(param != NULL && parameter->getTypeId() == ShaderParameter::SHPTypeString )
+        {
+                ShaderParameterStringPtr p = ShaderParameterStringPtr::dcast(parameter);
+                TextureChunkPtr texc = TextureChunkPtr::dcast(p->findAttachment(TextureChunk::getClassType()));
+                if( texc )
+                {
+    //                 updateTextureParameter( p );
+                    if(_action != NULL)
+                    {
+                        // THINKABOUTME: Hmm, this sucks, too.
+                        texc->activate(_action, 0);
+                        texc->deactivate(_action, 0);
+                    }
+                    //                    OSG_ASSERT(texc->getGLId());
+                    //printf("gloid: %d, glid: %d\n",win->getGLObjectId(texc->getGLId()),texc->getGLId());
+                    cgGLSetupSampler(param, win->getGLObjectId(texc->getGLId()));
+                    cgGLSetTextureParameter(param, win->getGLObjectId(texc->getGLId()));
+                }
+        }
+    }
+}
+
+
 void CGFXChunk::activate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
 {
     _action = action;
@@ -1820,6 +1863,7 @@ void CGFXChunk::activate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
     {
         // Set parameters
         updateStateParameters(action);
+        checkTextureIds(action,_effect[id].effect);
 
         // GL_ENABLE_BIT GL_LIGHTING_BIT
         // well that's not fast but safe.
@@ -2040,7 +2084,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.18 2009/08/06 10:54:52 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.19 2009/11/19 16:32:57 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
