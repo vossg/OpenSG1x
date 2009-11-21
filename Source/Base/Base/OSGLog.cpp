@@ -65,7 +65,7 @@ OSG_USING_NAMESPACE
 #endif
 
 #ifndef OSG_DEFAULT_LOG_HEADER_ELEM
-#    define OSG_DEFAULT_LOG_HEADER_ELEM (LOG_TYPE_HEADER | LOG_FUNCNAME_HEADER)
+#    define OSG_DEFAULT_LOG_HEADER_ELEM LOG_TYPE_HEADER
 #endif
 
 //---------------------------------------------------------------------------
