@@ -55,6 +55,15 @@
 
 OSG_BEGIN_NAMESPACE
 
+#if defined(__GNUC__)
+#define OSG_FUNCNAME_MACRO __PRETTY_FUNCTION__
+#elif defined(WIN32)
+#define OSG_FUNCNAME_MACRO __FUNCSIG__
+#else
+#define OSG_FUNCNAME_MACRO "<unknown>"
+#endif
+
+
 /*! \ingroup GrpBaseLog
  */
 
@@ -92,7 +101,8 @@ enum LogHeaderElem
     LOG_MODULE_HEADER        = 8,
     LOG_FILE_HEADER          = 16,
     LOG_LINE_HEADER          = 32,
-    LOG_END_NEWLINE_HEADER   = 64,
+    LOG_FUNCNAME_HEADER      = 64,
+    LOG_END_NEWLINE_HEADER   = 128,
 
     LOG_ANSICOLOR_HEADER     = 4096,
     LOG_COLOR_HEADER         = 8192,
@@ -319,7 +329,8 @@ class OSG_BASE_DLLMAPPING Log : public std::ostream
     std::ostream &doHeader(      LogLevel  level,
                            const Char8    *module,
                            const Char8    *file,
-                                 UInt32    line       );
+                                 UInt32    line,
+                           const Char8    *funcName   );
 
     void          doLog   (const Char8    *format, ...);
 
@@ -476,7 +487,8 @@ inline              std::ostream &osgStartLog(      bool          logHeader,
                                                     LogLevel      level,
                                               const Char8        *module,
                                               const Char8        *file,
-                                                    UInt32        line     );
+                                                    UInt32        line,
+                                              const Char8        *funcName );
 
 inline              std::ostream &endLog      (     std::ostream &strm     );
 
@@ -488,72 +500,122 @@ inline              void          indentLog   (     UInt32        indent,
     \ingroup GrpBaseLog
 */
 
-#define SLOG     \
-    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define SLOG                                                            \
+    OSG::LogLock(OSG::osgStartLog(true,                                 \
+                                  OSG::LOG_LOG,                         \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 /*! \brief SFATAL
     \ingroup GrpBaseLog
 */
 
-#define SFATAL   \
-    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define SFATAL                                                          \
+    OSG::LogLock(OSG::osgStartLog(true,                                 \
+                                  OSG::LOG_FATAL,                       \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 /*! \brief SWARNING
     \ingroup GrpBaseLog
 */
 
-#define SWARNING \
-    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define SWARNING                                                        \
+    OSG::LogLock(OSG::osgStartLog(true,                                 \
+                                  OSG::LOG_WARNING,                     \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 /*! \brief SNOTICE
     \ingroup GrpBaseLog
 */
 
-#define SNOTICE  \
-    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define SNOTICE                                                         \
+    OSG::LogLock(OSG::osgStartLog(true,                                 \
+                                  OSG::LOG_NOTICE,                      \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 /*! \brief SINFO
     \ingroup GrpBaseLog
 */
 
-#define SINFO    \
-    OSG::LogLock(OSG::osgStartLog(true, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define SINFO                                                           \
+    OSG::LogLock(OSG::osgStartLog(true,                                 \
+                                  OSG::LOG_INFO,                        \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 
 /*! \brief PLOG
     \ingroup GrpBaseLog
 */
 
-#define PLOG     \
-    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_LOG,     OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define PLOG                                                            \
+    OSG::LogLock(OSG::osgStartLog(false,                                \
+                                  OSG::LOG_LOG,                         \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 /*! \brief PFATAL
     \ingroup GrpBaseLog
 */
 
-#define PFATAL   \
-    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_FATAL,   OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define PFATAL                                                          \
+    OSG::LogLock(OSG::osgStartLog(false,                                \
+                                  OSG::LOG_FATAL,                       \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 /*! \brief PWARNING
     \ingroup GrpBaseLog
 */
 
-#define PWARNING \
-    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_WARNING, OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define PWARNING                                                        \
+    OSG::LogLock(OSG::osgStartLog(false,                                \
+                                  OSG::LOG_WARNING,                     \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 /*! \brief PNOTICE
     \ingroup GrpBaseLog
 */
 
-#define PNOTICE  \
-    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_NOTICE,  OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define PNOTICE                                                     \
+    OSG::LogLock(OSG::osgStartLog(false,                            \
+                                  OSG::LOG_NOTICE,                  \
+                                  OSG_LOG_MODULE,                   \
+                                  __FILE__,                         \
+                                  __LINE__,                         \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 /*! \brief PINFO
     \ingroup GrpBaseLog
 */
 
-#define PINFO    \
-    OSG::LogLock(OSG::osgStartLog(false, OSG::LOG_INFO,    OSG_LOG_MODULE, __FILE__, __LINE__)).getStream()
+#define PINFO                                                           \
+    OSG::LogLock(OSG::osgStartLog(false,                                \
+                                  OSG::LOG_INFO,                        \
+                                  OSG_LOG_MODULE,                       \
+                                  __FILE__,                             \
+                                  __LINE__,                             \
+                                  OSG_FUNCNAME_MACRO)).getStream()
 
 
 // C interface, because it can be compiled away
@@ -571,7 +633,8 @@ inline              void          indentLog   (     UInt32        indent,
                     OSG::LOG_LOG,                               \
                     OSG_LOG_MODULE,                             \
                     __FILE__,                                   \
-                    __LINE__);                                  \
+                    __LINE__,                                   \
+                    OSG_FUNCNAME_MACRO);                        \
    OSG::osgLogP->doLog par;                                     \
    OSG::osgLogP->unlock();                                      \
 }
@@ -589,7 +652,8 @@ inline              void          indentLog   (     UInt32        indent,
                          OSG::LOG_FATAL,                        \
                          OSG_LOG_MODULE,                        \
                          __FILE__,                              \
-                         __LINE__);                             \
+                         __LINE__,                              \
+                         OSG_FUNCNAME_MACRO);                   \
         OSG::osgLogP->doLog par;                                \
         OSG::osgLogP->unlock();                                 \
     }                                                           \
@@ -608,7 +672,8 @@ inline              void          indentLog   (     UInt32        indent,
                          OSG::LOG_WARNING,                      \
                          OSG_LOG_MODULE,                        \
                          __FILE__,                              \
-                         __LINE__);                             \
+                         __LINE__,                              \
+                         OSG_FUNCNAME_MACRO);                   \
         OSG::osgLogP->doLog par;                                \
         OSG::osgLogP->unlock();                                 \
     }                                                           \
@@ -627,7 +692,8 @@ inline              void          indentLog   (     UInt32        indent,
                          OSG::LOG_NOTICE,                       \
                          OSG_LOG_MODULE,                        \
                          __FILE__,                              \
-                         __LINE__);                             \
+                         __LINE__,                              \
+                         OSG_FUNCNAME_MACRO);                   \
         OSG::osgLogP->doLog par;                                \
         OSG::osgLogP->unlock();                                 \
     }                                                           \
@@ -646,7 +712,8 @@ inline              void          indentLog   (     UInt32        indent,
                          OSG::LOG_INFO,                         \
                          OSG_LOG_MODULE,                        \
                          __FILE__,                              \
-                         __LINE__);                             \
+                         __LINE__,                              \
+                         OSG_FUNCNAME_MACRO);                   \
         OSG::osgLogP->doLog par;                                \
         OSG::osgLogP->unlock();                                 \
     }                                                           \
@@ -665,7 +732,8 @@ inline              void          indentLog   (     UInt32        indent,
         OSG::osgStartLog(true,                                  \
                          OSG::LOG_DEBUG,OSG_LOG_MODULE,         \
                          __FILE__,                              \
-                         __LINE__);                             \
+                         __LINE__,                              \
+                         OSG_FUNCNAME_MACRO);                   \
         OSG::osgLogP->doLog par;                                \
         OSG::osgLogP->unlock();                                 \
     }                                                           \
@@ -730,34 +798,36 @@ inline              void          indentLog   (     UInt32        indent,
 */
 
 #define FPLOG(par)                                               \
-{                                                               \
-   OSG::initLog();                                              \
-   OSG::osgStartLog(false,                                       \
-                    OSG::LOG_LOG,                               \
-                    OSG_LOG_MODULE,                             \
-                    __FILE__,                                   \
-                    __LINE__);                                  \
-   OSG::osgLogP->doLog par;                                     \
-   OSG::osgLogP->unlock();                                      \
+{                                                                \
+    OSG::initLog();                                              \
+    OSG::osgStartLog(false,                                      \
+                     OSG::LOG_LOG,                               \
+                     OSG_LOG_MODULE,                             \
+                     __FILE__,                                   \
+                     __LINE__,                                   \
+                     OSG_FUNCNAME_MACRO);                        \
+    OSG::osgLogP->doLog par;                                     \
+    OSG::osgLogP->unlock();                                      \
 }
 
 /*! \brief FPFPATAL
     \ingroup GrpBaseLog
 */
 
-#define FPFPATAL(par)                                             \
-{                                                               \
-    OSG::initLog();                                             \
+#define FPFPATAL(par)                                            \
+{                                                                \
+    OSG::initLog();                                              \
     if(OSG::osgLogP->checkLevel(OSG::LOG_FPATAL))                \
-    {                                                           \
+    {                                                            \
         OSG::osgStartLog(false,                                  \
                          OSG::LOG_FPATAL,                        \
-                         OSG_LOG_MODULE,                        \
-                         __FILE__,                              \
-                         __LINE__);                             \
-        OSG::osgLogP->doLog par;                                \
-        OSG::osgLogP->unlock();                                 \
-    }                                                           \
+                         OSG_LOG_MODULE,                         \
+                         __FILE__,                               \
+                         __LINE__,                               \
+                         OSG_FUNCNAME_MACRO);                    \
+        OSG::osgLogP->doLog par;                                 \
+        OSG::osgLogP->unlock();                                  \
+    }                                                            \
 }
 
 /*! \brief FPWARNING
@@ -765,18 +835,19 @@ inline              void          indentLog   (     UInt32        indent,
 */
 
 #define FPWARNING(par)                                           \
-{                                                               \
-    OSG::initLog();                                             \
-    if(OSG::osgLogP->checkLevel(OSG::LOG_WARNING))              \
-    {                                                           \
+{                                                                \
+    OSG::initLog();                                              \
+    if(OSG::osgLogP->checkLevel(OSG::LOG_WARNING))               \
+    {                                                            \
         OSG::osgStartLog(false,                                  \
-                         OSG::LOG_WARNING,                      \
-                         OSG_LOG_MODULE,                        \
-                         __FILE__,                              \
-                         __LINE__);                             \
-        OSG::osgLogP->doLog par;                                \
-        OSG::osgLogP->unlock();                                 \
-    }                                                           \
+                         OSG::LOG_WARNING,                       \
+                         OSG_LOG_MODULE,                         \
+                         __FILE__,                               \
+                         __LINE__,                               \
+                         OSG_FUNCNAME_MACRO);                    \
+        OSG::osgLogP->doLog par;                                 \
+        OSG::osgLogP->unlock();                                  \
+    }                                                            \
 }
 
 /*! \brief FPNOTICE
@@ -784,37 +855,39 @@ inline              void          indentLog   (     UInt32        indent,
 */
 
 #define FPNOTICE(par)                                            \
-{                                                               \
-    OSG::initLog();                                             \
-    if(OSG::osgLogP->checkLevel(OSG::LOG_NOTICE))               \
-    {                                                           \
+{                                                                \
+    OSG::initLog();                                              \
+    if(OSG::osgLogP->checkLevel(OSG::LOG_NOTICE))                \
+    {                                                            \
         OSG::osgStartLog(false,                                  \
-                         OSG::LOG_NOTICE,                       \
-                         OSG_LOG_MODULE,                        \
-                         __FILE__,                              \
-                         __LINE__);                             \
-        OSG::osgLogP->doLog par;                                \
-        OSG::osgLogP->unlock();                                 \
-    }                                                           \
+                         OSG::LOG_NOTICE,                        \
+                         OSG_LOG_MODULE,                         \
+                         __FILE__,                               \
+                         __LINE__,                               \
+                         OSG_FUNCNAME_MACRO);                    \
+        OSG::osgLogP->doLog par;                                 \
+        OSG::osgLogP->unlock();                                  \
+    }                                                            \
 }
 
 /*! \brief FPINFPO
     \ingroup GrpBaseLog
 */
 
-#define FPINFPO(par)                                              \
-{                                                               \
-    OSG::initLog();                                             \
+#define FPINFPO(par)                                             \
+{                                                                \
+    OSG::initLog();                                              \
     if(OSG::osgLogP->checkLevel(OSG::LOG_INFPO))                 \
-    {                                                           \
+    {                                                            \
         OSG::osgStartLog(false,                                  \
                          OSG::LOG_INFPO,                         \
-                         OSG_LOG_MODULE,                        \
-                         __FILE__,                              \
-                         __LINE__);                             \
-        OSG::osgLogP->doLog par;                                \
-        OSG::osgLogP->unlock();                                 \
-    }                                                           \
+                         OSG_LOG_MODULE,                         \
+                         __FILE__,                               \
+                         __LINE__,                               \
+                         OSG_FUNCNAME_MACRO);                    \
+        OSG::osgLogP->doLog par;                                 \
+        OSG::osgLogP->unlock();                                  \
+    }                                                            \
 }
 
 /*! \brief FPDEBUG
@@ -822,15 +895,16 @@ inline              void          indentLog   (     UInt32        indent,
 */
 
 #ifdef OSG_DEBUG
-#define FPDEBUG(par)                                             \
+#define FPDEBUG(par)                                            \
 {                                                               \
     OSG::initLog();                                             \
     if(OSG::osgLogP->checkLevel(OSG::LOG_DEBUG))                \
     {                                                           \
-        OSG::osgStartLog(false,                                  \
+        OSG::osgStartLog(false,                                 \
                          OSG::LOG_DEBUG,OSG_LOG_MODULE,         \
                          __FILE__,                              \
-                         __LINE__);                             \
+                         __LINE__,                              \
+                         OSG_FUNCNAME_MACRO);                   \
         OSG::osgLogP->doLog par;                                \
         OSG::osgLogP->unlock();                                 \
     }                                                           \

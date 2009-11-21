@@ -64,6 +64,10 @@ OSG_USING_NAMESPACE
 #    define OSG_DEFAULT_LOG_TYPE LOG_STDERR 
 #endif
 
+#ifndef OSG_DEFAULT_LOG_HEADER_ELEM
+#    define OSG_DEFAULT_LOG_HEADER_ELEM (LOG_TYPE_HEADER | LOG_FUNCNAME_HEADER)
+#endif
+
 //---------------------------------------------------------------------------
 //  LogBuf
 //---------------------------------------------------------------------------
@@ -440,7 +444,7 @@ void Log::setHeaderElem(UInt32 elemMask, bool force)
         osgLog() << "Log::setHeaderElem: overriden by envvar OSG_LOG_HEADER '" 
                  << env << "'." << endLog;  
 
-        elemMask = LogHeaderElem(atoi(env));
+        elemMask = atoi(env);
     }
 
     _headerElem = elemMask;
@@ -984,8 +988,9 @@ void OSG::doInitLog(void)
     {
         osgLogP = new Log();
 
-        osgLogP->setLogLevel(OSG_DEFAULT_LOG_LEVEL);
-        osgLogP->setLogFile (NULL                 );
-        osgLogP->setLogType (OSG_DEFAULT_LOG_TYPE );
+        osgLogP->setLogLevel  (OSG_DEFAULT_LOG_LEVEL      );
+        osgLogP->setLogFile   (NULL                       );
+        osgLogP->setLogType   (OSG_DEFAULT_LOG_TYPE       );
+        osgLogP->setHeaderElem(OSG_DEFAULT_LOG_HEADER_ELEM);
     }
 }
