@@ -342,8 +342,7 @@ void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str,
     
     Char8 *c = const_cast<char*>(str);
 
-    Char8 *tokenC = 0;
-    Char8  token[256];
+    Char8 *token = 0;
 
     ValueTypeT vec[16];
     
@@ -359,11 +358,9 @@ void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str,
         switch (*c)
         {
             case '\0':
-                if (tokenC)
+                if (token)
                 {
-                    *tokenC   = 0;
                      vec[i++] = TypeTraits<ValueTypeT>::getFromString(token);
-
                 }
 
                 while (i < numOfToken)
@@ -376,19 +373,17 @@ void TransformationMatrix<ValueTypeT>::setValue(const Char8 *str,
             case '\t':
             case '\n':
             case ',':
-                if (tokenC)
+                if (token)
                 {
-                    *tokenC   = 0;
                      vec[i++] = TypeTraits<ValueTypeT>::getFromString(token);
-                     tokenC   = 0;
+                     token    = 0;
                 }
                 break;
             default:
-                if (!tokenC)
+                if (!token)
                 {
-                    tokenC = token;
+                    token = c;
                 }
-                *tokenC++ = *c;
                 break;
         }
     }

@@ -708,10 +708,8 @@ void Point<ValueTypeT, SizeI>::setValueFromCString(const Char8 *szString)
     UInt32 i;
     UInt32 numOfToken = Self::_iSize;
 
-    Char8 *c      = const_cast<Char8 *>(szString);
-    Char8 *tokenC = 0;
-
-    Char8  token[256];
+    Char8 *c     = const_cast<Char8 *>(szString);
+    Char8 *token = 0;
 
     if(szString == NULL || (*szString) == '\0')
     {
@@ -726,9 +724,8 @@ void Point<ValueTypeT, SizeI>::setValueFromCString(const Char8 *szString)
         switch (*c)
         {
             case '\0':
-                if(tokenC)
+                if(token)
                 {
-                    *tokenC = 0;
                     Self::_values[i++] =
                         TypeTraits<ValueTypeT>::getFromString(token);
                 }
@@ -743,21 +740,19 @@ void Point<ValueTypeT, SizeI>::setValueFromCString(const Char8 *szString)
             case ' ' :
             case '\t':
             case '\n':
-	    case ',':
-                if(tokenC)
+            case ',':
+                if(token)
                 {
-                    *tokenC = 0;
                     Self::_values[i++] =
                         TypeTraits<ValueTypeT>::getFromString(token);
-                    tokenC = 0;
+                    token = 0;
                 }
                 break;
             default:
-                if(!tokenC)
+                if(!token)
                 {
-                    tokenC = token;
+                    token = c;
                 }
-                *tokenC++ = *c;
                 break;
         }
     }

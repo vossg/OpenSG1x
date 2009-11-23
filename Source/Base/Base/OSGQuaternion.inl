@@ -480,8 +480,7 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const Char8 *str)
 
     Char8 *c = const_cast<Char8 *>(str);
 
-    Char8 *tokenC = 0;
-    Char8  token[256];
+    Char8 *token = 0;
 
     ValueTypeT vec[4];
 
@@ -497,11 +496,9 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const Char8 *str)
         switch (*c)
         {
             case '\0':
-                if (tokenC)
+                if (token)
                 {
-                    *tokenC   = 0;
                      vec[i++] = TypeTraits<ValueTypeT>::getFromString(token);
-
                 }
 
                 while (i < numOfToken)
@@ -513,19 +510,17 @@ void QuaternionBase<ValueTypeT>::setValueAsQuat(const Char8 *str)
             case ' ' :
             case '\t':
             case '\n':
-                if (tokenC)
+                if (token)
                 {
-                    *tokenC   = 0;
                      vec[i++] = TypeTraits<ValueTypeT>::getFromString(token);
-                     tokenC   = 0;
+                     token    = 0;
                 }
                 break;
             default:
-                if (!tokenC)
+                if (!token)
                 {
-                    tokenC = token;
+                    token = c;
                 }
-                *tokenC++ = *c;
                 break;
         }
     }
