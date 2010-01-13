@@ -179,7 +179,13 @@ void ChangeList::addChanged(const FieldContainerPtr &pFieldContainer,
     if(_max_changed_size > 0)
     {
         if(_vChangedFieldContainers.size() > _max_changed_size)
+        {
+            std::vector<ChangeEntry>::size_type oldSize = _vChangedFieldContainers.size();
+            SWARNING << "Compacting ChangeList ..." << std::endl;
             compactChanged();
+            SWARNING << "Compacted ChangeList from " << oldSize
+                 << " to " << _vChangedFieldContainers.size() << " entries." << std::endl;
+        }
     }
 
     try
