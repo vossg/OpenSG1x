@@ -905,32 +905,93 @@ RemoteAspect::clStoreMap &RemoteAspect::getStore(void)
     return _clStore;
 }
 
-void RemoteAspect::createCurrentStateChangeList(const FieldContainerPtr &start, ChangeList *cl)
+void RemoteAspect::createCurrentStateChangeList(
+    const FieldContainerPtr &start, ChangeList *cl)
 {
     if(cl == NULL)
         return;
 
     cl->clearAll();
-    const std::vector<FieldContainerPtr> &fcs = *FieldContainerFactory::the()->getFieldContainerStore();
 
-    bool found_start = false;
-    for(unsigned int i=0;i<fcs.size();++i)
+    typedef std::vector<FieldContainerPtr>::const_iterator  FCStoreConstIt;
+
+    bool           foundStart = false;
+    FCStoreConstIt fcIt       =
+        FieldContainerFactory::the()->getFieldContainerStore()->begin();
+    FCStoreConstIt fcEnd      =
+        FieldContainerFactory::the()->getFieldContainerStore()->end  ();
+
+    for(; fcIt != fcEnd; ++fcIt)
     {
-        FieldContainerPtr fc = fcs[i];
-        if(fc != NullFC)
-        {
-            if(fc == start)
-                found_start = true;
+        // skip destroyed FC
+        if(*fcIt == NullFC)
+            continue;
 
-            if(found_start)
-            {
-                cl->addCreated(getContainerId(fc));
-                for(UInt32 j=0;j<fc.getRefCount();++j)
-                    cl->addAddRefd(fc);
-                cl->addChanged(fc, FieldBits::AllFields);
-            }
+        // check for start here, in case someone uses a prototype as
+        // start
+        if(*fcIt == start)
+            foundStart = true;
+
+        // skip prototypes
+        if((*fcIt)->getType().getPrototype() == NullFC ||
+           (*fcIt)->getType().getPrototype() == (*fcIt)  )
+        {
+            continue;
         }
-    } 
+
+        if(foundStart == true)
+        {
+            cl->addCreated(getContainerId(*fcIt));
+        
+            for(UInt32 i = 0; i < (*fcIt).getRefCount(); ++i)
+                cl->addAddRefd(*fcIt);
+
+            cl->addChanged(*fcIt, FieldBits::AllFields);
+        }
+    }
+}
+
+/*! Fills cl with change list entries so that it represents the current
+    state of the system.
+    For every FieldContainer cl will contain one Create entry, AddRefd entries
+    to bring the ref count to its current value and one Changed entry that
+    marks all fields as modified.
+    All previous contents of cl are removed.
+ */
+void RemoteAspect::createCurrentStateChangeList(ChangeList *cl)
+{
+    if(cl == NULL)
+        return;
+
+    cl->clearAll();
+
+    typedef std::vector<FieldContainerPtr>::const_iterator  FCStoreConstIt;
+
+    FCStoreConstIt fcIt =
+        FieldContainerFactory::the()->getFieldContainerStore()->begin();
+    FCStoreConstIt fcEnd =
+        FieldContainerFactory::the()->getFieldContainerStore()->end  ();
+
+    for(; fcIt != fcEnd; ++fcIt)
+    {
+        // skip destroyed FC
+        if(*fcIt == NullFC)
+            continue;
+
+        // skip prototypes
+        if((*fcIt)->getType().getPrototype() == NullFC ||
+           (*fcIt)->getType().getPrototype() == (*fcIt)  )
+        {
+            continue;
+        }
+
+        cl->addCreated(getContainerId(*fcIt));
+        
+        for(UInt32 i = 0; i < (*fcIt).getRefCount(); ++i)
+            cl->addAddRefd(*fcIt);
+
+        cl->addChanged(*fcIt, FieldBits::AllFields);
+    }
 }
 
 /*-------------------------------------------------------------------------*/

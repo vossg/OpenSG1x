@@ -132,7 +132,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RemoteAspect
     static clStoreMap &getStore     (void            );
 
     static void createCurrentStateChangeList(const FieldContainerPtr &start,
-                                             ChangeList *cl);
+                                             ChangeList              *cl    );
+    static void createCurrentStateChangeList(ChangeList              *cl    );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
