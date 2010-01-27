@@ -75,7 +75,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		cardinality="single"
 		visibility="external"
 		defaultValue="0"
-		access="protected"
+		access="public"
 	>
 	The number of trimming curves
 	</Field>
@@ -84,7 +84,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		type="UInt32"
 		cardinality="multi"
 		visibility="external"
-		access="protected"
+		access="public"
 	>
 	The knotlengths for the trimming curves
 	</Field>
@@ -93,7 +93,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		type="UInt32"
 		cardinality="multi"
 		visibility="external"
-		access="protected"
+		access="public"
 	>
 	The dimensions for the trimming curves
 	</Field>
@@ -102,7 +102,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		type="Pnt3f"
 		cardinality="multi"
 		visibility="external"
-		access="protected"
+		access="public"
 	>
 	The control points for the trimming curves
 	</Field>
@@ -111,7 +111,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		type="Real32"
 		cardinality="multi"
 		visibility="external"
-		access="protected"
+		access="public"
 	>
 	The knotvectors for the trimming curves
 	</Field>
@@ -120,7 +120,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		type="UInt32"
 		cardinality="multi"
 		visibility="external"
-		access="protected"
+		access="public"
 	>
 	Specifies the number of trimming curves in each trimming curve loop
 	</Field>
@@ -149,7 +149,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		cardinality="single"
 		visibility="external"
 		defaultValue="0"
-		access="protected"
+		access="public"
 	>
 	</Field>
 	<Field
@@ -158,7 +158,7 @@ This is the OpenSG NURBS surface node. It supports an arbitrary number of trimmi
 		cardinality="single"
 		visibility="internal"
 		defaultValue="0"
-		access="protected"
+		access="public"
 	>
 	Surface GL Id, internal use.
 	</Field>
