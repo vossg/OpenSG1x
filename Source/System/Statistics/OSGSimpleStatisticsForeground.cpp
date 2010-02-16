@@ -255,7 +255,7 @@ void SimpleStatisticsForeground::draw(DrawActionBase *action, Viewport *port)
             if (el)
                 el->putToString(*str, format);
             else
-                *str = format;
+                *str = format ? std::string(format) : std::string();
         }
     }
     else    // fallback, show all elements
