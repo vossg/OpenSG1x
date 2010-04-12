@@ -73,11 +73,14 @@ void FTGLText::initMethod (void)
 {
     DrawAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
-              CNodePtr, Action *>(&MaterialDrawable::drawActionHandler));
+              CNodePtr, Action *>(&MaterialDrawable::drawActionEnterHandler));
   
     RenderAction::registerEnterDefault( getClassType(),
         osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
-              CNodePtr, Action *>(&MaterialDrawable::renderActionHandler));
+              CNodePtr, Action *>(&MaterialDrawable::renderActionEnterHandler));
+    RenderAction::registerLeaveDefault( getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE, MaterialDrawablePtr,
+              CNodePtr, Action *>(&MaterialDrawable::renderActionLeaveHandler));
 }
 
 
@@ -226,7 +229,7 @@ void FTGLText::dump(      UInt32    ,
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLText.cpp,v 1.3 2006/08/15 09:32:58 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFTGLText.cpp,v 1.4 2010/04/12 14:54:56 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFTGLTEXTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFTGLTEXTBASE_INLINE_CVSID;
 
