@@ -3368,9 +3368,15 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
             if(indexPtr == NullFC)
             {
                 indexPtr = GeoIndicesUI32::create();
-                indexPtr->resize(iN);
-                for(i = 0; i < iN; i++)
-                    indexPtr->setValue(i, i);
+                
+                beginEditCP(indexPtr);
+                {
+                    indexPtr->resize(iN);
+                    for(i = 0; i < iN; i++)
+                        indexPtr->setValue(i, i);
+                }
+                endEditCP(indexPtr);
+
                 beginEditCP(geoPtr);
                 {
                     geoPtr->setIndices(indexPtr);
