@@ -351,7 +351,10 @@ GeoProperty<GeoPropertyDesc>::clone(void)
 {
     PtrType obj = GeoProperty<GeoPropertyDesc>::create();
     
+    beginEditCP(obj);
     obj->_field.setValues( _field );
+    endEditCP(obj);
+
     return obj;
 }
 
