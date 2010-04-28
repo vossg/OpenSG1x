@@ -183,11 +183,11 @@ bool MaterialMergeGraphOp::traverse(NodePtr& node)
         MaterialPtr current = itr->first;
         MaterialObjectList& currentList = itr->second;
 
-        MaterialObjectMap::iterator walker = std::next(itr);
+        MaterialObjectMap::iterator walker = ::next(itr);
         while (walker != _materialObjects.end()) {
             // Store the next iterator in case we have to delete
             // 'walker' from the map.
-            MaterialObjectMap::iterator nextStep = std::next(walker);
+            MaterialObjectMap::iterator nextStep = ::next(walker);
 
             if (equal(current, walker->first)) {
                 // Set the new objects to have the current material,
