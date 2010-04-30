@@ -99,7 +99,11 @@ TextFaceFactory::TextFaceFactory()
 #if defined(_WIN32)
     _backend = new TextWIN32Backend();
 #elif defined(__APPLE__)
+#ifdef __LP64__
+    _backend = 0;
+#else
     _backend = new TextMacBackend();
+#endif
     //_backend = new TextFT2Backend();
 #elif defined(FT2_LIB)
     _backend = new TextFT2Backend();
@@ -279,7 +283,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFaceFactory.cpp,v 1.3 2006/10/27 13:52:13 a-m-z Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFaceFactory.cpp,v 1.4 2010/04/30 11:55:23 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFACEFACTORY_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFACEFACTORY_INLINE_CVSID;
 }

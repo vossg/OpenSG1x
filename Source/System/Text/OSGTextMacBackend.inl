@@ -37,7 +37,7 @@
 \*---------------------------------------------------------------------------*/
 
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(__LP64__)
 
 
 OSG_BEGIN_NAMESPACE
@@ -46,7 +46,7 @@ OSG_BEGIN_NAMESPACE
 OSG_END_NAMESPACE
 
 
-#endif // __APPLE__
+#endif // defined(__APPLE__) && !defined(__LP64__)
 
 
-#define OSGTEXTMACBACKEND_INLINE_CVSID "@(#)$Id: OSGTextMacBackend.inl,v 1.1 2005/03/03 13:43:07 a-m-z Exp $"
+#define OSGTEXTMACBACKEND_INLINE_CVSID "@(#)$Id: OSGTextMacBackend.inl,v 1.2 2010/04/30 11:55:23 pdaehne Exp $"

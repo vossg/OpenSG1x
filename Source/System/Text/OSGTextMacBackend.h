@@ -48,7 +48,7 @@
 #include <OSGSystemDef.h>
 
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(__LP64__)
 
 
 #include "OSGTextBackend.h"
@@ -127,11 +127,11 @@ class OSG_SYSTEMLIB_DLLMAPPING TextMacBackend: public TextBackend
 OSG_END_NAMESPACE
 
 
-#endif // __APPLE__
+#endif // defined(__APPLE__) && !defined(__LP64__)
 
 
 #include <OSGTextMacBackend.inl>
 
-#define OSGTEXTMACBACKEND_HEADER_CVSID "@(#)$Id: OSGTextMacBackend.h,v 1.1 2005/03/03 13:43:07 a-m-z Exp $"
+#define OSGTEXTMACBACKEND_HEADER_CVSID "@(#)$Id: OSGTextMacBackend.h,v 1.2 2010/04/30 11:55:23 pdaehne Exp $"
 
 #endif /* _OSGTEXTMACBACKEND_H_ */

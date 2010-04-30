@@ -45,7 +45,7 @@
 #include <OSGBaseTypes.h>
 
 
-#ifdef __APPLE__
+#if defined(__APPLE__) && !defined(__LP64__)
 
 
 #include "OSGTextPixmapFace.h"
@@ -1532,7 +1532,7 @@ TextMacTXFGlyph::~TextMacTXFGlyph() {}
 OSG_END_NAMESPACE
 
 
-#endif // __APPLE__
+#endif // defined(__APPLE__) && !defined(__LP64__)
 
 
 /*------------------------------------------------------------------------*/
@@ -1548,7 +1548,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextMacBackend.cpp,v 1.4 2007/03/30 14:53:22 pdaehne Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextMacBackend.cpp,v 1.5 2010/04/30 11:55:23 pdaehne Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTMACBACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTMACBACKEND_INLINE_CVSID;
 }
