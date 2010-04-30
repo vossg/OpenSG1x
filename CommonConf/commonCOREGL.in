@@ -1,7 +1,7 @@
 
 INCLUDE_COREGL := 
 LINK_COREGL    := 
-LIB_COREGL     := -framework OpenGL -framework Carbon
+LIB_COREGL     := -framework OpenGL -framework Cocoa
 
 ifneq ($(INCLUDE_COREGL),)
 INCL_$(OS_BASE) += $(INC_OPTION)$(INCLUDE_COREGL)

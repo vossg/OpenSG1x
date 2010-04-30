@@ -4,6 +4,6 @@ CoreGL is the basis for two other OpenGL APIs on the Mac - AGL, the Carbon (C++)
 
 CoreGL can only be used for fullscreen rendering.
 
-There is also a small test program called "testWindowCoreGL.cpp" that demonstrates how to use the OpenSG CoreGL window class.
+There is also a small test program called "testWindowCoreGL.mm" that demonstrates how to use the OpenSG CoreGL window class.
 
 - Patrick Daehne

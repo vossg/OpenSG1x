@@ -30,8 +30,7 @@
 
 #include "OSGTrackball.h"
 
-#include <Carbon/Carbon.h>
-#include <ApplicationServices/ApplicationServices.h>
+#include <Cocoa/Cocoa.h>
 
 using namespace OSG;
 
@@ -69,179 +68,157 @@ void redraw ( void )
     win->frameExit();
 }
 
-static OSStatus handleMouseEvent(EventHandlerCallRef nextHandler, EventRef event, void *userData)
+@interface MyApp : NSApplication
+
+@end
+
+@implementation MyApp
+
+- (void) handleMouseEvent: (NSEvent*) event
 {
-    OSStatus err;
     Real32 w,h,a,b,c,d;
 
-    // Get the pressed mouse button
-    EventMouseButton mouseButton;
-    err = GetEventParameter(event, kEventParamMouseButton, typeMouseButton, 0, sizeof(mouseButton), 0, &mouseButton);
-    if (err != noErr)
-        return err;
-
-    // Get the modifier keys
-    ::UInt32 modifierKeys;
-    err = GetEventParameter(event, kEventParamKeyModifiers, typeUInt32, 0, sizeof(modifierKeys), 0, &modifierKeys);
-    if (err != noErr)
-        return err;
+    int buttonNumber = [event buttonNumber];
+    unsigned int modifierFlags = [event modifierFlags];
 
     // Traditionally, Apple mice just have one button. It is common practice to simulate
     // the middle and the right button by pressing the option or the control key.
-    if (mouseButton == kEventMouseButtonPrimary)
+    if (buttonNumber == 0)
     {
-        if (modifierKeys & optionKey)
-            mouseButton = kEventMouseButtonTertiary;
-        if (modifierKeys & controlKey)
-            mouseButton = kEventMouseButtonSecondary;
+        if (modifierFlags & NSAlternateKeyMask)
+            buttonNumber = 2;
+        if (modifierFlags & NSControlKeyMask)
+            buttonNumber = 1;
     }
 
-    // Get the location of the mouse pointer
-    Point location;
-    err = GetEventParameter(event, kEventParamMouseLocation, typeQDPoint, 0, sizeof(location), 0, &location);
-    if (err != noErr)
-        return err;
+    NSPoint location = [event locationInWindow];
 
-    // Handle the different kinds of events
-    ::UInt32 eventKind = GetEventKind(event);
-    switch (eventKind)
+    switch ([event type])
     {
-    // mouse button pressed
-    case kEventMouseDown:
-        lastx = location.h;
-        lasty = location.v;
-        switch (mouseButton)
+    case NSLeftMouseDown:
+    case NSRightMouseDown:
+    case NSOtherMouseDown:
+        lastx = static_cast<int>(location.x);
+        lasty = static_cast<int>(location.y);
+        switch (buttonNumber)
         {
-        case kEventMouseButtonPrimary: // left button
+        case 0: // left button
             break;
-        case kEventMouseButtonSecondary: // right button
+        case 1: // right button
             tball.setAutoPositionNeg(true);
             break;
-        case kEventMouseButtonTertiary: // middle button
+        case 2: // middle button
             tball.setAutoPosition(true);
             break;
         }
         break;
 
-    // mouse button released
-    case kEventMouseUp:
-        switch (mouseButton)
+    case NSLeftMouseUp:
+    case NSRightMouseUp:
+    case NSOtherMouseUp:
+        switch (buttonNumber)
         {
-        case kEventMouseButtonPrimary: // left button
+        case 0: // left button
             break;
-        case kEventMouseButtonSecondary: // right button
+        case 1: // right button
             tball.setAutoPositionNeg(false);
             break;
-        case kEventMouseButtonTertiary: // middle button
+        case 2: // middle button
             tball.setAutoPosition(false);
             break;
         }
         break;
 
-    // mouse moved while a button is pressed
-    case kEventMouseDragged:
+    case NSLeftMouseDragged:
+    case NSRightMouseDragged:
+    case NSOtherMouseDragged:
         w = win->getWidth();
         h = win->getHeight();
         a = -2. * ( lastx / w - .5 );
-        b = -2. * ( .5 - lasty / h );
-        c = -2. * ( location.h / w - .5 );
-        d = -2. * ( .5 - location.v / h );
-        switch (mouseButton)
+        b = -2. * ( lasty / h - .5);
+        c = -2. * ( location.x / w - .5 );
+        d = -2. * ( location.y / h - .5 );
+        switch (buttonNumber)
         {
-        case kEventMouseButtonPrimary: // left button
+        case 0: // left button
             tball.updateRotation( a, b, c, d );
             break;
-        case kEventMouseButtonSecondary: // right button
+        case 1: // right button
             tball.updatePositionNeg( a, b, c, d );
             break;
-        case kEventMouseButtonTertiary: // middle button
+        case 2: // middle button
             tball.updatePosition( a, b, c, d );
             break;
         }
-        lastx = location.h;
-        lasty = location.v;
-
-        // Redraw the whole window
+        lastx = static_cast<int>(location.x);
+        lasty = static_cast<int>(location.y);
         redraw();
-
         break;
-    }
-
-    // We have to return eventNotHandledErr, otherwise the system is
-    // not able to operate the menu and the window border
-    return eventNotHandledErr;
-}
-
-static OSStatus handleKeyEvent(EventHandlerCallRef nextHandler, EventRef event, void *userData)
-{
-    OSStatus err;
-
-    // Try to determine the size of the text input
-    ::UInt32 actualSize; 					
-    err = GetEventParameter(event, kEventParamTextInputSendText, typeUnicodeText, 0, 0, &actualSize, 0);
-    if (err != noErr)
-        return err;
-
-    // The input can actually consist of more than one character.
-    // We are only interested in single character input
-    if (actualSize == sizeof(UniChar))
-    {
-        // Get the character unicode
-        UniChar c;
-        err = GetEventParameter(event, kEventParamTextInputSendText, typeUnicodeText, 0, sizeof(UniChar), 0, &c);
-        if (err != noErr)
-            return err;
-
-        // Handle different keyboard commands
-        CGLSetCurrentContext(win->getContext());
-        switch (c)
-        {
-        case kEscapeCharCode:
-            QuitApplicationEventLoop();
-            break;
-        case 'a':
-            glDisable( GL_LIGHTING );
-            redraw();
-            break;
-        case 's':
-            glEnable( GL_LIGHTING );
-            redraw();
-            break;
-        case 'z':
-            glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
-            redraw();
-            break;
-        case 'x':
-            glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
-            redraw();
-            break;
-        case 'c':
-            glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
-            redraw();
-            break;
-        }
-    }
-
-    return noErr;
-}
-
-static pascal OSStatus eventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData)
-{
-    ::UInt32 eventClass = GetEventClass(event);
-    switch (eventClass)
-    {
-    // Mouse events
-    case kEventClassMouse:
-        return handleMouseEvent(nextHandler, event, userData);
-
-    // Key press events
-    case kEventClassTextInput:
-        return handleKeyEvent(nextHandler, event, userData);
 
     default:
-        return eventNotHandledErr;
+        break;
     }
 }
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+    if ([[theEvent characters] length] != 1)
+        return;
+    switch ([[theEvent characters] characterAtIndex: 0])
+    {
+    case 27:
+        [NSApp terminate:nil];
+        break;
+    case 'a':
+        glDisable( GL_LIGHTING );
+        redraw();
+        break;
+    case 's':
+        glEnable( GL_LIGHTING );
+        redraw();
+        break;
+    case 'z':
+        glPolygonMode( GL_FRONT_AND_BACK, GL_POINT);
+        redraw();
+        break;
+    case 'x':
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE);
+        redraw();
+        break;
+    case 'c':
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL);
+        redraw();
+        break;
+    default:
+        break;
+    }
+}
+
+- (void)sendEvent:(NSEvent *)anEvent
+{
+	switch ([anEvent type])
+	{
+    case NSLeftMouseDown:
+    case NSRightMouseDown:
+    case NSOtherMouseDown:
+    case NSLeftMouseUp:
+    case NSRightMouseUp:
+    case NSOtherMouseUp:
+    case NSLeftMouseDragged:
+    case NSRightMouseDragged:
+    case NSOtherMouseDragged:
+		[self handleMouseEvent:anEvent];
+		break;
+	case NSKeyDown:
+		[self keyDown:anEvent];
+		break;
+	default:
+		[super sendEvent:anEvent];
+		break;
+	}
+}
+
+@end
 
 int main (int argc, char **argv)
 {
@@ -359,17 +336,6 @@ int main (int argc, char **argv)
 
     // CoreGL init
 
-    // Install event handler
-    EventHandlerUPP eventHandlerUPP = NewEventHandlerUPP(eventHandler);
-    EventTypeSpec eventList[] =
-    {
-        { kEventClassTextInput, kEventTextInputUnicodeForKeyEvent },
-        { kEventClassMouse, kEventMouseDown },
-        { kEventClassMouse, kEventMouseUp },
-        { kEventClassMouse, kEventMouseDragged }
-    };
-    InstallApplicationEventHandler(eventHandlerUPP, GetEventTypeCount(eventList), eventList, 0, 0);
-
     CGDisplayCapture(kCGDirectMainDisplay);
     CGLPixelFormatAttribute attribs[] =
     {
@@ -409,15 +375,21 @@ int main (int argc, char **argv)
     glEnable( GL_LIGHT0 );
     redraw();
 
-    // Main loop ( event dispatching )
-    RunApplicationEventLoop();
+    // Create application
+    [MyApp sharedApplication];
+
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+
+    // Run the message loop
+    [NSApp run];
+
+    [pool release];
 
     // Cleanup
     CGLSetCurrentContext(0);
     CGLClearDrawable(contextObj);
     CGLDestroyContext(contextObj);
     CGReleaseAllDisplays();
-    DisposeEventHandlerUPP(eventHandlerUPP);
 
     return (0);
 }
