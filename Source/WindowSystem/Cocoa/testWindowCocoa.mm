@@ -528,7 +528,7 @@ int main(int argc, char *argv[])
     // Run the message loop
     [NSApp run];
 
-   [pool release];
+    [pool release];
 
     return EXIT_SUCCESS;
 }
