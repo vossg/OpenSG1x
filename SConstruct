@@ -411,7 +411,7 @@ def InstallProgram(env, prog):
     # HACK install manifest file on msvc80 compiler.
     compiler = _po.getOption('compiler')
     compiler = compiler[:6]
-    if (compiler == 'msvc80' or compiler == 'msvc90') and len(prog) > 0:
+    if (compiler == 'msvc80' or compiler == 'msvc90' or compiler == 'msvc100') and len(prog) > 0:
         prog.append(File(prog[0].abspath + '.manifest'))
     if env.get('OSG_PROGDIR'):
         env.Install('$PREFIX/lib/$OSG_PROGDIR', prog)
@@ -509,7 +509,7 @@ class PlatformOptions:
             print "Not supported yet!"
         elif self.de.get('PLATFORM') == 'win32':
             opts.Add(EnumOption('compiler', 'Use compiler', 'icl',
-                                    allowed_values=('gcc', 'icl', 'msvc70', 'msvc71', 'msvc80', 'msvc80x64', 'mspsdkx64', 'msvc90', 'msvc90x64')))
+                                    allowed_values=('gcc', 'icl', 'msvc70', 'msvc71', 'msvc80', 'msvc80x64', 'mspsdkx64', 'msvc90', 'msvc90x64', 'msvc100', 'msvc100x64')))
 
             # try to find the supportlibs directory.
             current_dir = Dir('.').abspath
@@ -1423,6 +1423,144 @@ class win32_msvc90x64(win32_msvc_base):
             envs.append(opt)
 
         return envs
+        
+class win32_msvc100(win32_msvc_base):
+    def __init__(self):
+        win32_msvc_base.__init__(self, 'win32-msvc100')
+        env = self.get_env()
+
+        # need to add openexr_vc90 lib.
+        if _po.getOption('exr'):
+            env['OSG_SYSTEM_LIBS'] += ['openexr_vc100']
+
+        env.Append(CXXFLAGS=['/arch:SSE', '/Oi', '/Ot', '/GS-', '/Gy'])
+
+        # warning C4910: '__declspec(dllexport)' and 'extern' are incompatible on
+        # an explicit instantiation
+        env.Append(CXXFLAGS=['/w44910', '/w44258', '/w44996', '/EHsc', '/GR',
+                             '/Zm1200', '/Zc:forScope'])
+
+        # disables extra checks in the STL.
+        if _po.getOption('no_secure_stl'):
+            env.Append(CPPDEFINES=['_SECURE_SCL=0'])
+
+        #env.Append(LINKFLAGS=['/MANIFEST:NO'])
+
+        # add msvc10 include and lib paths
+        import SCons.Tool.msvc
+        include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc9_default_paths("10.0")
+
+        env.PrependENVPath('INCLUDE', include_path)
+        env.PrependENVPath('LIB', lib_path)
+        env.PrependENVPath('PATH', exe_path)
+
+    def get_env_list(self):
+        env = self.get_env()
+
+        envs = []
+
+        if _po.buildDbg():
+            dbg = env.Copy()
+            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/RTC1'],
+                       LINKFLAGS=['/DEBUG'],
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
+            dbg['OSG_OBJDIR']  = 'dbg'
+            dbg['OSG_LIBSUF']  = 'D'
+            dbg['OSG_PROGSUF'] = 'D'
+            dbg.Append(LIBS = ['msvcprtd', 'msvcrtd'])
+            envs.append(dbg)
+
+        if _po.buildDbgOpt():
+            dbgopt = env.Copy()
+            dbgopt.Append(CXXFLAGS=['/Z7', '/MD', '/Ox', '/Ob2'],
+                          LINKFLAGS=['/DEBUG'],
+                          CPPDEFINES=['NDEBUG'])
+            dbgopt['OSG_OBJDIR']  = 'opt'
+            dbgopt['OSG_LIBSUF']  = ''
+            dbgopt['OSG_PROGSUF'] = ''
+            dbgopt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(dbgopt)
+
+        if _po.buildOpt():
+            opt = env.Copy()
+            opt.Append(CXXFLAGS=['/MD', '/Ox', '/Ob2'],
+                       LINKFLAGS=['/OPT:REF', '/OPT:ICF'],
+                       CPPDEFINES=['NDEBUG'])
+            opt['OSG_OBJDIR']  = 'opt'
+            opt['OSG_LIBSUF']  = ''
+            opt['OSG_PROGSUF'] = ''
+            opt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(opt)
+
+        return envs
+
+class win32_msvc100x64(win32_msvc_base):
+    def __init__(self):
+        win32_msvc_base.__init__(self, 'win32-msvc100x64')
+        env = self.get_env()
+
+        if _po.getOption('exr'):
+            env['OSG_SYSTEM_LIBS'] += ['openexr']
+
+        env.Append(CPPDEFINES =['WIN64'])
+        # disables extra checks in the STL.
+        if _po.getOption('no_secure_stl'):
+            env.Append(CPPDEFINES=['_SECURE_SCL=0'])
+
+        env.Append(CXXFLAGS=['/Oi', '/Ot', '/GS-', '/Gy'])
+
+        # warning C4910: '__declspec(dllexport)' and 'extern' are incompatible on
+        # an explicit instantiation
+        env.Append(CXXFLAGS=['/w44910', '/w44258', '/w44996', '/EHsc', '/GR',
+                             '/bigobj', '/Zm1200', '/Zc:forScope'])
+
+        # add msvc10 x64 include and lib paths
+        import SCons.Tool.msvc
+        include_path, lib_path, exe_path = SCons.Tool.msvc._get_msvc9_x64_default_paths("10.0")
+
+        env.PrependENVPath('INCLUDE', include_path)
+        env.PrependENVPath('LIB', lib_path)
+        env.PrependENVPath('PATH', exe_path)
+
+    def get_env_list(self):
+        env = self.get_env()
+
+        envs = []
+
+        if _po.buildDbg():
+            dbg = env.Copy()
+            dbg.Append(CXXFLAGS=['/MDd', '/Od', '/ZI', '/RTC1'],
+                       LINKFLAGS=['/DEBUG'],
+                       CPPDEFINES=['_DEBUG', 'OSG_DEBUG'])
+            dbg['OSG_OBJDIR']  = 'dbg'
+            dbg['OSG_LIBSUF']  = 'D'
+            dbg['OSG_PROGSUF'] = 'D'
+            dbg.Append(LIBS = ['msvcprtd', 'msvcrtd'])
+            envs.append(dbg)
+
+        if _po.buildDbgOpt():
+            dbgopt = env.Copy()
+            dbgopt.Append(CXXFLAGS=['/Z7', '/MD', '/Ox', '/Ob2'],
+                          LINKFLAGS=['/DEBUG'],
+                          CPPDEFINES=['NDEBUG'])
+            dbgopt['OSG_OBJDIR']  = 'opt'
+            dbgopt['OSG_LIBSUF']  = ''
+            dbgopt['OSG_PROGSUF'] = ''
+            dbgopt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(dbgopt)
+
+        if _po.buildOpt():
+            opt = env.Copy()
+            opt.Append(CXXFLAGS=['/MD', '/Ox', '/Ob2'],
+                       LINKFLAGS=['/OPT:REF', '/OPT:ICF'],
+                       CPPDEFINES=['NDEBUG'])
+            opt['OSG_OBJDIR']  = 'opt'
+            opt['OSG_LIBSUF']  = ''
+            opt['OSG_PROGSUF'] = ''
+            opt.Append(LIBS = ['msvcprt', 'msvcrt'])
+            envs.append(opt)
+
+        return envs
 
 class cygwin_gcc(win32):
     def __init__(self):
@@ -1605,6 +1743,10 @@ def SelectToolChain():
             return win32_msvc90()
         elif _po.getOption('compiler') == 'msvc90x64':
             return win32_msvc90x64()
+        elif _po.getOption('compiler') == 'msvc100':
+            return win32_msvc100()
+        elif _po.getOption('compiler') == 'msvc100x64':
+            return win32_msvc100x64()
         else:
             print "WARNING: Unsupported MSVS version found: %s.  Trying defaults." % msvs_version
             return unknown()
