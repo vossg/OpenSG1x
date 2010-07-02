@@ -96,10 +96,11 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
     /*! \name                   window access                              */
     /*! \{                                                                 */
 
-    WindowPtr getClusterWindow (void);
-    WindowPtr getServerWindow  (void);
+           WindowPtr     getClusterWindow(void);
+           WindowPtr     getServerWindow (void);
 
-    inline RemoteAspect *getRemoteAspect   (void)                   const;
+    inline RemoteAspect *getRemoteAspect (void) const;
+    inline UInt32        getServerId     (void) const;   
     
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
