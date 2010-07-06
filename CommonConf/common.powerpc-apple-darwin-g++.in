@@ -144,6 +144,7 @@ endif
 
 
 LD_FLAGS += $(LINK_OPTIMIZE) $(LINK_DEBUG) \
+            -headerpad_max_install_names \
             $(MACOSX_VERSION_MIN) $(MACOSX_SYSROOT_COMPILER) $(MACOSX_SYSROOT_LINKER) $(MACOSX_ARCHS)
 
 ADD_OS_LIB := -framework ApplicationServices
