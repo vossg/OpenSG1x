@@ -909,7 +909,8 @@ mfnodeValue:
     | '[' sfnodeValues ']';
 
 sfnodeValues:
-    sfnodeValues sfnodeValue
+    sfnodeValues statement
+    | sfnodeValues TOK_NULL
     | /* empty */;
 
 mfrotationValue:
