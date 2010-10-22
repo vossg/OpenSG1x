@@ -254,6 +254,7 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
         _pThreadData[2] = static_cast     <void *>(this       );
        	
 		pthread_attr_t  threadAttr;       
+        pthread_attr_init(&threadAttr);
         pthread_attr_setscope(&threadAttr, PTHREAD_SCOPE_SYSTEM);
 
         rc = pthread_create(_pThreadDesc,
@@ -264,6 +265,7 @@ bool BasePThreadBase::runFunction(ThreadFuncF  fThreadFunc,
 #endif
                             BasePThreadBase::threadFunc,
                             static_cast<void *>(&_pThreadData));
+        pthread_attr_destroy(&threadAttr);
 
         if(rc != 0)
         {
