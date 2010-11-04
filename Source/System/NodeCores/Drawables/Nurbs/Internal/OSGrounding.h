@@ -54,15 +54,20 @@ OSG_BEGIN_NAMESPACE
 #    define OSG_FPU_RESTORE       (fpsetprec(FP_PE))
 #  else /* not OSG_HAVE_FLOATINGPOINT_H */
 #    ifdef WIN32
-#      ifdef _MSC_VER
-#        include <float.h>
-         static unsigned int fpu_init;
-#        define OSG_FPU_ROUND_DOUBLE (fpu_init = _controlfp (0, 0),\
+#      ifndef _WIN64
+#         ifdef _MSC_VER
+#           include <float.h>
+            static unsigned int fpu_init;
+#           define OSG_FPU_ROUND_DOUBLE (fpu_init = _controlfp (0, 0),\
                                  _controlfp (_PC_53, _MCW_PC))
-#        define OSG_FPU_RESTORE      (_controlfp (fpu_init, 0xfffff))
-#      else /* not _MSC_VER */
-#        error "You need the Microsoft C compiler for the Win32 version"
-#      endif /*  not _MSC_VER */
+#           define OSG_FPU_RESTORE      (_controlfp (fpu_init, 0xfffff))
+#         else /* not _MSC_VER */
+#           error "You need the Microsoft C compiler for the Win32 version"
+#         endif /*  not _MSC_VER */
+#	   else
+#	   	  define OSG_FPU_ROUND_DOUBLE
+#         define OSG_FPU_RESTORE
+#      endif /* not _WIN64 */
 #    else /* not WIN32 */
 #      error "Unknown CPU: assuming default double precision rounding"
 #      define OSG_FPU_ROUND_DOUBLE
