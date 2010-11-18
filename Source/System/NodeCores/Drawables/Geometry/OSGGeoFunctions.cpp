@@ -3446,7 +3446,8 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
                 {
                     if((mapMask != masterPropMask) && (mapMask & propMask))
                     {
-                        if((slaveProp = geoPtr->getProperty(mapMask & propMask)))
+                        if((slaveProp = geoPtr->getProperty(mapMask & propMask)) &&
+                           slaveProp->editData() != NULL                           )
                         {
                             slaveDataVec.push_back(slaveProp->editData());
                             slaveDSizeVec.push_back(slaveProp->getFormatSize() *
