@@ -125,6 +125,9 @@ const OSG::BitVector  RenderOptionsBase::BackfaceCullingFieldMask =
 const OSG::BitVector  RenderOptionsBase::SmallFeatureCullingFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::SmallFeatureCullingFieldId);
 
+const OSG::BitVector  RenderOptionsBase::SmallFeatureCullingModeFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::SmallFeatureCullingModeFieldId);
+
 const OSG::BitVector  RenderOptionsBase::SmallFeaturePixelsFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::SmallFeaturePixelsFieldId);
 
@@ -218,6 +221,9 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
 */
 /*! \var bool            RenderOptionsBase::_sfSmallFeatureCulling
     
+*/
+/*! \var Int32           RenderOptionsBase::_sfSmallFeatureCullingMode
+    SmallFeatureCullingDraw (1) or SmallFeatureCullingTraversal (2)
 */
 /*! \var Real32          RenderOptionsBase::_sfSmallFeaturePixels
     
@@ -351,6 +357,11 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      SmallFeatureCullingFieldId, SmallFeatureCullingFieldMask,
                      false,
                      reinterpret_cast<FieldAccessMethod>(&RenderOptionsBase::editSFSmallFeatureCulling)),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "smallFeatureCullingMode", 
+                     SmallFeatureCullingModeFieldId, SmallFeatureCullingModeFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&RenderOptionsBase::editSFSmallFeatureCullingMode)),
     new FieldDescription(SFReal32::getClassType(), 
                      "smallFeaturePixels", 
                      SmallFeaturePixelsFieldId, SmallFeaturePixelsFieldMask,
@@ -492,6 +503,7 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfFrustumCulling         (bool(false)), 
     _sfBackfaceCulling        (bool(false)), 
     _sfSmallFeatureCulling    (), 
+    _sfSmallFeatureCullingMode(Int32(1)), 
     _sfSmallFeaturePixels     (), 
     _sfSmallFeatureThreshold  (), 
     _sfFirstFrame             (bool(true)), 
@@ -530,6 +542,7 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfFrustumCulling         (source._sfFrustumCulling         ), 
     _sfBackfaceCulling        (source._sfBackfaceCulling        ), 
     _sfSmallFeatureCulling    (source._sfSmallFeatureCulling    ), 
+    _sfSmallFeatureCullingMode(source._sfSmallFeatureCullingMode), 
     _sfSmallFeaturePixels     (source._sfSmallFeaturePixels     ), 
     _sfSmallFeatureThreshold  (source._sfSmallFeatureThreshold  ), 
     _sfFirstFrame             (source._sfFirstFrame             ), 
@@ -653,6 +666,11 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (SmallFeatureCullingFieldMask & whichField))
     {
         returnValue += _sfSmallFeatureCulling.getBinSize();
+    }
+
+    if(FieldBits::NoField != (SmallFeatureCullingModeFieldMask & whichField))
+    {
+        returnValue += _sfSmallFeatureCullingMode.getBinSize();
     }
 
     if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
@@ -809,6 +827,11 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
         _sfSmallFeatureCulling.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (SmallFeatureCullingModeFieldMask & whichField))
+    {
+        _sfSmallFeatureCullingMode.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
     {
         _sfSmallFeaturePixels.copyToBin(pMem);
@@ -962,6 +985,11 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfSmallFeatureCulling.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (SmallFeatureCullingModeFieldMask & whichField))
+    {
+        _sfSmallFeatureCullingMode.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
     {
         _sfSmallFeaturePixels.copyFromBin(pMem);
@@ -1077,6 +1105,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (SmallFeatureCullingFieldMask & whichField))
         _sfSmallFeatureCulling.syncWith(pOther->_sfSmallFeatureCulling);
 
+    if(FieldBits::NoField != (SmallFeatureCullingModeFieldMask & whichField))
+        _sfSmallFeatureCullingMode.syncWith(pOther->_sfSmallFeatureCullingMode);
+
     if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
         _sfSmallFeaturePixels.syncWith(pOther->_sfSmallFeaturePixels);
 
@@ -1174,6 +1205,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (SmallFeatureCullingFieldMask & whichField))
         _sfSmallFeatureCulling.syncWith(pOther->_sfSmallFeatureCulling);
 
+    if(FieldBits::NoField != (SmallFeatureCullingModeFieldMask & whichField))
+        _sfSmallFeatureCullingMode.syncWith(pOther->_sfSmallFeatureCullingMode);
+
     if(FieldBits::NoField != (SmallFeaturePixelsFieldMask & whichField))
         _sfSmallFeaturePixels.syncWith(pOther->_sfSmallFeaturePixels);
 
@@ -1244,7 +1278,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.13 2009/02/16 10:59:36 jbehr Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.14 2011/01/06 13:35:27 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

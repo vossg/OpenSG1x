@@ -200,6 +200,9 @@ void RenderOptions::activateOptions(RenderAction *action)
     if(_changed & SmallFeatureCullingFieldMask)
         action->setSmallFeatureCulling(getSmallFeatureCulling());
 
+    if(_changed & SmallFeatureCullingModeFieldMask)
+        action->setSmallFeatureCullingMode(getSmallFeatureCullingMode());
+
     if(_changed & SmallFeaturePixelsFieldMask)
         action->setSmallFeaturePixels(getSmallFeaturePixels());
 

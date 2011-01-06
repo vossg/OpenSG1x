@@ -153,6 +153,9 @@ const Int32 RenderAction::OcclusionStopAndWait = 1;
 const Int32 RenderAction::OcclusionMultiFrame  = 2;
 const Int32 RenderAction::OcclusionHierarchicalMultiFrame = 6; // 2 + 4;
 
+const Int32 RenderAction::SmallFeatureCullingDraw = 1;
+const Int32 RenderAction::SmallFeatureCullingTraversal  = 2;
+
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -286,6 +289,7 @@ RenderAction::RenderAction(void) :
     _occ_bb_dl                 (0),
 
     _bSmallFeatureCulling   (false),
+    _smallFeatureCullingMode(SmallFeatureCullingDraw),
     _smallFeaturesPixels    (10.0f),
     _smallFeaturesThreshold (32),
     _worldToScreenMatrix    (),
@@ -431,6 +435,7 @@ RenderAction::RenderAction(const RenderAction &source) :
     _occ_bb_dl                 (source._occ_bb_dl),
 
     _bSmallFeatureCulling   (source._bSmallFeatureCulling),
+    _smallFeatureCullingMode(source._smallFeatureCullingMode),
     _smallFeaturesPixels    (source._smallFeaturesPixels),
     _smallFeaturesThreshold (source._smallFeaturesThreshold),
     _worldToScreenMatrix    (source._worldToScreenMatrix),
@@ -1466,7 +1471,7 @@ bool RenderAction::isVisible( Node* node )
     if(node == NULL)
         return false;
 
-    if ( getFrustumCulling() == false )
+    if ( getFrustumCulling() == false && getSmallFeatureCullingModeEnabled(SmallFeatureCullingTraversal) == false )
         return true;
 
     // HACK but light sources beneath a LightEnv node can also
@@ -1489,7 +1494,8 @@ bool RenderAction::isVisible( Node* node )
 
     vol.transform(top_matrix());
 
-    if ( _frustum.intersect( vol ) )
+    if ( _frustum.intersect( vol )
+		&& (!getSmallFeatureCullingModeEnabled(SmallFeatureCullingTraversal) || getMaxCoveredPixels(vol) > _smallFeaturesPixels) )
     {
 // fprintf(stderr,"%p: node 0x%p vis\n", Thread::getCurrent(), node);
         return true;
@@ -1792,6 +1798,8 @@ bool RenderAction::isSmallFeature(const NodePtr &node)
 #endif
     vol.transform(top_matrix());
 
+#if 0
+	// This code is now in getMaxCoveredPixels()
     Pnt3f p[8];
     vol.getBounds(p[0], p[4]);
     
@@ -1837,6 +1845,12 @@ bool RenderAction::isSmallFeature(const NodePtr &node)
     Real32 h = ((max[1] - min[1]) / 2.0f) * Real32(_viewport->getPixelHeight());
     Real32 f = w * h;
 
+#else
+
+    Real32 f = getMaxCoveredPixels(vol);
+
+#endif
+
     //printf("%f %f pixels: %f x %f = %f\n", max[0] - min[0], max[1] - min[1], w, h, f);
 
     if(f <= _smallFeaturesPixels)
@@ -1844,6 +1858,60 @@ bool RenderAction::isSmallFeature(const NodePtr &node)
 
     return false;
 }
+
+template< class TVolume >
+float RenderAction::getMaxCoveredPixels(const TVolume& worldSpaceVolume)
+{
+    Pnt3f p[8];
+    worldSpaceVolume.getBounds(p[0], p[4]);
+
+    p[1].setValues(p[0][0], p[4][1], p[0][2]);
+    p[2].setValues(p[4][0], p[4][1], p[0][2]);
+    p[3].setValues(p[4][0], p[0][1], p[0][2]);
+
+    p[5].setValues(p[4][0], p[0][1], p[4][2]);
+    p[6].setValues(p[0][0], p[0][1], p[4][2]);
+    p[7].setValues(p[0][0], p[4][1], p[4][2]);
+
+    for(int i=0;i<8;++i)
+    {
+#ifndef OSG_2_PREP
+        _worldToScreenMatrix.multFullMatrixPnt(p[i]);
+#else
+        _worldToScreenMatrix.multFull(p[i], p[i]);
+#endif
+    }
+
+    Pnt2f min(OSG::Inf, OSG::Inf);
+    Pnt2f max(OSG::NegInf, OSG::NegInf);
+
+    for(int i=0;i<8;++i)
+    {
+        if(p[i][0] < min[0])
+            min[0] = p[i][0];
+
+        if(p[i][1] < min[1])
+            min[1] = p[i][1];
+
+        if(p[i][0] > max[0])
+            max[0] = p[i][0];
+
+        if(p[i][1] > max[1])
+            max[1] = p[i][1];
+    }
+
+    //for(int i=0;i<8;++i)
+    //    printf("p%d: %f %f\n", i, p[i][0], p[i][1]);
+
+    Real32 w = ((max[0] - min[0]) / 2.0f) * Real32(_viewport->getPixelWidth());
+    Real32 h = ((max[1] - min[1]) / 2.0f) * Real32(_viewport->getPixelHeight());
+    Real32 f = w * h;
+
+    //printf("%f %f pixels: %f x %f = %f\n", max[0] - min[0], max[1] - min[1], w, h, f);
+
+    return f;
+}
+
 
 bool RenderAction::isOccluded(DrawTreeNode *pRoot)
 {
@@ -1865,7 +1933,7 @@ bool RenderAction::isOccluded(DrawTreeNode *pRoot)
     }
 
     bool foundSmallFeature = false;
-    if(_bSmallFeatureCulling && pos_size > _smallFeaturesThreshold)
+    if(getSmallFeatureCullingModeEnabled(SmallFeatureCullingDraw) && pos_size > _smallFeaturesThreshold)
     {    
         foundSmallFeature = isSmallFeature(pRoot->getNode());
         if(foundSmallFeature)
@@ -2575,6 +2643,21 @@ void RenderAction::setSmallFeatureCulling(bool bVal)
 bool RenderAction::getSmallFeatureCulling(void) const
 {
     return _bSmallFeatureCulling;
+}
+
+void RenderAction::setSmallFeatureCullingMode(Int32 mode)
+{
+    _smallFeatureCullingMode = mode;
+}
+
+Int32 RenderAction::getSmallFeatureCullingMode(void) const
+{
+    return _smallFeatureCullingMode;
+}
+
+bool RenderAction::getSmallFeatureCullingModeEnabled(Int32 mode) const
+{
+    return _bSmallFeatureCulling && (_smallFeatureCullingMode & mode) == mode;
 }
 
 void RenderAction::setSmallFeaturePixels(Real32 pixels)

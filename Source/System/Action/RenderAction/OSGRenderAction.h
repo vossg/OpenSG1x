@@ -126,6 +126,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     static const Int32 OcclusionMultiFrame;
     static const Int32 OcclusionHierarchicalMultiFrame;
 
+    static const Int32 SmallFeatureCullingTraversal;
+    static const Int32 SmallFeatureCullingDraw;
+
     //-----------------------------------------------------------------------
     //   enums                                                               
     //-----------------------------------------------------------------------
@@ -220,6 +223,9 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     void setOcclusionCullingThreshold(UInt32 threshold);
     UInt32 getOcclusionCullingThreshold(void) const;
 
+    void setSmallFeatureCullingMode(Int32 mode);
+    Int32 getSmallFeatureCullingMode(void) const;
+    bool getSmallFeatureCullingModeEnabled(Int32 mode) const;
     void setSmallFeatureCulling(bool bVal);
     bool getSmallFeatureCulling(void) const;
     void setSmallFeaturePixels(Real32 pixels);
@@ -243,6 +249,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     /*------------------------- comparison ----------------------------------*/
 
+    template< class TVolume >
+    float getMaxCoveredPixels(const TVolume& worldSpaceVolume);
     bool isSmallFeature(const NodePtr &node);
     bool isOccluded(DrawTreeNode *pRoot);
     void deleteOcclusionQueriesPool(void);
@@ -349,6 +357,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
     UInt32                    _occ_bb_dl;
 
     bool                      _bSmallFeatureCulling;
+    Int32                     _smallFeatureCullingMode;
     Real32                    _smallFeaturesPixels;
     UInt32                    _smallFeaturesThreshold;
     Matrix                    _worldToScreenMatrix;

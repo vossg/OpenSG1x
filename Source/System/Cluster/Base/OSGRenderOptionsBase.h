@@ -87,6 +87,7 @@
 #include <OSGBoolFields.h> // FrustumCulling type
 #include <OSGBoolFields.h> // BackfaceCulling type
 #include <OSGBoolFields.h> // SmallFeatureCulling type
+#include <OSGInt32Fields.h> // SmallFeatureCullingMode type
 #include <OSGReal32Fields.h> // SmallFeaturePixels type
 #include <OSGUInt32Fields.h> // SmallFeatureThreshold type
 #include <OSGBoolFields.h> // FirstFrame type
@@ -139,7 +140,8 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
         FrustumCullingFieldId          = AntialiasingTriggerFieldId     + 1,
         BackfaceCullingFieldId         = FrustumCullingFieldId          + 1,
         SmallFeatureCullingFieldId     = BackfaceCullingFieldId         + 1,
-        SmallFeaturePixelsFieldId      = SmallFeatureCullingFieldId     + 1,
+        SmallFeatureCullingModeFieldId = SmallFeatureCullingFieldId     + 1,
+        SmallFeaturePixelsFieldId      = SmallFeatureCullingModeFieldId + 1,
         SmallFeatureThresholdFieldId   = SmallFeaturePixelsFieldId      + 1,
         FirstFrameFieldId              = SmallFeatureThresholdFieldId   + 1,
         DepthOnlyPassFieldId           = FirstFrameFieldId              + 1,
@@ -171,6 +173,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector FrustumCullingFieldMask;
     static const OSG::BitVector BackfaceCullingFieldMask;
     static const OSG::BitVector SmallFeatureCullingFieldMask;
+    static const OSG::BitVector SmallFeatureCullingModeFieldMask;
     static const OSG::BitVector SmallFeaturePixelsFieldMask;
     static const OSG::BitVector SmallFeatureThresholdFieldMask;
     static const OSG::BitVector FirstFrameFieldMask;
@@ -325,6 +328,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const SFBool              *getSFSmallFeatureCulling(void) const;
 #ifndef OSG_2_PREP
            SFBool              *getSFSmallFeatureCulling(void);
+#endif
+
+           SFInt32             *editSFSmallFeatureCullingMode(void);
+     const SFInt32             *getSFSmallFeatureCullingMode(void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFSmallFeatureCullingMode(void);
 #endif
 
            SFReal32            *editSFSmallFeaturePixels(void);
@@ -502,6 +511,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            bool                &getSmallFeatureCulling(void);
 #endif
 
+           Int32               &editSmallFeatureCullingMode(void);
+     const Int32               &getSmallFeatureCullingMode(void) const;
+#ifndef OSG_2_PREP
+           Int32               &getSmallFeatureCullingMode(void);
+#endif
+
            Real32              &editSmallFeaturePixels(void);
      const Real32              &getSmallFeaturePixels(void) const;
 #ifndef OSG_2_PREP
@@ -581,6 +596,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setFrustumCulling ( const bool &value );
      void setBackfaceCulling( const bool &value );
      void setSmallFeatureCulling( const bool &value );
+     void setSmallFeatureCullingMode( const Int32 &value );
      void setSmallFeaturePixels( const Real32 &value );
      void setSmallFeatureThreshold( const UInt32 &value );
      void setFirstFrame     ( const bool &value );
@@ -652,6 +668,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFBool              _sfFrustumCulling;
     SFBool              _sfBackfaceCulling;
     SFBool              _sfSmallFeatureCulling;
+    SFInt32             _sfSmallFeatureCullingMode;
     SFReal32            _sfSmallFeaturePixels;
     SFUInt32            _sfSmallFeatureThreshold;
     SFBool              _sfFirstFrame;
@@ -738,6 +755,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.13 2009/02/16 10:59:36 jbehr Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.14 2011/01/06 13:35:27 macnihilist Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

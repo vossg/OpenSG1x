@@ -196,6 +196,15 @@
 	>
 	</Field>
 	<Field
+		name="smallFeatureCullingMode"
+		type="Int32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="1"
+		access="public"
+	>
+	SmallFeatureCullingDraw (1) or SmallFeatureCullingTraversal (2)
+	</Field>	<Field
 		name="smallFeaturePixels"
 		type="Real32"
 		cardinality="single"

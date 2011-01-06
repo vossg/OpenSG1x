@@ -556,6 +556,29 @@ SFBool *RenderOptionsBase::getSFSmallFeatureCulling(void)
 }
 #endif
 
+//! Get the RenderOptions::_sfSmallFeatureCullingMode field.
+inline
+const SFInt32 *RenderOptionsBase::getSFSmallFeatureCullingMode(void) const
+{
+    return &_sfSmallFeatureCullingMode;
+}
+
+//! Get the RenderOptions::_sfSmallFeatureCullingMode field.
+inline
+SFInt32 *RenderOptionsBase::editSFSmallFeatureCullingMode(void)
+{
+    return &_sfSmallFeatureCullingMode;
+}
+
+#ifndef OSG_2_PREP
+//! Get the RenderOptions::_sfSmallFeatureCullingMode field.
+inline
+SFInt32 *RenderOptionsBase::getSFSmallFeatureCullingMode(void)
+{
+    return &_sfSmallFeatureCullingMode;
+}
+#endif
+
 //! Get the RenderOptions::_sfSmallFeaturePixels field.
 inline
 const SFReal32 *RenderOptionsBase::getSFSmallFeaturePixels(void) const
@@ -1364,6 +1387,36 @@ void RenderOptionsBase::setSmallFeatureCulling(const bool &value)
     _sfSmallFeatureCulling.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfSmallFeatureCullingMode field.
+inline
+Int32 &RenderOptionsBase::editSmallFeatureCullingMode(void)
+{
+    return _sfSmallFeatureCullingMode.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfSmallFeatureCullingMode field.
+inline
+const Int32 &RenderOptionsBase::getSmallFeatureCullingMode(void) const
+{
+    return _sfSmallFeatureCullingMode.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfSmallFeatureCullingMode field.
+inline
+Int32 &RenderOptionsBase::getSmallFeatureCullingMode(void)
+{
+    return _sfSmallFeatureCullingMode.getValue();
+}
+#endif
+
+//! Set the value of the RenderOptions::_sfSmallFeatureCullingMode field.
+inline
+void RenderOptionsBase::setSmallFeatureCullingMode(const Int32 &value)
+{
+    _sfSmallFeatureCullingMode.setValue(value);
+}
+
 //! Get the value of the RenderOptions::_sfSmallFeaturePixels field.
 inline
 Real32 &RenderOptionsBase::editSmallFeaturePixels(void)
@@ -1637,5 +1690,5 @@ void RenderOptionsBase::setFogMode(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.13 2009/02/16 10:59:36 jbehr Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.14 2011/01/06 13:35:27 macnihilist Exp $"
 
