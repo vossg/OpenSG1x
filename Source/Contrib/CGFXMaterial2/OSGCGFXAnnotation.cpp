@@ -114,7 +114,7 @@ void CGFXAnnotation::onCreate(const CGFXAnnotation *source)
     if(GlobalSystemState == Startup)
         return;
 
-    _parameter_access = new ShaderParameterAccess(getParameters());
+    _parameter_access = new ShaderParameterAccess(*editMFParameters());
 }
 
 void CGFXAnnotation::onDestroy(void)
@@ -198,7 +198,7 @@ bool CGFXAnnotation::getParameter(const char *name, std::string &value)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotation.cpp,v 1.1 2006/04/05 16:10:24 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXAnnotation.cpp,v 1.2 2011/01/07 09:45:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXANNOTATIONBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXANNOTATIONBASE_INLINE_CVSID;
 

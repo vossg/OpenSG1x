@@ -129,7 +129,7 @@ void CGFXMaterial::onCreate(const CGFXMaterial *source)
     OSG_ASSERT( _cgfxChunk );
    	addRefCP(_cgfxChunk);
 
-    _parameter_access = new ShaderParameterAccess(getParameters());
+    _parameter_access = new ShaderParameterAccess(*editMFParameters());
 
     CGFXMaterialPtr tmpPtr(*this);
     _cgfxChunk->setParentMaterial(tmpPtr);
@@ -215,7 +215,7 @@ ImagePtr CGFXMaterial::findImage(const std::string &name)
             name2[i] = '/';
     }
 
-    MFImagePtr images = getImages();
+    const MFImagePtr images = *(getMFImages());
     for(UInt32 i=0;i<images.size();++i)
     {
         std::string iname = images[i]->getName();
@@ -236,7 +236,7 @@ Int32 CGFXMaterial::findImage(const ImagePtr &img)
     if(img == NullFC)
         return -1;
 
-    MFImagePtr images = getImages();
+    const MFImagePtr images = *(getMFImages());
     for(UInt32 i=0;i<images.size();++i)
     {
         if(images[i] == img)
@@ -551,28 +551,28 @@ void CGFXMaterial::addVirtualIncludeFile(
         sp->setName( filename );
         sp->setValue( filecontent );
     endEditCP( sp );
-    getVirtualIncludeFiles().push_back(sp);
+    editMFVirtualIncludeFiles()->push_back(sp);
 }
 
 void CGFXMaterial::clearVirtualIncludeFiles()
 {
-    MFShaderParameterStringPtr::iterator iter  = getVirtualIncludeFiles().begin();
-    MFShaderParameterStringPtr::iterator end = getVirtualIncludeFiles().end ();
+    MFShaderParameterStringPtr::iterator iter  = editMFVirtualIncludeFiles()->begin();
+    MFShaderParameterStringPtr::iterator end = editMFVirtualIncludeFiles()->end ();
 
     while(iter != end)
     {
         subRefCP(*iter);
         ++iter;
     }
-
-    getVirtualIncludeFiles().clear();
+    
+    editMFVirtualIncludeFiles()->clear();
 
 }
 
 
 bool CGFXMaterial::requestVirtualIncludeFile( const std::string& filename, std::string& filecontent )
 {
-    MFShaderParameterStringPtr vif = getVirtualIncludeFiles();
+    const MFShaderParameterStringPtr vif = *(getMFVirtualIncludeFiles());
     for( MFShaderParameterStringPtr::const_iterator iter = vif.begin();
         iter != vif.end(); ++iter )
     {
@@ -609,7 +609,7 @@ bool CGFXMaterial::requestVirtualIncludeFile( const std::string& filename, std::
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.9 2009/01/05 18:22:27 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXMaterial.cpp,v 1.10 2011/01/07 09:45:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXMATERIAL_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXMATERIAL_INLINE_CVSID;
 

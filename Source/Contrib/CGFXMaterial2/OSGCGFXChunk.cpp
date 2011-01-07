@@ -780,9 +780,9 @@ void CGFXChunk::extractParametersRecursiveHelper(
                 // THINKABOUTME: Hmm, a bit inefficient...
                 // search for the parameter via name.
                 ShaderParameterPtr sp = NullFC;
-                for(UInt32 j=0;j<cgfxMat->getParameters().getSize();++j)
+                for(UInt32 j=0;j<cgfxMat->getMFParameters()->getSize();++j)
                 {
-                    sp = cgfxMat->getParameters()[j];
+                    sp = cgfxMat->getParameters(j);
                     if(sp->getName() == paramName)
                         break;
                 }
@@ -794,7 +794,7 @@ void CGFXChunk::extractParametersRecursiveHelper(
                     if(osgAnnotation == NullFC)
                         osgAnnotation = CGFXAnnotation::create();
                     else
-                        osgAnnotation->getParameters().clear();
+                        osgAnnotation->editMFParameters()->clear();
     
                     //printf("Annoation of '%s'\n", param.Name);
                     beginEditCP(osgAnnotation);
@@ -819,7 +819,7 @@ void CGFXChunk::extractParametersRecursiveHelper(
                                             p->setName(annoName);
                                             p->setValue(val);
                                         endEditCP(p);
-                                        osgAnnotation->getParameters().push_back(p);
+                                        osgAnnotation->editMFParameters()->push_back(p);
                                     }
                                 }
                                 break;
@@ -836,7 +836,7 @@ void CGFXChunk::extractParametersRecursiveHelper(
                                             p->setName(annoName);
                                             p->setValue(val);
                                         endEditCP(p);
-                                        osgAnnotation->getParameters().push_back(p);
+                                        osgAnnotation->editMFParameters()->push_back(p);
                                     }
                                 }
                                 break;
@@ -853,7 +853,7 @@ void CGFXChunk::extractParametersRecursiveHelper(
                                             p->setName(annoName);
                                             p->setValue(val);
                                         endEditCP(p);
-                                        osgAnnotation->getParameters().push_back(p);
+                                        osgAnnotation->editMFParameters()->push_back(p);
                                     }
                                 }
                                 break;
@@ -868,7 +868,7 @@ void CGFXChunk::extractParametersRecursiveHelper(
                                             p->setName(annoName);
                                             p->setValue(val);
                                         endEditCP(p);
-                                        osgAnnotation->getParameters().push_back(p);
+                                        osgAnnotation->editMFParameters()->push_back(p);
                                     }
                                 }
                                 break;
@@ -1136,7 +1136,7 @@ void CGFXChunk::updateTextureParameter( ShaderParameterStringPtr parameter )
 void CGFXChunk::updateImages(void)
 {
     CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
-    MFShaderParameterPtr parameters = cgfxMat->getParameters();
+    const MFShaderParameterPtr parameters = *(cgfxMat->getMFParameters());
     for(UInt32 i = 0; i < parameters.size(); ++i)
     {
         ShaderParameterPtr parameter = parameters[i];
@@ -1173,7 +1173,7 @@ void CGFXChunk::updateParameters(Window *win)
         return;
 
     CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
-    MFShaderParameterPtr parameters = cgfxMat->getParameters();
+    const MFShaderParameterPtr parameters = *(cgfxMat->getMFParameters());
 
     for(UInt32 i = 0; i < parameters.size(); ++i)
     {
@@ -1805,7 +1805,7 @@ void CGFXChunk::checkTextureIds(DrawActionBase *action, OSGCGeffect effect)
     CGeffect cgEffect = (CGeffect) effect;
     Window* win = action->getWindow();
     CGFXMaterialPtr cgfxMat = CGFXMaterialPtr::dcast(_parentMat);
-    MFShaderParameterPtr parameters = cgfxMat->getParameters();
+    const MFShaderParameterPtr parameters = *(cgfxMat->getMFParameters());
 
     for(UInt32 i = 0; i < parameters.size(); ++i)
     {
@@ -2084,7 +2084,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.19 2009/11/19 16:32:57 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.20 2011/01/07 09:45:30 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
