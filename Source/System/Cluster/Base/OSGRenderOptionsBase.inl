@@ -349,6 +349,29 @@ SFUInt32 *RenderOptionsBase::getSFOcclusionCullingPixels(void)
 }
 #endif
 
+//! Get the RenderOptions::_sfOcclusionCullingThreshold field.
+inline
+const SFUInt32 *RenderOptionsBase::getSFOcclusionCullingThreshold(void) const
+{
+    return &_sfOcclusionCullingThreshold;
+}
+
+//! Get the RenderOptions::_sfOcclusionCullingThreshold field.
+inline
+SFUInt32 *RenderOptionsBase::editSFOcclusionCullingThreshold(void)
+{
+    return &_sfOcclusionCullingThreshold;
+}
+
+#ifndef OSG_2_PREP
+//! Get the RenderOptions::_sfOcclusionCullingThreshold field.
+inline
+SFUInt32 *RenderOptionsBase::getSFOcclusionCullingThreshold(void)
+{
+    return &_sfOcclusionCullingThreshold;
+}
+#endif
+
 //! Get the RenderOptions::_sfMultiSample field.
 inline
 const SFUInt32 *RenderOptionsBase::getSFMultiSample(void) const
@@ -1117,6 +1140,36 @@ void RenderOptionsBase::setOcclusionCullingPixels(const UInt32 &value)
     _sfOcclusionCullingPixels.setValue(value);
 }
 
+//! Get the value of the RenderOptions::_sfOcclusionCullingThreshold field.
+inline
+UInt32 &RenderOptionsBase::editOcclusionCullingThreshold(void)
+{
+    return _sfOcclusionCullingThreshold.getValue();
+}
+
+//! Get the value of the RenderOptions::_sfOcclusionCullingThreshold field.
+inline
+const UInt32 &RenderOptionsBase::getOcclusionCullingThreshold(void) const
+{
+    return _sfOcclusionCullingThreshold.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the RenderOptions::_sfOcclusionCullingThreshold field.
+inline
+UInt32 &RenderOptionsBase::getOcclusionCullingThreshold(void)
+{
+    return _sfOcclusionCullingThreshold.getValue();
+}
+#endif
+
+//! Set the value of the RenderOptions::_sfOcclusionCullingThreshold field.
+inline
+void RenderOptionsBase::setOcclusionCullingThreshold(const UInt32 &value)
+{
+    _sfOcclusionCullingThreshold.setValue(value);
+}
+
 //! Get the value of the RenderOptions::_sfMultiSample field.
 inline
 UInt32 &RenderOptionsBase::editMultiSample(void)
@@ -1690,5 +1743,5 @@ void RenderOptionsBase::setFogMode(const Int32 &value)
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.14 2011/01/06 13:35:27 macnihilist Exp $"
+#define OSGRENDEROPTIONSBASE_INLINE_CVSID "@(#)$Id: OSGRenderOptionsBase.inl,v 1.15 2011/01/13 16:23:03 macnihilist Exp $"
 

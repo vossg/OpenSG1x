@@ -114,6 +114,14 @@
 	culls objects with this number of visible pixels default is zero.
 	</Field>
 	<Field
+		name="occlusionCullingThreshold"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	</Field>
+	<Field
 		name="multiSample"
 		type="UInt32"
 		cardinality="single"
@@ -204,7 +212,8 @@
 		access="public"
 	>
 	SmallFeatureCullingDraw (1) or SmallFeatureCullingTraversal (2)
-	</Field>	<Field
+	</Field>
+    <Field
 		name="smallFeaturePixels"
 		type="Real32"
 		cardinality="single"

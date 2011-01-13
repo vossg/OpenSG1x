@@ -78,6 +78,7 @@
 #include <OSGBoolFields.h> // OcclusionCulling type
 #include <OSGInt32Fields.h> // OcclusionCullingMode type
 #include <OSGUInt32Fields.h> // OcclusionCullingPixels type
+#include <OSGUInt32Fields.h> // OcclusionCullingThreshold type
 #include <OSGUInt32Fields.h> // MultiSample type
 #include <OSGUInt32Fields.h> // MultiSampleFilterMode type
 #include <OSGBoolFields.h> // Antialiasing type
@@ -120,37 +121,38 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
 
     enum
     {
-        StatisticFieldId               = Inherited::NextFieldId,
-        PolygonModeFieldId             = StatisticFieldId               + 1,
-        TwoSidedLightingFieldId        = PolygonModeFieldId             + 1,
-        SpecTexLightingFieldId         = TwoSidedLightingFieldId        + 1,
-        SortTransFieldId               = SpecTexLightingFieldId         + 1,
-        ZWriteTransFieldId             = SortTransFieldId               + 1,
-        LocalLightsFieldId             = ZWriteTransFieldId             + 1,
-        CorrectTwoSidedLightingFieldId = LocalLightsFieldId             + 1,
-        OcclusionCullingFieldId        = CorrectTwoSidedLightingFieldId + 1,
-        OcclusionCullingModeFieldId    = OcclusionCullingFieldId        + 1,
-        OcclusionCullingPixelsFieldId  = OcclusionCullingModeFieldId    + 1,
-        MultiSampleFieldId             = OcclusionCullingPixelsFieldId  + 1,
-        MultiSampleFilterModeFieldId   = MultiSampleFieldId             + 1,
-        AntialiasingFieldId            = MultiSampleFilterModeFieldId   + 1,
-        AntialiasingDistanceFieldId    = AntialiasingFieldId            + 1,
-        AntialiasingScaleFieldId       = AntialiasingDistanceFieldId    + 1,
-        AntialiasingTriggerFieldId     = AntialiasingScaleFieldId       + 1,
-        FrustumCullingFieldId          = AntialiasingTriggerFieldId     + 1,
-        BackfaceCullingFieldId         = FrustumCullingFieldId          + 1,
-        SmallFeatureCullingFieldId     = BackfaceCullingFieldId         + 1,
-        SmallFeatureCullingModeFieldId = SmallFeatureCullingFieldId     + 1,
-        SmallFeaturePixelsFieldId      = SmallFeatureCullingModeFieldId + 1,
-        SmallFeatureThresholdFieldId   = SmallFeaturePixelsFieldId      + 1,
-        FirstFrameFieldId              = SmallFeatureThresholdFieldId   + 1,
-        DepthOnlyPassFieldId           = FirstFrameFieldId              + 1,
-        LightModelAmbientFieldId       = DepthOnlyPassFieldId           + 1,
-        FogColorFieldId                = LightModelAmbientFieldId       + 1,
-        FogRangeFieldId                = FogColorFieldId                + 1,
-        FogDensityFieldId              = FogRangeFieldId                + 1,
-        FogModeFieldId                 = FogDensityFieldId              + 1,
-        NextFieldId                    = FogModeFieldId                 + 1
+        StatisticFieldId                 = Inherited::NextFieldId,
+        PolygonModeFieldId               = StatisticFieldId                 + 1,
+        TwoSidedLightingFieldId          = PolygonModeFieldId               + 1,
+        SpecTexLightingFieldId           = TwoSidedLightingFieldId          + 1,
+        SortTransFieldId                 = SpecTexLightingFieldId           + 1,
+        ZWriteTransFieldId               = SortTransFieldId                 + 1,
+        LocalLightsFieldId               = ZWriteTransFieldId               + 1,
+        CorrectTwoSidedLightingFieldId   = LocalLightsFieldId               + 1,
+        OcclusionCullingFieldId          = CorrectTwoSidedLightingFieldId   + 1,
+        OcclusionCullingModeFieldId      = OcclusionCullingFieldId          + 1,
+        OcclusionCullingPixelsFieldId    = OcclusionCullingModeFieldId      + 1,
+        OcclusionCullingThresholdFieldId = OcclusionCullingPixelsFieldId    + 1,
+        MultiSampleFieldId               = OcclusionCullingThresholdFieldId + 1,
+        MultiSampleFilterModeFieldId     = MultiSampleFieldId               + 1,
+        AntialiasingFieldId              = MultiSampleFilterModeFieldId     + 1,
+        AntialiasingDistanceFieldId      = AntialiasingFieldId              + 1,
+        AntialiasingScaleFieldId         = AntialiasingDistanceFieldId      + 1,
+        AntialiasingTriggerFieldId       = AntialiasingScaleFieldId         + 1,
+        FrustumCullingFieldId            = AntialiasingTriggerFieldId       + 1,
+        BackfaceCullingFieldId           = FrustumCullingFieldId            + 1,
+        SmallFeatureCullingFieldId       = BackfaceCullingFieldId           + 1,
+        SmallFeatureCullingModeFieldId   = SmallFeatureCullingFieldId       + 1,
+        SmallFeaturePixelsFieldId        = SmallFeatureCullingModeFieldId   + 1,
+        SmallFeatureThresholdFieldId     = SmallFeaturePixelsFieldId        + 1,
+        FirstFrameFieldId                = SmallFeatureThresholdFieldId     + 1,
+        DepthOnlyPassFieldId             = FirstFrameFieldId                + 1,
+        LightModelAmbientFieldId         = DepthOnlyPassFieldId             + 1,
+        FogColorFieldId                  = LightModelAmbientFieldId         + 1,
+        FogRangeFieldId                  = FogColorFieldId                  + 1,
+        FogDensityFieldId                = FogRangeFieldId                  + 1,
+        FogModeFieldId                   = FogDensityFieldId                + 1,
+        NextFieldId                      = FogModeFieldId                   + 1
     };
 
     static const OSG::BitVector StatisticFieldMask;
@@ -164,6 +166,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     static const OSG::BitVector OcclusionCullingFieldMask;
     static const OSG::BitVector OcclusionCullingModeFieldMask;
     static const OSG::BitVector OcclusionCullingPixelsFieldMask;
+    static const OSG::BitVector OcclusionCullingThresholdFieldMask;
     static const OSG::BitVector MultiSampleFieldMask;
     static const OSG::BitVector MultiSampleFilterModeFieldMask;
     static const OSG::BitVector AntialiasingFieldMask;
@@ -274,6 +277,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      const SFUInt32            *getSFOcclusionCullingPixels(void) const;
 #ifndef OSG_2_PREP
            SFUInt32            *getSFOcclusionCullingPixels(void);
+#endif
+
+           SFUInt32            *editSFOcclusionCullingThreshold(void);
+     const SFUInt32            *getSFOcclusionCullingThreshold(void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFOcclusionCullingThreshold(void);
 #endif
 
            SFUInt32            *editSFMultiSample    (void);
@@ -457,6 +466,12 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
            UInt32              &getOcclusionCullingPixels(void);
 #endif
 
+           UInt32              &editOcclusionCullingThreshold(void);
+     const UInt32              &getOcclusionCullingThreshold(void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getOcclusionCullingThreshold(void);
+#endif
+
            UInt32              &editMultiSample    (void);
      const UInt32              &getMultiSample    (void) const;
 #ifndef OSG_2_PREP
@@ -587,6 +602,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
      void setOcclusionCulling( const bool &value );
      void setOcclusionCullingMode( const Int32 &value );
      void setOcclusionCullingPixels( const UInt32 &value );
+     void setOcclusionCullingThreshold( const UInt32 &value );
      void setMultiSample    ( const UInt32 &value );
      void setMultiSampleFilterMode( const UInt32 &value );
      void setAntialiasing   ( const bool &value );
@@ -659,6 +675,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderOptionsBase : public Attachment
     SFBool              _sfOcclusionCulling;
     SFInt32             _sfOcclusionCullingMode;
     SFUInt32            _sfOcclusionCullingPixels;
+    SFUInt32            _sfOcclusionCullingThreshold;
     SFUInt32            _sfMultiSample;
     SFUInt32            _sfMultiSampleFilterMode;
     SFBool              _sfAntialiasing;
@@ -755,6 +772,6 @@ typedef RefPtr<RenderOptionsPtr> RenderOptionsRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.14 2011/01/06 13:35:27 macnihilist Exp $"
+#define OSGRENDEROPTIONSBASE_HEADER_CVSID "@(#)$Id: OSGRenderOptionsBase.h,v 1.15 2011/01/13 16:23:03 macnihilist Exp $"
 
 #endif /* _OSGRENDEROPTIONSBASE_H_ */

@@ -98,6 +98,9 @@ const OSG::BitVector  RenderOptionsBase::OcclusionCullingModeFieldMask =
 const OSG::BitVector  RenderOptionsBase::OcclusionCullingPixelsFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::OcclusionCullingPixelsFieldId);
 
+const OSG::BitVector  RenderOptionsBase::OcclusionCullingThresholdFieldMask = 
+    (TypeTraits<BitVector>::One << RenderOptionsBase::OcclusionCullingThresholdFieldId);
+
 const OSG::BitVector  RenderOptionsBase::MultiSampleFieldMask = 
     (TypeTraits<BitVector>::One << RenderOptionsBase::MultiSampleFieldId);
 
@@ -194,6 +197,9 @@ const OSG::BitVector RenderOptionsBase::MTInfluenceMask =
 */
 /*! \var UInt32          RenderOptionsBase::_sfOcclusionCullingPixels
     culls objects with this number of visible pixels default is zero.
+*/
+/*! \var UInt32          RenderOptionsBase::_sfOcclusionCullingThreshold
+    
 */
 /*! \var UInt32          RenderOptionsBase::_sfMultiSample
     number of multi-sample-buffer used for FSAA
@@ -312,6 +318,11 @@ FieldDescription *RenderOptionsBase::_desc[] =
                      OcclusionCullingPixelsFieldId, OcclusionCullingPixelsFieldMask,
                      false,
                      reinterpret_cast<FieldAccessMethod>(&RenderOptionsBase::editSFOcclusionCullingPixels)),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "occlusionCullingThreshold", 
+                     OcclusionCullingThresholdFieldId, OcclusionCullingThresholdFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&RenderOptionsBase::editSFOcclusionCullingThreshold)),
     new FieldDescription(SFUInt32::getClassType(), 
                      "multiSample", 
                      MultiSampleFieldId, MultiSampleFieldMask,
@@ -494,6 +505,7 @@ RenderOptionsBase::RenderOptionsBase(void) :
     _sfOcclusionCulling       (bool(false)), 
     _sfOcclusionCullingMode   (Int32(1)), 
     _sfOcclusionCullingPixels (UInt32(0)), 
+    _sfOcclusionCullingThreshold(), 
     _sfMultiSample            (UInt32(1)), 
     _sfMultiSampleFilterMode  (UInt32(0)), 
     _sfAntialiasing           (bool(false)), 
@@ -533,6 +545,7 @@ RenderOptionsBase::RenderOptionsBase(const RenderOptionsBase &source) :
     _sfOcclusionCulling       (source._sfOcclusionCulling       ), 
     _sfOcclusionCullingMode   (source._sfOcclusionCullingMode   ), 
     _sfOcclusionCullingPixels (source._sfOcclusionCullingPixels ), 
+    _sfOcclusionCullingThreshold(source._sfOcclusionCullingThreshold), 
     _sfMultiSample            (source._sfMultiSample            ), 
     _sfMultiSampleFilterMode  (source._sfMultiSampleFilterMode  ), 
     _sfAntialiasing           (source._sfAntialiasing           ), 
@@ -621,6 +634,11 @@ UInt32 RenderOptionsBase::getBinSize(const BitVector &whichField)
     if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
     {
         returnValue += _sfOcclusionCullingPixels.getBinSize();
+    }
+
+    if(FieldBits::NoField != (OcclusionCullingThresholdFieldMask & whichField))
+    {
+        returnValue += _sfOcclusionCullingThreshold.getBinSize();
     }
 
     if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
@@ -782,6 +800,11 @@ void RenderOptionsBase::copyToBin(      BinaryDataHandler &pMem,
         _sfOcclusionCullingPixels.copyToBin(pMem);
     }
 
+    if(FieldBits::NoField != (OcclusionCullingThresholdFieldMask & whichField))
+    {
+        _sfOcclusionCullingThreshold.copyToBin(pMem);
+    }
+
     if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
     {
         _sfMultiSample.copyToBin(pMem);
@@ -940,6 +963,11 @@ void RenderOptionsBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfOcclusionCullingPixels.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (OcclusionCullingThresholdFieldMask & whichField))
+    {
+        _sfOcclusionCullingThreshold.copyFromBin(pMem);
+    }
+
     if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
     {
         _sfMultiSample.copyFromBin(pMem);
@@ -1078,6 +1106,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
     if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
         _sfOcclusionCullingPixels.syncWith(pOther->_sfOcclusionCullingPixels);
 
+    if(FieldBits::NoField != (OcclusionCullingThresholdFieldMask & whichField))
+        _sfOcclusionCullingThreshold.syncWith(pOther->_sfOcclusionCullingThreshold);
+
     if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
         _sfMultiSample.syncWith(pOther->_sfMultiSample);
 
@@ -1177,6 +1208,9 @@ void RenderOptionsBase::executeSyncImpl(      RenderOptionsBase *pOther,
 
     if(FieldBits::NoField != (OcclusionCullingPixelsFieldMask & whichField))
         _sfOcclusionCullingPixels.syncWith(pOther->_sfOcclusionCullingPixels);
+
+    if(FieldBits::NoField != (OcclusionCullingThresholdFieldMask & whichField))
+        _sfOcclusionCullingThreshold.syncWith(pOther->_sfOcclusionCullingThreshold);
 
     if(FieldBits::NoField != (MultiSampleFieldMask & whichField))
         _sfMultiSample.syncWith(pOther->_sfMultiSample);
@@ -1278,7 +1312,7 @@ OSG_DLLEXPORT_MFIELD_DEF1(RenderOptionsPtr, OSG_SYSTEMLIB_DLLTMPLMAPPING);
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.14 2011/01/06 13:35:27 macnihilist Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGRenderOptionsBase.cpp,v 1.15 2011/01/13 16:23:03 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGRENDEROPTIONSBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGRENDEROPTIONSBASE_INLINE_CVSID;
 

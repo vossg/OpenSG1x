@@ -197,6 +197,9 @@ void RenderOptions::activateOptions(RenderAction *action)
     if(_changed & OcclusionCullingPixelsFieldMask)
         action->setOcclusionCullingPixels(getOcclusionCullingPixels());
 
+    if(_changed & OcclusionCullingThresholdFieldMask)
+        action->setOcclusionCullingThreshold(getOcclusionCullingThreshold());
+
     if(_changed & SmallFeatureCullingFieldMask)
         action->setSmallFeatureCulling(getSmallFeatureCulling());
 
