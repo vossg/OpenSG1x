@@ -1238,6 +1238,7 @@ void ShadowViewport::initializeLights(RenderActionBase *action)
         //Creation of Lightcam-Beacon
         _lightCamBeacons.push_back(makeCoredNode<Transform>
                                    (&_lightCamTrans[i]));
+        addRefCP(_lightCamBeacons.back());
 
         //Giving new Camera Rotation and Position of the light it belongs to
         beginEditCP(_lightCamTrans[i]);
@@ -1367,7 +1368,10 @@ void ShadowViewport::clearLights(UInt32 size)
         for(UInt32 i = 0;i < size;++i)
         {
             if(i < _lightCamBeacons.size())
+            {
                 getRoot()->subChild(_lightCamBeacons[i]);
+                subRefCP(_lightCamBeacons[i]);
+            }
             if(i < _lightCameras.size())
                 subRefCP(_lightCameras[i]);
             if(i < _texChunks.size())
@@ -1568,7 +1572,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.40 2009/09/16 14:15:44 neumannc Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.41 2011/01/19 16:22:01 macnihilist Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
