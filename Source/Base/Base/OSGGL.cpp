@@ -2,7 +2,7 @@
  *                                OpenSG                                     *
  *                                                                           *
  *                                                                           *
- *             Copyright (C) 2000-2002 by the OpenSG Forum                   *
+ *                  Copyright (C) 2011 by the OpenSG Forum                   *
  *                                                                           *
  *                            www.opensg.org                                 *
  *                                                                           *
@@ -36,46 +36,37 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#ifndef _OSGGL_H_
-#define _OSGGL_H_
-#ifdef __sgi
-#pragma once
-#endif
-
-#include <OSGConfig.h>
-
-#ifdef OSG_NOGLSUBDIR
-#include <gl.h>
-#elif defined(__APPLE__)
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
-
-// Need to define a definitely unused constant
-// OpenGL doesn't provide one... :(
-
-#define OSG_GL_UNUSED 0xffff
-
-
-
-#include <OSGGLU.h>
+#include "OSGGL.h"
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 
-bool osgGlCheckError(const char *file, int line, const char *msg);
+/*! Checks for OpenGL errors, prints a warning for all that are
+    currently queued and returns false if any errors where detected.
+    The arguments can be used to identify the location of the error,
+    file and line are usually __FILE__ and __LINE__ respectively.
+
+    Only in debug builds (preprocessor token OSG_DEBUG defined) the
+    actual error checking is performed.
+ */
+bool osgGlCheckError(const char *file, int line, const char *msg)
+{
+    bool retVal = true;
 
 #ifdef OSG_DEBUG
-#define glErr(text)                                     \
-  {                                                     \
-    osgGlCheckError(__FILE__, __LINE__, (text));        \
-  }
-#else
-#define glErr(text)
+    GLenum glErr;
+
+    while((glErr = glGetError()) != GL_NO_ERROR)
+    {
+        FWARNING(("(%s,%d): %s failed: %s (%#x)\n",
+                  file, line, msg,
+                  gluErrorString(glErr), glErr));
+
+        retVal = false;
+    }
 #endif
 
+    return retVal;
+}
+
 OSG_END_NAMESPACE
-
-#define OSGGL_HEADER_CVSID "@(#)$Id: $"
-
-#endif /* _OSGGL_H_ */

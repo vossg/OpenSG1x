@@ -404,7 +404,7 @@ bool FBOViewport::initialize(Window *win, Int32 format)
     if (width <= 0 || height <= 0)
         return false;
 
-    checkGLError("FBO initalize pre");
+    glErr("FBO initizlize pre");
     
     if (getFrameBufferIndex() && !getDirty())
         return true;
@@ -461,7 +461,7 @@ bool FBOViewport::initialize(Window *win, Int32 format)
                      (format & FBO_STENCIL_8 ) ? GL_STENCIL_INDEX8_EXT  :
                      (format & FBO_STENCIL_16) ? GL_STENCIL_INDEX16_EXT : 0;
 
-    checkGLError("FBO initalize pre depth");
+    glErr("FBO initialize pre depth");
            
     if (depth)
     {
@@ -474,7 +474,7 @@ bool FBOViewport::initialize(Window *win, Int32 format)
                                      GL_RENDERBUFFER_EXT, dbIndex);
     }
 
-    checkGLError("FBO initalize pre stencil");
+    glErr("FBO initalize pre stencil");
     
     if (stencil)
     {
@@ -487,7 +487,7 @@ bool FBOViewport::initialize(Window *win, Int32 format)
                                      GL_RENDERBUFFER_EXT, sbIndex);
     }
     
-    checkGLError("FBO initalize post stencil");
+    glErr("FBO initalize post stencil");
     
     endEditCP(thisP);
     
@@ -496,7 +496,7 @@ bool FBOViewport::initialize(Window *win, Int32 format)
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, 0);
 
-    checkGLError("FBO initalize post");
+    glErr("FBO initalize post");
     
     return result;
 }
@@ -524,7 +524,7 @@ void FBOViewport::setTarget(Window *win, UInt32 id, GLenum attachment, GLenum ta
             glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, attachment, target, id, 0);
         }
         
-        if (!checkGLError("setTarget post"))
+        if (!osgGlCheckError(__FILE__, __LINE__, "setTarget post"))
         {
             SWARNING << "Error with attachment: " << attachment
                      << ", id: " << id << ", target: " << target
@@ -884,7 +884,7 @@ void FBOViewport::render(RenderActionBase* action)
                             
                             glCopyTexSubImage2D(targets[j], 0, x1, y1, 0, 0, tw, th);
                             
-                            checkGLError("Cube-Texture-Creation");
+                            glErr("Cube-Texture-Creation");
                             
                             glBindTexture(GL_TEXTURE_CUBE_MAP_ARB, 0);
                         }
@@ -1008,7 +1008,7 @@ void FBOViewport::render(RenderActionBase* action)
                             else
                                 glCopyTexSubImage2D(target, 0, x1, y1, 0, 0, tw, th);
 							
-                            checkGLError("Texture-Creation");
+                            glErr("Texture-Creation");
                             
                             if(getReadBuffer())
                             {
@@ -1095,7 +1095,7 @@ void FBOViewport::render(RenderActionBase* action)
                 else
                     glCopyTexSubImage2D(target, 0, 0, 0, 0, 0, imgWidth, imgHeight);           
                 
-                checkGLError("Texture-Creation special mode");
+                glErr("Texture-Creation special mode");
                 
                 glBindTexture(target, 0);
             }
@@ -1213,7 +1213,7 @@ void FBOViewport::render(RenderActionBase* action)
             if ( !initialize(win, format) )
                 assert(0);
 
-            checkGLError("FBO render pre\n");
+            glErr("FBO render pre\n");
             
             bind(win);
             
@@ -1478,7 +1478,7 @@ void FBOViewport::render(RenderActionBase* action)
             
             stop(win);
 
-            checkGLError("FBO render post");
+            glErr("FBO render post");
         
             if (buffers)
                 delete [] buffers;
@@ -1626,7 +1626,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.25 2009/08/24 10:40:24 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.26 2011/01/20 17:20:54 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
