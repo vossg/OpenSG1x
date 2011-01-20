@@ -226,22 +226,6 @@ typedef GLboolean (OSG_APIENTRY * OSGGLISRENDERBUFFEREXTPROC)
 typedef void (OSG_APIENTRY * OSGGLRENDERBUFFERSTORAGEEXTPROC)
     (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
 
-
-namespace
-{
-  bool checkGLError(const char* where)
-  {
-    GLenum errCode = 0;
-    if ((errCode = glGetError()) != GL_NO_ERROR)
-    {
-        const GLubyte *errString = gluErrorString(errCode);
-        FNOTICE(("%s OpenGL Error: %s!\n", where, errString));
-    }
-
-    return errCode == GL_NO_ERROR;
-  }
-}
-
 /***************************************************************************\
  *                           Class methods                                 *
 \***************************************************************************/
@@ -1626,7 +1610,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.26 2011/01/20 17:20:54 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.27 2011/01/20 17:25:38 neumannc Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
