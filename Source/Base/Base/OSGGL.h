@@ -63,7 +63,7 @@
 
 OSG_BEGIN_NAMESPACE
 
-bool osgGlCheckError(const char *file, int line, const char *msg);
+bool OSG_BASE_DLLMAPPING osgGlCheckError(const char *file, int line, const char *msg);
 
 #ifdef OSG_DEBUG
 #define glErr(text)                                     \
