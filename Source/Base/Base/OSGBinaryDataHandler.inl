@@ -208,7 +208,7 @@ void BinaryDataHandler::putValues(const UInt16 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(UInt16));
+        put(value, size * static_cast<UInt32>(sizeof(UInt16)));
     }
 }
 
@@ -226,7 +226,7 @@ void BinaryDataHandler::putValues(const UInt32 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(UInt32));
+        put(value, size * static_cast<UInt32>(sizeof(UInt32)));
     }
 }
 
@@ -244,7 +244,7 @@ void BinaryDataHandler::putValues(const UInt64 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(UInt64));
+        put(value, size * static_cast<UInt32>(sizeof(UInt64)));
     }
 }
 
@@ -262,7 +262,7 @@ void BinaryDataHandler::putValues(const Int8 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(Int8));
+        put(value, size * static_cast<UInt32>(sizeof(Int8)));
     }
 }
 
@@ -280,7 +280,7 @@ void BinaryDataHandler::putValues(const Int16 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(Int16));
+        put(value, size * static_cast<UInt32>(sizeof(Int16)));
     }
 }
 
@@ -298,7 +298,7 @@ void BinaryDataHandler::putValues(const Int32 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(Int32));
+        put(value, size * static_cast<UInt32>(sizeof(Int32)));
     }
 }
 
@@ -316,7 +316,7 @@ void BinaryDataHandler::putValues(const Int64 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(Int64));
+        put(value, size * static_cast<UInt32>(sizeof(Int64)));
     }
 }
 
@@ -334,7 +334,7 @@ void BinaryDataHandler::putValues(const Real16 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(Real16));
+        put(value, size * static_cast<UInt32>(sizeof(Real16)));
     }
 }
 
@@ -352,7 +352,7 @@ void BinaryDataHandler::putValues(const Real32 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(Real32));
+        put(value, size * static_cast<UInt32>(sizeof(Real32)));
     }
 }
 
@@ -370,7 +370,7 @@ void BinaryDataHandler::putValues(const Real64 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(Real64));
+        put(value, size * static_cast<UInt32>(sizeof(Real64)));
     }
 }
 
@@ -388,7 +388,7 @@ void BinaryDataHandler::putValues(const Real128 *value, UInt32 size)
     else
 #endif
     {
-        put(value, size * sizeof(Real128));
+        put(value, size * static_cast<UInt32>(sizeof(Real128)));
     }
 }
 
@@ -580,7 +580,7 @@ void BinaryDataHandler::getValues(UInt8 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(UInt16 *value, UInt32 size)
 {
-    get(value, size * sizeof(UInt16));
+    get(value, size * static_cast<UInt32>(sizeof(UInt16)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -596,7 +596,7 @@ void BinaryDataHandler::getValues(UInt16 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(UInt32 *value, UInt32 size)
 {
-    get(value, size * sizeof(UInt32));
+    get(value, size * static_cast<UInt32>(sizeof(UInt32)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -612,7 +612,7 @@ void BinaryDataHandler::getValues(UInt32 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(UInt64 *value, UInt32 size)
 {
-    get(value, size * sizeof(UInt64));
+    get(value, size * static_cast<UInt32>(sizeof(UInt64)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -628,13 +628,13 @@ void BinaryDataHandler::getValues(UInt64 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Int8 *value, UInt32 size)
 {
-    get(value, size * sizeof(Int8));
+    get(value, size * static_cast<UInt32>(sizeof(Int8)));
 }
 
 inline 
 void BinaryDataHandler::getValues(Int16 *value, UInt32 size)
 {
-    get(value, size * sizeof(Int16));
+    get(value, size * static_cast<UInt32>(sizeof(Int16)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -650,7 +650,7 @@ void BinaryDataHandler::getValues(Int16 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Int32 *value, UInt32 size)
 {
-    get(value, size * sizeof(Int32));
+    get(value, size * static_cast<UInt32>(sizeof(Int32)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -666,7 +666,7 @@ void BinaryDataHandler::getValues(Int32 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Int64 *value, UInt32 size)
 {
-    get(value, size * sizeof(Int64));
+    get(value, size * static_cast<UInt32>(sizeof(Int64)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -682,7 +682,7 @@ void BinaryDataHandler::getValues(Int64 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Real16 *value, UInt32 size)
 {
-    get(value, size * sizeof(Real16));
+    get(value, size * static_cast<UInt32>(sizeof(Real16)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -700,7 +700,7 @@ void BinaryDataHandler::getValues(Real16 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Real32 *value, UInt32 size)
 {
-    get(value, size * sizeof(Real32));
+    get(value, size * static_cast<UInt32>(sizeof(Real32)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -718,7 +718,7 @@ void BinaryDataHandler::getValues(Real32 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Real64 *value, UInt32 size)
 {
-    get(value, size * sizeof(Real64));
+    get(value, size * static_cast<UInt32>(sizeof(Real64)));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
@@ -736,7 +736,7 @@ void BinaryDataHandler::getValues(Real64 *value, UInt32 size)
 inline 
 void BinaryDataHandler::getValues(Real128 *value, UInt32 size)
 {
-    get(value, size * sizeof(UInt64) * 2);
+    get(value, size * static_cast<UInt32>(sizeof(UInt64) * 2));
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     if(_networkOrder == true)
