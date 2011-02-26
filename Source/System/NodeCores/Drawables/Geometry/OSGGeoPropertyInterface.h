@@ -76,16 +76,18 @@ class GeoPropertyArrayInterface
     /*! \name                       Get                                    */
     /*! \{                                                                 */
 
-    virtual UInt32  getFormat    (void) const = 0;
-    virtual UInt32  getFormatSize(void) const = 0;
-    virtual UInt32  getStride    (void) const = 0;
-    virtual UInt32  getDimension (void) const = 0;
-    virtual UInt32  getSize      (void) const = 0;
-    virtual UInt32  size         (void) const = 0;
+    virtual       UInt32  getFormat    (void) const = 0;
+    virtual       UInt32  getFormatSize(void) const = 0;
+    virtual       UInt32  getStride    (void) const = 0;
+    virtual       UInt32  getDimension (void) const = 0;
+    virtual       UInt32  getSize      (void) const = 0;
+    virtual       UInt32  size         (void) const = 0;
 #ifndef OSG_2_PREP
-    virtual UInt8  *getData      (void) const = 0;
+    virtual       UInt8  *getData      (void) const = 0;
+#else
+    virtual const UInt8  *getData      (void) const = 0;
 #endif
-    virtual UInt8  *editData     (void) const = 0;
+    virtual       UInt8  *editData     (void)       = 0;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

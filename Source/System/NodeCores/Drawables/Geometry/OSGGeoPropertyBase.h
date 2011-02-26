@@ -101,8 +101,10 @@ class AbstractGeoProperty :
     virtual       UInt32  size         (void) const = 0;
 #ifndef OSG_2_PREP
     virtual       UInt8  *getData      (void) const = 0;
+#else
+    virtual const UInt8  *getData      (void) const = 0;
 #endif
-    virtual       UInt8  *editData     (void) const = 0;
+    virtual       UInt8  *editData     (void)       = 0;
 
     virtual GenericType getValue (const UInt32       index )       = 0;
 
@@ -242,16 +244,18 @@ class GeoProperty :
 
     virtual LocalInheritedPtr clone(void);
 
-    virtual UInt32  getFormat    (void) const;
-    virtual UInt32  getFormatSize(void) const;
-    virtual UInt32  getStride    (void) const;
-    virtual UInt32  getDimension (void) const;
-    virtual UInt32  getSize      (void) const;
-    virtual UInt32  size         (void) const;
+    virtual       UInt32  getFormat    (void) const;
+    virtual       UInt32  getFormatSize(void) const;
+    virtual       UInt32  getStride    (void) const;
+    virtual       UInt32  getDimension (void) const;
+    virtual       UInt32  getSize      (void) const;
+    virtual       UInt32  size         (void) const;
 #ifndef OSG_2_PREP
-    virtual UInt8  *getData      (void) const;
+    virtual       UInt8  *getData      (void) const;
+#else
+    virtual const UInt8  *getData      (void) const;
 #endif
-    virtual UInt8  *editData     (void) const;
+    virtual       UInt8  *editData     (void);
 
             StoredFieldType &operator->() { return _field; }
 

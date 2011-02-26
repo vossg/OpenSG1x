@@ -413,10 +413,17 @@ UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
     return _field.empty() ? NULL : 
         const_cast<UInt8 *>(reinterpret_cast<const UInt8 *>(&(_field[0])));
 }
-#endif
+#else
+template <class GeoPropertyDesc> inline
+const UInt8 *GeoProperty<GeoPropertyDesc>::getData(void) const
+{
+    return _field.empty() ? NULL : 
+        reinterpret_cast<const UInt8 *>(&(_field[0]));
+}
+#endif // OSG_2_PREP
 
 template <class GeoPropertyDesc> inline
-UInt8 *GeoProperty<GeoPropertyDesc>::editData(void) const
+UInt8 *GeoProperty<GeoPropertyDesc>::editData(void)
 {
     return _field.empty() ? NULL : 
         const_cast<UInt8 *>(reinterpret_cast<const UInt8 *>(&(_field[0])));
