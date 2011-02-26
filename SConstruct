@@ -869,7 +869,7 @@ class win32(ToolChain):
         if _po.getOption('jasper'):
             slibs.append('libjasper')
 
-        env['OSG_BASE_LIBS'] = ['glu32', 'glu32.lib']
+        env['OSG_BASE_LIBS'] = ['opengl32', 'glu32', 'glu32.lib']
         env['OSG_SYSTEM_LIBS'] = ['opengl32', 'glu32', 'glu32.lib', 'gdi32'] + slibs
         env['OSG_WINDOW_GLUT_LIBS'] = ['glut32', 'opengl32', 'glu32.lib', 'gdi32']
 
