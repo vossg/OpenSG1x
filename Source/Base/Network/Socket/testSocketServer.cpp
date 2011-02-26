@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
+#include "OSGBaseFunctions.h"
 #include "OSGStreamSocket.h"
 #include "OSGDgramSocket.h"
 #include "OSGSocketSelection.h"
@@ -92,7 +93,7 @@ void multicastServer()
         sock.recvFrom(buffer,6,client);
         sock.sendTo(buffer,6,client);
         cout << client.getHost() << " " << buffer << endl;
-    } while(strcmp(buffer,"_END_"));
+    } while(stringcmp(buffer,"_END_"));
     sock.close();
     cout << "Dgram multicast server: OK" << endl;
 }
