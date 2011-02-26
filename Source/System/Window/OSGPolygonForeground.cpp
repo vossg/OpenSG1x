@@ -160,7 +160,7 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
                   getMFPositions()->getSize(), getMFTexCoords()->getSize()));
         return;
     }
-       
+
     glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     Real32 aspectX = 1.0f, aspectY = 1.0f;
@@ -238,28 +238,50 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
         glOrtho(0, port->getPixelWidth(), 0, port->getPixelHeight(), 0, 1);    
     }
     
-    getMaterial()->getState()->activate(act);
-    
     const Vec3f *tc  = &getTexCoords(0);
     const Pnt2f *pos = &getPositions(0);
-    
-    glBegin(GL_POLYGON);
-    
-    for (UInt16 i = 0; i < getMFPositions()->size(); i++)
+
+    UInt32  numPasses   = getMaterial()->getNPasses();
+    State  *activeState = NULL;
+    State  *nextState   = NULL;
+
+    for(UInt32 i = 0; i < numPasses; ++i)
     {
-        glTexCoord3fv( tc[i].getValues() );
-        glVertex2f( mapCoordinate(pos[i][0], Real32(port->getPixelWidth()),
-                                             getNormalizedX()),
-                    mapCoordinate(pos[i][1], Real32(port->getPixelHeight()),
-                                             getNormalizedY()) );
+        nextState = getCPtr(getMaterial()->getState(i));
+
+        if(activeState != NULL)
+        {
+            nextState->changeFrom(act, activeState);
+        }
+        else
+        {
+            nextState->activate(act);
+        }
+
+        activeState = nextState;
+
+        glBegin(GL_POLYGON);
+    
+        for (UInt16 i = 0; i < getMFPositions()->size(); i++)
+        {
+            glTexCoord3fv( tc[i].getValues() );
+            glVertex2f( mapCoordinate(pos[i][0],
+                                      Real32(port->getPixelWidth()),
+                                      getNormalizedX()               ),
+                        mapCoordinate(pos[i][1],
+                                      Real32(port->getPixelHeight()),
+                                      getNormalizedY())              );
+        }
+
+        glEnd();
     }
 
-    glEnd();
-    
-    getMaterial()->getState()->deactivate(act);
+    if(activeState != NULL)
+    {
+        activeState->deactivate(act);
+    }
 
-    glScalef(1, 1, 1);
-    
+    glMatrixMode(GL_PROJECTION);
     glPopMatrix();
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
@@ -280,7 +302,7 @@ void PolygonForeground::draw(DrawActionBase *act, Viewport *port)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.8 2008/06/10 05:52:20 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGPolygonForeground.cpp,v 1.9 2011/02/26 00:37:45 vossg Exp $";
     static Char8 cvsid_hpp       [] = OSGPOLYGONFOREGROUNDBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGPOLYGONFOREGROUNDBASE_INLINE_CVSID;
 
