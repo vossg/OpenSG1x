@@ -544,6 +544,16 @@ NodePtr OBJSceneFileType::read(std::istream &is, const Char8 *) const
             }
     }
 
+    std::map<std::string, SimpleTexturedMaterialPtr>::iterator mIt  = mtlMap.begin();
+    std::map<std::string, SimpleTexturedMaterialPtr>::iterator mEnd = mtlMap.end  ();
+    
+    for(; mIt != mEnd; ++mIt)
+    {
+        subRefCP((*mIt).second);
+    }
+
+    mtlMap.clear();
+
     SceneFileHandler::the().updateReadProgress(100);
     return rootPtr;
 }
@@ -871,6 +881,7 @@ Int32 OBJSceneFileType::readMTL ( const Char8 *fileName,
                     if (mtlPtr != NullFC)
                         endEditCP(mtlPtr);
                     mtlPtr = SimpleTexturedMaterial::create();
+                    addRefCP(mtlPtr);
                     OSG::setName(mtlPtr, elem.c_str());
                     beginEditCP(mtlPtr);
                     mtlPtr->setColorMaterial(GL_NONE);
