@@ -128,7 +128,11 @@ static void errorOutput (png_structp png_ptr, const char *message)
 {
   FFATAL   (("PNG: %s\n", message ));
 
+#if PNG_LIBPNG_VER < 10500
   longjmp(png_ptr->jmpbuf, 1);
+#else
+  png_longjmp(png_ptr, 1);
+#endif
 }
 
 static void warningOutput (png_structp OSG_CHECK_ARG(png_ptr), 
@@ -188,7 +192,11 @@ bool PNGImageFileType::read(ImagePtr &OSG_PNG_ARG(image), std::istream &OSG_PNG_
         return false;
     }
 
+#if PNG_LIBPNG_VER < 10500
     if(setjmp(png_ptr->jmpbuf))
+#else
+    if(setjmp(png_jmpbuf(png_ptr)))
+#endif
     {
         png_destroy_read_struct(&png_ptr, &info_ptr, 0);
         return false;
@@ -646,7 +654,11 @@ UInt64 PNGImageFileType::restoreData(      ImagePtr &OSG_PNG_ARG(image  ),
         return 0;
     }
 
+#if PNG_LIBPNG_VER < 10500
     if(setjmp(png_ptr->jmpbuf))
+#else
+    if(setjmp(png_jmpbuf(png_ptr)))
+#endif
     {
         png_destroy_read_struct(&png_ptr, &info_ptr, 0);
         return 0;
