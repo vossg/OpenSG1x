@@ -206,7 +206,11 @@ class OSGScanParseLexer : public OSGScanParseSkel_FlexLexer
     { expectToken = iType; }
 
     inline void expectImageInts(OSG::Int32 imageIntsExpected)
-    { this->imageIntsExpected = imageIntsExpected; }
+    {
+        this->imageIntsExpected = imageIntsExpected;
+        if (imageIntsExpected <= 0)
+            expectToken = TOK_ImageFinished;
+    }
 
     /*------------------------- assignment ----------------------------------*/
 
