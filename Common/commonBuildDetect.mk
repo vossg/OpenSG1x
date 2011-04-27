@@ -91,6 +91,7 @@ endif
 MAKEMAJOR := $(strip $(MAKEMAJOR))
 MAKEMINOR := $(strip $(MAKEMINOR))
 
+
 ifeq ($(MAKEMAJOR),3)
 
 MAKE_OLD_DOLLAR := 1
@@ -100,6 +101,10 @@ MAKE_OLD_DOLLAR := 0
 endif
 
 ifeq ($(MAKEMINOR),81)
+MAKE_OLD_DOLLAR := 0
+endif
+
+ifeq ($(MAKEMINOR),82)
 MAKE_OLD_DOLLAR := 0
 endif
 
