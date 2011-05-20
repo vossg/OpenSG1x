@@ -217,8 +217,9 @@ void ClipPlaneChunk::changeFrom(DrawActionBase *action, StateChunk * old_chunk,
 
     cameraMat.mult(beaconMat);
 
-    if(getEnable() != old->getEnable() ||
-       getBeacon() != old->getBeacon())
+    if(getEquation() != old->getEquation() ||
+       getEnable  () != old->getEnable  () ||
+       getBeacon  () != old->getBeacon  ()   )
     {
         if(getEnable())
         {
