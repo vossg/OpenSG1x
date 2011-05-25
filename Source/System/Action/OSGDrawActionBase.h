@@ -125,6 +125,9 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
           void           setStatistics   (StatCollector * stat  );
     inline bool          hasOwnStat      (void                  );
 
+    inline bool          getResetStatistics(void      ) const;
+    inline void          setResetStatistics(bool value);
+
     // frustum culling functions
     // these are just temporary, sooner or later they'll move into a 
     // cacaded action
@@ -194,6 +197,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawActionBase : public Action
     Viewport      *_viewport;
     StatCollector *_statistics;
     bool           _ownStat;
+    bool           _resetStat;
 
 
     Material      *_pMaterial;

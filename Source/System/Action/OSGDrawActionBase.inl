@@ -162,6 +162,18 @@ bool DrawActionBase::hasOwnStat(void)
     return _ownStat;
 }
 
+inline
+bool DrawActionBase::getResetStatistics(void) const
+{
+    return _resetStat;
+}
+
+inline
+void DrawActionBase::setResetStatistics(bool value)
+{
+    _resetStat = value;
+}
+
 inline 
 Material *DrawActionBase::getMaterial(void) const
 {

@@ -201,40 +201,32 @@ Action::ResultE DrawActionBase::start(void)
 //    cerr << "DA::start" << endl;
 
 //    cerr << _mCameraToWorld << endl << endl;
-    
 
-#if 0 // Altered for last frame time
     if(_statistics == NULL)
     {
         _statistics = StatCollector::create();
         _ownStat = true;
     }
-    else
+
+    if(_resetStat == true)
     {
-        _ownStat = false;        
+        getStatistics()->getElem(statTravTime       )->reset();
+        getStatistics()->getElem(statCullTestedNodes)->reset();
+        getStatistics()->getElem(statCulledNodes    )->reset();
+   
+        // this really doesn't belong here, but don't know a better place to put it
+        if(getStatistics()->getElem(Drawable::statNTriangles, false))
+        {
+            getStatistics()->getElem(Drawable::statNGeoBytes  )->reset();
+            getStatistics()->getElem(Drawable::statNTriangles )->set(0);
+            getStatistics()->getElem(Drawable::statNLines     )->set(0);
+            getStatistics()->getElem(Drawable::statNPoints    )->set(0);
+            getStatistics()->getElem(Drawable::statNVertices  )->set(0);
+            getStatistics()->getElem(Drawable::statNPrimitives)->set(0);
+        }
     }
-#else
-    if(_statistics == NULL)
-    {
-        _statistics = StatCollector::create();
-        _ownStat = true;
-    }
-#endif
 
     getStatistics()->getElem(statTravTime)->start();
-    getStatistics()->getElem(statCullTestedNodes)->reset();
-    getStatistics()->getElem(statCulledNodes)->reset();
-   
-    // this really doesn't belong here, but don't know a better place to put it
-    if(getStatistics()->getElem(Drawable::statNTriangles,false))
-    {
-        getStatistics()->getElem(Drawable::statNGeoBytes)->reset();
-        getStatistics()->getElem(Drawable::statNTriangles)->set(0);
-        getStatistics()->getElem(Drawable::statNLines)->set(0);
-        getStatistics()->getElem(Drawable::statNPoints)->set(0);
-        getStatistics()->getElem(Drawable::statNVertices)->set(0);
-        getStatistics()->getElem(Drawable::statNPrimitives)->set(0);
-    }
 
 //fprintf(stderr,"%p: start\n", Thread::getCurrent());
         

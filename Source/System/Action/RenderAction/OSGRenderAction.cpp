@@ -2816,7 +2816,8 @@ Action::ResultE RenderAction::start(void)
     _uiNumOcclusionTests  = 0;
     _uiNumOcclusionCulled  = 0;
 
-    getStatistics()->reset();
+    if(_resetStat == true)
+        getStatistics()->reset();
 
     _vLights.clear();
     _lightsMap.clear();
