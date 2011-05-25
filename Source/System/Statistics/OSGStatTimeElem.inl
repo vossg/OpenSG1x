@@ -40,12 +40,12 @@ OSG_BEGIN_NAMESPACE
   
 inline const Time &StatTimeElem::start(void) 
 { 
-    return (_time = getSystemTime()); 
+    return (_startTime = getSystemTime()); 
 }
     
 inline const Time &StatTimeElem::stop(void)
 { 
-    return (_time = (getSystemTime() - _time)); 
+    return (_time += (getSystemTime() - _startTime)); 
 }
  
 inline const Time & StatTimeElem::getTime(void) const

@@ -136,6 +136,7 @@ class OSG_SYSTEMLIB_DLLMAPPING StatTimeElem : public StatElem
 
     typedef StatElem Inherited;
 
+    Time _startTime;
     Time _time;
 
     StatTimeElem            (const StatTimeElem &source);
