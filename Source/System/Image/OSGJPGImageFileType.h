@@ -71,7 +71,9 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
 
     void  setQuality(UInt32 cl);
     UInt32 getQuality(void);
-  
+
+    static inline const std::string &getQualityKey() { return _qualityKey; }
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                   Read/Write                                 */
@@ -141,6 +143,7 @@ class OSG_SYSTEMLIB_DLLMAPPING JPGImageFileType : public ImageFileType
 
     static JPGImageFileType _the;
 
+    static const std::string _qualityKey;
 };
 
 typedef JPGImageFileType* JPGImageFileTypeP;

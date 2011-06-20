@@ -338,6 +338,8 @@ JPGImageFileType JPGImageFileType:: _the("image/jpeg",
                                          OSG_READ_SUPPORTED | 
                                          OSG_WRITE_SUPPORTED );
 
+const std::string JPGImageFileType::_qualityKey("quality");
+
 /********************************
  *  Class methodes
  *******************************/
@@ -515,7 +517,11 @@ bool JPGImageFileType::write(const ImagePtr &OSG_JPG_ARG(image), std::ostream &O
     cinfo.in_color_space = (image->getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
 
     jpeg_set_defaults(&cinfo);
-    jpeg_set_quality(&cinfo, _quality, TRUE);
+    int quality = _quality;
+    const std::string *qualityAttr = image->findAttachmentField(_qualityKey);
+    if (qualityAttr != 0)
+        sscanf(qualityAttr->c_str(), "%i", &quality);
+    jpeg_set_quality(&cinfo, quality, TRUE);
 
     cinfo.density_unit = 1;  // dpi
     cinfo.X_density = UInt16(image->getResX() < 0.0f ?
@@ -730,7 +736,11 @@ UInt64 JPGImageFileType::storeData(const ImagePtr &OSG_JPG_ARG(image  ),
     cinfo.in_color_space = (image->getBpp() == 1) ? JCS_GRAYSCALE : JCS_RGB;
 
     jpeg_set_defaults(&cinfo);
-    jpeg_set_quality(&cinfo, _quality, TRUE);
+    int quality = _quality;
+    const std::string *qualityAttr = image->findAttachmentField(_qualityKey);
+    if (qualityAttr != 0)
+        sscanf(qualityAttr->c_str(), "%i", &quality);
+    jpeg_set_quality(&cinfo, quality, TRUE);
     jpeg_start_compress(&cinfo, TRUE);
 
     imagebuffer = const_cast<UChar8 **>(&data);
