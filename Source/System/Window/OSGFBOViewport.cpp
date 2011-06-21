@@ -1289,7 +1289,9 @@ void FBOViewport::render(RenderActionBase* action)
                                 buffers[i], target, zoffset);
                 }
 
+#ifdef OSG_DEBUG
                 checkFrameBufferStatus(win);
+#endif
             
                 // draw scene, the results are being written into the associated textures
                 if (glDrawBuffersARB)
@@ -1338,7 +1340,9 @@ void FBOViewport::render(RenderActionBase* action)
                 glDrawBuffer (GL_NONE);
                 glReadBuffer (GL_NONE);
 
+#ifdef OSG_DEBUG
                 checkFrameBufferStatus(win);
+#endif
             }
             else if (stencilTex)
             {
@@ -1362,7 +1366,9 @@ void FBOViewport::render(RenderActionBase* action)
                 glDrawBuffer (GL_NONE);
                 glReadBuffer (GL_NONE);
 
+#ifdef OSG_DEBUG
                 checkFrameBufferStatus(win);
+#endif
             }
 
             // render
@@ -1610,7 +1616,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.27 2011/01/20 17:25:38 neumannc Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.28 2011/06/21 12:29:44 pdaehne Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
