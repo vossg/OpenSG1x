@@ -103,6 +103,9 @@ Int32              createOptimizedPrimitives(GeometryPtr geo,
                                              bool stitchStrips      = false);
 
 OSG_SYSTEMLIB_DLLMAPPING 
+UInt32                     createTriangles (GeometryPtr geo);
+
+OSG_SYSTEMLIB_DLLMAPPING 
 void                  createConvexPrimitives(GeometryPtr geo);
 
 OSG_SYSTEMLIB_DLLMAPPING 

@@ -2985,6 +2985,141 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
     return bestCost;
 }
 
+// createTriangles helper function
+static bool pushSingleTriangle ( GeoIndicesPtr srcIndexPtr, 
+                                 GeoIndicesUI32Ptr destIndexPtr,
+                                 UInt32 multiIndexN, 
+                                 UInt32 i0, UInt32 i1, UInt32 i2 )
+{  
+  std::vector<UInt32> iB[3];
+
+  // fill iB vec
+  for ( UInt32 i = 0; i < multiIndexN; i++ ) {
+    iB[0][i] = srcIndexPtr->getValue(i0 + i);
+    iB[1][i] = srcIndexPtr->getValue(i1 + i);
+    iB[2][i] = srcIndexPtr->getValue(i2 + i);
+  }
+   
+  // check if the triangle is valid;
+  if ( (iB[0] == iB[1]) || (iB[0] == iB[2]) || (iB[1] == iB[2]))
+    return false;
+
+  // i0
+  for ( UInt32 i = 0; i < multiIndexN; i++ ) 
+    destIndexPtr->push_back(iB[0][i]);
+
+  // i1
+  for ( UInt32 i = 0; i < multiIndexN; i++ ) 
+    destIndexPtr->push_back(iB[1][i]);
+
+  // i2
+  for ( UInt32 i = 0; i < multiIndexN; i++ ) 
+    destIndexPtr->push_back(iB[2][i]);
+
+  return true;
+}
+
+/*! \ingroup GrpSystemDrawablesGeometryFunctions
+
+    createTrinagles triangulates all primitives exept lines and points.
+    The function removes invalid triangles (e.g. from strip data) but
+    does not handle non-convex polygons correctly.
+
+    It returns the number of triangles.
+*/
+OSG_SYSTEMLIB_DLLMAPPING 
+UInt32 createTriangles (GeometryPtr geoPtr)
+{  
+  UInt64 triCount = 0;
+
+  if (geoPtr == osg::NullFC) {
+    return triCount;
+  }
+
+  GeoIndicesPtr indexPtr = geoPtr->getIndices();
+  UInt32 multiIndexN = geoPtr->getMFIndexMapping()->size();
+  UInt32 invalidPrimCound = 0;
+
+  OSG::GeoIndicesUI32Ptr       destIndexPtr = GeoIndicesUI32::create();
+  OSG::GeoPTypesPtr            destTypesPtr = GeoPTypesUI8::create();
+  OSG::GeoPLengthsPtr          destLengthsPtr  = GeoPLengthsUI32::create();
+
+  beginEditCP(destTypesPtr);
+  beginEditCP(destIndexPtr);
+  beginEditCP(destLengthsPtr);
+
+  for ( PrimitiveIterator primI = geoPtr->beginPrimitives();
+        primI != geoPtr->endPrimitives(); ++primI )
+  {
+      FDEBUG(("Primitive index: %d\n", primI.getIndex()));
+
+      switch (primI.getType()) {        
+      case GL_TRIANGLES:
+        for (UInt32 i = 0; i < (primI.getLength()); i += 3) {
+          pushSingleTriangle ( indexPtr, destIndexPtr, multiIndexN, 
+                               primI.getIndexIndex(i+0),
+                               primI.getIndexIndex(i+1),
+                               primI.getIndexIndex(i+2) );
+        }
+        break;        
+      case GL_TRIANGLE_STRIP:
+        for (UInt32 i = 0; i < (primI.getLength()-2); i++) {
+          pushSingleTriangle ( indexPtr, destIndexPtr, multiIndexN, 
+                               primI.getIndexIndex(i+0),
+                               primI.getIndexIndex(i+1),
+                               primI.getIndexIndex(i+2) );
+        }
+        break;
+      case GL_TRIANGLE_FAN:
+        FWARNING (("createTriangle: GL_TRIANGLE_FAN not impl."));
+        break;
+      case GL_QUADS:
+        FWARNING (("createTriangle: GL_QUADS not impl."));
+        break;
+      case GL_QUAD_STRIP:
+        FWARNING (("createTriangle: GL_QUAD_STRIP not impl."));
+        break;
+      case GL_POLYGON:
+        for (UInt32 i = 0; i < (primI.getLength() - 2); i++) {
+          pushSingleTriangle ( indexPtr, destIndexPtr, multiIndexN, 
+                               primI.getIndexIndex(0),
+                               primI.getIndexIndex(i+1),
+                               primI.getIndexIndex(i+2) );
+        }
+	break;
+      case GL_POINTS:
+      case GL_LINES:
+      case GL_LINE_LOOP:
+      case GL_LINE_STRIP:
+      default:
+  	invalidPrimCound++;
+	break;
+      }
+  }
+
+  triCount = destIndexPtr->size() / 3;
+
+  destTypesPtr->push_back   (GL_TRIANGLES);
+  destLengthsPtr->push_back (destIndexPtr->size());
+
+  endEditCP(destTypesPtr);
+  endEditCP(destIndexPtr);
+  endEditCP(destLengthsPtr);
+
+  beginEditCP(geoPtr);
+
+  // update the geometry properties 
+  geoPtr->setTypes(destTypesPtr);
+  geoPtr->setIndices(destIndexPtr);
+  geoPtr->setLengths(destLengthsPtr);
+
+  endEditCP(geoPtr);
+
+  endEditCP(destIndexPtr);
+
+  return triCount;
+}
+
 //Define the gluTessCallback functions 
 
 //Dummy edge handler: Switches off the creation of triangle strips
