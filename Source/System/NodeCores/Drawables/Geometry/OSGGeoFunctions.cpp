@@ -38,6 +38,7 @@
 //---------------------------------------------------------------------------
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include <set>
 
@@ -2988,21 +2989,32 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
 // createTriangles helper function
 static bool pushSingleTriangle ( GeoIndicesPtr srcIndexPtr, 
                                  GeoIndicesUI32Ptr destIndexPtr,
-                                 UInt32 multiIndexN, 
-                                 UInt32 i0, UInt32 i1, UInt32 i2 )
+                                 const UInt32 multiIndexN, 
+                                 UInt32 i0, UInt32 i1, UInt32 i2,
+                                 bool swap = false )
 {  
-  std::vector<UInt32> iB[3];
+  UInt32 iB[3][multiIndexN];
+  size_t chunkSize = sizeof(UInt32) * multiIndexN;
 
   // fill iB vec
   for ( UInt32 i = 0; i < multiIndexN; i++ ) {
     iB[0][i] = srcIndexPtr->getValue(i0 + i);
-    iB[1][i] = srcIndexPtr->getValue(i1 + i);
-    iB[2][i] = srcIndexPtr->getValue(i2 + i);
+    if (swap) {
+      iB[1][i] = srcIndexPtr->getValue(i1 + i);
+      iB[2][i] = srcIndexPtr->getValue(i2 + i);
+    }
+    else {
+      iB[1][i] = srcIndexPtr->getValue(i2 + i);
+      iB[2][i] = srcIndexPtr->getValue(i1 + i);
+    }
   }
    
   // check if the triangle is valid;
-  if ( (iB[0] == iB[1]) || (iB[0] == iB[2]) || (iB[1] == iB[2]))
+  if ( ( memcmp (iB[0], iB[1], chunkSize) == 0) ||
+       ( memcmp (iB[0], iB[2], chunkSize) == 0) ||
+       ( memcmp (iB[1], iB[2], chunkSize) == 0) ) {
     return false;
+  }
 
   // i0
   for ( UInt32 i = 0; i < multiIndexN; i++ ) 
@@ -3028,17 +3040,18 @@ static bool pushSingleTriangle ( GeoIndicesPtr srcIndexPtr,
     It returns the number of triangles.
 */
 OSG_SYSTEMLIB_DLLMAPPING 
-UInt32 createTriangles (GeometryPtr geoPtr)
+UInt32 OSG::createTriangles (GeometryPtr geoPtr)
 {  
   UInt64 triCount = 0;
 
   if (geoPtr == osg::NullFC) {
+    FWARNING (("No valid Geometry in createTriangles()\n"));
     return triCount;
   }
 
   GeoIndicesPtr indexPtr = geoPtr->getIndices();
   UInt32 multiIndexN = geoPtr->getMFIndexMapping()->size();
-  UInt32 invalidPrimCound = 0;
+  UInt32 badPrimN = 0, badTriN = 0;
 
   OSG::GeoIndicesUI32Ptr       destIndexPtr = GeoIndicesUI32::create();
   OSG::GeoPTypesPtr            destTypesPtr = GeoPTypesUI8::create();
@@ -3056,45 +3069,82 @@ UInt32 createTriangles (GeometryPtr geoPtr)
       switch (primI.getType()) {        
       case GL_TRIANGLES:
         for (UInt32 i = 0; i < (primI.getLength()); i += 3) {
-          pushSingleTriangle ( indexPtr, destIndexPtr, multiIndexN, 
-                               primI.getIndexIndex(i+0),
-                               primI.getIndexIndex(i+1),
-                               primI.getIndexIndex(i+2) );
+          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                           multiIndexN, 
+                                           primI.getIndexIndex(i+0),
+                                           primI.getIndexIndex(i+1),
+                                           primI.getIndexIndex(i+2) );
         }
         break;        
       case GL_TRIANGLE_STRIP:
         for (UInt32 i = 0; i < (primI.getLength()-2); i++) {
-          pushSingleTriangle ( indexPtr, destIndexPtr, multiIndexN, 
-                               primI.getIndexIndex(i+0),
-                               primI.getIndexIndex(i+1),
-                               primI.getIndexIndex(i+2) );
+          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                           multiIndexN, 
+                                           primI.getIndexIndex(i+0),
+                                           primI.getIndexIndex(i+1),
+                                           primI.getIndexIndex(i+2),
+                                           bool (i & 1) );
         }
         break;
       case GL_TRIANGLE_FAN:
-        FWARNING (("createTriangle: GL_TRIANGLE_FAN not impl."));
+        for (UInt32 i = 0; i < (primI.getLength() - 2); i++) {
+          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                           multiIndexN, 
+                                           primI.getIndexIndex(0),
+                                           primI.getIndexIndex(i+1),
+                                           primI.getIndexIndex(i+2) );
+        }
         break;
       case GL_QUADS:
-        FWARNING (("createTriangle: GL_QUADS not impl."));
+        for (UInt32 i = 0; i < (primI.getLength()); i += 4) {
+          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                           multiIndexN, 
+                                           primI.getIndexIndex(i+0),
+                                           primI.getIndexIndex(i+1),
+                                           primI.getIndexIndex(i+2) );
+          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                           multiIndexN, 
+                                           primI.getIndexIndex(i+0),
+                                           primI.getIndexIndex(i+2),
+                                           primI.getIndexIndex(i+3) );
+        }
         break;
       case GL_QUAD_STRIP:
-        FWARNING (("createTriangle: GL_QUAD_STRIP not impl."));
+        for (UInt32 i = 0; i < (primI.getLength()); i += 2) {
+          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                           multiIndexN, 
+                                           primI.getIndexIndex(i+0),
+                                           primI.getIndexIndex(i+1),
+                                           primI.getIndexIndex(i+2) );
+          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                           multiIndexN, 
+                                           primI.getIndexIndex(i+0),
+                                           primI.getIndexIndex(i+2),
+                                           primI.getIndexIndex(i+3) );
+        }
         break;
       case GL_POLYGON:
         for (UInt32 i = 0; i < (primI.getLength() - 2); i++) {
-          pushSingleTriangle ( indexPtr, destIndexPtr, multiIndexN, 
-                               primI.getIndexIndex(0),
-                               primI.getIndexIndex(i+1),
-                               primI.getIndexIndex(i+2) );
+          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                           multiIndexN, 
+                                           primI.getIndexIndex(0),
+                                           primI.getIndexIndex(i+1),
+                                           primI.getIndexIndex(i+2) );
         }
-	break;
+        break;
       case GL_POINTS:
       case GL_LINES:
       case GL_LINE_LOOP:
       case GL_LINE_STRIP:
       default:
-  	invalidPrimCound++;
-	break;
+        badPrimN++;
+        break;
       }
+  }
+
+  if (badPrimN || badTriN) {
+    SWARNING << "createTrinalge(): bad Prim/Tri: "
+             << badPrimN << "/" << badTriN << std::endl;
   }
 
   triCount = destIndexPtr->size() / 3;
