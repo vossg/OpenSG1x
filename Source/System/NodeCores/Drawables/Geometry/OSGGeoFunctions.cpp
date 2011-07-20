@@ -2993,8 +2993,11 @@ static bool pushSingleTriangle ( GeoIndicesPtr srcIndexPtr,
                                  UInt32 i0, UInt32 i1, UInt32 i2,
                                  bool swap = false )
 {  
-  UInt32 iB[3][multiIndexN];
-  size_t chunkSize = sizeof(UInt32) * multiIndexN;
+  std::vector<UInt32> iB[3];
+
+  // resize vector
+  for ( UInt32 i = 0; i < 3; i++ ) 
+    iB[i].resize(multiIndexN);
 
   // fill iB vec
   for ( UInt32 i = 0; i < multiIndexN; i++ ) {
@@ -3010,11 +3013,8 @@ static bool pushSingleTriangle ( GeoIndicesPtr srcIndexPtr,
   }
    
   // check if the triangle is valid;
-  if ( ( memcmp (iB[0], iB[1], chunkSize) == 0) ||
-       ( memcmp (iB[0], iB[2], chunkSize) == 0) ||
-       ( memcmp (iB[1], iB[2], chunkSize) == 0) ) {
+  if ( (iB[0] == iB[1]) || (iB[0] == iB[2]) || (iB[1] == iB[2]) )
     return false;
-  }
 
   // i0
   for ( UInt32 i = 0; i < multiIndexN; i++ ) 
