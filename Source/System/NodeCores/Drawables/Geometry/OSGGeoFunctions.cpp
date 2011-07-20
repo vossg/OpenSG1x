@@ -3003,12 +3003,12 @@ static bool pushSingleTriangle ( GeoIndicesPtr srcIndexPtr,
   for ( UInt32 i = 0; i < multiIndexN; i++ ) {
     iB[0][i] = srcIndexPtr->getValue(i0 + i);
     if (swap) {
-      iB[1][i] = srcIndexPtr->getValue(i1 + i);
-      iB[2][i] = srcIndexPtr->getValue(i2 + i);
-    }
-    else {
       iB[1][i] = srcIndexPtr->getValue(i2 + i);
       iB[2][i] = srcIndexPtr->getValue(i1 + i);
+    }
+    else {
+      iB[1][i] = srcIndexPtr->getValue(i1 + i);
+      iB[2][i] = srcIndexPtr->getValue(i2 + i);
     }
   }
    
