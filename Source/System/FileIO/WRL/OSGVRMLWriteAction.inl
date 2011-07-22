@@ -107,6 +107,7 @@ MaterialPtr VRMLWriteAction::getMaterial(void) const
   return _material;
 }
 
+
 inline
 FILE *VRMLWriteAction::getFilePtr(void) const
 {
@@ -117,6 +118,30 @@ inline
 VRMLWriteAction::TraversalMode VRMLWriteAction::getMode(void) const
 {
     return _eTraversalMode;
+}
+
+inline
+const std::string &VRMLWriteAction::getTextureWritePrefix ( void ) const
+{
+  return _textureWritePrefix;
+}
+
+inline
+void VRMLWriteAction::setTextureWritePrefix ( const std::string &path )
+{
+  _textureWritePrefix = path;
+}
+
+inline
+const std::string &VRMLWriteAction::getTextureWriteSuffix ( void ) const
+{
+  return _textureWriteSuffix;
+}
+
+inline
+void VRMLWriteAction::setTextureWriteSuffix ( const std::string &path )
+{
+  _textureWriteSuffix = path;
 }
 
 inline

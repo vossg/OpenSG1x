@@ -72,7 +72,6 @@
 
 OSG_USING_NAMESPACE
 
-
 /***************************************************************************\
  *                            Description                                  *
 \***************************************************************************/
@@ -1400,12 +1399,27 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
                 {
                     const std::string *pFilename = 
                         pImage->findAttachmentField("fileName");
-                    std::string filename;
+                    std::string filename, outFileName;
+
                     if(pFilename == NULL)
                         filename = pImage->getName();
                     else
                         filename = *pFilename;
-    
+
+                    if ( pWriter->getOptions() & 
+                         VRMLWriteAction::OSGWriteTextures ) {
+                      std::string::size_type pos = 
+                        filename.find_last_of("/\\");
+                      if (pos != std::string::npos)
+                        outFileName = filename.substr(pos+1);
+                      
+                      outFileName = pWriter->_textureWritePrefix + 
+                        outFileName + pWriter->_textureWriteSuffix;
+                      
+                      FLOG (("Write Image: %s\n", outFileName.c_str()));
+                      pImage->write(outFileName.c_str());
+                    }
+
                     if(!filename.empty())
                     {
                         
@@ -1419,8 +1433,14 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
                         pWriter->incIndent(4);
     
                         pWriter->printIndent();
-                        fprintf(pFile, "url \"%s\"\n",
-                                filename.c_str());
+
+                        if (outFileName.empty())
+                          fprintf(pFile, "url \"%s\"\n",
+                                  filename.c_str());
+                        else
+                          fprintf(pFile, "url [ \"%s\", \"%s\" ] \n",
+                                  filename.c_str(), outFileName.c_str() );
+                          
     
                         if(pTChunk->getWrapS() != GL_REPEAT)
                         {
@@ -2032,7 +2052,9 @@ VRMLWriteAction::VRMLWriteAction(void) :
     _vFCInfos        (            ),
     _writtenFCs      (            ),
     _nodeCount       (0           ),
-    _currentNodeCount(0           )
+    _currentNodeCount(0           ),
+    _textureWritePrefix (""),
+    _textureWriteSuffix (".out.png") // easy to find and replace with tools
 {
     if(_defaultEnterFunctors)
         _enterFunctors = *_defaultEnterFunctors;
@@ -2056,7 +2078,9 @@ VRMLWriteAction::VRMLWriteAction(const VRMLWriteAction &source) :
     _vFCInfos        (source._vFCInfos        ),
     _writtenFCs      (source._writtenFCs      ),
     _nodeCount       (source._nodeCount       ),
-    _currentNodeCount(source._currentNodeCount)
+    _currentNodeCount(source._currentNodeCount),
+    _textureWritePrefix (source._textureWritePrefix),
+    _textureWriteSuffix (source._textureWriteSuffix)
 {
     if(_defaultEnterFunctors)
         _enterFunctors = *_defaultEnterFunctors;

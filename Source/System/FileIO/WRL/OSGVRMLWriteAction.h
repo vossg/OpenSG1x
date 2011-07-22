@@ -97,7 +97,8 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
         OSGNoOptions        = 0x0000,
         OSGNoIndent         = 0x0001,
         OSGNoNormals        = 0x0002,
-        OSGPixelTextures    = 0x0004
+        OSGPixelTextures    = 0x0004,
+        OSGWriteTextures    = 0x0008
     };
 
     //-----------------------------------------------------------------------
@@ -142,6 +143,13 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
 
     FILE          *getFilePtr(void) const;
     TraversalMode  getMode   (void) const;
+
+    // texture path handler
+    const std::string &getTextureWritePrefix ( void ) const;
+    void setTextureWritePrefix ( const std::string &path );
+
+    const std::string &getTextureWriteSuffix ( void ) const;
+    void setTextureWriteSuffix ( const std::string &path );
 
     /*------------------------- your_operators ------------------------------*/
 
@@ -379,6 +387,9 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
 
     UInt32 _nodeCount;
     UInt32 _currentNodeCount;
+
+    std::string _textureWritePrefix;
+    std::string _textureWriteSuffix;
 
     //-----------------------------------------------------------------------
     //   instance functions                                                  
