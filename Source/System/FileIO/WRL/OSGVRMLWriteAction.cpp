@@ -43,6 +43,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <sstream>
+
 #include "OSGConfig.h"
 
 #include <OSGLog.h>
@@ -940,18 +942,20 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     GeoPTypesPtr    pTypes  = pGeo->getTypes();
     GeoPLengthsPtr  pLength = pGeo->getLengths();
 
-    if((pIndex  == NullFC) ||
-       (pTypes  == NullFC) ||
+    if((pTypes  == NullFC) ||
        (pLength == NullFC))
     {
         return;
     }
 
-    if(pIndex->size() == 0 ||
-       pTypes->size() == 0 ||
+    if(pTypes->size() == 0 ||
        pLength->size() == 0)
     {
         return;
+    }
+
+    if ((pIndex == NullFC) || (pIndex->size() == 0)) {
+      FINFO (("Write Non-index geometry\n"));
     }
 
     pWriter->printIndent();
@@ -959,6 +963,8 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     pWriter->incIndent(4);
 
     TriangleIterator it;
+
+    Int32 pi = pGeo->calcMappingIndex(Geometry::MapPosition);
 
     for(it = pGeo->beginTriangles(); it != pGeo->endTriangles(); ++it)
     {
@@ -983,9 +989,10 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
     pWriter->printIndent();
     fprintf(pFile, "]\n");
     
-    if(pGeo->getNormals()           != NullFC && 
-       pGeo->getNormals()->getSize() > 0      &&
-       0 == (pWriter->getOptions() & VRMLWriteAction::OSGNoNormals))
+    if ( (pi != pGeo->calcMappingIndex(Geometry::MapNormal)) &&
+          pGeo->getNormals()           != NullFC && 
+          pGeo->getNormals()->getSize() > 0      &&
+          0 == (pWriter->getOptions() & VRMLWriteAction::OSGNoNormals))
     {
         pWriter->printIndent();
         fprintf(pFile, "normalIndex [\n");
@@ -1018,7 +1025,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         fprintf(pFile, "]\n");
     }
     
-    if(pGeo->getColors() != NullFC && pGeo->getColors()->getSize() > 0)
+    if ( (pi != pGeo->calcMappingIndex(Geometry::MapColor)) &&
+          pGeo->getColors() != NullFC && 
+          pGeo->getColors()->getSize() > 0)
     {
         pWriter->printIndent();
         fprintf(pFile, "colorIndex [\n");
@@ -1050,7 +1059,9 @@ void VRMLWriteAction::writeIndex(GeometryPtr      pGeo,
         fprintf(pFile, "]\n");
     }
     
-    if(pGeo->getTexCoords() != NullFC && pGeo->getTexCoords()->getSize() > 0)
+    if ( (pi != pGeo->calcMappingIndex(Geometry::MapTexCoords)) &&
+          pGeo->getTexCoords() != NullFC && 
+          pGeo->getTexCoords()->getSize() > 0)
     {
         pWriter->printIndent();
         fprintf(pFile, "texCoordIndex [\n");
@@ -1408,6 +1419,14 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
 
                     if ( pWriter->getOptions() & 
                          VRMLWriteAction::OSGWriteTextures ) {
+                      if (filename.empty()) {
+                        std::stringstream ss;
+                        
+                        ss << "IID" << UInt32(pImage.getBaseCPtr());
+                        
+                        filename = ss.str();
+                      }
+
                       std::string::size_type pos = 
                         filename.find_last_of("/\\");
                       if (pos != std::string::npos)
@@ -2261,7 +2280,7 @@ std::vector<VRMLWriteAction::Functor> *
 std::vector<VRMLWriteAction::Functor> *
     VRMLWriteAction::getDefaultLeaveFunctors(void)
 {
-    return _defaultLeaveFunctors;
+  return _defaultLeaveFunctors;
 }
 
 Action::ResultE VRMLWriteAction::apply(std::vector<NodePtr>::iterator begin, 
