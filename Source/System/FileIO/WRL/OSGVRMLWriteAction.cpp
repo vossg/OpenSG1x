@@ -1227,7 +1227,7 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     MaterialPtr pMat;
     
     pMat = pWriter->getMaterial();
-    
+
     if(pMat == NullFC)
         pMat = pGeo->getMaterial();
 
@@ -1248,14 +1248,14 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
     
     StateChunkPtr sChunk =
         st->getChunk(MaterialChunk::getStaticClassId());
-    
-    if(sChunk == NullFC)
-        return;
-    
+
     MaterialChunkPtr mChunk = MaterialChunkPtr::dcast(sChunk);
-    
-    if(mChunk == NullFC)
-        return;
+
+    if(mChunk == NullFC) {
+      if (pWriter->_defaultMaterialChunk == NullFC)
+        pWriter->_defaultMaterialChunk = MaterialChunk::create();
+      mChunk = pWriter->_defaultMaterialChunk;
+    }
 
     pWriter->printIndent();
     fprintf(pFile, "appearance DEF App_%u Appearance\n", pWriter->setWritten(pMat));
@@ -1421,15 +1421,19 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
                          VRMLWriteAction::OSGWriteTextures ) {
                       if (filename.empty()) {
                         std::stringstream ss;
-                        
-                        ss << "IID" << UInt32(pImage.getBaseCPtr());
+
+                        ss << "IID" << pImage.getBaseCPtr();
                         
                         filename = ss.str();
                       }
-
+                      
+                      pImage->dump();
+                       
                       std::string::size_type pos = 
                         filename.find_last_of("/\\");
-                      if (pos != std::string::npos)
+                      if (pos == std::string::npos)
+                        outFileName = filename;
+                      else
                         outFileName = filename.substr(pos+1);
                       
                       outFileName = pWriter->_textureWritePrefix + 
