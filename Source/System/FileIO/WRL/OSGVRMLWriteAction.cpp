@@ -807,8 +807,22 @@ void VRMLWriteAction::writeNormals(GeometryPtr      pGeo,
 
         Vec3f n;
         pNorm->getValue(n,i);
-        
-        fprintf(pFile, "%f %f %f", n[0], n[1], n[2]);
+
+        /*
+        Vec3d dn (n[0], n[1], n[2]);
+
+        dn *= 1000000e100;
+        dn.normalize();
+
+        n.setValues (dn[0], dn[1], dn[2]);
+
+
+        //std::cerr << n << " / " << n.length() << std::endl;
+        */
+
+        n.normalize();
+       
+        fprintf(pFile, "%f %f %f", n[0], n[1], n[2]);             
 
         if(i == pNorm->getSize() - 1)
         {

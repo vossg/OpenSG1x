@@ -370,6 +370,7 @@ class OSG_SYSTEMLIB_DLLMAPPING VRMLWriteAction : public Action
     //-----------------------------------------------------------------------
 
     MaterialPtr          _material;
+    MaterialChunkPtr     _defaultMaterialChunk;
 
     UInt32               _uiIndent;
     FILE                *_pFile;
