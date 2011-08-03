@@ -53,6 +53,7 @@
 #include <OSGAction.h>
 #include <OSGGeometry.h>
 #include <OSGGroup.h>
+#include <OSGMaterialChunk.h>
 
 #include <map>
 
