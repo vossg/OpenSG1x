@@ -1475,8 +1475,8 @@ void VRMLWriteAction::writeMaterial(GeometryPtr      pGeo,
                           fprintf(pFile, "url \"%s\"\n",
                                   filename.c_str());
                         else
-                          fprintf(pFile, "url [ \"%s\", \"%s\" ] \n",
-                                  filename.c_str(), outFileName.c_str() );
+                          fprintf(pFile, "url [ \"%s\" ] # was %s \n",
+                                  outFileName.c_str(), filename.c_str() );
                           
     
                         if(pTChunk->getWrapS() != GL_REPEAT)
