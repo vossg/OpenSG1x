@@ -45,7 +45,7 @@
 
 #include "OSGConfig.h"
 
-#include "OSGDXFentityentryname.h"
+#include "OSGDXFEntityTypeEntry.h"
 
 OSG_USING_NAMESPACE
 
@@ -154,7 +154,7 @@ DXFentityentryname::~DXFentityentryname(void)
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFEntityTypeEntry.cpp,v 1.2 2009/04/07 17:09:30 neumannc Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGDXFEntityTypeEntry.cpp,v 1.3 2011/09/01 20:46:18 carstenneumann Exp $";
     static Char8 cvsid_hpp[] = OSGDXFENTITYENTRYNAME_HEADER_CVSID;
     static Char8 cvsid_inl[] = OSGDXFENTITYENTRYNAME_INLINE_CVSID;
 }
