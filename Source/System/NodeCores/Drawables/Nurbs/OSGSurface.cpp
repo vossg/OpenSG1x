@@ -2271,15 +2271,17 @@ void Surface::adjustVolume(Volume & volume)
     }
     else if( pRatPos != NullFC )
     {
-        for(UInt32 i = 0; i < pRatPos->size(); ++i)
-        {
-            Pnt3f   pnt;
+        const GeoPositions4f::StoredFieldType *p = pRatPos->getFieldPtr();
 
-            if( osgabs( pRatPos->getFieldPtr()->getValue(i)[3] ) > DCTP_EPS )
+        for(UInt32 i = 0; i < p->size(); ++i)
+        {
+            Pnt3f pnt;
+
+            if(osgabs( p->getValue(i)[3] ) > DCTP_EPS )
             {
-                pnt[0] = pRatPos->getFieldPtr()->getValue(i)[0] / pRatPos->getFieldPtr()->getValue(i)[3];
-                pnt[1] = pRatPos->getFieldPtr()->getValue(i)[1] / pRatPos->getFieldPtr()->getValue(i)[3];
-                pnt[2] = pRatPos->getFieldPtr()->getValue(i)[2] / pRatPos->getFieldPtr()->getValue(i)[3];
+                pnt[0] = p->getValue(i)[0] / p->getValue(i)[3];
+                pnt[1] = p->getValue(i)[1] / p->getValue(i)[3];
+                pnt[2] = p->getValue(i)[2] / p->getValue(i)[3];
                 volume.extendBy(pnt);
             }
             else
