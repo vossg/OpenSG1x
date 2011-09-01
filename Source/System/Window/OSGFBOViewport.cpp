@@ -251,15 +251,15 @@ void FBOViewport::setRenderParamsCB(renderparamscbfp fp)
 
 FBOViewport::FBOViewport(void) :
     Inherited(),
-	_tiledeco(NullFC),
-	_deco(NullFC)
+    _tiledeco(NullFC),
+    _deco(NullFC)
 {
 }
 
 FBOViewport::FBOViewport(const FBOViewport &source) :
     Inherited(source),
-	_tiledeco(source._tiledeco),
-	_deco(source._deco)
+    _tiledeco(source._tiledeco),
+    _deco(source._deco)
 {
     _tex3D_extension = Window::registerExtension("GL_EXT_texture3D");
     
@@ -359,23 +359,23 @@ void FBOViewport::onCreate(const FBOViewport *source)
                                  FBOViewport::DirtyFieldMask              |
                                  FBOViewport::StencilBufferIndexFieldMask |
                                  FBOViewport::DepthBufferIndexFieldMask );
-	
-	_tiledeco = TileCameraDecorator::create();
-	addRefCP(_tiledeco);
-	
-	_deco = MatrixCameraDecorator::create();
-	addRefCP(_deco);
+    
+    _tiledeco = TileCameraDecorator::create();
+    addRefCP(_tiledeco);
+    
+    _deco = MatrixCameraDecorator::create();
+    addRefCP(_deco);
 }
 
 void FBOViewport::onDestroy(void)
 {
     // TODO; delete buffers - but window is needed
-	
+    
     subRefCP(_tiledeco);
-	_tiledeco = NullFC;
-	
+    _tiledeco = NullFC;
+    
     subRefCP(_deco);
-	_deco = NullFC;
+    _deco = NullFC;
 }
 
 bool FBOViewport::initialize(Window *win, Int32 format)
@@ -547,7 +547,7 @@ void FBOViewport::render(RenderActionBase* action)
 {
     if (!getEnabled())
         return;
-	
+    
     static GLenum targets[6] = {
                           GL_TEXTURE_CUBE_MAP_POSITIVE_Z_ARB,
                           GL_TEXTURE_CUBE_MAP_NEGATIVE_Z_ARB,
@@ -589,8 +589,8 @@ void FBOViewport::render(RenderActionBase* action)
                                      0, 0, 0, 1 ),
                         };
 
-	Window *win = action->getWindow();
-	
+    Window *win = action->getWindow();
+    
     if (win == NULL)
     {
         SWARNING << "FBOViewport::render: no window!" << std::endl;
@@ -991,7 +991,7 @@ void FBOViewport::render(RenderActionBase* action)
                             }
                             else
                                 glCopyTexSubImage2D(target, 0, x1, y1, 0, 0, tw, th);
-							
+                            
                             glErr("Texture-Creation");
                             
                             if(getReadBuffer())
@@ -1432,11 +1432,11 @@ void FBOViewport::render(RenderActionBase* action)
                     ImagePtr texImg = colorTextures[i]->getImage();
                     
                     if((texImg->getWidth () != getStorageWidth ()) ||
-                        (texImg->getHeight() != getStorageHeight()) ||
-                        (texImg->getData  () == NULL              )   )
+                       (texImg->getHeight() != getStorageHeight()) ||
+                       (texImg->getData  () == NULL              )   )
                     {
                         SINFO << "FBOViewport::render: (Re)Allocating image "
-                              << "for read-back."
+                              << "for color buffer read-back."
                               << endLog;
                     
                         texImg->set(texImg->getPixelFormat(),
@@ -1454,6 +1454,40 @@ void FBOViewport::render(RenderActionBase* action)
                                  texImg->editData());
                     glReadBuffer(GL_NONE);
                 }
+            }
+            else if(getReadBuffer() && depthTex)
+            {
+                ImagePtr texImg = depthTex->getImage();
+
+                if((texImg->getWidth () != getStorageWidth ()) ||
+                   (texImg->getHeight() != getStorageHeight()) ||
+                   (texImg->getData  () == NULL              )   )
+                {
+                    SINFO << "FBOViewport::render: (Re)Allocating image "
+                          << "for depth buffer read-back."
+                          << endLog;
+                
+                    texImg->set(texImg->getPixelFormat(),
+                                getStorageWidth(),
+                                getStorageHeight(),
+                                texImg->getDepth(),
+                                texImg->getMipMapCount(),
+                                texImg->getFrameCount(),
+                                texImg->getFrameDelay(),
+                                texImg->getData(),
+                                texImg->getDataType(),
+                                true,
+                                texImg->getSideCount());
+                }
+
+                glReadBuffer(GL_DEPTH_ATTACHMENT_EXT);
+                glReadPixels(0, 0, 
+                             getStorageWidth(), 
+                             getStorageHeight(),
+                             texImg->getPixelFormat(), 
+                             texImg->getDataType(),
+                             texImg->editData());
+                glReadBuffer(GL_NONE);
             }
                 
             // deactivate viewport settings
@@ -1616,7 +1650,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.28 2011/06/21 12:29:44 pdaehne Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.29 2011/09/01 20:48:26 carstenneumann Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
