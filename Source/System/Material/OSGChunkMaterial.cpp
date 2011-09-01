@@ -108,7 +108,11 @@ ChunkMaterial::ChunkMaterial(const ChunkMaterial &source) :
 
 ChunkMaterial::~ChunkMaterial(void)
 {
+    ChunkMaterialPtr thisPtr(this);
+
+    beginEditCP(thisPtr, ChunksFieldMask);
     clearChunks();
+    endEditCP(thisPtr, ChunksFieldMask);
 }
 
 void ChunkMaterial::changed(BitVector whichField, UInt32 origin)

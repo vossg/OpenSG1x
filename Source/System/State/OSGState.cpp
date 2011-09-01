@@ -48,36 +48,9 @@
 #include <OSGGL.h>
 
 #include "OSGStateChunk.h"
-
 #include "OSGState.h"
 
-
-#if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
-
-OSG_BEGIN_NAMESPACE
-
-/*! \ingroup STLHelpers
-    \hideinhierarchy
-    Helper struct to remove chunks from a state.
-*/
-
-struct ClearSlot : public std::unary_function<      StateChunkPtr         &, 
-                                              const NullFieldContainerPtr &>
-{
-    const NullFieldContainerPtr &operator() (StateChunkPtr &slotPtr) 
-    { 
-        subRefCP(slotPtr);
-        
-        return NullFC;
-    }
-};
-
-OSG_END_NAMESPACE
-
-#endif
-
 OSG_USING_NAMESPACE
-
 
 /***************************************************************************\
  *                            Description                                  *
@@ -132,7 +105,11 @@ State::State(const State &source) :
 
 State::~State(void)
 {
+    StatePtr thisPtr(this);
+
+    beginEditCP(thisPtr, ChunksFieldMask);
     clearChunks();
+    endEditCP(thisPtr, ChunksFieldMask);
 }
 
 #if defined(OSG_FIXED_MFIELDSYNC)
@@ -140,7 +117,11 @@ void State::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 {
     Inherited::onDestroyAspect(uiId, uiAspect);
 
+    StatePtr thisPtr(this);
+
+    beginEditCP(thisPtr, ChunksFieldMask);
     clearChunks();
+    endEditCP(thisPtr, ChunksFieldMask);
 }
 #endif
 
@@ -294,6 +275,8 @@ void State::deactivate(DrawActionBase *action)
 
 bool State::addChunk(StateChunkPtr chunk, Int32 index)
 {
+    OSG_ASSERT(chunk != NullFC && "State::addChunk: chunk is NullFC");
+
     if(index > 0 && index > chunk->getClass()->getNumSlots())
     {
         SWARNING << "addChunk: index " 
@@ -437,10 +420,15 @@ bool State::subChunk(UInt32 classid, Int32 index)
 
 void State::clearChunks(void)
 {
-    std::transform(_mfChunks.begin(), 
-                   _mfChunks.end  (), 
-                   _mfChunks.begin(),
-                    ClearSlot());
+    MFStateChunkPtr::iterator chunksIt  = _mfChunks.begin();
+    MFStateChunkPtr::iterator chunksEnd = _mfChunks.end  ();
+    
+    for(; chunksIt != chunksEnd; ++chunksIt)
+    {
+        subRefCP(*chunksIt);
+
+        *chunksIt = NullFC;
+    }
 }
 
 /*-------------------------- comparison -----------------------------------*/
