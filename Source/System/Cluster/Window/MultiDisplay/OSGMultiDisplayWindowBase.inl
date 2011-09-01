@@ -211,6 +211,29 @@ SFInt32 *MultiDisplayWindowBase::getSFYOverlap(void)
 }
 #endif
 
+//! Get the MultiDisplayWindow::_sfFastSync field.
+inline
+const SFBool *MultiDisplayWindowBase::getSFFastSync(void) const
+{
+    return &_sfFastSync;
+}
+
+//! Get the MultiDisplayWindow::_sfFastSync field.
+inline
+SFBool *MultiDisplayWindowBase::editSFFastSync(void)
+{
+    return &_sfFastSync;
+}
+
+#ifndef OSG_2_PREP
+//! Get the MultiDisplayWindow::_sfFastSync field.
+inline
+SFBool *MultiDisplayWindowBase::getSFFastSync(void)
+{
+    return &_sfFastSync;
+}
+#endif
+
 
 //! Get the value of the MultiDisplayWindow::_sfHServers field.
 inline
@@ -362,8 +385,38 @@ void MultiDisplayWindowBase::setYOverlap(const Int32 &value)
     _sfYOverlap.setValue(value);
 }
 
+//! Get the value of the MultiDisplayWindow::_sfFastSync field.
+inline
+bool &MultiDisplayWindowBase::editFastSync(void)
+{
+    return _sfFastSync.getValue();
+}
+
+//! Get the value of the MultiDisplayWindow::_sfFastSync field.
+inline
+const bool &MultiDisplayWindowBase::getFastSync(void) const
+{
+    return _sfFastSync.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the MultiDisplayWindow::_sfFastSync field.
+inline
+bool &MultiDisplayWindowBase::getFastSync(void)
+{
+    return _sfFastSync.getValue();
+}
+#endif
+
+//! Set the value of the MultiDisplayWindow::_sfFastSync field.
+inline
+void MultiDisplayWindowBase::setFastSync(const bool &value)
+{
+    _sfFastSync.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIDISPLAYWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
+#define OSGMULTIDISPLAYWINDOWBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.22 2008/06/09 12:26:59 vossg Exp $"
 

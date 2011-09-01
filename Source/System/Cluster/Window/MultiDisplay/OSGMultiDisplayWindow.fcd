@@ -60,4 +60,14 @@ Cluster rendering configuration for multible displays
 	>
 	Vertical overlap
 	</Field>
+	<Field
+		name="fastSync"
+		type="bool"
+		cardinality="single"
+		visibility="external"
+		defaultValue="false"
+		access="public"
+	>
+	Enable/Disable cluster swap synchronization
+	</Field>
 </FieldContainer>

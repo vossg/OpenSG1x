@@ -57,8 +57,6 @@
 #include "OSGConnection.h"
 #include "OSGNode.h"
 
-#define FAST_SYNC 0
-
 OSG_USING_NAMESPACE
 
 /*! \class osg::MultiDisplayWindow
@@ -104,7 +102,7 @@ void MultiDisplayWindow::changed(BitVector whichField, UInt32 origin)
 
 /*! output the instance for debug purposes
  */
-void MultiDisplayWindow::dump(      UInt32    , 
+void MultiDisplayWindow::dump(      UInt32    ,
                               const BitVector ) const
 {
     SLOG << "hServers:" << getHServers() << " "
@@ -122,9 +120,9 @@ void MultiDisplayWindow::serverInit( WindowPtr ,
 }
 
 /*! render server window
- *  
+ *
  *  update all viewport parameters and render local viewports
- *  Width and height of the whole window are calculated by 
+ *  Width and height of the whole window are calculated by
  *  multiplieing the local window size by hServers and vServers.
  */
 void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
@@ -175,7 +173,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
     {
         clientPort    = getPort(cv);
         isVirtualPort = clientPort->getType().isDerivedFrom(FBOViewport::getClassType());
-        
+
         if(isVirtualPort)
         {
             // TODO -- seems wrong to render this on all servers, though rendering
@@ -312,7 +310,7 @@ void MultiDisplayWindow::serverRender( WindowPtr serverWindow,
 void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
 {
     Connection *connection;
-    
+
     // clear command buffers
     UInt8 pixel[3];
     glReadPixels(0,0,
@@ -321,25 +319,26 @@ void MultiDisplayWindow::serverSwap( WindowPtr window,UInt32 id )
                  pixel);
     glFinish();
 
-#if !FAST_SYNC
-    connection=getNetwork()->getMainConnection();
-    if(!getInterleave())
+    if(!getFastSync())
     {
-        // tell client that we are finish
-        connection->signal();
-        // wait for swap
-        connection->wait();
+        connection=getNetwork()->getMainConnection();
+        if(!getInterleave())
+        {
+            // tell client that we are finish
+            connection->signal();
+            // wait for swap
+            connection->wait();
+        }
     }
-#endif
     Inherited::serverSwap(window,id);
 }
 
 /*----------------------------- client methods ----------------------------*/
 
 /*! init client window
- *  
+ *
  *  If manageClientViewports is set, then all viewports from the
- *  cluster window are duplcated to the client window. 
+ *  cluster window are duplcated to the client window.
  */
 void MultiDisplayWindow::clientInit( void )
 {
@@ -363,7 +362,7 @@ void MultiDisplayWindow::clientInit( void )
                 vp->getBottom() != cvp->getBottom() ||
                 vp->getTop() != cvp->getTop() ||
                 vp->getBackground() != cvp->getBackground() ||
-                vp->getMFForegrounds()->size() != 
+                vp->getMFForegrounds()->size() !=
                     cvp->getMFForegrounds()->size() )
                 changed = true;
         }
@@ -391,26 +390,29 @@ void MultiDisplayWindow::clientInit( void )
         endEditCP(getClientWindow());
     }
 }
-    
+
 /*! render client window
  */
 void MultiDisplayWindow::clientSwap( void )
 {
     Connection *connection=getNetwork()->getMainConnection();
 
-#if FAST_SYNC
-    connection->selectChannel();
-#else
-    if(!getInterleave())
+    if(getFastSync())
     {
-        // wait for all servers to finish
-        connection->wait();
-        // initiate swap
-        connection->signal();
+        connection->selectChannel();
     }
-#endif
+    else
+    {
+        if(!getInterleave())
+        {
+            // wait for all servers to finish
+            connection->wait();
+            // initiate swap
+            connection->signal();
+        }
+    }
 
-    // show client window 
+    // show client window
     Inherited::clientSwap();
 }
 
@@ -431,13 +433,13 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
         return;
     if(serverPort->getType() != serverPort->getType())
         return;
-    
+
     const FieldContainerType &type = serverPort->getType();
     UInt32 fcount = osgMin(serverPort->getType().getNumFieldDescs(),
                            clientPort->getType().getNumFieldDescs());
-    
+
     BitVector ffilter = RemoteAspect::getFieldFilter(type.getId());
-    
+
     for(UInt32 i = 1; i <= fcount; ++i)
     {
         const FieldDescription* fdesc = type.getFieldDescription(i);
@@ -454,13 +456,13 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
 
         Field *dst_field = serverPort->getField(i);
         Field *src_field = clientPort->getField(i);
-    
+
         const FieldType &dst_ftype = dst_field->getType();
         const FieldType &src_ftype = src_field->getType();
 
         if(dst_ftype != src_ftype)
             continue;
-    
+
         equal = true;
         found = false;
 
@@ -485,30 +487,30 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
             {
                 UInt32 j, cn = static_cast<MFFieldContainerPtr*>(src_field)->size(),
                           sn = static_cast<MFFieldContainerPtr*>(src_field)->size();
-                          
+
                 if (strcmp(fdesc->getCName(), "foregrounds") == 0)
                 {
                     MFForegroundPtr sFgndBag;
                     MFForegroundPtr::const_iterator sFgndIt, cFgndIt;
                     DisplayFilterForegroundPtr filterFgnd = NullFC;
-                    
+
                     sFgndIt = serverPort->getMFForegrounds()->begin();
                     cFgndIt = clientPort->getMFForegrounds()->begin();
-                    
+
                     while (sFgndIt != serverPort->getMFForegrounds()->end())
                     {
                         filterFgnd = DisplayFilterForegroundPtr::dcast(*sFgndIt);
-                        
-                        if (filterFgnd != NullFC && 
+
+                        if (filterFgnd != NullFC &&
                            !filterFgnd->getServer().empty())
                             found = true;   // loaded filters found
                         else
                             sFgndBag.push_back(*sFgndIt);
-                            
+
                         ++sFgndIt;
                     }
-                    
-                    if (sFgndBag.size() != 
+
+                    if (sFgndBag.size() !=
                             clientPort->getMFForegrounds()->size())
                     {
                         equal = false;
@@ -516,7 +518,7 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                     else
                     {
                         sFgndIt = sFgndBag.begin();
-                        
+
                         while (sFgndIt != sFgndBag.end() &&
                                cFgndIt != clientPort->getMFForegrounds()->end() &&
                               *sFgndIt == *cFgndIt)
@@ -524,7 +526,7 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                             ++sFgndIt;
                             ++cFgndIt;
                         }
-                        
+
                         if (sFgndIt != sFgndBag.end() ||
                             cFgndIt != clientPort->getMFForegrounds()->end())
                             equal = false;
@@ -533,10 +535,12 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
                 else
                 {
                     if(static_cast<MFFieldContainerPtr*>(dst_field)->size() !=
-                       static_cast<MFFieldContainerPtr*>(src_field)->size()) {
+                       static_cast<MFFieldContainerPtr*>(src_field)->size())
+                    {
                         equal = false;
                     }
-                    else {
+                    else
+                    {
                         for(j=0;j < static_cast<MFFieldContainerPtr*>(dst_field)->size();++j)
                         {
                             if(((*(static_cast<MFFieldContainerPtr *>(dst_field)))[j] !=
@@ -552,11 +556,11 @@ void MultiDisplayWindow::updateViewport(ViewportPtr &serverPort,
             beginEditCP(serverPort, mask);
             dst_field->setAbstrValue(*src_field);
             endEditCP(serverPort, mask);
-            
+
             if (found)
             {
                 ClusterWindowPtr ptr(this);
-        
+
                 beginEditCP(ptr, DirtyFieldMask);
                     setDirty(true);
                 endEditCP(ptr, DirtyFieldMask);

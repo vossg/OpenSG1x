@@ -79,6 +79,9 @@ const OSG::BitVector  MultiDisplayWindowBase::XOverlapFieldMask =
 const OSG::BitVector  MultiDisplayWindowBase::YOverlapFieldMask = 
     (TypeTraits<BitVector>::One << MultiDisplayWindowBase::YOverlapFieldId);
 
+const OSG::BitVector  MultiDisplayWindowBase::FastSyncFieldMask = 
+    (TypeTraits<BitVector>::One << MultiDisplayWindowBase::FastSyncFieldId);
+
 const OSG::BitVector MultiDisplayWindowBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -100,6 +103,9 @@ const OSG::BitVector MultiDisplayWindowBase::MTInfluenceMask =
 */
 /*! \var Int32           MultiDisplayWindowBase::_sfYOverlap
     Vertical overlap
+*/
+/*! \var bool            MultiDisplayWindowBase::_sfFastSync
+    Enable/Disable cluster swap synchronization
 */
 
 //! MultiDisplayWindow description
@@ -130,7 +136,12 @@ FieldDescription *MultiDisplayWindowBase::_desc[] =
                      "yOverlap", 
                      YOverlapFieldId, YOverlapFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::editSFYOverlap))
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::editSFYOverlap)),
+    new FieldDescription(SFBool::getClassType(), 
+                     "fastSync", 
+                     FastSyncFieldId, FastSyncFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&MultiDisplayWindowBase::editSFFastSync))
 };
 
 
@@ -212,6 +223,7 @@ MultiDisplayWindowBase::MultiDisplayWindowBase(void) :
     _sfManageClientViewports  (bool(true)), 
     _sfXOverlap               (Int32(0)), 
     _sfYOverlap               (Int32(0)), 
+    _sfFastSync               (bool(false)), 
     Inherited() 
 {
 }
@@ -226,6 +238,7 @@ MultiDisplayWindowBase::MultiDisplayWindowBase(const MultiDisplayWindowBase &sou
     _sfManageClientViewports  (source._sfManageClientViewports  ), 
     _sfXOverlap               (source._sfXOverlap               ), 
     _sfYOverlap               (source._sfYOverlap               ), 
+    _sfFastSync               (source._sfFastSync               ), 
     Inherited                 (source)
 {
 }
@@ -267,6 +280,11 @@ UInt32 MultiDisplayWindowBase::getBinSize(const BitVector &whichField)
         returnValue += _sfYOverlap.getBinSize();
     }
 
+    if(FieldBits::NoField != (FastSyncFieldMask & whichField))
+    {
+        returnValue += _sfFastSync.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -299,6 +317,11 @@ void MultiDisplayWindowBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (YOverlapFieldMask & whichField))
     {
         _sfYOverlap.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (FastSyncFieldMask & whichField))
+    {
+        _sfFastSync.copyToBin(pMem);
     }
 
 
@@ -334,6 +357,11 @@ void MultiDisplayWindowBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfYOverlap.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (FastSyncFieldMask & whichField))
+    {
+        _sfFastSync.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -359,6 +387,9 @@ void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOthe
     if(FieldBits::NoField != (YOverlapFieldMask & whichField))
         _sfYOverlap.syncWith(pOther->_sfYOverlap);
 
+    if(FieldBits::NoField != (FastSyncFieldMask & whichField))
+        _sfFastSync.syncWith(pOther->_sfFastSync);
+
 
 }
 #else
@@ -383,6 +414,9 @@ void MultiDisplayWindowBase::executeSyncImpl(      MultiDisplayWindowBase *pOthe
 
     if(FieldBits::NoField != (YOverlapFieldMask & whichField))
         _sfYOverlap.syncWith(pOther->_sfYOverlap);
+
+    if(FieldBits::NoField != (FastSyncFieldMask & whichField))
+        _sfFastSync.syncWith(pOther->_sfFastSync);
 
 
 

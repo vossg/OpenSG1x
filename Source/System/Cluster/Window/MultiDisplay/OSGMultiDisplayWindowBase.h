@@ -72,6 +72,7 @@
 #include <OSGBoolFields.h> // ManageClientViewports type
 #include <OSGInt32Fields.h> // XOverlap type
 #include <OSGInt32Fields.h> // YOverlap type
+#include <OSGBoolFields.h> // FastSync type
 
 #include <OSGMultiDisplayWindowFields.h>
 
@@ -100,7 +101,8 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
         ManageClientViewportsFieldId = VServersFieldId              + 1,
         XOverlapFieldId              = ManageClientViewportsFieldId + 1,
         YOverlapFieldId              = XOverlapFieldId              + 1,
-        NextFieldId                  = YOverlapFieldId              + 1
+        FastSyncFieldId              = YOverlapFieldId              + 1,
+        NextFieldId                  = FastSyncFieldId              + 1
     };
 
     static const OSG::BitVector HServersFieldMask;
@@ -108,6 +110,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
     static const OSG::BitVector ManageClientViewportsFieldMask;
     static const OSG::BitVector XOverlapFieldMask;
     static const OSG::BitVector YOverlapFieldMask;
+    static const OSG::BitVector FastSyncFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -165,6 +168,12 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
            SFInt32             *getSFYOverlap       (void);
 #endif
 
+           SFBool              *editSFFastSync       (void);
+     const SFBool              *getSFFastSync       (void) const;
+#ifndef OSG_2_PREP
+           SFBool              *getSFFastSync       (void);
+#endif
+
 
            UInt32              &editHServers       (void);
      const UInt32              &getHServers       (void) const;
@@ -196,6 +205,12 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
            Int32               &getYOverlap       (void);
 #endif
 
+           bool                &editFastSync       (void);
+     const bool                &getFastSync       (void) const;
+#ifndef OSG_2_PREP
+           bool                &getFastSync       (void);
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
@@ -206,6 +221,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
      void setManageClientViewports( const bool &value );
      void setXOverlap       ( const Int32 &value );
      void setYOverlap       ( const Int32 &value );
+     void setFastSync       ( const bool &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -253,6 +269,7 @@ class OSG_SYSTEMLIB_DLLMAPPING MultiDisplayWindowBase : public ClusterWindow
     SFBool              _sfManageClientViewports;
     SFInt32             _sfXOverlap;
     SFInt32             _sfYOverlap;
+    SFBool              _sfFastSync;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -330,6 +347,6 @@ typedef RefPtr<MultiDisplayWindowPtr> MultiDisplayWindowRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGMULTIDISPLAYWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
+#define OSGMULTIDISPLAYWINDOWBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGMULTIDISPLAYWINDOWBASE_H_ */
