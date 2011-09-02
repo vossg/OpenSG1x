@@ -1365,11 +1365,12 @@ void ShadowViewport::clearLights(UInt32 size)
     {
         FDEBUG(("Clearing Lightcamera-Garbage!\n"));
 
-        for(UInt32 i = 0;i < size;++i)
+        for(UInt32 i = 0; i < size; ++i)
         {
             if(i < _lightCamBeacons.size())
             {
-                getRoot()->subChild(_lightCamBeacons[i]);
+                if(getRoot() != NullFC)
+                    getRoot()->subChild(_lightCamBeacons[i]);
                 subRefCP(_lightCamBeacons[i]);
             }
             if(i < _lightCameras.size())
@@ -1572,7 +1573,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.41 2011/01/19 16:22:01 macnihilist Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.42 2011/09/02 16:15:41 carstenneumann Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 
