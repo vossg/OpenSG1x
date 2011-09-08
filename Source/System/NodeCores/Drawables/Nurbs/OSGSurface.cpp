@@ -2264,24 +2264,30 @@ void Surface::adjustVolume(Volume & volume)
 
     if( pPos != NullFC )
     {
-        for(UInt32 i = 0; i < pPos->size(); ++i)
+        const GeoPositions3f::StoredFieldType *p = pPos->getFieldPtr();
+        GeoPositions3f::StoredFieldType::const_iterator posIt  = p->begin();
+        GeoPositions3f::StoredFieldType::const_iterator posEnd = p->end  ();
+
+        for(; posIt != posEnd; ++posIt)
         {
-            volume.extendBy(pPos->getValue(i));
+            volume.extendBy(*posIt);
         }
     }
     else if( pRatPos != NullFC )
     {
         const GeoPositions4f::StoredFieldType *p = pRatPos->getFieldPtr();
+        GeoPositions4f::StoredFieldType::const_iterator posIt  = p->begin();
+        GeoPositions4f::StoredFieldType::const_iterator posEnd = p->end  ();
 
-        for(UInt32 i = 0; i < p->size(); ++i)
+        for(; posIt != posEnd; ++posIt)
         {
             Pnt3f pnt;
 
-            if(osgabs( p->getValue(i)[3] ) > DCTP_EPS )
+            if(osgabs((*posIt)[3]) > DCTP_EPS)
             {
-                pnt[0] = p->getValue(i)[0] / p->getValue(i)[3];
-                pnt[1] = p->getValue(i)[1] / p->getValue(i)[3];
-                pnt[2] = p->getValue(i)[2] / p->getValue(i)[3];
+                pnt[0] = (*posIt)[0] / (*posIt)[3];
+                pnt[1] = (*posIt)[1] / (*posIt)[3];
+                pnt[2] = (*posIt)[2] / (*posIt)[3];
                 volume.extendBy(pnt);
             }
             else
