@@ -148,9 +148,22 @@ GroupConnection::Channel GroupMCastConnection::connectPoint(
  */
 void GroupMCastConnection::disconnect(Channel channel)
 {
+    ChannelIndex index = channelToIndex(channel);
+
     Inherited::disconnect(channel);
     _lock->aquire();
-    _destination.erase(_destination.begin()+channelToIndex(channel));
+    _destination.erase(_destination.begin() + index);
+
+    // remove channel from _receiver/_waitFor
+    std::vector<SocketAddress>::iterator rIt = _receiver.begin() + index;
+    std::vector<SocketAddress>::iterator wIt = std::find(_waitFor.begin(),
+                                                         _waitFor.end  (), _receiver[index]);
+
+    if(wIt != _waitFor.end())
+        _waitFor.erase(wIt);
+
+    _receiver.erase(rIt);
+
     _lock->release();
 }
 
@@ -415,7 +428,8 @@ bool GroupMCastConnection::sendQueue(void)
                 dgram[send]->setEarlySend(false);
             }
             sendId = dgram[send]->getId();
-//            printf("send dgram %d at id %d\n",send,dgram[send]->getId());
+
+            // FLOG(("Sending dgram %d at id %d\n", send, dgram[send]->getId()));
         }
 
         // loop while
@@ -437,9 +451,9 @@ bool GroupMCastConnection::sendQueue(void)
                 printf("send %d end %d\n",send,end);
                 printf("lastack %lf\n",getSystemTime() - lastAckTime);
 #endif
-                FDEBUG(("timeout count %d %d missing %d\n",count,sendId,missing[ack].size()))
-//                printf("%.10f timeout count %d %d missing %d\n",getSystemTime()-t1,count,sendId,missing[ack].size());
-                    
+                // FLOG(("count %d missing %d readable %d send %d end %d\n",
+                //       count, missing[ack].size(), readable, send, end));
+                   
                 ackRequest.setSize(0);
                 ackRequest.setId(sendId);
 
@@ -486,7 +500,11 @@ bool GroupMCastConnection::sendQueue(void)
                 // first ack for this dgram from this receiver
                 if(response.getResponseAck() == true)
                 {
-//                    printf("Ack %d from %s:%d\n",response.getId(),fromAddress.getHost().c_str(),fromAddress.getPort());
+                    // FLOG(("Ack %d from %s:%d\n",
+                    //       response.getId(),
+                    //       fromAddress.getHost().c_str(),
+                    //       fromAddress.getPort()));
+
                     for(m = ack ; 
                         dgram[m]->getId() != response.getId() ;
                         m=(m+1) % _windowSize)
@@ -500,12 +518,20 @@ bool GroupMCastConnection::sendQueue(void)
                         continue;
                     lastNak = response.getId();
                     lastNakTime = getSystemTime();
-                    FDEBUG(("Nack %d from %s:%d\n",response.getId(),fromAddress.getHost().c_str(),fromAddress.getPort()));
-//                    printf("Nack %d from %s:%d\n",response.getId(),fromAddress.getHost().c_str(),fromAddress.getPort());
+
+                    // FLOG(("Nack %d from %s:%d\n",
+                    //       response.getId(),
+                    //       fromAddress.getHost().c_str(),
+                    //       fromAddress.getPort()));
+
                     // retransmit
-                    for(m = ack ; 
-                        m != send && dgram[m]->getId() != response.getId() ; 
-                        m = (m+1) % _windowSize);
+                    m = ack;
+
+                    while(m != send && dgram[m]->getId() != response.getId())
+                    {
+                        m = (m + 1) % _windowSize;
+                    }
+
                     send = m;
                 }
             }
