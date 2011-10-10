@@ -152,7 +152,6 @@ void GroupMCastConnection::disconnect(Channel channel)
 
     Inherited::disconnect(channel);
     _lock->aquire();
-    _destination.erase(_destination.begin() + index);
 
     // remove channel from _receiver/_waitFor
     std::vector<SocketAddress>::iterator rIt = _receiver.begin() + index;
