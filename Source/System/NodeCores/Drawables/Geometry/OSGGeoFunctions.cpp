@@ -2842,7 +2842,9 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
         UInt32 numPrimitives = graph.primitiveCount();
         std::vector<std::vector<UInt32> > primIndex(numPrimitives);
 
-        const Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
+
+        //const Int32 typeVec[] = { GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN };
+        const Int32 typeVec[] = { GL_TRIANGLE_FAN, GL_TRIANGLE_STRIP, GL_TRIANGLES };
         const Int32 typeN = sizeof(typeVec) / sizeof(Int32);
 
         cost = 0;
