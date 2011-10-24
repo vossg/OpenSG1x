@@ -806,27 +806,47 @@ void NFIOBase::writeFCFields(const FieldContainerPtr &fc,
                 
                 if(!amap->getValue().empty())
                 {
-                    UInt32 size = sizeof(UInt32) + sizeof(UInt32) * amap->getValue().size();
+                    // number of attachments
+                    UInt32 size = sizeof(UInt32);
+                    UInt32 noe  = 0;
 
                     // check for non zero bindings
-                    AttachmentMap::const_iterator mapIt = amap->getValue().begin();
-                    AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
+                    AttachmentMap::const_iterator mapIt  = amap->getValue().begin();
+                    AttachmentMap::const_iterator mapEnd = amap->getValue().end();
 
-                    UInt16 id_binding = 0;
+                    bool hasBinding = false;
+
                     for(; mapIt != mapEnd; ++mapIt)
                     {
-                        id_binding = UInt16(mapIt->first & 0x0000ffff);
-                        if(id_binding != 0)
-                            break;
+                        if((mapIt->first &  0x0000ffff) != 0)
+                            hasBinding = true;
+
+                        // skip internal attachments
+                        if(mapIt->second                              != NullFC &&
+                           mapIt->second->getSFInternal()->getValue() == true     )
+                        {
+                            continue;
+                        }
+
+                        // count attachments that get written
+                        ++noe;
                     }
-    
-                    if(id_binding != 0)
-                        size += sizeof(UInt16) * amap->getValue().size();
+
+                    if(hasBinding == true)
+                    {
+                        // for each attachment write id and binding
+                        size += noe * (sizeof(UInt32) + sizeof(UInt16));
+                    }
+                    else
+                    {
+                        // for each attachment write id
+                        size += noe * sizeof(UInt32);
+                    }
 
                     _out->putValue(fieldName);
                     _out->putValue(fieldType);
                     _out->putValue(size);
-                    writeSFAttachmentMap(amap);
+                    writeSFAttachmentMap(amap, noe, hasBinding);
                 }
             }
             else
@@ -863,41 +883,38 @@ void NFIOBase::writeMFFieldContainerPtr(MFFieldContainerPtr *field)
     }
 }
 
-void NFIOBase::writeSFAttachmentMap(SFAttachmentMap *amap)
+void NFIOBase::writeSFAttachmentMap(SFAttachmentMap *amap,
+                                    UInt32           numElems,
+                                    bool             hasBinding)
 {
-    AttachmentMap::const_iterator   mapIt = amap->getValue().begin();
-    AttachmentMap::const_iterator   mapEnd = amap->getValue().end();
-    
-    UInt32 noe = amap->getValue().size();
-    _out->putValue(noe);
+    AttachmentMap::const_iterator mapIt  = amap->getValue().begin();
+    AttachmentMap::const_iterator mapEnd = amap->getValue().end  ();
+
+    _out->putValue(numElems);
 
     for(; mapIt != mapEnd; ++mapIt)
     {
+        // skip Attachments marked as internal
+        if( mapIt->second                              != NullFC &&
+            mapIt->second->getSFInternal()->getValue() == true     )
+        {
+            continue;
+        }
+
         writeFCId(mapIt->second);
     }
 
-    // check for non zero bindings
-    UInt16 id_binding = 0;
-    mapIt = amap->getValue().begin();
-    for(; mapIt != mapEnd; ++mapIt)
-    {
-        id_binding = UInt16(mapIt->first & 0x0000ffff);
-        if(id_binding != 0)
-            break;
-    }
-
-    // we write the binding only if we have a non zero binding
-    // to keep it compatible to the old format!
-    if(id_binding != 0)
+    if(hasBinding == true)
     {
         mapIt = amap->getValue().begin();
+
         for(; mapIt != mapEnd; ++mapIt)
         {
-            id_binding = UInt16(mapIt->first & 0x0000ffff);
-            _out->putValue(id_binding);
+            UInt16 binding = UInt16(mapIt->first & 0x0000ffff);
+
+            _out->putValue(binding);
         }
     }
-
 }
 
 void NFIOBase::readEndMarker(void)
@@ -1220,6 +1237,6 @@ void NFIOBase::BinaryWriteHandler::write(MemoryHandle mem, UInt32 size)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.18 2008/08/31 10:30:35 a-m-z Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGNFIOBase.cpp,v 1.19 2011/10/24 16:56:22 carstenneumann Exp $";
     static Char8 cvsid_hpp       [] = OSGNFIOBASE_HEADER_CVSID;
 }

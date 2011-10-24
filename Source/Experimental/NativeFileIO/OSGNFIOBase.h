@@ -143,7 +143,9 @@ protected:
                                          bool endMarker = true);
     static void writeSFFieldContainerPtr(SFFieldContainerPtr *field  );
     static void writeMFFieldContainerPtr(MFFieldContainerPtr *field  );
-    static void writeSFAttachmentMap    (SFAttachmentMap *amap       );
+    static void writeSFAttachmentMap    (SFAttachmentMap *amap,
+                                         UInt32           numElems,
+                                         bool             hasBinding );
     
     static void readEndMarker           (void                        );
     static void writeEndMarker          (void                        );
@@ -259,6 +261,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.8 2006/10/26 11:02:11 a-m-z Exp $"
+#define OSGNFIOBASE_HEADER_CVSID "@(#)$Id: OSGNFIOBase.h,v 1.9 2011/10/24 16:56:22 carstenneumann Exp $"
 
 #endif /* _OSGNFIOBASE_H_ */
