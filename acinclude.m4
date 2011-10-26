@@ -1089,7 +1089,11 @@ dnl e5
 
         case $build_os in
             cygwin*)
-                ac_gdz_glut_lib_e5='glut32.lib'
+                if test "$enable_osg2_support_libs" = yes; then
+                    ac_gdz_glut_lib_e5='osgglut.lib'
+                else
+                    ac_gdz_glut_lib_e5='glut32.lib'
+                fi
             ;;
             darwin*)
                 ac_gdz_glut_lib_e5='-framework Cocoa -framework GLUT'
@@ -1396,7 +1400,11 @@ dnl e9
 
         case $build_os in
             cygwin*)
-                ac_gdz_tif_lib_e9='tif32.lib'
+                if test "$enable_osg2_support_libs" = yes; then
+                  ac_gdz_tif_lib_e9='libosgtiff.lib'
+                else
+                  ac_gdz_tif_lib_e9='tif32.lib'
+                fi
             ;;
             *)
                 ac_gdz_tif_lib_e9='-ltiff'
@@ -1451,7 +1459,11 @@ dnl e10
 
         case $build_os in
             cygwin*)
-                ac_gdz_jpg_lib_e10='libjpeg.lib'
+                if test "$enable_osg2_support_libs" = yes; then
+                  ac_gdz_jpg_lib_e10='libosgjpg.lib'
+                else
+                  ac_gdz_jpg_lib_e10='libjpeg.lib'
+                fi
             ;;
             *)
                 ac_gdz_jpg_lib_e10='-ljpeg'
@@ -1506,7 +1518,11 @@ dnl e11
 
         case $build_os in
             cygwin*)
-                ac_gdz_png_lib_e11='libpng.lib zlib.lib'
+                if test "$enable_osg2_support_libs" = yes; then
+                  ac_gdz_png_lib_e11='libosgpng.lib libosgzlib.lib'
+                else
+                  ac_gdz_png_lib_e11='libpng.lib zlib.lib'
+                fi
             ;;
             *)
                 ac_gdz_png_lib_e11='-lpng -lz'

@@ -405,7 +405,7 @@ if test "$enable_qt4" = yes; then
         ac_gdz_conf_package_defs=$ac_gdz_conf_package_defs' -DOSG_WITH_QT -DQT3_SUPPORT -DQT_THREAD_SUPPORT'
         ac_gdz_conf_package_qt4='1'
         ac_gdz_conf_package_qt4_e1='1'
-    	ac_gdz_conf_package_qt_e1='1'
+	    ac_gdz_conf_package_qt_e1='1'
 
     if test -n "$with_qt4"; then
                 ac_gdz_qt4_incdir=$with_qt4/include
@@ -1153,10 +1153,15 @@ dnl ############# TLS Settings #####################
 AC_ARG_ENABLE(backported-sync,     [  --enable-backported-sync              Enable backported multithread sync ],
 			,enable_backported_sync=no) 
 
-dnl ############# TLS Settings #####################
+dnl ############# osg2 prep Settings #####################
 
-AC_ARG_ENABLE(osg2-prep,     [  --osg2-prep              Enable osg2 prep ],
+AC_ARG_ENABLE(osg2-prep,     [  --enable-osg2-prep              Enable osg2 prep ],
 			,enable_osg2_prep=no) 
+
+dnl ############# osg2 Support Settings #####################
+
+AC_ARG_ENABLE(osg2-support-libs,     [  --enable-osg2-support-libs              Enable osg2 support libs ],
+			,enable_osg2_support_libs=no) 
 
 dnl ############# XTREE Settings #####################
 
@@ -1663,7 +1668,7 @@ echo $with_icc_gnu_compat
 		esac
 	else
         case $ac_gdz_compiler in
-    		icc*)
+		    icc*)
                 ac_gdz_compiler_exe=$ac_gdz_compiler_exe" -cxxlib-icc -no-gcc"
             ;;
         esac
