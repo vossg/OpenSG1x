@@ -1245,11 +1245,11 @@ void CGFXChunk::updateParameters(Window *win)
                 {
                     updateTextureParameter( p );
 
-                    if(_action != NULL)
-                    {
-                        texc->activate(_action, 0);
-                        texc->deactivate(_action, 0);
-                    }
+//                    if(_action != NULL)
+//                    {
+//                        texc->activate(_action, 0);
+//                        texc->deactivate(_action, 0);
+//                    }
 
 //                    OSG_ASSERT(texc->getGLId());
 //                    printf("gloid: %d, glid: %d\n",win->getGLObjectId(texc->getGLId()),texc->getGLId());
@@ -1823,14 +1823,15 @@ void CGFXChunk::checkTextureIds(DrawActionBase *action, OSGCGeffect effect)
                 if( texc )
                 {
     //                 updateTextureParameter( p );
-                    if(_action != NULL)
+//                    printf("1 gloid: %d, glid: %d\n",win->getGLObjectId(texc->getGLId()),texc->getGLId());
+                    if(_action != NULL && win->getGLObjectId(texc->getGLId()) == 0 )
                     {
                         // THINKABOUTME: Hmm, this sucks, too.
                         texc->activate(_action, 0);
                         texc->deactivate(_action, 0);
                     }
                     //                    OSG_ASSERT(texc->getGLId());
-                    //printf("gloid: %d, glid: %d\n",win->getGLObjectId(texc->getGLId()),texc->getGLId());
+//                    printf("2 gloid: %d, glid: %d\n",win->getGLObjectId(texc->getGLId()),texc->getGLId());
                     cgGLSetupSampler(param, win->getGLObjectId(texc->getGLId()));
                     cgGLSetTextureParameter(param, win->getGLObjectId(texc->getGLId()));
                 }
@@ -1871,8 +1872,8 @@ void CGFXChunk::activate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
         // unter einer eigenen draw tree root gehaengt werden (wie trans root) dann
         // wird fuer alle cgfx materialien nur ein activate/deactivate aufgerufen der
         // rest waeren nur noch changeFrom.
-        //glPushAttrib(GL_ALL_ATTRIB_BITS);
-        //glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+//        glPushAttrib(GL_ALL_ATTRIB_BITS);
+//        glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
 
         //UInt32 numPasses;
         //_effect[id].effect->Begin(&numPasses, 0);
@@ -2025,8 +2026,8 @@ void CGFXChunk::deactivate(DrawActionBase *action, UInt32 OSG_CHECK_ARG(idx))
         glLightfv(GL_LIGHT0, GL_SPECULAR, nul);
     }
 
-    //glPopClientAttrib();
-    //glPopAttrib();
+//    glPopClientAttrib();
+//    glPopAttrib();
 }
 
 bool CGFXChunk::isTransparent(void) const
@@ -2084,7 +2085,7 @@ bool CGFXChunk::operator != (const StateChunk &other) const
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.20 2011/01/07 09:45:30 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGCGFXChunk.cpp,v 1.21 2011/10/26 07:57:54 macnihilist Exp $";
     static Char8 cvsid_hpp       [] = OSGCGFXCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGCGFXCHUNKBASE_INLINE_CVSID;
 
