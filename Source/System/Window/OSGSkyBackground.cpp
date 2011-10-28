@@ -51,6 +51,7 @@
 #include <OSGTextureChunk.h>
 #include <OSGImage.h>
 #include <OSGRemoteAspect.h>
+#include <OSGMatrixUtility.h>
 
 #include "OSGSkyBackground.h"
 
@@ -575,13 +576,31 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
+    
     // Squeeze all geometry onto the z=0.5 plane to make sure it
     // is inside the near and the far clipping planes
     glTranslatef(0.f, 0.f, 0.5);
     glScalef(1.f, 1.f, 0.f);
-    action->getCamera()->getProjection( m,
-                                        viewport->getPixelWidth(),
-                                        viewport->getPixelHeight());
+    
+    // This line of code only works for standard perspective camera...
+    //action->getCamera()->getProjection( m,
+    //                                    viewport->getPixelWidth(),
+    //                                    viewport->getPixelHeight());
+    
+    // ...hence we calculate a projection matrix ourselves:
+    Real32 aspect = Real32(viewport->getPixelWidth()) / Real32(viewport->getPixelHeight());
+    Real32 fov = 0.785398f, rNear = 1, rFar = 5000;
+    
+    Real32 ct = osgtan(fov / 2);
+    Real32 x = ct * rNear, y = ct * rNear;
+    
+    if (viewport->getPixelWidth() >= viewport->getPixelHeight())
+        x *= aspect;
+    else
+        y /= aspect;
+
+    MatrixFrustum(m, -x, x, -y, y, rNear, rFar);
+    
     glMultMatrixf(m.getValues());
 
     // Save old state
@@ -598,18 +617,20 @@ void SkyBackground::clear(DrawActionBase *action, Viewport *viewport)
     glEnable(GL_BLEND);
 
     // Clear buffers
+    GLbitfield clearMask  = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
+    
     glClearDepth(1.f);
+    glClearColor(0, 0, 0, 1);
+    
     Int32 bit = getClearStencilBit();
     if (bit >= 0)
     {
         glClearStencil(bit);
-        glClear(GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+        clearMask |= GL_STENCIL_BUFFER_BIT;
     }
-    else
-    {
-        glClear(GL_DEPTH_BUFFER_BIT);
-    }
-
+    
+    glClear(clearMask);
+    
     // Draw the textured sky box outside
     bool boxInside = getBoxInside();
     if (boxInside == false)
