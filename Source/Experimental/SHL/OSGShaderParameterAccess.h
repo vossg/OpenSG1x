@@ -90,6 +90,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterAccess
 
     bool    subParameter(const char *name);
 
+    bool    hasParameter(const char *name);
+
     void updateMap(void);
 
     /*! \}                                                                 */
@@ -114,6 +116,6 @@ OSG_END_NAMESPACE
 
 #include <OSGShaderParameterAccess.inl>
 
-#define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.8 2008/11/14 11:44:47 macnihilist Exp $"
+#define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.9 2011/11/08 17:46:19 carstenneumann Exp $"
 
 #endif /* _OSGSHADERPARAMETERACCESS_H_ */

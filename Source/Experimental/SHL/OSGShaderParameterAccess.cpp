@@ -93,6 +93,16 @@ bool ShaderParameterAccess::subParameter(const char *name)
     return true;
 }
 
+bool ShaderParameterAccess::hasParameter(const char *name)
+{
+    if(name == NULL)
+        return false;
+
+    updateMap();
+
+    return (_parametermap.find(name) != _parametermap.end());
+}
+
 void ShaderParameterAccess::updateMap(void)
 {
     if(_mapsize == _parameters.size())

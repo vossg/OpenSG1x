@@ -263,6 +263,11 @@ bool ShaderParameterChunk::subUniformParameter(const char *name)
     return _parameter_access->subParameter(name);
 }
 
+bool ShaderParameterChunk::hasUniformParameter(const char *name)
+{
+    return _parameter_access->hasParameter(name);
+}
+
 void ShaderParameterChunk::clearUniformParameters(void)
 {
     MFShaderParameterPtr &parameters = *editMFParameters();
@@ -324,7 +329,7 @@ bool ShaderParameterChunk::getUniformParameter(const char *name, MFMatrix &value
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.6 2008/06/09 07:30:32 vossg Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGShaderParameterChunk.cpp,v 1.7 2011/11/08 17:46:19 carstenneumann Exp $";
     static Char8 cvsid_hpp       [] = OSGSHADERPARAMETERCHUNKBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGSHADERPARAMETERCHUNKBASE_INLINE_CVSID;
 
