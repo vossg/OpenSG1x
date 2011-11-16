@@ -2216,6 +2216,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         case Geometry::SecondaryColorsFieldId:
             FWARNING(("Case currently not treated, using NONE\n"));     
             dstAttribTan = -1;
+            // fallthrough
               
         case -1:
             tangentP = GeoTexCoords4f::create();    // to be deleted
@@ -2303,6 +2304,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
         case Geometry::SecondaryColorsFieldId:
             FWARNING(("Case currently not treated, using NONE\n")); 
             dstAttribBin = -1;
+            // fallthrough
                   
         case -1:
             binormalP = GeoTexCoords4f::create();
@@ -2509,8 +2511,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
             }
 
             // keep track of needed size for properties
-            if(v[k] > propSize)
-                propSize = v[k];
+            if(v[k] >= propSize)
+                propSize = v[k] + 1;
 
             // resize properties if inital guess was too small
             if(v[k] >= tangent.size())
@@ -2620,7 +2622,7 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexTangents (GeometryPtr geo,
     binormalP->clear    ();
     binormalP->editField().reserve(binormal.size());
 
-    for (i=0;i < tangent.size();++i)
+    for (i=0; i < tangent.size(); ++i)
     {
         T = tangent [i];
         B = binormal[i];
