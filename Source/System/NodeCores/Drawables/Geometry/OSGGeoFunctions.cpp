@@ -442,18 +442,20 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
         return;
     }
 
-    UInt32          nind = ip->size() / (im.size() ? im.size() : 1);
-    int             imsize = 0;
+    UInt32 oldIMSize = im.size();
+    UInt32 nind      = ip->size() / (oldIMSize ? oldIMSize : 1);
+
     if(ni < 0 || im[ni] != Geometry::MapNormal)
     {
         // normals need their own index
         if(ni >= 0)
         {
             im[ni] = im[ni] &~Geometry::MapNormal;
+            ni     = -1;
         }
 
         // need to be multi-indexed?
-        if(im.size() == 0)
+        if(oldIMSize == 0)
         {
             UInt32  map = Geometry::MapPosition;
 
@@ -464,41 +466,57 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
                 map |= Geometry::MapColor;
 
             im.push_back(map);
+            oldIMSize = 1; // there was an implicit mapping
         }
 
-        ni = im.size();
-        im.push_back(Geometry::MapNormal);
+        // check for an unused index and reuse it
+        for(UInt32 i = 0; i < oldIMSize; ++i)
+        {
+            if(im[i] == 0)
+            {
+                ni      = i;
+                im[ni] |= Geometry::MapNormal;
+                break;
+            }
+        }
+
+        // create new index mapping for normals
+        if(ni < 0)
+        {
+            ni = im.size();
+            im.push_back(Geometry::MapNormal);
+        }
 
         // add an entry to the indices for the normals
-        imsize = im.size();
+        UInt32 newIMSize = im.size();
 
         beginEditCP(ip);
-        ip->resize(nind * imsize);
+        ip->resize(nind * newIMSize);
 
+        // move indices to make room for new normal index
         for(UInt32 i = nind - 1; i > 0; --i)
         {
-            for(Int16 j = imsize - 2; j >= 0; --j)
+            for(Int16 j = oldIMSize - 1; j >= 0; --j)
             {
-                UInt32  val;
-                ip->getValue(val, i * (imsize - 1) + j);
-                ip->setValue(val, i * imsize + j);
+                UInt32 val;
+                ip->getValue(val, (i * oldIMSize) + j);
+                ip->setValue(val, (i * newIMSize) + j);
             }
 
-            ip->setValue(i, i * imsize + imsize - 1);
+            ip->setValue(i, (i * newIMSize) + newIMSize - 1);
         }
 
-        ip->setValue(0, imsize - 1);
+        ip->setValue(0, newIMSize - 1);
         endEditCP(ip);
     }
     else            // set the normal indices
     {
-        imsize = im.size();
+        UInt32 imsize = im.size();
         beginEditCP(ip);
         for(UInt32 i = 0; i < nind; ++i)
         {
             ip->setValue(i, i * imsize + ni);
         }
-
         endEditCP(ip);
     }
 
@@ -754,8 +772,8 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcVertexNormals(GeometryPtr geo,
 
 OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
 {
-    if(geo->getPositions() == NullFC ||
-       geo->getPositions()->size() == 0)
+    if(geo->getPositions()         == NullFC ||
+       geo->getPositions()->size() == 0        )
     {
         FINFO(("Geo without positions in calcFaceNormals()\n"));
         return;
@@ -765,7 +783,6 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
     GeoNormalsPtr newNormals = GeoNormals3f::create();
     Vec3f normal;
 
-    FaceIterator faceIter = geo->beginFaces();
     GeoIndicesPtr oldIndex = geo->getIndices();
 
     if(oldIndex != NullFC)
@@ -774,10 +791,32 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
         if(geo->getMFIndexMapping()->size() > 0)
         {
             //MULTI INDEXED
-            beginEditCP(newIndex);
+            MFUInt16 &oldIndexMap = *geo->editMFIndexMapping();
+            UInt32    oldIMSize   = oldIndexMap.size();
+            UInt32    newIMSize   = oldIndexMap.size();
+            Int16     oldNIdx     =  geo->calcMappingIndex(Geometry::MapNormal);
+            Int16     newNIdx     = -1;
 
-            MFUInt16    &oldIndexMap = (*geo->editMFIndexMapping());
-            UInt32 oldIMSize = oldIndexMap.size();
+            if(oldNIdx < 0)
+            {
+                // no pre-existing normals, add new index for normals
+                newNIdx   = oldIndexMap.size();
+                newIMSize = oldIMSize + 1;
+            }
+            else if(geo->getIndexMapping(oldNIdx) != Geometry::MapNormal)
+            {
+                // index for normal also indexes other property,
+                // add new index only for normals
+                newNIdx   = oldIndexMap.size();
+                newIMSize = oldIMSize + 1;
+            }
+            else
+            {
+                // normals indexed with unique index, reuse it
+                newNIdx = oldNIdx;
+            }
+
+            beginEditCP(newIndex);
             for(UInt32 i = 0; i < oldIndex->getSize() / oldIMSize; ++i)
             {
                 for(UInt32 k = 0; k < oldIMSize; ++k)
@@ -785,13 +824,26 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
                     newIndex->push_back(oldIndex->getValue(i * oldIMSize + k));
                 }
 
-                newIndex->push_back(0);                                 //placeholder for normal index
+                if(newIMSize != oldIMSize)
+                {
+                    // placeholder for new normal
+                    newIndex->push_back(0);
+                }
             }
 
+            Int32        primIdx  = -1;
+            FaceIterator faceIter = geo->beginFaces();
+            FaceIterator faceEnd  = geo->endFaces  ();
+
             beginEditCP(newNormals);
-            for(UInt32 faceCnt = 0; faceIter != geo->endFaces();
-                            ++faceIter, ++faceCnt)
+            for(UInt32 faceCnt = 0; faceIter != faceEnd; ++faceIter, ++faceCnt)
             {
+                // for strip/fan primitives we need to set the normal on all
+                // vertices of the first face, but on subsequent faces only
+                // on the new vertices - see below where this is used
+                bool primStart = (faceIter.PrimitiveIterator::getIndex() > primIdx);
+                primIdx        = faceIter.PrimitiveIterator::getIndex();
+
                 if(faceIter.getLength() == 3)
                 {
                     //Face is a Triangle
@@ -829,23 +881,52 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
                 switch(faceIter.getType())
                 {
                 case GL_TRIANGLE_STRIP:
-                    base = faceIter.getIndexIndex(2);                   //get last point's position in index field
-                    newIndex->setValue(faceCnt, base + (base / oldIMSize) + oldIMSize);
+                    if(primStart)
+                    {
+                        base = faceIter.getIndexIndex(0);
+                        newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
+ 
+                        base = faceIter.getIndexIndex(1);
+                        newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
+                    }
+                    
+                    base = faceIter.getIndexIndex(2);
+                    newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
                     break;
                 case GL_TRIANGLE_FAN:
-                    base = faceIter.getIndexIndex(2);                   //get last point's position in index field
-                    newIndex->setValue(faceCnt, base + (base / oldIMSize) + oldIMSize);
+                    if(primStart)
+                    {
+                        base = faceIter.getIndexIndex(0);
+                        newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
+ 
+                        base = faceIter.getIndexIndex(1);
+                        newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
+                    }
+
+                    base = faceIter.getIndexIndex(2);
+                    newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
                     break;
                 case GL_QUAD_STRIP:
-                    base = faceIter.getIndexIndex(3);                   //get last point's position in index field
-                    newIndex->setValue(faceCnt, base + (base / oldIMSize) + oldIMSize);
+                    if(primStart)
+                    {
+                        base = faceIter.getIndexIndex(0);
+                        newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
+ 
+                        base = faceIter.getIndexIndex(1);
+                        newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
+                    }
+
+                    base = faceIter.getIndexIndex(2);
+                    newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
+
+                    base = faceIter.getIndexIndex(3);
+                    newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
                     break;
                 default:
                     for(UInt32 i = 0; i < faceIter.getLength(); ++i)
                     {
                         base = faceIter.getIndexIndex(i);
-                        newIndex->setValue(faceCnt,
-                                                                   base + (base / oldIMSize) + oldIMSize);
+                        newIndex->setValue(faceCnt, (base / oldIMSize) * newIMSize + newNIdx);
                     }
                     break;
                 }
@@ -855,17 +936,22 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
             endEditCP(newIndex);
 
             beginEditCP(geo);
-
-            Int16 ni;
-            ni = geo->calcMappingIndex(Geometry::MapNormal);
-            if(ni != -1)
-            {
-                oldIndexMap[ni] = oldIndexMap[ni] &~Geometry::MapNormal;
-            }
-
-            oldIndexMap.push_back(Geometry::MapNormal);
             geo->setNormals(newNormals);
             geo->setIndices(newIndex);
+
+            if(oldNIdx < 0)
+            {
+                // no pre-existing normals, add new mapping
+                oldIndexMap.push_back(Geometry::MapNormal);
+            }
+            else if(oldIMSize != newIMSize)
+            {
+                // normal index was used to index other property as well,
+                // unshare them
+                oldIndexMap[oldNIdx] &= ~Geometry::MapNormal;
+                oldIndexMap.push_back(Geometry::MapNormal);   
+            }
+
             endEditCP(geo);
             return;
         }
@@ -874,8 +960,20 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
     //SINGLE INDEXED or NON INDEXED
     //UInt32 pointCnt = 0;
     newNormals->resize(geo->getPositions()->getSize());
-    for(; faceIter != geo->endFaces(); ++faceIter)
+
+    Int32        primIdx  = -1;
+    FaceIterator faceIter = geo->beginFaces();
+    FaceIterator faceEnd  = geo->endFaces  ();
+
+    for(; faceIter != faceEnd; ++faceIter)
     {
+        // for strip/fan primitives we need to set the normal on all
+        // vertices of the first face, but on subsequent faces only
+        // on the new vertices - see below where this is used
+        bool primStart = (faceIter.PrimitiveIterator::getIndex() > primIdx);
+        primIdx        = faceIter.PrimitiveIterator::getIndex();
+
+
         if(faceIter.getLength() == 3)
         {
             //Face is a Triangle
@@ -902,12 +1000,31 @@ OSG_SYSTEMLIB_DLLMAPPING void OSG::calcFaceNormals(GeometryPtr geo)
         switch(faceIter.getType())
         {
         case GL_TRIANGLE_STRIP:
+            if(primStart)
+            {
+                newNormals->setValue(normal, faceIter.getPositionIndex(0));
+                newNormals->setValue(normal, faceIter.getPositionIndex(1));
+            }
+
             newNormals->setValue(normal, faceIter.getPositionIndex(2));
             break;
         case GL_TRIANGLE_FAN:
+            if(primStart)
+            {
+                newNormals->setValue(normal, faceIter.getPositionIndex(0));
+                newNormals->setValue(normal, faceIter.getPositionIndex(1));
+            }
+
             newNormals->setValue(normal, faceIter.getPositionIndex(2));
             break;
         case GL_QUAD_STRIP:
+            if(primStart)
+            {
+                newNormals->setValue(normal, faceIter.getPositionIndex(0));
+                newNormals->setValue(normal, faceIter.getPositionIndex(1));
+            }
+
+            newNormals->setValue(normal, faceIter.getPositionIndex(2));
             newNormals->setValue(normal, faceIter.getPositionIndex(3));
             break;
         default:
