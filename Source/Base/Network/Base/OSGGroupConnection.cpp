@@ -149,9 +149,10 @@ std::string GroupConnection::getDestination(void)
 Connection::Channel GroupConnection::newChannelIndex(ChannelIndex index)
 {
     Channel channel;
-    if(_reuseChannel.begin() != _reuseChannel.end())
+
+    if(!_reuseChannel.empty())
     {
-        channel = *(_reuseChannel.begin());
+        channel = _reuseChannel.front();
         _reuseChannel.pop_front();
     }
     else
@@ -159,10 +160,12 @@ Connection::Channel GroupConnection::newChannelIndex(ChannelIndex index)
         channel = _channelToIndex.size();
         _channelToIndex.resize(channel+1);
     }
+
     if(index >= _indexToChannel.size())
         _indexToChannel.resize(index+1);
     if(index >= _selection.size())
         _selection.resize(index+1);
+
     // enable selection
     _selection[index] = true;
     // set index to channel mapping
@@ -180,6 +183,16 @@ void GroupConnection::delChannelIndex(ChannelIndex index)
     // erase from indexed arrays
     _selection     .erase(_selection.begin()      + index);
     _indexToChannel.erase(_indexToChannel.begin() + index);
+
+    // adjust channel indices
+    for(UInt32 i = 0; i < _channelToIndex.size(); ++i)
+    {
+        if(_channelToIndex[i] > index)
+            _channelToIndex[i] -= 1;
+    }
+
+    _channelToIndex[channel] = -1;
+
     // move to reuse
     _reuseChannel.push_back(channel);
 }

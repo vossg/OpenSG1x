@@ -122,7 +122,7 @@ GroupConnection::Channel GroupSockConnection::connectPoint(
     if(connectSocket(socket,address,destination,timeout))
     {
         channel = newChannelIndex(_sockets.size());
-        _sockets.push_back(socket);
+        _sockets        .push_back(socket);
         _remoteAddresses.push_back(destination);
         _readIndex = 0;
     }
@@ -141,7 +141,8 @@ void GroupSockConnection::disconnect(Channel channel)
     catch(...)
     {
     }
-    _sockets.erase(_sockets.begin() + index);
+    _sockets        .erase(_sockets        .begin() + index);
+    _remoteAddresses.erase(_remoteAddresses.begin() + index);
     delChannelIndex(index);
     _readIndex = 0;
 }
