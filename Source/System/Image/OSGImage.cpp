@@ -2017,6 +2017,32 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
                             break;
                     }
                     break;
+
+                //-----------------------------------------------------
+                case OSG_BGRA_PF:
+                    switch (pixelFormat) {
+                        case OSG_RGBA_PF:
+                            switch (getDataType())
+                            {
+                            case OSG_UINT8_IMAGEDATA:
+                                for (srcI = destI = 0; destI < destSize;)
+                                {
+                                    data[destI+0] = sourceData[srcI+2];
+                                    data[destI+1] = sourceData[srcI+1];
+                                    data[destI+2] = sourceData[srcI+0];
+                                    data[destI+3] = sourceData[srcI+3];
+                                    destI+=4;
+                                    srcI+=4; 
+                                }
+                                break;
+                            default:
+                                FWARNING (( "Invalid IMAGE_DATA_TYPE\n" ));
+                                break;
+                            }
+                            break;
+                    }
+                    break;
+
 				case OSG_ALPHA_INTEGER_PF:
 				case OSG_RGB_INTEGER_PF:
 				case OSG_RGBA_INTEGER_PF:
@@ -2029,7 +2055,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
 					}
 					break;
                 default:
-                    FWARNING (( "Unvalid pixeldepth (%d) in reformat() !\n",
+                    FWARNING (( "Image::reformat(): Invalid pixeldepth (%d)!\n",
                                 pixelFormat ));
             }
         }
