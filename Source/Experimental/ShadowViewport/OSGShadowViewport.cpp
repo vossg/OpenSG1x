@@ -152,7 +152,7 @@ ShadowViewport::ShadowViewport(void) :
     _lightStates(),
     _shadowImages(),
     _texChunks(),
-    _excludeNodeActive(),
+    _excludeNodeTravMask(),
     _realPointLight(),
     _renderSide(),
     _trigger_update(false),
@@ -250,7 +250,7 @@ ShadowViewport::ShadowViewport(const ShadowViewport &source) :
     _lightStates(source._lightStates),
     _shadowImages(source._shadowImages),
     _texChunks(source._texChunks),
-    _excludeNodeActive(source._excludeNodeActive),
+    _excludeNodeTravMask(source._excludeNodeTravMask),
     _realPointLight(source._realPointLight),
     _renderSide(source._renderSide),
     _trigger_update(source._trigger_update),
@@ -585,16 +585,16 @@ void ShadowViewport::render(RenderActionBase *action)
         //endEditCP(getPtr(), SceneRootFieldMask);
     }
 
-    _excludeNodeActive.clear();
+    _excludeNodeTravMask.clear();
     _realPointLight.clear();
     //get excludeNode states
     for(UInt32 i = 0;i < getMFExcludeNodes()->getSize();i++)
     {
         NodePtr exnode = getExcludeNodes(i);
         if(exnode != NullFC)
-            _excludeNodeActive.push_back(exnode->getActive());
+            _excludeNodeTravMask.push_back(exnode->getTravMask());
         else
-            _excludeNodeActive.push_back(false);
+            _excludeNodeTravMask.push_back(0);
     }
 
 
@@ -642,7 +642,7 @@ void ShadowViewport::render(RenderActionBase *action)
         for(UInt32 i = 0;i < getMFExcludeNodes()->getSize();++i)
         {
             NodePtr exnode = getExcludeNodes(i);
-            _excludeNodeActive[i] = exnode->getActive();
+            _excludeNodeTravMask[i] = exnode->getTravMask();
         }
 
         //check if all sides of a pointlight are needed
@@ -1573,7 +1573,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.42 2011/09/02 16:15:41 carstenneumann Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.43 2011/12/12 23:49:52 carstenneumann Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

@@ -741,8 +741,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
     {
         NodePtr exnode = _shadowVP->getExcludeNodes(i);
         if(exnode != NullFC)
-            if(_shadowVP->_excludeNodeActive[i])
-                exnode->setActive(true);
+            exnode->setTravMask(0);
     }
 
     for(UInt32 i = 0;i < _shadowVP->_lights.size();++i)
@@ -885,8 +884,7 @@ void VarianceShadowMap::createShadowMapsFBO(RenderActionBase *action)
     {
         NodePtr exnode = _shadowVP->getExcludeNodes(i);
         if(exnode != NullFC)
-            if(_shadowVP->_excludeNodeActive[i])
-                exnode->setActive(true);
+            exnode->setTravMask(_shadowVP->_excludeNodeTravMask[i]);
     }
 
     _shadowVP->setVPSize(0, 0, oldWidth - 1, oldHeight - 1);

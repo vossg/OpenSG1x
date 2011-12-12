@@ -129,7 +129,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShadowViewport : public ShadowViewportBase
     std::vector<UInt32>                         _lightStates;
     std::vector<ImagePtr>                       _shadowImages;
     std::vector<TextureChunkPtr>                _texChunks;
-    std::vector<bool>                           _excludeNodeActive;
+    std::vector<UInt32>                         _excludeNodeTravMask;
     std::vector<bool>                           _realPointLight;
     std::vector<bool*>                          _renderSide;
 
@@ -205,6 +205,6 @@ OSG_END_NAMESPACE
 #include <OSGShadowViewportBase.inl>
 #include <OSGShadowViewport.inl>
 
-#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.14 2007/04/03 03:16:54 dirk Exp $"
+#define OSGSHADOWVIEWPORT_HEADER_CVSID "@(#)$Id: OSGShadowViewport.h,v 1.15 2011/12/12 23:49:52 carstenneumann Exp $"
 
 #endif /* _OSGSHADOWVIEWPORT_H_ */
