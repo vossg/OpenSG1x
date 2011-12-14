@@ -73,6 +73,9 @@ const OSG::BitVector  FileGrabForegroundBase::FrameFieldMask =
 const OSG::BitVector  FileGrabForegroundBase::IncrementFieldMask = 
     (TypeTraits<BitVector>::One << FileGrabForegroundBase::IncrementFieldId);
 
+const OSG::BitVector  FileGrabForegroundBase::PixelFormatFieldMask = 
+    (TypeTraits<BitVector>::One << FileGrabForegroundBase::PixelFormatFieldId);
+
 const OSG::BitVector FileGrabForegroundBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -88,6 +91,9 @@ const OSG::BitVector FileGrabForegroundBase::MTInfluenceMask =
 */
 /*! \var bool            FileGrabForegroundBase::_sfIncrement
     Flag to start/stop automatic frame increments after each grab.
+*/
+/*! \var UInt32          FileGrabForegroundBase::_sfPixelFormat
+    Allows choosing a format different from RGB (which is default).
 */
 
 //! FileGrabForeground description
@@ -108,7 +114,12 @@ FieldDescription *FileGrabForegroundBase::_desc[] =
                      "increment", 
                      IncrementFieldId, IncrementFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::editSFIncrement))
+                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::editSFIncrement)),
+    new FieldDescription(SFUInt32::getClassType(), 
+                     "pixelFormat", 
+                     PixelFormatFieldId, PixelFormatFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&FileGrabForegroundBase::editSFPixelFormat))
 };
 
 
@@ -188,6 +199,7 @@ FileGrabForegroundBase::FileGrabForegroundBase(void) :
     _sfName                   (), 
     _sfFrame                  (UInt32(0)), 
     _sfIncrement              (bool(true)), 
+    _sfPixelFormat            (UInt32(0)), 
     Inherited() 
 {
 }
@@ -200,6 +212,7 @@ FileGrabForegroundBase::FileGrabForegroundBase(const FileGrabForegroundBase &sou
     _sfName                   (source._sfName                   ), 
     _sfFrame                  (source._sfFrame                  ), 
     _sfIncrement              (source._sfIncrement              ), 
+    _sfPixelFormat            (source._sfPixelFormat            ), 
     Inherited                 (source)
 {
 }
@@ -231,6 +244,11 @@ UInt32 FileGrabForegroundBase::getBinSize(const BitVector &whichField)
         returnValue += _sfIncrement.getBinSize();
     }
 
+    if(FieldBits::NoField != (PixelFormatFieldMask & whichField))
+    {
+        returnValue += _sfPixelFormat.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -253,6 +271,11 @@ void FileGrabForegroundBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (IncrementFieldMask & whichField))
     {
         _sfIncrement.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (PixelFormatFieldMask & whichField))
+    {
+        _sfPixelFormat.copyToBin(pMem);
     }
 
 
@@ -278,6 +301,11 @@ void FileGrabForegroundBase::copyFromBin(      BinaryDataHandler &pMem,
         _sfIncrement.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (PixelFormatFieldMask & whichField))
+    {
+        _sfPixelFormat.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -297,6 +325,9 @@ void FileGrabForegroundBase::executeSyncImpl(      FileGrabForegroundBase *pOthe
     if(FieldBits::NoField != (IncrementFieldMask & whichField))
         _sfIncrement.syncWith(pOther->_sfIncrement);
 
+    if(FieldBits::NoField != (PixelFormatFieldMask & whichField))
+        _sfPixelFormat.syncWith(pOther->_sfPixelFormat);
+
 
 }
 #else
@@ -315,6 +346,9 @@ void FileGrabForegroundBase::executeSyncImpl(      FileGrabForegroundBase *pOthe
 
     if(FieldBits::NoField != (IncrementFieldMask & whichField))
         _sfIncrement.syncWith(pOther->_sfIncrement);
+
+    if(FieldBits::NoField != (PixelFormatFieldMask & whichField))
+        _sfPixelFormat.syncWith(pOther->_sfPixelFormat);
 
 
 

@@ -41,4 +41,14 @@ Background is the base class for all background clearing.
 	>
 	Flag to start/stop automatic frame increments after each grab.
 	</Field>
+	<Field
+		name="pixelFormat"
+		type="UInt32"
+		cardinality="single"
+		visibility="external"
+		defaultValue="0"
+		access="public"
+	>
+    Allows choosing a format different from RGB (which is default).
+	</Field>
 </FieldContainer>

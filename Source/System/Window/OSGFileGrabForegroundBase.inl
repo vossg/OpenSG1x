@@ -165,6 +165,29 @@ SFBool *FileGrabForegroundBase::getSFIncrement(void)
 }
 #endif
 
+//! Get the FileGrabForeground::_sfPixelFormat field.
+inline
+const SFUInt32 *FileGrabForegroundBase::getSFPixelFormat(void) const
+{
+    return &_sfPixelFormat;
+}
+
+//! Get the FileGrabForeground::_sfPixelFormat field.
+inline
+SFUInt32 *FileGrabForegroundBase::editSFPixelFormat(void)
+{
+    return &_sfPixelFormat;
+}
+
+#ifndef OSG_2_PREP
+//! Get the FileGrabForeground::_sfPixelFormat field.
+inline
+SFUInt32 *FileGrabForegroundBase::getSFPixelFormat(void)
+{
+    return &_sfPixelFormat;
+}
+#endif
+
 
 //! Get the value of the FileGrabForeground::_sfName field.
 inline
@@ -256,8 +279,38 @@ void FileGrabForegroundBase::setIncrement(const bool &value)
     _sfIncrement.setValue(value);
 }
 
+//! Get the value of the FileGrabForeground::_sfPixelFormat field.
+inline
+UInt32 &FileGrabForegroundBase::editPixelFormat(void)
+{
+    return _sfPixelFormat.getValue();
+}
+
+//! Get the value of the FileGrabForeground::_sfPixelFormat field.
+inline
+const UInt32 &FileGrabForegroundBase::getPixelFormat(void) const
+{
+    return _sfPixelFormat.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the FileGrabForeground::_sfPixelFormat field.
+inline
+UInt32 &FileGrabForegroundBase::getPixelFormat(void)
+{
+    return _sfPixelFormat.getValue();
+}
+#endif
+
+//! Set the value of the FileGrabForeground::_sfPixelFormat field.
+inline
+void FileGrabForegroundBase::setPixelFormat(const UInt32 &value)
+{
+    _sfPixelFormat.setValue(value);
+}
+
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
+#define OSGFILEGRABFOREGROUNDBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.22 2008/06/09 12:26:59 vossg Exp $"
 

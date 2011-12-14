@@ -115,10 +115,15 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
     // do we have an image yet? If not, create one.
     if(getImage() == NullFC)
     {
+		Image::PixelFormat pixelFormat = (Image::PixelFormat)getPixelFormat();
+		pixelFormat = (pixelFormat == 0) ? Image::OSG_RGB_PF : pixelFormat;
+		
         beginEditCP(this->getPtr(), FileGrabForeground::ImageFieldMask);
         {
-            ImagePtr iPtr=Image::create();
-            iPtr->set(Image::OSG_RGB_PF, 1);
+			ImagePtr iPtr = Image::create();
+			
+			iPtr->set(pixelFormat, 1);
+			
             setImage(iPtr);
         }
         endEditCP  (this->getPtr(), FileGrabForeground::ImageFieldMask);
@@ -130,7 +135,7 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
                                                        // arbitrary... :(
 
     sprintf(name, getName().c_str(), getFrame());
-        
+    
     ImagePtr i = getImage();
 
     i->write(name);

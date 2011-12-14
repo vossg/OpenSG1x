@@ -70,6 +70,7 @@
 #include <OSGStringFields.h> // Name type
 #include <OSGUInt32Fields.h> // Frame type
 #include <OSGBoolFields.h> // Increment type
+#include <OSGUInt32Fields.h> // PixelFormat type
 
 #include <OSGFileGrabForegroundFields.h>
 
@@ -93,15 +94,17 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
 
     enum
     {
-        NameFieldId      = Inherited::NextFieldId,
-        FrameFieldId     = NameFieldId      + 1,
-        IncrementFieldId = FrameFieldId     + 1,
-        NextFieldId      = IncrementFieldId + 1
+        NameFieldId        = Inherited::NextFieldId,
+        FrameFieldId       = NameFieldId        + 1,
+        IncrementFieldId   = FrameFieldId       + 1,
+        PixelFormatFieldId = IncrementFieldId   + 1,
+        NextFieldId        = PixelFormatFieldId + 1
     };
 
     static const OSG::BitVector NameFieldMask;
     static const OSG::BitVector FrameFieldMask;
     static const OSG::BitVector IncrementFieldMask;
+    static const OSG::BitVector PixelFormatFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -147,6 +150,12 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
            SFBool              *getSFIncrement      (void);
 #endif
 
+           SFUInt32            *editSFPixelFormat    (void);
+     const SFUInt32            *getSFPixelFormat    (void) const;
+#ifndef OSG_2_PREP
+           SFUInt32            *getSFPixelFormat    (void);
+#endif
+
 
            std::string         &editName           (void);
      const std::string         &getName           (void) const;
@@ -166,6 +175,12 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
            bool                &getIncrement      (void);
 #endif
 
+           UInt32              &editPixelFormat    (void);
+     const UInt32              &getPixelFormat    (void) const;
+#ifndef OSG_2_PREP
+           UInt32              &getPixelFormat    (void);
+#endif
+
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
     /*! \name                    Field Set                                 */
@@ -174,6 +189,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
      void setName           ( const std::string &value );
      void setFrame          ( const UInt32 &value );
      void setIncrement      ( const bool &value );
+     void setPixelFormat    ( const UInt32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -219,6 +235,7 @@ class OSG_SYSTEMLIB_DLLMAPPING FileGrabForegroundBase : public GrabForeground
     SFString            _sfName;
     SFUInt32            _sfFrame;
     SFBool              _sfIncrement;
+    SFUInt32            _sfPixelFormat;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -296,6 +313,6 @@ typedef RefPtr<FileGrabForegroundPtr> FileGrabForegroundRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
+#define OSGFILEGRABFOREGROUNDBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGFILEGRABFOREGROUNDBASE_H_ */
