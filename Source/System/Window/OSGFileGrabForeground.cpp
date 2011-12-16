@@ -112,12 +112,12 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
         return;
     }
     
+    Image::PixelFormat pixelFormat = (Image::PixelFormat)getPixelFormat();
+    pixelFormat = (pixelFormat == 0) ? Image::OSG_RGB_PF : pixelFormat;
+    
     // do we have an image yet? If not, create one.
     if(getImage() == NullFC)
     {
-		Image::PixelFormat pixelFormat = (Image::PixelFormat)getPixelFormat();
-		pixelFormat = (pixelFormat == 0) ? Image::OSG_RGB_PF : pixelFormat;
-		
         beginEditCP(this->getPtr(), FileGrabForeground::ImageFieldMask);
         {
 			ImagePtr iPtr = Image::create();
@@ -128,7 +128,18 @@ void FileGrabForeground::draw(DrawActionBase *action, Viewport *port)
         }
         endEditCP  (this->getPtr(), FileGrabForeground::ImageFieldMask);
     }
+    else if(getImage()->getPixelFormat() != pixelFormat)
+    {
+        ImagePtr iPtr = getImage();
+        
+        beginEditCP(iPtr, Image::PixelFormatFieldMask);
+        {
+            iPtr->reformat(pixelFormat);
+        }
+        endEditCP  (iPtr, Image::PixelFormatFieldMask);
+    }
     
+    // read pixels
     Inherited::draw(action,port);
     
     Char8 *name = new Char8 [ getName().size() + 32 ]; // this is really 
