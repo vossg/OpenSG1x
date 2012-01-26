@@ -97,10 +97,11 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
-    /*! \name                   Draw                                       */
+    /*! \name                   Action Callbacks                           */
     /*! \{                                                                 */
 
     Action::ResultE draw( Action* action );
+    Action::ResultE intersect(Action *action);
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/

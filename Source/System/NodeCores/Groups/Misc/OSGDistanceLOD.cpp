@@ -43,8 +43,9 @@
 
 #include <OSGAction.h>
 #include <OSGDrawAction.h>
-#include <OSGCamera.h>
 #include <OSGRenderAction.h>
+#include <OSGIntersectAction.h>
+#include <OSGCamera.h>
 
 //just for debug
 #include <iostream>
@@ -218,6 +219,62 @@ Real32 DistanceLOD::calcDistance(DrawActionBase *pAction, const Matrix &mToWorld
 }
 
 /*-------------------------------------------------------------------------*/
+/*                             Intersect                                   */
+
+Action::ResultE DistanceLOD::intersect(Action *action)
+{
+    IntersectAction *ia  = dynamic_cast<IntersectAction *>(action);
+    
+#ifndef OSG_2_PREP
+    const DynamicVolume &vol = ia->getActNode()->getVolume();
+#else
+    const BoxVolume     &vol = ia->getActNode()->getVolume();
+#endif
+    
+    UInt32 numLevels = action->getNNodes();
+    
+    // early out: no children or lod set missed, cannot hit anything
+    if (numLevels == 0 ||
+    	vol.isValid() && !vol.intersect(ia->getLine()))
+    {
+        return Action::Skip;
+    }
+
+    const MFReal32 &range = (*getMFRange());
+    UInt32 numRanges = range.size();
+    UInt32 index = 0;
+	
+    if (numRanges > 0)
+    {
+        if (numRanges >= numLevels)
+            numRanges = numLevels - 1;
+
+        if (numRanges == 0)
+        {
+            index = 0;
+        }
+        else if (_lastDist >= range[numRanges - 1])
+        {
+            index = numRanges;
+        }
+        else
+        {
+            for (index = 0; index < numRanges; ++index)
+            {
+                if (_lastDist < range[index])
+                    break;
+            }
+        }
+    }
+    
+    const NodePtr nodePtr = action->getNode(index);
+    
+    ia->addNode(nodePtr);
+
+    return Action::Continue;
+}
+
+/*-------------------------------------------------------------------------*/
 /*                               Init                                      */
 
 void DistanceLOD::initMethod (void)
@@ -238,7 +295,12 @@ void DistanceLOD::initMethod (void)
             CNodePtr        ,
             Action         *>(&DistanceLOD::draw));
 	
-	// TODO; what about intersect?
+	IntersectAction::registerEnterDefault( 
+        getClassType(),
+        osgTypedMethodFunctor2BaseCPtrRef<Action::ResultE,
+            DistanceLODPtr  ,
+            CNodePtr        ,
+            Action         *>(&DistanceLOD::intersect));
 }
 
 
