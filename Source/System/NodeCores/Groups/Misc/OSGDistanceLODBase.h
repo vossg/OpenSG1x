@@ -69,6 +69,7 @@
 
 #include <OSGPnt3fFields.h> // Center type
 #include <OSGReal32Fields.h> // Range type
+#include <OSGInt32Fields.h> // Index type
 
 #include <OSGDistanceLODFields.h>
 
@@ -94,11 +95,13 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
     {
         CenterFieldId = Inherited::NextFieldId,
         RangeFieldId  = CenterFieldId + 1,
-        NextFieldId   = RangeFieldId  + 1
+        IndexFieldId  = RangeFieldId  + 1,
+        NextFieldId   = IndexFieldId  + 1
     };
 
     static const OSG::BitVector CenterFieldMask;
     static const OSG::BitVector RangeFieldMask;
+    static const OSG::BitVector IndexFieldMask;
 
 
     static const OSG::BitVector MTInfluenceMask;
@@ -138,11 +141,23 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
            MFReal32            *getMFRange          (void);
 #endif
 
+           SFInt32             *editSFIndex          (void);
+     const SFInt32             *getSFIndex          (void) const;
+#ifndef OSG_2_PREP
+           SFInt32             *getSFIndex          (void);
+#endif
+
 
            Pnt3f               &editCenter         (void);
      const Pnt3f               &getCenter         (void) const;
 #ifndef OSG_2_PREP
            Pnt3f               &getCenter         (void);
+#endif
+
+           Int32               &editIndex          (void);
+     const Int32               &getIndex          (void) const;
+#ifndef OSG_2_PREP
+           Int32               &getIndex          (void);
 #endif
 
            Real32              &editRange          (const UInt32 index);
@@ -159,6 +174,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
     /*! \{                                                                 */
 
      void setCenter         ( const Pnt3f &value );
+     void setIndex          ( const Int32 &value );
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -203,6 +219,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLODBase : public Group
 
     SFPnt3f             _sfCenter;
     MFReal32            _mfRange;
+    SFInt32             _sfIndex;
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
@@ -280,6 +297,6 @@ typedef RefPtr<DistanceLODPtr> DistanceLODRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
+#define OSGDISTANCELODBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGDISTANCELODBASE_H_ */

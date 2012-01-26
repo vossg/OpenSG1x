@@ -70,6 +70,9 @@ const OSG::BitVector  DistanceLODBase::CenterFieldMask =
 const OSG::BitVector  DistanceLODBase::RangeFieldMask = 
     (TypeTraits<BitVector>::One << DistanceLODBase::RangeFieldId);
 
+const OSG::BitVector  DistanceLODBase::IndexFieldMask = 
+    (TypeTraits<BitVector>::One << DistanceLODBase::IndexFieldId);
+
 const OSG::BitVector DistanceLODBase::MTInfluenceMask = 
     (Inherited::MTInfluenceMask) | 
     (static_cast<BitVector>(0x0) << Inherited::NextFieldId); 
@@ -82,6 +85,9 @@ const OSG::BitVector DistanceLODBase::MTInfluenceMask =
 */
 /*! \var Real32          DistanceLODBase::_mfRange
     The range intervals.
+*/
+/*! \var Int32           DistanceLODBase::_sfIndex
+    The current index into the range interval (internally updated and only valid for single viewport scenarios).
 */
 
 //! DistanceLOD description
@@ -97,7 +103,12 @@ FieldDescription *DistanceLODBase::_desc[] =
                      "range", 
                      RangeFieldId, RangeFieldMask,
                      false,
-                     reinterpret_cast<FieldAccessMethod>(&DistanceLODBase::editMFRange))
+                     reinterpret_cast<FieldAccessMethod>(&DistanceLODBase::editMFRange)),
+    new FieldDescription(SFInt32::getClassType(), 
+                     "index", 
+                     IndexFieldId, IndexFieldMask,
+                     false,
+                     reinterpret_cast<FieldAccessMethod>(&DistanceLODBase::editSFIndex))
 };
 
 
@@ -175,8 +186,9 @@ void DistanceLODBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 #endif
 
 DistanceLODBase::DistanceLODBase(void) :
-    _sfCenter                 (), 
+    _sfCenter                 (Pnt3f(0.f, 0.f, 0.f)), 
     _mfRange                  (), 
+    _sfIndex                  (Int32(-1)), 
     Inherited() 
 {
 }
@@ -188,6 +200,7 @@ DistanceLODBase::DistanceLODBase(void) :
 DistanceLODBase::DistanceLODBase(const DistanceLODBase &source) :
     _sfCenter                 (source._sfCenter                 ), 
     _mfRange                  (source._mfRange                  ), 
+    _sfIndex                  (source._sfIndex                  ), 
     Inherited                 (source)
 {
 }
@@ -214,6 +227,11 @@ UInt32 DistanceLODBase::getBinSize(const BitVector &whichField)
         returnValue += _mfRange.getBinSize();
     }
 
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+    {
+        returnValue += _sfIndex.getBinSize();
+    }
+
 
     return returnValue;
 }
@@ -231,6 +249,11 @@ void DistanceLODBase::copyToBin(      BinaryDataHandler &pMem,
     if(FieldBits::NoField != (RangeFieldMask & whichField))
     {
         _mfRange.copyToBin(pMem);
+    }
+
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+    {
+        _sfIndex.copyToBin(pMem);
     }
 
 
@@ -251,6 +274,11 @@ void DistanceLODBase::copyFromBin(      BinaryDataHandler &pMem,
         _mfRange.copyFromBin(pMem);
     }
 
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+    {
+        _sfIndex.copyFromBin(pMem);
+    }
+
 
 }
 
@@ -267,6 +295,9 @@ void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
     if(FieldBits::NoField != (RangeFieldMask & whichField))
         _mfRange.syncWith(pOther->_mfRange);
 
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+        _sfIndex.syncWith(pOther->_sfIndex);
+
 
 }
 #else
@@ -279,6 +310,9 @@ void DistanceLODBase::executeSyncImpl(      DistanceLODBase *pOther,
 
     if(FieldBits::NoField != (CenterFieldMask & whichField))
         _sfCenter.syncWith(pOther->_sfCenter);
+
+    if(FieldBits::NoField != (IndexFieldMask & whichField))
+        _sfIndex.syncWith(pOther->_sfIndex);
 
 
     if(FieldBits::NoField != (RangeFieldMask & whichField))

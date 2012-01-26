@@ -142,6 +142,29 @@ MFReal32 *DistanceLODBase::getMFRange(void)
 }
 #endif
 
+//! Get the DistanceLOD::_sfIndex field.
+inline
+const SFInt32 *DistanceLODBase::getSFIndex(void) const
+{
+    return &_sfIndex;
+}
+
+//! Get the DistanceLOD::_sfIndex field.
+inline
+SFInt32 *DistanceLODBase::editSFIndex(void)
+{
+    return &_sfIndex;
+}
+
+#ifndef OSG_2_PREP
+//! Get the DistanceLOD::_sfIndex field.
+inline
+SFInt32 *DistanceLODBase::getSFIndex(void)
+{
+    return &_sfIndex;
+}
+#endif
+
 
 //! Get the value of the DistanceLOD::_sfCenter field.
 inline
@@ -171,6 +194,36 @@ inline
 void DistanceLODBase::setCenter(const Pnt3f &value)
 {
     _sfCenter.setValue(value);
+}
+
+//! Get the value of the DistanceLOD::_sfIndex field.
+inline
+Int32 &DistanceLODBase::editIndex(void)
+{
+    return _sfIndex.getValue();
+}
+
+//! Get the value of the DistanceLOD::_sfIndex field.
+inline
+const Int32 &DistanceLODBase::getIndex(void) const
+{
+    return _sfIndex.getValue();
+}
+
+#ifndef OSG_2_PREP
+//! Get the value of the DistanceLOD::_sfIndex field.
+inline
+Int32 &DistanceLODBase::getIndex(void)
+{
+    return _sfIndex.getValue();
+}
+#endif
+
+//! Set the value of the DistanceLOD::_sfIndex field.
+inline
+void DistanceLODBase::setIndex(const Int32 &value)
+{
+    _sfIndex.setValue(value);
 }
 
 
@@ -214,5 +267,5 @@ const MFReal32 &DistanceLODBase::getRange(void) const
 
 OSG_END_NAMESPACE
 
-#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.21 2008/06/09 07:30:44 vossg Exp $"
+#define OSGDISTANCELODBASE_INLINE_CVSID "@(#)$Id: FCBaseTemplate_inl.h,v 1.22 2008/06/09 12:26:59 vossg Exp $"
 

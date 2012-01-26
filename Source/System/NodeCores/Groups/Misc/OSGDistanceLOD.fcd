@@ -12,6 +12,7 @@
 	<Field
 		name="center"
 		type="Pnt3f"
+		defaultValue="0.f, 0.f, 0.f"
 		cardinality="single"
 		visibility="external"
 		access="public"
@@ -26,5 +27,15 @@
 		access="public"
 	>
 	The range intervals.
+	</Field>
+	<Field
+		name="index"
+		type="Int32"
+		defaultValue="-1"
+		cardinality="single"
+		visibility="external"
+		access="public"
+	>
+	The current index into the range interval (internally updated and only valid for single viewport scenarios).
 	</Field>
 </FieldContainer>

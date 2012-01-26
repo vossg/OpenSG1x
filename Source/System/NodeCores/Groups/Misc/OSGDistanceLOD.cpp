@@ -141,14 +141,26 @@ DistanceLOD::~DistanceLOD(void)
 
 Action::ResultE DistanceLOD::draw(Action *action)
 {
+	DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
+	RenderAction   *ra = dynamic_cast<RenderAction *>  (action);
+	
     action->useNodeList();
 
     UInt32 numLevels = action->getNNodes();
+    Int32 index = -1;
+    
     if (numLevels == 0)
+    {
+    	// update index field for being externally accessible
+    	if (index != getIndex() && (!ra || !ra->getEffectsPass()))
+    	{
+			beginEditCP(getPtr(), IndexFieldMask);
+				setIndex(index);
+			endEditCP  (getPtr(), IndexFieldMask);
+		}
+		
         return Action::Continue;
-
-    DrawActionBase *da = dynamic_cast<DrawActionBase *>(action);
-    Int32 index;
+    }
 
     const MFReal32 &range = (*getMFRange());
     UInt32 numRanges = range.size();
@@ -159,8 +171,7 @@ Action::ResultE DistanceLOD::draw(Action *action)
     }
     else
     {
-        Real32 dist;
-        RenderAction *ra = dynamic_cast<RenderAction *>(action);
+        Real32 dist = 0;
 		
         if (ra != NULL)
 		{
@@ -192,8 +203,17 @@ Action::ResultE DistanceLOD::draw(Action *action)
             }
         }
     }
+    
+    // update index field for being externally accessible
+	if (index != getIndex() && (!ra || !ra->getEffectsPass()))
+	{
+		beginEditCP(getPtr(), IndexFieldMask);
+			setIndex(index);
+		endEditCP  (getPtr(), IndexFieldMask);
+	}
 
     const NodePtr nodePtr = action->getNode(index);
+    
     if(da->isVisible(getCPtr(nodePtr)))
     {
         da->addNode(nodePtr);
@@ -205,7 +225,8 @@ Action::ResultE DistanceLOD::draw(Action *action)
 /*-------------------------------------------------------------------------*/
 /*                            Calc Distance                                */
 
-Real32 DistanceLOD::calcDistance(DrawActionBase *pAction, const Matrix &mToWorld)
+Real32 DistanceLOD::calcDistance(DrawActionBase *pAction, 
+								 const Matrix &mToWorld)
 {
     Matrix m;
     m.invertFrom(mToWorld);
