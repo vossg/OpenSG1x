@@ -226,10 +226,7 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
     if(old == this)
     {
         // Reset it, as Geometry colors might have changed it
-        if(getColorMaterial() != GL_NONE || 
-           (getBackMaterial() && getBackColorMaterial() != GL_NONE)
-          )
-            glColor4fv(_sfDiffuse.getValue().getValuesRGBA());
+        glColor4fv(_sfDiffuse.getValue().getValuesRGBA());
 
         return;
     }
@@ -280,8 +277,7 @@ void MaterialChunk::changeFrom(DrawActionBase *, StateChunk * old_chunk, UInt32)
         }
     }
     
-    if(getColorMaterial() != GL_NONE || getBackColorMaterial() != GL_NONE)
-        glColor4fv(_sfDiffuse.getValue().getValuesRGBA());
+    glColor4fv(_sfDiffuse.getValue().getValuesRGBA());
 
     if(getLit() && ! old->getLit())
         glEnable(GL_LIGHTING);
