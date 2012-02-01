@@ -368,16 +368,16 @@ void ShadowViewport::changed(BitVector whichField, UInt32 origin)
         FDEBUG(("ShadowViewport::changed : light nodes changed.\n"));
         _lights.clear();
         for(UInt32 i = 0;i < getMFLightNodes()->getSize();++i) 
-		{
-			LightPtr lPtr = LightPtr::dcast(getLightNodes(i)->getCore());
-			if (lPtr != NullFC) {
-				_lights.push_back(std::make_pair(getLightNodes(i), lPtr));
-			}
-			else {
-				FFATAL(("ShadowViewport::changed - LightPtr is NullFC / %s\n",
-						getLightNodes(i)->getCore()->getTypeName()));
-			}
-		}
+        {
+            LightPtr lPtr = LightPtr::dcast(getLightNodes(i)->getCore());
+            if (lPtr != NullFC) {
+                _lights.push_back(std::make_pair(getLightNodes(i), lPtr));
+            }
+            else {
+                FFATAL(("ShadowViewport::changed - LightPtr is NullFC / %s\n",
+                        getLightNodes(i)->getCore()->getTypeName()));
+            }
+        }
     }
 
     if(whichField & MapAutoUpdateFieldMask)
@@ -922,7 +922,7 @@ void ShadowViewport::updateLights(void)
                         bb[4] = Pnt3f(sceneMin[0], sceneMin[1], sceneMax[2]);
                         bb[5] = Pnt3f(sceneMax[0], sceneMin[1], sceneMax[2]);
                         bb[6] = Pnt3f(sceneMax[0], sceneMax[1], sceneMax[2]);
-                        bb[7] = Pnt3f(sceneMin[0], sceneMax[1], sceneMax[2]);	
+                        bb[7] = Pnt3f(sceneMin[0], sceneMax[1], sceneMax[2]);   
 
                         PLangle = deg2rad(0);
                         Pnt3f   maxAnglePnt1, maxAnglePnt2;
@@ -954,7 +954,7 @@ void ShadowViewport::updateLights(void)
                                 maxAnglePnt2 = bb[j];
                             }
                         }
-	
+    
                         if(rad2deg(PLangle) < 120) //Use one Side only
                         {
                             getLightRoot(i)->getVolume().getCenter(center);
@@ -1573,7 +1573,7 @@ void ShadowViewport::setReadBuffer(void)
 namespace
 {
 static Char8 cvsid_cpp       [] =
-    "@(#)$Id: OSGShadowViewport.cpp,v 1.43 2011/12/12 23:49:52 carstenneumann Exp $";
+    "@(#)$Id: OSGShadowViewport.cpp,v 1.44 2012/02/01 20:28:03 carstenneumann Exp $";
 static Char8 cvsid_hpp       [] = OSGSHADOWVIEWPORTBASE_HEADER_CVSID;
 static Char8 cvsid_inl       [] = OSGSHADOWVIEWPORTBASE_INLINE_CVSID;
 

@@ -1370,7 +1370,7 @@ void VarianceShadowMap::render(RenderActionBase *action)
     }
     else
     {
-        glPushAttrib(GL_ENABLE_BIT);
+        glPushAttrib(GL_ENABLE_BIT | GL_LIGHTING_BIT);
 
         if(!_initTexturesDone)
             initTextures(win);
