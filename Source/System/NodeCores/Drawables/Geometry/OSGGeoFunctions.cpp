@@ -1230,7 +1230,7 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
       maxPType = 5;
       break;
     default:
-      FFATAL (( "Can not fill index; Invalid primitiveType: %d\n",
+      FFATAL (( "Cannot fill index; invalid primitiveType: %d\n",
                 primitiveType ));
       break;
     }
@@ -1271,7 +1271,7 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
     texCoordsPtr = geoPtr->getTexCoords7();
     tN7 = ((texCoordsPtr == OSG::NullFC) ? 0 : texCoordsPtr->getSize());
 
-    FDEBUG(("vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN));
+    FDEBUG(("Vertex attrib count P/N/C/T: %d/%d/%d/%d\n", pN, nN, cN, tN));
 
     //----------------------------------------------------------------------
     // check the vertex index and count the primitives
@@ -1281,7 +1281,7 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
 
     if(!pN)
     {
-        FINFO(("No points in OSG::setIndexFromVRMLData()\n"));
+        FINFO(("No points in OSG::setIndexFromIndexedX3DData()\n"));
         return 0;
     }
     else
@@ -1331,7 +1331,8 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
                 // valid normal index number
                 for(i = 0; i < piN; i++)
                 {   // check if normal index equals the coord index
-                    if(normalIndex[i] != coordIndex[i])
+                    if(normalIndex[i] != coordIndex[i] &&
+                   	   normalIndex[i] != -1 && coordIndex[i] != -1)
                     {
                         normalIT = VERTEX_IT;
                         break;
@@ -1350,8 +1351,8 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
                 normalIT = VERTEX_COORD_IT;
                 if(niN)
                 {
-                    FWARNING(("Not enough normal index (%d,%d)\n", normalIndex.
-                                                     size(), piN));
+                    FWARNING(("Not enough normal indices (%d,%d)\n", 
+                    			normalIndex.size(), piN));
                     normalIndex.clear();
                 }
             }
@@ -1373,7 +1374,7 @@ Int32 OSG::setIndexFromIndexedX3DData ( GeometryPtr geoPtr,
                 }
                 else
                 {
-                    FINFO(("not enough normal index (%d,%d)\n", nN, primitiveN));
+                    FINFO(("Not enough normal indices (%d,%d)\n", nN, primitiveN));
                 }
             }
         }
@@ -1405,7 +1406,8 @@ else
                 // valid color index number
                 for(i = 0; i < piN; i++)
                 {   // check if color index equals the coord index
-                    if(colorIndex[i] != coordIndex[i])
+                    if(colorIndex[i] != coordIndex[i] &&
+                   	   colorIndex[i] != -1 && coordIndex[i] != -1)
                     {
                         colorIT = VERTEX_IT;
                         break;
@@ -1424,8 +1426,8 @@ else
                 colorIT = VERTEX_COORD_IT;
                 if(ciN)
                 {
-                    FWARNING(("Not enough color index (%d,%d)\n", colorIndex.
-                                                     size(), piN));
+                    FWARNING(("Not enough color indices (%d,%d)\n", 
+                    			colorIndex.size(), piN));
                     colorIndex.clear();
                 }
             }
@@ -1447,7 +1449,7 @@ else
                 }
                 else
                 {
-                    FINFO(("not enough color index (%d,%d)\n", cN, primitiveN));
+                    FINFO(("Not enough color indices (%d,%d)\n", cN, primitiveN));
                 }
             }
         }
@@ -1462,13 +1464,14 @@ else
     textureIT = UNKNOWN_IT;
     tiN = texCoordIndex.size();
     if(tN)
-    {               // have texture elemnts
+    {               // have texture elements
         if(tiN >= piN)
         {
             // valid texture index number
             for(i = 0; i < piN; i++)
             {       // check if texture index equals the coord index
-                if(texCoordIndex[i] != coordIndex[i])
+                if(texCoordIndex[i] != coordIndex[i] &&
+                   texCoordIndex[i] != -1 && coordIndex[i] != -1)
                 {
                     textureIT = VERTEX_IT;
                     break;
@@ -1487,8 +1490,8 @@ else
             textureIT = VERTEX_COORD_IT;
             if(ciN)
             {
-                FWARNING(("Not enough texCoord index (%d,%d)\n", texCoordIndex.
-                                             size(), piN));
+                FWARNING(("Not enough texCoord indices (%d,%d)\n", 
+                			texCoordIndex.size(), piN));
                 texCoordIndex.clear();
             }
         }
