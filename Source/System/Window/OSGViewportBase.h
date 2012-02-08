@@ -433,6 +433,6 @@ typedef RefPtr<ViewportPtr> ViewportRefPtr;
 
 OSG_END_NAMESPACE
 
-#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.41 2008/06/09 07:30:44 vossg Exp $"
+#define OSGVIEWPORTBASE_HEADER_CVSID "@(#)$Id: FCBaseTemplate_h.h,v 1.42 2008/06/09 12:26:59 vossg Exp $"
 
 #endif /* _OSGVIEWPORTBASE_H_ */

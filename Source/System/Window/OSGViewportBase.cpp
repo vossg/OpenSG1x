@@ -274,10 +274,10 @@ void ViewportBase::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
 #endif
 
 ViewportBase::ViewportBase(void) :
-    _sfLeft                   (), 
-    _sfRight                  (), 
-    _sfBottom                 (), 
-    _sfTop                    (), 
+    _sfLeft                   (Real32(0.f)), 
+    _sfRight                  (Real32(1.f)), 
+    _sfBottom                 (Real32(0.f)), 
+    _sfTop                    (Real32(1.f)), 
     _sfParent                 (), 
     _sfCamera                 (), 
     _sfRoot                   (), 
