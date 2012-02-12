@@ -89,6 +89,9 @@ struct Vertex {
     float x;
     float y;
     float z;
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
 };
 
 struct Face {
@@ -100,9 +103,12 @@ static PlyProperty vert_props[] = { /* list of property information for a vertex
   {"x", PLY_FLOAT, PLY_FLOAT, offsetof(Vertex,x), 0, 0, 0, 0},
   {"y", PLY_FLOAT, PLY_FLOAT, offsetof(Vertex,y), 0, 0, 0, 0},
   {"z", PLY_FLOAT, PLY_FLOAT, offsetof(Vertex,z), 0, 0, 0, 0},
+  {"red",   PLY_UCHAR, PLY_UCHAR, offsetof(Vertex,red),   0, 0, 0, 0},
+  {"green", PLY_UCHAR, PLY_UCHAR, offsetof(Vertex,green), 0, 0, 0, 0},
+  {"blue",  PLY_UCHAR, PLY_UCHAR, offsetof(Vertex,blue),  0, 0, 0, 0}
 };
 
-static PlyProperty face_props[] = { /* list of property information for a vertex */
+static PlyProperty face_props[] = { /* list of property information for a face */
   {"vertex_indices", PLY_INT, PLY_INT, offsetof(Face,verts),
                      1, PLY_UCHAR, PLY_UCHAR, offsetof(Face,nverts)},
 };
@@ -118,6 +124,7 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
     }
 
     GeoPositions3fPtr pos3f;
+    GeoColors3fPtr    col3f;
     GeoIndicesUI32Ptr indices;
 
     for (size_t i = 0; i < elems.size(); ++i)
@@ -125,30 +132,72 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
         const std::string& elem_name = elems[i];
         int num_elems;
         std::vector<PlyProperty> props;
-        if (!ply_get_element_description(ply, elem_name, &num_elems, props)) {
+        
+        if (!ply_get_element_description(ply, elem_name, &num_elems, props)) 
+        {
             continue;
         }
-
+        
         if ("vertex" == elem_name)
         {
-            pos3f = GeoPositions3f::create();
-            beginEditCP(pos3f);
-
-            MFPnt3f& data = pos3f->editField();
-            data.resize(num_elems);
-
-            ply_get_property(ply, elem_name, &vert_props[0]);
-            ply_get_property(ply, elem_name, &vert_props[1]);
-            ply_get_property(ply, elem_name, &vert_props[2]);
-
-            for (int j = 0; j < num_elems; ++j)
+            bool hasColor = false;
+            for (size_t pi=0; pi<props.size(); ++pi)
+                if (props[pi].name == "blue")
+                    hasColor = true;
+            
+            if (hasColor)
             {
-                Vertex vertex = { 0, 0, 0 };
-                ply_get_element(ply, &vertex);
-                data[j] = Pnt3f(vertex.x, vertex.y, vertex.z);
-            }
+                pos3f = GeoPositions3f::create();
+                col3f = GeoColors3f::create();
+            
+                beginEditCP(pos3f);
+                beginEditCP(col3f);
 
-            endEditCP(pos3f);
+                MFPnt3f& data = pos3f->editField();
+                data.resize(num_elems);
+
+                MFColor3f& cdata = col3f->editField();
+                cdata.resize(num_elems);
+
+                ply_get_property(ply, elem_name, &vert_props[0]);
+                ply_get_property(ply, elem_name, &vert_props[1]);
+                ply_get_property(ply, elem_name, &vert_props[2]);
+                ply_get_property(ply, elem_name, &vert_props[3]);
+                ply_get_property(ply, elem_name, &vert_props[4]);
+                ply_get_property(ply, elem_name, &vert_props[5]);
+
+                for (int j = 0; j < num_elems; ++j)
+                {
+                    Vertex vertex = { 0, 0, 0, 0, 0, 0 };
+                    ply_get_element(ply, &vertex);
+                    data[j] = Pnt3f(vertex.x, vertex.y, vertex.z);
+                    cdata[j] = Color3f(vertex.red/255.f, vertex.green/255.f, vertex.blue/255.f);
+                }
+
+                endEditCP(col3f);
+                endEditCP(pos3f);
+            }
+            else
+            {
+                pos3f = GeoPositions3f::create();
+                beginEditCP(pos3f);
+                
+                MFPnt3f& data = pos3f->editField();
+                data.resize(num_elems);
+                
+                ply_get_property(ply, elem_name, &vert_props[0]);
+                ply_get_property(ply, elem_name, &vert_props[1]);
+                ply_get_property(ply, elem_name, &vert_props[2]);
+                
+                for (int j = 0; j < num_elems; ++j)
+                {
+                    Vertex vertex = { 0, 0, 0, 0, 0, 0 };
+                    ply_get_element(ply, &vertex);
+                    data[j] = Pnt3f(vertex.x, vertex.y, vertex.z);
+                }
+                
+                endEditCP(pos3f);
+            }
         }
         else if ("face" == elem_name)
         {
@@ -212,6 +261,8 @@ NodePtr PLYSceneFileType::read(std::istream& is, const Char8* /*fileNameOrExtens
         geo->setLengths(lengths);
         geo->setPositions(pos3f);
         geo->setIndices(indices);
+        if (col3f != NullFC)
+            geo->setColors(col3f);
         endEditCP(geo);
         calcVertexNormals(geo);
 
@@ -260,6 +311,6 @@ PLYSceneFileType::PLYSceneFileType(const PLYSceneFileType& obj) :
 
 namespace
 {
-    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.2 2009/01/28 04:02:05 vossg Exp $";
+    static Char8 cvsid_cpp[] = "@(#)$Id: OSGPLYSceneFileType.cpp,v 1.3 2012/02/12 20:25:36 yjung Exp $";
     static Char8 cvsid_hpp[] = OSGPLYSCENEFILETYPE_HEADER_CVSID;
 }
