@@ -76,6 +76,13 @@
 # include FT_OUTLINE_H
 #endif
 
+// Where is FONT_SEARCHPATH usually defined?
+#if defined(__APPLE__) && defined(__LP64__)
+# if !defined(FONTCONFIG_LIB) && !defined(FONT_SEARCHPATH)
+#  define FONT_SEARCHPATH "/Library/Fonts:/System/Library/Fonts"
+# endif
+#endif
+
 
 using namespace std;
 
@@ -207,7 +214,6 @@ public:
     virtual ~TextFT2TXFGlyph();
 };
 
-
 //----------------------------------------------------------------------
 // Constructor
 // Author: pdaehne
@@ -218,18 +224,20 @@ TextFT2Backend::TextFT2Backend()
   ,
 # ifdef FONT_SEARCHPATH
  _pathList(FONT_SEARCHPATH),
-#else
-_pathList(),
-#endif
+# else
+ _pathList(),
+# endif
  _scanForFonts(true), _fontMap()
 #endif
 {
     // Initialize Freetype library
     FT_Error error = FT_Init_FreeType(&_library);
-    if (error)
+    if (error) {
         // There is not much we can do here when we cannot initialize
         // the library - we simply will not be able to create any font
         _library = 0;
+        SWARNING << "TextFT2Backend: cannot initialize Freetype2 library!" << std::endl;
+    }
 
 #ifdef FONTCONFIG_LIB
 
@@ -382,6 +390,21 @@ bool TextFT2Backend::findPath(const string &family, TextFace::Style style,
 
 #else // !FONTCONFIG_LIB
 
+    string f;
+#if defined(__APPLE__) && defined(__LP64__)
+    // Handle generic family names
+    if (family == "SERIF")
+        f = "Times";
+    else if (family == "SANS")
+        f = "Helvetica";
+    else if (family == "TYPEWRITER")
+        f = "Courier";
+    else
+        f = family;
+#else
+    f = family;
+#endif
+
     // Scan the font search path for fonts
     scanForFonts();
 
@@ -390,7 +413,7 @@ bool TextFT2Backend::findPath(const string &family, TextFace::Style style,
     pair<FontMap::const_iterator, FontMap::const_iterator> range;
     //string f = family;
     //transform(f.begin(), f.end(), f.begin(), ::tolower);
-    range = _fontMap.equal_range(/*f*/family);
+    range = _fontMap.equal_range(f/*family*/);
     for (it = range.first; it != range.second; ++it)
     {
         if (it->second.style == style)
@@ -1474,7 +1497,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.9 2008/06/09 07:30:42 vossg Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextFT2Backend.cpp,v 1.10 2012/03/04 17:29:59 yjung Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTFT2BACKEND_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTFT2BACKEND_INLINE_CVSID;
 }
