@@ -215,7 +215,10 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
     UInt32                              len;
 
     // hack. No materialchange after image chagne
-    std::vector<std::pair<FieldContainerPtr,BitVector> > changedFCs;
+    typedef std::pair  <FieldContainerPtr, BitVector>  ChangeStoreElem;
+    typedef std::vector<ChangeStoreElem>               ChangeStore;
+
+    ChangeStore changedFCs;
 
     if(_statistics)
     {
@@ -380,11 +383,6 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                 {
                     fcPtr = factory->getContainer(localId);
 
-                    if(applyToChangelist)
-                    {
-                        beginEditCP(fcPtr, mask);
-                    }
-
                     /*
                     for(int i=0;i<fcPtr->getType().getNumFieldDescs();i++)
                     {
@@ -394,18 +392,8 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
                     }
                     */
                     fcPtr->copyFromBin(connection, mask);
-                    if(applyToChangelist)
-                    {
-                        endEditCP(fcPtr, mask);
-                    }
-                    else
-                    {
-                        // do we need to call this?
-                        changedCP(fcPtr, mask);
-                    }
-                    changedFCs.push_back(
-                        std::pair<FieldContainerPtr,BitVector>(
-                            fcPtr,mask));
+
+                    changedFCs.push_back(ChangeStoreElem(fcPtr, mask));
                 }
                 else
                 {
@@ -495,12 +483,22 @@ void RemoteAspect::receiveSync(Connection &connection, bool applyToChangelist)
 
     // call changed for all changed field containers after all values
     // are set
-    for(std::vector<std::pair<FieldContainerPtr,BitVector> >::iterator cI=changedFCs.begin();
-        cI != changedFCs.end();
-        ++cI) 
+    ChangeStore::iterator cIt  = changedFCs.begin();
+    ChangeStore::iterator cEnd = changedFCs.end  ();
+
+    for(; cIt != cEnd; ++cIt)
     {
-        changedCP(cI->first,cI->second);
-        callChanged(cI->first);
+        if(applyToChangelist)
+        {
+            beginEditCP((*cIt).first, (*cIt).second);
+            endEditCP  ((*cIt).first, (*cIt).second);
+        }
+        else
+        {
+            changedCP((*cIt).first, (*cIt).second);
+        }
+
+        callChanged((*cIt).first);
     }
 
     // unregister mapper into factory
