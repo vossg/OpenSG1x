@@ -313,6 +313,7 @@ class OSG_SYSTEMLIB_DLLMAPPING RenderAction : public RenderActionBase
 
     MatrixStore               _currMatrix;
     Matrix                    _camInverse;
+    Matrix                    _camProjTranslate;
 
     std::vector<MatrixStore>  _vMatrixStack;
 

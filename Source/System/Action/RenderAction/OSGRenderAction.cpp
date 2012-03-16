@@ -254,6 +254,8 @@ RenderAction::RenderAction(void) :
 
     _uiMatrixId          (0),
     _currMatrix          (),
+    _camInverse          (),
+    _camProjTranslate    (),
     _vMatrixStack        (),
 
     _mMatMap             (),
@@ -399,6 +401,8 @@ RenderAction::RenderAction(const RenderAction &source) :
 
     _uiMatrixId          (source._uiMatrixId),
     _currMatrix          (source._currMatrix),
+    _camInverse          (source._camInverse),
+    _camProjTranslate    (source._camProjTranslate),
     _vMatrixStack        (source._vMatrixStack),
 
     _mMatMap             (source._mMatMap),
@@ -739,6 +743,7 @@ void RenderAction::dropGeometry(Geometry *pGeo)
             getActNode()->getVolume().getCenter(objPos);
 
             _currMatrix.second.mult(objPos, objPos);
+            _camProjTranslate.mult(objPos, objPos);
 
             pNewElem->setNode       (getActNode());
                 
@@ -929,6 +934,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     BoxVolume     vol = getActNode()->getVolume();
 #endif
                     vol.transform(_currMatrix.second);
+                    vol.transform(_camProjTranslate );
                     objPos = vol.getMax();
 
                     pNewElem->setScalar(objPos[2]);
@@ -954,6 +960,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
                     Pnt3f objPos;
                     getActNode()->getVolume().getCenter(objPos);
                     _currMatrix.second.mult(objPos, objPos);
+                    _camProjTranslate .mult(objPos, objPos);
                     pNewElem->setScalar(objPos[2]);
 
                     if(isMultiPass)
@@ -1063,6 +1070,7 @@ void RenderAction::dropFunctor(Material::DrawFunctor &func, Material *mat)
             getActNode()->getVolume().getCenter(objPos);
 
             _currMatrix.second.mult(objPos, objPos);
+            _camProjTranslate .mult(objPos, objPos);
 
             pNewElem->setNode       (getActNode());
                 
@@ -2766,6 +2774,9 @@ Action::ResultE RenderAction::start(void)
             _camera->getViewing(_currMatrix.second, 
                                 _viewport->getPixelWidth (),
                                 _viewport->getPixelHeight());
+            _camera->getProjectionTranslation(_camProjTranslate,
+                                              _viewport->getPixelWidth (),
+                                              _viewport->getPixelHeight());
 
             _camInverse.invertFrom(_currMatrix.second);
             
