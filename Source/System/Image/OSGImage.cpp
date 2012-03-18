@@ -285,7 +285,7 @@ UInt8  Image::getComponents(void) const
         if(_formatDic[i][0] == getPixelFormat())
             return _formatDic[i][1];
     }
-    FWARNING(("Image::getComponents: image %p has unknown pixel format 0x%x!",
+    FWARNING(("Image::getComponents: image %p has unknown pixel format 0x%x!\n",
                 this, getPixelFormat()));
     return 0;
 }
@@ -457,7 +457,7 @@ bool Image::flipDepthFrameData (void)
   }
   else
   {
-      FWARNING (("Cant flipDepthFrameData(); invalid data layout\n"));
+      FWARNING (("Can't flipDepthFrameData(); invalid data layout\n"));
   }
 
   return retCode;
@@ -2051,7 +2051,7 @@ bool Image::reformat ( const Image::PixelFormat pixelFormat,
 				case OSG_LUMINANCE_INTEGER_PF:
 				case OSG_LUMINANCE_ALPHA_INTEGER_PF:
 					{
-						FFATAL((" 'reformat' NYI\n "));
+						FFATAL(("Image: 'reformat' NYI\n "));
 					}
 					break;
                 default:
@@ -2148,7 +2148,7 @@ bool Image::convertDataTypeTo (Int32 destDataType)
 
     if (destDataType == getDataType())
     {
-        FWARNING (( "source image and destination image have same data types: no conversion possible"));
+        FWARNING (("source image and destination image have same data types: no conversion possible\n"));
         return true;
     }
 
@@ -3427,7 +3427,7 @@ bool Image::calcIsAlphaBinary(void)
     
     if(getPixelFormat() == OSG_RGBA_DXT3 || getPixelFormat() == OSG_RGBA_DXT5)
     {
-        FWARNING(("Image::calcIsAlphaBinary: not implemenetd for DXT3 "
+        FWARNING(("Image::calcIsAlphaBinary: not implemented for DXT3 "
                   "and DXT5 yet, assuming false.\n"));
         return false;
     }
@@ -3444,7 +3444,7 @@ bool Image::calcIsAlphaBinary(void)
     case OSG_RGBA_PF:   data += getComponentSize() * 3; break;
     default:
                         FWARNING(("Image::calcIsAlphaBinary: found unknown "
-                                  "image format %x, assumning false.\n", 
+                                  "image format %x, assuming false.\n", 
                                   getPixelFormat()));
                         return false;
     }
@@ -3499,7 +3499,7 @@ bool Image::calcIsAlphaBinary(void)
 		break;
         default:
             FWARNING(("Image::calcIsAlphaBinary: found unknown "
-                      "data type %d, assumning false.\n", 
+                      "data type %d, assuming false.\n", 
                       getDataType()));
             return false;
     }

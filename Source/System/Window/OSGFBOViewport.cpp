@@ -1152,7 +1152,8 @@ void FBOViewport::render(RenderActionBase* action)
         if (getMFTextures()->getSize() < numBuffers)
             numBuffers = getMFTextures()->getSize();
 
-        if (numBuffers > 0) // texture found
+        if (numBuffers > 0 &&     // texture found
+            getStorageWidth() > 0 && getStorageHeight() > 0) 
         {
             Int32 i, format;
             GLenum target = GL_TEXTURE_2D;
@@ -1194,8 +1195,10 @@ void FBOViewport::render(RenderActionBase* action)
                 stencilTex = NullFC;
             }
 
-            if ( !initialize(win, format) )
+            if ( !initialize(win, format) ) {
+                FFATAL(("Cannot initialize FBO\n"));
                 assert(0);
+            }
 
             glErr("FBO render pre\n");
             
@@ -1650,7 +1653,7 @@ bool FBOViewport::checkFrameBufferStatus(Window *win)
 
 namespace
 {
-    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.29 2011/09/01 20:48:26 carstenneumann Exp $";
+    static Char8 cvsid_cpp       [] = "@(#)$Id: OSGFBOViewport.cpp,v 1.30 2012/03/18 20:53:51 yjung Exp $";
     static Char8 cvsid_hpp       [] = OSGFBOVIEWPORTBASE_HEADER_CVSID;
     static Char8 cvsid_inl       [] = OSGFBOVIEWPORTBASE_INLINE_CVSID;
 
