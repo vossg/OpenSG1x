@@ -3157,7 +3157,7 @@ static bool pushSingleTriangle ( GeoIndicesPtr srcIndexPtr,
 
 /*! \ingroup GrpSystemDrawablesGeometryFunctions
 
-    createTrinagles triangulates all primitives exept lines and points.
+    createTriangles triangulates all primitives exept lines and points.
     The function removes invalid triangles (e.g. from strip data) but
     does not handle non-convex polygons correctly.
 
@@ -3165,7 +3165,7 @@ static bool pushSingleTriangle ( GeoIndicesPtr srcIndexPtr,
 */
 OSG_SYSTEMLIB_DLLMAPPING 
 UInt32 OSG::createTriangles (GeometryPtr geoPtr)
-{  
+{
   UInt64 triCount = 0;
 
   if (geoPtr == osg::NullFC) {
@@ -3173,13 +3173,17 @@ UInt32 OSG::createTriangles (GeometryPtr geoPtr)
     return triCount;
   }
 
-  GeoIndicesPtr indexPtr = geoPtr->getIndices();
-  UInt32 multiIndexN = geoPtr->getMFIndexMapping()->size();
   UInt32 badPrimN = 0, badTriN = 0;
+  GeoIndicesPtr indexPtr = geoPtr->getIndices();
+  UInt32 multiIndexN = geoPtr->getMFIndexMapping()->size();  
+
+  // no index geo
+  if (!multiIndexN)
+      multiIndexN = 1;
 
   OSG::GeoIndicesUI32Ptr       destIndexPtr = GeoIndicesUI32::create();
   OSG::GeoPTypesPtr            destTypesPtr = GeoPTypesUI8::create();
-  OSG::GeoPLengthsPtr          destLengthsPtr  = GeoPLengthsUI32::create();
+  OSG::GeoPLengthsPtr          destLengthsPtr = GeoPLengthsUI32::create();
 
   beginEditCP(destTypesPtr);
   beginEditCP(destIndexPtr);
@@ -3267,7 +3271,7 @@ UInt32 OSG::createTriangles (GeometryPtr geoPtr)
   }
 
   if (badPrimN || badTriN) {
-    SWARNING << "createTrinalge(): bad Prim/Tri: "
+    SWARNING << "createTriangle(): bad primitive/triangle: "
              << badPrimN << "/" << badTriN << std::endl;
   }
 
@@ -3288,8 +3292,6 @@ UInt32 OSG::createTriangles (GeometryPtr geoPtr)
   geoPtr->setLengths(destLengthsPtr);
 
   endEditCP(geoPtr);
-
-  endEditCP(destIndexPtr);
 
   return triCount;
 }
@@ -3759,13 +3761,11 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
                            slaveProp->editData() != NULL                           )
                         {
                             slaveDataVec.push_back(slaveProp->editData());
-                            slaveDSizeVec.push_back(slaveProp->getFormatSize() *
-                                                                                slaveProp->getDimension());
+                            slaveDSizeVec.push_back(slaveProp->getFormatSize() * slaveProp->getDimension());
                         }
                         else
                         {
-                            FWARNING(("Invalid slaveProp %d\n", (mapMask & propMask)
-                                                       ));
+                            FWARNING(("Invalid slaveProp %d\n", (mapMask & propMask) ));
                         }
                     }
                 }
@@ -3788,8 +3788,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
                         }
                         else
                         {
-                            indexPtr->setValue(indexRemap[index],
-                                                                           i * indexMapSize + indexBlock);
+                            indexPtr->setValue(indexRemap[index], i * indexMapSize + indexBlock);
                             indexRemapCount++;
                         }
                     }
@@ -3859,7 +3858,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
     return indexRemapCount + dataRemapCount;
 
 #else
-    FFATAL(("Cannot run createSharedIndex: NO_GEO_INFACE\n"));
+    FFATAL(("Cannot run createSharedIndex: NO_GEO_INTERFACE\n"));
     return -1;
 #endif
 }
@@ -3942,8 +3941,8 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
                         {
                             index = indexDic.entry(j)[i];
                             memcpy(pData + (valueSize * j),
-                                                               data + (valueSize * index),
-                                                               valueSize);
+                                   data + (valueSize * index),
+                                   valueSize);
                         }
 
                         delete[] data;
@@ -3976,7 +3975,7 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
     return vCount;
 
 #else
-    FFATAL(("Cannot run createSingleIndex: NO_GEO_INFACE\n"));
+    FFATAL(("Cannot run createSingleIndex: NO_GEO_INTERFACE\n"));
     return -1;
 #endif
 }
