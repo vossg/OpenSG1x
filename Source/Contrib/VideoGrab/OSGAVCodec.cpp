@@ -277,8 +277,10 @@ void AVCodecEncoder::initCodec()
   _video_outbuf= NULL;
   if (!(_format_ctx->oformat->flags & AVFMT_RAWPICTURE))
   {
-    _video_outbuf_size= 200000;
-    _video_outbuf= (unsigned char*)av_malloc(_video_outbuf_size);
+     // assume that encoding produces an image that is at most as big as the
+     // input
+    _video_outbuf_size = avpicture_get_size(c->pix_fmt, c->width, c->height);
+    _video_outbuf      = (unsigned char*)av_malloc(_video_outbuf_size);
   }
 
   /* allformat_ctxate the encoded raw picture */
