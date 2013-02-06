@@ -1464,7 +1464,7 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 					vd_curvestart.push_back( ( vd_curvestart[ ui_curve ] + vd_curveend[ ui_curve ] ) * 0.5 );
 					vd_curveend.push_back( vd_curveend[ ui_curve ] );
 					vd_curveend[ ui_curve ] = vd_curvestart[ ui_curve_cnt ];
-					mm_curve_sort.insert( std::make_pair<const double, unsigned int>( vd_curvestart[ ui_curve_cnt ], ui_curve_cnt ) );
+					mm_curve_sort.insert( std::pair<const double, unsigned int>( vd_curvestart[ ui_curve_cnt ], ui_curve_cnt ) );
 					++ui_curve_cnt;
 					b_cut = true;
 					break;
@@ -1488,7 +1488,7 @@ void CNurbsPatchSurface::CutCurve( const unsigned int cuiSurface, BezierCurve2D 
 						vd_curvestart.push_back( ( vd_curvestart[ ui_curve ] + vd_curveend[ ui_curve ] ) * 0.5 );
 						vd_curveend.push_back( vd_curveend[ ui_curve ] );
 						vd_curveend[ ui_curve ] = vd_curvestart[ ui_curve_cnt ];
-						mm_curve_sort.insert( std::make_pair<const double, unsigned int>( vd_curvestart[ ui_curve_cnt ], ui_curve_cnt ) );
+						mm_curve_sort.insert( std::pair<const double, unsigned int>( vd_curvestart[ ui_curve_cnt ], ui_curve_cnt ) );
 						++ui_curve_cnt;
 						b_cut = true;
 						break;

@@ -53,6 +53,9 @@
 # include <cassert>
 #endif
 
+#if defined(WIN32) && (_MSC_VER >= 1700)
+#include <functional>
+#endif
 
 using namespace std;
 
@@ -898,7 +901,7 @@ OSG_END_NAMESPACE
 
 namespace
 {
-    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.10 2008/06/09 07:30:42 vossg Exp $";
+    static OSG::Char8 cvsid_cpp[] = "@(#)$Id: OSGTextTXFFace.cpp,v 1.11 2013/02/06 11:06:09 yjung Exp $";
     static OSG::Char8 cvsid_hpp[] = OSGTEXTTXFFACE_HEADER_CVSID;
     static OSG::Char8 cvsid_inl[] = OSGTEXTTXFFACE_INLINE_CVSID;
 }
