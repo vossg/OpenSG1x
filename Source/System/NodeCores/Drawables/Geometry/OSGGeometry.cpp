@@ -1757,41 +1757,65 @@ void Geometry::changed(BitVector whichField,
     }
 
 #if 1
+    // fields relevant for this drawable
+    // Used below to avoid recreating the display list for a material change.
+    // This needs to use this mask otherwise adding e.g. a new parent Node
+    // would trigger a display list recompile.
+    const BitVector DrawableFieldsMask = MaterialFieldMask         |
+                                         TypesFieldMask            |
+                                         LengthsFieldMask          |
+                                         PositionsFieldMask        |
+                                         NormalsFieldMask          |
+                                         ColorsFieldMask           |
+                                         SecondaryColorsFieldMask  |
+                                         TexCoordsFieldMask        |
+                                         TexCoords1FieldMask       |
+                                         TexCoords2FieldMask       |
+                                         TexCoords3FieldMask       |
+                                         TexCoords4FieldMask       |
+                                         TexCoords5FieldMask       |
+                                         TexCoords6FieldMask       |
+                                         TexCoords7FieldMask       |
+                                         IndicesFieldMask          |
+                                         IndexMappingFieldMask     |
+                                         DlistCacheFieldMask;
 
-    if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
+    if(whichField & DrawableFieldsMask)
     {
-    // invalidate the dlist cache
-        if(getDlistCache() || getVbo())
+        if(Thread::getAspect() != _sfIgnoreGLForAspect.getValue())
         {
-            if(getGLId() == 0)
+            // invalidate the dlist cache
+            if(getDlistCache() || getVbo())
             {
-                GeometryPtr tmpPtr(*this);
-                
-                beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
-                
-                setGLId(
-                    Window::registerGLObject(
-                        osgTypedMethodVoidFunctor2ObjCPtrPtr<
-                                GeometryPtr,
-                                Window ,
-                                UInt32>(tmpPtr,
-                                        &Geometry::handleGL),
-                        2));
+                if(getGLId() == 0)
+                {
+                    GeometryPtr tmpPtr(*this);
+                    beginEditCP(tmpPtr, Geometry::GLIdFieldMask);
 
-                endEditCP(tmpPtr, Geometry::GLIdFieldMask);
+                    setGLId(
+                        Window::registerGLObject(
+                            osgTypedMethodVoidFunctor2ObjCPtrPtr<
+                                    GeometryPtr,
+                                    Window ,
+                                    UInt32>(tmpPtr,
+                                            &Geometry::handleGL),
+                            2));
+
+                    endEditCP(tmpPtr, Geometry::GLIdFieldMask);
+                }
+
+                // speed improvement don't recreate the display list
+                // for a material change.
+                if((whichField & DrawableFieldsMask) != MaterialFieldMask)
+                    Window::refreshGLObject(getGLId());
             }
+            else
+            {
+                if(getGLId() != 0)
+                    Window::destroyGLObject(getGLId(), 2);
 
-            // speed improvement don't recreate the display list
-            // for a material change.
-            if(whichField != MaterialFieldMask)
-                Window::refreshGLObject(getGLId());
-        }
-        else
-        {
-            if(getGLId() != 0)
-                Window::destroyGLObject(getGLId(), 2);
-            
-            setGLId(0);
+                setGLId(0);
+            }
         }
     }
 #endif
