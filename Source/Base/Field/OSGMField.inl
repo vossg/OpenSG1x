@@ -389,7 +389,7 @@ void MField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
     FieldTypeT  tmpVal = FieldTypeT();
 
     typedef typename osgIF< (MFieldTraits::StringConvertable &
-                             FieldTraits ::FromStringConvertable), 
+                             FieldTraits ::FromStringConvertable) != 0,
                             MFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
@@ -405,7 +405,7 @@ std::string &MField<FieldTypeT,
     std::string tmpString;
 
     typedef typename osgIF< (MFieldTraits::StringConvertable &
-                             FieldTraits ::ToStringConvertable),
+                             FieldTraits ::ToStringConvertable) != 0,
                             MFieldTraits,
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
 

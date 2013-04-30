@@ -131,7 +131,7 @@ void MFieldVector<Tp, Alloc>::shareValues(Self &other, bool bDeleteOld)
 {
     if(bDeleteOld == true)
     {
-#if defined(OSG_LINUX_ICC) && !defined(OSG_ICC_GNU_COMPAT)
+#if (defined(OSG_LINUX_ICC) && !defined(OSG_ICC_GNU_COMPAT)) || defined(__clang__)
         this->_Destroy(this->MYFIRST, this->MYLAST);
 
         this->_Alval.deallocate(this->MYFIRST,

@@ -224,7 +224,7 @@ void ClusterWindow::init( void )
             FILE *pipe = popen(command.str().c_str(),"r");
 #endif
             if(!pipe)
-                SFATAL << "Error starting: " << command << std::endl;
+                SFATAL << "Error starting: " << command.str() << std::endl;
             pipes.push_back(pipe);
         }
         for(id=0 ; id<getMFServers()->size() ; ++id)

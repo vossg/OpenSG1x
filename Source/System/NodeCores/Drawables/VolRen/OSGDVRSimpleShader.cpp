@@ -113,17 +113,18 @@ bool DVRSimpleShader::initialize(DVRVolume      *volume,
     
     // Map the size to an index
     
-    static Int16 types[] =  { Image::OSG_UINT8_IMAGEDATA,
-                              Image::OSG_UINT16_IMAGEDATA,
-                              Image::OSG_UINT32_IMAGEDATA,
-                              Image::OSG_FLOAT16_IMAGEDATA,
-                              Image::OSG_FLOAT32_IMAGEDATA,
-                              -1 };
+    static Image::Type types[] =  { Image::OSG_UINT8_IMAGEDATA,
+                                    Image::OSG_UINT16_IMAGEDATA,
+                                    Image::OSG_UINT32_IMAGEDATA,
+                                    Image::OSG_FLOAT16_IMAGEDATA,
+                                    Image::OSG_FLOAT32_IMAGEDATA,
+                                    Image::OSG_INVALID_IMAGEDATATYPE };
     
     UInt16 type = 0;
-    while(types[type] != -1 && types[type] != img->getDataType()) type++;
-    
-    if(!types[type])
+    while(types[type] != Image::OSG_INVALID_IMAGEDATATYPE &&
+          types[type] != img->getDataType()                 ) type++;
+
+    if(types[type] == Image::OSG_INVALID_IMAGEDATATYPE)
     {
         FWARNING(("DVRSimpleShader::initialize: Image data type %d "
                   "unknown!\n", img->getDataType()));
@@ -140,27 +141,27 @@ bool DVRSimpleShader::initialize(DVRVolume      *volume,
     
     // Map the pixel format to an index
        
-    static Int16 formats[] =  { Image::OSG_L_PF,
-                                Image::OSG_LA_PF,
-                                Image::OSG_RGBA_DXT1,
-                                Image::OSG_RGBA_DXT3,
-                                Image::OSG_RGBA_DXT5,
-                                Image::OSG_RGBA_PF,
-                                Image::OSG_RGB_DXT1,
-                                Image::OSG_RGB_PF,
-                                -1 };
-    
+    static Image::PixelFormat formats[] =  { Image::OSG_L_PF,
+                                             Image::OSG_LA_PF,
+                                             Image::OSG_RGBA_DXT1,
+                                             Image::OSG_RGBA_DXT3,
+                                             Image::OSG_RGBA_DXT5,
+                                             Image::OSG_RGBA_PF,
+                                             Image::OSG_RGB_DXT1,
+                                             Image::OSG_RGB_PF,
+                                             Image::OSG_INVALID_PF };
+
     UInt16 format = 0;
-    while(formats[format] != -1 && 
-          formats[format] != img->getPixelFormat()) format++;
-    
-    if(!formats[format])
+    while(formats[format] != Image::OSG_INVALID_PF &&
+          formats[format] != img->getPixelFormat()   ) format++;
+
+    if(formats[format] == Image::OSG_INVALID_PF)
     {
         FWARNING(("DVRSimpleShader::initialize: Image pixel format %d "
                   "unknown!\n", img->getPixelFormat()));
         format = 0;
     }
-    
+
     if(type > 5) // RGB doesn't have alpha...
     {
         FNOTICE(("DVRSimpleShader::initialize: Image pixel format doesn't "
