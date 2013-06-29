@@ -3691,19 +3691,20 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSharedIndex(GeometryPtr geoPtr)
                 beginEditCP(geoPtr);
                 {
                     geoPtr->setIndices(indexPtr);
+                    geoPtr->editMFIndexMapping()->clear();
                 }
-
                 endEditCP(geoPtr);
             }
         }
         else
         {
-            FNOTICE(("Invalid geoPtr->getPositions() in createSharedIndex()\n"));
+            FWARNING(("Invalid geoPtr->getPositions() in createSharedIndex()\n"));
         }
     }
     else
     {
-        FNOTICE(("Invalid geoPtr in createSharedIndex()\n"));
+        FFATAL(("Invalid geoPtr in createSharedIndex()\n"));
+        return -1;
     }
 
     if(indexPtr != NullFC)
@@ -3882,10 +3883,47 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
     UInt8 *pData, *data;
     GeoIndicesPtr indexPtr;
     IndexDic indexDic;
-    std::vector < Int32 >
-
-    indexVec, sIndex;
+    std::vector < Int32 > indexVec, sIndex;
     GeoPropertyArrayInterface *pP = 0;
+    
+    if(geoPtr != NullFC)
+    {
+        if(geoPtr->getPositions() != NullFC)
+        {
+            // check/create indexPtr
+            indexPtr = geoPtr->getIndices();
+            
+            if(indexPtr == NullFC)
+            {
+                indexPtr = GeoIndicesUI32::create();
+                UInt32 iN = geoPtr->getPositions()->size();
+                
+                beginEditCP(indexPtr);
+                {
+                    indexPtr->resize(iN);
+                    for(i = 0; i < iN; i++)
+                        indexPtr->setValue(i, i);
+                }
+                endEditCP(indexPtr);
+
+                beginEditCP(geoPtr);
+                {
+                    geoPtr->setIndices(indexPtr);
+                    geoPtr->editMFIndexMapping()->clear();
+                }
+                endEditCP(geoPtr);
+            }
+        }
+        else
+        {
+            FWARNING(("Invalid geoPtr->getPositions() in createSingleIndex()\n"));
+        }
+    }
+    else
+    {
+        FFATAL(("Invalid geoPtr in createSingleIndex()\n"));
+        return -1;
+    }
 
     if((geoPtr != NullFC) &&
            (indexMapSize = (geoPtr->getMFIndexMapping()->size())))
@@ -3932,11 +3970,14 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
                             pP->getStride();
                         finalMask |= maskID;
                         memSize = pP->size() * valueSize;
+                        
                         data = new UInt8[memSize];
                         pData = pP->editData();
                         memcpy(data, pData, memSize);
+                        
                         pP->resize(vCount);
                         pData = pP->editData();
+                        
                         for(j = 0; j < vCount; j++)
                         {
                             index = indexDic.entry(j)[i];
