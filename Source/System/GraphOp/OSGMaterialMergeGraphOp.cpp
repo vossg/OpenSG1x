@@ -42,6 +42,9 @@
 \***************************************************************************/
 
 #include <OSGMaterialMergeGraphOp.h>
+#include "OSGImage.h"
+#include <stdio.h>
+
 
 OSG_USING_NAMESPACE
 
@@ -74,6 +77,44 @@ T next(T t) { // Iterator passed by value.
     return t;
 }
 
+bool isEqualImages(const osg::FieldContainerPtr& a, const osg::FieldContainerPtr& b)
+{
+	ImagePtr imageA = ImagePtr::dcast(a);
+	ImagePtr imageB = ImagePtr::dcast(b);
+
+	if(imageA == NullFC || imageB == NullFC )
+	{	return false;	}
+
+	if( imageA->getBpp() != imageB->getBpp() ) return false;
+	if( imageA->getForceAlphaBinary() != imageB->getForceAlphaBinary() ) return false;
+	if( imageA->getForceAlphaChannel() != imageB->getForceAlphaChannel() ) return false;
+	if( imageA->getForceColorChannel() != imageB->getForceColorChannel() ) return false;
+	if( imageA->getFrameCount() != imageB->getFrameCount() ) return false;
+	if( imageA->getPixelFormat() != imageB->getPixelFormat() ) return false;
+
+	// check if images are the same height and width
+	if( imageA->getWidth() == imageB->getWidth() && imageA->getHeight() == imageB->getHeight() )
+	{
+		unsigned int width  = imageA->getWidth();
+		unsigned int height = imageA->getHeight();
+
+		UInt8* dataA = imageA->getData();
+		UInt8* dataB = imageB->getData();
+
+		// check if every pixel is the same
+		for(unsigned int i=0; i<width*height; i++)
+		{
+			if( dataA[i] != dataB[i] )
+			{
+				return false; // return that images are NOT equal if the first different pixel is found
+			}
+		}
+
+		return true; // images are equal
+	}
+	else // image size is not equal
+		return false;
+}
 
 bool isEqual(const osg::FieldContainerPtr& a, const osg::FieldContainerPtr& b)
 {
@@ -88,7 +129,13 @@ bool isEqual(const osg::FieldContainerPtr& a, const osg::FieldContainerPtr& b)
 
     if(a->getType() != b->getType())
         return false;
-    
+	
+	// check if field is an image
+	if(a->getType() == Image::getClassType() )
+	{
+		return isEqualImages(a,b);
+	}
+
     //printf("comparing: %s\n", a->getType().getName().str());
     
     const FieldContainerType &type = a->getType();
@@ -129,7 +176,8 @@ bool isEqual(const osg::FieldContainerPtr& a, const osg::FieldContainerPtr& b)
             // This is very slow with multi fields!!!!
             string av, bv;
             a_field->getValueByStr(av);
-            b_field->getValueByStr(bv);
+            b_field->getValueByStr(bv);			
+
             if(av != bv)
                 return false;
         }
@@ -263,3 +311,4 @@ void MaterialMergeGraphOp::addObject(MaterialObject m)
 
     _materialObjects[mat].push_back(m);
 }
+
