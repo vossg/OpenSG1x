@@ -98,8 +98,8 @@ bool isEqualImages(const osg::FieldContainerPtr& a, const osg::FieldContainerPtr
 		unsigned int width  = imageA->getWidth();
 		unsigned int height = imageA->getHeight();
 
-		UInt8* dataA = imageA->getData();
-		UInt8* dataB = imageB->getData();
+		const UInt8* dataA = imageA->getData();
+		const UInt8* dataB = imageB->getData();
 
 		// check if every pixel is the same
 		for(unsigned int i=0; i<width*height; i++)
