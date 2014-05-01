@@ -1,0 +1,72 @@
+
+IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
+  RETURN()
+ENDIF()
+
+OSG_ADD_PROJECT("OSGWindowGLUT")
+
+IF(NOT GLUT_FOUND)
+    MESSAGE(STATUS "Dependency (GLUT) not found, can not build (${PROJECT_NAME}).\n")
+    SET(OSGBUILD_${PROJECT_NAME} OFF)
+ENDIF(NOT GLUT_FOUND)
+
+OSG_SELECT_PROJECT()
+
+##############################################################################
+# dependencies
+##############################################################################
+
+# dependencies - OpenSG
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem)
+
+#SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGDrawable
+#                                     OSGFileIO
+#                                     OSGGroup 
+#                                     OSGImageFileIO
+#                                     OSGState
+#                                     OSGText
+#                                     OSGUtil
+#                                     OSGWindow)
+
+# dependencies - External
+#SET(${PROJECT_NAME}_DEP_LIB GLUT_LIBRARIES)
+# SET(${PROJECT_NAME}_DEP_LIBDIR)
+#SET(${PROJECT_NAME}_DEP_INCDIR OSG_GLUT_INC_DIR)
+
+OSG_ADD_GLUTPACKAGE(FALSE)
+OSG_ADD_GLUTPACKAGE(TRUE)
+
+IF(NVIDIAPERFSDK_FOUND)
+    SET(${PROJECT_NAME}_DEP_TEST_LIB OSG_NVPERFSDK_LIBS)
+    # SET(${PROJECT_NAME}_DEP_TEST_LIBDIR)
+    SET(${PROJECT_NAME}_DEP_TEST_INCDIR OSG_NVPERFSDK_INC_DIR)
+ENDIF(NVIDIAPERFSDK_FOUND)
+
+# dependencies - Additional
+# SET(${PROJECT_NAME}_DEP_ADD_INCDIR)
+
+SET(${PROJECT_NAME}_CXXFLAGS ${OSG_ADD_CXX_FLAGS})
+
+OSG_STORE_PROJECT_DEPENDENCIES()
+
+##############################################################################
+# collect sources
+##############################################################################
+
+OSG_ADD_DIRECTORY("Source/WindowSystem/GLUT")
+
+##############################################################################
+# setup python bindings
+##############################################################################
+
+#SET(${PROJECT_NAME}_NO_PYTHON TRUE)
+
+IF(${OSG_CMAKE_PASS} STREQUAL "OSGPYTHON")
+  SET(${PROJECT_NAME}_PYTHON_NATIVEWINDOW_DEPENDENT GLUTWindow)
+ENDIF()
+
+##############################################################################
+# setup build
+##############################################################################
+
+OSG_SETUP_PROJECT("OSG_COMPILEWINDOWGLUTLIB")

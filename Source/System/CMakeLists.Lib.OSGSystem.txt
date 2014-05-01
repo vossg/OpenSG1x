@@ -1,0 +1,241 @@
+
+OSG_ADD_PROJECT("OSGSystem")
+OSG_SELECT_PROJECT()
+
+##############################################################################
+# dependencies
+##############################################################################
+
+# dependencies - OpenSG
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGBase)
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGWindowGLUT)
+
+#                                     OSGGroup
+#                                     OSGState
+#                                     OSGUtil
+#                                     OSGWindowGLUT)
+#SET(${PROJECT_NAME}_DEP_UNITTEST_OSG_LIB OSGGroup)
+
+# dependencies - External
+SET(${PROJECT_NAME}_DEP_LIB ZLIB_LIBRARIES 
+                            ${OSG_EXTERNAL_IMAGELIBS}
+                            OPENGL_gl_LIBRARY 
+                            OPENGL_glu_LIBRARY)
+
+SET(${PROJECT_NAME}_DEP_INCDIR ${OSG_EXTERNAL_IMAGEINCS})
+
+SET(${PROJECT_NAME}_DEP_DEFS ${OSG_EXTERNAL_IMAGEDEFS})
+
+#MESSAGE(STATUS "sys: zlib: ${ZLIB_FOUND}") 
+
+IF(WIN32 AND OSG_WITH_ZLIB)
+#    SET(${PROJECT_NAME}_DEP_LIBDIR ZLIB_LIBRARY_DIR)
+    SET(${PROJECT_NAME}_DEP_INCDIR ${${PROJECT_NAME}_DEP_INCDIR} 
+                                   ZLIB_INCLUDE_DIR)
+ENDIF(WIN32 AND OSG_WITH_ZLIB)
+
+IF(OSG_WITH_CUDA)
+  SET(${PROJECT_NAME}_DEP_SYS_INCDIR ${${PROJECT_NAME}_DEP_SYS_INCDIR} 
+                                     CUDA_TOOLKIT_INCLUDE)
+  SET(${PROJECT_NAME}_DEP_LIB    ${${PROJECT_NAME}_DEP_LIB} 
+                                 CUDA_CUDART_LIBRARY)
+ENDIF(OSG_WITH_CUDA)
+
+# SET(${PROJECT_NAME}_DEP_TEST_LIB)
+# SET(${PROJECT_NAME}_DEP_TEST_LIBDIR)
+# SET(${PROJECT_NAME}_DEP_TEST_INCDIR OSG_GLUT_INC_DIR)
+
+IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
+  SET(_OSG_EX_RBBASE "${CMAKE_CURRENT_SOURCE_DIR}/RenderingBackend")
+
+  SET(${PROJECT_NAME}_EXCL_FILES 
+      ${_OSG_EX_RBBASE}/OSGOcclusionCullingTreeBuilder.h
+      ${_OSG_EX_RBBASE}/OSGOcclusionCullingTreeBuilder.inl
+      ${_OSG_EX_RBBASE}/OSGOcclusionCullingTreeBuilder.cpp)
+ENDIF()
+
+OSG_ADD_GLUTPACKAGE(TRUE)
+
+# dependencies - Additional
+SET(${PROJECT_NAME}_DEP_ADD_INCDIR ${CMAKE_SOURCE_DIR}/Source/External)
+
+SET(${PROJECT_NAME}_CXXFLAGS ${OSG_ADD_CXX_FLAGS})
+
+OSG_STORE_PROJECT_DEPENDENCIES()
+
+##############################################################################
+# collect sources
+##############################################################################
+
+OSG_ADD_DIRECTORY("Source/System/Action")
+OSG_ADD_DIRECTORY("Action/DrawAction")
+OSG_ADD_DIRECTORY("Action/RenderAction")
+OSG_ADD_DIRECTORY("Action/IntersectAction")
+OSG_ADD_DIRECTORY("FieldContainer")
+OSG_ADD_DIRECTORY("FieldContainer/Impl")
+OSG_ADD_DIRECTORY("Image")
+OSG_ADD_DIRECTORY("FileIO/Base")
+OSG_ADD_DIRECTORY("Material")
+OSG_ADD_DIRECTORY("NodeCores/Groups/Base")
+OSG_ADD_DIRECTORY("NodeCores/Groups/Misc")
+OSG_ADD_DIRECTORY("NodeCores/Groups/Light")
+OSG_ADD_DIRECTORY("NodeCores/Drawables/Base")
+OSG_ADD_DIRECTORY("NodeCores/Drawables/Geometry")
+OSG_ADD_DIRECTORY("NodeCores/Drawables/Particles")
+OSG_ADD_DIRECTORY("NodeCores/Drawables/Misc")
+OSG_ADD_DIRECTORY("NodeCores/Drawables/VolRen")
+OSG_ADD_DIRECTORY("RenderingBackend")
+OSG_ADD_DIRECTORY("State")
+OSG_ADD_DIRECTORY("Window")
+OSG_ADD_DIRECTORY("FileIO/ScanParseSkel")
+OSG_ADD_DIRECTORY("Statistics")
+OSG_ADD_DIRECTORY("Cluster/Base")
+OSG_ADD_DIRECTORY("Cluster/Server")
+OSG_ADD_DIRECTORY("Cluster/Window/Base")
+OSG_ADD_DIRECTORY("Cluster/Window/MultiDisplay")
+OSG_ADD_DIRECTORY("Cluster/Window/SortFirst")
+OSG_ADD_DIRECTORY("Cluster/Window/SortLast")
+OSG_ADD_DIRECTORY("Cluster/Window/BalancedMultiWindow")
+OSG_ADD_DIRECTORY("GraphOp")
+OSG_ADD_DIRECTORY("Text")
+OSG_ADD_DIRECTORY("NodeCores/Drawables/Nurbs")
+OSG_ADD_DIRECTORY("NodeCores/Drawables/Nurbs/Internal")
+OSG_ADD_DIRECTORY("FileIO/OSG")
+OSG_ADD_DIRECTORY("FileIO/BIN")
+OSG_ADD_DIRECTORY("FileIO/OFF")
+OSG_ADD_DIRECTORY("FileIO/OBJ")
+OSG_ADD_DIRECTORY("FileIO/RAW")
+OSG_ADD_DIRECTORY("FileIO/3DS")
+OSG_ADD_DIRECTORY("FileIO/SLP")
+OSG_ADD_DIRECTORY("FileIO/WRL")
+OSG_ADD_DIRECTORY("FileIO/STL")
+OSG_ADD_DIRECTORY("FileIO/DXF")
+
+OSG_ADD_DIRECTORY("../Experimental/NewAction")
+OSG_ADD_DIRECTORY("../Experimental/NewAction/Actors")
+OSG_ADD_DIRECTORY("../Experimental/ShadowMapViewport")
+OSG_ADD_DIRECTORY("../Experimental/Text")
+OSG_ADD_DIRECTORY("../Experimental/SHL")
+OSG_ADD_DIRECTORY("../Experimental/NativeFileIO")
+OSG_ADD_DIRECTORY("../Experimental/ShadowViewport")
+OSG_ADD_DIRECTORY("../Experimental/Manipulators")
+OSG_ADD_DIRECTORY("../Experimental/WebInterface")
+
+#OSG_ADD_DIRECTORY("Source/System/Action/IntersectAction")
+#OSG_ADD_DIRECTORY("Source/System/Action/RenderAction")
+#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Attachments")
+#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Base")
+#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Mixins")
+#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Misc")
+#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Field")
+#OSG_ADD_DIRECTORY("Source/System/FileIO/Base")
+#OSG_ADD_DIRECTORY("Source/System/FileIO/OSG")
+#OSG_ADD_DIRECTORY("Source/System/FileIO/ScanParseSkel")
+
+IF(NOT OSG_ENABLE_SCANPARSE_REGEN)
+  IF(OSG_USE_OSG2_NAMESPACE)
+    OSG_ADD_DIRECTORY("FileIO/ScanParseSkel/prebuildOSG2")
+  ELSE()
+    OSG_ADD_DIRECTORY("FileIO/ScanParseSkel/prebuild")
+  ENDIF()
+ENDIF(NOT OSG_ENABLE_SCANPARSE_REGEN)
+
+#OSG_ADD_DIRECTORY("Source/System/GraphOp/Base")
+#OSG_ADD_DIRECTORY("Source/System/Image")
+#OSG_ADD_DIRECTORY("Source/System/Image/Squish")
+#OSG_ADD_DIRECTORY("Source/System/Material/Base")
+#OSG_ADD_DIRECTORY("Source/System/NodeCores/Drawables/Base")
+#OSG_ADD_DIRECTORY("Source/System/NodeCores/Groups/Base")
+#OSG_ADD_DIRECTORY("Source/System/NodeCores/Drawables/Geometry/PropertiesBase")
+#OSG_ADD_DIRECTORY("Source/System/RenderingBackend")
+#OSG_ADD_DIRECTORY("Source/System/State/Base")
+#OSG_ADD_DIRECTORY("Source/System/State/Shader/Base")
+#OSG_ADD_DIRECTORY("Source/System/State/Shader/Chunks")
+#OSG_ADD_DIRECTORY("Source/System/State/Shader/SHL")
+#OSG_ADD_DIRECTORY("Source/System/State/Shader/Variables")
+#OSG_ADD_DIRECTORY("Source/System/Statistics/Base")
+#OSG_ADD_DIRECTORY("Source/System/Window/Base")
+#OSG_ADD_DIRECTORY("Source/System/Window/FrameBufferObjects")
+
+IF(OSGCOMPAT_ENABLE_DEPRECATED)
+#    OSG_ADD_DIRECTORY("Source/System/Depreciated")
+#    OSG_ADD_DIRECTORY("Source/System/Depreciated/State")
+
+    IF(NOT CMAKE_BUILD_TYPE STREQUAL "DebugGV" AND
+       NOT CMAKE_BUILD_TYPE STREQUAL "ReleaseGV" )
+
+#        OSG_ADD_DIRECTORY("Source/System/Depreciated/State/OpenGL")
+
+    ENDIF()
+
+#    OSG_ADD_DIRECTORY("Source/System/Depreciated/State/Shader")
+ENDIF(OSGCOMPAT_ENABLE_DEPRECATED)
+
+
+#IF(${OSG_CMAKE_PASS} STREQUAL "OSGCOLLECT")
+#    FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
+#        "LIST(APPEND ${PROJECT_NAME}_INC \"${CMAKE_SOURCE_DIR}/Source/External\")\n\n")
+
+#    FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
+#        "LIST(APPEND ${PROJECT_NAME}_HDR
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/dense_hash_map\"
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/dense_hash_set\"
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparse_hash_map\"
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparse_hash_set\"
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsetable\"
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsehash/config.h\"
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsehash/densehashtable.h\"
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsehash/hash_fun.h\"
+#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsehash/sparsehashtable.h\")\n\n")
+
+#    IF(NOT OSG_ENABLE_SCANPARSE_REGEN)
+#      FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
+#        "LIST(APPEND ${PROJECT_NAME}_HDR
+#            \"${CMAKE_SOURCE_DIR}/Source/System/FileIO/ScanParseSkel/prebuild/OSGScanParseSkelParser.hpp\")\n\n")
+#    ENDIF(NOT OSG_ENABLE_SCANPARSE_REGEN)
+#ENDIF(${OSG_CMAKE_PASS} STREQUAL "OSGCOLLECT")
+
+
+##############################################################################
+# setup build
+##############################################################################
+
+##############################################################################
+# setup python bindings
+##############################################################################
+
+IF(${OSG_CMAKE_PASS} STREQUAL "OSGPYTHON")
+
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "SystemWrappers.h")
+
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGImageFileHandler.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGImageFileType.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGSceneFileHandler.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGSceneFileType.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGGraphOpSeq.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGCylinderVolume.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGVolumeDraw.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGState.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGBackground.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGLightEnv.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGGraphOpFactory.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGGraphOp.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGGraphOpSeq.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGShaderCache.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGTraversalValidator.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGRenderTreeNodePool.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGRenderPartition.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGTreeBuilderBase.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGRenderAction.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGIntersectAction.h")
+  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_HEADERS "OSGStateOverride.h")
+
+#  LIST(APPEND ${PROJECT_NAME}_PYTHON_BIND_FCS "Group")
+ENDIF(${OSG_CMAKE_PASS} STREQUAL "OSGPYTHON")
+
+##############################################################################
+# setup doxygen documentation
+##############################################################################
+SET(${PROJECT_NAME}_DOXY_EXTRA_INC "")
+
+OSG_SETUP_PROJECT("OSG_COMPILESYSTEMLIB")
