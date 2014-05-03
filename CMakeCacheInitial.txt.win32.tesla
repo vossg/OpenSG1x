@@ -4,13 +4,13 @@ SET(OSG_USE_OSGSUPPORT_LIBS     TRUE CACHE BOOL "" FORCE)
 SET(OSG_DISABLE_SOURCE_GROUPS   TRUE CACHE BOOL "" FORCE)
 SET(OSGCOMPAT_ENABLE_DEPRECATED TRUE CACHE BOOL "" FORCE)
 
-SET(OSG_SUPPORT_ROOT "D:/user/gerrit/Projects/OpenSG/Support/MSDefault" 
+SET(OSG_SUPPORT_ROOT "E:/user/gerrit/Projects/OpenSG/Support/MSDefault" 
                      CACHE PATH "" FORCE)
 
-SET(BOOST_ROOT       "D:/user/gerrit/Projects/OpenSG/Support/MSDefault" 
+SET(BOOST_ROOT       "E:/user/gerrit/Projects/OpenSG/Support/MSDefault" 
                      CACHE PATH "" FORCE)
 
-SET(CMAKE_INSTALL_PREFIX "D:/user/gerrit/Projects/OpenSG/trunk/OpenSG.install" 
+SET(CMAKE_INSTALL_PREFIX "E:/user/gerrit/Projects/OpenSG/trunk/OpenSG.install" 
                          CACHE PATH "" FORCE)
 
 SET(CG_ROOT "C:/Program Files (x86)/NVIDIA Corporation/Cg" 
