@@ -46,10 +46,13 @@
     bool boolVal;
 }
 
+%parse-param {void* pSkel}
+%lex-param {void* pSkel}
+
 %{
 
-#define YYPARSE_PARAM pSkel
-#define YYLEX_PARAM   pSkel
+// #define YYPARSE_PARAM pSkel
+// #define YYLEX_PARAM   pSkel
 
 #define OSGScanParseSkel_error SKEL->handleError
 

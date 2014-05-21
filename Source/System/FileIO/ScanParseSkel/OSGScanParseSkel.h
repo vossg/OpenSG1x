@@ -174,7 +174,9 @@ class OSG_SYSTEMLIB_DLLMAPPING ScanParseSkel
     virtual       Int32  lex        (      YYSTYPE *lvalp          );
     virtual const Char8 *getText    (      void                    );
 
+
     virtual       void   handleError(const Char8       *szErrorText);
+    virtual       void   handleError(void* _IGNORE_pSkel, const Char8       *szErrorText){ handleError(szErrorText); };
 
     /*! \}                                                                 */
     /*---------------------------------------------------------------------*/
