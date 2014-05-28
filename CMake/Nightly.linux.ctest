@@ -1,0 +1,59 @@
+
+SET (CTEST_SOURCE_DIRECTORY "/data/Builds/Nightly/Source")
+SET (CTEST_BINARY_DIRECTORY "/data/Builds/Nightly/Build")
+
+find_package(Subversion)
+
+SET (CTEST_SVN_COMMAND ${Subversion_SVN_EXECUTABLE})
+
+SET (CTEST_CHECKOUT_COMMAND "${CTEST_SVN_COMMAND} co http://www.opensg.org/svn_repo/trunk ${CTEST_SOURCE_DIRECTORY}")
+
+# which ctest command to use for running the dashboard
+SET (CTEST_COMMAND "/usr/bin/ctest -D Nightly")
+
+SET (CTEST_NIGHTLY_START_TIME "01:00:00 CDT")
+
+# what cmake command to use for configuring this dashboard
+SET (CTEST_CMAKE_GENERATOR "Unix Makefiles")
+SET (CTEST_PROJECT_NAME "OpenSG")
+
+SET (CTEST_BUILD_FLAGS "-j10")
+
+# this is the initial cache to use for the binary tree, be careful to escape
+# any quotes inside of this string if you use it
+SET (CTEST_INITIAL_CACHE "
+BUILD_TESTING:BOOL=ON
+CMAKE_BUILD_TYPE:STRING=RelWithDebInfo
+OSGBUILD_EXAMPLES_ADVANCED:BOOL=ON
+OSGBUILD_EXAMPLES_SIMPLE:BOOL=ON
+OSGBUILD_TESTS:BOOL=ON
+OSGBUILD_UNITTESTS:BOOL=ON
+
+OSGBUILD_ENABLE_PACKAGING:BOOL=ON
+OSGBUILD_UPLOAD_PACKAGE:BOOL=ON
+
+SITE:STRING=$ENV{SITE}
+BUILDNAME:STRING=$ENV{BUILD_NAME}
+OPENSG_UPLOAD_CODE:STRING=$ENV{UPLOAD_CODE}
+")
+
+SET (OPENSG_UPLOAD_CODE "$ENV{UPLOAD_CODE}")
+SET (CTEST_SITE "$ENV{SITE}")
+SET (CTEST_BUILD_NAME "$ENV{BUILD_NAME}")
+
+##ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+
+file(WRITE "${CTEST_BINARY_DIRECTORY}/CMakeCache.txt" "${CTEST_INITIAL_CACHE}")
+
+ctest_start(Nightly)
+
+ctest_update(SOURCE "${CTEST_SOURCE_DIRECTORY}" RETURN_VALUE NUMBER_FILES)
+
+ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_build(BUILD "${CTEST_BINARY_DIRECTORY}")
+ctest_test(BUILD "${CTEST_BINARY_DIRECTORY}")
+
+SET (CTEST_BUILD_TARGET "PackageUpload")
+ctest_build(BUILD "${CTEST_BINARY_DIRECTORY}")
+
+ctest_submit()
