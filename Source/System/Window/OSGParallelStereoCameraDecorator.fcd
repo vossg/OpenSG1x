@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<FieldContainer
+   name="ParallelStereoCameraDecorator"
+   parent="StereoCameraDecorator"
+   library="System"
+   pointerfieldtypes="both"
+   structure="concrete"
+   systemcomponent="true"
+   parentsystemcomponent="true"
+   decoratable="false"
+   >
+  The OSG::CameraDecorator for parallel stereo projections
+  <Field
+	 name="user"
+	 type="NodePtr"
+	 cardinality="single"
+	 visibility="external"
+	 access="public"
+	 >
+	The coordinate system relative to the camera (only rotation!).
+  </Field>
+  <Field
+	 name="eyeToScreenDistance"
+	 type="Real32"
+	 cardinality="single"
+	 visibility="external"
+	 defaultValue="0.041"
+	 access="public"
+	 >
+	The distance from the eye to the screen.
+  </Field>
+  <Field
+	 name="lensSeparationDistance"
+	 type="Real32"
+	 cardinality="single"
+	 visibility="external"
+	 defaultValue="0.0635"
+	 access="public"
+	 >
+	Physical distance between the lens centers, in meters.
+  </Field>
+  <Field
+	 name="vScreenSize"
+	 type="Real32"
+	 cardinality="single"
+	 visibility="external"
+	 defaultValue="0.0935"
+	 access="public"
+	 >
+	The vertical size of the screen.
+  </Field>
+  <Field
+	 name="hScreenSize"
+	 type="Real32"
+	 cardinality="single"
+	 visibility="external"
+	 defaultValue="0.14976"
+	 access="public"
+	 >
+	The horizontal size of the screen.
+  </Field>
+  <Field
+	 name="distortionK"
+	 type="Vec4f"
+	 cardinality="single"
+	 visibility="external"
+	 defaultValue="1.0"
+	 access="public"
+	 >
+	The radial distortion correction coefficients coming from oculus.
+  </Field>
+  <Field
+	 name="foVScale"
+	 type="Real32"
+	 cardinality="single"
+	 visibility="external"
+	 defaultValue="1.0"
+	 access="protected"
+	 >
+	The scale of fov, as described in the oculus doc.
+  </Field> 
+</FieldContainer>
