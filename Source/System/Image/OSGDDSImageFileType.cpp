@@ -105,22 +105,29 @@ DDSImageFileType DDSImageFileType::_the("image/x-dds",
 #  include <windows.h>
 #endif
 
-const UInt32 DDS_ALPHAPIXELS = 0x00000001;
-const UInt32 DDS_ALPHA       = 0x00000002;
-const UInt32 DDS_FOURCC      = 0x00000004;
-const UInt32 DDS_RGB         = 0x00000040;
-const UInt32 DDS_RGBA        = 0x00000041;
-const UInt32 DDS_DEPTH       = 0x00800000;
-const UInt32 DDS_COMPRESSED  = 0x00000080;
-const UInt32 DDS_LUMINANCE   = 0x00020000;
+const UInt32 DDS_DDPF_ALPHAPIXELS = 0x00000001;
+const UInt32 DDS_DDPF_ALPHA       = 0x00000002;
+const UInt32 DDS_DDPF_FOURCC      = 0x00000004;
+const UInt32 DDS_DDPF_RGB         = 0x00000040;
+const UInt32 DDS_DDPF_YUV         = 0x00000200;
+const UInt32 DDS_DDPF_LUMINANCE   = 0x00020000;
+const UInt32 DDS_DDPF_OPENGL      = 0x00200000;
+const UInt32 DDS_DDPF_OPENGL_NV   = 0x00600000;
+const UInt32 DDS_DDPF_OPENGL_STD  = 0x00A00000;
+const UInt32 DDS_DDPF_RGBA        = 0x00000041;
 
-const UInt32 DDS_COMPLEX = 0x00000008;
-const UInt32 DDS_CUBEMAP = 0x00000200;
-const UInt32 DDS_VOLUME  = 0x00200000;
+const UInt32 DDS_CAPS_COMPLEX     = 0x00000008;
+
+const UInt32 DDS_CAPS2_CUBEMAP    = 0x00000200;
+const UInt32 DDS_CAPS2_VOLUME     = 0x00200000;
+
 
 const UInt32 FOURCC_DXT1 = 0x31545844;
 const UInt32 FOURCC_DXT3 = 0x33545844;
 const UInt32 FOURCC_DXT5 = 0x35545844;
+
+//const UInt32 DDS_DEPTH            = 0x00800000;
+//const UInt32 DDS_COMPRESSED       = 0x00000080;
 
 struct DDS_PIXELFORMAT {
   UInt32 dwSize;
@@ -179,16 +186,18 @@ public:
   CSurface &operator= (const CSurface &rhs);
   virtual ~CSurface();
 
-  operator char*();
+//  operator char*();
 
   void create(Int32 w, Int32 h, Int32 d, Int32 imgsize);
   void clear();
 
-  inline Int32   get_width() { return width; }
+  inline Int32   get_width () { return width;  }
   inline Int32   get_height() { return height; }
-  inline Int32   get_depth() { return depth; }
-  inline Int32   get_size() { return size; }
-  inline char* get_pixels() { return pixels; }
+  inline Int32   get_depth () { return depth;  }
+  inline Int32   get_size  () { return size;   }
+  inline char*   get_pixels() { return pixels; }
+
+  void    swapPixels(CSurface &other);
 
 protected:
   Int32 width;
@@ -231,7 +240,7 @@ public:
             bool flipCubeMap = false);
   void clear();
 
-  operator char*();
+//  operator char*();
   CTexture &operator[](Int32 index);
 
     inline Int32 get_num_images(void) { return Int32(images.size()); }
@@ -257,7 +266,9 @@ private:
   inline void swap_endian(void *val);
   void align_memory(CTexture *surface);
 
-  void flip (char *image, Int32 width, Int32 height, Int32 depth, Int32 size);
+  void flip (CSurface &image, 
+             Int32 width, Int32 height, Int32 depth, 
+             Int32 size, UInt32 ddpfFlags);
   bool check_dxt1_alpha_data (char *image, Int32 size);
 
   void swap(void *byte1, void *byte2, Int32 size);
@@ -266,6 +277,18 @@ private:
   void flip_blocks_dxtc3(DXTColBlock *line, Int32 numBlocks);
   void flip_blocks_dxtc5(DXTColBlock *line, Int32 numBlocks);
   void flip_dxt5_alpha(DXT5AlphaBlock *block);
+
+    void flipDXT       (CSurface &image, 
+                        Int32 width, Int32 height, Int32 depth, 
+                        Int32 size);
+
+    void flipDXTStdToNV(CSurface &image, 
+                        Int32 width, Int32 height, Int32 depth, 
+                        Int32 size);
+
+    void changeLayout  (CSurface &image, 
+                        Int32 width, Int32 height, Int32 depth, 
+                        Int32 size, bool bNVToStd);
 
   Int32 format;
   Int32 components;
@@ -536,15 +559,15 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
     swap_endian(&ddsh.dwCaps2);
 
     // check if image is a cubempa
-    if (ddsh.dwCaps2 & DDS_CUBEMAP)
+    if (ddsh.dwCaps2 & DDS_CAPS2_CUBEMAP)
         cubemap = true;
 
     // check if image is a volume texture
-    if ((ddsh.dwCaps2 & DDS_VOLUME) && (ddsh.dwDepth > 0))
+    if ((ddsh.dwCaps2 & DDS_CAPS2_VOLUME) && (ddsh.dwDepth > 0))
         volume = true;
 
     // figure out what the image format is
-    if (ddsh.ddspf.dwFlags & DDS_FOURCC)
+    if (ddsh.ddspf.dwFlags & DDS_DDPF_FOURCC)
     {
         switch(ddsh.ddspf.dwFourCC)
         {
@@ -569,25 +592,25 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
                 return false;
         }
     }
-    else if (ddsh.ddspf.dwFlags == DDS_RGBA && ddsh.ddspf.dwRGBBitCount == 32)
+    else if ((ddsh.ddspf.dwFlags & DDS_DDPF_RGBA) == DDS_DDPF_RGBA && ddsh.ddspf.dwRGBBitCount == 32)
     {
         format = Image::OSG_BGRA_PF;
         compressed = false;
         components = 4;
     }
-    else if (ddsh.ddspf.dwFlags == DDS_RGB  && ddsh.ddspf.dwRGBBitCount == 32)
+    else if ((ddsh.ddspf.dwFlags & DDS_DDPF_RGB) == DDS_DDPF_RGB  && ddsh.ddspf.dwRGBBitCount == 32)
     {
         format = Image::OSG_BGRA_PF;
         compressed = false;
         components = 4;
     }
-    else if (ddsh.ddspf.dwFlags == DDS_RGB  && ddsh.ddspf.dwRGBBitCount == 24)
+    else if ((ddsh.ddspf.dwFlags & DDS_DDPF_RGB) == DDS_DDPF_RGB  && ddsh.ddspf.dwRGBBitCount == 24)
     {
         format = Image::OSG_BGR_PF;
         compressed = false;
         components = 3;
     }
-    else if (/*ddsh.ddspf.dwFlags == 0x20000  &&*/ ddsh.ddspf.dwRGBBitCount == 8)
+    else if ((ddsh.ddspf.dwFlags & DDS_DDPF_LUMINANCE) == DDS_DDPF_LUMINANCE && ddsh.ddspf.dwRGBBitCount == 8)
     {
         format = Image::OSG_L_PF;
         compressed = false;
@@ -600,13 +623,21 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
     }
 
     // store primary surface width/height/depth
-    width = ddsh.dwWidth;
+    width  = ddsh.dwWidth;
     height = ddsh.dwHeight;
-    depth = clamp_size(ddsh.dwDepth);   // set to 1 if 0
+    depth  = clamp_size(ddsh.dwDepth);   // set to 1 if 0
 
     // use correct size calculation function depending on whether image is
     // compressed
     sizefunc = (compressed ? &CDDSImage::size_dxtc : &CDDSImage::size_rgb);
+
+    bool doFlipImage = false;
+
+    if((flipImage && !cubemap) || (flipCubeMap && cubemap))
+        doFlipImage = true;
+
+    if((ddsh.ddspf.dwFlags & DDS_DDPF_OPENGL) != 0x00000000 && volume == false)
+        doFlipImage = false;
 
     // load all surfaces for the image (6 surfaces for cubemaps)
     for (Int32 n = 0; n < (cubemap ? 6 : 1); n++)
@@ -618,7 +649,7 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
 
         // load surface
         CTexture img(width, height, depth, size);
-        is.read(img, img.size);
+        is.read(img.get_pixels(), img.size);
 
         // data dump
         /*
@@ -634,11 +665,13 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
         align_memory(&img);
 
         if ( (format == GL_COMPRESSED_RGB_S3TC_DXT1_EXT) &&
-             check_dxt1_alpha_data(img, img.size))
+             check_dxt1_alpha_data(img.get_pixels(), img.size))
           format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 
-        if ((flipImage && !cubemap) || (flipCubeMap && cubemap))
-            flip(img, img.width, img.height, img.depth, img.size);
+        if(doFlipImage == true)
+        {
+            flip(img, img.width, img.height, img.depth, img.size, ddsh.ddspf.dwFlags);
+        }
 
         Int32 w = clamp_size(width >> 1);
         Int32 h = clamp_size(height >> 1);
@@ -659,12 +692,12 @@ bool CDDSImage::load(std::istream &is, bool flipImage, bool swapCubeMap, bool fl
             size = (this->*sizefunc)(w, h)*d;
 
             CSurface mipmap(w, h, d, size);
-            is.read(mipmap, mipmap.size);
+            is.read(mipmap.get_pixels(), mipmap.size);
 
-            if ((flipImage && !cubemap) || (flipCubeMap && cubemap))
+            if(doFlipImage == true)
             {
                 flip(mipmap, mipmap.width, mipmap.height, mipmap.depth,
-                    mipmap.size);
+                     mipmap.size, ddsh.ddspf.dwFlags);
             }
 
             img.mipmaps.push_back(mipmap);
@@ -721,13 +754,14 @@ CTexture &CDDSImage::operator[](Int32 index)
 
 ///////////////////////////////////////////////////////////////////////////////
 // returns pointer to main image
+#if 0
 CDDSImage::operator char*()
 {
     assert(valid);
 
     return images[0];
 }
-
+#endif
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -796,8 +830,8 @@ void CDDSImage::align_memory(CTexture *surface)
         imagesize);
 
     // add pad bytes to end of each line
-    char *srcimage = static_cast<char*>(*surface);
-    char *dstimage = static_cast<char*>(newSurface);
+    char *srcimage = static_cast<char*>(surface->get_pixels());
+    char *dstimage = static_cast<char*>(newSurface.get_pixels());
     for (Int32 n = 0; n < surface->depth; n++)
     {
         char *curline = srcimage;
@@ -860,13 +894,27 @@ bool CDDSImage::check_dxt1_alpha_data (char *image, Int32 size)
 
 ///////////////////////////////////////////////////////////////////////////////
 // flip image around X axis
-void CDDSImage::flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 size)
+void CDDSImage::flip(CSurface &image, 
+                     Int32     width, 
+                     Int32     height, 
+                     Int32     depth, 
+                     Int32     size, 
+                     UInt32    ddpfFlags)
 {
     Int32 linesize;
     Int32 offset;
 
-    if (!compressed)
+    if(!compressed)
     {
+        if((ddpfFlags  & DDS_DDPF_OPENGL) != 0x00)
+        {
+#ifdef OSG_DEBUG
+            fprintf(stderr, "already OpenGL data\n");
+#endif
+
+            return;
+        }
+
         assert(depth > 0);
 
         Int32 imagesize = size/depth;
@@ -875,7 +923,7 @@ void CDDSImage::flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 
         for (Int32 n = 0; n < depth; n++)
         {
             offset = imagesize*n;
-            char *top = image + offset;
+            char *top = image.get_pixels() + offset;
             char *bottom = top + (imagesize-linesize);
 
             for (Int32 i = 0; i < (height >> 1); i++)
@@ -889,49 +937,367 @@ void CDDSImage::flip(char *image, Int32 width, Int32 height, Int32 depth, Int32 
     }
     else
     {
-        void (CDDSImage::*flipblocks)(DXTColBlock*, Int32);
-        Int32 xblocks = width / 4;
-        Int32 yblocks = height / 4;
-        Int32 blocksize;
-
-        switch (format)
+        if(depth == 1)
         {
-            case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
-                blocksize = 8;
-                flipblocks = &CDDSImage::flip_blocks_dxtc1;
-                break;
-            case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
-                blocksize = 8;
-                flipblocks = &CDDSImage::flip_blocks_dxtc1;
-                break;
-            case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
-                blocksize = 16;
-                flipblocks = &CDDSImage::flip_blocks_dxtc3;
-                break;
-            case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
-                blocksize = 16;
-                flipblocks = &CDDSImage::flip_blocks_dxtc5;
-                break;
-            default:
-                return;
+            void (CDDSImage::*flipblocks)(DXTColBlock*, Int32);
+            Int32 xblocks = width  / 4;
+            Int32 yblocks = height / 4;
+            Int32 blocksize;
+
+            switch (format)
+            {
+                case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+                    blocksize = 8;
+                    flipblocks = &CDDSImage::flip_blocks_dxtc1;
+                    break;
+                case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT:
+                    blocksize = 8;
+                    flipblocks = &CDDSImage::flip_blocks_dxtc1;
+                    break;
+                case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT:
+                    blocksize = 16;
+                    flipblocks = &CDDSImage::flip_blocks_dxtc3;
+                    break;
+                case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT:
+                    blocksize = 16;
+                    flipblocks = &CDDSImage::flip_blocks_dxtc5;
+                    break;
+                default:
+                    return;
+            }
+
+            linesize = xblocks * blocksize;
+
+            DXTColBlock *top;
+            DXTColBlock *bottom;
+
+            Int32 j = 0;
+            for(; j < (yblocks >> 1); j++)
+            {
+                top = reinterpret_cast<DXTColBlock*>(image.get_pixels() + j * linesize);
+                bottom = reinterpret_cast<DXTColBlock*>(image.get_pixels() + (((yblocks-j)-1) * linesize));
+
+                (this->*flipblocks)(top, xblocks);
+                (this->*flipblocks)(bottom, xblocks);
+
+                swap(bottom, top, linesize);
+            }
+
+            if((yblocks & 0x01) == 0x01)
+            {
+                top = reinterpret_cast<DXTColBlock*>(image.get_pixels() + j * linesize);
+
+                (this->*flipblocks)(top,    xblocks);
+            }
         }
-
-        linesize = xblocks * blocksize;
-
-        DXTColBlock *top;
-        DXTColBlock *bottom;
-
-        for (Int32 j = 0; j < (yblocks >> 1); j++)
+        else
         {
-            top = reinterpret_cast<DXTColBlock*>(image + j * linesize);
-            bottom = reinterpret_cast<DXTColBlock*>(image + (((yblocks-j)-1) * linesize));
+#ifdef OSG_DEBUG
+            fprintf(stderr, "compressed volume\n");
+#endif
 
-            (this->*flipblocks)(top, xblocks);
-            (this->*flipblocks)(bottom, xblocks);
+            if(format != GL_COMPRESSED_RGB_S3TC_DXT1_EXT)
+            {
+                fprintf(stderr, "sorry, only dxt1 rgb volumes supported yet\n");
 
-            swap(bottom, top, linesize);
+                return;
+            }
+
+#ifdef OSG_DEBUG
+            fprintf(stderr, 
+                    "dds status : opengl 0x%x | layout nv 0x%x "
+                    "| layout std 0x%x\n",
+                    UInt32(ddpfFlags  & DDS_DDPF_OPENGL),
+                    UInt32((ddpfFlags & DDS_DDPF_OPENGL_NV ) == DDS_DDPF_OPENGL_NV ),
+                    UInt32((ddpfFlags & DDS_DDPF_OPENGL_STD) == DDS_DDPF_OPENGL_STD));
+#endif
+
+            char *szEnvGPU = getenv("OSG_GPU_NVIDIA");
+
+#ifdef OSG_DEBUG
+            fprintf(stderr, "env nv : %p\n", szEnvGPU);
+#endif
+            if((ddpfFlags & DDS_DDPF_OPENGL) == 0x00)
+            {
+                if(szEnvGPU == NULL)
+                {
+#ifdef OSG_DEBUG
+                    fprintf(stderr, "flip\n");
+#endif
+                    this->flipDXT(image, 
+                                  width, 
+                                  height, 
+                                  depth, 
+                                  size  ); 
+                }
+                else
+                {
+#ifdef OSG_DEBUG
+                    fprintf(stderr, "flip + adjust layout std->nv\n"); 
+#endif
+                    this->flipDXTStdToNV(image, 
+                                         width, 
+                                         height, 
+                                         depth, 
+                                         size  ); 
+                }
+            }
+            else
+            {
+                if((ddpfFlags & DDS_DDPF_OPENGL_NV) == DDS_DDPF_OPENGL_NV)
+                {
+                    if(szEnvGPU == NULL)
+                    {
+#ifdef OSG_DEBUG
+                        fprintf(stderr, "adjust layout nv->std\n");
+#endif
+                        this->changeLayout(image, 
+                                           width, 
+                                           height, 
+                                           depth, 
+                                           size,
+                                           true); 
+                    }
+                    else
+                    {
+#ifdef OSG_DEBUG
+                        fprintf(stderr, "do nothing (nv)\n"); 
+#endif
+                    }
+                }
+                else
+                {
+                    if(szEnvGPU == NULL)
+                    {
+#ifdef OSG_DEBUG
+                        fprintf(stderr, "do nothing (std)\n");
+#endif
+                    }
+                    else
+                    {
+#ifdef OSG_DEBUG
+                        fprintf(stderr, "adjust layout std->nv\n"); 
+#endif
+                        this->changeLayout(image, 
+                                           width, 
+                                           height, 
+                                           depth, 
+                                           size,
+                                           false ); 
+                    }
+                }
+            }
         }
     }
+}
+
+void CDDSImage::flipDXT(CSurface &image, 
+                        Int32 width, Int32 height, Int32 depth, 
+                        Int32 size)
+{
+    void (CDDSImage::*flipblocks)(DXTColBlock*, Int32);
+    
+    Int32 xblocks = width  / 4;
+    Int32 yblocks = height / 4;
+    Int32 blocksize;
+        
+    switch (format)
+    {
+        case GL_COMPRESSED_RGB_S3TC_DXT1_EXT:
+            blocksize = 8;
+            flipblocks = &CDDSImage::flip_blocks_dxtc1;
+            break;
+        case GL_COMPRESSED_RGBA_S3TC_DXT1_EXT: 
+            blocksize = 8;
+            flipblocks = &CDDSImage::flip_blocks_dxtc1; 
+            break;
+        case GL_COMPRESSED_RGBA_S3TC_DXT3_EXT: 
+            blocksize = 16;
+            flipblocks = &CDDSImage::flip_blocks_dxtc3; 
+            break;
+        case GL_COMPRESSED_RGBA_S3TC_DXT5_EXT: 
+            blocksize = 16;
+            flipblocks = &CDDSImage::flip_blocks_dxtc5; 
+            break;
+        default:
+            return;
+    }
+
+    Int32 linesize = xblocks * blocksize;
+        
+    DXTColBlock *top;
+    DXTColBlock *bottom;
+ 
+    Int32 SliceSize = xblocks * yblocks * blocksize;
+
+    Int32 d=0;
+    for(Int32 d = 0; d < depth; ++d)
+    {
+        Int32 j = 0;
+        for(; j < (yblocks >> 1); j++)
+        {
+            top    = reinterpret_cast<DXTColBlock*>(image.get_pixels() + d * SliceSize + j * linesize);
+            bottom = reinterpret_cast<DXTColBlock*>(image.get_pixels() + d * SliceSize + (((yblocks - j) - 1) * linesize));
+            
+            (this->*flipblocks)(top,    xblocks);
+            (this->*flipblocks)(bottom, xblocks);
+            
+            swap(bottom, top, linesize);
+        }
+
+        if((yblocks & 0x01) == 0x01)
+        {
+            top = reinterpret_cast<DXTColBlock*>(image.get_pixels() + d * SliceSize + j * linesize);
+
+            (this->*flipblocks)(top,    xblocks);
+        }
+    }
+}
+
+void CDDSImage::flipDXTStdToNV(CSurface &image, 
+                               Int32 width, Int32 height, Int32 depth, 
+                               Int32 size)
+{
+    CSurface tmp(image.get_width (),
+                 image.get_height(),
+                 image.get_depth (),
+                 image.get_size  ());
+
+    DXTColBlock *src = reinterpret_cast<DXTColBlock*>(image.get_pixels());
+    DXTColBlock *dst = reinterpret_cast<DXTColBlock*>(tmp  .get_pixels());
+
+    Int32 xblocks = width  / 4;
+    Int32 yblocks = height / 4;
+
+    Int32 dstD = 0;
+    Int32 dstX = 0;
+    Int32 dstY = 0;
+
+    Int32 iSliceSize = xblocks * yblocks;
+    Int32 dOffset    = 0;
+
+    Int32 dBlock      = 4;
+    Int32 iLastD      = depth % 4;
+    Int32 iLastDStart = Int32(floor(Real32(depth) / 4.f)) * 4;
+
+    for(Int32 srcD = 0; srcD < depth; ++srcD)
+    {
+        if(srcD == iLastDStart)
+            dBlock = iLastD;
+
+        for(Int32 srcY = 0; srcY < yblocks; ++srcY)
+        {
+            for(Int32 srcX = 0; srcX < xblocks; ++srcX)
+            {
+                Int32 srcIndex = srcD * iSliceSize + srcY * xblocks + srcX;
+                Int32 dstIndex = (dstD + dOffset) * iSliceSize + (yblocks - 1 - dstY) * xblocks + dstX;
+
+                ++dstD;
+
+                if(dstD >= dBlock)
+                {
+                    dstD = 0;
+                    
+                    ++dstX;
+
+                    if(dstX >= xblocks)
+                    {
+                        dstX = 0;
+                                
+                        ++dstY;
+                        
+                        if(dstY >= yblocks)
+                        {
+                            dOffset += dBlock;
+                            dstY = 0;
+                        }
+                    }
+                }
+
+
+                flip_blocks_dxtc1(&(src[dstIndex]), 1);
+
+                dst[srcIndex] = src[dstIndex];
+            }
+        }
+    }
+
+    image.swapPixels(tmp);
+}
+
+void CDDSImage:: changeLayout(CSurface &image, 
+                              Int32 width, Int32 height, Int32 depth, 
+                              Int32 size, bool bNVToStd)
+{
+    CSurface tmp(image.get_width (),
+                 image.get_height(),
+                 image.get_depth (),
+                 image.get_size  ());
+
+    DXTColBlock *src = reinterpret_cast<DXTColBlock*>(image.get_pixels());
+    DXTColBlock *dst = reinterpret_cast<DXTColBlock*>(tmp  .get_pixels());
+
+    Int32 xblocks = width  / 4;
+    Int32 yblocks = height / 4;
+
+    Int32 dstD = 0;
+    Int32 dstX = 0;
+    Int32 dstY = 0;
+
+    Int32 iSliceSize = xblocks * yblocks;
+    Int32 dOffset    = 0;
+
+    Int32 dBlock      = 4;
+    Int32 iLastD      = depth % 4;
+    Int32 iLastDStart = Int32(floor(Real32(depth) / 4.f)) * 4;
+    
+    for(Int32 srcD = 0; srcD < depth; ++srcD)
+    {
+        if(srcD == iLastDStart)
+            dBlock = iLastD;
+        
+        for(Int32 srcY = 0; srcY < yblocks; ++srcY)
+        {
+            for(Int32 srcX = 0; srcX < xblocks; ++srcX)
+            {
+                Int32 srcIndex = srcD * iSliceSize + srcY * xblocks + srcX;
+                Int32 dstIndex = (dstD + dOffset) * iSliceSize + dstY * xblocks + dstX;
+                                
+                ++dstD;
+                
+                if(dstD >= dBlock)
+                {
+                    dstD = 0;
+                    
+                    ++dstX;
+                    
+                    if(dstX >= xblocks)
+                    {
+                        dstX = 0;
+                        
+                        ++dstY;
+                                
+                        if(dstY >= yblocks)
+                        {
+                            dOffset += dBlock;
+                            dstY = 0;
+                        }
+                    }
+                }
+                
+                if(bNVToStd == true)
+                {
+                    dst[dstIndex] = src[srcIndex];
+                }
+                else
+                {
+                    dst[srcIndex] = src[dstIndex];
+                }
+            }
+        }
+    }
+    
+    image.swapPixels(tmp);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -955,8 +1321,8 @@ void CDDSImage::flip_blocks_dxtc1(DXTColBlock *line, Int32 numBlocks)
 
     for (Int32 i = 0; i < numBlocks; i++)
     {
-        swap(&curblock->row[0], &curblock->row[3], sizeof(UInt8));
-        swap(&curblock->row[1], &curblock->row[2], sizeof(UInt8));
+        swap(&(curblock->row[0]), &(curblock->row[3]), sizeof(UInt8));
+        swap(&(curblock->row[1]), &(curblock->row[2]), sizeof(UInt8));
 
         curblock++;
     }
@@ -1211,10 +1577,12 @@ CSurface::~CSurface()
 
 ///////////////////////////////////////////////////////////////////////////////
 // returns a pointer to image
+#if 0
 CSurface::operator char*()
 {
     return pixels;
 }
+#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 // creates an empty image
@@ -1236,3 +1604,13 @@ void CSurface::clear()
     delete [] pixels;
     pixels = NULL;
 }
+
+void CSurface::swapPixels(CSurface &other)
+{
+    char *tmp = pixels;
+
+    pixels = other.pixels;
+
+    other.pixels = tmp;
+}
+
