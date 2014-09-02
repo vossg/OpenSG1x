@@ -538,7 +538,6 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
     ENDIF(NOT ${OSG_CMAKE_PASS} STREQUAL "OSGCOLLECT")
 
     OSG_MSG("Adding directory: ${DIRNAME}")
-
     SET(_OSG_ADD_SRC_LOOKUP)
     SET(_OSG_ADD_HDR_LOOKUP)
     SET(_OSG_ADD_INL_LOOKUP)
@@ -548,6 +547,7 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
     SET(_OSG_ADD_LPP_LOOKUP)
     SET(_OSG_ADD_Y_LOOKUP)
     SET(_OSG_ADD_QTH_LOOKUP)
+
 
     IF(EXISTS "${CMAKE_SOURCE_DIR}/${DIRNAME}")
         SET(_OSG_CURR_DIRNAME "${CMAKE_SOURCE_DIR}/${DIRNAME}")
@@ -628,7 +628,9 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
                                      "${CMAKE_SOURCE_DIR}/${DIRNAME}/test*.mm")
         FILE(GLOB LOCAL_APP_SRC      "${CMAKE_SOURCE_DIR}/${DIRNAME}/app*.cpp")
         FILE(GLOB BASE_MM            "${CMAKE_SOURCE_DIR}/${DIRNAME}/OSG*Base.mm")
+
     ELSEIF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}")
+
         SET(_OSG_CURR_DIRNAME "${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}")
 
         FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
@@ -707,7 +709,9 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
                                      "${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/test*.mm")
         FILE(GLOB LOCAL_APP_SRC      "${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/app*.cpp")
         FILE(GLOB BASE_MM            "${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/OSG*Base.mm")
+
     ELSE()
+
         SET(_OSG_CURR_DIRNAME "${DIRNAME}")
 
         IF(OSGPREFIX)
@@ -786,6 +790,7 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
                                      "${DIRNAME}/test*.mm")
         FILE(GLOB LOCAL_APP_SRC      "${DIRNAME}/app*.cpp")
         FILE(GLOB BASE_MM            "${DIRNAME}/OSG*Base.mm")
+
     ENDIF()
 
     IF(BASE_MM)
@@ -980,7 +985,7 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
     # FCD
     #####
 
-    IF(OSG_ENABLE_FCD2CODE AND PYTHONINTERP_FOUND)
+    IF(OSG_ENABLE_FCD2CODE AND EXISTS "${CMAKE_SOURCE_DIR}/Tools/fcdEdit/fcdCompile")
 
         FOREACH(FCDFile ${${PROJECT_NAME}_FCD})
             GET_FILENAME_COMPONENT(FCDBase ${FCDFile} NAME_WE)
@@ -1012,12 +1017,12 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
                 ENDIF(NOT EXISTS ${FCDDir}/${FCDClassHdr})
             ENDIF(NOT EXISTS ${FCDDir}/${FCDBaseCpp})
 
-            SET(FCDBaseDir ${CMAKE_SOURCE_DIR}/Tools/fcd2code)
-            SET(FCDCommand ${CMAKE_SOURCE_DIR}/Tools/fcd2code/fcd2code)
+            SET(FCDBaseDir ${CMAKE_SOURCE_DIR}/Tools/fcdEdit)
+            SET(FCDCommand ${CMAKE_SOURCE_DIR}/Tools/fcdEdit/fcdCompile)
             SET(FCDRoot -r ${CMAKE_SOURCE_DIR})
             SET(FCDTemp "")
 
-            SET(FCDPath ${CMAKE_SOURCE_DIR}/Tools/fcd2code)
+            SET(FCDPath ${CMAKE_SOURCE_DIR}/Tools/fcdEdit)
 
             IF(NOT EXISTS FCDPath AND OpenSG_DIR) #external setup
               SET(FCDBaseDir ${OpenSG_DIR}/bin/fcd2code)
@@ -1042,28 +1047,29 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
                IF(_OSG_IGNORE_CLASSWRITE EQUAL -1)
                  MESSAGE(STATUS "writing ${FCDDir}/${FCDClassHdr} ${FCDDir}/${FCDClassCpp} ${FCDDir}/${FCDClassInl}")
 
-                 EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${FCDCommand} -c -f -d ${FCDFile} -p ${FCDDir} ${FCDRoot} ${FCDTemp})
+#                 EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${FCDCommand} -c -f -d ${FCDFile} -p ${FCDDir} ${FCDRoot} ${FCDTemp})
                ENDIF(_OSG_IGNORE_CLASSWRITE EQUAL -1)
 
             ENDIF()
 
+#MESSAGE("
             ADD_CUSTOM_COMMAND(
                 OUTPUT ${FCDDir}/${FCDBaseHdr}
                        ${FCDDir}/${FCDBaseCpp}
                        ${FCDDir}/${FCDBaseInl}
                        ${FCDDir}/${FCDBaseFld}
                        ${FCD_TMP_OUT}
-                COMMAND ${PYTHON_EXECUTABLE} ${FCDCommand} -c -b -d ${FCDFile} -p ${FCDDir} ${FCDRoot} ${FCDTemp}
+                COMMAND ${FCDCommand} -b -d ${FCDFile} -p ${FCDDir}
                 MAIN_DEPENDENCY ${FCDFile}
-                DEPENDS ${FCDBaseDir}/TemplateFieldContainerBase_h.txt
-                        ${FCDBaseDir}/TemplateFieldContainerBase_inl.txt
-                        ${FCDBaseDir}/TemplateFieldContainerBase_cpp.txt
-                        ${FCDBaseDir}/TemplateFieldContainerFields_h.txt)
-
+                DEPENDS ${FCDBaseDir}/FCBaseTemplate_cpp.h
+                        ${FCDBaseDir}/FCBaseTemplate_h.h
+                        ${FCDBaseDir}/FCBaseTemplate_inl.h
+                        ${FCDBaseDir}/FCFieldsTemplate_h.h)
+#")
             SET(FCD_TMP_OUT )
         ENDFOREACH(FCDFile)
 
-    ENDIF(OSG_ENABLE_FCD2CODE AND PYTHONINTERP_FOUND)
+    ENDIF(OSG_ENABLE_FCD2CODE AND EXISTS "${CMAKE_SOURCE_DIR}/Tools/fcdEdit/fcdCompile")
 
     ############
     # Qt4
