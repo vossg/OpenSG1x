@@ -15,3 +15,12 @@ SET(CMAKE_INSTALL_PREFIX "D:/user/gerrit/Projects/OpenSG/trunk/OpenSG.install"
 
 SET(CG_ROOT "C:/Program Files (x86)/NVIDIA Corporation/Cg" 
             CACHE PATH "" FORCE)
+
+SET(BISON_EXE "D:/user/gerrit/Projects/OpenSG/trunk/OpenSG1x/dist/win/bin/bison.exe"
+              CACHE PATH "" FORCE)
+
+SET(FLEX_EXE  "D:/user/gerrit/Projects/OpenSG/trunk/OpenSG1x/dist/win/bin/flex.exe"
+              CACHE PATH "" FORCE)
+
+SET(SED_EXE   "D:/user/gerrit/Projects/OpenSG/trunk/OpenSG1x/dist/win/bin/sed.exe"
+              CACHE PATH "" FORCE)
