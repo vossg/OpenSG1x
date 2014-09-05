@@ -183,6 +183,10 @@ MACRO(OSG_SELECT_PROJECT)
         FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
             "SET(${PROJECT_NAME}_YY)\n")
         FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
+            "SET(${PROJECT_NAME}_LPP)\n")
+        FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
+            "SET(${PROJECT_NAME}_Y)\n")
+        FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
              "SET(${PROJECT_NAME}_MOC)\n")
         FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
             "SET(${PROJECT_NAME}_UNITTEST_SRC)\n")
@@ -539,6 +543,8 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
     SET(_OSG_ADD_INS_LOOKUP)
     SET(_OSG_ADD_LL_LOOKUP)
     SET(_OSG_ADD_YY_LOOKUP)
+    SET(_OSG_ADD_LPP_LOOKUP)
+    SET(_OSG_ADD_Y_LOOKUP)
     SET(_OSG_ADD_QTH_LOOKUP)
 
     IF(EXISTS "${CMAKE_SOURCE_DIR}/${DIRNAME}")
@@ -567,6 +573,14 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
 
         FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
           LIST(APPEND _OSG_ADD_YY_LOOKUP "${CMAKE_SOURCE_DIR}/${DIRNAME}/${_OSG_FILE_PREFIX}*.yy")
+        ENDFOREACH()
+
+        FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
+          LIST(APPEND _OSG_ADD_LPP_LOOKUP "${CMAKE_SOURCE_DIR}/${DIRNAME}/${_OSG_FILE_PREFIX}*.lpp")
+        ENDFOREACH()
+
+        FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
+          LIST(APPEND _OSG_ADD_Y_LOOKUP "${CMAKE_SOURCE_DIR}/${DIRNAME}/${_OSG_FILE_PREFIX}*.y")
         ENDFOREACH()
 
         FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
@@ -599,6 +613,10 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
                                       ${_OSG_ADD_LL_LOOKUP}                   )
         FILE(GLOB LOCAL_YY           #"${CMAKE_SOURCE_DIR}/${DIRNAME}/OSG*.yy"
                                       ${_OSG_ADD_YY_LOOKUP}                   )
+        FILE(GLOB LOCAL_LPP          #"${CMAKE_SOURCE_DIR}/${DIRNAME}/OSG*.lpp"
+                                      ${_OSG_ADD_LPP_LOOKUP}                  )
+        FILE(GLOB LOCAL_Y            #"${CMAKE_SOURCE_DIR}/${DIRNAME}/OSG*.y"
+                                      ${_OSG_ADD_Y_LOOKUP}                    )
         FILE(GLOB LOCAL_MOC          #"${CMAKE_SOURCE_DIR}/${DIRNAME}/OSG*_qt.h"
                                       ${_OSG_ADD_QTH_LOOKUP}                  )
 
@@ -637,6 +655,14 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
         ENDFOREACH()
 
         FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
+          LIST(APPEND _OSG_ADD_LPP_LOOKUP "${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/${_OSG_FILE_PREFIX}*.lpp")
+        ENDFOREACH()
+
+        FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
+          LIST(APPEND _OSG_ADD_Y_LOOKUP "${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/${_OSG_FILE_PREFIX}*.y")
+        ENDFOREACH()
+
+        FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
           LIST(APPEND _OSG_ADD_QTH_LOOKUP "${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/${_OSG_FILE_PREFIX}*_qt.h")
         ENDFOREACH()
 
@@ -666,6 +692,10 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
                                       ${_OSG_ADD_LL_LOOKUP}                           )
         FILE(GLOB LOCAL_YY           #"${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/OSG*.yy"
                                       ${_OSG_ADD_YY_LOOKUP}                           )
+        FILE(GLOB LOCAL_LPP          #"${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/OSG*.lpp"
+                                      ${_OSG_ADD_LPP_LOOKUP}                          )
+        FILE(GLOB LOCAL_Y            #"${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/OSG*.y"
+                                      ${_OSG_ADD_Y_LOOKUP}                            )
         FILE(GLOB LOCAL_MOC          #"${CMAKE_CURRENT_SOURCE_DIR}/${DIRNAME}/OSG*_qt.h"
                                       ${_OSG_ADD_QTH_LOOKUP}                          )
 
@@ -704,6 +734,14 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
         ENDFOREACH()
 
         FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
+          LIST(APPEND _OSG_ADD_LPP_LOOKUP "${DIRNAME}/${_OSG_FILE_PREFIX}*.lpp")
+        ENDFOREACH()
+
+        FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
+          LIST(APPEND _OSG_ADD_Y_LOOKUP "${DIRNAME}/${_OSG_FILE_PREFIX}*.y")
+        ENDFOREACH()
+
+        FOREACH(_OSG_FILE_PREFIX ${OSGPREFIX})
           LIST(APPEND _OSG_ADD_QTH_LOOKUP "${DIRNAME}/${_OSG_FILE_PREFIX}*_qt.h")
         ENDFOREACH()
 
@@ -734,6 +772,10 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
                                       ${_OSG_ADD_LL_LOOKUP} )
         FILE(GLOB LOCAL_YY           #"${DIRNAME}/OSG*.yy"
                                       ${_OSG_ADD_YY_LOOKUP} )
+        FILE(GLOB LOCAL_LPP          #"${DIRNAME}/OSG*.lpp"
+                                      ${_OSG_ADD_LPP_LOOKUP})
+        FILE(GLOB LOCAL_Y            #"${DIRNAME}/OSG*.y"
+                                      ${_OSG_ADD_Y_LOOKUP}  )
         FILE(GLOB LOCAL_MOC          #"${DIRNAME}/OSG*_qt.h"
                                       ${_OSG_ADD_QTH_LOOKUP})
 
@@ -764,6 +806,8 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
         LIST(REMOVE_ITEM LOCAL_FCD          ${${PROJECT_NAME}_EXCL_FILES})
         LIST(REMOVE_ITEM LOCAL_LL           ${${PROJECT_NAME}_EXCL_FILES})
         LIST(REMOVE_ITEM LOCAL_YY           ${${PROJECT_NAME}_EXCL_FILES})
+        LIST(REMOVE_ITEM LOCAL_LPP          ${${PROJECT_NAME}_EXCL_FILES})
+        LIST(REMOVE_ITEM LOCAL_Y            ${${PROJECT_NAME}_EXCL_FILES})
         LIST(REMOVE_ITEM LOCAL_UNITTEST_SRC ${${PROJECT_NAME}_EXCL_FILES})
         LIST(REMOVE_ITEM LOCAL_TEST_SRC     ${${PROJECT_NAME}_EXCL_FILES})
         LIST(REMOVE_ITEM LOCAL_APP_SRC      ${${PROJECT_NAME}_EXCL_FILES})
@@ -812,6 +856,16 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
         FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
              "LIST(APPEND ${PROJECT_NAME}_YY \"${LOCAL_YY}\")\n\n")
     ENDIF(LOCAL_YY)
+
+    IF(LOCAL_LPP)
+        FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
+             "LIST(APPEND ${PROJECT_NAME}_LPP \"${LOCAL_LPP}\")\n\n")
+    ENDIF(LOCAL_LPP)
+
+    IF(LOCAL_Y)
+        FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
+             "LIST(APPEND ${PROJECT_NAME}_Y \"${LOCAL_Y}\")\n\n")
+    ENDIF(LOCAL_Y)
 
     IF(LOCAL_MOC)
         FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
@@ -864,6 +918,8 @@ FUNCTION(OSG_ADD_DIRECTORY DIRNAME)
                   ${LOCAL_FCD}
                   ${LOCAL_LL}
                   ${LOCAL_YY}
+                  ${LOCAL_LPP}
+                  ${LOCAL_Y}
                   ${LOCAL_MOC})
 
       SET(${PROJECT_NAME}_SOURCE_GROUP_${THE_SOURCE_GROUP}
@@ -1035,7 +1091,7 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
     # Flex/Bison
     ############
 
-    IF(OSG_ENABLE_SCANPARSE_REGEN AND FLEX_EXE AND BISON_EXE)
+    IF(OSG_ENABLE_SCANPARSE_REGEN AND FLEX_EXE AND BISON_EXE AND SED_EXE)
 
         FOREACH(YYFile ${${PROJECT_NAME}_YY})
 
@@ -1046,10 +1102,18 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
             SET(YYSrc ${CMAKE_CURRENT_BINARY_DIR}/${YYBase}.cpp)
             SET(YYHdr ${CMAKE_CURRENT_BINARY_DIR}/${YYBase}.hpp)
 
-            ADD_CUSTOM_COMMAND(
-                OUTPUT ${YYSrc} ${YYHdr}
-                COMMAND ${BISON_EXE} -d -v -p${YYOpt} -b${YYOpt} -o ${YYSrc} ${YYFile}
-                MAIN_DEPENDENCY ${YYFile})
+            IF(WIN32)
+              ADD_CUSTOM_COMMAND(
+                  OUTPUT ${YYSrc} ${YYHdr}
+#                  COMMAND ${BISON_EXE} -d -v -p${YYOpt} -b${YYOpt} -o ${YYSrc} ${YYFile}
+                  COMMAND ${CMAKE_COMMAND} -DYY_OPT='"${YYOpt}"' -DYY_SRC='"${YYSrc}"' -DYY_FILE='"${YYFile}"' -P ${CMAKE_BINARY_DIR}/OSGRunBison2.cmk                  
+                  MAIN_DEPENDENCY ${YYFile})
+            ELSE()
+              ADD_CUSTOM_COMMAND(
+                  OUTPUT ${YYSrc} ${YYHdr}
+                  COMMAND ${BISON_EXE} -d -v -p${YYOpt} -b${YYOpt} -o ${YYSrc} ${YYFile}
+                  MAIN_DEPENDENCY ${YYFile})
+            ENDIF()
 
             LIST(APPEND ${PROJECT_NAME}_SRC ${YYSrc})
             LIST(APPEND ${PROJECT_NAME}_HDR ${YYHdr})
@@ -1072,10 +1136,28 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
 
             SET(LLSrc ${CMAKE_CURRENT_BINARY_DIR}/${LLBase}.cpp)
 
-            ADD_CUSTOM_COMMAND(
-                OUTPUT ${LLSrc}
-                COMMAND ${FLEX_EXE} -+ -P${LLOpt_VERSIONED} -t ${LLFile} >  ${LLSrc}
+            IF(WIN32)
+
+              ADD_CUSTOM_COMMAND(
+                OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/lex.${LLOpt_VERSIONED}.cc
+                COMMAND ${FLEX_EXE} -+ -P${LLOpt_VERSIONED} ${LLFile}
+                WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
                 MAIN_DEPENDENCY ${LLFile})
+
+              ADD_CUSTOM_COMMAND(
+                OUTPUT ${LLSrc}
+                COMMAND ${SED_EXE} -e "s/\\(yy\\)\\(text_ptr\\)/OSGScanParseSkel_\\2/g" -e "s/cin/std::cin/g" -e "s/cout/std::cout/g" -e "s/cerr/std::cerr/g" -e "s/istream/std::istream/g" -e "s/ostream/std::ostream/g" -e "s/class std::istream;/#include <iosfwd>/g" > ${LLSrc} < ${CMAKE_CURRENT_BINARY_DIR}/lex.${LLOpt_VERSIONED}.cc
+                WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+                MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/lex.${LLOpt_VERSIONED}.cc)
+
+            ELSE()
+
+              ADD_CUSTOM_COMMAND(
+                  OUTPUT ${LLSrc}
+                  COMMAND ${FLEX_EXE} -+ -P${LLOpt_VERSIONED} -t ${LLFile} >  ${LLSrc}
+                  MAIN_DEPENDENCY ${LLFile})
+
+            ENDIF()
 
             SET(${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${LLSrc})
 
@@ -1083,13 +1165,16 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
 
         IF(${PROJECT_NAME}_YY OR ${PROJECT_NAME}_LL)
             SET(${PROJECT_NAME}_INC ${${PROJECT_NAME}_INC} ${CMAKE_CURRENT_BINARY_DIR})
+            IF(WIN32)
+              SET(${PROJECT_NAME}_INC ${${PROJECT_NAME}_INC} ${OSG_FLEX_INC_DIR})
+            ENDIF()
 
             FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
                 "LIST(APPEND ${PROJECT_NAME}_INC \"${CMAKE_CURRENT_BINARY_DIR}\")\n\n")
 
         ENDIF(${PROJECT_NAME}_YY OR ${PROJECT_NAME}_LL)
 
-    ENDIF(OSG_ENABLE_SCANPARSE_REGEN AND FLEX_EXE AND BISON_EXE)
+    ENDIF(OSG_ENABLE_SCANPARSE_REGEN AND FLEX_EXE AND BISON_EXE AND SED_EXE)
 
     ###############
     # build the lib

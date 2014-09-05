@@ -8,6 +8,8 @@ ENDIF()
 
 PROJECT(OpenSG)
 
+SET(OSG2_PROJECT TRUE CACHE INTERNAL "" FORCE)
+
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${OpenSG_SOURCE_DIR}/CMake")
 
 IF(APPLE AND IOS)
@@ -830,11 +832,18 @@ IF(NOT OSG_BUILD_DEPENDEND)
     #### Flex/Bison
     ###############
 
-    FIND_PROGRAM(FLEX_EXE flex)
+    FIND_PROGRAM(FLEX_EXE  flex)
     FIND_PROGRAM(BISON_EXE bison)
+    FIND_PROGRAM(SED_EXE   sed)
 
     OSG_ADD_OPT(FLEX_EXE)
     OSG_ADD_OPT(BISON_EXE)
+    OSG_ADD_OPT(SED_EXE)
+
+    IF(FLEX_EXE AND WIN32)
+      GET_FILENAME_COMPONENT(OSG_FLEX_BIN_DIR ${FLEX_EXE} DIRECTORY)
+      OSG_SET(OSG_FLEX_INC_DIR ${OSG_FLEX_BIN_DIR}/../share/flex)
+    ENDIF()
 
     ##############
     #### NVPerfSDK
@@ -946,6 +955,22 @@ IF(NOT WIN32)
 #        OSG_WRITE_SETTINGS(${CMAKE_BINARY_DIR}/CMake.settings)
     ENDIF(OSG_BUILD_DEPENDEND)
 ENDIF(NOT WIN32)
+
+##############################################################################
+# FLEX_BISON_SETUP
+##############################################################################
+
+IF(WIN32 AND BISON_EXE AND OSG1_PROJECT)
+  CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/CMake/OSGRunBison1.cmake.in
+                 ${CMAKE_BINARY_DIR}/OSGRunBison1.cmk
+                 @ONLY                                         )
+ENDIF()
+
+IF(WIN32 AND BISON_EXE AND OSG2_PROJECT)
+  CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/CMake/OSGRunBison2.cmake.in
+                 ${CMAKE_BINARY_DIR}/OSGRunBison2.cmk
+                 @ONLY                                         )
+ENDIF()
 
 ##############################################################################
 # MAIN BUILD STEPS
