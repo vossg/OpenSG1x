@@ -1,5 +1,8 @@
 #include <iostream>
+
+#ifndef WIN32
 #include <unistd.h>
+#endif
 
 #include <OSGBaseFunctions.h>
 #include <OSGStatElem.h>

@@ -156,5 +156,10 @@ namespace OSG
 #    define OSG_DEFAULT_LOG_TYPE LOG_STDERR 
 #endif
 
+#ifdef WIN32
+#define OSG_BOOL_IS_UNSIGNED 1
+#endif
+
+
 #define OSG_OPT_DRAWTREE 1
 

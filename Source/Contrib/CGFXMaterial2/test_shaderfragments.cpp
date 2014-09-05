@@ -16,25 +16,26 @@
 #pragma warning(disable:4275)
 #endif
 
+
 // GLUT is used for window handling
-#include <OpenSG/OSGGLUT.h>
+#include "OSGGLUT.h"
 
 // General OpenSG configuration, needed everywhere
-#include <OpenSG/OSGConfig.h>
+#include "OSGConfig.h"
 
 // Methods to create simple geometry: boxes, spheres, tori etc.
-#include <OpenSG/OSGSimpleGeometry.h>
+#include "OSGSimpleGeometry.h"
 
 // The GLUT-OpenSG connection class
-#include <OpenSG/OSGGLUTWindow.h>
+#include "OSGGLUTWindow.h"
 
 // A little helper to simplify scene management and interaction
-#include <OpenSG/OSGSimpleSceneManager.h>
+#include "OSGSimpleSceneManager.h"
 
-#include <OpenSG/OSGSimpleTexturedMaterial.h>
-#include <OpenSG/OSGImage.h>
+#include "OSGSimpleTexturedMaterial.h"
+#include "OSGImage.h"
 
-#include <OpenSG/OSGCGFXMaterial.h>
+#include "OSGCGFXMaterial.h"
 
 #ifdef MSVC_VER
 #pragma warning(pop)

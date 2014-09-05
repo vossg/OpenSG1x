@@ -1,0 +1,70 @@
+
+IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
+  RETURN()
+ENDIF()
+
+OSG_ADD_PROJECT("OSGContrib")
+
+IF(NOT CG_LIBRARIES_FOUND)
+    SET(OSGBUILD_${PROJECT_NAME} OFF)
+ENDIF(NOT CG_LIBRARIES_FOUND)
+
+OSG_SELECT_PROJECT()
+
+##############################################################################
+# dependencies
+##############################################################################
+
+# dependencies - OpenSG
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGSystem)
+
+SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGSystem OSGWindowGLUT)
+
+# dependencies - External
+SET(${PROJECT_NAME}_DEP_LIB CG_LIBRARIES)
+# SET(${PROJECT_NAME}_DEP_LIBDIR)
+SET(${PROJECT_NAME}_DEP_INCDIR CG_INCLUDE_DIR)
+
+# SET(${PROJECT_NAME}_DEP_TEST_LIB)
+# SET(${PROJECT_NAME}_DEP_TEST_LIBDIR)
+# SET(${PROJECT_NAME}_DEP_TEST_INCDIR)
+
+# dependencies - Additional
+# SET(${PROJECT_NAME}_DEP_ADD_INCDIR)
+
+IF(COLLADA_FOUND)
+  LIST(APPEND ${PROJECT_NAME}_DEP_INCDIR COLLADA_DAE_INCLUDE_DIR
+                                         COLLADA_DOM_INCLUDE_DIR)
+  LIST(APPEND ${PROJECT_NAME}_DEP_LIB    OSG_COLLADA_LIBS OSG_BOOST_LIBS)
+ENDIF(COLLADA_FOUND)
+
+OSG_ADD_GLUTPACKAGE(TRUE)
+
+SET(${PROJECT_NAME}_CXXFLAGS ${OSG_ADD_CXX_FLAGS})
+
+SET(${PROJECT_NAME}_NO_DOC TRUE)
+
+OSG_STORE_PROJECT_DEPENDENCIES()
+
+##############################################################################
+# collect sources
+##############################################################################
+
+OSG_ADD_DIRECTORY("Source/Contrib")
+OSG_ADD_DIRECTORY("Source/Contrib/CGFXMATERIAL2")
+
+#IF(COLLADA_FOUND)
+#  OSG_ADD_DIRECTORY("Source/Contrib/CgFXMaterial/FileIO")
+#ENDIF(COLLADA_FOUND)
+
+##############################################################################
+# setup python bindings
+##############################################################################
+
+SET(${PROJECT_NAME}_NO_PYTHON TRUE)
+
+##############################################################################
+# setup build
+##############################################################################
+
+OSG_SETUP_PROJECT("OSG_COMPILECONTRIBLIB")

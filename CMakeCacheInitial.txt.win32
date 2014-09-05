@@ -1,0 +1,16 @@
+
+SET(CMAKE_VERBOSE_MAKEFILE  TRUE   CACHE BOOL "" FORCE)
+SET(OSG_USE_OSGSUPPORT_LIBS TRUE   CACHE BOOL "" FORCE)
+SET(OSG_DISABLE_SOURCE_GROUPS TRUE CACHE BOOL "" FORCE)
+
+SET(OSG_SUPPORT_ROOT "D:/user/gerrit/Projects/OpenSG/Support/MSDefault" 
+                     CACHE PATH "" FORCE)
+
+SET(BOOST_ROOT       "D:/user/gerrit/Projects/OpenSG/Support/MSDefault" 
+                     CACHE PATH "" FORCE)
+
+SET(CMAKE_INSTALL_PREFIX "D:/user/gerrit/Projects/OpenSG/trunk/OpenSG.install" 
+                         CACHE PATH "" FORCE)
+
+SET(CG_ROOT "C:/Program Files (x86)/NVIDIA Corporation/Cg" 
+            CACHE PATH "" FORCE)
