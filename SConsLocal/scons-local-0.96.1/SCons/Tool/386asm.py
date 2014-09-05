@@ -37,11 +37,11 @@ __revision__ = "/home/scons/scons/branch.0/baseline/src/engine/SCons/Tool/386asm
 from SCons.Tool.PharLapCommon import addPharLapPaths
 import SCons.Util
 
-import as
+import assemb
 
 def generate(env):
     """Add Builders and construction variables for ar to an Environment."""
-    as.generate(env)
+    assemb.generate(env)
 
     env['AS']        = '386asm'
     env['ASFLAGS']   = SCons.Util.CLVar('')

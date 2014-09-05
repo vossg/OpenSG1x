@@ -6,8 +6,9 @@ bison_simple = None
 flex_lexer = None
 
 if env['PLATFORM'] == 'win32':
-    bison_simple = Install('.', '../../../../../../dist/win/bin/bison.simple')
-    flex_lexer = Install('.', '../../../../../../VSBuild/VS6/FlexLexer.h')
+#    bison_simple = Install('.', '../../../../../../dist/win/bin/bison.simple')
+    flex_lexer  = Install('.', '../../../../../../dist/win/share/flex/FlexLexer.h')
+    flex_unistd = Install('.', '../../../../../../dist/win/share/flex/unistd.h')
 #else:
 #    Install('.', '/usr/include/FlexLexer.h')
 

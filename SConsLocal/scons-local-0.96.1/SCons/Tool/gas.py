@@ -33,13 +33,13 @@ selection method.
 
 __revision__ = "/home/scons/scons/branch.0/baseline/src/engine/SCons/Tool/gas.py 0.96.1.D001 2004/08/23 09:55:29 knight"
 
-import as
+import assemb
 
 assemblers = ['as', 'gas']
 
 def generate(env):
     """Add Builders and construction variables for as to an Environment."""
-    as.generate(env)
+    assemb.generate(env)
 
     env['AS']        = env.Detect(assemblers) or 'as'
 

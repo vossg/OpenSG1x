@@ -252,11 +252,11 @@ def CreateWinHeaders(env):
     if not os.path.isdir(path):
         os.makedirs(path)
 
-    filename = os.path.join(path, 'unistd.h')
-    if not os.path.exists(filename):
-        unistd_h = open(filename, 'w')
-        unistd_h.close()
-        MyInstall(os.path.join(build_dir, 'installed', 'include', 'OpenSG', 'unistd.h'), filename)
+#    filename = os.path.join(path, 'unistd.h')
+#    if not os.path.exists(filename):
+#        unistd_h = open(filename, 'w')
+#        unistd_h.close()
+#        MyInstall(os.path.join(build_dir, 'installed', 'include', 'OpenSG', 'unistd.h'), filename)
     
     if tc.get_name() == 'win32-icl':
         filename = os.path.join(path, 'xtree')
@@ -467,6 +467,7 @@ def CreateEnvironment(*args, **kw):
     "Creates an environment with some things that always have to be set."
     env = apply(Environment, args, kw)
     env['ENV']['HOME'] = os.environ.get('HOME')
+    env['ENV']['TMP'] = os.environ.get('TMP')
     return env
 
 
