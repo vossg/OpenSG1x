@@ -456,6 +456,10 @@ ENDIF()
 ADD_DEFINITIONS(-D OSG_BUILD_ACTIVE)
 IF(OSG1_PROJECT)
   ADD_DEFINITIONS(-D _OSG_HAVE_CONFIGURED_H_)
+
+  IF(WIN32)
+    ADD_DEFINITIONS(-D OSG_BUILD_DLL)
+  ENDIF()
 ENDIF()
 
 OSG_CHECK_INSTALL()
@@ -637,7 +641,7 @@ IF(NOT OSG_BUILD_DEPENDEND)
     ENDIF(OPENEXR_FOUND)
 
     IF(OSG1_PROJECT)
-      OSG_ADD_OPT(OSG_EXTERNAL_IMAGEDEFS)
+      SET(OSG_EXTERNAL_IMAGEDEFS ${OSG_EXTERNAL_IMAGEDEFS} OSG_WITH_GIF)
     ENDIF()
 
     OSG_ADD_OPT(OSG_EXTERNAL_IMAGELIBS)
@@ -1533,14 +1537,16 @@ INSTALL(FILES "${CMAKE_SOURCE_DIR}/CMake/OSGCommonConfig.cmake"
 INSTALL(FILES "${CMAKE_SOURCE_DIR}/CMake/OSGCommonSupportConfig.cmake"
         DESTINATION share/OpenSG/cmake)
 
-INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/Tools/fcd2code"
-        DESTINATION bin
-#        COMPONENT development_tools
-        PATTERN "*/fcd2code/fcd2code" EXCLUDE
-        PATTERN "*.pyc" EXCLUDE
-        PATTERN ".svn"  EXCLUDE)
-INSTALL(PROGRAMS "${CMAKE_SOURCE_DIR}/Tools/fcd2code/fcd2code"
-        DESTINATION bin/fcd2code)
+IF(OSG2_PROJECT)
+  INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/Tools/fcd2code"
+          DESTINATION bin
+#          COMPONENT development_tools
+          PATTERN "*/fcd2code/fcd2code" EXCLUDE
+          PATTERN "*.pyc" EXCLUDE
+          PATTERN ".svn"  EXCLUDE)
+  INSTALL(PROGRAMS "${CMAKE_SOURCE_DIR}/Tools/fcd2code/fcd2code"
+          DESTINATION bin/fcd2code)
+ENDIF()
 
 ##################
 # Global Python
@@ -1683,7 +1689,9 @@ IF(OSGBUILD_PYTHON_BINDINGS)
 
 ENDIF()
 
-INSTALL_PYTHON_ELEMENTS()
+IF(OSG2_PROJECT)
+  INSTALL_PYTHON_ELEMENTS()
+ENDIF()
 
 ##################
 # Documentation
@@ -1705,9 +1713,11 @@ ENDIF()
 # CSM Example
 ##################
 
-INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/Examples/CSM"
-        DESTINATION share/OpenSG/Examples/)
-#        COMPONENT examples_basic)
+IF(OSG2_PROJECT)
+  INSTALL(DIRECTORY "${CMAKE_SOURCE_DIR}/Examples/CSM"
+          DESTINATION share/OpenSG/Examples/)
+#          COMPONENT examples_basic)
+ENDIF()
 
 ##################
 # Packaging
@@ -1975,29 +1985,31 @@ INSTALL(FILES ${CMAKE_SOURCE_DIR}/COPYING
                     GROUP_READ
                     WORLD_READ)
 
-INSTALL(FILES ${CMAKE_SOURCE_DIR}/Source/Contrib/PLY/README
-        DESTINATION share/doc/OpenSG/
-#        COMPONENT doc
-        PERMISSIONS OWNER_WRITE OWNER_READ
-                    GROUP_READ
-                    WORLD_READ
-        RENAME README.ply)
+IF(OSG2_PROJECT)
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/Source/Contrib/PLY/README
+          DESTINATION share/doc/OpenSG/
+#          COMPONENT doc
+          PERMISSIONS OWNER_WRITE OWNER_READ
+                      GROUP_READ
+                      WORLD_READ
+          RENAME README.ply)
 
-INSTALL(FILES ${CMAKE_SOURCE_DIR}/Source/Contrib/TrapezoidalShadowMaps/README
-        DESTINATION share/doc/OpenSG/
-#        COMPONENT doc
-        PERMISSIONS OWNER_WRITE OWNER_READ
-                    GROUP_READ
-                    WORLD_READ
-        RENAME README.tsm)
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/Source/Contrib/TrapezoidalShadowMaps/README
+          DESTINATION share/doc/OpenSG/
+#          COMPONENT doc
+          PERMISSIONS OWNER_WRITE OWNER_READ
+                      GROUP_READ
+                      WORLD_READ
+          RENAME README.tsm)
 
-INSTALL(FILES ${CMAKE_SOURCE_DIR}/Source/Contrib/Rhino3DLoader/README
-        DESTINATION share/doc/OpenSG/
-#        COMPONENT doc
-        PERMISSIONS OWNER_WRITE OWNER_READ
-                    GROUP_READ
-                    WORLD_READ
-        RENAME README.rhine)
+  INSTALL(FILES ${CMAKE_SOURCE_DIR}/Source/Contrib/Rhino3DLoader/README
+          DESTINATION share/doc/OpenSG/
+#          COMPONENT doc
+          PERMISSIONS OWNER_WRITE OWNER_READ
+                      GROUP_READ
+                      WORLD_READ
+          RENAME README.rhine)
+ENDIF()
 
 IF(WIN32)
   SET(CMAKE_CONFIGURATION_TYPES "Debug;Release;DebugOpt;ReleaseNoOpt"

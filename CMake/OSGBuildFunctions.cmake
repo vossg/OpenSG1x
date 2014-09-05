@@ -1163,16 +1163,64 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
 
         ENDFOREACH()
 
-        IF(${PROJECT_NAME}_YY OR ${PROJECT_NAME}_LL)
+        FOREACH(YFile ${${PROJECT_NAME}_Y})
+
+          GET_FILENAME_COMPONENT(YBase ${YFile} NAME_WE)
+
+          STRING(REPLACE "Skel" "Skel_" YOpt ${YBase})
+
+          SET(YSrc ${CMAKE_CURRENT_BINARY_DIR}/${YBase}.tab.cpp)
+          SET(YHdr ${CMAKE_CURRENT_BINARY_DIR}/${YBase}.tab.h)
+
+          ADD_CUSTOM_COMMAND(
+              OUTPUT ${YSrc} ${YHdr}
+#              COMMAND ${BISON_EXE} -d -v -p${YOpt} -o${YSrc} --defines=${YHdr} ${YFile}
+              COMMAND ${CMAKE_COMMAND} -DYY_OPT='"${YOpt}"' -DYY_SRC='"${YSrc}"' -DYY_HDR='"${YHdr}"' -DYY_FILE='"${YFile}"' -P ${CMAKE_BINARY_DIR}/OSGRunBison1.cmk
+              MAIN_DEPENDENCY ${YFile})
+
+          LIST(APPEND ${PROJECT_NAME}_SRC ${YSrc})
+          LIST(APPEND ${PROJECT_NAME}_HDR ${YHdr})
+
+        ENDFOREACH()
+
+        FOREACH(LPPFile ${${PROJECT_NAME}_LPP})
+
+          GET_FILENAME_COMPONENT(LPPBase ${LPPFile} NAME_WE)
+
+          SET(LPPSrc ${CMAKE_CURRENT_BINARY_DIR}/${LPPBase}.lex.cpp)
+
+          ADD_CUSTOM_COMMAND(
+              OUTPUT  ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc
+              COMMAND ${FLEX_EXE} -+ -P${LPPBase}_ ${LPPFile}
+              WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+              MAIN_DEPENDENCY ${LPPFile})
+
+          ADD_CUSTOM_COMMAND(
+              OUTPUT ${LPPSrc}
+#              COMMAND cat ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc | ${SED_EXE} -e "s/\\(yy\\)\\(text_ptr\\)/OSGScanParseSkel_\\2/g" >  ${LPPSrc}
+               COMMAND ${SED_EXE} -e "s/\\(yy\\)\\(text_ptr\\)/OSGScanParseSkel_\\2/g" -e "s/cin/std::cin/g" -e "s/cout/std::cout/g" -e "s/cerr/std::cerr/g" -e "s/istream/std::istream/g" -e "s/ostream/std::ostream/g" -e "s/class std::istream;/#include <iosfwd>/g" > ${LPPSrc} < ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc
+              WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+              MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc)
+
+          SET(${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${LPPSrc})
+
+        ENDFOREACH()
+
+
+        IF(${PROJECT_NAME}_YY OR ${PROJECT_NAME}_LL OR ${PROJECT_NAME}_Y OR ${PROJECT_NAME}_LPP)
             SET(${PROJECT_NAME}_INC ${${PROJECT_NAME}_INC} ${CMAKE_CURRENT_BINARY_DIR})
             IF(WIN32)
               SET(${PROJECT_NAME}_INC ${${PROJECT_NAME}_INC} ${OSG_FLEX_INC_DIR})
             ENDIF()
 
             FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
-                "LIST(APPEND ${PROJECT_NAME}_INC \"${CMAKE_CURRENT_BINARY_DIR}\")\n\n")
+                 "LIST(APPEND ${PROJECT_NAME}_INC \"${CMAKE_CURRENT_BINARY_DIR}\")\n\n")
+            IF(WIN32)
+              FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
+                   "LIST(APPEND ${PROJECT_NAME}_INC \"${OSG_FLEX_INC_DIR}\")\n\n")
+            ENDIF()
 
-        ENDIF(${PROJECT_NAME}_YY OR ${PROJECT_NAME}_LL)
+        ENDIF()
 
     ENDIF(OSG_ENABLE_SCANPARSE_REGEN AND FLEX_EXE AND BISON_EXE AND SED_EXE)
 
