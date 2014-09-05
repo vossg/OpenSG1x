@@ -1172,12 +1172,21 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
           SET(YSrc ${CMAKE_CURRENT_BINARY_DIR}/${YBase}.tab.cpp)
           SET(YHdr ${CMAKE_CURRENT_BINARY_DIR}/${YBase}.tab.h)
 
-          ADD_CUSTOM_COMMAND(
+          IF(WIN32)
+            ADD_CUSTOM_COMMAND(
               OUTPUT ${YSrc} ${YHdr}
 #              COMMAND ${BISON_EXE} -d -v -p${YOpt} -o${YSrc} --defines=${YHdr} ${YFile}
               COMMAND ${CMAKE_COMMAND} -DYY_OPT='"${YOpt}"' -DYY_SRC='"${YSrc}"' -DYY_HDR='"${YHdr}"' -DYY_FILE='"${YFile}"' -P ${CMAKE_BINARY_DIR}/OSGRunBison1.cmk
               MAIN_DEPENDENCY ${YFile})
+           
+          ELSE()
 
+            ADD_CUSTOM_COMMAND(
+              OUTPUT ${YSrc} ${YHdr}
+              COMMAND ${BISON_EXE} -d -v -p${YOpt} -o${YSrc} --defines=${YHdr} ${YFile}
+              MAIN_DEPENDENCY ${YFile})
+   
+          ENDIF()
           LIST(APPEND ${PROJECT_NAME}_SRC ${YSrc})
           LIST(APPEND ${PROJECT_NAME}_HDR ${YHdr})
 
@@ -1195,12 +1204,19 @@ FUNCTION(OSG_SETUP_LIBRARY_BUILD PROJ_DEFINE)
               WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
               MAIN_DEPENDENCY ${LPPFile})
 
-          ADD_CUSTOM_COMMAND(
+          IF(WIN32)
+            ADD_CUSTOM_COMMAND(
               OUTPUT ${LPPSrc}
-#              COMMAND cat ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc | ${SED_EXE} -e "s/\\(yy\\)\\(text_ptr\\)/OSGScanParseSkel_\\2/g" >  ${LPPSrc}
                COMMAND ${SED_EXE} -e "s/\\(yy\\)\\(text_ptr\\)/OSGScanParseSkel_\\2/g" -e "s/cin/std::cin/g" -e "s/cout/std::cout/g" -e "s/cerr/std::cerr/g" -e "s/istream/std::istream/g" -e "s/ostream/std::ostream/g" -e "s/class std::istream;/#include <iosfwd>/g" > ${LPPSrc} < ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc
               WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
               MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc)
+          ELSE()
+            ADD_CUSTOM_COMMAND(
+              OUTPUT ${LPPSrc}
+              COMMAND cat ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc | ${SED_EXE} -e "s/\\(yy\\)\\(text_ptr\\)/OSGScanParseSkel_\\2/g" >  ${LPPSrc}
+              WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+              MAIN_DEPENDENCY ${CMAKE_CURRENT_BINARY_DIR}/lex.${LPPBase}_.cc)
+          ENDIF()
 
           SET(${PROJECT_NAME}_SRC ${${PROJECT_NAME}_SRC} ${LPPSrc})
 
