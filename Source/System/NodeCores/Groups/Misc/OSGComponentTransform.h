@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGComponentTransformBase.h>
+#include "OSGComponentTransformBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -118,8 +118,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ComponentTransform :
 
 OSG_END_NAMESPACE
 
-#include <OSGComponentTransformBase.inl>
-#include <OSGComponentTransform.inl>
+#include "OSGComponentTransformBase.inl"
+#include "OSGComponentTransform.inl"
 
 #define OSGCOMPONENTTRANSFORM_HEADER_CVSID "@(#)$Id: OSGComponentTransform.h,v 1.4 2001/11/05 11:15:31 vossg Exp $"
 

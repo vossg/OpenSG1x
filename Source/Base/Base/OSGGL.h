@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifdef OSG_GL_INCLUDE_GLEW
 #include "GL/glew.h"
@@ -63,7 +63,7 @@
 
 
 
-#include <OSGGLU.h>
+#include "OSGGLU.h"
 
 OSG_BEGIN_NAMESPACE
 

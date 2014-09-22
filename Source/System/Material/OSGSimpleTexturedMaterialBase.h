@@ -58,22 +58,22 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGSimpleMaterial.h> // Parent
+#include "OSGSimpleMaterial.h" // Parent
 
-#include <OSGImageFields.h> // Image type
-#include <OSGGLenumFields.h> // MinFilter type
-#include <OSGGLenumFields.h> // MagFilter type
-#include <OSGGLenumFields.h> // EnvMode type
-#include <OSGBoolFields.h> // EnvMap type
+#include "OSGImageFields.h" // Image type
+#include "OSGGLenumFields.h" // MinFilter type
+#include "OSGGLenumFields.h" // MagFilter type
+#include "OSGGLenumFields.h" // EnvMode type
+#include "OSGBoolFields.h" // EnvMap type
 
-#include <OSGSimpleTexturedMaterialFields.h>
+#include "OSGSimpleTexturedMaterialFields.h"
 
 OSG_BEGIN_NAMESPACE
 

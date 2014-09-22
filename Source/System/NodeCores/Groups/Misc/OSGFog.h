@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGNodePtr.h>
-#include <OSGAction.h>
-#include <OSGFogChunk.h>
+#include "OSGConfig.h"
+#include "OSGNodePtr.h"
+#include "OSGAction.h"
+#include "OSGFogChunk.h"
 
-#include <OSGFogBase.h>
+#include "OSGFogBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -140,8 +140,8 @@ typedef Fog *FogP;
 
 OSG_END_NAMESPACE
 
-#include <OSGFogBase.inl>
-#include <OSGFog.inl>
+#include "OSGFogBase.inl"
+#include "OSGFog.inl"
 
 #define OSGFOG_HEADER_CVSID "@(#)$Id: OSGFog.h,v 1.1 2009/11/13 15:44:26 yjung Exp $"
 

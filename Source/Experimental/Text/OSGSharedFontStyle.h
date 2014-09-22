@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSharedFontStyleBase.h>
+#include "OSGSharedFontStyleBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -115,8 +115,8 @@ typedef SharedFontStyle *SharedFontStyleP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSharedFontStyleBase.inl>
-#include <OSGSharedFontStyle.inl>
+#include "OSGSharedFontStyleBase.inl"
+#include "OSGSharedFontStyle.inl"
 
 #define OSGSHAREDFONTSTYLE_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.18 2002/12/11 06:34:58 dirk Exp $"
 

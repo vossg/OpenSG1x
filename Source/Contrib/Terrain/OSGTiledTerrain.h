@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTiledTerrainBase.h>
+#include "OSGTiledTerrainBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -116,8 +116,8 @@ typedef TiledTerrain *TiledTerrainP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTiledTerrainBase.inl>
-#include <OSGTiledTerrain.inl>
+#include "OSGTiledTerrainBase.inl"
+#include "OSGTiledTerrain.inl"
 
 #define OSGTILEDTERRAIN_HEADER_CVSID "@(#)$Id: OSGTiledTerrain.h,v 1.2 2009/04/07 17:09:29 neumannc Exp $"
 

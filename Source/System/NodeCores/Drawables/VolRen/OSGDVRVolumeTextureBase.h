@@ -58,23 +58,23 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGImageFields.h> // Image type
-#include <OSGReal32Fields.h> // Histogram type
-#include <OSGReal32Fields.h> // MaxVal type
-#include <OSGVec3fFields.h> // SliceThickness type
-#include <OSGVec3fFields.h> // Resolution type
-#include <OSGStringFields.h> // FileName type
+#include "OSGImageFields.h" // Image type
+#include "OSGReal32Fields.h" // Histogram type
+#include "OSGReal32Fields.h" // MaxVal type
+#include "OSGVec3fFields.h" // SliceThickness type
+#include "OSGVec3fFields.h" // Resolution type
+#include "OSGStringFields.h" // FileName type
 
-#include <OSGDVRVolumeTextureFields.h>
+#include "OSGDVRVolumeTextureFields.h"
 
 OSG_BEGIN_NAMESPACE
 

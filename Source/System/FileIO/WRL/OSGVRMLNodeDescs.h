@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 #include <vector>
 #include <string>
 
@@ -61,18 +61,18 @@
 
 #define OSG_VRML_IMAGETEXTURE_MAP
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGField.h>
-#include <OSGFieldContainer.h>
-#include <OSGAttachment.h>
-#include <OSGGeoProperty.h>
-#include <OSGSFSysTypes.h>
-#include <OSGSimpleMaterial.h>
-#include <OSGImageFields.h>
-#include <OSGSFVecTypes.h>
-#include <OSGSFFieldContainerPtr.h>
-#include <OSGComponentTransform.h>
-#include <OSGAttachmentFieldDataType.h>
+#include "OSGFieldContainerPtr.h"
+#include "OSGField.h"
+#include "OSGFieldContainer.h"
+#include "OSGAttachment.h"
+#include "OSGGeoProperty.h"
+#include "OSGSFSysTypes.h"
+#include "OSGSimpleMaterial.h"
+#include "OSGImageFields.h"
+#include "OSGSFVecTypes.h"
+#include "OSGSFFieldContainerPtr.h"
+#include "OSGComponentTransform.h"
+#include "OSGAttachmentFieldDataType.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <OSGQSpinBoxUInt32_qt.h>
+#include "OSGQSpinBoxUInt32_qt.h"
 
 #include <qlayout.h>
 #include <qpushbutton.h>

@@ -48,10 +48,10 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGIDStringLink.h>
-#include <OSGDataType.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGIDStringLink.h"
+#include "OSGDataType.h"
 
 #include <map>
 

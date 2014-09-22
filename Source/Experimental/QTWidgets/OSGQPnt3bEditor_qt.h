@@ -42,13 +42,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 // Not all compilers can handle the byte Pnts/Vecs...
 #ifndef OSG_NO_INT8_PNT
 
-#include <OSGWindowQTDef.h>
-#include <OSGVector.h>
+#include "OSGWindowQTDef.h"
+#include "OSGVector.h"
 
 #include "OSGQAbstractValueEditor_qt.h"
 #include "OSGQVectorPointEditorHelper.h"

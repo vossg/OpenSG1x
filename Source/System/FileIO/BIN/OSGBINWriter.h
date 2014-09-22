@@ -41,14 +41,14 @@
 #ifdef __sgi
 #pragma once
 #endif
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include <map>
 #include <vector>
 
-#include <OSGNode.h>
-#include <OSGBinaryDataHandler.h>
-#include <OSGBaseTypes.h>
+#include "OSGNode.h"
+#include "OSGBinaryDataHandler.h"
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

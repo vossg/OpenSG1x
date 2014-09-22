@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTextureChunk.h>
-#include <OSGStatElemDesc.h>
+#include "OSGTextureChunk.h"
+#include "OSGStatElemDesc.h"
 
-#include <OSGSimpleStatisticsForegroundBase.h>
+#include "OSGSimpleStatisticsForegroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -154,8 +154,8 @@ typedef SimpleStatisticsForeground *SimpleStatisticsForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSimpleStatisticsForegroundBase.inl>
-#include <OSGSimpleStatisticsForeground.inl>
+#include "OSGSimpleStatisticsForegroundBase.inl"
+#include "OSGSimpleStatisticsForeground.inl"
 
 #define OSGSIMPLESTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGSimpleStatisticsForeground.h,v 1.4 2002/06/01 10:37:25 vossg Exp $"
 

@@ -46,12 +46,12 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGMatrix.h>
-#include <OSGFieldContainer.h>
-#include <OSGSFAttachmentMap.h>
-#include <OSGAttachmentPtr.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGMatrix.h"
+#include "OSGFieldContainer.h"
+#include "OSGSFAttachmentMap.h"
+#include "OSGAttachmentPtr.h"
 
 OSG_BEGIN_NAMESPACE
 

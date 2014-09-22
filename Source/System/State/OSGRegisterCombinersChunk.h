@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindow.h>
-#include <OSGGL.h>
-#include <OSGGLEXT.h>
+#include "OSGConfig.h"
+#include "OSGWindow.h"
+#include "OSGGL.h"
+#include "OSGGLEXT.h"
 
-#include <OSGRegisterCombinersChunkBase.h>
+#include "OSGRegisterCombinersChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -223,8 +223,8 @@ typedef RegisterCombinersChunk *RegisterCombinersChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGRegisterCombinersChunkBase.inl>
-#include <OSGRegisterCombinersChunk.inl>
+#include "OSGRegisterCombinersChunkBase.inl"
+#include "OSGRegisterCombinersChunk.inl"
 
 #define OSGREGISTERCOMBINERSCHUNK_HEADER_CVSID "@(#)$Id: $"
 

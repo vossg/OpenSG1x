@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGShaderParameterStringBase.h>
+#include "OSGShaderParameterStringBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -113,8 +113,8 @@ typedef ShaderParameterString *ShaderParameterStringP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderParameterStringBase.inl>
-#include <OSGShaderParameterString.inl>
+#include "OSGShaderParameterStringBase.inl"
+#include "OSGShaderParameterString.inl"
 
 #define OSGSHADERPARAMETERSTRING_HEADER_CVSID "@(#)$Id: OSGShaderParameterString.h,v 1.1 2005/05/27 16:06:52 a-m-z Exp $"
 

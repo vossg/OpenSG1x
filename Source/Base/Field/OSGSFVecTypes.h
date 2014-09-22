@@ -46,9 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBase.h>
-#include <OSGSField.h>
-#include <OSGVecFieldDataType.h>
+#include "OSGBase.h"
+#include "OSGSField.h"
+#include "OSGVecFieldDataType.h"
 
 #ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGSFVecTypes.h

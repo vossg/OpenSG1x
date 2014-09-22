@@ -44,7 +44,7 @@
 
 #include "OSGWindowQTDef.h"
 
-#include <OSGFieldContainer.h>
+#include "OSGFieldContainer.h"
 
 #include <qwidget.h>
 #include <qtable.h>

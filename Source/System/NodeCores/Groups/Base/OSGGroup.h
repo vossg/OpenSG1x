@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGAction.h>
-#include <OSGGroupBase.h>
+#include "OSGAction.h"
+#include "OSGGroupBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -126,8 +126,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Group : public GroupBase
 
 OSG_END_NAMESPACE
 
-#include <OSGGroupBase.inl>
-#include <OSGGroup.inl>
+#include "OSGGroupBase.inl"
+#include "OSGGroup.inl"
 
 #define OSGGROUP_HEADER_CVSID "@(#)$Id: $"
 

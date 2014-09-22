@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGIDString.h>
+#include "OSGBaseTypes.h"
+#include "OSGIDString.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -92,6 +92,6 @@ class OSG_BASE_DLLMAPPING IDStringLink : public IDString
 
 OSG_END_NAMESPACE
 
-#include <OSGIDStringLink.inl>
+#include "OSGIDStringLink.inl"
 
 #endif /* _OSGSTRINGLINK_H_ */

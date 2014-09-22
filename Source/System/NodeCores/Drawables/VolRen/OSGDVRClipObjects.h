@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPlane.h>
+#include "OSGPlane.h"
 
-#include <OSGDVRClipObjectsBase.h>
+#include "OSGDVRClipObjectsBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -170,8 +170,8 @@ typedef DVRClipObjects *DVRClipObjectsP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRClipObjectsBase.inl>
-#include <OSGDVRClipObjects.inl>
+#include "OSGDVRClipObjectsBase.inl"
+#include "OSGDVRClipObjects.inl"
 
 #define OSGDVRCLIPOBJECTS_HEADER_CVSID "@(#)$Id: $"
 

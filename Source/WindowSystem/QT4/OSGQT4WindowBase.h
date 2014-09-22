@@ -58,10 +58,10 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include "OSGWindowQT4Def.h"
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 #include "OSGQT4WindowDataFields.h" // GlWidget type
 

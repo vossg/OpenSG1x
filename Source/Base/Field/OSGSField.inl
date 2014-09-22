@@ -40,7 +40,7 @@
 #include <stdio.h>
 
 #include "OSGConfig.h"
-#include <OSGLog.h>
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 

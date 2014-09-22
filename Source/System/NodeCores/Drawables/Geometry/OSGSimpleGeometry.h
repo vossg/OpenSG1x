@@ -41,13 +41,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGNode.h>
-#include <OSGSystemDef.h>
-#include <OSGGeoPropPtrs.h>
-#include <OSGGeometry.h>
-#include <OSGMaterial.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGNode.h"
+#include "OSGSystemDef.h"
+#include "OSGGeoPropPtrs.h"
+#include "OSGGeometry.h"
+#include "OSGMaterial.h"
 
 
 OSG_BEGIN_NAMESPACE

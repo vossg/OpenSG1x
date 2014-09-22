@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGPointLight.h> // Parent
+#include "OSGPointLight.h" // Parent
 
-#include <OSGVec3fFields.h> // Direction type
-#include <OSGReal32Fields.h> // SpotExponent type
-#include <OSGReal32Fields.h> // SpotCutOff type
+#include "OSGVec3fFields.h" // Direction type
+#include "OSGReal32Fields.h" // SpotExponent type
+#include "OSGReal32Fields.h" // SpotCutOff type
 
-#include <OSGSpotLightFields.h>
+#include "OSGSpotLightFields.h"
 
 OSG_BEGIN_NAMESPACE
 

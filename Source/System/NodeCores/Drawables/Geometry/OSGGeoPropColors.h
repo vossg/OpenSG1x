@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGGeoPropertyBase.h>
+#include "OSGGeoPropertyBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -273,7 +273,7 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 OSG_END_NAMESPACE
 
-#include <OSGGeoPropColors.inl>
+#include "OSGGeoPropColors.inl"
 
 #endif /* _OSGGEOPROPCOLORS_H_ */
 

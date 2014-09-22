@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGXWindowBase.h>
+#include "OSGXWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -123,8 +123,8 @@ typedef XWindow *XWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGXWindow.inl>
-#include <OSGXWindowBase.inl>
+#include "OSGXWindow.inl"
+#include "OSGXWindowBase.inl"
 
 #define OSGXWINDOW_HEADER_CVSID "@(#)$Id: $"
 

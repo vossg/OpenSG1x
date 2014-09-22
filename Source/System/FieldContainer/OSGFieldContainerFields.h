@@ -41,5 +41,5 @@
    field type header.
 */
 
-#include <OSGSFFieldContainerPtr.h>
-#include <OSGMFFieldContainerPtr.h>
+#include "OSGSFFieldContainerPtr.h"
+#include "OSGMFFieldContainerPtr.h"

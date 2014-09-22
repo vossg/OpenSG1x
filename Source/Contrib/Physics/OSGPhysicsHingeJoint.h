@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsHingeJointBase.h>
+#include "OSGPhysicsHingeJointBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -142,8 +142,8 @@ typedef PhysicsHingeJoint *PhysicsHingeJointP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsHingeJointBase.inl>
-#include <OSGPhysicsHingeJoint.inl>
+#include "OSGPhysicsHingeJointBase.inl"
+#include "OSGPhysicsHingeJoint.inl"
 
 #define OSGPHYSICSHINGEJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsHingeJoint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

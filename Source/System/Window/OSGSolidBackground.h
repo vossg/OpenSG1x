@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSolidBackgroundBase.h>
+#include "OSGSolidBackgroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -131,8 +131,8 @@ typedef SolidBackground *SolidBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSolidBackgroundBase.inl>
-#include <OSGSolidBackground.inl>
+#include "OSGSolidBackgroundBase.inl"
+#include "OSGSolidBackground.inl"
 
 #define OSGSOLIDBACKGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGMFNodePtrImpl.h>
-#include <OSGNode.h>
-#include <OSGMFNodePtrDepImpl.h>
-#include <OSGNodePtr.h>
+#include "OSGMFNodePtrImpl.h"
+#include "OSGNode.h"
+#include "OSGMFNodePtrDepImpl.h"
+#include "OSGNodePtr.h"
 
 #endif

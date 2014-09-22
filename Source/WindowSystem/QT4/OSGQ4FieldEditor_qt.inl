@@ -40,7 +40,7 @@
 
 #include "OSGQ4FieldView_qt.h"
 
-#include <OSGFieldContainer.h>
+#include "OSGFieldContainer.h"
 
 OSG_BEGIN_NAMESPACE
 

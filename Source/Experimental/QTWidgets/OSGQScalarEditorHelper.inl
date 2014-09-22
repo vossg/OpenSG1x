@@ -36,10 +36,10 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGSFSysTypes.h>
-#include <OSGMFSysTypes.h>
+#include "OSGSField.h"
+#include "OSGMField.h"
+#include "OSGSFSysTypes.h"
+#include "OSGMFSysTypes.h"
 
 #include <qlayout.h>
 #include <qlabel.h>

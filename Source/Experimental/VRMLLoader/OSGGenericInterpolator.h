@@ -46,9 +46,9 @@
 #include <vector>
 #include <string>
 
-#include <OSGNode.h>
-#include <OSGQuaternion.h>
-#include <OSGComponentTransform.h>
+#include "OSGNode.h"
+#include "OSGQuaternion.h"
+#include "OSGComponentTransform.h"
 
 OSG_BEGIN_NAMESPACE
 

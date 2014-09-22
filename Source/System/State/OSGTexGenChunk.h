@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindow.h>
+#include "OSGConfig.h"
+#include "OSGWindow.h"
 
-#include <OSGTexGenChunkBase.h>
+#include "OSGTexGenChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -156,8 +156,8 @@ typedef TexGenChunk *TexGenChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTexGenChunkBase.inl>
-#include <OSGTexGenChunk.inl>
+#include "OSGTexGenChunkBase.inl"
+#include "OSGTexGenChunk.inl"
 
 #define OSGTEXGENCHUNK_HEADER_CVSID "@(#)$Id: $"
 

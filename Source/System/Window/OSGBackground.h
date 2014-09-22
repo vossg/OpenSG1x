@@ -44,9 +44,9 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGBackgroundBase.h>
+#include "OSGBackgroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -135,8 +135,8 @@ typedef Background *BackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGBackgroundBase.inl>
-#include <OSGBackground.inl>
+#include "OSGBackgroundBase.inl"
+#include "OSGBackground.inl"
 
 #define OSGBACKGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

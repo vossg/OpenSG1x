@@ -36,7 +36,7 @@
 
 #include <sys/types.h>
 
-#include <OSGBaseFunctions.h>
+#include "OSGBaseFunctions.h"
 
 OSG_BEGIN_NAMESPACE
 

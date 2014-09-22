@@ -43,8 +43,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGPolygonChunkBase.h>
+#include "OSGConfig.h"
+#include "OSGPolygonChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -155,8 +155,8 @@ typedef PolygonChunk *PolygonChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPolygonChunkBase.inl>
-#include <OSGPolygonChunk.inl>
+#include "OSGPolygonChunkBase.inl"
+#include "OSGPolygonChunk.inl"
 
 #define OSGPOLYGONCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

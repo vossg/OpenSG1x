@@ -46,10 +46,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLSensor.h>
-#include <OSGSFMathTypes.h>
-#include <OSGSFSysTypes.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLSensor.h"
+#include "OSGSFMathTypes.h"
+#include "OSGSFSysTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

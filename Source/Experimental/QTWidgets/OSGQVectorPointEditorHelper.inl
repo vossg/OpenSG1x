@@ -1,8 +1,8 @@
 
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGSFVecTypes.h>
-#include <OSGMFVecTypes.h>
+#include "OSGSField.h"
+#include "OSGMField.h"
+#include "OSGSFVecTypes.h"
+#include "OSGMFVecTypes.h"
 
 #include <qlayout.h>
 #include <qlabel.h>

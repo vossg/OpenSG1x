@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDrawFunctorCoreBase.h>
+#include "OSGDrawFunctorCoreBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -127,8 +127,8 @@ typedef DrawFunctorCore *DrawFunctorCoreP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDrawFunctorCoreBase.inl>
-#include <OSGDrawFunctorCore.inl>
+#include "OSGDrawFunctorCoreBase.inl"
+#include "OSGDrawFunctorCore.inl"
 
 #define OSGDRAWFUNCTORCORE_HEADER_CVSID "@(#)$Id: $"
 

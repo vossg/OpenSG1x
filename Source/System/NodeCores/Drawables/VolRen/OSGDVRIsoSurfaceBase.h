@@ -58,22 +58,22 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGReal32Fields.h> // IsoValue type
-#include <OSGReal32Fields.h> // IsoThickness type
-#include <OSGReal32Fields.h> // IsoOpacity type
-#include <OSGUInt32Fields.h> // AlphaMode type
-#include <OSGBoolFields.h> // SpecularLighting type
+#include "OSGReal32Fields.h" // IsoValue type
+#include "OSGReal32Fields.h" // IsoThickness type
+#include "OSGReal32Fields.h" // IsoOpacity type
+#include "OSGUInt32Fields.h" // AlphaMode type
+#include "OSGBoolFields.h" // SpecularLighting type
 
-#include <OSGDVRIsoSurfaceFields.h>
+#include "OSGDVRIsoSurfaceFields.h"
 
 OSG_BEGIN_NAMESPACE
 

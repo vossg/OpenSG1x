@@ -39,9 +39,9 @@
 #ifndef _OSGRENDEROPTIONS_H_
 #define _OSGRENDEROPTIONS_H_
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGRenderOptionsBase.h>
+#include "OSGRenderOptionsBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -92,7 +92,7 @@ typedef RenderOptions *RenderOptionsP;
 
 OSG_END_NAMESPACE
 
-#include <OSGRenderOptionsBase.inl>
+#include "OSGRenderOptionsBase.inl"
 
 #endif /* _OSGRENDEROPTIONS_H_ */
 

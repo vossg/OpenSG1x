@@ -48,7 +48,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGWindowQTDef.h>
+#include "OSGWindowQTDef.h"
 
 #include "OSGQGLManagedWidget_qt.h"
 

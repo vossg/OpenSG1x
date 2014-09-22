@@ -46,8 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBase.h>
-#include <OSGMatrix.h>
+#include "OSGBase.h"
+#include "OSGMatrix.h"
 
 #include <string>
 

@@ -40,11 +40,11 @@
 #ifndef _OSG_POLYTOPEVOLUME_H_
 #define _OSG_POLYTOPEVOLUME_H_
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGVolume.h>
-#include <OSGPlane.h>
-#include <OSGMatrix.h>
+#include "OSGConfig.h"
+#include "OSGBase.h"
+#include "OSGVolume.h"
+#include "OSGPlane.h"
+#include "OSGMatrix.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -161,6 +161,6 @@ bool operator !=(const PolytopeVolume &lhs, const PolytopeVolume &rhs);
 
 OSG_END_NAMESPACE
 
-#include <OSGPolytopeVolume.inl>
+#include "OSGPolytopeVolume.inl"
 
 #endif /* _OSG_POLYTOPEVOLUME_H_ */

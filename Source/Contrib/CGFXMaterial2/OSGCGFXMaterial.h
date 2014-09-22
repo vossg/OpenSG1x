@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGTextureChunk.h>
-#include <OSGShaderParameterAccess.h>
-#include <OSGCGFXChunk.h>
+#include "OSGConfig.h"
+#include "OSGTextureChunk.h"
+#include "OSGShaderParameterAccess.h"
+#include "OSGCGFXChunk.h"
 
-#include <OSGCGFXMaterialBase.h>
+#include "OSGCGFXMaterialBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -222,8 +222,8 @@ typedef CGFXMaterial *CGFXMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCGFXMaterialBase.inl>
-#include <OSGCGFXMaterial.inl>
+#include "OSGCGFXMaterialBase.inl"
+#include "OSGCGFXMaterial.inl"
 
 #define OSGCGFXMATERIAL_HEADER_CVSID "@(#)$Id: OSGCGFXMaterial.h,v 1.6 2008/11/24 16:05:59 macnihilist Exp $"
 

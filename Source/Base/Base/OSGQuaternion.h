@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
-#include <OSGVector.h>
-#include <OSGMatrix.h>
+#include "OSGVector.h"
+#include "OSGMatrix.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -279,7 +279,7 @@ typedef QuaternionBase<Real32> Quaternion;
 
 OSG_END_NAMESPACE
 
-#include <OSGQuaternion.inl>
+#include "OSGQuaternion.inl"
 
 #define OSGQUATERNION_HEADER_CVSID "@(#)$Id: $"
 

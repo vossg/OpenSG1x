@@ -44,10 +44,10 @@
 
 #include <map>
 #include <vector>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGTileGeometryLoad.h>
-#include <OSGRenderNode.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGTileGeometryLoad.h"
+#include "OSGRenderNode.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -57,29 +57,29 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGroup.h> // Parent
+#include "OSGGroup.h" // Parent
 
-#include <OSGBoolFields.h> // Enabled type
-#include <OSGStringFields.h> // Url type
-#include <OSGNodeFields.h> // Root type
-#include <OSGUInt32Fields.h> // State type
-#include <OSGBoolFields.h> // ConcurrentLoad type
-#include <OSGDynamicVolumeFields.h> // Volume type
-#include <OSGUInt32Fields.h> // Indices type
-#include <OSGUInt32Fields.h> // Triangles type
-#include <OSGUInt32Fields.h> // Positions type
-#include <OSGUInt32Fields.h> // Geometries type
-#include <OSGStringFields.h> // AbsoluteUrl type
-#include <OSGUInt8Fields.h> // Inline type
+#include "OSGBoolFields.h" // Enabled type
+#include "OSGStringFields.h" // Url type
+#include "OSGNodeFields.h" // Root type
+#include "OSGUInt32Fields.h" // State type
+#include "OSGBoolFields.h" // ConcurrentLoad type
+#include "OSGDynamicVolumeFields.h" // Volume type
+#include "OSGUInt32Fields.h" // Indices type
+#include "OSGUInt32Fields.h" // Triangles type
+#include "OSGUInt32Fields.h" // Positions type
+#include "OSGUInt32Fields.h" // Geometries type
+#include "OSGStringFields.h" // AbsoluteUrl type
+#include "OSGUInt8Fields.h" // Inline type
 
-#include <OSGProxyGroupFields.h>
+#include "OSGProxyGroupFields.h"
 
 OSG_BEGIN_NAMESPACE
 

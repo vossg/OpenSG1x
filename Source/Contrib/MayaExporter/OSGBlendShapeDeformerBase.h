@@ -58,24 +58,24 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGDeformer.h> // Parent
+#include "OSGDeformer.h" // Parent
 
-#include <OSGReal32Fields.h> // Weight type
-#include <OSGUInt32Fields.h> // VertexIndices type
-#include <OSGUInt16Fields.h> // TargetIndices type
-#include <OSGPnt3fFields.h> // TargetVertices type
-#include <OSGUInt32Fields.h> // NormalIndices type
-#include <OSGUInt16Fields.h> // NormalTargetIndices type
-#include <OSGVec3fFields.h> // TargetNormals type
+#include "OSGReal32Fields.h" // Weight type
+#include "OSGUInt32Fields.h" // VertexIndices type
+#include "OSGUInt16Fields.h" // TargetIndices type
+#include "OSGPnt3fFields.h" // TargetVertices type
+#include "OSGUInt32Fields.h" // NormalIndices type
+#include "OSGUInt16Fields.h" // NormalTargetIndices type
+#include "OSGVec3fFields.h" // TargetNormals type
 
-#include <OSGBlendShapeDeformerFields.h>
+#include "OSGBlendShapeDeformerFields.h"
 
 OSG_BEGIN_NAMESPACE
 

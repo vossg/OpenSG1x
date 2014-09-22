@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGLogicOpChunkBase.h>
+#include "OSGLogicOpChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -157,8 +157,8 @@ typedef LogicOpChunk *LogicOpChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGLogicOpChunkBase.inl>
-#include <OSGLogicOpChunk.inl>
+#include "OSGLogicOpChunkBase.inl"
+#include "OSGLogicOpChunk.inl"
 
 #define OSGLOGICOPCHUNK_HEADER_CVSID "@(#)$Id: OSGLogicOpChunk.h,v 1.1 2007/06/25 14:32:45 neumannc Exp $"
 

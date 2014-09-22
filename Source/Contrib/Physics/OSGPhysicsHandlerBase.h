@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGPhysicsWorldFields.h> // World type
-#include <OSGPhysicsSpaceFields.h> // Space type
+#include "OSGPhysicsWorldFields.h" // World type
+#include "OSGPhysicsSpaceFields.h" // Space type
 
-#include <OSGPhysicsHandlerFields.h>
+#include "OSGPhysicsHandlerFields.h"
 
 OSG_BEGIN_NAMESPACE
 

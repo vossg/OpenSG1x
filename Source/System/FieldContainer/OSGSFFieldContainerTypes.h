@@ -46,12 +46,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSFFieldContainerPtr.h>
-#include <OSGSFAttachmentContainerPtr.h>
-#include <OSGSFNodePtr.h>
-#include <OSGSFNodeCorePtr.h>
-#include <OSGSFAttachmentMap.h>
-#include <OSGSFAttachmentPtr.h>
+#include "OSGSFFieldContainerPtr.h"
+#include "OSGSFAttachmentContainerPtr.h"
+#include "OSGSFNodePtr.h"
+#include "OSGSFNodeCorePtr.h"
+#include "OSGSFAttachmentMap.h"
+#include "OSGSFAttachmentPtr.h"
 
 #endif /* _OSGSFFIELDCONTAINERTYPES_H_ */
 

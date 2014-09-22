@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include "OSGParallelComposerBase.h"
 
@@ -179,8 +179,8 @@ typedef ParallelComposer *ParallelComposerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGParallelComposerBase.inl>
-#include <OSGParallelComposer.inl>
+#include "OSGParallelComposerBase.inl"
+#include "OSGParallelComposer.inl"
 
 #define OSGPARALLELCOMPOSER_HEADER_CVSID "@(#)$Id: OSGParallelComposer.h,v 1.1 2006/05/08 04:00:01 eysquared Exp $"
 

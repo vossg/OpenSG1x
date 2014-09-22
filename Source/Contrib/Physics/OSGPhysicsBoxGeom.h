@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsBoxGeomBase.h>
+#include "OSGPhysicsBoxGeomBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -134,8 +134,8 @@ typedef PhysicsBoxGeom *PhysicsBoxGeomP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsBoxGeomBase.inl>
-#include <OSGPhysicsBoxGeom.inl>
+#include "OSGPhysicsBoxGeomBase.inl"
+#include "OSGPhysicsBoxGeom.inl"
 
 #define OSGPHYSICSBOXGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsBoxGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

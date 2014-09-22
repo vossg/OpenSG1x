@@ -46,13 +46,13 @@
 #include <vector>
 #include <map>
 
-#include <OSGConfig.h>
-#include <OSGDrawActionBase.h>
-#include <OSGWindow.h>
-#include <OSGTextureChunk.h>
-#include <OSGMaterial.h>
-#include <OSGChunkMaterial.h>
-#include <OSGShaderParameterString.h>
+#include "OSGConfig.h"
+#include "OSGDrawActionBase.h"
+#include "OSGWindow.h"
+#include "OSGTextureChunk.h"
+#include "OSGMaterial.h"
+#include "OSGChunkMaterial.h"
+#include "OSGShaderParameterString.h"
 
 #include "OSGCGFXChunkBase.h"
 
@@ -292,8 +292,8 @@ typedef CGFXChunk *CGFXChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCGFXChunkBase.inl>
-#include <OSGCGFXChunk.inl>
+#include "OSGCGFXChunkBase.inl"
+#include "OSGCGFXChunk.inl"
 
 #define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.10 2009/11/19 16:32:57 macnihilist Exp $"
 

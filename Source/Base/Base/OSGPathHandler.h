@@ -51,9 +51,9 @@
 #include <unistd.h>
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGConfig.h>
-#include <OSGLog.h>
+#include "OSGBaseTypes.h"
+#include "OSGConfig.h"
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 

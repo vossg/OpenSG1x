@@ -58,28 +58,28 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGReal32Fields.h> // Erp type
-#include <OSGVec3fFields.h> // Gravity type
-#include <OSGReal32Fields.h> // Cfm type
-#include <OSGInt32Fields.h> // AutoDisableFlag type
-#include <OSGReal32Fields.h> // AutoDisableLinearThreshold type
-#include <OSGReal32Fields.h> // AutoDisableAngularThreshold type
-#include <OSGInt32Fields.h> // AutoDisableSteps type
-#include <OSGReal32Fields.h> // AutoDisableTime type
-#include <OSGInt32Fields.h> // WorldQuickStepNumIterations type
-#include <OSGReal32Fields.h> // WorldContactMaxCorrectingVel type
-#include <OSGReal32Fields.h> // WorldContactSurfaceLayer type
+#include "OSGReal32Fields.h" // Erp type
+#include "OSGVec3fFields.h" // Gravity type
+#include "OSGReal32Fields.h" // Cfm type
+#include "OSGInt32Fields.h" // AutoDisableFlag type
+#include "OSGReal32Fields.h" // AutoDisableLinearThreshold type
+#include "OSGReal32Fields.h" // AutoDisableAngularThreshold type
+#include "OSGInt32Fields.h" // AutoDisableSteps type
+#include "OSGReal32Fields.h" // AutoDisableTime type
+#include "OSGInt32Fields.h" // WorldQuickStepNumIterations type
+#include "OSGReal32Fields.h" // WorldContactMaxCorrectingVel type
+#include "OSGReal32Fields.h" // WorldContactSurfaceLayer type
 
-#include <OSGPhysicsWorldFields.h>
+#include "OSGPhysicsWorldFields.h"
 
 OSG_BEGIN_NAMESPACE
 

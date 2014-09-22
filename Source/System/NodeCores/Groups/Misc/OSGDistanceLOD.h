@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDistanceLODBase.h>
-#include <OSGAction.h>
+#include "OSGDistanceLODBase.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -134,8 +134,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DistanceLOD : public DistanceLODBase
 
 OSG_END_NAMESPACE
 
-#include <OSGDistanceLODBase.inl>
-#include <OSGDistanceLOD.inl>
+#include "OSGDistanceLODBase.inl"
+#include "OSGDistanceLOD.inl"
 
 #define OSGDISTANCELOD_HEADER_CVSID "@(#)$Id: $"
 

@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGGL.h>
-#include <OSGGLU.h>
-#include <OSGPipelineComposerBase.h>
-#include <OSGBaseThread.h>
-#include <OSGLock.h>
+#include "OSGConfig.h"
+#include "OSGGL.h"
+#include "OSGGLU.h"
+#include "OSGPipelineComposerBase.h"
+#include "OSGBaseThread.h"
+#include "OSGLock.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -280,8 +280,8 @@ typedef PipelineComposer *PipelineComposerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPipelineComposerBase.inl>
-#include <OSGPipelineComposer.inl>
+#include "OSGPipelineComposerBase.inl"
+#include "OSGPipelineComposer.inl"
 
 #define OSGPIPELINECOMPOSER_HEADER_CVSID "@(#)$Id: $"
 

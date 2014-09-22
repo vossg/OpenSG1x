@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGShaderParameterAccess.h>
+#include "OSGShaderParameterAccess.h"
 
-#include <OSGCGFXAnnotationBase.h>
+#include "OSGCGFXAnnotationBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -135,8 +135,8 @@ typedef CGFXAnnotation *CGFXAnnotationP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCGFXAnnotationBase.inl>
-#include <OSGCGFXAnnotation.inl>
+#include "OSGCGFXAnnotationBase.inl"
+#include "OSGCGFXAnnotation.inl"
 
 #define OSGCGFXANNOTATION_HEADER_CVSID "@(#)$Id: OSGCGFXAnnotation.h,v 1.1 2005/06/09 14:53:41 a-m-z Exp $"
 

@@ -46,8 +46,8 @@
 //    Includes
 //----------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
 #include "OSGActorBase.h"
 

@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGImageComposer.h> // Parent
+#include "OSGImageComposer.h" // Parent
 
-#include <OSGBoolFields.h> // Short type
-#include <OSGBoolFields.h> // Alpha type
-#include <OSGUInt32Fields.h> // TileSize type
+#include "OSGBoolFields.h" // Short type
+#include "OSGBoolFields.h" // Alpha type
+#include "OSGUInt32Fields.h" // TileSize type
 
-#include <OSGBinarySwapComposerFields.h>
+#include "OSGBinarySwapComposerFields.h"
 
 OSG_BEGIN_NAMESPACE
 

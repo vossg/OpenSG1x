@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGeometry.h> // Parent
+#include "OSGGeometry.h" // Parent
 
-#include <OSGDeformer.h> // Deformers type
-#include <OSGGeoPositionsFields.h> // BasePositions type
-#include <OSGGeoNormalsFields.h> // BaseNormals type
+#include "OSGDeformer.h" // Deformers type
+#include "OSGGeoPositionsFields.h" // BasePositions type
+#include "OSGGeoNormalsFields.h" // BaseNormals type
 
-#include <OSGDeformableGeometryFields.h>
+#include "OSGDeformableGeometryFields.h"
 
 OSG_BEGIN_NAMESPACE
 

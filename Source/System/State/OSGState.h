@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGStateBase.h>
-#include <OSGStateChunk.h>
+#include "OSGConfig.h"
+#include "OSGStateBase.h"
+#include "OSGStateChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -173,7 +173,7 @@ typedef State *StateP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStateBase.inl>
-#include <OSGState.inl>
+#include "OSGStateBase.inl"
+#include "OSGState.inl"
 
 #endif /* _OSGSTATE_H_ */

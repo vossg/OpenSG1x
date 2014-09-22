@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGShaderParameterMVec4fBase.h>
+#include "OSGShaderParameterMVec4fBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -115,8 +115,8 @@ typedef ShaderParameterMVec4f *ShaderParameterMVec4fP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderParameterMVec4fBase.inl>
-#include <OSGShaderParameterMVec4f.inl>
+#include "OSGShaderParameterMVec4fBase.inl"
+#include "OSGShaderParameterMVec4f.inl"
 
 #define OSGSHADERPARAMETERMVEC4F_HEADER_CVSID "@(#)$Id: OSGShaderParameterMVec4f.h,v 1.1 2007/03/09 18:11:49 a-m-z Exp $"
 

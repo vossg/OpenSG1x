@@ -44,9 +44,9 @@
 
 #include "OSGWindowQTDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGVector.h>
-#include <OSGFieldContainerPtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGVector.h"
+#include "OSGFieldContainerPtr.h"
 
 #include <qnamespace.h>
 #include <qsize.h>

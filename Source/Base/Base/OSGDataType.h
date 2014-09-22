@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGTypeBase.h>
+#include "OSGTypeBase.h"
 
 OSG_BEGIN_NAMESPACE
 

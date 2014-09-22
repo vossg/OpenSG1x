@@ -48,11 +48,11 @@
 //---------------------------------------------------------------------------
 
 #include <string>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGGroupConnection.h>
-#include <OSGTime.h>
-#include <OSGStreamSocket.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGGroupConnection.h"
+#include "OSGTime.h"
+#include "OSGStreamSocket.h"
 
 OSG_BEGIN_NAMESPACE
 

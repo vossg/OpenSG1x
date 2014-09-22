@@ -58,22 +58,22 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGGLenumFields.h> // Mode type
-#include <OSGColor4fFields.h> // Color type
-#include <OSGReal32Fields.h> // Start type
-#include <OSGReal32Fields.h> // End type
-#include <OSGReal32Fields.h> // Density type
+#include "OSGGLenumFields.h" // Mode type
+#include "OSGColor4fFields.h" // Color type
+#include "OSGReal32Fields.h" // Start type
+#include "OSGReal32Fields.h" // End type
+#include "OSGReal32Fields.h" // Density type
 
-#include <OSGFogChunkFields.h>
+#include "OSGFogChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

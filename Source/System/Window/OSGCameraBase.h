@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachmentContainer.h> // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
-#include <OSGNodeFields.h> // Beacon type
-#include <OSGReal32Fields.h> // Near type
-#include <OSGReal32Fields.h> // Far type
+#include "OSGNodeFields.h" // Beacon type
+#include "OSGReal32Fields.h" // Near type
+#include "OSGReal32Fields.h" // Far type
 
-#include <OSGCameraFields.h>
+#include "OSGCameraFields.h"
 
 OSG_BEGIN_NAMESPACE
 

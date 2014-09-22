@@ -58,17 +58,17 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGChunkMaterial.h> // Parent
+#include "OSGChunkMaterial.h" // Parent
 
 
-#include <OSGDVRAppearanceFields.h>
+#include "OSGDVRAppearanceFields.h"
 
 OSG_BEGIN_NAMESPACE
 

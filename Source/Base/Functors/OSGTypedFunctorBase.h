@@ -46,9 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
-#include <OSGFunctorBase.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
+#include "OSGFunctorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -352,7 +352,7 @@ class TypedStoredObjectFunctorBase : public Parent
 
 OSG_END_NAMESPACE
 
-#include <OSGTypedFunctorBase.inl>
+#include "OSGTypedFunctorBase.inl"
 
 #endif /* _OSGTYPEDFUNCTORBASE_H_ */
 

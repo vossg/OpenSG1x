@@ -43,10 +43,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGMaterialChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGSimpleMaterialBase.h>
+#include "OSGConfig.h"
+#include "OSGMaterialChunk.h"
+#include "OSGBlendChunk.h"
+#include "OSGSimpleMaterialBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -144,8 +144,8 @@ typedef SimpleMaterial *SimpleMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSimpleMaterialBase.inl>
-#include <OSGSimpleMaterial.inl>
+#include "OSGSimpleMaterialBase.inl"
+#include "OSGSimpleMaterial.inl"
 
 #define OSGSIMPLEMATERIAL_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

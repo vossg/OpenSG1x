@@ -45,11 +45,11 @@
 // exclude the whole class from user docs
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGMaterialDrawable.h>
+#include "OSGMaterialDrawable.h"
 
-#include <OSGGeoPropertyBase.h>
+#include "OSGGeoPropertyBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -295,7 +295,7 @@ OSG_DLLEXPORT_DECL1(SField, ParticleBSPTree, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#include <OSGParticleBSP.inl>
+#include "OSGParticleBSP.inl"
 
 #define OSGPARTICLEBSP_HEADER_CVSID "@(#)$Id: $"
 

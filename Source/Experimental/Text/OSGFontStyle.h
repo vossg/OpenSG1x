@@ -1,9 +1,9 @@
 #ifndef FONTINSTANCE_H_
 #define FONTINSTANCE_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
 #include <vector>
 #include <iostream>

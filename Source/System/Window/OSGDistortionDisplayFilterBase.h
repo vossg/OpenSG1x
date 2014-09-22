@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGDisplayFilter.h> // Parent
+#include "OSGDisplayFilter.h" // Parent
 
-#include <OSGUInt32Fields.h> // Rows type
-#include <OSGUInt32Fields.h> // Columns type
-#include <OSGVec2fFields.h> // Positions type
+#include "OSGUInt32Fields.h" // Rows type
+#include "OSGUInt32Fields.h" // Columns type
+#include "OSGVec2fFields.h" // Positions type
 
-#include <OSGDistortionDisplayFilterFields.h>
+#include "OSGDistortionDisplayFilterFields.h"
 
 OSG_BEGIN_NAMESPACE
 

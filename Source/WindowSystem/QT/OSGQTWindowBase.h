@@ -58,12 +58,12 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGWindowQTDef.h>
+#include "OSGConfig.h"
+#include "OSGWindowQTDef.h"
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
-#include <OSGQTWindowDataFields.h> // GlWidget type
+#include "OSGQTWindowDataFields.h" // GlWidget type
 
 // Parent
 #ifdef WIN32
@@ -72,7 +72,7 @@
 #include "OSGXWindow.h"
 #endif
 
-#include <OSGQTWindowFields.h>
+#include "OSGQTWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

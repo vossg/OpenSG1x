@@ -47,7 +47,7 @@
 #include <iostream>
 #include <iomanip>
 
-#include <OSGLog.h>
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 

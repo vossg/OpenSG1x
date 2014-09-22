@@ -46,8 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLSensor.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLSensor.h"
 
 OSG_BEGIN_NAMESPACE
 

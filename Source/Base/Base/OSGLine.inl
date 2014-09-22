@@ -39,9 +39,9 @@
 #ifndef _OSGLINE_INL_
 #define _OSGLINE_INL_
 
-#include <OSGLine.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGLine.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
 OSG_BEGIN_NAMESPACE
 

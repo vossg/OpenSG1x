@@ -196,7 +196,7 @@ bool intersect(const FrustumVolume &frustum, const Volume &vol,
 
 OSG_END_NAMESPACE
 
-#include <OSGFrustumVolume.inl>
+#include "OSGFrustumVolume.inl"
 
 #endif /* _OSG_FRUSTUMVOLUME_H_ */
 

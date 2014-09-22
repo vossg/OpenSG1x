@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGIDStringLink.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGIDStringLink.h"
 
 #include <map>
 

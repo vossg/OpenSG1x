@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGSolidBackground.h> // Parent
+#include "OSGSolidBackground.h" // Parent
 
-#include <OSGTextureChunkFields.h> // Texture type
-#include <OSGBoolFields.h> // AutoResize type
-#include <OSGGLenumFields.h> // BindTarget type
-#include <OSGGLenumFields.h> // CopyTarget type
+#include "OSGTextureChunkFields.h" // Texture type
+#include "OSGBoolFields.h" // AutoResize type
+#include "OSGGLenumFields.h" // BindTarget type
+#include "OSGGLenumFields.h" // CopyTarget type
 
-#include <OSGTextureGrabBackgroundFields.h>
+#include "OSGTextureGrabBackgroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

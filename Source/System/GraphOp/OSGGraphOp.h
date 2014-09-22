@@ -43,11 +43,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
-#include <OSGAction.h>
-#include <OSGBaseTypes.h>
+#include "OSGSystemDef.h"
+#include "OSGAction.h"
+#include "OSGBaseTypes.h"
 
 #include <map>
 #include <string>

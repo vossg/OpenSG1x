@@ -42,22 +42,22 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGWindow.h>          
+#include "OSGBaseTypes.h"
+#include "OSGWindow.h"          
 
-#include <OSGDrawAction.h>
-#include <OSGRenderAction.h>
-#include <OSGNode.h>
-#include <OSGWindow.h>
-#include <OSGImageForeground.h>
-#include <OSGTransform.h>
-#include <OSGGeometry.h>
-#include <OSGGeoPropPtrs.h>
-#include <OSGSimpleMaterial.h>
-#include <OSGPerspectiveCamera.h>
-#include <OSGDirectionalLight.h>
-#include <OSGNavigator.h>
-#include <OSGStatisticsForeground.h>
+#include "OSGDrawAction.h"
+#include "OSGRenderAction.h"
+#include "OSGNode.h"
+#include "OSGWindow.h"
+#include "OSGImageForeground.h"
+#include "OSGTransform.h"
+#include "OSGGeometry.h"
+#include "OSGGeoPropPtrs.h"
+#include "OSGSimpleMaterial.h"
+#include "OSGPerspectiveCamera.h"
+#include "OSGDirectionalLight.h"
+#include "OSGNavigator.h"
+#include "OSGStatisticsForeground.h"
 
 OSG_BEGIN_NAMESPACE
 

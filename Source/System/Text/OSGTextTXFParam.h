@@ -44,9 +44,9 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
 
 #include <string>
 
@@ -120,7 +120,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFParam
 OSG_END_NAMESPACE
 
 
-#include <OSGTextTXFParam.inl>
+#include "OSGTextTXFParam.inl"
 
 #define OSGTEXTTXFPARAM_HEADER_CVSID "@(#)$Id: OSGTextTXFParam.h,v 1.1 2005/03/03 13:43:07 a-m-z Exp $"
 

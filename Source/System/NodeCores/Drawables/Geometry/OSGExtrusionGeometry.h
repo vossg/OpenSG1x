@@ -47,13 +47,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGQuaternion.h>
-#include <OSGNode.h>
-#include <OSGGeoPropPtrs.h>
-#include <OSGGeometry.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGQuaternion.h"
+#include "OSGNode.h"
+#include "OSGGeoPropPtrs.h"
+#include "OSGGeometry.h"
 
 #include <vector>
 

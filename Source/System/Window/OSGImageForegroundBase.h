@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGForeground.h> // Parent
+#include "OSGForeground.h" // Parent
 
-#include <OSGImageFields.h> // Images type
-#include <OSGPnt2fFields.h> // Positions type
+#include "OSGImageFields.h" // Images type
+#include "OSGPnt2fFields.h" // Positions type
 
-#include <OSGImageForegroundFields.h>
+#include "OSGImageForegroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGFieldDataType.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGFieldDataType.h"
 
 #include <map>
 

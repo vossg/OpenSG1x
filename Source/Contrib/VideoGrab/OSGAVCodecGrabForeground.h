@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGAVCodecGrabForegroundBase.h>
+#include "OSGAVCodecGrabForegroundBase.h"
 
 class AVCodecEncoder;
 
@@ -129,8 +129,8 @@ typedef AVCodecGrabForeground *AVCodecGrabForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGAVCodecGrabForegroundBase.inl>
-#include <OSGAVCodecGrabForeground.inl>
+#include "OSGAVCodecGrabForegroundBase.inl"
+#include "OSGAVCodecGrabForeground.inl"
 
 #define OSGAVCODECGRABFOREGROUND_HEADER_CVSID "@(#)$Id: $"
 

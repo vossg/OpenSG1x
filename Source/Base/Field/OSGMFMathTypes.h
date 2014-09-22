@@ -46,9 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBase.h>
-#include <OSGMField.h>
-#include <OSGMathFieldDataType.h>
+#include "OSGBase.h"
+#include "OSGMField.h"
+#include "OSGMathFieldDataType.h"
 
 #ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGMFMathTypes.h

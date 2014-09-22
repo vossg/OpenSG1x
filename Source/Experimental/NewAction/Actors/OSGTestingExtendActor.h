@@ -46,9 +46,9 @@
 //    Includes
 //----------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTestingExtendActorBase.h>
+#include "OSGTestingExtendActorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -100,7 +100,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TestingExtendActor : public TestingExtendActorBas
 
 OSG_END_NAMESPACE
 
-#include <OSGTestingExtendActor.inl>
+#include "OSGTestingExtendActor.inl"
 
 #define OSGTESTINGEXTENDACTOR_HEADER_CVSID "@(#)$Id:"
 

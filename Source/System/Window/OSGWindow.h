@@ -43,7 +43,7 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include <list>
 #include <utility>
@@ -58,9 +58,9 @@
 #include <map>
 #endif
 
-#include <OSGTypedFunctors.h>
+#include "OSGTypedFunctors.h"
 
-#include <OSGWindowBase.h>
+#include "OSGWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -409,8 +409,8 @@ typedef Window *WindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGWindowBase.inl>
-#include <OSGWindow.inl>
+#include "OSGWindowBase.inl"
+#include "OSGWindow.inl"
 
 #define OSGWINDOW_HEADER_CVSID "@(#)$Id:$"
 

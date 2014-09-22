@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFCPtrAttributeMapBase.h>
+#include "OSGFCPtrAttributeMapBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -133,8 +133,8 @@ FCPtrAttributeMapPtr fcptrAttributeMap(AttachmentContainerPtr container);
 
 OSG_END_NAMESPACE
 
-#include <OSGFCPtrAttributeMapBase.inl>
-#include <OSGFCPtrAttributeMap.inl>
+#include "OSGFCPtrAttributeMapBase.inl"
+#include "OSGFCPtrAttributeMap.inl"
 
 #define OSGFCPTRATTRIBUTEMAP_HEADER_CVSID "@(#)$Id: OSGFCPtrAttributeMap.h,v 1.1 2005/09/25 23:00:54 dirk Exp $"
 

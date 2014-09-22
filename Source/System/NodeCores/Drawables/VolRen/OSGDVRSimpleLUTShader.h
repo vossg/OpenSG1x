@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRSimpleLUTShaderBase.h>
+#include "OSGDVRSimpleLUTShaderBase.h"
 
-#include <OSGTextureChunk.h>
-#include <OSGFragmentProgramChunk.h>
+#include "OSGTextureChunk.h"
+#include "OSGFragmentProgramChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -215,8 +215,8 @@ typedef DVRSimpleLUTShader *DVRSimpleLUTShaderP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRSimpleLUTShader.inl>
-#include <OSGDVRSimpleLUTShaderBase.inl>
+#include "OSGDVRSimpleLUTShader.inl"
+#include "OSGDVRSimpleLUTShaderBase.inl"
 
 #define OSGDVRSIMPLELUTSHADER_HEADER_CVSID "@(#)$Id: $"
 

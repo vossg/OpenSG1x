@@ -40,9 +40,9 @@
 #ifndef _OSG_VECFIELDDATATYPE_H_
 #define _OSG_VECFIELDDATATYPE_H_
 
-#include <OSGBase.h>
-#include <OSGFieldDataType.h>
-#include <OSGVector.h>
+#include "OSGBase.h"
+#include "OSGFieldDataType.h"
+#include "OSGVector.h"
 
 #include <string>
 

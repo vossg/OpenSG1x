@@ -40,7 +40,7 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include <iostream>
 
@@ -48,13 +48,13 @@
 #include <map>
 #include <vector>
 
-#include <OSGNode.h>
-#include <OSGNodeCore.h>
-#include <OSGFieldContainer.h>
-#include <OSGSFFieldContainerPtr.h>
-#include <OSGMFFieldContainerPtr.h>
-#include <OSGIndenter.h>
-#include <OSGStandardStringConversionState.h>
+#include "OSGNode.h"
+#include "OSGNodeCore.h"
+#include "OSGFieldContainer.h"
+#include "OSGSFFieldContainerPtr.h"
+#include "OSGMFFieldContainerPtr.h"
+#include "OSGIndenter.h"
+#include "OSGStandardStringConversionState.h"
 
 OSG_BEGIN_NAMESPACE
 

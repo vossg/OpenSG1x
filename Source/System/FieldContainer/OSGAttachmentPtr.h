@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGAttachmentPtrImpl.h>
+#include "OSGAttachmentPtrImpl.h"
 
-#include <OSGAttachmentImpl.h>
-#include <OSGAttachmentPtrImpl.inl>
-#include <OSGAttachmentPtrDepImpl.inl>
-#include <OSGAttachmentImpl.inl>
+#include "OSGAttachmentImpl.h"
+#include "OSGAttachmentPtrImpl.inl"
+#include "OSGAttachmentPtrDepImpl.inl"
+#include "OSGAttachmentImpl.inl"
 
 
 #endif /* _OSGATTACHMENT_H_ */

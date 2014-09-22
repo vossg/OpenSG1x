@@ -5,13 +5,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBase.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBase.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGMField.h>
-#include <OSGSField.h>
+#include "OSGBaseTypes.h"
+#include "OSGMField.h"
+#include "OSGSField.h"
 
 
 OSG_BEGIN_NAMESPACE

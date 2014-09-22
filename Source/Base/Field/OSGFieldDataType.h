@@ -40,11 +40,11 @@
 #ifndef _OSG_FIELDDATATYPE_H_
 #define _OSG_FIELDDATATYPE_H_
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
-#include <OSGDataType.h>
-#include <OSGBinaryDataHandler.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
+#include "OSGDataType.h"
+#include "OSGBinaryDataHandler.h"
 
 OSG_BEGIN_NAMESPACE
 

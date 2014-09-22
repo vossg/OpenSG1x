@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTextureChunk.h>
-#include <OSGTexGenChunk.h>
-#include <OSGSimpleTexturedMaterialBase.h>
+#include "OSGTextureChunk.h"
+#include "OSGTexGenChunk.h"
+#include "OSGSimpleTexturedMaterialBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -151,8 +151,8 @@ typedef SimpleTexturedMaterial *SimpleTexturedMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSimpleTexturedMaterialBase.inl>
-#include <OSGSimpleTexturedMaterial.inl>
+#include "OSGSimpleTexturedMaterialBase.inl"
+#include "OSGSimpleTexturedMaterial.inl"
 
 #define OSGSIMPLETEXTUREDMATERIAL_HEADER_CVSID "@(#)$Id: OSGSimpleTexturedMaterial.h,v 1.5 2001/11/01 09:03:28 vossg Exp $"
 

@@ -58,48 +58,48 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGColor4fFields.h> // Color0 type
-#include <OSGColor4fFields.h> // Color1 type
-#include <OSGBoolFields.h> // ColorSumClamp type
-#include <OSGGLenumFields.h> // VariableArgb type
-#include <OSGGLenumFields.h> // VariableBrgb type
-#include <OSGGLenumFields.h> // VariableCrgb type
-#include <OSGGLenumFields.h> // VariableDrgb type
-#include <OSGGLenumFields.h> // VariableAalpha type
-#include <OSGGLenumFields.h> // VariableBalpha type
-#include <OSGGLenumFields.h> // VariableCalpha type
-#include <OSGGLenumFields.h> // VariableDalpha type
-#include <OSGGLenumFields.h> // OutputABrgb type
-#include <OSGGLenumFields.h> // OutputCDrgb type
-#include <OSGGLenumFields.h> // OutputSumrgb type
-#include <OSGGLenumFields.h> // Scalergb type
-#include <OSGGLenumFields.h> // Biasrgb type
-#include <OSGGLenumFields.h> // OutputABalpha type
-#include <OSGGLenumFields.h> // OutputCDalpha type
-#include <OSGGLenumFields.h> // OutputSumalpha type
-#include <OSGUInt8Fields.h> // DotABrgb type
-#include <OSGUInt8Fields.h> // DotCDrgb type
-#include <OSGUInt8Fields.h> // MuxSumrgb type
-#include <OSGGLenumFields.h> // Scalealpha type
-#include <OSGGLenumFields.h> // Biasalpha type
-#include <OSGUInt8Fields.h> // MuxSumalpha type
-#include <OSGGLenumFields.h> // VariableE type
-#include <OSGGLenumFields.h> // VariableF type
-#include <OSGGLenumFields.h> // VariableG type
-#include <OSGColor4fFields.h> // CombinerColor0 type
-#include <OSGColor4fFields.h> // CombinerColor1 type
-#include <OSGUInt8Fields.h> // PerStageConstants type
+#include "OSGColor4fFields.h" // Color0 type
+#include "OSGColor4fFields.h" // Color1 type
+#include "OSGBoolFields.h" // ColorSumClamp type
+#include "OSGGLenumFields.h" // VariableArgb type
+#include "OSGGLenumFields.h" // VariableBrgb type
+#include "OSGGLenumFields.h" // VariableCrgb type
+#include "OSGGLenumFields.h" // VariableDrgb type
+#include "OSGGLenumFields.h" // VariableAalpha type
+#include "OSGGLenumFields.h" // VariableBalpha type
+#include "OSGGLenumFields.h" // VariableCalpha type
+#include "OSGGLenumFields.h" // VariableDalpha type
+#include "OSGGLenumFields.h" // OutputABrgb type
+#include "OSGGLenumFields.h" // OutputCDrgb type
+#include "OSGGLenumFields.h" // OutputSumrgb type
+#include "OSGGLenumFields.h" // Scalergb type
+#include "OSGGLenumFields.h" // Biasrgb type
+#include "OSGGLenumFields.h" // OutputABalpha type
+#include "OSGGLenumFields.h" // OutputCDalpha type
+#include "OSGGLenumFields.h" // OutputSumalpha type
+#include "OSGUInt8Fields.h" // DotABrgb type
+#include "OSGUInt8Fields.h" // DotCDrgb type
+#include "OSGUInt8Fields.h" // MuxSumrgb type
+#include "OSGGLenumFields.h" // Scalealpha type
+#include "OSGGLenumFields.h" // Biasalpha type
+#include "OSGUInt8Fields.h" // MuxSumalpha type
+#include "OSGGLenumFields.h" // VariableE type
+#include "OSGGLenumFields.h" // VariableF type
+#include "OSGGLenumFields.h" // VariableG type
+#include "OSGColor4fFields.h" // CombinerColor0 type
+#include "OSGColor4fFields.h" // CombinerColor1 type
+#include "OSGUInt8Fields.h" // PerStageConstants type
 
-#include <OSGRegisterCombinersChunkFields.h>
+#include "OSGRegisterCombinersChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

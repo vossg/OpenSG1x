@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsPlaneGeomBase.h>
+#include "OSGPhysicsPlaneGeomBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -133,8 +133,8 @@ typedef PhysicsPlaneGeom *PhysicsPlaneGeomP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsPlaneGeomBase.inl>
-#include <OSGPhysicsPlaneGeom.inl>
+#include "OSGPhysicsPlaneGeomBase.inl"
+#include "OSGPhysicsPlaneGeom.inl"
 
 #define OSGPHYSICSPLANEGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsPlaneGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

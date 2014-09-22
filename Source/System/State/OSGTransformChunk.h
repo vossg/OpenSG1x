@@ -43,8 +43,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGTransformChunkBase.h>
+#include "OSGConfig.h"
+#include "OSGTransformChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -155,8 +155,8 @@ typedef TransformChunk *TransformChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTransformChunkBase.inl>
-#include <OSGTransformChunk.inl>
+#include "OSGTransformChunkBase.inl"
+#include "OSGTransformChunk.inl"
 
 #define OSGTRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

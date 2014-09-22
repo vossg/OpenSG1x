@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGFragmentProgramChunk.h>
-#include <OSGStateChunk.h>
-#include <OSGSHLChunk.h>
+#include "OSGConfig.h"
+#include "OSGFragmentProgramChunk.h"
+#include "OSGStateChunk.h"
+#include "OSGSHLChunk.h"
 
 #include "OSGDisplayFilterForeground.h"
 #include "OSGColorDisplayFilterBase.h"

@@ -39,11 +39,11 @@
 #ifndef _OSG_TRACKBALL_H_
 #define _OSG_TRACKBALL_H_
 
-#include <OSGSystemDef.h>
-#include <OSGWindowBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGVector.h>
-#include <OSGQuaternion.h>
+#include "OSGSystemDef.h"
+#include "OSGWindowBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGVector.h"
+#include "OSGQuaternion.h"
 
 OSG_BEGIN_NAMESPACE
 

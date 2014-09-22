@@ -45,15 +45,15 @@
 
 #include <map>
 #include <set>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGFieldContainerFactory.h>
-#include <OSGChangeList.h>
-#include <OSGConnection.h>
-#include <OSGTypedFunctors.h>
-#include <OSGStatCollector.h>
-#include <OSGStatElemTypes.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGFieldContainerPtr.h"
+#include "OSGFieldContainerFactory.h"
+#include "OSGChangeList.h"
+#include "OSGConnection.h"
+#include "OSGTypedFunctors.h"
+#include "OSGStatCollector.h"
+#include "OSGStatElemTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

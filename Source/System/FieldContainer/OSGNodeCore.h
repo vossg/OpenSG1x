@@ -48,14 +48,14 @@
 
 #include <map>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGMatrix.h>
-#include <OSGAttachmentContainerPtr.h>
-#include <OSGAttachmentContainer.h>
-#include <OSGNodeFields.h>
-#include <OSGDynamicVolume.h>
-#include <OSGRefPtr.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGMatrix.h"
+#include "OSGAttachmentContainerPtr.h"
+#include "OSGAttachmentContainer.h"
+#include "OSGNodeFields.h"
+#include "OSGDynamicVolume.h"
+#include "OSGRefPtr.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -258,7 +258,7 @@ class OSG_SYSTEMLIB_DLLMAPPING NodeCore : public AttachmentContainer
 
 OSG_END_NAMESPACE
 
-#include <OSGNodeCore.inl>
+#include "OSGNodeCore.inl"
 
 #define OSGNODECORE_HEADER_CVSID "@(#)$Id: $"
 

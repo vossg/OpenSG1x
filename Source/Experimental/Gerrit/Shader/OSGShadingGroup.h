@@ -43,8 +43,8 @@
 #endif
 
 #include <vector>
-#include <OSGShaderBase.h>
-#include <OSGBaseTypes.h>
+#include "OSGShaderBase.h"
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

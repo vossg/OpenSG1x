@@ -46,9 +46,9 @@
 //    Includes
 //----------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGIntersectActorBase.h>
+#include "OSGIntersectActorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -105,7 +105,7 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectActor : public IntersectActorBase
 
 OSG_END_NAMESPACE
 
-#include <OSGIntersectActor.inl>
+#include "OSGIntersectActor.inl"
 
 #define OSGINTERSECTACTOR_HEADER_CVSID "@(#)$Id:"
 

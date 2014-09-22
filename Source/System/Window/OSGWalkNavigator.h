@@ -39,8 +39,8 @@
 #ifndef _OSG_WALKNAVIGATOR_H_
 #define _OSG_WALKNAVIGATOR_H_
 
-#include <OSGFlyNavigator.h>
-#include <OSGIntersectAction.h>
+#include "OSGFlyNavigator.h"
+#include "OSGIntersectAction.h"
 
 OSG_BEGIN_NAMESPACE
 

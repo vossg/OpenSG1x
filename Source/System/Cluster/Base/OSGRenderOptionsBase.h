@@ -58,48 +58,48 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGBoolFields.h> // Statistic type
-#include <OSGGLenumFields.h> // PolygonMode type
-#include <OSGBoolFields.h> // TwoSidedLighting type
-#include <OSGBoolFields.h> // SpecTexLighting type
-#include <OSGBoolFields.h> // SortTrans type
-#include <OSGBoolFields.h> // ZWriteTrans type
-#include <OSGBoolFields.h> // LocalLights type
-#include <OSGBoolFields.h> // CorrectTwoSidedLighting type
-#include <OSGBoolFields.h> // OcclusionCulling type
-#include <OSGInt32Fields.h> // OcclusionCullingMode type
-#include <OSGUInt32Fields.h> // OcclusionCullingPixels type
-#include <OSGUInt32Fields.h> // OcclusionCullingThreshold type
-#include <OSGUInt32Fields.h> // MultiSample type
-#include <OSGUInt32Fields.h> // MultiSampleFilterMode type
-#include <OSGBoolFields.h> // Antialiasing type
-#include <OSGReal32Fields.h> // AntialiasingDistance type
-#include <OSGReal32Fields.h> // AntialiasingScale type
-#include <OSGUInt32Fields.h> // AntialiasingTrigger type
-#include <OSGBoolFields.h> // FrustumCulling type
-#include <OSGBoolFields.h> // BackfaceCulling type
-#include <OSGBoolFields.h> // SmallFeatureCulling type
-#include <OSGInt32Fields.h> // SmallFeatureCullingMode type
-#include <OSGReal32Fields.h> // SmallFeaturePixels type
-#include <OSGUInt32Fields.h> // SmallFeatureThreshold type
-#include <OSGBoolFields.h> // FirstFrame type
-#include <OSGBoolFields.h> // DepthOnlyPass type
-#include <OSGColor4fFields.h> // LightModelAmbient type
-#include <OSGColor4fFields.h> // FogColor type
-#include <OSGVec2fFields.h> // FogRange type
-#include <OSGReal32Fields.h> // FogDensity type
-#include <OSGInt32Fields.h> // FogMode type
+#include "OSGBoolFields.h" // Statistic type
+#include "OSGGLenumFields.h" // PolygonMode type
+#include "OSGBoolFields.h" // TwoSidedLighting type
+#include "OSGBoolFields.h" // SpecTexLighting type
+#include "OSGBoolFields.h" // SortTrans type
+#include "OSGBoolFields.h" // ZWriteTrans type
+#include "OSGBoolFields.h" // LocalLights type
+#include "OSGBoolFields.h" // CorrectTwoSidedLighting type
+#include "OSGBoolFields.h" // OcclusionCulling type
+#include "OSGInt32Fields.h" // OcclusionCullingMode type
+#include "OSGUInt32Fields.h" // OcclusionCullingPixels type
+#include "OSGUInt32Fields.h" // OcclusionCullingThreshold type
+#include "OSGUInt32Fields.h" // MultiSample type
+#include "OSGUInt32Fields.h" // MultiSampleFilterMode type
+#include "OSGBoolFields.h" // Antialiasing type
+#include "OSGReal32Fields.h" // AntialiasingDistance type
+#include "OSGReal32Fields.h" // AntialiasingScale type
+#include "OSGUInt32Fields.h" // AntialiasingTrigger type
+#include "OSGBoolFields.h" // FrustumCulling type
+#include "OSGBoolFields.h" // BackfaceCulling type
+#include "OSGBoolFields.h" // SmallFeatureCulling type
+#include "OSGInt32Fields.h" // SmallFeatureCullingMode type
+#include "OSGReal32Fields.h" // SmallFeaturePixels type
+#include "OSGUInt32Fields.h" // SmallFeatureThreshold type
+#include "OSGBoolFields.h" // FirstFrame type
+#include "OSGBoolFields.h" // DepthOnlyPass type
+#include "OSGColor4fFields.h" // LightModelAmbient type
+#include "OSGColor4fFields.h" // FogColor type
+#include "OSGVec2fFields.h" // FogRange type
+#include "OSGReal32Fields.h" // FogDensity type
+#include "OSGInt32Fields.h" // FogMode type
 
-#include <OSGRenderOptionsFields.h>
+#include "OSGRenderOptionsFields.h"
 
 OSG_BEGIN_NAMESPACE
 

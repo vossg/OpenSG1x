@@ -56,22 +56,22 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
+#include "OSGSystemDef.h"
 
-#include <OSGNewActionTypes.h>
-#include <OSGBasicActorBase.h>               // Parent
-#include <OSGMultiFunctorStore.h>      // EnterStore
-#include <OSGMultiFunctorStore.h>      // LeaveStore
+#include "OSGNewActionTypes.h"
+#include "OSGBasicActorBase.h"               // Parent
+#include "OSGMultiFunctorStore.h"      // EnterStore
+#include "OSGMultiFunctorStore.h"      // LeaveStore
 
-#include <OSGBaseTypes.h>   // HitDistance type
-#include <OSGNodePtr.h>   // HitObject type
-#include <OSGBaseTypes.h>   // HitTriangleIndex type
-#include <OSGVector.h>   // HitNormal type
-#include <OSGBaseTypes.h>   // MaxDistance type
-#include <OSGBaseTypes.h>   // ScaleFactor type
-#include <OSGLine.h>   // Ray type
+#include "OSGBaseTypes.h"   // HitDistance type
+#include "OSGNodePtr.h"   // HitObject type
+#include "OSGBaseTypes.h"   // HitTriangleIndex type
+#include "OSGVector.h"   // HitNormal type
+#include "OSGBaseTypes.h"   // MaxDistance type
+#include "OSGBaseTypes.h"   // ScaleFactor type
+#include "OSGLine.h"   // Ray type
 
 OSG_BEGIN_NAMESPACE
 
@@ -271,7 +271,7 @@ class OSG_SYSTEMLIB_DLLMAPPING IntersectActorBase : public BasicActorBase
 
 OSG_END_NAMESPACE
 
-#include <OSGIntersectActorBase.inl>
+#include "OSGIntersectActorBase.inl"
 
 #define OSGINTERSECTACTORBASE_HEADER_CVSID "@(#)$Id:"
 

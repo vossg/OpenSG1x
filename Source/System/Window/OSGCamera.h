@@ -43,12 +43,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGMatrix.h>
-#include <OSGFrustumVolume.h>
+#include "OSGMatrix.h"
+#include "OSGFrustumVolume.h"
 
-#include <OSGCameraBase.h>
+#include "OSGCameraBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -174,8 +174,8 @@ typedef Camera *CameraP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCameraBase.inl>
-#include <OSGCamera.inl>
+#include "OSGCameraBase.inl"
+#include "OSGCamera.inl"
 
 #define OSGCAMERA_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

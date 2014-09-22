@@ -1,8 +1,8 @@
 #ifndef IMAGEGLYPH_H_
 #define IMAGEGLYPH_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGFontGlyph.h"
 

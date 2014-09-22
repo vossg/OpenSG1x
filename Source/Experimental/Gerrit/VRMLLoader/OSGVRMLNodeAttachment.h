@@ -46,14 +46,14 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
-#include <OSGRefCountMixin.h>
-#include <OSGVRMLBase.h>
-#include <OSGAttachmentMixin.h>
-#include <OSGVRMLNodeFields.h>
-#include <OSGVRMLObject.h>
+#include "OSGRefCountMixin.h"
+#include "OSGVRMLBase.h"
+#include "OSGAttachmentMixin.h"
+#include "OSGVRMLNodeFields.h"
+#include "OSGVRMLObject.h"
 
 OSG_BEGIN_NAMESPACE
 

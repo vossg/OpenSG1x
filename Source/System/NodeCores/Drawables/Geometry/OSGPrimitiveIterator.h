@@ -43,12 +43,12 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCore.h>
-#include <OSGSystemDef.h>
-#include <OSGGeoProperty.h>
-#include <OSGMaterialDrawable.h>
+#include "OSGBaseTypes.h"
+#include "OSGFieldContainerPtr.h"
+#include "OSGNodeCore.h"
+#include "OSGSystemDef.h"
+#include "OSGGeoProperty.h"
+#include "OSGMaterialDrawable.h"
 
 OSG_BEGIN_NAMESPACE
 

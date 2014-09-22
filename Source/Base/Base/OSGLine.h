@@ -39,8 +39,8 @@
 #ifndef _OSGLINE_H_
 #define _OSGLINE_H_
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 #include "OSGVector.h"
 
 OSG_BEGIN_NAMESPACE
@@ -165,6 +165,6 @@ operator !=(const Line &lhs, const Line &rhs);
 
 OSG_END_NAMESPACE
 
-#include <OSGLine.inl>
+#include "OSGLine.inl"
 
 #endif // _OSGLINE_H_

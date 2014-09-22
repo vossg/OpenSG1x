@@ -46,11 +46,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGScanParseSkel.h>
-#include <OSGScanParseFieldTypeMapper.h>
-#include <OSGVRMLBase.h>
-#include <OSGIDString.h>
+#include "OSGBaseTypes.h"
+#include "OSGScanParseSkel.h"
+#include "OSGScanParseFieldTypeMapper.h"
+#include "OSGVRMLBase.h"
+#include "OSGIDString.h"
 
 #include <stack>
 #include <vector>

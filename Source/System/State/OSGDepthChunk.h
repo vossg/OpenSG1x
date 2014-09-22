@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDepthChunkBase.h>
+#include "OSGDepthChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -159,8 +159,8 @@ typedef DepthChunk *DepthChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDepthChunkBase.inl>
-#include <OSGDepthChunk.inl>
+#include "OSGDepthChunkBase.inl"
+#include "OSGDepthChunk.inl"
 
 #define OSGDEPTHCHUNK_HEADER_CVSID "@(#)$Id: OSGDepthChunk.h,v 1.1 2005/05/11 23:03:49 dirk Exp $"
 

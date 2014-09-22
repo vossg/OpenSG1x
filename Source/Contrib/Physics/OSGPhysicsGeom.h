@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSimpleAttachments.h>
+#include "OSGConfig.h"
+#include "OSGSimpleAttachments.h"
 #include <ode/ode.h>
 
-#include <OSGPhysicsGeomBase.h>
+#include "OSGPhysicsGeomBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -161,8 +161,8 @@ typedef PhysicsGeom *PhysicsGeomP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsGeomBase.inl>
-#include <OSGPhysicsGeom.inl>
+#include "OSGPhysicsGeomBase.inl"
+#include "OSGPhysicsGeom.inl"
 
 #define OSGPHYSICSGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

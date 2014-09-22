@@ -42,14 +42,14 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGMaterialChunk.h>
-#include <OSGTextureChunk.h>
-#include <OSGTexGenChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGImage.h>
+#include "OSGConfig.h"
+#include "OSGMaterialChunk.h"
+#include "OSGTextureChunk.h"
+#include "OSGTexGenChunk.h"
+#include "OSGBlendChunk.h"
+#include "OSGImage.h"
 
-#include <OSGFresnelMaterialBase.h>
+#include "OSGFresnelMaterialBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -140,8 +140,8 @@ typedef FresnelMaterial *FresnelMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGFresnelMaterialBase.inl>
-#include <OSGFresnelMaterial.inl>
+#include "OSGFresnelMaterialBase.inl"
+#include "OSGFresnelMaterial.inl"
 
 #define OSGFRESNELMATERIAL_HEADER_CVSID "@(#)$Id: OSGFresnelMaterial.h,v 1.2 2004/02/05 21:49:58 a-m-z Exp $"
 

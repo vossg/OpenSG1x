@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPerspectiveCameraBase.h>
+#include "OSGPerspectiveCameraBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -138,8 +138,8 @@ typedef PerspectiveCamera *PerspectiveCameraP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPerspectiveCameraBase.inl>
-#include <OSGPerspectiveCamera.inl>
+#include "OSGPerspectiveCameraBase.inl"
+#include "OSGPerspectiveCamera.inl"
 
 #define OSGPERSPECTIVECAMERA_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

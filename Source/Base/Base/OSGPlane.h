@@ -39,11 +39,11 @@
 #ifndef _OSGPLANE_H_
 #define _OSGPLANE_H_
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
-#include <OSGVector.h>
-#include <OSGMatrix.h>
+#include "OSGVector.h"
+#include "OSGMatrix.h"
 
 OSG_BEGIN_NAMESPACE
 

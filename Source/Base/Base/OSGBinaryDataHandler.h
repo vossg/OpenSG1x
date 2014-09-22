@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGException.h>
-#include <OSGBaseFunctions.h>
+#include "OSGConfig.h"
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGException.h"
+#include "OSGBaseFunctions.h"
 
 #include <vector>
 #include <list>

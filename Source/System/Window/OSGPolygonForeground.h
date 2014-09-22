@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPolygonForegroundBase.h>
+#include "OSGPolygonForegroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -129,8 +129,8 @@ typedef PolygonForeground *PolygonForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPolygonForegroundBase.inl>
-#include <OSGPolygonForeground.inl>
+#include "OSGPolygonForegroundBase.inl"
+#include "OSGPolygonForeground.inl"
 
 #define OSGPOLYGONFOREGROUND_HEADER_CVSID "@(#)$Id: OSGPolygonForeground.h,v 1.1 2003/10/08 03:35:00 dirk Exp $"
 

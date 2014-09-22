@@ -47,10 +47,10 @@
 #include <map>
 #include <iostream>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGSceneFileType.h>
-#include <OSGPathHandler.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGSceneFileType.h"
+#include "OSGPathHandler.h"
 
 OSG_BEGIN_NAMESPACE
 

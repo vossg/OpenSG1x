@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPassiveBackgroundBase.h>
+#include "OSGPassiveBackgroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -128,8 +128,8 @@ typedef PassiveBackground *PassiveBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPassiveBackgroundBase.inl>
-#include <OSGPassiveBackground.inl>
+#include "OSGPassiveBackgroundBase.inl"
+#include "OSGPassiveBackground.inl"
 
 #define OSGPASSIVEBACKGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

@@ -5,12 +5,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
+#include "OSGSystemDef.h"
 
-#include <OSGChunkMaterial.h>
-#include <OSGImage.h>
+#include "OSGChunkMaterial.h"
+#include "OSGImage.h"
 
 #include <vector>
 

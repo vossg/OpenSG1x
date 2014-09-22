@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -85,6 +85,6 @@ Real64 getTimeStampMsecs(TimeStamp ticks);
 
 OSG_END_NAMESPACE
 
-#include <OSGTime.inl>
+#include "OSGTime.inl"
 
 #endif /* _OSGTIME_H_ */

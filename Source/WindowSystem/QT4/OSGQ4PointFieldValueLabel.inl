@@ -40,10 +40,10 @@
 
 #include "OSGQ4FieldView_qt.h"
 
-#include <OSGField.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGBaseTypes.h>
+#include "OSGField.h"
+#include "OSGSField.h"
+#include "OSGMField.h"
+#include "OSGBaseTypes.h"
 
 #include <qpainter.h>
 #include <qrect.h>

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGBlendShapeDeformerBase.h>
+#include "OSGBlendShapeDeformerBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -117,8 +117,8 @@ typedef BlendShapeDeformer *BlendShapeDeformerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGBlendShapeDeformerBase.inl>
-#include <OSGBlendShapeDeformer.inl>
+#include "OSGBlendShapeDeformerBase.inl"
+#include "OSGBlendShapeDeformer.inl"
 
 #define OSGBLENDSHAPEDEFORMER_HEADER_CVSID "@(#)$Id: OSGBlendShapeDeformer.h,v 1.1 2003/04/09 18:10:45 michael Exp $"
 

@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGCameraDecorator.h> // Parent
+#include "OSGCameraDecorator.h" // Parent
 
-#include <OSGBoolFields.h> // LeftEye type
-#include <OSGReal32Fields.h> // EyeSeparation type
+#include "OSGBoolFields.h" // LeftEye type
+#include "OSGReal32Fields.h" // EyeSeparation type
 
-#include <OSGStereoCameraDecoratorFields.h>
+#include "OSGStereoCameraDecoratorFields.h"
 
 OSG_BEGIN_NAMESPACE
 

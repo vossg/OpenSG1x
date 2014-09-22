@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 #include <vector>
-#include <OSGDrawTreeNode.h>
+#include "OSGDrawTreeNode.h"
 
 OSG_BEGIN_NAMESPACE
 

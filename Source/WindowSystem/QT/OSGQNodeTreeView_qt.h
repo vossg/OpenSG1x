@@ -44,8 +44,8 @@
 
 #include "OSGWindowQTDef.h"
 
-#include <OSGNode.h>
-#include <OSGFieldContainerFields.h>
+#include "OSGNode.h"
+#include "OSGFieldContainerFields.h"
 
 #include <list>
 

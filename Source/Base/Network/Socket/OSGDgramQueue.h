@@ -44,14 +44,14 @@
 
 #include <list>
 
-#include <OSGBaseTypes.h>
-#include <OSGTime.h>
-#include <OSGBase.h>
-#include <OSGConnection.h>
-#include <OSGDgramSocket.h>
-#include <OSGSocketAddress.h>
-#include <OSGConnectionType.h>
-#include <OSGDgram.h>
+#include "OSGBaseTypes.h"
+#include "OSGTime.h"
+#include "OSGBase.h"
+#include "OSGConnection.h"
+#include "OSGDgramSocket.h"
+#include "OSGSocketAddress.h"
+#include "OSGConnectionType.h"
+#include "OSGDgram.h"
 
 OSG_BEGIN_NAMESPACE
 

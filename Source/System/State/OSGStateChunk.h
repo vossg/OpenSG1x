@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGDrawActionBase.h>
-#include <OSGStateChunkBase.h>
+#include "OSGConfig.h"
+#include "OSGDrawActionBase.h"
+#include "OSGStateChunkBase.h"
 
 #include <string>
 
@@ -215,7 +215,7 @@ typedef StateChunk *StateChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStateChunk.inl>
-#include <OSGStateChunkBase.inl>
+#include "OSGStateChunk.inl"
+#include "OSGStateChunkBase.inl"
 
 #endif /* _OSGSTATECHUNK_H_ */

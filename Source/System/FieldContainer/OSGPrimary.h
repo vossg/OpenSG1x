@@ -42,26 +42,26 @@
 #pragma once
 #endif
 
-#include <OSGFieldContainerPtrForward.h>
-#include <OSGFieldContainerPtrFuncsImpl.h>
-#include <OSGFieldContainerPtrImpl.h>
-#include <OSGFieldContainerTypeImpl.h>
-#include <OSGFieldContainerImpl.h>
-#include <OSGChangeList.h>
-#include <OSGFieldDescriptionImpl.h>
+#include "OSGFieldContainerPtrForward.h"
+#include "OSGFieldContainerPtrFuncsImpl.h"
+#include "OSGFieldContainerPtrImpl.h"
+#include "OSGFieldContainerTypeImpl.h"
+#include "OSGFieldContainerImpl.h"
+#include "OSGChangeList.h"
+#include "OSGFieldDescriptionImpl.h"
 
-#include <OSGFieldContainerTypeImpl.inl>
-#include <OSGFieldContainerPtrImpl.inl>
-#include <OSGFieldContainerTypeDepImpl.inl>
-#include <OSGFieldDescriptionImpl.inl>
+#include "OSGFieldContainerTypeImpl.inl"
+#include "OSGFieldContainerPtrImpl.inl"
+#include "OSGFieldContainerTypeDepImpl.inl"
+#include "OSGFieldDescriptionImpl.inl"
 
-#include <OSGFieldContainerFactoryImpl.h>
-#include <OSGFieldContainerFactoryImpl.inl>
+#include "OSGFieldContainerFactoryImpl.h"
+#include "OSGFieldContainerFactoryImpl.inl"
 
-#include <OSGFieldContainerImpl.inl>
-#include <OSGFieldContainerPtrDepImpl.inl>
+#include "OSGFieldContainerImpl.inl"
+#include "OSGFieldContainerPtrDepImpl.inl"
 
-#include <OSGFieldContainerPtrFuncsImpl.inl>
+#include "OSGFieldContainerPtrFuncsImpl.inl"
 
 #endif /* _OSGPRIMARY_H_ */
 

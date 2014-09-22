@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include <ode/ode.h>
 
-#include <OSGPhysicsSpaceBase.h>
+#include "OSGPhysicsSpaceBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -148,8 +148,8 @@ typedef PhysicsSpace *PhysicsSpaceP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsSpaceBase.inl>
-#include <OSGPhysicsSpace.inl>
+#include "OSGPhysicsSpaceBase.inl"
+#include "OSGPhysicsSpace.inl"
 
 #define OSGPHYSICSSPACE_HEADER_CVSID "@(#)$Id: OSGPhysicsSpace.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 

@@ -41,20 +41,20 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGNode.h>
-#include <OSGSystemDef.h>
-#include <OSGGeoPropPtrs.h>
-#include <OSGGeometry.h>
-#include <OSGMaterial.h>
-#include <OSGColor.h>
-#include <OSGGL.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGNode.h"
+#include "OSGSystemDef.h"
+#include "OSGGeoPropPtrs.h"
+#include "OSGGeometry.h"
+#include "OSGMaterial.h"
+#include "OSGColor.h"
+#include "OSGGL.h"
 
-#include <OSGPolygonChunk.h>
-#include <OSGMaterialChunk.h>
-#include <OSGChunkMaterial.h>
-#include <OSGMatrixUtility.h>
+#include "OSGPolygonChunk.h"
+#include "OSGMaterialChunk.h"
+#include "OSGChunkMaterial.h"
+#include "OSGMatrixUtility.h"
 
 OSG_BEGIN_NAMESPACE
 

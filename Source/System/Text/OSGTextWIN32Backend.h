@@ -39,8 +39,8 @@
 #ifndef _OSGTEXTWIN32BACKEND_H_
 #define _OSGTEXTWIN32BACKEND_H_
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
 
 #ifdef _MSC_VER
@@ -154,7 +154,7 @@ OSG_END_NAMESPACE
 #endif // _WIN32
 
 
-#include <OSGTextWIN32Backend.inl>
+#include "OSGTextWIN32Backend.inl"
 
 #define OSGTEXTWIN32BACKEND_HEADER_CVSID "@(#)$Id: OSGTextWIN32Backend.h,v 1.1 2005/03/03 13:43:07 a-m-z Exp $"
 

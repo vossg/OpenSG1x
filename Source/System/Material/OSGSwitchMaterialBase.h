@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGMaterial.h> // Parent
+#include "OSGMaterial.h" // Parent
 
-#include <OSGMaterialFields.h> // Materials type
-#include <OSGUInt32Fields.h> // Choice type
+#include "OSGMaterialFields.h" // Materials type
+#include "OSGUInt32Fields.h" // Choice type
 
-#include <OSGSwitchMaterialFields.h>
+#include "OSGSwitchMaterialFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGReal16.h>
+#include "OSGConfig.h"
+#include "OSGBase.h"
+#include "OSGReal16.h"
 
 #if defined(OSG_SGI_TYPES) || defined (OSG_LINUX_TYPES) || \
     defined(OSG_SUNOS_TYPES)
@@ -632,7 +632,7 @@ struct SyncInfo
 
 OSG_END_NAMESPACE
 
-#include <OSGBaseTypeTraits.h>
+#include "OSGBaseTypeTraits.h"
 
 #define OSGBASETPYES_HEADER_CVSID "@(#)$Id: $"
 

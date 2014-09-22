@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGShaderParameter.h> // Parent
+#include "OSGShaderParameter.h" // Parent
 
-#include <OSGStringFields.h> // Value type
+#include "OSGStringFields.h" // Value type
 
-#include <OSGShaderParameterStringFields.h>
+#include "OSGShaderParameterStringFields.h"
 
 OSG_BEGIN_NAMESPACE
 

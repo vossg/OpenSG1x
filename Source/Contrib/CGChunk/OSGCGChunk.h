@@ -42,14 +42,14 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include "OSGDrawActionBase.h"
 #include "OSGWindow.h"
 
 #include <map>
 #include <vector>
 
-#include <OSGCGChunkBase.h>
+#include "OSGCGChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -231,8 +231,8 @@ typedef CGChunk *CGChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCGChunkBase.inl>
-#include <OSGCGChunk.inl>
+#include "OSGCGChunkBase.inl"
+#include "OSGCGChunk.inl"
 
 #define OSGCGCHUNK_HEADER_CVSID "@(#)$Id: OSGCGChunk.h,v 1.1 2003/06/25 14:22:43 amz Exp $"
 

@@ -48,10 +48,10 @@
 //---------------------------------------------------------------------------
 
 #include <string>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGConnection.h>
-#include <OSGTime.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGConnection.h"
+#include "OSGTime.h"
 
 OSG_BEGIN_NAMESPACE
 

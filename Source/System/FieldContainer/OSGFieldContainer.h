@@ -43,31 +43,31 @@
 #endif
 
 #if 0
-#include <OSGFieldContainerPtrForward.h>
+#include "OSGFieldContainerPtrForward.h"
 
-#include <OSGFieldContainerPtrFuncsImpl.h>
+#include "OSGFieldContainerPtrFuncsImpl.h"
 
-#include <OSGFieldContainerPtrImpl.h>
+#include "OSGFieldContainerPtrImpl.h"
 
-#include <OSGFieldContainerTypeImpl.h>
-#include <OSGFieldContainerTypeImpl.inl>
+#include "OSGFieldContainerTypeImpl.h"
+#include "OSGFieldContainerTypeImpl.inl"
 
-#include <OSGFieldContainerImpl.h>
+#include "OSGFieldContainerImpl.h"
 
-#include <OSGFieldDescriptionImpl.h>
+#include "OSGFieldDescriptionImpl.h"
 
-#include <OSGFieldContainerFactoryImpl.h>
-#include <OSGFieldContainerFactoryImpl.inl>
+#include "OSGFieldContainerFactoryImpl.h"
+#include "OSGFieldContainerFactoryImpl.inl"
 
-#include <OSGChangeList.h>
-#include <OSGFieldContainerPtrImpl.inl>
+#include "OSGChangeList.h"
+#include "OSGFieldContainerPtrImpl.inl"
 
-#include <OSGFieldContainerImpl.inl>
-#include <OSGFieldDescriptionImpl.inl>
+#include "OSGFieldContainerImpl.inl"
+#include "OSGFieldDescriptionImpl.inl"
 
-#include <OSGFieldContainerPtrFuncsImpl.inl>
+#include "OSGFieldContainerPtrFuncsImpl.inl"
 #endif
 
-#include <OSGPrimary.h>
+#include "OSGPrimary.h"
 
 #endif /* _OSGFIELDCONTAINER_H_ */

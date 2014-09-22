@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGColor4fFields.h> // Ambient type
-#include <OSGGLenumFields.h> // ColorControl type
-#include <OSGBoolFields.h> // LocalViewer type
+#include "OSGColor4fFields.h" // Ambient type
+#include "OSGGLenumFields.h" // ColorControl type
+#include "OSGBoolFields.h" // LocalViewer type
 
-#include <OSGLightModelChunkFields.h>
+#include "OSGLightModelChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

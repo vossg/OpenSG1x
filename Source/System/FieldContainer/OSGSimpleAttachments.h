@@ -48,8 +48,8 @@
  */
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGAttachment.h>
+#include "OSGBaseTypes.h"
+#include "OSGAttachment.h"
 
 OSG_BEGIN_NAMESPACE
 

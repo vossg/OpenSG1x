@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGVec4fFields.h> // Equation type
-#include <OSGBoolFields.h> // Enable type
-#include <OSGNodeFields.h> // Beacon type
+#include "OSGVec4fFields.h" // Equation type
+#include "OSGBoolFields.h" // Enable type
+#include "OSGNodeFields.h" // Beacon type
 
-#include <OSGClipPlaneChunkFields.h>
+#include "OSGClipPlaneChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

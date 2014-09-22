@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGPhysicsJoint.h> // Parent
+#include "OSGPhysicsJoint.h" // Parent
 
-#include <OSGInt32Fields.h> // Mode type
-#include <OSGInt32Fields.h> // NumAxes type
+#include "OSGInt32Fields.h" // Mode type
+#include "OSGInt32Fields.h" // NumAxes type
 
-#include <OSGPhysicsAMotorJointFields.h>
+#include "OSGPhysicsAMotorJointFields.h"
 
 OSG_BEGIN_NAMESPACE
 

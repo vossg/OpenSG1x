@@ -46,7 +46,7 @@
 #include <string>
 
 #include "OSGNFIOBase.h"
-#include <OSGImage.h>
+#include "OSGImage.h"
 
 OSG_BEGIN_NAMESPACE
 

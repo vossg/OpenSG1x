@@ -5,11 +5,11 @@
 #include <map>
 #include <sstream>
 
-#include <OSGConfig.h>
-#include <OSGStreamSocket.h>
-#include <OSGBaseTypes.h>
-#include <OSGNode.h>
-#include <OSGIDString.h>
+#include "OSGConfig.h"
+#include "OSGStreamSocket.h"
+#include "OSGBaseTypes.h"
+#include "OSGNode.h"
+#include "OSGIDString.h"
 
 OSG_BEGIN_NAMESPACE
 

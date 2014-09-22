@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGAttachmentContainerPtrImpl.h>
+#include "OSGAttachmentContainerPtrImpl.h"
 
-#include <OSGAttachmentContainerImpl.h>
-#include <OSGAttachmentContainerPtrImpl.inl>
-#include <OSGAttachmentContainerPtrDepImpl.inl>
-#include <OSGAttachmentContainerImpl.inl>
+#include "OSGAttachmentContainerImpl.h"
+#include "OSGAttachmentContainerPtrImpl.inl"
+#include "OSGAttachmentContainerPtrDepImpl.inl"
+#include "OSGAttachmentContainerImpl.inl"
 
 
 #endif /* _OSGATTACHMENTCONTAINER_H_ */

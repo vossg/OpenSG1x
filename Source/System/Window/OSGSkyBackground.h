@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindow.h>
+#include "OSGConfig.h"
+#include "OSGWindow.h"
 
-#include <OSGSkyBackgroundBase.h>
+#include "OSGSkyBackgroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -164,8 +164,8 @@ typedef SkyBackground *SkyBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSkyBackgroundBase.inl>
-#include <OSGSkyBackground.inl>
+#include "OSGSkyBackgroundBase.inl"
+#include "OSGSkyBackground.inl"
 
 #define OSGSKYBACKGROUND_HEADER_CVSID "@(#)$Id: $"
 

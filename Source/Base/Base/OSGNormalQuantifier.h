@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGVector.h>
+#include "OSGBaseTypes.h"
+#include "OSGVector.h"
 
 #include <vector>
 

@@ -43,10 +43,10 @@
 #endif
 
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
 
-#include <OSGGenericInterpolator.h>
+#include "OSGGenericInterpolator.h"
 
 OSG_BEGIN_NAMESPACE
 

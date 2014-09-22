@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFTGLFontBase.h>
-#include <OSGWindow.h>
+#include "OSGFTGLFontBase.h"
+#include "OSGWindow.h"
 
 #include <FTGL/FTGLExtrdFont.h>
 #include <FTGL/FTGLOutlineFont.h>
@@ -147,8 +147,8 @@ typedef FTGLFont *FTGLFontP;
 
 OSG_END_NAMESPACE
 
-#include <OSGFTGLFontBase.inl>
-#include <OSGFTGLFont.inl>
+#include "OSGFTGLFontBase.inl"
+#include "OSGFTGLFont.inl"
 
 #define OSGFTGLFONT_HEADER_CVSID "@(#)$Id: OSGFTGLFont.h,v 1.3 2004/09/07 00:05:43 dirk Exp $"
 

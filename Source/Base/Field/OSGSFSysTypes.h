@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGSField.h>
-#include <OSGSysFieldDataType.h>
+#include "OSGBase.h"
+#include "OSGSField.h"
+#include "OSGSysFieldDataType.h"
 
 #ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGSFSysTypes.h

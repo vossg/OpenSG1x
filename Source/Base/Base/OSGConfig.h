@@ -916,11 +916,11 @@
 #endif
 
 #ifdef _OSG_HAVE_CONFIGURED_H_
-#include <OSGConfigured.h>
+#include "OSGConfigured.h"
 #endif
 
-#include <OSGBase.h>
-#include <OSGExportDefines.h>
+#include "OSGBase.h"
+#include "OSGExportDefines.h"
 
 #if defined(OSG_DEBUG_NO_FCPTR_ARITHM)
 # if defined(OSG_NUM_ASPECTS)

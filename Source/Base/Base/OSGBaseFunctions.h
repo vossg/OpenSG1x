@@ -62,9 +62,9 @@
 #include <ieeefp.h>
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
 
 #ifdef OSG_USE_STDMATH
 #include <cmath>

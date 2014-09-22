@@ -51,12 +51,12 @@
 #include <map>
 #include <set>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGRenderActionBase.h>
-#include <OSGMatrix.h>
-#include <OSGMaterial.h>
-#include <OSGStatElemTypes.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGRenderActionBase.h"
+#include "OSGMatrix.h"
+#include "OSGMaterial.h"
+#include "OSGStatElemTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -47,16 +47,16 @@
     Helper header to include all properties in one go.    
 */
 
-#include <OSGGeoPropertyBase.h>
+#include "OSGGeoPropertyBase.h"
 
-#include <OSGGeoPropPositions.h>
-#include <OSGGeoPropColors.h>
-#include <OSGGeoPropNormals.h>
-#include <OSGGeoPropTexCoords.h>
+#include "OSGGeoPropPositions.h"
+#include "OSGGeoPropColors.h"
+#include "OSGGeoPropNormals.h"
+#include "OSGGeoPropTexCoords.h"
 
-#include <OSGGeoPropIndices.h>
+#include "OSGGeoPropIndices.h"
 
-#include <OSGGeoPropFields.h>
-#include <OSGGeoPropPtrs.h>
+#include "OSGGeoPropFields.h"
+#include "OSGGeoPropPtrs.h"
 
 #endif /* _OSGGEOPROPERTY_H_ */

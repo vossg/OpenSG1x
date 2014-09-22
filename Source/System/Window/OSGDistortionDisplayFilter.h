@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include "OSGDistortionDisplayFilterBase.h"
 #include "OSGDisplayFilterForeground.h"

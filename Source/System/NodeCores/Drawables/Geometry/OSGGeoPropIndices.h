@@ -43,7 +43,7 @@
 #pragma once
 #endif
 
-#include <OSGGeoPropertyBase.h>
+#include "OSGGeoPropertyBase.h"
 
 OSG_BEGIN_NAMESPACE
 

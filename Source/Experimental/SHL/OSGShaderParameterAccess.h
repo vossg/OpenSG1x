@@ -45,9 +45,9 @@
 #include <map>
 #include <string>
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGShaderParameter.h>
+#include "OSGShaderParameter.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -114,7 +114,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ShaderParameterAccess
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderParameterAccess.inl>
+#include "OSGShaderParameterAccess.inl"
 
 #define OSGSHADERPARAMETERACCESS_HEADER_CVSID "@(#)$Id: OSGShaderParameterAccess.h,v 1.9 2011/11/08 17:46:19 carstenneumann Exp $"
 

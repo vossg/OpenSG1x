@@ -43,14 +43,14 @@
 #pragma once
 #endif
 
-#include <OSGGeoPropertyBase.h>
-#include <OSGGeoPropPositions.h>
-#include <OSGGeoPropColors.h>
-#include <OSGGeoPropNormals.h>
-#include <OSGGeoPropTexCoords.h>
-#include <OSGGeoPropIndices.h>
-#include <OSGGeoPropPTypes.h>
-#include <OSGGeoPropPLengths.h>
+#include "OSGGeoPropertyBase.h"
+#include "OSGGeoPropPositions.h"
+#include "OSGGeoPropColors.h"
+#include "OSGGeoPropNormals.h"
+#include "OSGGeoPropTexCoords.h"
+#include "OSGGeoPropIndices.h"
+#include "OSGGeoPropPTypes.h"
+#include "OSGGeoPropPLengths.h"
 
 OSG_BEGIN_NAMESPACE
 

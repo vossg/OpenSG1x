@@ -197,6 +197,6 @@ class OSG_BASE_DLLMAPPING BoxVolume : public Volume
 
 OSG_END_NAMESPACE
 
-#include <OSGBoxVolume.inl>
+#include "OSGBoxVolume.inl"
 
 #endif // _OSGBOXVOLUME_H_

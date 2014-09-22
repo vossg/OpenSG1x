@@ -58,27 +58,27 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGroup.h> // Parent
+#include "OSGGroup.h" // Parent
 
-#include <OSGColor4fFields.h> // Ambient type
-#include <OSGColor4fFields.h> // Diffuse type
-#include <OSGColor4fFields.h> // Specular type
-#include <OSGNodeFields.h> // Beacon type
-#include <OSGBoolFields.h> // On type
-#include <OSGReal32Fields.h> // ConstantAttenuation type
-#include <OSGReal32Fields.h> // LinearAttenuation type
-#include <OSGReal32Fields.h> // QuadraticAttenuation type
-#include <OSGReal32Fields.h> // ShadowIntensity type
-#include <OSGUInt32Fields.h> // ShadowMode type
+#include "OSGColor4fFields.h" // Ambient type
+#include "OSGColor4fFields.h" // Diffuse type
+#include "OSGColor4fFields.h" // Specular type
+#include "OSGNodeFields.h" // Beacon type
+#include "OSGBoolFields.h" // On type
+#include "OSGReal32Fields.h" // ConstantAttenuation type
+#include "OSGReal32Fields.h" // LinearAttenuation type
+#include "OSGReal32Fields.h" // QuadraticAttenuation type
+#include "OSGReal32Fields.h" // ShadowIntensity type
+#include "OSGUInt32Fields.h" // ShadowMode type
 
-#include <OSGLightFields.h>
+#include "OSGLightFields.h"
 
 OSG_BEGIN_NAMESPACE
 

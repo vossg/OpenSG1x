@@ -58,25 +58,25 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGGLenumFields.h> // SrcFactor type
-#include <OSGGLenumFields.h> // DestFactor type
-#include <OSGGLenumFields.h> // Equation type
-#include <OSGColor4fFields.h> // Color type
-#include <OSGGLenumFields.h> // AlphaFunc type
-#include <OSGReal32Fields.h> // AlphaValue type
-#include <OSGGLenumFields.h> // AlphaSrcFactor type
-#include <OSGGLenumFields.h> // AlphaDestFactor type
+#include "OSGGLenumFields.h" // SrcFactor type
+#include "OSGGLenumFields.h" // DestFactor type
+#include "OSGGLenumFields.h" // Equation type
+#include "OSGColor4fFields.h" // Color type
+#include "OSGGLenumFields.h" // AlphaFunc type
+#include "OSGReal32Fields.h" // AlphaValue type
+#include "OSGGLenumFields.h" // AlphaSrcFactor type
+#include "OSGGLenumFields.h" // AlphaDestFactor type
 
-#include <OSGBlendChunkFields.h>
+#include "OSGBlendChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

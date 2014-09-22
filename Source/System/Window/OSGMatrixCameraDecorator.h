@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGMatrixCameraDecoratorBase.h>
+#include "OSGMatrixCameraDecoratorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -129,8 +129,8 @@ typedef MatrixCameraDecorator *MatrixCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMatrixCameraDecoratorBase.inl>
-#include <OSGMatrixCameraDecorator.inl>
+#include "OSGMatrixCameraDecoratorBase.inl"
+#include "OSGMatrixCameraDecorator.inl"
 
 #define OSGMATRIXCAMERADECORATOR_HEADER_CVSID "@(#)$Id: $"
 

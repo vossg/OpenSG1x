@@ -39,9 +39,9 @@
 #ifndef _OSGVOLUME_INL_
 #define _OSGVOLUME_INL_
 
-#include <OSGVolume.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGVolume.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
 #include "OSGVector.h"
 #include "OSGMatrix.h"

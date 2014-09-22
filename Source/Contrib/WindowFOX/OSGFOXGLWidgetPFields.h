@@ -4,12 +4,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindowFOXDef.h>
+#include "OSGConfig.h"
+#include "OSGWindowFOXDef.h"
 
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGBaseFieldDataType.h>
+#include "OSGSField.h"
+#include "OSGMField.h"
+#include "OSGBaseFieldDataType.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -14,9 +14,9 @@
 //  Includes
 //----------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTwoSidedLightingChunkBase.h>
+#include "OSGTwoSidedLightingChunkBase.h"
 
 //----------------------------------------------------------------------------
 //  namespaces
@@ -132,8 +132,8 @@ typedef TwoSidedLightingChunk *TwoSidedLightingChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTwoSidedLightingChunkBase.inl>
-#include <OSGTwoSidedLightingChunk.inl>
+#include "OSGTwoSidedLightingChunkBase.inl"
+#include "OSGTwoSidedLightingChunk.inl"
 
 #define OSGTWOSIDEDLIGHTINGCHUNK_HEADER_CVSID "@(#)$Id: OSGTwoSidedLightingChunk.h,v 1.1 2005/06/09 08:39:27 a-m-z Exp $"
 

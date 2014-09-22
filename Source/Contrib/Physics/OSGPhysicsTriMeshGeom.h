@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsTriMeshGeomBase.h>
+#include "OSGPhysicsTriMeshGeomBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -154,8 +154,8 @@ typedef PhysicsTriMeshGeom *PhysicsTriMeshGeomP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsTriMeshGeomBase.inl>
-#include <OSGPhysicsTriMeshGeom.inl>
+#include "OSGPhysicsTriMeshGeomBase.inl"
+#include "OSGPhysicsTriMeshGeom.inl"
 
 #define OSGPHYSICSTRIMESHGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsTriMeshGeom.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 

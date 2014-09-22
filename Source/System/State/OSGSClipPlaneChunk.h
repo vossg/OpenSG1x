@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSClipPlaneChunkBase.h>
+#include "OSGSClipPlaneChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -153,8 +153,8 @@ typedef SClipPlaneChunk *SClipPlaneChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSClipPlaneChunkBase.inl>
-#include <OSGSClipPlaneChunk.inl>
+#include "OSGSClipPlaneChunkBase.inl"
+#include "OSGSClipPlaneChunk.inl"
 
 #define OSGSCLIPPLANECHUNK_HEADER_CVSID "@(#)$Id: OSGSClipPlaneChunk.h,v 1.1 2007/04/26 15:22:01 a-m-z Exp $"
 

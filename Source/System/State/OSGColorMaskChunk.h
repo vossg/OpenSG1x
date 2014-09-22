@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGColorMaskChunkBase.h>
+#include "OSGColorMaskChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -166,8 +166,8 @@ typedef ColorMaskChunk *ColorMaskChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGColorMaskChunkBase.inl>
-#include <OSGColorMaskChunk.inl>
+#include "OSGColorMaskChunkBase.inl"
+#include "OSGColorMaskChunk.inl"
 
 #define OSGCOLORMASKCHUNK_HEADER_CVSID "@(#)$Id: OSGColorMaskChunk.h,v 1.1 2005/06/06 17:14:20 yjung Exp $"
 

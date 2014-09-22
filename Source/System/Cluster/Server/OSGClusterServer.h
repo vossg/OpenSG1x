@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGRemoteAspect.h>
-#include <OSGClusterWindow.h>
-#include <OSGWindow.h>
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
+#include "OSGFieldContainerPtr.h"
+#include "OSGRemoteAspect.h"
+#include "OSGClusterWindow.h"
+#include "OSGWindow.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -158,7 +158,7 @@ class OSG_SYSTEMLIB_DLLMAPPING ClusterServer
 
 OSG_END_NAMESPACE
 
-#include <OSGClusterServer.inl>
+#include "OSGClusterServer.inl"
 
 #define OSG_CLUSTERSERVERHEADER_CVSID "@(#)$Id:$"
 

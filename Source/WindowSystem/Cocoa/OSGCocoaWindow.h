@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifdef __APPLE__
 
-#include <OSGCocoaWindowBase.h>
+#include "OSGCocoaWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -127,8 +127,8 @@ typedef CocoaWindow *CocoaWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCocoaWindowBase.inl>
-#include <OSGCocoaWindow.inl>
+#include "OSGCocoaWindowBase.inl"
+#include "OSGCocoaWindow.inl"
 
 #define OSGCOCOAWINDOW_HEADER_CVSID "@(#)$Id: OSGCocoaWindow.h,v 1.1 2006/10/16 17:24:24 pdaehne Exp $"
 

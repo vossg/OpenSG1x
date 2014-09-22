@@ -43,9 +43,9 @@
 #endif
 
 #include <map>
-#include <OSGBaseTypes.h>
-#include <OSGBase.h>
-#include <OSGConnectionType.h>
+#include "OSGBaseTypes.h"
+#include "OSGBase.h"
+#include "OSGConnectionType.h"
 
 OSG_BEGIN_NAMESPACE
 

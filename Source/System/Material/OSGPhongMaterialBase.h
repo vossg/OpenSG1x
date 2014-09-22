@@ -58,25 +58,25 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGChunkMaterial.h> // Parent
+#include "OSGChunkMaterial.h" // Parent
 
-#include <OSGColor3fFields.h> // Ambient type
-#include <OSGColor3fFields.h> // Diffuse type
-#include <OSGColor3fFields.h> // Specular type
-#include <OSGReal32Fields.h> // Shininess type
-#include <OSGColor3fFields.h> // Emission type
-#include <OSGReal32Fields.h> // Transparency type
-#include <OSGBoolFields.h> // Lit type
-#include <OSGGLenumFields.h> // ColorMaterial type
+#include "OSGColor3fFields.h" // Ambient type
+#include "OSGColor3fFields.h" // Diffuse type
+#include "OSGColor3fFields.h" // Specular type
+#include "OSGReal32Fields.h" // Shininess type
+#include "OSGColor3fFields.h" // Emission type
+#include "OSGReal32Fields.h" // Transparency type
+#include "OSGBoolFields.h" // Lit type
+#include "OSGGLenumFields.h" // ColorMaterial type
 
-#include <OSGPhongMaterialFields.h>
+#include "OSGPhongMaterialFields.h"
 
 OSG_BEGIN_NAMESPACE
 

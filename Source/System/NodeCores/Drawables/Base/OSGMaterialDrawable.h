@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGMaterialDrawableBase.h>
+#include "OSGMaterialDrawableBase.h"
 
-#include <OSGAction.h>
-#include <OSGDrawActionBase.h>
+#include "OSGAction.h"
+#include "OSGDrawActionBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -137,8 +137,8 @@ typedef MaterialDrawable *MaterialDrawableP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMaterialDrawableBase.inl>
-#include <OSGMaterialDrawable.inl>
+#include "OSGMaterialDrawableBase.inl"
+#include "OSGMaterialDrawable.inl"
 
 #define OSGMATERIALDRAWABLE_HEADER_CVSID "@(#)$Id: OSGMaterialDrawable.h,v 1.5 2008/04/24 00:56:29 neumannc Exp $"
 

@@ -58,23 +58,23 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGClusterWindow.h> // Parent
+#include "OSGClusterWindow.h" // Parent
 
-#include <OSGUInt32Fields.h> // HServers type
-#include <OSGUInt32Fields.h> // VServers type
-#include <OSGBoolFields.h> // ManageClientViewports type
-#include <OSGInt32Fields.h> // XOverlap type
-#include <OSGInt32Fields.h> // YOverlap type
-#include <OSGBoolFields.h> // FastSync type
+#include "OSGUInt32Fields.h" // HServers type
+#include "OSGUInt32Fields.h" // VServers type
+#include "OSGBoolFields.h" // ManageClientViewports type
+#include "OSGInt32Fields.h" // XOverlap type
+#include "OSGInt32Fields.h" // YOverlap type
+#include "OSGBoolFields.h" // FastSync type
 
-#include <OSGMultiDisplayWindowFields.h>
+#include "OSGMultiDisplayWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

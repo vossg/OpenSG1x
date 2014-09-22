@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGroup.h> // Parent
+#include "OSGGroup.h" // Parent
 
-#include <OSGPnt3fFields.h> // Center type
-#include <OSGReal32Fields.h> // Range type
-#include <OSGInt32Fields.h> // Index type
+#include "OSGPnt3fFields.h" // Center type
+#include "OSGReal32Fields.h" // Range type
+#include "OSGInt32Fields.h" // Index type
 
-#include <OSGDistanceLODFields.h>
+#include "OSGDistanceLODFields.h"
 
 OSG_BEGIN_NAMESPACE
 

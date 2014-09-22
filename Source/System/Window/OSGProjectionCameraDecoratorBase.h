@@ -58,24 +58,24 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStereoCameraDecorator.h> // Parent
+#include "OSGStereoCameraDecorator.h" // Parent
 
-#include <OSGNodeFields.h> // User type
-#include <OSGPnt3fFields.h> // Surface type
-#include <OSGPlaneFields.h> // Left type
-#include <OSGPlaneFields.h> // Bottom type
-#include <OSGPlaneFields.h> // Normal type
-#include <OSGReal32Fields.h> // Width type
-#include <OSGReal32Fields.h> // Height type
+#include "OSGNodeFields.h" // User type
+#include "OSGPnt3fFields.h" // Surface type
+#include "OSGPlaneFields.h" // Left type
+#include "OSGPlaneFields.h" // Bottom type
+#include "OSGPlaneFields.h" // Normal type
+#include "OSGReal32Fields.h" // Width type
+#include "OSGReal32Fields.h" // Height type
 
-#include <OSGProjectionCameraDecoratorFields.h>
+#include "OSGProjectionCameraDecoratorFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFOXWindowBase.h>
+#include "OSGFOXWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -119,8 +119,8 @@ typedef FOXWindow *FOXWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGFOXWindowBase.inl>
-#include <OSGFOXWindow.inl>
+#include "OSGFOXWindowBase.inl"
+#include "OSGFOXWindow.inl"
 
 #define OSGFOXWINDOW_HEADER_CVSID "@(#)$Id: OSGFOXWindow.h,v 1.1.1.1 2002/05/24 15:50:49 fuenfzig Exp $"
 

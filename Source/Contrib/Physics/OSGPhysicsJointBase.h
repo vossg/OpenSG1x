@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGVec2fFields.h> // Param type
-#include <OSGPhysicsWorldFields.h> // World type
-#include <OSGPhysicsBodyFields.h> // FirstBody type
-#include <OSGPhysicsBodyFields.h> // SecondBody type
+#include "OSGVec2fFields.h" // Param type
+#include "OSGPhysicsWorldFields.h" // World type
+#include "OSGPhysicsBodyFields.h" // FirstBody type
+#include "OSGPhysicsBodyFields.h" // SecondBody type
 
-#include <OSGPhysicsJointFields.h>
+#include "OSGPhysicsJointFields.h"
 
 OSG_BEGIN_NAMESPACE
 

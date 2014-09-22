@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 #include <vector>
 #include <string>
 
@@ -59,15 +59,15 @@
 #include <map>
 #endif
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGField.h>
-#include <OSGFieldContainer.h>
-#include <OSGAttachment.h>
-#include <OSGSFSysTypes.h>
-#include <OSGSFVecTypes.h>
-#include <OSGSFFieldContainerPtr.h>
-#include <OSGComponentTransform.h>
-#include <OSGAttachmentFieldDataType.h>
+#include "OSGFieldContainerPtr.h"
+#include "OSGField.h"
+#include "OSGFieldContainer.h"
+#include "OSGAttachment.h"
+#include "OSGSFSysTypes.h"
+#include "OSGSFVecTypes.h"
+#include "OSGSFFieldContainerPtr.h"
+#include "OSGComponentTransform.h"
+#include "OSGAttachmentFieldDataType.h"
 
 OSG_BEGIN_NAMESPACE
 

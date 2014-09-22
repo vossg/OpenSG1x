@@ -43,7 +43,7 @@
 #pragma once
 #endif
 
-#include <OSGGeoPropertyBase.h>
+#include "OSGGeoPropertyBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -562,6 +562,6 @@ OSG_FC_DLLEXPORT_DECL(GeoProperty,
 
 OSG_END_NAMESPACE
 
-#include <OSGGeoPropPositions.inl>
+#include "OSGGeoPropPositions.inl"
 
 #endif /* _OSGGEOPROPPOSITIONS_H_ */

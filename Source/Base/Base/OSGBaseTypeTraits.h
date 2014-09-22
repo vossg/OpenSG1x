@@ -46,7 +46,7 @@
 #error not for direct use, please include OSGBaseTypes.h instead
 #endif
 
-#include <OSGGL.h>
+#include "OSGGL.h"
 #include <limits>
 
 // The undef's are needed otherwise the numeric_limits won't work (GV)

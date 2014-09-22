@@ -42,13 +42,13 @@
 #pragma  once
 #endif
 
-#include <OSGAction.h>
-#include <OSGBaseTypes.h>
-#include <OSGGeoPositionsFields.h>
-#include <OSGGeometry.h>
-#include <OSGNode.h>
-#include <OSGSceneFileType.h>
-#include <OSGMaterial.h>
+#include "OSGAction.h"
+#include "OSGBaseTypes.h"
+#include "OSGGeoPositionsFields.h"
+#include "OSGGeometry.h"
+#include "OSGNode.h"
+#include "OSGSceneFileType.h"
+#include "OSGMaterial.h"
 
 #include "OSG3DSLoader.h"
 

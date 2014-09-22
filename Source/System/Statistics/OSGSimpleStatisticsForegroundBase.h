@@ -58,29 +58,29 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStatisticsForeground.h> // Parent
+#include "OSGStatisticsForeground.h" // Parent
 
-#include <OSGStringFields.h> // Formats type
-#include <OSGReal32Fields.h> // Size type
-#include <OSGColor4fFields.h> // Color type
-#include <OSGColor4fFields.h> // ShadowColor type
-#include <OSGColor4fFields.h> // BgColor type
-#include <OSGStringFields.h> // Family type
-#include <OSGVec2fFields.h> // ShadowOffset type
-#include <OSGUInt8Fields.h> // HorizontalAlign type
-#include <OSGUInt8Fields.h> // VerticalAlign type
-#include <OSGColor4fFields.h> // BorderColor type
-#include <OSGVec2fFields.h> // BorderOffset type
-#include <OSGVec2fFields.h> // TextMargin type
+#include "OSGStringFields.h" // Formats type
+#include "OSGReal32Fields.h" // Size type
+#include "OSGColor4fFields.h" // Color type
+#include "OSGColor4fFields.h" // ShadowColor type
+#include "OSGColor4fFields.h" // BgColor type
+#include "OSGStringFields.h" // Family type
+#include "OSGVec2fFields.h" // ShadowOffset type
+#include "OSGUInt8Fields.h" // HorizontalAlign type
+#include "OSGUInt8Fields.h" // VerticalAlign type
+#include "OSGColor4fFields.h" // BorderColor type
+#include "OSGVec2fFields.h" // BorderOffset type
+#include "OSGVec2fFields.h" // TextMargin type
 
-#include <OSGSimpleStatisticsForegroundFields.h>
+#include "OSGSimpleStatisticsForegroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

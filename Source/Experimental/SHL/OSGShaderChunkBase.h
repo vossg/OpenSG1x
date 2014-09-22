@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGShaderParameterChunk.h> // Parent
+#include "OSGShaderParameterChunk.h" // Parent
 
-#include <OSGStringFields.h> // VertexProgram type
-#include <OSGStringFields.h> // FragmentProgram type
-#include <OSGStringFields.h> // GeometryProgram type
+#include "OSGStringFields.h" // VertexProgram type
+#include "OSGStringFields.h" // FragmentProgram type
+#include "OSGStringFields.h" // GeometryProgram type
 
-#include <OSGShaderChunkFields.h>
+#include "OSGShaderChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

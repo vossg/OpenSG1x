@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSpotLightBase.h>
+#include "OSGConfig.h"
+#include "OSGSpotLightBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -150,8 +150,8 @@ class OSG_SYSTEMLIB_DLLMAPPING SpotLight : public SpotLightBase
 
 OSG_END_NAMESPACE
 
-#include <OSGSpotLightBase.inl>
-#include <OSGSpotLight.inl>
+#include "OSGSpotLightBase.inl"
+#include "OSGSpotLight.inl"
 
 #define OSGSPOTLIGHT_HEADER_CVSID "@(#)$Id: $"
 

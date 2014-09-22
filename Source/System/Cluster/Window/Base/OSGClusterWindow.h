@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGClusterWindowBase.h>
-#include <OSGStatCollector.h>
-#include <OSGStatElemTypes.h>
-#include <OSGClusterNetwork.h>
+#include "OSGConfig.h"
+#include "OSGClusterWindowBase.h"
+#include "OSGStatCollector.h"
+#include "OSGStatElemTypes.h"
+#include "OSGClusterNetwork.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -230,8 +230,8 @@ typedef ClusterWindow *ClusterWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGClusterWindow.inl>
-#include <OSGClusterWindowBase.inl>
+#include "OSGClusterWindow.inl"
+#include "OSGClusterWindowBase.inl"
 
 #define OSGCLUSTERWINDOW_HEADER_CVSID "@(#)$Id: $"
 

@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGForegroundBase.h>
+#include "OSGForegroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -135,8 +135,8 @@ typedef Foreground *ForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGForegroundBase.inl>
-#include <OSGForeground.inl>
+#include "OSGForegroundBase.inl"
+#include "OSGForeground.inl"
 
 #define OSGFOREGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

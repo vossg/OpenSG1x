@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGStringFields.h> // Program type
-#include <OSGVec4fFields.h> // ParamValues type
-#include <OSGStringFields.h> // ParamNames type
-#include <OSGUInt32Fields.h> // GLId type
+#include "OSGStringFields.h" // Program type
+#include "OSGVec4fFields.h" // ParamValues type
+#include "OSGStringFields.h" // ParamNames type
+#include "OSGUInt32Fields.h" // GLId type
 
-#include <OSGProgramChunkFields.h>
+#include "OSGProgramChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

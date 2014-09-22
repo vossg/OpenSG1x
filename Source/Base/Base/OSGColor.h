@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
 #include <iostream>
 
 OSG_BEGIN_NAMESPACE
@@ -362,7 +362,7 @@ typedef Color4<UInt8> Color4ub;
 
 OSG_END_NAMESPACE
 
-#include <OSGColor.inl>
+#include "OSGColor.inl"
 
 #define OSGCOLOR_HEADER_CVSID "@(#)$Id: $"
 

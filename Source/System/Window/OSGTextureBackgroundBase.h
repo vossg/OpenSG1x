@@ -58,25 +58,25 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGBackground.h> // Parent
+#include "OSGBackground.h" // Parent
 
-#include <OSGColor4fFields.h> // Color type
-#include <OSGTextureChunkFields.h> // Texture type
-#include <OSGPnt2fFields.h> // TexCoords type
-#include <OSGReal32Fields.h> // RadialDistortion type
-#include <OSGVec2fFields.h> // CenterOfDistortion type
-#include <OSGUInt16Fields.h> // Hor type
-#include <OSGUInt16Fields.h> // Vert type
-#include <OSGInt32Fields.h> // ClearStencilBit type
+#include "OSGColor4fFields.h" // Color type
+#include "OSGTextureChunkFields.h" // Texture type
+#include "OSGPnt2fFields.h" // TexCoords type
+#include "OSGReal32Fields.h" // RadialDistortion type
+#include "OSGVec2fFields.h" // CenterOfDistortion type
+#include "OSGUInt16Fields.h" // Hor type
+#include "OSGUInt16Fields.h" // Vert type
+#include "OSGInt32Fields.h" // ClearStencilBit type
 
-#include <OSGTextureBackgroundFields.h>
+#include "OSGTextureBackgroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

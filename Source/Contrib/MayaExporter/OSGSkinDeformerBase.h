@@ -58,25 +58,25 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGDeformer.h> // Parent
+#include "OSGDeformer.h" // Parent
 
-#include <OSGNodeFields.h> // Influences type
-#include <OSGMatrixFields.h> // BaseMatrices type
-#include <OSGUInt32Fields.h> // VertexIndices type
-#include <OSGUInt16Fields.h> // InfluenceIndices type
-#include <OSGReal32Fields.h> // InfluenceWeights type
-#include <OSGUInt32Fields.h> // NormalIndices type
-#include <OSGUInt16Fields.h> // NormalInfluenceIndices type
-#include <OSGReal32Fields.h> // NormalInfluenceWeights type
+#include "OSGNodeFields.h" // Influences type
+#include "OSGMatrixFields.h" // BaseMatrices type
+#include "OSGUInt32Fields.h" // VertexIndices type
+#include "OSGUInt16Fields.h" // InfluenceIndices type
+#include "OSGReal32Fields.h" // InfluenceWeights type
+#include "OSGUInt32Fields.h" // NormalIndices type
+#include "OSGUInt16Fields.h" // NormalInfluenceIndices type
+#include "OSGReal32Fields.h" // NormalInfluenceWeights type
 
-#include <OSGSkinDeformerFields.h>
+#include "OSGSkinDeformerFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGStereoCameraDecoratorBase.h>
+#include "OSGStereoCameraDecoratorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -115,8 +115,8 @@ typedef StereoCameraDecorator *StereoCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStereoCameraDecoratorBase.inl>
-#include <OSGStereoCameraDecorator.inl>
+#include "OSGStereoCameraDecoratorBase.inl"
+#include "OSGStereoCameraDecorator.inl"
 
 #define OSGSTEREOCAMERADECORATOR_HEADER_CVSID "@(#)$Id: $"
 

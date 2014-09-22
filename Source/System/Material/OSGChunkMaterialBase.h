@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGMaterial.h> // Parent
+#include "OSGMaterial.h" // Parent
 
-#include <OSGStateChunkFields.h> // Chunks type
-#include <OSGInt32Fields.h> // Slots type
+#include "OSGStateChunkFields.h" // Chunks type
+#include "OSGInt32Fields.h" // Slots type
 
-#include <OSGChunkMaterialFields.h>
+#include "OSGChunkMaterialFields.h"
 
 OSG_BEGIN_NAMESPACE
 

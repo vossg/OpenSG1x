@@ -54,16 +54,16 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCoreFieldDataType.h>
-#include <OSGWindowFOXDef.h>
+#include "OSGFieldContainerPtr.h"
+#include "OSGNodeCoreFieldDataType.h"
+#include "OSGWindowFOXDef.h"
 
 #ifdef WIN32
-# include <OSGWIN32WindowFields.h>
+# include "OSGWIN32WindowFields.h"
 #else
-# include <OSGXWindowFields.h>
+# include "OSGXWindowFields.h"
 #endif
 
 OSG_BEGIN_NAMESPACE

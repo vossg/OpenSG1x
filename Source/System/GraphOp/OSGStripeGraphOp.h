@@ -43,11 +43,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
-#include <OSGSingleTypeGraphOp.h>
-#include <OSGGeometry.h>
+#include "OSGSystemDef.h"
+#include "OSGSingleTypeGraphOp.h"
+#include "OSGGeometry.h"
 
 OSG_BEGIN_NAMESPACE
 

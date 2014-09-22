@@ -4,8 +4,8 @@
 #include <list>
 #include <vector>
 
-#include <OSGVector.h>
-#include <OSGGL.h>
+#include "OSGVector.h"
+#include "OSGGL.h"
 
 OSG_BEGIN_NAMESPACE
 

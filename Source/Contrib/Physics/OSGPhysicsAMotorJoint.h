@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsAMotorJointBase.h>
+#include "OSGPhysicsAMotorJointBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -146,8 +146,8 @@ typedef PhysicsAMotorJoint *PhysicsAMotorJointP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsAMotorJointBase.inl>
-#include <OSGPhysicsAMotorJoint.inl>
+#include "OSGPhysicsAMotorJointBase.inl"
+#include "OSGPhysicsAMotorJoint.inl"
 
 #define OSGPHYSICSAMOTORJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsAMotorJoint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

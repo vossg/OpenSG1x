@@ -5,8 +5,8 @@
 //----------------------------------------------------------------------------
 //  Includes
 //----------------------------------------------------------------------------
-#include <OSGSystemDef.h>
-#include <OSGImage.h>
+#include "OSGSystemDef.h"
+#include "OSGImage.h"
 
 OSG_BEGIN_NAMESPACE
 

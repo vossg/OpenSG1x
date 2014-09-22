@@ -1,7 +1,7 @@
 #ifndef TTGLYPHCONTOUR_H_
 #define TTGLYPHCONTOUR_H_
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include "OSGFontGlyphContour.h"
 

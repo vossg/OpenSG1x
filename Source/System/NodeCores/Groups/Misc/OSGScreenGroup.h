@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGMatrix.h>
-#include <OSGScreenGroupBase.h>
-#include <OSGAction.h>
+#include "OSGConfig.h"
+#include "OSGMatrix.h"
+#include "OSGScreenGroupBase.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -158,8 +158,8 @@ typedef ScreenGroup *ScreenGroupP;
 
 OSG_END_NAMESPACE
 
-#include <OSGScreenGroupBase.inl>
-#include <OSGScreenGroup.inl>
+#include "OSGScreenGroupBase.inl"
+#include "OSGScreenGroup.inl"
 
 #define OSGSCREENGROUP_HEADER_CVSID "@(#)$Id: OSGScreenGroup.h,v 1.2 2009/01/19 22:51:43 neumannc Exp $"
 

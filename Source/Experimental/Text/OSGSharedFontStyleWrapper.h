@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSharedFontStyleWrapperBase.h>
+#include "OSGSharedFontStyleWrapperBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -115,8 +115,8 @@ typedef SharedFontStyleWrapper *SharedFontStyleWrapperP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSharedFontStyleWrapperBase.inl>
-#include <OSGSharedFontStyleWrapper.inl>
+#include "OSGSharedFontStyleWrapperBase.inl"
+#include "OSGSharedFontStyleWrapper.inl"
 
 #define OSGSHAREDFONTSTYLEWRAPPER_HEADER_CVSID "@(#)$Id: OSGSharedFontStyleWrapper.h,v 1.1 2003/02/24 16:05:14 trembilski Exp $"
 

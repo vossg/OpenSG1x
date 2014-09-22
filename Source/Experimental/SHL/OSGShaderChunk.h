@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGShaderChunkBase.h>
-#include <OSGShaderParameterAccess.h>
+#include "OSGShaderChunkBase.h"
+#include "OSGShaderParameterAccess.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -126,8 +126,8 @@ typedef ShaderChunk *ShaderChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderChunkBase.inl>
-#include <OSGShaderChunk.inl>
+#include "OSGShaderChunkBase.inl"
+#include "OSGShaderChunk.inl"
 
 #define OSGSHADERCHUNK_HEADER_CVSID "@(#)$Id: OSGShaderChunk.h,v 1.3 2004/08/27 12:50:51 a-m-z Exp $"
 

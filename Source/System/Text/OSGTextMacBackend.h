@@ -44,8 +44,8 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
 
 #if defined(__APPLE__) && !defined(__LP64__)
@@ -130,7 +130,7 @@ OSG_END_NAMESPACE
 #endif // defined(__APPLE__) && !defined(__LP64__)
 
 
-#include <OSGTextMacBackend.inl>
+#include "OSGTextMacBackend.inl"
 
 #define OSGTEXTMACBACKEND_HEADER_CVSID "@(#)$Id: OSGTextMacBackend.h,v 1.2 2010/04/30 11:55:23 pdaehne Exp $"
 

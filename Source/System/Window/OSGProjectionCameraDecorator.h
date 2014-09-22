@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGProjectionCameraDecoratorBase.h>
+#include "OSGProjectionCameraDecoratorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -135,8 +135,8 @@ typedef ProjectionCameraDecorator *ProjectionCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGProjectionCameraDecoratorBase.inl>
-#include <OSGProjectionCameraDecorator.inl>
+#include "OSGProjectionCameraDecoratorBase.inl"
+#include "OSGProjectionCameraDecorator.inl"
 
 #define OSGPROJECTIONCAMERADECORATOR_HEADER_CVSID "@(#)$Id: $"
 

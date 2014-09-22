@@ -43,7 +43,7 @@
 
 #include <iostream>
 
-#include <OSGBaseFunctions.h>
+#include "OSGBaseFunctions.h"
 
 OSG_BEGIN_NAMESPACE
 

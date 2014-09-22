@@ -43,9 +43,9 @@
 #endif
 
 #include <vector>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGConnection.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGConnection.h"
 
 OSG_BEGIN_NAMESPACE
 

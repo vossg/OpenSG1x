@@ -58,25 +58,25 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGGLenumFields.h> // StencilFunc type
-#include <OSGInt32Fields.h> // StencilValue type
-#include <OSGUInt32Fields.h> // StencilMask type
-#include <OSGGLenumFields.h> // StencilOpFail type
-#include <OSGGLenumFields.h> // StencilOpZFail type
-#include <OSGGLenumFields.h> // StencilOpZPass type
-#include <OSGInt32Fields.h> // ClearBuffer type
-#include <OSGUInt32Fields.h> // BitMask type
+#include "OSGGLenumFields.h" // StencilFunc type
+#include "OSGInt32Fields.h" // StencilValue type
+#include "OSGUInt32Fields.h" // StencilMask type
+#include "OSGGLenumFields.h" // StencilOpFail type
+#include "OSGGLenumFields.h" // StencilOpZFail type
+#include "OSGGLenumFields.h" // StencilOpZPass type
+#include "OSGInt32Fields.h" // ClearBuffer type
+#include "OSGUInt32Fields.h" // BitMask type
 
-#include <OSGStencilChunkFields.h>
+#include "OSGStencilChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

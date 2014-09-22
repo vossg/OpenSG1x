@@ -41,8 +41,8 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGConfig.h>
+#include "OSGSystemDef.h"
+#include "OSGConfig.h"
 
 #include <stdlib.h>
 #include <math.h>

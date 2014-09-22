@@ -58,33 +58,33 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStatisticsForeground.h> // Parent
+#include "OSGStatisticsForeground.h" // Parent
 
-#include <OSGUInt32Fields.h> // DisplayType type
-#include <OSGVec2fFields.h> // Size type
-#include <OSGVec2fFields.h> // Pos type
-#include <OSGColor4fFields.h> // ColorMax type
-#include <OSGColor4fFields.h> // ColorMin type
-#include <OSGColor4fFields.h> // ColorCurrent type
-#include <OSGReal32Fields.h> // MinValue type
-#include <OSGReal32Fields.h> // MaxValue type
-#include <OSGUInt32Fields.h> // Flags type
-#include <OSGUInt32Fields.h> // HistorySize type
-#include <OSGStringFields.h> // Description type
-#include <OSGReal32Fields.h> // LineWidth type
-#include <OSGColor3fFields.h> // BackgroundColor type
-#include <OSGBoolFields.h> // TextEnabled type
-#include <OSGBoolFields.h> // BackgroundEnabled type
-#include <OSGBoolFields.h> // BorderEnabled type
+#include "OSGUInt32Fields.h" // DisplayType type
+#include "OSGVec2fFields.h" // Size type
+#include "OSGVec2fFields.h" // Pos type
+#include "OSGColor4fFields.h" // ColorMax type
+#include "OSGColor4fFields.h" // ColorMin type
+#include "OSGColor4fFields.h" // ColorCurrent type
+#include "OSGReal32Fields.h" // MinValue type
+#include "OSGReal32Fields.h" // MaxValue type
+#include "OSGUInt32Fields.h" // Flags type
+#include "OSGUInt32Fields.h" // HistorySize type
+#include "OSGStringFields.h" // Description type
+#include "OSGReal32Fields.h" // LineWidth type
+#include "OSGColor3fFields.h" // BackgroundColor type
+#include "OSGBoolFields.h" // TextEnabled type
+#include "OSGBoolFields.h" // BackgroundEnabled type
+#include "OSGBoolFields.h" // BorderEnabled type
 
-#include <OSGGraphicStatisticsForegroundFields.h>
+#include "OSGGraphicStatisticsForegroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

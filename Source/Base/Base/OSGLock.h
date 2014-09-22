@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGConfig.h>
+#include "OSGBase.h"
+#include "OSGConfig.h"
 
 #if ! defined (OSG_USE_PTHREADS)   && \
     ! defined (OSG_USE_SPROC)      && \
@@ -51,8 +51,8 @@
 #error "No threading model defined,  check your system/compiler combination"
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGMPBase.h>
+#include "OSGBaseTypes.h"
+#include "OSGMPBase.h"
 
 #if defined (OSG_USE_PTHREADS)
 #include <pthread.h>

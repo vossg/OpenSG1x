@@ -47,10 +47,10 @@
 #include <set>
 #include <vector>
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGGraphOp.h>
+#include "OSGGraphOp.h"
 
 OSG_BEGIN_NAMESPACE
 

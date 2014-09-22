@@ -42,18 +42,18 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include "OSGDisplayFilterForegroundBase.h"
 
-#include <OSGViewport.h>
-#include <OSGViewport.h>
-#include <OSGTextureChunk.h>
-#include <OSGGeometry.h>
-#include <OSGChunkMaterial.h>
-#include <OSGComponentTransform.h>
-#include <OSGBackground.h>
-#include <OSGTextureTransformChunk.h>
+#include "OSGViewport.h"
+#include "OSGViewport.h"
+#include "OSGTextureChunk.h"
+#include "OSGGeometry.h"
+#include "OSGChunkMaterial.h"
+#include "OSGComponentTransform.h"
+#include "OSGBackground.h"
+#include "OSGTextureTransformChunk.h"
 
 OSG_BEGIN_NAMESPACE
 

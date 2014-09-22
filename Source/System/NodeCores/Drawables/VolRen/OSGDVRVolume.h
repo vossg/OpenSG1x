@@ -45,13 +45,13 @@
 #undef OSG_INCLUDE_SOVOLUME
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRVolumeBase.h>
-#include <OSGAction.h>
-#include <OSGDrawAction.h>
-#include <OSGTextureManager.h>
-#include <OSGDVRClipper.h>
+#include "OSGDVRVolumeBase.h"
+#include "OSGAction.h"
+#include "OSGDrawAction.h"
+#include "OSGTextureManager.h"
+#include "OSGDVRClipper.h"
 
 
 //! Conveniance macros - makes code much more readable
@@ -234,8 +234,8 @@ typedef DVRVolume *DVRVolumeP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRVolume.inl>
-#include <OSGDVRVolumeBase.inl>
+#include "OSGDVRVolume.inl"
+#include "OSGDVRVolumeBase.inl"
 
 #define OSGDVRVOLUME_HEADER_CVSID "@(#)$Id: $"
 

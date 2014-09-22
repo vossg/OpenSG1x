@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGAbstractTextBase.h>
+#include "OSGAbstractTextBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -115,8 +115,8 @@ typedef AbstractText *AbstractTextP;
 
 OSG_END_NAMESPACE
 
-#include <OSGAbstractTextBase.inl>
-#include <OSGAbstractText.inl>
+#include "OSGAbstractTextBase.inl"
+#include "OSGAbstractText.inl"
 
 #define OSGABSTRACTTEXT_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.18 2002/12/11 06:34:58 dirk Exp $"
 

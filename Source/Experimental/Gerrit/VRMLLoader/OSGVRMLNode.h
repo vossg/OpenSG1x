@@ -46,20 +46,20 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLBase.h>
-#include <OSGFieldType.h>
-#include <OSGMField.h>
-#include <OSGSField.h>
-#include <OSGNodePtr.h>
-#include <OSGVRMLObjectType.h>
-#include <OSGIDString.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLBase.h"
+#include "OSGFieldType.h"
+#include "OSGMField.h"
+#include "OSGSField.h"
+#include "OSGNodePtr.h"
+#include "OSGVRMLObjectType.h"
+#include "OSGIDString.h"
 
-#include <OSGVRMLObject.h>
-#include <OSGAttachmentContainerMixin.h>
-#include <OSGVRMLNodeAttachmentMap.h>
+#include "OSGVRMLObject.h"
+#include "OSGAttachmentContainerMixin.h"
+#include "OSGVRMLNodeAttachmentMap.h"
 
-#include <OSGFieldContainerPtr.h>
+#include "OSGFieldContainerPtr.h"
 
 OSG_BEGIN_NAMESPACE
 

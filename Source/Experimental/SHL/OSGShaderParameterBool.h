@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGShaderParameterBoolBase.h>
+#include "OSGShaderParameterBoolBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -113,8 +113,8 @@ typedef ShaderParameterBool *ShaderParameterBoolP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderParameterBoolBase.inl>
-#include <OSGShaderParameterBool.inl>
+#include "OSGShaderParameterBoolBase.inl"
+#include "OSGShaderParameterBool.inl"
 
 #define OSGSHADERPARAMETERBOOL_HEADER_CVSID "@(#)$Id: OSGShaderParameterBool.h,v 1.2 2005/02/24 17:29:15 a-m-z Exp $"
 

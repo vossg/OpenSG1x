@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGTransformChunk.h> // Parent
+#include "OSGTransformChunk.h" // Parent
 
-#include <OSGBoolFields.h> // UseCameraBeacon type
+#include "OSGBoolFields.h" // UseCameraBeacon type
 
-#include <OSGTextureTransformChunkFields.h>
+#include "OSGTextureTransformChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

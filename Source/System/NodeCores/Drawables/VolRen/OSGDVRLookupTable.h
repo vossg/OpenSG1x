@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRLookupTableBase.h>
+#include "OSGDVRLookupTableBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -129,8 +129,8 @@ typedef DVRLookupTable *DVRLookupTableP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRLookupTableBase.inl>
-#include <OSGDVRLookupTable.inl>
+#include "OSGDVRLookupTableBase.inl"
+#include "OSGDVRLookupTable.inl"
 
 #define OSGDVRLOOKUPTABLE_HEADER_CVSID "@(#)$Id: $"
 

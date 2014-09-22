@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
-#include <OSGGeometry.h>
-#include <OSGCamera.h>
-#include <OSGViewport.h>
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
+#include "OSGGeometry.h"
+#include "OSGCamera.h"
+#include "OSGViewport.h"
 
 #include <vector>
 
@@ -189,7 +189,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TileGeometryLoad
 
 OSG_END_NAMESPACE
 
-#include <OSGTileGeometryLoad.inl>
+#include "OSGTileGeometryLoad.inl"
 
 #define OSGTILEGEOMETRYLOAD_HEADER_CVSID "@(#)$Id:$"
 

@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGBinaryDataHandler.h>
-#include <OSGWindow.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGBinaryDataHandler.h"
+#include "OSGWindow.h"
 
 OSG_BEGIN_NAMESPACE
 

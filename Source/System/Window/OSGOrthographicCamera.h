@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGOrthographicCameraBase.h>
+#include "OSGOrthographicCameraBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -124,8 +124,8 @@ typedef OrthographicCamera *OrthographicCameraP;
 
 OSG_END_NAMESPACE
 
-#include <OSGOrthographicCameraBase.inl>
-#include <OSGOrthographicCamera.inl>
+#include "OSGOrthographicCameraBase.inl"
+#include "OSGOrthographicCamera.inl"
 
 #define OSGORTHOGRAPHICCAMERA_HEADER_CVSID "@(#)$Id: OSGOrthographicCamera.h,v 1.1 2005/09/26 00:08:18 dirk Exp $"
 

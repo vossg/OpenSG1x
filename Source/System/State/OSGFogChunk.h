@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFogChunkBase.h>
+#include "OSGFogChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -157,8 +157,8 @@ typedef FogChunk *FogChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGFogChunkBase.inl>
-#include <OSGFogChunk.inl>
+#include "OSGFogChunkBase.inl"
+#include "OSGFogChunk.inl"
 
 #define OSGFOGCHUNK_HEADER_CVSID "@(#)$Id: OSGFogChunk.h,v 1.1 2009/11/13 15:44:27 yjung Exp $"
 

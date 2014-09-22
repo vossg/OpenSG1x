@@ -48,11 +48,11 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGIDString.h>
-#include <OSGTypeBase.h>
-#include <OSGLog.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGIDString.h"
+#include "OSGTypeBase.h"
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 

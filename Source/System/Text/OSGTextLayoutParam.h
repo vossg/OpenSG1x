@@ -43,9 +43,9 @@
 # pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
 
 #include <vector>
 
@@ -124,7 +124,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextLayoutParam
 OSG_END_NAMESPACE
 
 
-#include <OSGTextLayoutParam.inl>
+#include "OSGTextLayoutParam.inl"
 
 #define OSGTEXTLAYOUTPARAM_HEADER_CVSID "@(#)$Id: OSGTextLayoutParam.h,v 1.1 2005/03/03 13:43:06 a-m-z Exp $"
 

@@ -42,15 +42,15 @@
 #pragma once
 #endif
 
-#include <OSGNodePtrImpl.h>
-#include <OSGNodePtrImpl.inl>
+#include "OSGNodePtrImpl.h"
+#include "OSGNodePtrImpl.inl"
 
-#include <OSGCNodePtrImpl.h>
+#include "OSGCNodePtrImpl.h"
 
-#include <OSGNodeImpl.h>
-#include <OSGNodeImpl.inl>
+#include "OSGNodeImpl.h"
+#include "OSGNodeImpl.inl"
 
-#include <OSGNodePtrDepImpl.inl>
-#include <OSGCNodePtrImpl.inl>
+#include "OSGNodePtrDepImpl.inl"
+#include "OSGCNodePtrImpl.inl"
 
 #endif /* _OSGNODEPTR_H_ */

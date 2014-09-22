@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-#include <OSGGL.h>
+#include "OSGGL.h"
 #endif
 
 // Defines needed to support some OpenGLF extensions

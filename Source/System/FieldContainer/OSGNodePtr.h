@@ -42,15 +42,15 @@
 #pragma once
 #endif
 
-#include <OSGNodePtrImpl.h>
-#include <OSGCNodePtrImpl.h>
+#include "OSGNodePtrImpl.h"
+#include "OSGCNodePtrImpl.h"
 
-#include <OSGNode.h>
+#include "OSGNode.h"
 
-#include <OSGNodePtrImpl.inl>
-#include <OSGCNodePtrImpl.inl>
+#include "OSGNodePtrImpl.inl"
+#include "OSGCNodePtrImpl.inl"
 
-#include <OSGRefPtr.h>
+#include "OSGRefPtr.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -46,10 +46,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGTypedFunctorBase.h>
+#include "OSGTypedFunctorBase.h"
 
-#include <OSGTypedFunctors1.h>
-#include <OSGTypedFunctors2.h>
+#include "OSGTypedFunctors1.h"
+#include "OSGTypedFunctors2.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -685,7 +685,7 @@ osgTypedMethodFunctor2BaseCPtr(
 
 OSG_END_NAMESPACE
 
-#include <OSGTypedFunctors.inl>
+#include "OSGTypedFunctors.inl"
 
 #endif /* _OSGTYPEDFUNCTORS_H_ */
 

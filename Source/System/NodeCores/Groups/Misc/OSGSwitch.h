@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSwitchBase.h>
-#include <OSGAction.h>
+#include "OSGSwitchBase.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -134,8 +134,8 @@ typedef Switch *SwitchP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSwitchBase.inl>
-#include <OSGSwitch.inl>
+#include "OSGSwitchBase.inl"
+#include "OSGSwitch.inl"
 
 #define OSGSWITCH_HEADER_CVSID "@(#)$Id: $"
 

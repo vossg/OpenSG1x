@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
 #ifdef OSG_STL_HAS_HASH_MAP
 #ifdef OSG_HASH_MAP_AS_EXT
@@ -56,13 +56,13 @@
 
 #include <stack>
 
-#include <OSGNode.h>
-#include <OSGNodeCore.h>
-#include <OSGAttachment.h>
-#include <OSGGroup.h>
-#include <OSGGeometry.h>
+#include "OSGNode.h"
+#include "OSGNodeCore.h"
+#include "OSGAttachment.h"
+#include "OSGGroup.h"
+#include "OSGGeometry.h"
 
-#include <OSGVRMLNodeDescs.h>
+#include "OSGVRMLNodeDescs.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -187,7 +187,7 @@ class VRMLNodeFactory : public BaseT
 
 OSG_END_NAMESPACE
 
-#include <OSGVRMLNodeFactory.inl>
+#include "OSGVRMLNodeFactory.inl"
 
 #define OSGVRMLNODEFACTORY_HEADER_CVSID "@(#)$Id: $"
 

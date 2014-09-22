@@ -1,9 +1,9 @@
 #ifndef GLYPH_H_
 #define GLYPH_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
 OSG_BEGIN_NAMESPACE 
 

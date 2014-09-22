@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
 #include <string.h>
 #include <vector>
 #include <iostream>
@@ -155,8 +155,8 @@ class OSG_BASE_DLLMAPPING IDString
 
 OSG_END_NAMESPACE
 
-#include <OSGIDString.inl>
-#include <OSGIDStringLink.h>
+#include "OSGIDString.inl"
+#include "OSGIDStringLink.h"
 
 #endif /* _OSGSTRING_H_ */
 

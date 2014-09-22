@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGPhysicsJoint.h> // Parent
+#include "OSGPhysicsJoint.h" // Parent
 
-#include <OSGVec3fFields.h> // Anchor type
+#include "OSGVec3fFields.h" // Anchor type
 
-#include <OSGPhysicsBallJointFields.h>
+#include "OSGPhysicsBallJointFields.h"
 
 OSG_BEGIN_NAMESPACE
 

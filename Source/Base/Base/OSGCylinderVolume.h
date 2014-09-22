@@ -174,6 +174,6 @@ class OSG_BASE_DLLMAPPING CylinderVolume : public Volume
 
 OSG_END_NAMESPACE
 
-#include <OSGCylinderVolume.inl>
+#include "OSGCylinderVolume.inl"
 
 #endif // _OSGCYLINDERVOLUME_H_

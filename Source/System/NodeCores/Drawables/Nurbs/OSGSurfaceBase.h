@@ -58,33 +58,33 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGeometry.h> // Parent
+#include "OSGGeometry.h" // Parent
 
-#include <OSGUInt32Fields.h> // DimU type
-#include <OSGUInt32Fields.h> // DimV type
-#include <OSGReal32Fields.h> // KnotsU type
-#include <OSGReal32Fields.h> // KnotsV type
-#include <OSGGeoPositionsFields.h> // ControlPoints type
-#include <OSGReal32Fields.h> // Error type
-#include <OSGUInt32Fields.h> // NumCurves type
-#include <OSGUInt32Fields.h> // KnotLengths type
-#include <OSGUInt32Fields.h> // Dimensions type
-#include <OSGPnt3fFields.h> // CurveControlPoints type
-#include <OSGReal32Fields.h> // Knots type
-#include <OSGUInt32Fields.h> // CurvesPerLoop type
-#include <OSGBoolFields.h> // IsDelaunay type
-#include <OSGGeoTexCoordsFields.h> // TextureControlPoints type
-#include <OSGUInt32Fields.h> // DirtyMask type
-#include <OSGInt32Fields.h> // SurfaceGLId type
+#include "OSGUInt32Fields.h" // DimU type
+#include "OSGUInt32Fields.h" // DimV type
+#include "OSGReal32Fields.h" // KnotsU type
+#include "OSGReal32Fields.h" // KnotsV type
+#include "OSGGeoPositionsFields.h" // ControlPoints type
+#include "OSGReal32Fields.h" // Error type
+#include "OSGUInt32Fields.h" // NumCurves type
+#include "OSGUInt32Fields.h" // KnotLengths type
+#include "OSGUInt32Fields.h" // Dimensions type
+#include "OSGPnt3fFields.h" // CurveControlPoints type
+#include "OSGReal32Fields.h" // Knots type
+#include "OSGUInt32Fields.h" // CurvesPerLoop type
+#include "OSGBoolFields.h" // IsDelaunay type
+#include "OSGGeoTexCoordsFields.h" // TextureControlPoints type
+#include "OSGUInt32Fields.h" // DirtyMask type
+#include "OSGInt32Fields.h" // SurfaceGLId type
 
-#include <OSGSurfaceFields.h>
+#include "OSGSurfaceFields.h"
 
 OSG_BEGIN_NAMESPACE
 

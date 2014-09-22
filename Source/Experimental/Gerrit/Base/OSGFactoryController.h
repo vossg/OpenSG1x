@@ -46,9 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGIDString.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGIDString.h"
+#include "OSGBaseFunctions.h"
 #include <map>
 
 OSG_BEGIN_NAMESPACE

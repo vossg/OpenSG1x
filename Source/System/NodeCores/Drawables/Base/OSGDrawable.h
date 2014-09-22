@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDrawableBase.h>
-#include <OSGStatElemTypes.h>
+#include "OSGDrawableBase.h"
+#include "OSGStatElemTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -128,8 +128,8 @@ typedef Drawable *DrawableP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDrawableBase.inl>
-#include <OSGDrawable.inl>
+#include "OSGDrawableBase.inl"
+#include "OSGDrawable.inl"
 
 #define OSGDRAWABLE_HEADER_CVSID "@(#)$Id: OSGDrawable.h,v 1.6 2007/05/31 10:48:57 a-m-z Exp $"
 

@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRShaderBase.h>
+#include "OSGDVRShaderBase.h"
 
-#include <OSGDrawActionBase.h>
-#include <OSGGL.h>
+#include "OSGDrawActionBase.h"
+#include "OSGGL.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -167,8 +167,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DVRShader : public DVRShaderBase
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRShader.inl>
-#include <OSGDVRShaderBase.inl>
+#include "OSGDVRShader.inl"
+#include "OSGDVRShaderBase.inl"
 
 #define OSGDVRSHADER_HEADER_CVSID "@(#)$Id: $"
 

@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBaseThread.h>
-#include <OSGLock.h>
-#include <OSGBinarySwapComposerBase.h>
-#include <OSGGLEXT.h>
+#include "OSGConfig.h"
+#include "OSGBaseThread.h"
+#include "OSGLock.h"
+#include "OSGBinarySwapComposerBase.h"
+#include "OSGGLEXT.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -235,8 +235,8 @@ typedef BinarySwapComposer *BinarySwapComposerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGBinarySwapComposerBase.inl>
-#include <OSGBinarySwapComposer.inl>
+#include "OSGBinarySwapComposerBase.inl"
+#include "OSGBinarySwapComposer.inl"
 
 #define OSGBINARYSWAPCOMPOSER_HEADER_CVSID "@(#)$Id: $"
 

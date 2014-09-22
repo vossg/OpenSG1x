@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGDVRSimpleShader.h> // Parent
+#include "OSGDVRSimpleShader.h" // Parent
 
-#include <OSGInt8Fields.h> // LutMode type
-#include <OSGInt8Fields.h> // ActiveLutMode type
+#include "OSGInt8Fields.h" // LutMode type
+#include "OSGInt8Fields.h" // ActiveLutMode type
 
-#include <OSGDVRSimpleLUTShaderFields.h>
+#include "OSGDVRSimpleLUTShaderFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -43,11 +43,11 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
-#include <OSGMemoryObject.h>
-#include <OSGRenderAction.h>
-#include <OSGMaterial.h>
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
+#include "OSGMemoryObject.h"
+#include "OSGRenderAction.h"
+#include "OSGMaterial.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -197,7 +197,7 @@ class OSG_SYSTEMLIB_DLLMAPPING DrawTreeNode : public MemoryObject
 
 OSG_END_NAMESPACE
 
-#include <OSGDrawTreeNode.inl>
+#include "OSGDrawTreeNode.inl"
 
 #define OSGDRAWTREENODE_HEADER_CVSID "@(#)$Id: $"
 

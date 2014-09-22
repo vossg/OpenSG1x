@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGDrawable.h> // Parent
+#include "OSGDrawable.h" // Parent
 
-#include <OSGMaterialFields.h> // Material type
+#include "OSGMaterialFields.h" // Material type
 
-#include <OSGMaterialDrawableFields.h>
+#include "OSGMaterialDrawableFields.h"
 
 OSG_BEGIN_NAMESPACE
 

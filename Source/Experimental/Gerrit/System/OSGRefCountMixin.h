@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -178,7 +178,7 @@ class RefCountMixin : public ParentT
 
 OSG_END_NAMESPACE
 
-#include <OSGRefCountMixin.inl>
+#include "OSGRefCountMixin.inl"
 
 #define OSGREFCOUNTMIXIN_HEADER_CVSID "@(#)$Id: $"
 

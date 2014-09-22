@@ -1,9 +1,9 @@
 #ifndef FONTFACTORY_H_
 #define FONTFACTORY_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGPathHandler.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGPathHandler.h"
 
 #include <list>
 
@@ -38,6 +38,6 @@ class OSG_SYSTEMLIB_DLLMAPPING FontFactory
 
 OSG_END_NAMESPACE
 
-#include <OSGFontFactory.inl>
+#include "OSGFontFactory.inl"
 
 #endif // FONTFACTORY_H_

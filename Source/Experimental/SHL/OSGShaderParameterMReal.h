@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGShaderParameterMRealBase.h>
+#include "OSGShaderParameterMRealBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -115,8 +115,8 @@ typedef ShaderParameterMReal *ShaderParameterMRealP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShaderParameterMRealBase.inl>
-#include <OSGShaderParameterMReal.inl>
+#include "OSGShaderParameterMRealBase.inl"
+#include "OSGShaderParameterMReal.inl"
 
 #define OSGSHADERPARAMETERMREAL_HEADER_CVSID "@(#)$Id: OSGShaderParameterMReal.h,v 1.1 2007/03/09 18:11:48 a-m-z Exp $"
 

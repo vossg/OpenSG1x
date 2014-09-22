@@ -43,15 +43,15 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldDataType.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
+#include "OSGBaseTypes.h"
+#include "OSGFieldDataType.h"
+#include "OSGSField.h"
+#include "OSGMField.h"
 
-#include <OSGStatElemDesc.h>
+#include "OSGStatElemDesc.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -213,7 +213,7 @@ OSG_DLLEXPORT_DECL1(SField, StatCollector, OSG_SYSTEMLIB_DLLTMPLMAPPING)
 
 OSG_END_NAMESPACE
 
-#include <OSGStatCollector.inl>
+#include "OSGStatCollector.inl"
 
 #define OSGSTATCOLLECTOR_HEADER_CVSID "@(#)$Id:$"
 

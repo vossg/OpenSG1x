@@ -46,10 +46,10 @@
 #include <set>
 #include <vector>
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGMaterialPoolBase.h>
-#include <OSGAction.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGMaterialPoolBase.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -150,8 +150,8 @@ typedef MaterialPool *MaterialPoolP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMaterialPoolBase.inl>
-#include <OSGMaterialPool.inl>
+#include "OSGMaterialPoolBase.inl"
+#include "OSGMaterialPool.inl"
 
 #define OSGMATERIALPOOL_HEADER_CVSID "@(#)$Id: OSGMaterialPool.h,v 1.1 2005/04/30 15:03:20 a-m-z Exp $"
 

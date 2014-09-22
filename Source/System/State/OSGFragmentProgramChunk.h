@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFragmentProgramChunkBase.h>
+#include "OSGFragmentProgramChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -165,8 +165,8 @@ typedef FragmentProgramChunk *FragmentProgramChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGFragmentProgramChunkBase.inl>
-#include <OSGFragmentProgramChunk.inl>
+#include "OSGFragmentProgramChunkBase.inl"
+#include "OSGFragmentProgramChunk.inl"
 
 #define OSGFRAGMENTPROGRAMCHUNK_HEADER_CVSID "@(#)$Id: $"
 

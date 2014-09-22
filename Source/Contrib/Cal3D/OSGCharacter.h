@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGCharacterBase.h>
+#include "OSGCharacterBase.h"
 
-#include <OSGRenderAction.h>
-#include <OSGMaterial.h>
+#include "OSGRenderAction.h"
+#include "OSGMaterial.h"
 #include <cal3d/cal3d.h>
 
 OSG_BEGIN_NAMESPACE
@@ -223,8 +223,8 @@ typedef Character *CharacterP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCharacterBase.inl>
-#include <OSGCharacter.inl>
+#include "OSGCharacterBase.inl"
+#include "OSGCharacter.inl"
 
 #define OSGCHARACTER_HEADER_CVSID "@(#)$Id: OSGCharacter.h,v 1.3 2009/09/18 09:42:27 vossg Exp $"
 

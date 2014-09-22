@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 //#include "DirectedGraph.h"
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 OSG_BEGIN_NAMESPACE
 

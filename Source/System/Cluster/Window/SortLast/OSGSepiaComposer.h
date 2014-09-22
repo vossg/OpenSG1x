@@ -46,8 +46,8 @@
 #include <sepiart.h>
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSepiaComposerBase.h>
+#include "OSGConfig.h"
+#include "OSGSepiaComposerBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -149,7 +149,7 @@ typedef SepiaComposer *SepiaComposerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSepiaComposerBase.inl>
+#include "OSGSepiaComposerBase.inl"
 
 #define OSGSEPIACOMPOSER_HEADER_CVSID "@(#)$Id: $"
 

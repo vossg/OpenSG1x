@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSlicesBase.h>
+#include "OSGSlicesBase.h"
 
-#include <OSGAction.h>
-#include <OSGDrawActionBase.h>
+#include "OSGAction.h"
+#include "OSGDrawActionBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -195,8 +195,8 @@ typedef Slices *SlicesP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSlicesBase.inl>
-#include <OSGSlices.inl>
+#include "OSGSlicesBase.inl"
+#include "OSGSlices.inl"
 
 #define OSGSLICES_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.14 2002/03/25 01:26:00 vossg Exp $"
 

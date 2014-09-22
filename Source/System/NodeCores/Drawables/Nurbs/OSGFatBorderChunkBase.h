@@ -58,17 +58,17 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGVertexProgramChunk.h> // Parent
+#include "OSGVertexProgramChunk.h" // Parent
 
 
-#include <OSGFatBorderChunkFields.h>
+#include "OSGFatBorderChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

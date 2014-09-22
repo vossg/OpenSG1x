@@ -44,11 +44,11 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGImage.h>
-#include <OSGVector.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGImage.h"
+#include "OSGVector.h"
 
 #include "OSGTextFace.h"
 #include "OSGTextGlyph.h"
@@ -201,7 +201,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextPixmapFace: public TextFace
 OSG_END_NAMESPACE
 
 
-#include <OSGTextPixmapFace.inl>
+#include "OSGTextPixmapFace.inl"
 
 #define OSGTEXTPIXMAPFACE_HEADER_CVSID "@(#)$Id: OSGTextPixmapFace.h,v 1.2 2006/05/19 09:56:30 pdaehne Exp $"
 

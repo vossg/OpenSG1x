@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGMultiDisplayWindow.h> // Parent
+#include "OSGMultiDisplayWindow.h" // Parent
 
-#include <OSGBoolFields.h> // Balance type
-#include <OSGBoolFields.h> // BestCut type
-#include <OSGBoolFields.h> // ShowBalancing type
-#include <OSGUInt32Fields.h> // TileSize type
-#include <OSGBoolFields.h> // Short type
-#include <OSGInt32Fields.h> // MaxDepth type
+#include "OSGBoolFields.h" // Balance type
+#include "OSGBoolFields.h" // BestCut type
+#include "OSGBoolFields.h" // ShowBalancing type
+#include "OSGUInt32Fields.h" // TileSize type
+#include "OSGBoolFields.h" // Short type
+#include "OSGInt32Fields.h" // MaxDepth type
 
 #include "OSGBalancedMultiWindowFields.h"
 

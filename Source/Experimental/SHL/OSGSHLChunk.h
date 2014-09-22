@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include <string>
 #include <vector>
@@ -51,7 +51,7 @@
 #include "OSGDrawActionBase.h"
 #include "OSGWindow.h"
 
-#include <OSGSHLChunkBase.h>
+#include "OSGSHLChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -367,8 +367,8 @@ typedef SHLChunk *SHLChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSHLChunkBase.inl>
-#include <OSGSHLChunk.inl>
+#include "OSGSHLChunkBase.inl"
+#include "OSGSHLChunk.inl"
 
 #define OSGSHLCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLChunk.h,v 1.38 2008/12/12 11:28:45 a-m-z Exp $"
 

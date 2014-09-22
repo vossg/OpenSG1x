@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGVector.h>
+#include "OSGVector.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -516,7 +516,7 @@ std::ostream &operator <<(      std::ostream                     &os,
 
 OSG_END_NAMESPACE
 
-#include <OSGMatrix.inl>
+#include "OSGMatrix.inl"
 
 #endif /* _OSGMATRIX_H_ */
 

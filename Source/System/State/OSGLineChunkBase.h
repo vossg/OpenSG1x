@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGReal32Fields.h> // Width type
-#include <OSGInt32Fields.h> // StippleRepeat type
-#include <OSGUInt16Fields.h> // StipplePattern type
-#include <OSGBoolFields.h> // Smooth type
+#include "OSGReal32Fields.h" // Width type
+#include "OSGInt32Fields.h" // StippleRepeat type
+#include "OSGUInt16Fields.h" // StipplePattern type
+#include "OSGBoolFields.h" // Smooth type
 
-#include <OSGLineChunkFields.h>
+#include "OSGLineChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

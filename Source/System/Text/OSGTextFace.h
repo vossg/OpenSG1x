@@ -43,11 +43,11 @@
 # pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGVector.h>
-#include <OSGMemoryObject.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGVector.h"
+#include "OSGMemoryObject.h"
 
 #include "OSGTextGlyph.h"
 
@@ -254,7 +254,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextFace: public MemoryObject
 OSG_END_NAMESPACE
 
 
-#include <OSGTextFace.inl>
+#include "OSGTextFace.inl"
 
 #define OSGTEXTFACE_HEADER_CVSID "@(#)$Id: OSGTextFace.h,v 1.1 2005/03/03 13:43:06 a-m-z Exp $"
 

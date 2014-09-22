@@ -46,8 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLNode.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLNode.h"
 
 OSG_BEGIN_NAMESPACE
 

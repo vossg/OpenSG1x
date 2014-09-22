@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGWindowFOXDef.h>
+#include "OSGConfig.h"
+#include "OSGWindowFOXDef.h"
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 #ifdef WIN32
-# include <OSGWIN32Window.h>
+# include "OSGWIN32Window.h"
 #else
-# include <OSGXWindow.h>
+# include "OSGXWindow.h"
 #endif
 
-#include <OSGFOXGLWidgetPFields.h> // GlWidget type
+#include "OSGFOXGLWidgetPFields.h" // GlWidget type
 
-#include <OSGFOXWindowFields.h>
+#include "OSGFOXWindowFields.h"
 
 #ifdef WIN32
 #pragma warning (disable : 698 47 373 383 171)

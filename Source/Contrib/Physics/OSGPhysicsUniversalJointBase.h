@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGPhysicsJoint.h> // Parent
+#include "OSGPhysicsJoint.h" // Parent
 
-#include <OSGVec3fFields.h> // Anchor type
-#include <OSGVec3fFields.h> // Axis1 type
-#include <OSGVec3fFields.h> // Axis2 type
+#include "OSGVec3fFields.h" // Anchor type
+#include "OSGVec3fFields.h" // Axis1 type
+#include "OSGVec3fFields.h" // Axis2 type
 
-#include <OSGPhysicsUniversalJointFields.h>
+#include "OSGPhysicsUniversalJointFields.h"
 
 OSG_BEGIN_NAMESPACE
 

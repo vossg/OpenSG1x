@@ -46,12 +46,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLUnlimitedNode.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLUnlimitedNode.h"
 
-#include <OSGMaterialChunk.h>
-#include <OSGTextureChunk.h>
-#include <OSGTextureTransformChunk.h>
+#include "OSGMaterialChunk.h"
+#include "OSGTextureChunk.h"
+#include "OSGTextureTransformChunk.h"
 
 OSG_BEGIN_NAMESPACE
 

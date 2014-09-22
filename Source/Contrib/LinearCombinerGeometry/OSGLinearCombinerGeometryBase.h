@@ -58,23 +58,23 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGeometry.h> // Parent
+#include "OSGGeometry.h" // Parent
 
-#include <OSGReal32Fields.h> // Weights type
-#include <OSGGeoPositionsFields.h> // Srcpositions type
-#include <OSGDynamicVolume.h> // Srcvolumes type
-#include <OSGBoolFields.h> // Recalconrender type
-#include <OSGBoolFields.h> // Allgeometries3f type
-#include <OSGBoolFields.h> // Positionsdirty type
+#include "OSGReal32Fields.h" // Weights type
+#include "OSGGeoPositionsFields.h" // Srcpositions type
+#include "OSGDynamicVolume.h" // Srcvolumes type
+#include "OSGBoolFields.h" // Recalconrender type
+#include "OSGBoolFields.h" // Allgeometries3f type
+#include "OSGBoolFields.h" // Positionsdirty type
 
-#include <OSGLinearCombinerGeometryFields.h>
+#include "OSGLinearCombinerGeometryFields.h"
 
 OSG_BEGIN_NAMESPACE
 

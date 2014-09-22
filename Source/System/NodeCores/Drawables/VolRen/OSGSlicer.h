@@ -7,12 +7,12 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGVector.h>
-#include <OSGMatrix.h>
-#include <OSGDrawActionBase.h>
-#include <OSGDVRClipper.h>
+#include "OSGVector.h"
+#include "OSGMatrix.h"
+#include "OSGDrawActionBase.h"
+#include "OSGDVRClipper.h"
 
 
 OSG_BEGIN_NAMESPACE

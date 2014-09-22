@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindowQTDef.h>
-#include <OSGColor.h>
+#include "OSGConfig.h"
+#include "OSGWindowQTDef.h"
+#include "OSGColor.h"
 
 #include "OSGQAbstractValueEditor_qt.h"
 #include "OSGQSpinBoxUInt8_qt.h"

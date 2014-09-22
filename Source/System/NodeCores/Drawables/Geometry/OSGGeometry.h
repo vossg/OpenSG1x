@@ -43,16 +43,16 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGAction.h>
-#include <OSGWindow.h>
+#include "OSGConfig.h"
+#include "OSGAction.h"
+#include "OSGWindow.h"
 
-#include <OSGGeometryBase.h>
-#include <OSGGeoPropPtrs.h>
-#include <OSGMaterial.h>
-#include <OSGDynamicVolume.h>
+#include "OSGGeometryBase.h"
+#include "OSGGeoPropPtrs.h"
+#include "OSGMaterial.h"
+#include "OSGDynamicVolume.h"
 
-#include <OSGActorBase.h>
+#include "OSGActorBase.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -285,8 +285,8 @@ typedef Geometry *GeometryP;
 
 OSG_END_NAMESPACE
 
-#include <OSGGeometryBase.inl>
-#include <OSGGeometry.inl>
+#include "OSGGeometryBase.inl"
+#include "OSGGeometry.inl"
 
 #define OSGGEOMETRY_HEADER_CVSID "@(#)$Id: $"
 

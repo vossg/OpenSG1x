@@ -41,5 +41,5 @@
    field type header.
 */
 
-#include <OSGSFAttachmentPtr.h>
-#include <OSGMFAttachmentPtr.h>
+#include "OSGSFAttachmentPtr.h"
+#include "OSGMFAttachmentPtr.h"

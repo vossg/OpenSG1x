@@ -48,7 +48,7 @@
 
 #include "OSGConfig.h"
 
-#include <OSGFieldFactory.h>
+#include "OSGFieldFactory.h"
 #include "OSGBinaryDataHandler.h"
 
 OSG_BEGIN_NAMESPACE

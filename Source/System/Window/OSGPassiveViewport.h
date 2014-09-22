@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPassiveViewportBase.h>
+#include "OSGPassiveViewportBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -128,8 +128,8 @@ typedef PassiveViewport *PassiveViewportP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPassiveViewportBase.inl>
-#include <OSGPassiveViewport.inl>
+#include "OSGPassiveViewportBase.inl"
+#include "OSGPassiveViewport.inl"
 
 #define OSGPASSIVEVIEWPORT_HEADER_CVSID "@(#)$Id: $"
 

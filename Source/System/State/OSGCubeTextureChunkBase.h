@@ -58,22 +58,22 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGTextureChunk.h> // Parent
+#include "OSGTextureChunk.h" // Parent
 
-#include <OSGImageFields.h> // PosZImage type
-#include <OSGImageFields.h> // PosXImage type
-#include <OSGImageFields.h> // NegXImage type
-#include <OSGImageFields.h> // PosYImage type
-#include <OSGImageFields.h> // NegYImage type
+#include "OSGImageFields.h" // PosZImage type
+#include "OSGImageFields.h" // PosXImage type
+#include "OSGImageFields.h" // NegXImage type
+#include "OSGImageFields.h" // PosYImage type
+#include "OSGImageFields.h" // NegYImage type
 
-#include <OSGCubeTextureChunkFields.h>
+#include "OSGCubeTextureChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

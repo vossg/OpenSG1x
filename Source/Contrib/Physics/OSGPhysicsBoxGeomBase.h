@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGPhysicsGeom.h> // Parent
+#include "OSGPhysicsGeom.h" // Parent
 
-#include <OSGVec3fFields.h> // Lenghts type
+#include "OSGVec3fFields.h" // Lenghts type
 
-#include <OSGPhysicsBoxGeomFields.h>
+#include "OSGPhysicsBoxGeomFields.h"
 
 OSG_BEGIN_NAMESPACE
 

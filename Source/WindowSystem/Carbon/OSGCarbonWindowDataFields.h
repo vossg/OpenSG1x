@@ -44,16 +44,16 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 // Forget everything if we're not doing a Mac OS X compile
 #ifdef __APPLE__
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldDataType.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGWindowCarbonDef.h>
+#include "OSGBaseTypes.h"
+#include "OSGFieldDataType.h"
+#include "OSGSField.h"
+#include "OSGMField.h"
+#include "OSGWindowCarbonDef.h"
 
 #include <AGL/agl.h>
 

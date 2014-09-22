@@ -42,13 +42,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGMaterialChunk.h>
-#include <OSGBlendChunk.h>
-#include <OSGVertexProgramChunk.h>
-#include <OSGFragmentProgramChunk.h>
+#include "OSGConfig.h"
+#include "OSGMaterialChunk.h"
+#include "OSGBlendChunk.h"
+#include "OSGVertexProgramChunk.h"
+#include "OSGFragmentProgramChunk.h"
 
-#include <OSGPhongMaterialBase.h>
+#include "OSGPhongMaterialBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -134,8 +134,8 @@ typedef PhongMaterial *PhongMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhongMaterialBase.inl>
-#include <OSGPhongMaterial.inl>
+#include "OSGPhongMaterialBase.inl"
+#include "OSGPhongMaterial.inl"
 
 #define OSGPHONGMATERIAL_HEADER_CVSID "@(#)$Id: OSGPhongMaterial.h,v 1.4 2003/10/10 15:38:50 a-m-z Exp $"
 

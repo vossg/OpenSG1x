@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsSphereGeomBase.h>
+#include "OSGPhysicsSphereGeomBase.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -58,23 +58,23 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGBackground.h> // Parent
+#include "OSGBackground.h" // Parent
 
-#include <OSGColor3fFields.h> // Color type
-#include <OSGInt32Fields.h> // ClearStencilBit type
-#include <OSGReal32Fields.h> // Alpha type
-#include <OSGReal32Fields.h> // Depth type
-#include <OSGBoolFields.h> // ClearDepth type
-#include <OSGBoolFields.h> // ClearColor type
+#include "OSGColor3fFields.h" // Color type
+#include "OSGInt32Fields.h" // ClearStencilBit type
+#include "OSGReal32Fields.h" // Alpha type
+#include "OSGReal32Fields.h" // Depth type
+#include "OSGBoolFields.h" // ClearDepth type
+#include "OSGBoolFields.h" // ClearColor type
 
-#include <OSGSolidBackgroundFields.h>
+#include "OSGSolidBackgroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

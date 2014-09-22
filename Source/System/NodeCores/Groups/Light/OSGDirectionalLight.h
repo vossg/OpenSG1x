@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGDirectionalLightBase.h>
+#include "OSGConfig.h"
+#include "OSGDirectionalLightBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -144,8 +144,8 @@ class OSG_SYSTEMLIB_DLLMAPPING DirectionalLight : public DirectionalLightBase
 
 OSG_END_NAMESPACE
 
-#include <OSGDirectionalLightBase.inl>
-#include <OSGDirectionalLight.inl>
+#include "OSGDirectionalLightBase.inl"
+#include "OSGDirectionalLight.inl"
 
 #define OSGDIRECTIONALLIGHT_HEADER_CVSID "@(#)$Id: $"
 

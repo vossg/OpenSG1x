@@ -58,25 +58,25 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGPhysicsBodyFields.h> // Body type
-#include <OSGVec3fFields.h> // Position type
-#include <OSGMatrixFields.h> // Rotation type
-#include <OSGQuaternionFields.h> // Quaternion type
-#include <OSGUInt64Fields.h> // CategoryBits type
-#include <OSGUInt64Fields.h> // CollideBits type
-#include <OSGPhysicsSpaceFields.h> // Space type
-#include <OSGBoolFields.h> // Enable type
+#include "OSGPhysicsBodyFields.h" // Body type
+#include "OSGVec3fFields.h" // Position type
+#include "OSGMatrixFields.h" // Rotation type
+#include "OSGQuaternionFields.h" // Quaternion type
+#include "OSGUInt64Fields.h" // CategoryBits type
+#include "OSGUInt64Fields.h" // CollideBits type
+#include "OSGPhysicsSpaceFields.h" // Space type
+#include "OSGBoolFields.h" // Enable type
 
-#include <OSGPhysicsGeomFields.h>
+#include "OSGPhysicsGeomFields.h"
 
 OSG_BEGIN_NAMESPACE
 

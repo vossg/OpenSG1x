@@ -48,8 +48,8 @@
 #include <map>
 #include <iterator>
 
-#include <OSGConfig.h>
-#include <OSGLog.h>
+#include "OSGConfig.h"
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 

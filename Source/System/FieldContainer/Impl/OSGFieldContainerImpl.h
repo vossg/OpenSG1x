@@ -46,14 +46,14 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGIDStringLink.h>
+#include "OSGSystemDef.h"
+#include "OSGIDStringLink.h"
 
-#include <OSGFieldContainerBase.h>
+#include "OSGFieldContainerBase.h"
 
 #if defined(OSG_GV_BETA) && defined(OSG_DBG_MEM)
-#include <OSGTime.h>
-#include <OSGThread.h>
+#include "OSGTime.h"
+#include "OSGThread.h"
 #endif
 
 OSG_BEGIN_NAMESPACE

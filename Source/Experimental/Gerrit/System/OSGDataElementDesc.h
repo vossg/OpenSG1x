@@ -46,11 +46,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGSupportTypes.h>
-#include <OSGIDString.h>
-#include <OSGReflexiveContainer.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGSupportTypes.h"
+#include "OSGIDString.h"
+#include "OSGReflexiveContainer.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -46,18 +46,18 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
-#include <OSGNodePtr.h>
+#include "OSGNodePtr.h"
 
 #include "OSGDXFRecord.h"
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGGeoProperty.h>
-#include <OSGGeometry.h>
-#include <OSGLineChunk.h>
-#include <OSGColor.h>
+#include "OSGFieldContainerPtr.h"
+#include "OSGGeoProperty.h"
+#include "OSGGeometry.h"
+#include "OSGLineChunk.h"
+#include "OSGColor.h"
 
 #include <map>
 

@@ -54,13 +54,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCoreFieldDataType.h>
-#include <OSGSystemDef.h>
+#include "OSGFieldContainerPtr.h"
+#include "OSGNodeCoreFieldDataType.h"
+#include "OSGSystemDef.h"
 
-#include <OSGCameraFields.h>
+#include "OSGCameraFields.h"
 
 OSG_BEGIN_NAMESPACE
 

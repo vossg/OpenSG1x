@@ -46,10 +46,10 @@
 //    Includes
 //----------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGStatCollector.h>
-#include <OSGStatElemTypes.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGStatCollector.h"
+#include "OSGStatElemTypes.h"
 
 #include "OSGChildrenList.h"
 #include "OSGExtraChildrenList.h"

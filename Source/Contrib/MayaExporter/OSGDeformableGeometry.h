@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDeformableGeometryBase.h>
+#include "OSGDeformableGeometryBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -117,8 +117,8 @@ typedef DeformableGeometry *DeformableGeometryP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDeformableGeometryBase.inl>
-#include <OSGDeformableGeometry.inl>
+#include "OSGDeformableGeometryBase.inl"
+#include "OSGDeformableGeometry.inl"
 
 #define OSGDEFORMABLEGEOMETRY_HEADER_CVSID "@(#)$Id: OSGDeformableGeometry.h,v 1.2 2003/04/28 23:05:32 michael Exp $"
 

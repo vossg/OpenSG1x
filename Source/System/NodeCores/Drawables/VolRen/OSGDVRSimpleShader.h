@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRSimpleShaderBase.h>
+#include "OSGDVRSimpleShaderBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -144,8 +144,8 @@ typedef DVRSimpleShader *DVRSimpleShaderP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRSimpleShader.inl>
-#include <OSGDVRSimpleShaderBase.inl>
+#include "OSGDVRSimpleShader.inl"
+#include "OSGDVRSimpleShaderBase.inl"
 
 #define OSGDVRSIMPLESHADER_HEADER_CVSID "@(#)$Id: $"
 

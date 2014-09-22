@@ -46,9 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLBase.h>
-#include <OSGTypedFunctors.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLBase.h"
+#include "OSGTypedFunctors.h"
 
 #include <vector>
 
@@ -338,6 +338,6 @@ OSG_END_NAMESPACE
 
 #define OSGVRMLACTION_HEADER_CVSID "@(#)$Id: $"
 
-#include <OSGVRMLAction.inl>
+#include "OSGVRMLAction.inl"
 
 #endif /* _OSGVRMLACTION_HPP_ */

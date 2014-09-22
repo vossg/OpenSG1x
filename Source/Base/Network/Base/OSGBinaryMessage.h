@@ -43,10 +43,10 @@
 #endif
 
 #include <vector>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGNetworkMessage.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGNetworkMessage.h"
+#include "OSGBaseFunctions.h"
 
 OSG_BEGIN_NAMESPACE
 

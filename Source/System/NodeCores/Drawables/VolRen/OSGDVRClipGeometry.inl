@@ -38,9 +38,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-#include <OSGDVRVertex.h>
-#include <OSGDVRTriangle.h>
+#include "OSGConfig.h"
+#include "OSGDVRVertex.h"
+#include "OSGDVRTriangle.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGVertexProgramChunk.h>
+#include "OSGConfig.h"
+#include "OSGVertexProgramChunk.h"
 
 #include "OSGSurfaceBase.h"
 

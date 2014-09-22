@@ -48,14 +48,14 @@
  */
 #endif
 
-#include <OSGConceptPropertyChecks.h>
-#include <OSGFieldContainerProperties.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGConceptPropertyChecks.h"
+#include "OSGFieldContainerProperties.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
 
-#include <OSGThread.h>
-#include <OSGLock.h>
-#include <OSGThreadManager.h>
+#include "OSGThread.h"
+#include "OSGLock.h"
+#include "OSGThreadManager.h"
 
 #include <utility>
 #include <iostream>

@@ -54,13 +54,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCoreFieldDataType.h>
-#include <OSGContribDef.h>
+#include "OSGFieldContainerPtr.h"
+#include "OSGNodeCoreFieldDataType.h"
+#include "OSGContribDef.h"
 
-#include <OSGShaderParameterChunkFields.h>
+#include "OSGShaderParameterChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSwitchMaterialBase.h>
+#include "OSGSwitchMaterialBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -150,8 +150,8 @@ typedef SwitchMaterial *SwitchMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSwitchMaterialBase.inl>
-#include <OSGSwitchMaterial.inl>
+#include "OSGSwitchMaterialBase.inl"
+#include "OSGSwitchMaterial.inl"
 
 #define OSGSWITCHMATERIAL_HEADER_CVSID "@(#)$Id: OSGSwitchMaterial.h,v 1.4 2006/08/22 10:11:44 a-m-z Exp $"
 

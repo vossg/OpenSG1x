@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGPerspectiveCamera.h> // Parent
+#include "OSGPerspectiveCamera.h" // Parent
 
-#include <OSGVec2fFields.h> // PrincipalPoint type
+#include "OSGVec2fFields.h" // PrincipalPoint type
 
-#include <OSGOffCenterPerspectiveCameraFields.h>
+#include "OSGOffCenterPerspectiveCameraFields.h"
 
 OSG_BEGIN_NAMESPACE
 

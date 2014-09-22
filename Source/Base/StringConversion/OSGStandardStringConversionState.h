@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGField.h>
-#include <OSGIndenter.h>
-#include <OSGStringTokenizer.h>
-#include <OSGStringConversionStateBase.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGField.h"
+#include "OSGIndenter.h"
+#include "OSGStringTokenizer.h"
+#include "OSGStringConversionStateBase.h"
 
 OSG_BEGIN_NAMESPACE
 

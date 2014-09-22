@@ -58,22 +58,22 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGroup.h> // Parent
+#include "OSGGroup.h" // Parent
 
-#include <OSGVec3fFields.h> // AxisOfRotation type
-#include <OSGBoolFields.h> // FocusOnCamera type
-#include <OSGBoolFields.h> // AlignToScreen type
-#include <OSGReal32Fields.h> // MinAngle type
-#include <OSGReal32Fields.h> // MaxAngle type
+#include "OSGVec3fFields.h" // AxisOfRotation type
+#include "OSGBoolFields.h" // FocusOnCamera type
+#include "OSGBoolFields.h" // AlignToScreen type
+#include "OSGReal32Fields.h" // MinAngle type
+#include "OSGReal32Fields.h" // MaxAngle type
 
-#include <OSGBillboardFields.h>
+#include "OSGBillboardFields.h"
 
 OSG_BEGIN_NAMESPACE
 

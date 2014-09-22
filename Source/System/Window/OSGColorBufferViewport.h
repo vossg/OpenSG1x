@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGColorBufferViewportBase.h>
+#include "OSGColorBufferViewportBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -128,8 +128,8 @@ typedef ColorBufferViewport *ColorBufferViewportP;
 
 OSG_END_NAMESPACE
 
-#include <OSGColorBufferViewportBase.inl>
-#include <OSGColorBufferViewport.inl>
+#include "OSGColorBufferViewportBase.inl"
+#include "OSGColorBufferViewport.inl"
 
 #define OSGCOLORBUFFERVIEWPORT_HEADER_CVSID "@(#)$Id: $"
 

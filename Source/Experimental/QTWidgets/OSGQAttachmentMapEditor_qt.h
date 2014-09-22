@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindowQTDef.h>
-#include <OSGQAbstractValueEditor_qt.h>
-#include <OSGAttachment.h>
+#include "OSGConfig.h"
+#include "OSGWindowQTDef.h"
+#include "OSGQAbstractValueEditor_qt.h"
+#include "OSGAttachment.h"
 
 #include <vector>
 

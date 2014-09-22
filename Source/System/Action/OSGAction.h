@@ -48,12 +48,12 @@
 
 #include <vector>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGFieldContainerType.h>
-#include <OSGNodePtr.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGFieldContainerType.h"
+#include "OSGNodePtr.h"
 
-#include <OSGTypedFunctors.h>
+#include "OSGTypedFunctors.h"
 
 OSG_BEGIN_NAMESPACE
 

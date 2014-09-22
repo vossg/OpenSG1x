@@ -86,7 +86,7 @@
 
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 
 

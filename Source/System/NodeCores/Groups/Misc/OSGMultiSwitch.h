@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGMultiSwitchBase.h>
+#include "OSGMultiSwitchBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -137,8 +137,8 @@ typedef MultiSwitch *MultiSwitchP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMultiSwitchBase.inl>
-#include <OSGMultiSwitch.inl>
+#include "OSGMultiSwitchBase.inl"
+#include "OSGMultiSwitch.inl"
 
 #define OSGMULTISWITCH_HEADER_CVSID "@(#)$Id: OSGMultiSwitch.h,v 1.2 2009/04/07 17:09:31 neumannc Exp $"
 

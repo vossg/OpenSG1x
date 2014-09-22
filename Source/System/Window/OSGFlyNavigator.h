@@ -39,12 +39,12 @@
 #ifndef _OSG_FLYNAVIGATOR_H_
 #define _OSG_FLYNAVIGATOR_H_
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGVector.h>
-#include <OSGQuaternion.h>
+#include "OSGBaseTypes.h"
+#include "OSGVector.h"
+#include "OSGQuaternion.h"
 
 OSG_BEGIN_NAMESPACE
 

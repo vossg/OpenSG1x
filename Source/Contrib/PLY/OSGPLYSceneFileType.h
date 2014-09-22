@@ -42,8 +42,8 @@
 #pragma  once
 #endif
 
-#include <OSGContribDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGContribDef.h"
+#include "OSGBaseTypes.h"
 #include "OSGSceneFileType.h"
 
 OSG_BEGIN_NAMESPACE

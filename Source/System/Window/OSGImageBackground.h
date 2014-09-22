@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGImageBackgroundBase.h>
+#include "OSGImageBackgroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -127,8 +127,8 @@ typedef ImageBackground *ImageBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGImageBackgroundBase.inl>
-#include <OSGImageBackground.inl>
+#include "OSGImageBackgroundBase.inl"
+#include "OSGImageBackground.inl"
 
 #define OSGIMAGEBACKGROUND_HEADER_CVSID "@(#)$Id: $"
 

@@ -43,8 +43,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGMaterialChunkBase.h>
+#include "OSGConfig.h"
+#include "OSGMaterialChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -157,8 +157,8 @@ typedef MaterialChunk *MaterialChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMaterialChunkBase.inl>
-#include <OSGMaterialChunk.inl>
+#include "OSGMaterialChunkBase.inl"
+#include "OSGMaterialChunk.inl"
 
 #define OSGMATERIALCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

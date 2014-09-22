@@ -42,10 +42,10 @@
 #pragma  once
 #endif
 
-#include <OSGSystemDef.h>
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGImageFileType.h>
+#include "OSGBaseTypes.h"
+#include "OSGImageFileType.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGDVRClipGeometry.h> // ClipObjects type
-#include <OSGInt32Fields.h> // ClipMode type
-#include <OSGBoolFields.h> // DoContours type
+#include "OSGDVRClipGeometry.h" // ClipObjects type
+#include "OSGInt32Fields.h" // ClipMode type
+#include "OSGBoolFields.h" // DoContours type
 
-#include <OSGDVRClipObjectsFields.h>
+#include "OSGDVRClipObjectsFields.h"
 
 OSG_BEGIN_NAMESPACE
 

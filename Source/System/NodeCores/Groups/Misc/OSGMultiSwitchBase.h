@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGroup.h> // Parent
+#include "OSGGroup.h" // Parent
 
-#include <OSGUInt32Fields.h> // Choices type
-#include <OSGInt32Fields.h> // SwitchMode type
+#include "OSGUInt32Fields.h" // Choices type
+#include "OSGInt32Fields.h" // SwitchMode type
 
-#include <OSGMultiSwitchFields.h>
+#include "OSGMultiSwitchFields.h"
 
 OSG_BEGIN_NAMESPACE
 

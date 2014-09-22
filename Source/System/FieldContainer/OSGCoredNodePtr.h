@@ -46,10 +46,10 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGNodePtr.h>
-#include <OSGNodeCore.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGNodePtr.h"
+#include "OSGNodeCore.h"
 
 OSG_BEGIN_NAMESPACE
 

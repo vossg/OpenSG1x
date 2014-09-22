@@ -44,16 +44,16 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 // Forget everything if we're not doing a windows compile
 #ifdef WIN32
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldDataType.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGWindowWIN32Def.h>
+#include "OSGBaseTypes.h"
+#include "OSGFieldDataType.h"
+#include "OSGSField.h"
+#include "OSGMField.h"
+#include "OSGWindowWIN32Def.h"
 
 #include <windows.h>
 

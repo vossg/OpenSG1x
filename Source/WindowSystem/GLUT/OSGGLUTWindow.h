@@ -44,9 +44,9 @@
 
 #ifdef OSG_WITH_GLUT
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGGLUTWindowBase.h>
+#include "OSGGLUTWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -132,8 +132,8 @@ typedef GLUTWindow *GLUTWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGGLUTWindow.inl>
-#include <OSGGLUTWindowBase.inl>
+#include "OSGGLUTWindow.inl"
+#include "OSGGLUTWindowBase.inl"
 
 #define OSGGLUTWINDOW_HEADER_CVSID "@(#)$Id: $"
 

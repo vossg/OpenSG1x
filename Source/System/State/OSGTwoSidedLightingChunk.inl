@@ -4,7 +4,7 @@
  * \author Andreas Zieringer AMZ GmbH
  */
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 OSG_BEGIN_NAMESPACE
 

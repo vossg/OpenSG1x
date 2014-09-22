@@ -58,17 +58,17 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGDVRSimpleLUTShader.h> // Parent
+#include "OSGDVRSimpleLUTShader.h" // Parent
 
 
-#include <OSGDVRMtexLUTShaderFields.h>
+#include "OSGDVRMtexLUTShaderFields.h"
 
 OSG_BEGIN_NAMESPACE
 

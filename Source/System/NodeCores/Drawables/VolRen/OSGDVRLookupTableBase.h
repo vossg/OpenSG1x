@@ -58,26 +58,26 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGUInt8Fields.h> // Dimension type
-#include <OSGUInt32Fields.h> // Size type
-#include <OSGUInt8Fields.h> // Channel type
-#include <OSGUInt8Fields.h> // Data type
-#include <OSGReal32Fields.h> // DataR type
-#include <OSGReal32Fields.h> // DataG type
-#include <OSGReal32Fields.h> // DataB type
-#include <OSGReal32Fields.h> // DataA type
-#include <OSGBoolFields.h> // Touched type
+#include "OSGUInt8Fields.h" // Dimension type
+#include "OSGUInt32Fields.h" // Size type
+#include "OSGUInt8Fields.h" // Channel type
+#include "OSGUInt8Fields.h" // Data type
+#include "OSGReal32Fields.h" // DataR type
+#include "OSGReal32Fields.h" // DataG type
+#include "OSGReal32Fields.h" // DataB type
+#include "OSGReal32Fields.h" // DataA type
+#include "OSGBoolFields.h" // Touched type
 
-#include <OSGDVRLookupTableFields.h>
+#include "OSGDVRLookupTableFields.h"
 
 OSG_BEGIN_NAMESPACE
 

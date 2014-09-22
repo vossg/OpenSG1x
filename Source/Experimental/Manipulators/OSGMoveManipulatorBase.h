@@ -58,14 +58,14 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGManipulator.h> // Parent
+#include "OSGManipulator.h" // Parent
 
 
 #include "OSGMoveManipulatorFields.h"

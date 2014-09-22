@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
-#include <OSGIDStringLink.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
+#include "OSGIDStringLink.h"
 
 #if defined(OSG_USE_SPROC)
 #include <ulocks.h>
@@ -53,10 +53,10 @@
 
 #include <map>
 
-#include <OSGBaseThread.h>
-#include <OSGBarrier.h>
-#include <OSGLock.h>
-#include <OSGLog.h>
+#include "OSGBaseThread.h"
+#include "OSGBarrier.h"
+#include "OSGLock.h"
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -326,7 +326,7 @@ class OSG_BASE_DLLMAPPING ThreadManager
 
 OSG_END_NAMESPACE
 
-#include <OSGThreadManager.inl>
+#include "OSGThreadManager.inl"
 
 #define OSGTHREADMANAGER_HEADER_CVSID "@(#)$Id: $"
 

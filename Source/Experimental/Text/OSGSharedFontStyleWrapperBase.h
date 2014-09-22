@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGFieldContainer.h> // Parent
+#include "OSGFieldContainer.h" // Parent
 
-#include <OSGSharedFontStyleFields.h> // FStyleContainer type
+#include "OSGSharedFontStyleFields.h" // FStyleContainer type
 
-#include <OSGSharedFontStyleWrapperFields.h>
+#include "OSGSharedFontStyleWrapperFields.h"
 
 OSG_BEGIN_NAMESPACE
 

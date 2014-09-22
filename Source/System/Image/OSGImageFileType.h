@@ -41,9 +41,9 @@
 
 #include <list>
 
-#include <OSGBaseTypes.h>
-#include <OSGIDString.h>
-#include <OSGImage.h>
+#include "OSGBaseTypes.h"
+#include "OSGIDString.h"
+#include "OSGImage.h"
 #include <iosfwd>
 
 OSG_BEGIN_NAMESPACE

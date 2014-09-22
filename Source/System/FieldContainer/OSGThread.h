@@ -48,13 +48,13 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseThread.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseThread.h"
 
 #include <utility>
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 #if ! defined (OSG_USE_PTHREADS)   && \
     ! defined (OSG_USE_SPROC)      && \

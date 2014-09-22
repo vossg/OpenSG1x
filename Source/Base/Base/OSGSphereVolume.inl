@@ -40,7 +40,7 @@
 #ifndef _OSGSPHEREVOLUME_INL_
 #define _OSGSPHEREVOLUME_INL_
 
-#include <OSGVolume.h>
+#include "OSGVolume.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGTypedFunctorBase.h>
+#include "OSGTypedFunctorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -968,7 +968,7 @@ class TypedStoredObjectVoidFunctor2 :
 
 OSG_END_NAMESPACE
 
-#include <OSGTypedFunctors2.inl>
+#include "OSGTypedFunctors2.inl"
 
 #endif /* _OSGTYPEDFUNCTORS2_HPP_ */
 

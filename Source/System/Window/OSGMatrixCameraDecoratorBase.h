@@ -58,23 +58,23 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGCameraDecorator.h> // Parent
+#include "OSGCameraDecorator.h" // Parent
 
-#include <OSGMatrixFields.h> // PreViewing type
-#include <OSGMatrixFields.h> // PostViewing type
-#include <OSGMatrixFields.h> // PreProjectionTranslation type
-#include <OSGMatrixFields.h> // PostProjectionTranslation type
-#include <OSGMatrixFields.h> // PreProjection type
-#include <OSGMatrixFields.h> // PostProjection type
+#include "OSGMatrixFields.h" // PreViewing type
+#include "OSGMatrixFields.h" // PostViewing type
+#include "OSGMatrixFields.h" // PreProjectionTranslation type
+#include "OSGMatrixFields.h" // PostProjectionTranslation type
+#include "OSGMatrixFields.h" // PreProjection type
+#include "OSGMatrixFields.h" // PostProjection type
 
-#include <OSGMatrixCameraDecoratorFields.h>
+#include "OSGMatrixCameraDecoratorFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsRayGeomBase.h>
+#include "OSGPhysicsRayGeomBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -136,8 +136,8 @@ typedef PhysicsRayGeom *PhysicsRayGeomP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsRayGeomBase.inl>
-#include <OSGPhysicsRayGeom.inl>
+#include "OSGPhysicsRayGeomBase.inl"
+#include "OSGPhysicsRayGeom.inl"
 
 #define OSGPHYSICSRAYGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsRayGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

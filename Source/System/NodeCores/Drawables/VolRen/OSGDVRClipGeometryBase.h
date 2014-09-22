@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGFieldContainer.h> // Parent
+#include "OSGFieldContainer.h" // Parent
 
-#include <OSGNodeFields.h> // GeometryNode type
-#include <OSGNodeFields.h> // Beacon type
+#include "OSGNodeFields.h" // GeometryNode type
+#include "OSGNodeFields.h" // Beacon type
 
-#include <OSGDVRClipGeometryFields.h>
+#include "OSGDVRClipGeometryFields.h"
 
 OSG_BEGIN_NAMESPACE
 

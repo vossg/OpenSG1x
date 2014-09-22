@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGMultiDisplayWindowBase.h>
+#include "OSGMultiDisplayWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -137,8 +137,8 @@ typedef MultiDisplayWindow *MultiDisplayWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMultiDisplayWindow.inl>
-#include <OSGMultiDisplayWindowBase.inl>
+#include "OSGMultiDisplayWindow.inl"
+#include "OSGMultiDisplayWindowBase.inl"
 
 #define OSGMULTIDISPLAYCONFIG_HEADER_CVSID "@(#)$Id:$"
 

@@ -50,9 +50,9 @@
 
 #include <vector>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGMemoryObject.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGMemoryObject.h"
 
 OSG_BEGIN_NAMESPACE
 

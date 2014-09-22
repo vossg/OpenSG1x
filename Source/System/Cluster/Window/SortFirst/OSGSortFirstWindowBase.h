@@ -58,22 +58,22 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGClusterWindow.h> // Parent
+#include "OSGClusterWindow.h" // Parent
 
-#include <OSGStringFields.h> // Compression type
-#include <OSGUInt32Fields.h> // SubtileSize type
-#include <OSGBoolFields.h> // Compose type
-#include <OSGUInt32Fields.h> // Region type
-#include <OSGBoolFields.h> // UseFaceDistribution type
+#include "OSGStringFields.h" // Compression type
+#include "OSGUInt32Fields.h" // SubtileSize type
+#include "OSGBoolFields.h" // Compose type
+#include "OSGUInt32Fields.h" // Region type
+#include "OSGBoolFields.h" // UseFaceDistribution type
 
-#include <OSGSortFirstWindowFields.h>
+#include "OSGSortFirstWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

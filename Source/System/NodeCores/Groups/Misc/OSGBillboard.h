@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGMatrix.h>
-#include <OSGBillboardBase.h>
-#include <OSGAction.h>
+#include "OSGConfig.h"
+#include "OSGMatrix.h"
+#include "OSGBillboardBase.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -156,8 +156,8 @@ typedef Billboard *BillboardP;
 
 OSG_END_NAMESPACE
 
-#include <OSGBillboardBase.inl>
-#include <OSGBillboard.inl>
+#include "OSGBillboardBase.inl"
+#include "OSGBillboard.inl"
 
 #define OSGBILLBOARD_HEADER_CVSID "@(#)$Id: $"
 

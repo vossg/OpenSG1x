@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGSField.h>
-#include <OSGBaseFieldDataType.h>
+#include "OSGBase.h"
+#include "OSGSField.h"
+#include "OSGBaseFieldDataType.h"
 
 #ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGSFBaseTypes.h

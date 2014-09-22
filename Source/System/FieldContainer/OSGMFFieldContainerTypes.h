@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGMFFieldContainerPtr.h>
-#include <OSGMFAttachmentContainerPtr.h>
-#include <OSGMFNodePtr.h>
-#include <OSGMFNodeCorePtr.h>
-#include <OSGMFAttachmentMap.h>
-#include <OSGMFAttachmentPtr.h>
+#include "OSGMFFieldContainerPtr.h"
+#include "OSGMFAttachmentContainerPtr.h"
+#include "OSGMFNodePtr.h"
+#include "OSGMFNodeCorePtr.h"
+#include "OSGMFAttachmentMap.h"
+#include "OSGMFAttachmentPtr.h"
 
 #endif /* _OSGMFFIELDCONTAINERTYPES_H_ */
 

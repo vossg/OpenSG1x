@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsSliderJointBase.h>
+#include "OSGPhysicsSliderJointBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -139,8 +139,8 @@ typedef PhysicsSliderJoint *PhysicsSliderJointP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsSliderJointBase.inl>
-#include <OSGPhysicsSliderJoint.inl>
+#include "OSGPhysicsSliderJointBase.inl"
+#include "OSGPhysicsSliderJoint.inl"
 
 #define OSGPHYSICSSLIDERJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsSliderJoint.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

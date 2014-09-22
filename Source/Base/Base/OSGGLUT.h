@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifdef OSG_NO_GLUT_GLSUBDIR
 #include <glut.h>

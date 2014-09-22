@@ -58,31 +58,31 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGColor4fFields.h> // Diffuse type
-#include <OSGColor4fFields.h> // Ambient type
-#include <OSGColor4fFields.h> // Specular type
-#include <OSGColor4fFields.h> // Emission type
-#include <OSGReal32Fields.h> // Shininess type
-#include <OSGBoolFields.h> // Lit type
-#include <OSGGLenumFields.h> // ColorMaterial type
-#include <OSGBoolFields.h> // BackMaterial type
-#include <OSGColor4fFields.h> // BackDiffuse type
-#include <OSGColor4fFields.h> // BackAmbient type
-#include <OSGColor4fFields.h> // BackSpecular type
-#include <OSGColor4fFields.h> // BackEmission type
-#include <OSGReal32Fields.h> // BackShininess type
-#include <OSGGLenumFields.h> // BackColorMaterial type
+#include "OSGColor4fFields.h" // Diffuse type
+#include "OSGColor4fFields.h" // Ambient type
+#include "OSGColor4fFields.h" // Specular type
+#include "OSGColor4fFields.h" // Emission type
+#include "OSGReal32Fields.h" // Shininess type
+#include "OSGBoolFields.h" // Lit type
+#include "OSGGLenumFields.h" // ColorMaterial type
+#include "OSGBoolFields.h" // BackMaterial type
+#include "OSGColor4fFields.h" // BackDiffuse type
+#include "OSGColor4fFields.h" // BackAmbient type
+#include "OSGColor4fFields.h" // BackSpecular type
+#include "OSGColor4fFields.h" // BackEmission type
+#include "OSGReal32Fields.h" // BackShininess type
+#include "OSGGLenumFields.h" // BackColorMaterial type
 
-#include <OSGMaterialChunkFields.h>
+#include "OSGMaterialChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,14 +42,14 @@
 #pragma  once
 #endif
 
-#include <OSGSystemDef.h>
+#include "OSGSystemDef.h"
 #include <list>
 #include <iostream>
 #include <string>
 
-#include <OSGBaseTypes.h>
-#include <OSGIDString.h>
-#include <OSGNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGIDString.h"
+#include "OSGNodePtr.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifdef __APPLE__
 
-#include <OSGCarbonWindowBase.h>
+#include "OSGCarbonWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -127,8 +127,8 @@ typedef CarbonWindow *CarbonWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCarbonWindowBase.inl>
-#include <OSGCarbonWindow.inl>
+#include "OSGCarbonWindowBase.inl"
+#include "OSGCarbonWindow.inl"
 
 #define OSGCARBONWINDOW_HEADER_CVSID "@(#)$Id: OSGCarbonWindow.h,v 1.1 2006/08/04 09:18:18 pdaehne Exp $"
 

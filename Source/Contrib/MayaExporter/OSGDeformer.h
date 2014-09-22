@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDeformerBase.h>
+#include "OSGDeformerBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -117,8 +117,8 @@ typedef Deformer *DeformerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDeformerBase.inl>
-#include <OSGDeformer.inl>
+#include "OSGDeformerBase.inl"
+#include "OSGDeformer.inl"
 
 #define OSGDEFORMER_HEADER_CVSID "@(#)$Id: OSGDeformer.h,v 1.1 2003/04/09 18:10:46 michael Exp $"
 

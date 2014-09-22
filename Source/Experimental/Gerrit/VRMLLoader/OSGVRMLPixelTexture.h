@@ -46,10 +46,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLTexture.h>
-#include <OSGMFBaseTypes.h>
-#include <OSGImage.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLTexture.h"
+#include "OSGMFBaseTypes.h"
+#include "OSGImage.h"
 
 OSG_BEGIN_NAMESPACE
 

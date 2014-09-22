@@ -58,33 +58,33 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGTransform.h> // Parent
+#include "OSGTransform.h" // Parent
 
-#include <OSGNodeFields.h> // Target type
-#include <OSGNodeFields.h> // ActiveSubHandle type
-#include <OSGPnt2fFields.h> // LastMousePos type
-#include <OSGViewport.h> // Viewport type
-#include <OSGBoolFields.h> // Active type
-#include <OSGVec3fFields.h> // Length type
-#include <OSGNodeFields.h> // HandleXNode type
-#include <OSGNodeFields.h> // HandleYNode type
-#include <OSGNodeFields.h> // HandleZNode type
-#include <OSGNodeFields.h> // TransXNode type
-#include <OSGNodeFields.h> // TransYNode type
-#include <OSGNodeFields.h> // TransZNode type
-#include <OSGMaterial.h> // MaterialX type
-#include <OSGMaterial.h> // MaterialY type
-#include <OSGMaterial.h> // MaterialZ type
-#include <OSGNodeFields.h> // AxisLinesN type
+#include "OSGNodeFields.h" // Target type
+#include "OSGNodeFields.h" // ActiveSubHandle type
+#include "OSGPnt2fFields.h" // LastMousePos type
+#include "OSGViewport.h" // Viewport type
+#include "OSGBoolFields.h" // Active type
+#include "OSGVec3fFields.h" // Length type
+#include "OSGNodeFields.h" // HandleXNode type
+#include "OSGNodeFields.h" // HandleYNode type
+#include "OSGNodeFields.h" // HandleZNode type
+#include "OSGNodeFields.h" // TransXNode type
+#include "OSGNodeFields.h" // TransYNode type
+#include "OSGNodeFields.h" // TransZNode type
+#include "OSGMaterial.h" // MaterialX type
+#include "OSGMaterial.h" // MaterialY type
+#include "OSGMaterial.h" // MaterialZ type
+#include "OSGNodeFields.h" // AxisLinesN type
 
-#include <OSGManipulatorFields.h>
+#include "OSGManipulatorFields.h"
 
 OSG_BEGIN_NAMESPACE
 

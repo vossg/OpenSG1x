@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGDrawActionBase.h>
+#include "OSGBaseTypes.h"
+#include "OSGDrawActionBase.h"
 
 OSG_BEGIN_NAMESPACE
 

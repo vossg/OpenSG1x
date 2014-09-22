@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -359,7 +359,7 @@ class FunctorBase
 
 OSG_END_NAMESPACE
 
-#include <OSGFunctorBase.inl>
+#include "OSGFunctorBase.inl"
 
 #endif /* _OSGFUNCTORBASE_H_ */
 

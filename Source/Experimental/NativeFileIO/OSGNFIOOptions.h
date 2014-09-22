@@ -44,7 +44,7 @@
 
 #include <string>
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

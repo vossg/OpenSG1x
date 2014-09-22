@@ -48,12 +48,12 @@
 
 #include <vector>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGAction.h>
-#include <OSGGeometry.h>
-#include <OSGGroup.h>
-#include <OSGMaterialChunk.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGAction.h"
+#include "OSGGeometry.h"
+#include "OSGGroup.h"
+#include "OSGMaterialChunk.h"
 
 #include <map>
 

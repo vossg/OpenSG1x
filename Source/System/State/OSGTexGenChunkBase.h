@@ -58,29 +58,29 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGGLenumFields.h> // GenFuncS type
-#include <OSGGLenumFields.h> // GenFuncT type
-#include <OSGGLenumFields.h> // GenFuncR type
-#include <OSGGLenumFields.h> // GenFuncQ type
-#include <OSGVec4fFields.h> // GenFuncSPlane type
-#include <OSGVec4fFields.h> // GenFuncTPlane type
-#include <OSGVec4fFields.h> // GenFuncRPlane type
-#include <OSGVec4fFields.h> // GenFuncQPlane type
-#include <OSGNodeFields.h> // SBeacon type
-#include <OSGNodeFields.h> // TBeacon type
-#include <OSGNodeFields.h> // RBeacon type
-#include <OSGNodeFields.h> // QBeacon type
+#include "OSGGLenumFields.h" // GenFuncS type
+#include "OSGGLenumFields.h" // GenFuncT type
+#include "OSGGLenumFields.h" // GenFuncR type
+#include "OSGGLenumFields.h" // GenFuncQ type
+#include "OSGVec4fFields.h" // GenFuncSPlane type
+#include "OSGVec4fFields.h" // GenFuncTPlane type
+#include "OSGVec4fFields.h" // GenFuncRPlane type
+#include "OSGVec4fFields.h" // GenFuncQPlane type
+#include "OSGNodeFields.h" // SBeacon type
+#include "OSGNodeFields.h" // TBeacon type
+#include "OSGNodeFields.h" // RBeacon type
+#include "OSGNodeFields.h" // QBeacon type
 
-#include <OSGTexGenChunkFields.h>
+#include "OSGTexGenChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

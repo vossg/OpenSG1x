@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGrabForeground.h> // Parent
+#include "OSGGrabForeground.h" // Parent
 
-#include <OSGStringFields.h> // Name type
-#include <OSGUInt32Fields.h> // Frame type
-#include <OSGBoolFields.h> // Increment type
-#include <OSGUInt32Fields.h> // PixelFormat type
+#include "OSGStringFields.h" // Name type
+#include "OSGUInt32Fields.h" // Frame type
+#include "OSGBoolFields.h" // Increment type
+#include "OSGUInt32Fields.h" // PixelFormat type
 
-#include <OSGFileGrabForegroundFields.h>
+#include "OSGFileGrabForegroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

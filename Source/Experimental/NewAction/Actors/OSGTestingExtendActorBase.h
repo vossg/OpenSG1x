@@ -56,17 +56,17 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
+#include "OSGSystemDef.h"
 
-#include <OSGNewActionTypes.h>
-#include <OSGExtendActorBase.h>               // Parent
-#include <OSGMultiFunctorStore.h>      // EnterStore
-#include <OSGMultiFunctorStore.h>      // LeaveStore
+#include "OSGNewActionTypes.h"
+#include "OSGExtendActorBase.h"               // Parent
+#include "OSGMultiFunctorStore.h"      // EnterStore
+#include "OSGMultiFunctorStore.h"      // LeaveStore
 
-#include <OSGBaseTypes.h>   // TreeLevel type
-#include <OSGMatrix.h>   // WorldMatrix type
+#include "OSGBaseTypes.h"   // TreeLevel type
+#include "OSGMatrix.h"   // WorldMatrix type
 
 OSG_BEGIN_NAMESPACE
 
@@ -242,7 +242,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TestingExtendActorBase : public ExtendActorBase
 
 OSG_END_NAMESPACE
 
-#include <OSGTestingExtendActorBase.inl>
+#include "OSGTestingExtendActorBase.inl"
 
 #define OSGTESTINGEXTENDACTORBASE_HEADER_CVSID "@(#)$Id:"
 

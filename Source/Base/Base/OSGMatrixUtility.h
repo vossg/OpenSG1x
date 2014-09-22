@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGVector.h>
-#include <OSGMatrix.h>
+#include "OSGConfig.h"
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGVector.h"
+#include "OSGMatrix.h"
 
 OSG_BEGIN_NAMESPACE
 

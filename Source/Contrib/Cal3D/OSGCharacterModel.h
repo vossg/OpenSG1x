@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGCharacterModelBase.h>
+#include "OSGCharacterModelBase.h"
 
 #include <cal3d/cal3d.h>
 
@@ -133,8 +133,8 @@ typedef CharacterModel *CharacterModelP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCharacterModelBase.inl>
-#include <OSGCharacterModel.inl>
+#include "OSGCharacterModelBase.inl"
+#include "OSGCharacterModel.inl"
 
 #define OSGCHARACTERMODEL_HEADER_CVSID "@(#)$Id: OSGCharacterModel.h,v 1.1 2005/09/25 21:55:05 dirk Exp $"
 

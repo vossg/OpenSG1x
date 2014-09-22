@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGTime.h>
-#include <OSGLock.h>
+#include "OSGBaseTypes.h"
+#include "OSGTime.h"
+#include "OSGLock.h"
 
 #include <fstream>
 #include <list>
@@ -915,6 +915,6 @@ inline              void          indentLog   (     UInt32        indent,
 
 OSG_END_NAMESPACE
 
-#include <OSGLog.inl>
+#include "OSGLog.inl"
 
 #endif /* _OSGLOG_H_ */

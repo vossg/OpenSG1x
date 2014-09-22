@@ -38,12 +38,12 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <OSGQFieldView_qt.h>
+#include "OSGQFieldView_qt.h"
 
-#include <OSGField.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
-#include <OSGBaseTypeTraits.h>
+#include "OSGField.h"
+#include "OSGSField.h"
+#include "OSGMField.h"
+#include "OSGBaseTypeTraits.h"
 
 #include <qpainter.h>
 #include <qrect.h>

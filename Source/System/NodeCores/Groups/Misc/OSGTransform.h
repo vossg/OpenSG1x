@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGAction.h>
-#include <OSGTransformBase.h>
+#include "OSGAction.h"
+#include "OSGTransformBase.h"
 
-#include <OSGActorBase.h>
+#include "OSGActorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -148,8 +148,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Transform : public TransformBase
 
 OSG_END_NAMESPACE
 
-#include <OSGTransformBase.inl>
-#include <OSGTransform.inl>
+#include "OSGTransformBase.inl"
+#include "OSGTransform.inl"
 
 #define OSGTRANSFORM_HEADER_CVSID "@(#)$Id: $"
 

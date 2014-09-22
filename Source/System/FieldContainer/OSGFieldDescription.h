@@ -45,6 +45,6 @@
 #if 0
 #endif
 
-#include <OSGPrimary.h>
+#include "OSGPrimary.h"
 
 #endif /* _OSGFIELDDESCRIPTION_H_ */

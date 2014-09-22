@@ -68,7 +68,7 @@
 
 #include "OSGConfig.h"
 #include "OSGWindowQT4Def.h"
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 #include "OSGQT4Window.h"
 

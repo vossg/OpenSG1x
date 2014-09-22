@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGStereoBufferViewportBase.h>
+#include "OSGStereoBufferViewportBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -128,8 +128,8 @@ typedef StereoBufferViewport *StereoBufferViewportP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStereoBufferViewportBase.inl>
-#include <OSGStereoBufferViewport.inl>
+#include "OSGStereoBufferViewportBase.inl"
+#include "OSGStereoBufferViewport.inl"
 
 #define OSGSTEREOBUFFERVIEWPORT_HEADER_CVSID "@(#)$Id: $"
 

@@ -46,9 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLGroup.h>
-#include <OSGSFSysTypes.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLGroup.h"
+#include "OSGSFSysTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

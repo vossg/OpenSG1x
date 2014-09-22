@@ -58,27 +58,27 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGReal32Fields.h> // Size type
-#include <OSGBoolFields.h> // Smooth type
-#include <OSGReal32Fields.h> // MinSize type
-#include <OSGReal32Fields.h> // MaxSize type
-#include <OSGReal32Fields.h> // ConstantAttenuation type
-#include <OSGReal32Fields.h> // LinearAttenuation type
-#include <OSGReal32Fields.h> // QuadraticAttenuation type
-#include <OSGReal32Fields.h> // FadeThreshold type
-#include <OSGBoolFields.h> // Sprite type
-#include <OSGGLenumFields.h> // RMode type
+#include "OSGReal32Fields.h" // Size type
+#include "OSGBoolFields.h" // Smooth type
+#include "OSGReal32Fields.h" // MinSize type
+#include "OSGReal32Fields.h" // MaxSize type
+#include "OSGReal32Fields.h" // ConstantAttenuation type
+#include "OSGReal32Fields.h" // LinearAttenuation type
+#include "OSGReal32Fields.h" // QuadraticAttenuation type
+#include "OSGReal32Fields.h" // FadeThreshold type
+#include "OSGBoolFields.h" // Sprite type
+#include "OSGGLenumFields.h" // RMode type
 
-#include <OSGPointChunkFields.h>
+#include "OSGPointChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

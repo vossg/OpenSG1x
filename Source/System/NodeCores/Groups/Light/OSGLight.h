@@ -43,11 +43,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGLightBase.h>
-#include <OSGNodePtr.h>
-#include <OSGAction.h>
-#include <OSGLightChunk.h>
+#include "OSGConfig.h"
+#include "OSGLightBase.h"
+#include "OSGNodePtr.h"
+#include "OSGAction.h"
+#include "OSGLightChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -164,8 +164,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Light : public LightBase
 
 OSG_END_NAMESPACE
 
-#include <OSGLightBase.inl>
-#include <OSGLight.inl>
+#include "OSGLightBase.inl"
+#include "OSGLight.inl"
 
 #define OSGLIGHT_HEADER_CVSID "@(#)$Id: $"
 

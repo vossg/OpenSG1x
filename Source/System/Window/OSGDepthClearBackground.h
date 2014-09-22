@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDepthClearBackgroundBase.h>
+#include "OSGDepthClearBackgroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -128,8 +128,8 @@ typedef DepthClearBackground *DepthClearBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDepthClearBackgroundBase.inl>
-#include <OSGDepthClearBackground.inl>
+#include "OSGDepthClearBackgroundBase.inl"
+#include "OSGDepthClearBackground.inl"
 
 #define OSGDEPTHCLEARBACKGROUND_HEADER_CVSID "@(#)$Id: OSGDepthClearBackground.h,v 1.1 2005/01/18 00:31:17 dirk Exp $"
 

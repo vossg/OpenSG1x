@@ -1,8 +1,8 @@
 #ifndef FONTINSTANCEFACTORY_H_
 #define FONTINSTANCEFACTORY_H_
 
-#include <OSGConfig.h>
-#include <OSGPathHandler.h>
+#include "OSGConfig.h"
+#include "OSGPathHandler.h"
 
 #include <list>
 

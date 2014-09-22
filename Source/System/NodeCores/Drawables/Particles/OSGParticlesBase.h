@@ -58,30 +58,30 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGMaterialDrawable.h> // Parent
+#include "OSGMaterialDrawable.h" // Parent
 
-#include <OSGUInt32Fields.h> // Mode type
-#include <OSGGeoPositionsFields.h> // Positions type
-#include <OSGVec3fFields.h> // Sizes type
-#include <OSGGeoPositionsFields.h> // SecPositions type
-#include <OSGGeoColorsFields.h> // Colors type
-#include <OSGGeoNormalsFields.h> // Normals type
-#include <OSGInt32Fields.h> // Indices type
-#include <OSGReal32Fields.h> // TextureZs type
-#include <OSGUInt32Fields.h> // DrawOrder type
-#include <OSGBoolFields.h> // Dynamic type
-#include <OSGUInt32Fields.h> // Pump type
-#include <OSGParticleBSP.h> // Bsp type
-#include <OSGInt32Fields.h> // NumParticles type
+#include "OSGUInt32Fields.h" // Mode type
+#include "OSGGeoPositionsFields.h" // Positions type
+#include "OSGVec3fFields.h" // Sizes type
+#include "OSGGeoPositionsFields.h" // SecPositions type
+#include "OSGGeoColorsFields.h" // Colors type
+#include "OSGGeoNormalsFields.h" // Normals type
+#include "OSGInt32Fields.h" // Indices type
+#include "OSGReal32Fields.h" // TextureZs type
+#include "OSGUInt32Fields.h" // DrawOrder type
+#include "OSGBoolFields.h" // Dynamic type
+#include "OSGUInt32Fields.h" // Pump type
+#include "OSGParticleBSP.h" // Bsp type
+#include "OSGInt32Fields.h" // NumParticles type
 
-#include <OSGParticlesFields.h>
+#include "OSGParticlesFields.h"
 
 OSG_BEGIN_NAMESPACE
 

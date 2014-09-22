@@ -58,16 +58,16 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGImageComposer.h> // Parent
+#include "OSGImageComposer.h" // Parent
 
 
-#include <OSGSepiaComposerFields.h>
+#include "OSGSepiaComposerFields.h"
 
 OSG_BEGIN_NAMESPACE
 

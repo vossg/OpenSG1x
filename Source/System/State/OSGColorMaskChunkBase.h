@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGBoolFields.h> // MaskR type
-#include <OSGBoolFields.h> // MaskG type
-#include <OSGBoolFields.h> // MaskB type
-#include <OSGBoolFields.h> // MaskA type
+#include "OSGBoolFields.h" // MaskR type
+#include "OSGBoolFields.h" // MaskG type
+#include "OSGBoolFields.h" // MaskB type
+#include "OSGBoolFields.h" // MaskA type
 
-#include <OSGColorMaskChunkFields.h>
+#include "OSGColorMaskChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

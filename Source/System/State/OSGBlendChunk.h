@@ -43,8 +43,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBlendChunkBase.h>
+#include "OSGConfig.h"
+#include "OSGBlendChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -171,8 +171,8 @@ typedef BlendChunk *BlendChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGBlendChunkBase.inl>
-#include <OSGBlendChunk.inl>
+#include "OSGBlendChunkBase.inl"
+#include "OSGBlendChunk.inl"
 
 #define OSGBLENDCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

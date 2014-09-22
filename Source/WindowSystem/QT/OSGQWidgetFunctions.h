@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGField.h>
-#include <OSGFieldContainer.h>
+#include "OSGField.h"
+#include "OSGFieldContainer.h"
 
 OSG_BEGIN_NAMESPACE
 

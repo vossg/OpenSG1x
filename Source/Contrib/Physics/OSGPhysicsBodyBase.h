@@ -58,34 +58,34 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachment.h> // Parent
+#include "OSGAttachment.h" // Parent
 
-#include <OSGVec3fFields.h> // Position type
-#include <OSGMatrixFields.h> // Rotation type
-#include <OSGQuaternionFields.h> // Quaternion type
-#include <OSGVec3fFields.h> // LinearVel type
-#include <OSGVec3fFields.h> // AngularVel type
-#include <OSGVec3fFields.h> // Force type
-#include <OSGVec3fFields.h> // Torque type
-#include <OSGBoolFields.h> // Enable type
-#include <OSGInt32Fields.h> // AutoDisableFlag type
-#include <OSGReal32Fields.h> // AutoDisableLinearThreshol type
-#include <OSGReal32Fields.h> // AutoDisableAngularThreshol type
-#include <OSGInt32Fields.h> // AutoDisableSteps type
-#include <OSGReal32Fields.h> // AutoDisableTime type
-#include <OSGInt32Fields.h> // FiniteRotationMode type
-#include <OSGVec3fFields.h> // FiniteRotationAxis type
-#include <OSGBoolFields.h> // GravityMode type
-#include <OSGPhysicsWorld.h> // World type
+#include "OSGVec3fFields.h" // Position type
+#include "OSGMatrixFields.h" // Rotation type
+#include "OSGQuaternionFields.h" // Quaternion type
+#include "OSGVec3fFields.h" // LinearVel type
+#include "OSGVec3fFields.h" // AngularVel type
+#include "OSGVec3fFields.h" // Force type
+#include "OSGVec3fFields.h" // Torque type
+#include "OSGBoolFields.h" // Enable type
+#include "OSGInt32Fields.h" // AutoDisableFlag type
+#include "OSGReal32Fields.h" // AutoDisableLinearThreshol type
+#include "OSGReal32Fields.h" // AutoDisableAngularThreshol type
+#include "OSGInt32Fields.h" // AutoDisableSteps type
+#include "OSGReal32Fields.h" // AutoDisableTime type
+#include "OSGInt32Fields.h" // FiniteRotationMode type
+#include "OSGVec3fFields.h" // FiniteRotationAxis type
+#include "OSGBoolFields.h" // GravityMode type
+#include "OSGPhysicsWorld.h" // World type
 
-#include <OSGPhysicsBodyFields.h>
+#include "OSGPhysicsBodyFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -44,19 +44,19 @@
 
 #include <vector>
 
-#include <OSGConfig.h>
-#include <OSGWindow.h>
-#include <OSGGL.h>
-#include <OSGSystemDef.h>
-#include <OSGDVRShader.h>
-#include <OSGDrawActionBase.h>
-#include <OSGDVRVolume.h>
-#include <OSGDVRVolumeTexture.h>
-#include <OSGCamera.h>
-#include <OSGColor.h>
-#include <OSGFragmentProgramChunk.h>
+#include "OSGConfig.h"
+#include "OSGWindow.h"
+#include "OSGGL.h"
+#include "OSGSystemDef.h"
+#include "OSGDVRShader.h"
+#include "OSGDrawActionBase.h"
+#include "OSGDVRVolume.h"
+#include "OSGDVRVolumeTexture.h"
+#include "OSGCamera.h"
+#include "OSGColor.h"
+#include "OSGFragmentProgramChunk.h"
 
-#include <OSGDVRIsoShaderBase.h>
+#include "OSGDVRIsoShaderBase.h"
 
 OSG_BEGIN_NAMESPACE
 

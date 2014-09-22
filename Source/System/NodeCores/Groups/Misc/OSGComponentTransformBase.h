@@ -58,22 +58,22 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGTransform.h> // Parent
+#include "OSGTransform.h" // Parent
 
-#include <OSGVec3fFields.h> // Center type
-#include <OSGQuaternionFields.h> // Rotation type
-#include <OSGVec3fFields.h> // Scale type
-#include <OSGQuaternionFields.h> // ScaleOrientation type
-#include <OSGVec3fFields.h> // Translation type
+#include "OSGVec3fFields.h" // Center type
+#include "OSGQuaternionFields.h" // Rotation type
+#include "OSGVec3fFields.h" // Scale type
+#include "OSGQuaternionFields.h" // ScaleOrientation type
+#include "OSGVec3fFields.h" // Translation type
 
-#include <OSGComponentTransformFields.h>
+#include "OSGComponentTransformFields.h"
 
 OSG_BEGIN_NAMESPACE
 

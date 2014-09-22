@@ -43,11 +43,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGGLEXT.h>
-#include <OSGWindow.h>
-#include <OSGMatrix.h>
-#include <OSGTextureChunkBase.h>
+#include "OSGConfig.h"
+#include "OSGGLEXT.h"
+#include "OSGWindow.h"
+#include "OSGMatrix.h"
+#include "OSGTextureChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -284,8 +284,8 @@ typedef TextureChunk *TextureChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTextureChunkBase.inl>
-#include <OSGTextureChunk.inl>
+#include "OSGTextureChunkBase.inl"
+#include "OSGTextureChunk.inl"
 
 #define OSGTEXTURECHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

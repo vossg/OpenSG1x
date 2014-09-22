@@ -39,14 +39,14 @@
 #ifndef _OSG_BASEFIELDDATATYPE_H_
 #define _OSG_BASEFIELDDATATYPE_H_
 
-#include <OSGFieldDataType.h>
-#include <OSGTime.h>
-#include <OSGColor.h>
-#include <OSGDynamicVolume.h>
-#include <OSGSphereVolume.h>
-#include <OSGBoxVolume.h>
-#include <OSGPlane.h>
-#include <OSGGL.h>
+#include "OSGFieldDataType.h"
+#include "OSGTime.h"
+#include "OSGColor.h"
+#include "OSGDynamicVolume.h"
+#include "OSGSphereVolume.h"
+#include "OSGBoxVolume.h"
+#include "OSGPlane.h"
+#include "OSGGL.h"
 
 #include <string>
 

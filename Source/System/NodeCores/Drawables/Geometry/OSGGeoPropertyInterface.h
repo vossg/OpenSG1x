@@ -41,11 +41,11 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGMFVecTypes.h>
-#include <OSGMFSysTypes.h>
-#include <OSGAttachment.h>
-#include <OSGAttachmentFieldDataType.h>
+#include "OSGSystemDef.h"
+#include "OSGMFVecTypes.h"
+#include "OSGMFSysTypes.h"
+#include "OSGAttachment.h"
+#include "OSGAttachmentFieldDataType.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -490,7 +490,7 @@ typedef GeoPLengthsPropertyDesc::Interface GeoPLengthsInterface;
 
 OSG_END_NAMESPACE
 
-#include <OSGGeoPropertyInterface.inl>
+#include "OSGGeoPropertyInterface.inl"
 
 #endif /* _OSGGEOPROPERTYINTERFACES_H_ */
 

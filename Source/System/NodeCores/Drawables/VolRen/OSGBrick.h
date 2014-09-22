@@ -5,16 +5,16 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
+#include "OSGSystemDef.h"
 
 #include <vector>
 
-#include <OSGVector.h>
-#include <OSGChunkMaterial.h>
-#include <OSGTextureChunk.h>
-#include <OSGImage.h>
+#include "OSGVector.h"
+#include "OSGChunkMaterial.h"
+#include "OSGTextureChunk.h"
+#include "OSGImage.h"
 
 #include "OSGDVRShader.h"
 #include "OSGDVRClipper.h"

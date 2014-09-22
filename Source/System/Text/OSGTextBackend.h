@@ -44,9 +44,9 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGTextFace.h"
 
@@ -143,7 +143,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextBackend
 OSG_END_NAMESPACE
 
 
-#include <OSGTextBackend.inl>
+#include "OSGTextBackend.inl"
 
 #define OSGTEXTBACKEND_HEADER_CVSID "@(#)$Id: OSGTextBackend.h,v 1.1 2005/03/03 13:43:06 a-m-z Exp $"
 

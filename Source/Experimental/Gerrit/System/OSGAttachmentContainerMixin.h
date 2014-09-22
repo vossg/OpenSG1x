@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -217,6 +217,6 @@ OSG_END_NAMESPACE
 
 #define OSGATTACHMENTCONTAINERMIXIN_HEADER_CVSID "@(#)$Id: $"
 
-#include <OSGAttachmentContainerMixin.inl>
+#include "OSGAttachmentContainerMixin.inl"
 
 #endif /* _OSGATTACHMENTCONTAINERMIXIN_HPP_ */

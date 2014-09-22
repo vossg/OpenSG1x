@@ -43,8 +43,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGLightChunkBase.h>
+#include "OSGConfig.h"
+#include "OSGLightChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -155,8 +155,8 @@ typedef LightChunk *LightChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGLightChunkBase.inl>
-#include <OSGLightChunk.inl>
+#include "OSGLightChunkBase.inl"
+#include "OSGLightChunk.inl"
 
 #define OSGLIGHTCHUNK_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

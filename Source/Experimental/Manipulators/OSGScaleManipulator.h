@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGScaleManipulatorBase.h>
+#include "OSGScaleManipulatorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -125,8 +125,8 @@ typedef ScaleManipulator *ScaleManipulatorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGScaleManipulatorBase.inl>
-#include <OSGScaleManipulator.inl>
+#include "OSGScaleManipulatorBase.inl"
+#include "OSGScaleManipulator.inl"
 
 #define OSGSCALEMANIPULATOR_HEADER_CVSID "@(#)$Id: OSGScaleManipulator.h,v 1.1 2005/06/26 12:44:41 a-m-z Exp $"
 

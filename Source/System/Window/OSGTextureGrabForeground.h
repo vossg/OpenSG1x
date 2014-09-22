@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTextureGrabForegroundBase.h>
+#include "OSGTextureGrabForegroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -122,8 +122,8 @@ typedef TextureGrabForeground *TextureGrabForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTextureGrabForegroundBase.inl>
-#include <OSGTextureGrabForeground.inl>
+#include "OSGTextureGrabForegroundBase.inl"
+#include "OSGTextureGrabForeground.inl"
 
 #define OSGTEXTUREGRABFOREGROUND_HEADER_CVSID "@(#)$Id: $"
 

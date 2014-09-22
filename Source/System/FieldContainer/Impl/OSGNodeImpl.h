@@ -49,19 +49,19 @@
 #include <string>
 #include <vector>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGMatrix.h>
-#include <OSGFieldContainer.h>
-#include <OSGSFSysTypes.h>
-#include <OSGSFBaseTypes.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGMatrix.h"
+#include "OSGFieldContainer.h"
+#include "OSGSFSysTypes.h"
+#include "OSGSFBaseTypes.h"
 
-#include <OSGAttachmentContainer.h>
-#include <OSGSFNodeCorePtr.h>
-#include <OSGSFNodePtrImpl.h>
-#include <OSGSFNodePtrDepImpl.h>
-#include <OSGMFNodePtrImpl.h>
-#include <OSGMFNodePtrDepImpl.h>
+#include "OSGAttachmentContainer.h"
+#include "OSGSFNodeCorePtr.h"
+#include "OSGSFNodePtrImpl.h"
+#include "OSGSFNodePtrDepImpl.h"
+#include "OSGMFNodePtrImpl.h"
+#include "OSGMFNodePtrDepImpl.h"
 
 OSG_BEGIN_NAMESPACE
 

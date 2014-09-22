@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFTGLTextBase.h>
+#include "OSGFTGLTextBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -123,8 +123,8 @@ typedef FTGLText *FTGLTextP;
 
 OSG_END_NAMESPACE
 
-#include <OSGFTGLTextBase.inl>
-#include <OSGFTGLText.inl>
+#include "OSGFTGLTextBase.inl"
+#include "OSGFTGLText.inl"
 
 #define OSGFTGLTEXT_HEADER_CVSID "@(#)$Id: OSGFTGLText.h,v 1.1 2004/08/05 05:22:50 dirk Exp $"
 

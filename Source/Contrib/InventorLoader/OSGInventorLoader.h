@@ -53,9 +53,9 @@
 //                                                                          
 //------------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-#include <OSGSimpleMaterial.h>
-#include <OSGGeometry.h>
+#include "OSGConfig.h"
+#include "OSGSimpleMaterial.h"
+#include "OSGGeometry.h"
 
 // Activate the OpenSG namespace
 OSG_USING_NAMESPACE
@@ -71,7 +71,7 @@ OSG_USING_NAMESPACE
 
 #include <Inventor/SoPath.h>
 
-#include <OSGMaterial.h>
+#include "OSGMaterial.h"
 
 //------------------------------------------------------------------------------
 //

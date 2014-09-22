@@ -58,33 +58,33 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGWindow.h> // Parent
+#include "OSGWindow.h" // Parent
 
-#include <OSGStringFields.h> // Servers type
-#include <OSGStringFields.h> // ConnectionType type
-#include <OSGStringFields.h> // ConnectionInterface type
-#include <OSGStringFields.h> // ConnectionDestination type
-#include <OSGStringFields.h> // ConnectionParams type
-#include <OSGUInt32Fields.h> // ServicePort type
-#include <OSGStringFields.h> // ServiceAddress type
-#include <OSGStringFields.h> // ServiceInterface type
-#include <OSGWindowFields.h> // ClientWindow type
-#include <OSGUInt32Fields.h> // Interleave type
-#include <OSGUInt32Fields.h> // FrameCount type
-#include <OSGImageComposerFields.h> // Composer type
-#include <OSGStringFields.h> // Autostart type
-#include <OSGDisplayCalibrationFields.h> // Calibration type
-#include <OSGDisplayFilterForegroundFields.h> // Filter type
-#include <OSGBoolFields.h> // Dirty type
+#include "OSGStringFields.h" // Servers type
+#include "OSGStringFields.h" // ConnectionType type
+#include "OSGStringFields.h" // ConnectionInterface type
+#include "OSGStringFields.h" // ConnectionDestination type
+#include "OSGStringFields.h" // ConnectionParams type
+#include "OSGUInt32Fields.h" // ServicePort type
+#include "OSGStringFields.h" // ServiceAddress type
+#include "OSGStringFields.h" // ServiceInterface type
+#include "OSGWindowFields.h" // ClientWindow type
+#include "OSGUInt32Fields.h" // Interleave type
+#include "OSGUInt32Fields.h" // FrameCount type
+#include "OSGImageComposerFields.h" // Composer type
+#include "OSGStringFields.h" // Autostart type
+#include "OSGDisplayCalibrationFields.h" // Calibration type
+#include "OSGDisplayFilterForegroundFields.h" // Filter type
+#include "OSGBoolFields.h" // Dirty type
 
-#include <OSGClusterWindowFields.h>
+#include "OSGClusterWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

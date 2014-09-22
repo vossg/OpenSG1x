@@ -40,9 +40,9 @@
 #ifndef _OSG_SYSFIELDDATATYPE_H_
 #define _OSG_SYSFIELDDATATYPE_H_
 
-#include <OSGFieldDataType.h>
+#include "OSGFieldDataType.h"
 #include <string>
-#include <OSGLog.h>
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 

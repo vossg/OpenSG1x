@@ -5,11 +5,11 @@
 
 #include <map>
 
-#include <OSGConfig.h>
-#include <OSGNode.h>
-#include <OSGMaterial.h>
-#include <OSGGeometry.h>
-#include <OSGStateChunk.h>
+#include "OSGConfig.h"
+#include "OSGNode.h"
+#include "OSGMaterial.h"
+#include "OSGGeometry.h"
+#include "OSGStateChunk.h"
 
 #include <Performer/pf.h>
 #include <Performer/pr/pfGeoArray.h>

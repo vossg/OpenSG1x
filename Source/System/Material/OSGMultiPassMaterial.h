@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGMultiPassMaterialBase.h>
+#include "OSGMultiPassMaterialBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -149,8 +149,8 @@ typedef MultiPassMaterial *MultiPassMaterialP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMultiPassMaterialBase.inl>
-#include <OSGMultiPassMaterial.inl>
+#include "OSGMultiPassMaterialBase.inl"
+#include "OSGMultiPassMaterial.inl"
 
 #define OSGMULTIPASSMATERIAL_HEADER_CVSID "@(#)$Id: OSGMultiPassMaterial.h,v 1.5 2009/01/28 03:06:14 vossg Exp $"
 

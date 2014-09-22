@@ -58,24 +58,24 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGShaderChunk.h> // Parent
+#include "OSGShaderChunk.h" // Parent
 
-#include <OSGUInt32Fields.h> // VertexProfile type
-#include <OSGUInt32Fields.h> // FragmentProfile type
-#include <OSGStringFields.h> // VertexEntryPoint type
-#include <OSGStringFields.h> // VertexArguments type
-#include <OSGStringFields.h> // FragmentEntryPoint type
-#include <OSGStringFields.h> // FragmentArguments type
-#include <OSGUInt32Fields.h> // GLId type
+#include "OSGUInt32Fields.h" // VertexProfile type
+#include "OSGUInt32Fields.h" // FragmentProfile type
+#include "OSGStringFields.h" // VertexEntryPoint type
+#include "OSGStringFields.h" // VertexArguments type
+#include "OSGStringFields.h" // FragmentEntryPoint type
+#include "OSGStringFields.h" // FragmentArguments type
+#include "OSGUInt32Fields.h" // GLId type
 
-#include <OSGCGChunkFields.h>
+#include "OSGCGChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

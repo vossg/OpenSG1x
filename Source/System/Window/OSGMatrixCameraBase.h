@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGCamera.h> // Parent
+#include "OSGCamera.h" // Parent
 
-#include <OSGMatrixFields.h> // ProjectionMatrix type
-#include <OSGMatrixFields.h> // ModelviewMatrix type
+#include "OSGMatrixFields.h" // ProjectionMatrix type
+#include "OSGMatrixFields.h" // ModelviewMatrix type
 
-#include <OSGMatrixCameraFields.h>
+#include "OSGMatrixCameraFields.h"
 
 OSG_BEGIN_NAMESPACE
 

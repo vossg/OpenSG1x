@@ -45,12 +45,12 @@
 #include <vector>
 #include <iterator>
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
-#include <OSGLog.h>
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 

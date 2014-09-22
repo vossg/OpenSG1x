@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGViewport.h> // Parent
+#include "OSGViewport.h" // Parent
 
-#include <OSGBoolFields.h> // LeftBuffer type
-#include <OSGBoolFields.h> // RightBuffer type
+#include "OSGBoolFields.h" // LeftBuffer type
+#include "OSGBoolFields.h" // RightBuffer type
 
-#include <OSGStereoBufferViewportFields.h>
+#include "OSGStereoBufferViewportFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGConfig.h"
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
 #include <iostream>
 
@@ -1221,7 +1221,7 @@ typedef Pnt4ld *Pnt4ldP;
 
 OSG_END_NAMESPACE
 
-#include <OSGVector.inl>
+#include "OSGVector.inl"
 
 
 #ifdef __sgi

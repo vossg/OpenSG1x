@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsUniversalJointBase.h>
+#include "OSGPhysicsUniversalJointBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -141,8 +141,8 @@ typedef PhysicsUniversalJoint *PhysicsUniversalJointP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsUniversalJointBase.inl>
-#include <OSGPhysicsUniversalJoint.inl>
+#include "OSGPhysicsUniversalJointBase.inl"
+#include "OSGPhysicsUniversalJoint.inl"
 
 #define OSGPHYSICSUNIVERSALJOINT_HEADER_CVSID "@(#)$Id: OSGPhysicsUniversalJoint.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 

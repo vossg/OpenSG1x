@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include <ode/ode.h>
 
-#include <OSGPhysicsBodyBase.h>
+#include "OSGPhysicsBodyBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -215,8 +215,8 @@ typedef PhysicsBody *PhysicsBodyP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsBodyBase.inl>
-#include <OSGPhysicsBody.inl>
+#include "OSGPhysicsBodyBase.inl"
+#include "OSGPhysicsBody.inl"
 
 #define OSGPHYSICSBODY_HEADER_CVSID "@(#)$Id: OSGPhysicsBody.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

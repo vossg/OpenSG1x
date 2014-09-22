@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGManipulatorBase.h>
+#include "OSGManipulatorBase.h"
 #include "OSGExternalUpdateHandler.h"
 
-#include <OSGComponentTransform.h>
+#include "OSGComponentTransform.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -158,8 +158,8 @@ typedef Manipulator *ManipulatorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGManipulatorBase.inl>
-#include <OSGManipulator.inl>
+#include "OSGManipulatorBase.inl"
+#include "OSGManipulator.inl"
 
 #define OSGMANIPULATOR_HEADER_CVSID "@(#)$Id: OSGManipulator.h,v 1.1 2005/06/26 12:44:40 a-m-z Exp $"
 

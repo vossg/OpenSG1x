@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGLight.h> // Parent
+#include "OSGLight.h" // Parent
 
-#include <OSGVec3fFields.h> // Direction type
+#include "OSGVec3fFields.h" // Direction type
 
-#include <OSGDirectionalLightFields.h>
+#include "OSGDirectionalLightFields.h"
 
 OSG_BEGIN_NAMESPACE
 

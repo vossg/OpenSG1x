@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGStatisticsForegroundBase.h>
+#include "OSGStatisticsForegroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -122,8 +122,8 @@ typedef StatisticsForeground *StatisticsForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStatisticsForegroundBase.inl>
-#include <OSGStatisticsForeground.inl>
+#include "OSGStatisticsForegroundBase.inl"
+#include "OSGStatisticsForeground.inl"
 
 #define OSGSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: $"
 

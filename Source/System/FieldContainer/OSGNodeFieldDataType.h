@@ -39,10 +39,10 @@
 #ifndef _OSG_NODEFIELDDATATYPE_H_
 #define _OSG_NODEFIELDDATATYPE_H_
 
-#include <OSGFieldDataType.h>
-#include <OSGAttachmentContainerFieldDataType.h>
-#include <OSGFieldContainerPtrForward.h>
-#include <OSGNodePtrImpl.h>
+#include "OSGFieldDataType.h"
+#include "OSGAttachmentContainerFieldDataType.h"
+#include "OSGFieldContainerPtrForward.h"
+#include "OSGNodePtrImpl.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -46,11 +46,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLLight.h>
-#include <OSGSFVecTypes.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLLight.h"
+#include "OSGSFVecTypes.h"
 
-#include <OSGPointLight.h>
+#include "OSGPointLight.h"
 
 OSG_BEGIN_NAMESPACE
 

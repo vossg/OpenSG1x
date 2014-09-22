@@ -1,9 +1,9 @@
 #ifndef TXFGLYPHINFO_H_
 #define TXFGLYPHINFO_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
 OSG_BEGIN_NAMESPACE 
 

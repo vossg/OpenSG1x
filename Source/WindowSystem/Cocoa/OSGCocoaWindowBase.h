@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGWindowCocoaDef.h>
+#include "OSGConfig.h"
+#include "OSGWindowCocoaDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGWindow.h> // Parent
+#include "OSGWindow.h" // Parent
 
-#include <OSGCocoaWindowDataFields.h> // Context type
+#include "OSGCocoaWindowDataFields.h" // Context type
 
-#include <OSGCocoaWindowFields.h>
+#include "OSGCocoaWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

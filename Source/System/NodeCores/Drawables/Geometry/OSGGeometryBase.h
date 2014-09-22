@@ -58,41 +58,41 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGMaterialDrawable.h> // Parent
+#include "OSGMaterialDrawable.h" // Parent
 
-#include <OSGGeoPTypesFields.h> // Types type
-#include <OSGGeoPLengthsFields.h> // Lengths type
-#include <OSGGeoPositionsFields.h> // Positions type
-#include <OSGGeoNormalsFields.h> // Normals type
-#include <OSGGeoColorsFields.h> // Colors type
-#include <OSGGeoColorsFields.h> // SecondaryColors type
-#include <OSGGeoTexCoordsFields.h> // TexCoords type
-#include <OSGGeoTexCoordsFields.h> // TexCoords1 type
-#include <OSGGeoTexCoordsFields.h> // TexCoords2 type
-#include <OSGGeoTexCoordsFields.h> // TexCoords3 type
-#include <OSGGeoTexCoordsFields.h> // TexCoords4 type
-#include <OSGGeoTexCoordsFields.h> // TexCoords5 type
-#include <OSGGeoTexCoordsFields.h> // TexCoords6 type
-#include <OSGGeoTexCoordsFields.h> // TexCoords7 type
-#include <OSGGeoIndicesFields.h> // Indices type
-#include <OSGUInt16Fields.h> // IndexMapping type
-#include <OSGBoolFields.h> // DlistCache type
-#include <OSGInt32Fields.h> // GLId type
-#include <OSGInt32Fields.h> // IgnoreGLForAspect type
-#include <OSGUInt32Fields.h> // Minindex type
-#include <OSGUInt32Fields.h> // Maxindex type
-#include <OSGUInt32Fields.h> // Lowindices type
-#include <OSGUInt32Fields.h> // Highindices type
-#include <OSGBoolFields.h> // Vbo type
+#include "OSGGeoPTypesFields.h" // Types type
+#include "OSGGeoPLengthsFields.h" // Lengths type
+#include "OSGGeoPositionsFields.h" // Positions type
+#include "OSGGeoNormalsFields.h" // Normals type
+#include "OSGGeoColorsFields.h" // Colors type
+#include "OSGGeoColorsFields.h" // SecondaryColors type
+#include "OSGGeoTexCoordsFields.h" // TexCoords type
+#include "OSGGeoTexCoordsFields.h" // TexCoords1 type
+#include "OSGGeoTexCoordsFields.h" // TexCoords2 type
+#include "OSGGeoTexCoordsFields.h" // TexCoords3 type
+#include "OSGGeoTexCoordsFields.h" // TexCoords4 type
+#include "OSGGeoTexCoordsFields.h" // TexCoords5 type
+#include "OSGGeoTexCoordsFields.h" // TexCoords6 type
+#include "OSGGeoTexCoordsFields.h" // TexCoords7 type
+#include "OSGGeoIndicesFields.h" // Indices type
+#include "OSGUInt16Fields.h" // IndexMapping type
+#include "OSGBoolFields.h" // DlistCache type
+#include "OSGInt32Fields.h" // GLId type
+#include "OSGInt32Fields.h" // IgnoreGLForAspect type
+#include "OSGUInt32Fields.h" // Minindex type
+#include "OSGUInt32Fields.h" // Maxindex type
+#include "OSGUInt32Fields.h" // Lowindices type
+#include "OSGUInt32Fields.h" // Highindices type
+#include "OSGBoolFields.h" // Vbo type
 
-#include <OSGGeometryFields.h>
+#include "OSGGeometryFields.h"
 
 OSG_BEGIN_NAMESPACE
 

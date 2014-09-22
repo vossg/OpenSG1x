@@ -58,17 +58,17 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachmentContainer.h> // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
 
-#include <OSGBackgroundFields.h>
+#include "OSGBackgroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -3,8 +3,8 @@
 
 #ifdef OSG_WITH_FREETYPE1
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGFontGlyph.h"
 

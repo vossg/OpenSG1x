@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGShaderBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGAttachment.h>
-#include <OSGShadingGroupFields.h>
+#include "OSGShaderBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGAttachment.h"
+#include "OSGShadingGroupFields.h"
 
 OSG_BEGIN_NAMESPACE
 

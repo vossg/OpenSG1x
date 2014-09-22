@@ -46,8 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLGeometry.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLGeometry.h"
 
 OSG_BEGIN_NAMESPACE
 

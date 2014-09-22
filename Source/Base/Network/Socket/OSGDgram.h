@@ -45,11 +45,11 @@
 #include <list>
 #include <vector>
 
-#include <OSGBaseTypes.h>
-#include <OSGTime.h>
-#include <OSGBase.h>
-#include <OSGLock.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGTime.h"
+#include "OSGBase.h"
+#include "OSGLock.h"
+#include "OSGBaseFunctions.h"
 
 OSG_BEGIN_NAMESPACE
 

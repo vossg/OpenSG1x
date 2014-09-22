@@ -39,7 +39,7 @@
 #ifndef _OSGSPHEREVOLUME_H_
 #define _OSGSPHEREVOLUME_H_
 
-#include <OSGVolume.h>
+#include "OSGVolume.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -167,6 +167,6 @@ operator !=(const SphereVolume &lhs, const SphereVolume &rhs);
 
 OSG_END_NAMESPACE
 
-#include <OSGSphereVolume.inl>
+#include "OSGSphereVolume.inl"
 
 #endif // _OSGSPHEREVOLUME_H_

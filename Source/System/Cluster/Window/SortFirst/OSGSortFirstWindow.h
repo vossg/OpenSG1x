@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGClusterViewBuffer.h>
-#include <OSGSortFirstWindowBase.h>
-#include <OSGTileLoadBalancer.h>
-#include <OSGCamera.h>
-#include <OSGRenderNode.h>
+#include "OSGConfig.h"
+#include "OSGClusterViewBuffer.h"
+#include "OSGSortFirstWindowBase.h"
+#include "OSGTileLoadBalancer.h"
+#include "OSGCamera.h"
+#include "OSGRenderNode.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -144,8 +144,8 @@ typedef SortFirstWindow *SortFirstWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSortFirstWindow.inl>
-#include <OSGSortFirstWindowBase.inl>
+#include "OSGSortFirstWindow.inl"
+#include "OSGSortFirstWindowBase.inl"
 
 #define OSGSORTFIRSTWINDOW_HEADER_CVSID "@(#)$Id: $"
 

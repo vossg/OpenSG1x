@@ -39,10 +39,10 @@
 #ifndef _OSG_FIELDCONTAINERFIELDDATATYPE_H_
 #define _OSG_FIELDCONTAINERFIELDDATATYPE_H_
 
-#include <OSGFieldDataType.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGFieldContainerFactory.h>
-#include <OSGFieldContainerType.h>
+#include "OSGFieldDataType.h"
+#include "OSGFieldContainerPtr.h"
+#include "OSGFieldContainerFactory.h"
+#include "OSGFieldContainerType.h"
 
 OSG_BEGIN_NAMESPACE
 

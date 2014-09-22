@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
 #include <string>
 
 OSG_BEGIN_NAMESPACE

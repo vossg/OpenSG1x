@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGNodeCore.h> // Parent
+#include "OSGNodeCore.h" // Parent
 
-#include <OSGBoolFields.h> // Sorting type
+#include "OSGBoolFields.h" // Sorting type
 
-#include <OSGStateSortingGroupFields.h>
+#include "OSGStateSortingGroupFields.h"
 
 OSG_BEGIN_NAMESPACE
 

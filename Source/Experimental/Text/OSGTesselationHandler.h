@@ -1,8 +1,8 @@
 #ifndef TESSELATION_HANDLER_H
 #define TESSELATION_HANDLER_H
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
 /** TesselationCallbacks  **/
 OSG_BEGIN_NAMESPACE 

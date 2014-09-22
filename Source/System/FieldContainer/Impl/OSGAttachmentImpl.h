@@ -46,13 +46,13 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGFieldContainer.h>
-#include <OSGFieldContainerPtr.h>
-#include <OSGSFBaseTypes.h>
-#include <OSGMFFieldContainerPtr.h>
-#include <OSGSFSysTypes.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGFieldContainer.h"
+#include "OSGFieldContainerPtr.h"
+#include "OSGSFBaseTypes.h"
+#include "OSGMFFieldContainerPtr.h"
+#include "OSGSFSysTypes.h"
 
 #include <map>
 #include <iostream>

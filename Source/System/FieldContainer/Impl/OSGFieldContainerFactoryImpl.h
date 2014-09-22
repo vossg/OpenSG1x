@@ -48,10 +48,10 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGException.h>
-#include <OSGIDStringLink.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGException.h"
+#include "OSGIDStringLink.h"
 #include <map>
 #include <vector>
 

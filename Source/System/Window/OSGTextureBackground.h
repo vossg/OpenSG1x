@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTextureBackgroundBase.h>
+#include "OSGTextureBackgroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -133,8 +133,8 @@ typedef TextureBackground *TextureBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTextureBackgroundBase.inl>
-#include <OSGTextureBackground.inl>
+#include "OSGTextureBackgroundBase.inl"
+#include "OSGTextureBackground.inl"
 
 #define OSGTEXTUREBACKGROUND_HEADER_CVSID "@(#)$Id: OSGTextureBackground.h,v 1.2 2005/07/06 16:00:44 dirk Exp $"
 

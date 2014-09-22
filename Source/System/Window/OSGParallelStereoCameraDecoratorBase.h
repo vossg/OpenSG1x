@@ -58,24 +58,24 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStereoCameraDecorator.h> // Parent
+#include "OSGStereoCameraDecorator.h" // Parent
 
-#include <OSGNodeFields.h> // User type
-#include <OSGReal32Fields.h> // EyeToScreenDistance type
-#include <OSGReal32Fields.h> // LensSeparationDistance type
-#include <OSGReal32Fields.h> // VScreenSize type
-#include <OSGReal32Fields.h> // HScreenSize type
-#include <OSGVec4fFields.h> // DistortionK type
-#include <OSGReal32Fields.h> // FoVScale type
+#include "OSGNodeFields.h" // User type
+#include "OSGReal32Fields.h" // EyeToScreenDistance type
+#include "OSGReal32Fields.h" // LensSeparationDistance type
+#include "OSGReal32Fields.h" // VScreenSize type
+#include "OSGReal32Fields.h" // HScreenSize type
+#include "OSGVec4fFields.h" // DistortionK type
+#include "OSGReal32Fields.h" // FoVScale type
 
-#include <OSGParallelStereoCameraDecoratorFields.h>
+#include "OSGParallelStereoCameraDecoratorFields.h"
 
 OSG_BEGIN_NAMESPACE
 

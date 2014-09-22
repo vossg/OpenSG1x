@@ -42,14 +42,14 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGGL.h>
-#include <OSGGLEXT.h>
-#include <OSGWindow.h>
-#include <OSGAction.h>
-#include <OSGRenderAction.h>
-#include <OSGMatrixCameraDecorator.h>
-#include <OSGTileCameraDecorator.h>
+#include "OSGConfig.h"
+#include "OSGGL.h"
+#include "OSGGLEXT.h"
+#include "OSGWindow.h"
+#include "OSGAction.h"
+#include "OSGRenderAction.h"
+#include "OSGMatrixCameraDecorator.h"
+#include "OSGTileCameraDecorator.h"
 
 #include "OSGFBOViewportBase.h"
 

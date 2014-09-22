@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGDrawActionBase.h>
-#include <OSGWindow.h>
-#include <OSGTextureChunk.h>
-#include <OSGMaterial.h>
-#include <OSGMultiPassMaterial.h>
+#include "OSGConfig.h"
+#include "OSGDrawActionBase.h"
+#include "OSGWindow.h"
+#include "OSGTextureChunk.h"
+#include "OSGMaterial.h"
+#include "OSGMultiPassMaterial.h"
 
 #include <string>
 #include <vector>
@@ -248,8 +248,8 @@ typedef CGFXChunk *CGFXChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCGFXChunkBase.inl>
-#include <OSGCGFXChunk.inl>
+#include "OSGCGFXChunkBase.inl"
+#include "OSGCGFXChunk.inl"
 
 #define OSGCGFXCHUNK_HEADER_CVSID "@(#)$Id: OSGCGFXChunk.h,v 1.7 2006/04/12 13:08:25 a-m-z Exp $"
 

@@ -1,7 +1,7 @@
 #ifndef OSGDVRSLICE_H
 #define OSGDVRSLICE_H
 
-#include <OSGVector.h>
+#include "OSGVector.h"
 
 OSG_BEGIN_NAMESPACE
 

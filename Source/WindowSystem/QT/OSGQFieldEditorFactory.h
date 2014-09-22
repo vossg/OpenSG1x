@@ -44,7 +44,7 @@
 
 #include "OSGWindowQTDef.h"
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
 #include <qnamespace.h>
 

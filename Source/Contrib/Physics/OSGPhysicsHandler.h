@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include <ode/ode.h>
 
-#include <OSGPhysicsHandlerBase.h>
+#include "OSGPhysicsHandlerBase.h"
 
 #define MAX_PHYS_CONTACTS 32
 
@@ -145,8 +145,8 @@ typedef PhysicsHandler *PhysicsHandlerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsHandlerBase.inl>
-#include <OSGPhysicsHandler.inl>
+#include "OSGPhysicsHandlerBase.inl"
+#include "OSGPhysicsHandler.inl"
 
 #define OSGPHYSICSHANDLER_HEADER_CVSID "@(#)$Id: OSGPhysicsHandler.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

@@ -25,8 +25,8 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGConfig.h>
+#include "OSGSystemDef.h"
+#include "OSGConfig.h"
 
 OSG_BEGIN_NAMESPACE
 

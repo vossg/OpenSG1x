@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGImageComposerBase.h>
-#include <OSGWindow.h>
-#include <OSGClusterWindow.h>
-#include <OSGViewport.h>
+#include "OSGImageComposerBase.h"
+#include "OSGWindow.h"
+#include "OSGClusterWindow.h"
+#include "OSGViewport.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -180,8 +180,8 @@ typedef ImageComposer *ImageComposerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGImageComposerBase.inl>
-#include <OSGImageComposer.inl>
+#include "OSGImageComposerBase.inl"
+#include "OSGImageComposer.inl"
 
 #define OSGIMAGECOMPOSER_HEADER_CVSID "@(#)$Id: $"
 

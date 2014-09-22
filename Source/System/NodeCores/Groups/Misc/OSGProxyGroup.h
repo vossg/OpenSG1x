@@ -44,10 +44,10 @@
 
 #include <queue>
 
-#include <OSGConfig.h>
-#include <OSGProxyGroupBase.h>
-#include <OSGAction.h>
-#include <OSGLock.h>
+#include "OSGConfig.h"
+#include "OSGProxyGroupBase.h"
+#include "OSGAction.h"
+#include "OSGLock.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -162,8 +162,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ProxyGroup : public ProxyGroupBase
 
 OSG_END_NAMESPACE
 
-#include <OSGProxyGroupBase.inl>
-#include <OSGProxyGroup.inl>
+#include "OSGProxyGroupBase.inl"
+#include "OSGProxyGroup.inl"
 
 #define OSGPROXYGROUP_HEADER_CVSID "@(#)$Id: $"
 

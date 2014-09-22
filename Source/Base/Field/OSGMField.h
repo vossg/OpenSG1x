@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
-#include <OSGField.h>
-#include <OSGMFieldVector.h>
-#include <OSGStringConversionStateBase.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
+#include "OSGField.h"
+#include "OSGMFieldVector.h"
+#include "OSGStringConversionStateBase.h"
 
 #include <vector>
 #include <string>
@@ -314,7 +314,7 @@ class MField : public Field
 
 OSG_END_NAMESPACE
 
-#include <OSGMField.inl>
+#include "OSGMField.inl"
 
 #define OSGMFIELD_HEADER_CVSID "@(#)$Id: $"
 

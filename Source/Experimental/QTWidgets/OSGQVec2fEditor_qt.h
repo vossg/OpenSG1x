@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindowQTDef.h>
-#include <OSGVector.h>
+#include "OSGConfig.h"
+#include "OSGWindowQTDef.h"
+#include "OSGVector.h"
 
 #include "OSGQAbstractValueEditor_qt.h"
 #include "OSGQVectorPointEditorHelper.h"

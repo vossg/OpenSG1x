@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGShaderParameterChunk.h> // Parent
+#include "OSGShaderParameterChunk.h" // Parent
 
-#include <OSGSHLChunkFields.h> // SHLChunk type
+#include "OSGSHLChunkFields.h" // SHLChunk type
 
-#include <OSGSHLParameterChunkFields.h>
+#include "OSGSHLParameterChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

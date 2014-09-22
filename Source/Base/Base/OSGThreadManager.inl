@@ -41,7 +41,7 @@
 
 #include "OSGConfig.h"
 
-#include <OSGTypeFactory.h>
+#include "OSGTypeFactory.h"
 
 #include <iostream>
 

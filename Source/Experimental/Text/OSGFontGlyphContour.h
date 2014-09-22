@@ -1,9 +1,9 @@
 #ifndef GLYPHCONTOUR_H_
 #define GLYPHCONTOUR_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
 #include <vector>
 

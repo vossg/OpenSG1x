@@ -58,26 +58,26 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachmentContainer.h> // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
-#include <OSGBoolFields.h> // Enabled type
-#include <OSGStringFields.h> // Server type
-#include <OSGMatrixFields.h> // ColorMatrix type
-#include <OSGReal32Fields.h> // Gamma type
-#include <OSGColor3fFields.h> // GammaRamp type
-#include <OSGUInt32Fields.h> // GridWidth type
-#include <OSGUInt32Fields.h> // GridHeight type
-#include <OSGVec2fFields.h> // Grid type
-#include <OSGReal32Fields.h> // ScaleDown type
+#include "OSGBoolFields.h" // Enabled type
+#include "OSGStringFields.h" // Server type
+#include "OSGMatrixFields.h" // ColorMatrix type
+#include "OSGReal32Fields.h" // Gamma type
+#include "OSGColor3fFields.h" // GammaRamp type
+#include "OSGUInt32Fields.h" // GridWidth type
+#include "OSGUInt32Fields.h" // GridHeight type
+#include "OSGVec2fFields.h" // Grid type
+#include "OSGReal32Fields.h" // ScaleDown type
 
-#include <OSGDisplayCalibrationFields.h>
+#include "OSGDisplayCalibrationFields.h"
 
 OSG_BEGIN_NAMESPACE
 

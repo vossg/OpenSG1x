@@ -43,12 +43,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
-#include <OSGNodePtr.h>
-#include <OSGAction.h>
-#include <OSGGraphOp.h>
+#include "OSGSystemDef.h"
+#include "OSGNodePtr.h"
+#include "OSGAction.h"
+#include "OSGGraphOp.h"
 
 OSG_BEGIN_NAMESPACE
 

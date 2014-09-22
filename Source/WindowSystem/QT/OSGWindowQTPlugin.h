@@ -67,8 +67,8 @@
 // #endif
 
 #include "OSGConfig.h"
-#include <OSGWindowQTDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGWindowQTDef.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGQTWindow.h"
 

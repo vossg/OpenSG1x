@@ -42,14 +42,14 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGScanParseSkel.h>
-#include <OSGScanParseFieldTypeMapper.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGScanParseSkel.h"
+#include "OSGScanParseFieldTypeMapper.h"
 
-#include <OSGNodePtr.h>
-#include <OSGField.h>
-#include <OSGFieldContainer.h>
+#include "OSGNodePtr.h"
+#include "OSGField.h"
+#include "OSGFieldContainer.h"
 
 #include <stack>
 #include <map>

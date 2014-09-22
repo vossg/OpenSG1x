@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRIsoSurfaceBase.h>
+#include "OSGDVRIsoSurfaceBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -115,8 +115,8 @@ typedef DVRIsoSurface *DVRIsoSurfaceP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRIsoSurfaceBase.inl>
-#include <OSGDVRIsoSurface.inl>
+#include "OSGDVRIsoSurfaceBase.inl"
+#include "OSGDVRIsoSurface.inl"
 
 #define OSGDVRISOSURFACE_HEADER_CVSID "@(#)$Id: $"
 

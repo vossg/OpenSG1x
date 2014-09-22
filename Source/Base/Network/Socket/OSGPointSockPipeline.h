@@ -49,13 +49,13 @@
 
 #include <string>
 #include <map>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGPointSockConnection.h>
-#include <OSGTime.h>
-#include <OSGDgramSocket.h>
-#include <OSGDgram.h>
-#include <OSGDgramQueue.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGPointSockConnection.h"
+#include "OSGTime.h"
+#include "OSGDgramSocket.h"
+#include "OSGDgram.h"
+#include "OSGDgramQueue.h"
 
 OSG_BEGIN_NAMESPACE
 

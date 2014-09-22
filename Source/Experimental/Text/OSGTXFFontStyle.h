@@ -1,8 +1,8 @@
 #ifndef TXFFONTINSTANCE_H_
 #define TXFFONTINSTANCE_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGFontStyle.h"
 #include "OSGTXFFont.h"

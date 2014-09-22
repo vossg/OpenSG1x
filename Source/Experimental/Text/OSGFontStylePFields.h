@@ -60,23 +60,23 @@
 #include <sstream>
 using namespace std;
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGNodeCoreFieldDataType.h>
-#include <OSGSystemDef.h>
+#include "OSGFieldContainerPtr.h"
+#include "OSGNodeCoreFieldDataType.h"
+#include "OSGSystemDef.h"
 
-#include <OSGNodeCoreFields.h>
+#include "OSGNodeCoreFields.h"
 
-#include <OSGFontStyle.h>
-#include <OSGFontStyleFactory.h>
-#include <OSGMFBaseTypes.h>
+#include "OSGFontStyle.h"
+#include "OSGFontStyleFactory.h"
+#include "OSGMFBaseTypes.h"
 
-//#include <OSGTXFFont.h>
-//#include <OSGTXFFontStyle.h>
-//#include <OSGTTFontStyle.h>
-//#include <OSGText.h>
-//#include <OSGSharedFontStyle.h>
+//#include "OSGTXFFont.h"
+//#include "OSGTXFFontStyle.h"
+//#include "OSGTTFontStyle.h"
+//#include "OSGText.h"
+//#include "OSGSharedFontStyle.h"
 
 OSG_BEGIN_NAMESPACE
 

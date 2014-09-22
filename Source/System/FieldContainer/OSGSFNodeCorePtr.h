@@ -49,9 +49,9 @@
 */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGSField.h>
-#include <OSGNodeCoreFieldDataType.h>
+#include "OSGSystemDef.h"
+#include "OSGSField.h"
+#include "OSGNodeCoreFieldDataType.h"
 
 OSG_BEGIN_NAMESPACE
 

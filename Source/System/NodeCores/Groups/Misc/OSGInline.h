@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGAction.h>
+#include "OSGConfig.h"
+#include "OSGAction.h"
 
-#include <OSGInlineBase.h>
+#include "OSGInlineBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -119,8 +119,8 @@ class OSG_SYSTEMLIB_DLLMAPPING Inline : public InlineBase
 
 OSG_END_NAMESPACE
 
-#include <OSGInlineBase.inl>
-#include <OSGInline.inl>
+#include "OSGInlineBase.inl"
+#include "OSGInline.inl"
 
 #define OSGINLINE_HEADER_CVSID "@(#)$Id: $"
 

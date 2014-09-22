@@ -41,9 +41,9 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGConfig.h>
-#include <OSGVector.h>
+#include "OSGSystemDef.h"
+#include "OSGConfig.h"
+#include "OSGVector.h"
 
 
 #include "OSGdctptypes.h"

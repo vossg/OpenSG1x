@@ -40,8 +40,8 @@
 #ifndef _OSGDYNAMICVOLUME_INL_
 #define _OSGDYNAMICVOLUME_INL_
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
 #include "OSGVector.h"
 #include "OSGMatrix.h"

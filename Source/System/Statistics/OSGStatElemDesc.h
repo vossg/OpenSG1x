@@ -43,10 +43,10 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
-#include <OSGIDString.h>
+#include "OSGIDString.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -188,7 +188,7 @@ typedef StatElemDescBase *StatElemDescBaseP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStatElemDesc.inl>
+#include "OSGStatElemDesc.inl"
 
 #define OSGSTATELEMDESC_HEADER_CVSID "@(#)$Id: $"
 

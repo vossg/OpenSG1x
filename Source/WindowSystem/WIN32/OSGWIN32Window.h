@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifdef WIN32
 
-#include <OSGWIN32WindowBase.h>
+#include "OSGWIN32WindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -125,8 +125,8 @@ typedef WIN32Window *WIN32WindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGWIN32Window.inl>
-#include <OSGWIN32WindowBase.inl>
+#include "OSGWIN32Window.inl"
+#include "OSGWIN32WindowBase.inl"
 
 #define OSGWIN32WINDOW_HEADER_CVSID "@(#)$Id: $"
 

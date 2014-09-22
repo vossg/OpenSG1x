@@ -43,9 +43,9 @@
 #pragma  once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -143,6 +143,6 @@ std::istream &operator >>(std::istream &inStream,        Date &obj);
 
 OSG_END_NAMESPACE
 
-#include <OSGDate.inl>
+#include "OSGDate.inl"
 
 #endif // _OSGDATE_H_

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGInverseTransformBase.h>
+#include "OSGInverseTransformBase.h"
 
 #include "OSGMatrix.h"
 
@@ -161,8 +161,8 @@ typedef InverseTransform *InverseTransformP;
 
 OSG_END_NAMESPACE
 
-#include <OSGInverseTransformBase.inl>
-#include <OSGInverseTransform.inl>
+#include "OSGInverseTransformBase.inl"
+#include "OSGInverseTransform.inl"
 
 #define OSGINVERSETRANSFORM_HEADER_CVSID "@(#)$Id: OSGInverseTransform.h,v 1.2 2004/10/13 14:51:34 a-m-z Exp $"
 

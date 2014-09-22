@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRAppearanceBase.h>
+#include "OSGDVRAppearanceBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -116,8 +116,8 @@ typedef DVRAppearance *DVRAppearanceP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRAppearance.inl>
-#include <OSGDVRAppearanceBase.inl>
+#include "OSGDVRAppearance.inl"
+#include "OSGDVRAppearanceBase.inl"
 
 #define OSGDVRAPPEARANCE_HEADER_CVSID "@(#)$Id: $"
 

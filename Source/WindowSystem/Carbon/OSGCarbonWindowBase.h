@@ -58,18 +58,18 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGWindowCarbonDef.h>
+#include "OSGConfig.h"
+#include "OSGWindowCarbonDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGWindow.h> // Parent
+#include "OSGWindow.h" // Parent
 
-#include <OSGCarbonWindowDataFields.h> // Context type
+#include "OSGCarbonWindowDataFields.h" // Context type
 
-#include <OSGCarbonWindowFields.h>
+#include "OSGCarbonWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

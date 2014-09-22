@@ -1,8 +1,8 @@
 #ifndef TXFIMAGEGLYPH_H_
 #define TXFIMAGEGLYPH_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGImageFontGlyph.h"
 #include "OSGTXFFontGlyph.h"

@@ -46,9 +46,9 @@
  */
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGFieldContainerPtr.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGFieldContainerPtr.h"
 
 OSG_BEGIN_NAMESPACE
 

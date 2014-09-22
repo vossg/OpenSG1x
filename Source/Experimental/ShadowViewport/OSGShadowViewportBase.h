@@ -58,36 +58,36 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStereoBufferViewport.h> // Parent
+#include "OSGStereoBufferViewport.h" // Parent
 
-#include <OSGReal32Fields.h> // OffBias type
-#include <OSGReal32Fields.h> // OffFactor type
-#include <OSGNodeFields.h> // SceneRoot type
-#include <OSGUInt32Fields.h> // MapSize type
-#include <OSGNodeFields.h> // LightNodes type
-#include <OSGNodeFields.h> // ExcludeNodes type
-#include <OSGBoolFields.h> // MapAutoUpdate type
-#include <OSGUInt32Fields.h> // ShadowMode type
-#include <OSGReal32Fields.h> // ShadowSmoothness type
-#include <OSGBoolFields.h> // ShadowOn type
-#include <OSGBoolFields.h> // AutoSearchForLights type
-#include <OSGReal32Fields.h> // GlobalShadowIntensity type
-#include <OSGBoolFields.h> // FboOn type
-#include <OSGBoolFields.h> // AutoExcludeTransparentNodes type
-#include <OSGBoolFields.h> // DisableOccludedLights type
-#include <OSGBoolFields.h> // Red type
-#include <OSGBoolFields.h> // Blue type
-#include <OSGBoolFields.h> // Green type
-#include <OSGBoolFields.h> // Alpha type
+#include "OSGReal32Fields.h" // OffBias type
+#include "OSGReal32Fields.h" // OffFactor type
+#include "OSGNodeFields.h" // SceneRoot type
+#include "OSGUInt32Fields.h" // MapSize type
+#include "OSGNodeFields.h" // LightNodes type
+#include "OSGNodeFields.h" // ExcludeNodes type
+#include "OSGBoolFields.h" // MapAutoUpdate type
+#include "OSGUInt32Fields.h" // ShadowMode type
+#include "OSGReal32Fields.h" // ShadowSmoothness type
+#include "OSGBoolFields.h" // ShadowOn type
+#include "OSGBoolFields.h" // AutoSearchForLights type
+#include "OSGReal32Fields.h" // GlobalShadowIntensity type
+#include "OSGBoolFields.h" // FboOn type
+#include "OSGBoolFields.h" // AutoExcludeTransparentNodes type
+#include "OSGBoolFields.h" // DisableOccludedLights type
+#include "OSGBoolFields.h" // Red type
+#include "OSGBoolFields.h" // Blue type
+#include "OSGBoolFields.h" // Green type
+#include "OSGBoolFields.h" // Alpha type
 
-#include <OSGShadowViewportFields.h>
+#include "OSGShadowViewportFields.h"
 
 OSG_BEGIN_NAMESPACE
 

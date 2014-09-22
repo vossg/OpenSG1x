@@ -39,10 +39,10 @@
 #ifndef _OSG_MATHFIELDDATATYPE_H_
 #define _OSG_MATHFIELDDATATYPE_H_
 
-#include <OSGBase.h>
-#include <OSGFieldDataType.h>
-#include <OSGMatrix.h>
-#include <OSGQuaternion.h>
+#include "OSGBase.h"
+#include "OSGFieldDataType.h"
+#include "OSGMatrix.h"
+#include "OSGQuaternion.h"
 
 #include <string>
 

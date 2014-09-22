@@ -46,11 +46,11 @@
 //    Includes
 //----------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGTypedFunctors.h>
-#include <OSGNodePtr.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGTypedFunctors.h"
+#include "OSGNodePtr.h"
 
 OSG_BEGIN_NAMESPACE
 

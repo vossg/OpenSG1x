@@ -41,21 +41,21 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGConfig.h>
+#include "OSGSystemDef.h"
+#include "OSGConfig.h"
 
 
-#include <OSGBaseTypes.h>
-#include <OSGBase.h>
-#include <OSGVector.h>
+#include "OSGBaseTypes.h"
+#include "OSGBase.h"
+#include "OSGVector.h"
 
 // OpenSG-lib inclued
 
-//#include <OSGSimpleGeometry.h>
-//#include <OSGGLUTWindow.h>
-//#include <OSGSimpleSceneManager.h>
-//#include <OSGAction.h>
-//#include <OSGGeoFunctions.h>
+//#include "OSGSimpleGeometry.h"
+//#include "OSGGLUTWindow.h"
+//#include "OSGSimpleSceneManager.h"
+//#include "OSGAction.h"
+//#include "OSGGeoFunctions.h"
 
 
 // DCTP-lib includes

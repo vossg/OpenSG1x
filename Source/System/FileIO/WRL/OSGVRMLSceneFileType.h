@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
-#include <OSGSceneFileType.h>
-#include <OSGVRMLFile.h>
+#include "OSGBaseTypes.h"
+#include "OSGSceneFileType.h"
+#include "OSGVRMLFile.h"
 
 OSG_BEGIN_NAMESPACE
 

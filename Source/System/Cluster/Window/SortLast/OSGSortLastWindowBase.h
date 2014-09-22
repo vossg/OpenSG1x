@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGClusterWindow.h> // Parent
+#include "OSGClusterWindow.h" // Parent
 
-#include <OSGNodeFields.h> // GroupNodes type
-#include <OSGUInt32Fields.h> // GroupLengths type
-#include <OSGBoolFields.h> // GroupsChanged type
+#include "OSGNodeFields.h" // GroupNodes type
+#include "OSGUInt32Fields.h" // GroupLengths type
+#include "OSGBoolFields.h" // GroupsChanged type
 
-#include <OSGSortLastWindowFields.h>
+#include "OSGSortLastWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -49,14 +49,14 @@
 #include <set>
 #include <iostream>
 
-#include <OSGSystemDef.h>
-#include <OSGNode.h>
-#include <OSGBinaryDataHandler.h>
-#include <OSGSFFieldContainerPtr.h>
-#include <OSGMFFieldContainerPtr.h>
-#include <OSGSFAttachmentMap.h>
-#include <OSGNFIOOptions.h>
-#include <OSGAction.h>
+#include "OSGSystemDef.h"
+#include "OSGNode.h"
+#include "OSGBinaryDataHandler.h"
+#include "OSGSFFieldContainerPtr.h"
+#include "OSGMFFieldContainerPtr.h"
+#include "OSGSFAttachmentMap.h"
+#include "OSGNFIOOptions.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 

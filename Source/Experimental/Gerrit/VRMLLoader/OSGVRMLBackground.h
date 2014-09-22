@@ -46,12 +46,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLUnlimitedNode.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLUnlimitedNode.h"
 
-#include <OSGMFSysTypes.h>
-#include <OSGMFVecTypes.h>
-#include <OSGMFBaseTypes.h>
+#include "OSGMFSysTypes.h"
+#include "OSGMFVecTypes.h"
+#include "OSGMFBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

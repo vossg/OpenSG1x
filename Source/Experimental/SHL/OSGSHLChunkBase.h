@@ -58,24 +58,24 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGShaderChunk.h> // Parent
+#include "OSGShaderChunk.h" // Parent
 
-#include <OSGBoolFields.h> // CgFrontEnd type
-#include <OSGBoolFields.h> // PointSize type
-#include <OSGGLenumFields.h> // ProgramParameterNames type
-#include <OSGUInt32Fields.h> // ProgramParameterValues type
-#include <OSGUInt32Fields.h> // GLId type
-#include <OSGInt32Fields.h> // IgnoreGLForAspect type
-#include <OSGBoolFields.h> // UnknownParameterWarning type
+#include "OSGBoolFields.h" // CgFrontEnd type
+#include "OSGBoolFields.h" // PointSize type
+#include "OSGGLenumFields.h" // ProgramParameterNames type
+#include "OSGUInt32Fields.h" // ProgramParameterValues type
+#include "OSGUInt32Fields.h" // GLId type
+#include "OSGInt32Fields.h" // IgnoreGLForAspect type
+#include "OSGBoolFields.h" // UnknownParameterWarning type
 
-#include <OSGSHLChunkFields.h>
+#include "OSGSHLChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGCameraDecorator.h> // Parent
+#include "OSGCameraDecorator.h" // Parent
 
-#include <OSGReal32Fields.h> // OffsetX type
-#include <OSGReal32Fields.h> // OffsetY type
-#include <OSGUInt32Fields.h> // FullWidth type
-#include <OSGUInt32Fields.h> // FullHeight type
+#include "OSGReal32Fields.h" // OffsetX type
+#include "OSGReal32Fields.h" // OffsetY type
+#include "OSGUInt32Fields.h" // FullWidth type
+#include "OSGUInt32Fields.h" // FullHeight type
 
-#include <OSGOffsetCameraDecoratorFields.h>
+#include "OSGOffsetCameraDecoratorFields.h"
 
 OSG_BEGIN_NAMESPACE
 

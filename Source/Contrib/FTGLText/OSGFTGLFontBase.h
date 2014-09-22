@@ -58,23 +58,23 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGFieldContainer.h> // Parent
+#include "OSGFieldContainer.h" // Parent
 
-#include <OSGStringFields.h> // Name type
-#include <OSGUInt32Fields.h> // DrawType type
-#include <OSGUInt32Fields.h> // Size type
-#include <OSGUInt32Fields.h> // Res type
-#include <OSGReal32Fields.h> // Depth type
-#include <OSGUInt32Fields.h> // GLId type
+#include "OSGStringFields.h" // Name type
+#include "OSGUInt32Fields.h" // DrawType type
+#include "OSGUInt32Fields.h" // Size type
+#include "OSGUInt32Fields.h" // Res type
+#include "OSGReal32Fields.h" // Depth type
+#include "OSGUInt32Fields.h" // GLId type
 
-#include <OSGFTGLFontFields.h>
+#include "OSGFTGLFontFields.h"
 
 OSG_BEGIN_NAMESPACE
 

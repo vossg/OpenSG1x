@@ -44,9 +44,9 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGTextGlyph.h"
 
@@ -248,7 +248,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextTXFGlyph: public TextGlyph
 OSG_END_NAMESPACE
 
 
-#include <OSGTextTXFGlyph.inl>
+#include "OSGTextTXFGlyph.inl"
 
 #define OSGTEXTTXFGLYPH_HEADER_CVSID "@(#)$Id: OSGTextTXFGlyph.h,v 1.1 2005/03/03 13:43:07 a-m-z Exp $"
 

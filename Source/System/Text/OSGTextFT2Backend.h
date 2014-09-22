@@ -44,8 +44,8 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
 
 #ifdef FT2_LIB
@@ -185,7 +185,7 @@ OSG_END_NAMESPACE
 #endif // FT2_LIB
 
 
-#include <OSGTextFT2Backend.inl>
+#include "OSGTextFT2Backend.inl"
 
 #define OSGTEXTFT2BACKEND_HEADER_CVSID "@(#)$Id: OSGTextFT2Backend.h,v 1.1 2005/03/03 13:43:06 a-m-z Exp $"
 

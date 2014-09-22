@@ -39,10 +39,10 @@
 #ifndef _OSG_ATTACHMENTMAPFIELDDATATYPE_H_
 #define _OSG_ATTACHMENTMAPFIELDDATATYPE_H_
 
-#include <OSGFieldDataType.h>
-#include <OSGFieldContainerFieldDataType.h>
-#include <OSGFieldContainerPtrForward.h>
-#include <OSGAttachmentPtr.h>
+#include "OSGFieldDataType.h"
+#include "OSGFieldContainerFieldDataType.h"
+#include "OSGFieldContainerPtrForward.h"
+#include "OSGAttachmentPtr.h"
 
 #include <map>
 

@@ -46,10 +46,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGFactoryBase.h>
-#include <OSGLock.h>
-#include <OSGSupportTypes.h>
+#include "OSGBaseTypes.h"
+#include "OSGFactoryBase.h"
+#include "OSGLock.h"
+#include "OSGSupportTypes.h"
 
 #include <map>
 #include <vector>

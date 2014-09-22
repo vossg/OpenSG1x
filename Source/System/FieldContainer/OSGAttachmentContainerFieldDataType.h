@@ -39,9 +39,9 @@
 #ifndef _OSG_ATTACHMENTCONTAINERFIELDDATATYPE_H_
 #define _OSG_ATTACHMENTCONTAINERFIELDDATATYPE_H_
 
-#include <OSGFieldDataType.h>
-#include <OSGAttachmentContainerPtr.h>
-#include <OSGFieldContainerFieldDataType.h>
+#include "OSGFieldDataType.h"
+#include "OSGAttachmentContainerPtr.h"
+#include "OSGFieldContainerFieldDataType.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -58,29 +58,29 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGBackground.h> // Parent
+#include "OSGBackground.h" // Parent
 
-#include <OSGMaterialFields.h> // Material type
-#include <OSGVec3fFields.h> // TexCoords type
-#include <OSGPnt2fFields.h> // Positions type
-#include <OSGBoolFields.h> // NormalizedX type
-#include <OSGBoolFields.h> // NormalizedY type
-#include <OSGUInt16Fields.h> // AspectHeight type
-#include <OSGUInt16Fields.h> // AspectWidth type
-#include <OSGReal32Fields.h> // Scale type
-#include <OSGInt32Fields.h> // ClearStencilBit type
-#include <OSGBoolFields.h> // Cleanup type
-#include <OSGBoolFields.h> // Tile type
-#include <OSGUInt32Fields.h> // Mode type
+#include "OSGMaterialFields.h" // Material type
+#include "OSGVec3fFields.h" // TexCoords type
+#include "OSGPnt2fFields.h" // Positions type
+#include "OSGBoolFields.h" // NormalizedX type
+#include "OSGBoolFields.h" // NormalizedY type
+#include "OSGUInt16Fields.h" // AspectHeight type
+#include "OSGUInt16Fields.h" // AspectWidth type
+#include "OSGReal32Fields.h" // Scale type
+#include "OSGInt32Fields.h" // ClearStencilBit type
+#include "OSGBoolFields.h" // Cleanup type
+#include "OSGBoolFields.h" // Tile type
+#include "OSGUInt32Fields.h" // Mode type
 
-#include <OSGPolygonBackgroundFields.h>
+#include "OSGPolygonBackgroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGVertexProgramChunkBase.h>
+#include "OSGVertexProgramChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -165,8 +165,8 @@ typedef VertexProgramChunk *VertexProgramChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGVertexProgramChunkBase.inl>
-#include <OSGVertexProgramChunk.inl>
+#include "OSGVertexProgramChunkBase.inl"
+#include "OSGVertexProgramChunk.inl"
 
 #define OSGVERTEXPROGRAMCHUNK_HEADER_CVSID "@(#)$Id: $"
 

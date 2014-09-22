@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGMaterialDrawable.h> // Parent
+#include "OSGMaterialDrawable.h" // Parent
 
-#include <OSGDFFunctors.h> // VolumeUpdate type
-#include <OSGDFFunctors.h> // Draw type
+#include "OSGDFFunctors.h" // VolumeUpdate type
+#include "OSGDFFunctors.h" // Draw type
 
-#include <OSGDrawFunctorCoreFields.h>
+#include "OSGDrawFunctorCoreFields.h"
 
 OSG_BEGIN_NAMESPACE
 

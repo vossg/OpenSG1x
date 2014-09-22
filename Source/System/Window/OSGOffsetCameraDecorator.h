@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGOffsetCameraDecoratorBase.h>
+#include "OSGOffsetCameraDecoratorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -138,7 +138,7 @@ typedef OffsetCameraDecorator *OffsetCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGOffsetCameraDecoratorBase.inl>
-#include <OSGOffsetCameraDecorator.inl>
+#include "OSGOffsetCameraDecoratorBase.inl"
+#include "OSGOffsetCameraDecorator.inl"
 
 #endif /* _OSGOFFSETCAMERADECORATOR_H_ */

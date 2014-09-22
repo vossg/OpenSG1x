@@ -40,7 +40,7 @@
 #ifndef _OSGCYLINDERVOLUME_INL_
 #define _OSGCYLINDERVOLUME_INL_
 
-#include <OSGCylinderVolume.h>
+#include "OSGCylinderVolume.h"
 #include "OSGLine.h"
 #include "OSGVolume.h"
 

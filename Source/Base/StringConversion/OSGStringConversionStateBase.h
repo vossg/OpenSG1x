@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGField.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGField.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -107,6 +107,6 @@ OSG_END_NAMESPACE
 
 #define OSGSTRINGCONVERSIONSTATEBASE_HEADER_CVSID "@(#)$Id: $"
 
-#include <OSGStringConversionStateBase.inl>
+#include "OSGStringConversionStateBase.inl"
 
 #endif /* _OSGSTRINGCONVERSIONSTATEBASE_H_ */

@@ -44,12 +44,12 @@
 #endif
 
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
-#include <OSGStatElem.h>
+#include "OSGStatElem.h"
 
-#include <OSGTime.h>
+#include "OSGTime.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -154,7 +154,7 @@ typedef StatTimeElem *StatTimeElemP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStatTimeElem.inl>
+#include "OSGStatTimeElem.inl"
 
 #define OSGSTATTIMEELEM_HEADER_CVSID "@(#)$Id:$"
 

@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGViewport.h> // Parent
+#include "OSGViewport.h" // Parent
 
-#include <OSGBoolFields.h> // Red type
-#include <OSGBoolFields.h> // Blue type
-#include <OSGBoolFields.h> // Green type
-#include <OSGBoolFields.h> // Alpha type
+#include "OSGBoolFields.h" // Red type
+#include "OSGBoolFields.h" // Blue type
+#include "OSGBoolFields.h" // Green type
+#include "OSGBoolFields.h" // Alpha type
 
-#include <OSGColorBufferViewportFields.h>
+#include "OSGColorBufferViewportFields.h"
 
 OSG_BEGIN_NAMESPACE
 

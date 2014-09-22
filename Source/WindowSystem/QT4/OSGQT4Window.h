@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include "OSGQT4WindowBase.h"
 
@@ -121,8 +121,8 @@ typedef QTWindow *QTWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGQT4Window.inl>
-#include <OSGQT4WindowBase.inl>
+#include "OSGQT4Window.inl"
+#include "OSGQT4WindowBase.inl"
 
 #define OSGQTWINDOW_HEADER_CVSID "@(#)$Id: OSGQT4Window.h,v 1.2 2007/02/26 13:37:38 yjung Exp $"
 

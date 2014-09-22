@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGLinearCombinerGeometryBase.h>
+#include "OSGLinearCombinerGeometryBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -149,8 +149,8 @@ typedef LinearCombinerGeometry *LinearCombinerGeometryP;
 
 OSG_END_NAMESPACE
 
-#include <OSGLinearCombinerGeometryBase.inl>
-#include <OSGLinearCombinerGeometry.inl>
+#include "OSGLinearCombinerGeometryBase.inl"
+#include "OSGLinearCombinerGeometry.inl"
 
 #define OSGLINEARCOMBINERGEOMETRY_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.16 2002/10/25 13:09:36 dirk Exp $"
 

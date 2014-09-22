@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGViewport.h>
+#include "OSGConfig.h"
+#include "OSGViewport.h"
 
 #include "OSGDisplayFilterBase.h"
 

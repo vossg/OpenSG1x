@@ -46,10 +46,10 @@
 #include <vector>
 #include <queue>
 
-#include <OSGConfig.h>
-#include <OSGRenderAction.h>
+#include "OSGConfig.h"
+#include "OSGRenderAction.h"
 
-#include <OSGSortLastWindowBase.h>
+#include "OSGSortLastWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -202,8 +202,8 @@ typedef SortLastWindow *SortLastWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSortLastWindowBase.inl>
-#include <OSGSortLastWindow.inl>
+#include "OSGSortLastWindowBase.inl"
+#include "OSGSortLastWindow.inl"
 
 #define OSGSORTLASTWINDOW_HEADER_CVSID "@(#)$Id: $"
 

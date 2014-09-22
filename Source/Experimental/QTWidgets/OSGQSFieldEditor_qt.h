@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindowQTDef.h>
-#include <OSGQAbstractFieldEditor_qt.h>
+#include "OSGConfig.h"
+#include "OSGWindowQTDef.h"
+#include "OSGQAbstractFieldEditor_qt.h"
 
 #include <qstring.h>
 

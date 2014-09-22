@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGWindowQTDef.h>
+#include "OSGWindowQTDef.h"
 
 #include "OSGBaseTypes.h"
 

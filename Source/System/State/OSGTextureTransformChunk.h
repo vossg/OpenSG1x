@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGMatrix.h>
-#include <OSGTextureTransformChunkBase.h>
+#include "OSGConfig.h"
+#include "OSGMatrix.h"
+#include "OSGTextureTransformChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -172,8 +172,8 @@ typedef TextureTransformChunk *TextureTransformChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTextureTransformChunkBase.inl>
-#include <OSGTextureTransformChunk.inl>
+#include "OSGTextureTransformChunkBase.inl"
+#include "OSGTextureTransformChunk.inl"
 
 #define OSGTEXTURETRANSFORMCHUNK_HEADER_CVSID "@(#)$Id: $"
 

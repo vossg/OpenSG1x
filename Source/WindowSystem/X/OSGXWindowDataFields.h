@@ -44,15 +44,15 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #include <GL/glx.h>
 
-#include <OSGWindowXDef.h>
+#include "OSGWindowXDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldDataType.h>
-#include <OSGSFSysTypes.h>
+#include "OSGBaseTypes.h"
+#include "OSGFieldDataType.h"
+#include "OSGSFSysTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

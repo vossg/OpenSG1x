@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRMtexLUTShaderBase.h>
+#include "OSGDVRMtexLUTShaderBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -182,8 +182,8 @@ typedef DVRMtexLUTShader *DVRMtexLUTShaderP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRMtexLUTShader.inl>
-#include <OSGDVRMtexLUTShaderBase.inl>
+#include "OSGDVRMtexLUTShader.inl"
+#include "OSGDVRMtexLUTShaderBase.inl"
 
 #define OSGDVRMTEXLUTSHADER_HEADER_CVSID "@(#)$Id: $"
 

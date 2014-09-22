@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSkinDeformerBase.h>
+#include "OSGSkinDeformerBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -118,8 +118,8 @@ typedef SkinDeformer *SkinDeformerP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSkinDeformerBase.inl>
-#include <OSGSkinDeformer.inl>
+#include "OSGSkinDeformerBase.inl"
+#include "OSGSkinDeformer.inl"
 
 #define OSGSKINDEFORMER_HEADER_CVSID "@(#)$Id: OSGSkinDeformer.h,v 1.1 2003/04/09 18:10:46 michael Exp $"
 

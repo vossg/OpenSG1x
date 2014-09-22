@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 #include <map>
 
 OSG_BEGIN_NAMESPACE
@@ -126,7 +126,7 @@ class ScanParseFieldTypeMapper : public BaseT
 
 OSG_END_NAMESPACE
 
-#include <OSGScanParseFieldTypeMapper.inl>
+#include "OSGScanParseFieldTypeMapper.inl"
 
 #define OSGSCANPARSEFIELDTYPEMAPPER_HEADER_CVSID "@(#)$Id: $"
 

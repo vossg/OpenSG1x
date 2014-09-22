@@ -39,8 +39,8 @@
 #ifndef _OSGVOLUME_H_
 #define _OSGVOLUME_H_
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
 #include "OSGVector.h"
 #include "OSGMatrix.h"
@@ -176,6 +176,6 @@ OSG_BASE_DLLMAPPING void  volDump(Volume *vol);
 
 OSG_END_NAMESPACE
 
-#include <OSGVolume.inl>
+#include "OSGVolume.inl"
 
 #endif // _OSGVOLUME_H_

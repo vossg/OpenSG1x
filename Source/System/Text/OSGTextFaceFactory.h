@@ -44,9 +44,9 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGTextFace.h"
 #include "OSGTextTXFParam.h"
@@ -175,7 +175,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextFaceFactory
 OSG_END_NAMESPACE
 
 
-#include <OSGTextFaceFactory.inl>
+#include "OSGTextFaceFactory.inl"
 
 #define OSGTEXTFACEFACTORY_HEADER_CVSID "@(#)$Id: OSGTextFaceFactory.h,v 1.2 2006/10/27 13:52:13 a-m-z Exp $"
 

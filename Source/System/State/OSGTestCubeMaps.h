@@ -43,8 +43,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGCubeTextureChunk.h>
+#include "OSGConfig.h"
+#include "OSGCubeTextureChunk.h"
 
 OSG_BEGIN_NAMESPACE
 

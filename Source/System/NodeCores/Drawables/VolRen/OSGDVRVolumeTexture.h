@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRVolumeTextureBase.h>
+#include "OSGDVRVolumeTextureBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -124,8 +124,8 @@ typedef DVRVolumeTexture *DVRVolumeTextureP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRVolumeTexture.inl>
-#include <OSGDVRVolumeTextureBase.inl>
+#include "OSGDVRVolumeTexture.inl"
+#include "OSGDVRVolumeTextureBase.inl"
 
 #define OSGDVRVOLUMETEXTURE_HEADER_CVSID "@(#)$Id: $"
 

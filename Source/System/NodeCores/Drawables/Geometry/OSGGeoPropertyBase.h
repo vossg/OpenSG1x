@@ -41,14 +41,14 @@
 #pragma once
 #endif
 
-#include <OSGGL.h>
+#include "OSGGL.h"
 
-#include <OSGSystemDef.h>
-#include <OSGMFVecTypes.h>
-#include <OSGMFSysTypes.h>
-#include <OSGMFBaseTypes.h>
-#include <OSGAttachment.h>
-#include <OSGGeoPropertyInterface.h>
+#include "OSGSystemDef.h"
+#include "OSGMFVecTypes.h"
+#include "OSGMFSysTypes.h"
+#include "OSGMFBaseTypes.h"
+#include "OSGAttachment.h"
+#include "OSGGeoPropertyInterface.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -455,7 +455,7 @@ OSG_ABSTR_FC_DLLEXPORT_DECL(AbstractGeoProperty,
 
 OSG_END_NAMESPACE
 
-#include <OSGGeoPropertyBase.inl>
+#include "OSGGeoPropertyBase.inl"
 
 
 #endif /* _OSGGEOPROPERTYBASE_H_ */

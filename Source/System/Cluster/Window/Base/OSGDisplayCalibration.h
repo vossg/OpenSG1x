@@ -42,23 +42,23 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGViewport.h>
-#include <OSGImage.h>
-#include <OSGTextureChunk.h>
-#include <OSGComponentTransform.h>
-#include <OSGMatrixCamera.h>
-#include <OSGTextureGrabBackground.h>
-#include <OSGTextureGrabForeground.h>
-#include <OSGSolidBackground.h>
-#include <OSGGeometry.h>
-#include <OSGDisplayCalibrationBase.h>
-#include <OSGWindow.h>
-#include <OSGChunkMaterial.h>
-#include <OSGFragmentProgramChunk.h>
-#include <OSGRegisterCombinersChunk.h>
-#include <OSGRenderAction.h>
+#include "OSGViewport.h"
+#include "OSGImage.h"
+#include "OSGTextureChunk.h"
+#include "OSGComponentTransform.h"
+#include "OSGMatrixCamera.h"
+#include "OSGTextureGrabBackground.h"
+#include "OSGTextureGrabForeground.h"
+#include "OSGSolidBackground.h"
+#include "OSGGeometry.h"
+#include "OSGDisplayCalibrationBase.h"
+#include "OSGWindow.h"
+#include "OSGChunkMaterial.h"
+#include "OSGFragmentProgramChunk.h"
+#include "OSGRegisterCombinersChunk.h"
+#include "OSGRenderAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -184,8 +184,8 @@ typedef DisplayCalibration *DisplayCalibrationP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDisplayCalibrationBase.inl>
-#include <OSGDisplayCalibration.inl>
+#include "OSGDisplayCalibrationBase.inl"
+#include "OSGDisplayCalibration.inl"
 
 #define OSGDISPLAYCALIBRATION_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.21 2003/07/11 18:39:08 dirk Exp $"
 

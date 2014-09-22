@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGStencilChunkBase.h>
+#include "OSGStencilChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -156,8 +156,8 @@ typedef StencilChunk *StencilChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGStencilChunkBase.inl>
-#include <OSGStencilChunk.inl>
+#include "OSGStencilChunkBase.inl"
+#include "OSGStencilChunk.inl"
 
 #define OSGSTENCILCHUNK_HEADER_CVSID "@(#)$Id: OSGStencilChunk.h,v 1.1 2005/03/21 14:41:41 yjung Exp $"
 

@@ -58,27 +58,27 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStereoBufferViewport.h> // Parent
+#include "OSGStereoBufferViewport.h" // Parent
 
-#include <OSGReal32Fields.h> // OffBias type
-#include <OSGReal32Fields.h> // OffFactor type
-#include <OSGNodeFields.h> // SceneRoot type
-#include <OSGColor4fFields.h> // ShadowColor type
-#include <OSGUInt32Fields.h> // MapSize type
-#include <OSGNodeFields.h> // LightNodes type
-#include <OSGNodeFields.h> // ExcludeNodes type
-#include <OSGBoolFields.h> // ShadowOn type
-#include <OSGBoolFields.h> // MapAutoUpdate type
-#include <OSGUInt32Fields.h> // ShadowMapTextureIndex type
+#include "OSGReal32Fields.h" // OffBias type
+#include "OSGReal32Fields.h" // OffFactor type
+#include "OSGNodeFields.h" // SceneRoot type
+#include "OSGColor4fFields.h" // ShadowColor type
+#include "OSGUInt32Fields.h" // MapSize type
+#include "OSGNodeFields.h" // LightNodes type
+#include "OSGNodeFields.h" // ExcludeNodes type
+#include "OSGBoolFields.h" // ShadowOn type
+#include "OSGBoolFields.h" // MapAutoUpdate type
+#include "OSGUInt32Fields.h" // ShadowMapTextureIndex type
 
-#include <OSGShadowMapViewportFields.h>
+#include "OSGShadowMapViewportFields.h"
 
 OSG_BEGIN_NAMESPACE
 

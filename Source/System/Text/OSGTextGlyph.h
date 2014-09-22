@@ -44,9 +44,9 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
 
 
 OSG_BEGIN_NAMESPACE
@@ -164,7 +164,7 @@ class OSG_SYSTEMLIB_DLLMAPPING TextGlyph
 OSG_END_NAMESPACE
 
 
-#include <OSGTextGlyph.inl>
+#include "OSGTextGlyph.inl"
 
 #define OSGTEXTGLYPH_HEADER_CVSID "@(#)$Id: OSGTextGlyph.h,v 1.1 2005/03/03 13:43:06 a-m-z Exp $"
 

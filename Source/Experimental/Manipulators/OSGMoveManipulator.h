@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGMoveManipulatorBase.h>
+#include "OSGMoveManipulatorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -125,8 +125,8 @@ typedef MoveManipulator *MoveManipulatorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMoveManipulatorBase.inl>
-#include <OSGMoveManipulator.inl>
+#include "OSGMoveManipulatorBase.inl"
+#include "OSGMoveManipulator.inl"
 
 #define OSGMOVEMANIPULATOR_HEADER_CVSID "@(#)$Id: OSGMoveManipulator.h,v 1.1 2005/06/26 12:44:40 a-m-z Exp $"
 

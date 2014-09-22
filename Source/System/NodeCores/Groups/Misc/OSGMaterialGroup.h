@@ -43,10 +43,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGMaterialGroupBase.h>
-#include <OSGAction.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGMaterialGroupBase.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -132,8 +132,8 @@ typedef MaterialGroup *MaterialGroupP;
 
 OSG_END_NAMESPACE
 
-#include <OSGMaterialGroupBase.inl>
-#include <OSGMaterialGroup.inl>
+#include "OSGMaterialGroupBase.inl"
+#include "OSGMaterialGroup.inl"
 
 #define OSGMATERIALGROUP_HEADER_CVSID "@(#)$Id: $"
 

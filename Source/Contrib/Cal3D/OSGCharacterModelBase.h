@@ -58,21 +58,21 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachmentContainer.h> // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
-#include <OSGStringFields.h> // ConfigFile type
-#include <OSGUInt32Fields.h> // NumAnimations type
-#include <OSGSHLChunkFields.h> // Shader type
-#include <OSGChunkMaterialFields.h> // Materials type
+#include "OSGStringFields.h" // ConfigFile type
+#include "OSGUInt32Fields.h" // NumAnimations type
+#include "OSGSHLChunkFields.h" // Shader type
+#include "OSGChunkMaterialFields.h" // Materials type
 
-#include <OSGCharacterModelFields.h>
+#include "OSGCharacterModelFields.h"
 
 OSG_BEGIN_NAMESPACE
 

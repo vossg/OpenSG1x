@@ -42,13 +42,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTextureChunk.h>
-#include <OSGTextFace.h>
-#include <OSGTextLayoutParam.h>
+#include "OSGTextureChunk.h"
+#include "OSGTextFace.h"
+#include "OSGTextLayoutParam.h"
 
-#include <OSGGraphicStatisticsForegroundBase.h>
+#include "OSGGraphicStatisticsForegroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -222,8 +222,8 @@ typedef GraphicStatisticsForeground *GraphicStatisticsForegroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGGraphicStatisticsForegroundBase.inl>
-#include <OSGGraphicStatisticsForeground.inl>
+#include "OSGGraphicStatisticsForegroundBase.inl"
+#include "OSGGraphicStatisticsForeground.inl"
 
 #define OSGGRAPHICSTATISTICSFOREGROUND_HEADER_CVSID "@(#)$Id: OSGGraphicStatisticsForeground.h,v 1.1 2002/07/18 16:09:33 jbehr Exp $"
 

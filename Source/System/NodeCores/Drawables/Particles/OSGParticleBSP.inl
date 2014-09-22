@@ -38,7 +38,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 // exclude the whole class from user docs
 #if !defined(OSG_DO_DOC) || defined(OSG_DOC_DEV)

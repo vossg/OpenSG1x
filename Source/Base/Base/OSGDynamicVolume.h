@@ -40,10 +40,10 @@
 #ifndef _OSGDYNAMICVOLUME_H_
 #define _OSGDYNAMICVOLUME_H_
 
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
 
-#include <OSGVolume.h>
+#include "OSGVolume.h"
 
 OSG_BEGIN_NAMESPACE
 

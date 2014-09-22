@@ -48,7 +48,7 @@
 
 #include <iostream>
 
-#include <OSGDataElementDesc.h>
+#include "OSGDataElementDesc.h"
 
 OSG_BEGIN_NAMESPACE
 

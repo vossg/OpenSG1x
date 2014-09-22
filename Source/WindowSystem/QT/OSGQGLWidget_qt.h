@@ -70,8 +70,8 @@
 #endif
 
 #include "OSGConfig.h"
-#include <OSGWindowQTDef.h>
-#include <OSGBaseTypes.h>
+#include "OSGWindowQTDef.h"
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -139,7 +139,7 @@ typedef OSGQGLWidget *OSGQGLWidgetP;
 
 OSG_END_NAMESPACE
 
-#include <OSGQGLWidget_qt.inl>
+#include "OSGQGLWidget_qt.inl"
 
 #define OSGQGLWIDGET_HEADER_CVSID "@(#)$Id: $"
 

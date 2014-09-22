@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGShadeModelChunkBase.h>
+#include "OSGShadeModelChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -156,8 +156,8 @@ typedef ShadeModelChunk *ShadeModelChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGShadeModelChunkBase.inl>
-#include <OSGShadeModelChunk.inl>
+#include "OSGShadeModelChunkBase.inl"
+#include "OSGShadeModelChunk.inl"
 
 #define OSGSHADEMODELCHUNK_HEADER_CVSID "@(#)$Id: OSGShadeModelChunk.h,v 1.1 2008/08/04 02:39:05 vossg Exp $"
 

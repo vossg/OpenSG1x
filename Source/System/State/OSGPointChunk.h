@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPointChunkBase.h>
+#include "OSGPointChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -167,8 +167,8 @@ typedef PointChunk *PointChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPointChunkBase.inl>
-#include <OSGPointChunk.inl>
+#include "OSGPointChunkBase.inl"
+#include "OSGPointChunk.inl"
 
 #define OSGPOINTCHUNK_HEADER_CVSID "@(#)$Id: $"
 

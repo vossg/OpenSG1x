@@ -58,26 +58,26 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGForeground.h> // Parent
+#include "OSGForeground.h" // Parent
 
-#include <OSGMaterialFields.h> // Material type
-#include <OSGVec3fFields.h> // TexCoords type
-#include <OSGPnt2fFields.h> // Positions type
-#include <OSGBoolFields.h> // NormalizedX type
-#include <OSGBoolFields.h> // NormalizedY type
-#include <OSGUInt16Fields.h> // AspectHeight type
-#include <OSGUInt16Fields.h> // AspectWidth type
-#include <OSGReal32Fields.h> // Scale type
-#include <OSGBoolFields.h> // Tile type
+#include "OSGMaterialFields.h" // Material type
+#include "OSGVec3fFields.h" // TexCoords type
+#include "OSGPnt2fFields.h" // Positions type
+#include "OSGBoolFields.h" // NormalizedX type
+#include "OSGBoolFields.h" // NormalizedY type
+#include "OSGUInt16Fields.h" // AspectHeight type
+#include "OSGUInt16Fields.h" // AspectWidth type
+#include "OSGReal32Fields.h" // Scale type
+#include "OSGBoolFields.h" // Tile type
 
-#include <OSGPolygonForegroundFields.h>
+#include "OSGPolygonForegroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -2,10 +2,10 @@
 #define FONTSTYLE_H_
 
 //#ifndef WIN32
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGGeometry.h>
-#include <OSGImage.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGGeometry.h"
+#include "OSGImage.h"
 
 #include <vector>
 #include <string>

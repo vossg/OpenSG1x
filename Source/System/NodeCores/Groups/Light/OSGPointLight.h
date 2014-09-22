@@ -42,8 +42,8 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGPointLightBase.h>
+#include "OSGConfig.h"
+#include "OSGPointLightBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -147,8 +147,8 @@ class OSG_SYSTEMLIB_DLLMAPPING PointLight : public PointLightBase
 
 OSG_END_NAMESPACE
 
-#include <OSGPointLightBase.inl>
-#include <OSGPointLight.inl>
+#include "OSGPointLightBase.inl"
+#include "OSGPointLight.inl"
 
 #define OSGPOINTLIGHT_HEADER_CVSID "@(#)$Id: $"
 

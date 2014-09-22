@@ -58,24 +58,24 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGChunkMaterial.h> // Parent
+#include "OSGChunkMaterial.h" // Parent
 
-#include <OSGStringFields.h> // EffectFile type
-#include <OSGStringFields.h> // EffectString type
-#include <OSGStringFields.h> // CompilerOptions type
-#include <OSGInt32Fields.h> // Technique type
-#include <OSGShaderParameterFields.h> // Parameters type
-#include <OSGImageFields.h> // Images type
-#include <OSGShaderParameterStringFields.h> // VirtualIncludeFiles type
+#include "OSGStringFields.h" // EffectFile type
+#include "OSGStringFields.h" // EffectString type
+#include "OSGStringFields.h" // CompilerOptions type
+#include "OSGInt32Fields.h" // Technique type
+#include "OSGShaderParameterFields.h" // Parameters type
+#include "OSGImageFields.h" // Images type
+#include "OSGShaderParameterStringFields.h" // VirtualIncludeFiles type
 
-#include <OSGCGFXMaterialFields.h>
+#include "OSGCGFXMaterialFields.h"
 
 OSG_BEGIN_NAMESPACE
 

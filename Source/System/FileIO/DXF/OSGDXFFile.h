@@ -46,11 +46,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
-#include <OSGNodePtr.h>
-#include <OSGPathHandler.h>
+#include "OSGNodePtr.h"
+#include "OSGPathHandler.h"
 
 #include "OSGDXFEntityBase.h"
 

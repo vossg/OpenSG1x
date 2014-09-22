@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGOffCenterPerspectiveCameraBase.h>
+#include "OSGOffCenterPerspectiveCameraBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -132,8 +132,8 @@ typedef OffCenterPerspectiveCamera *OffCenterPerspectiveCameraP;
 
 OSG_END_NAMESPACE
 
-#include <OSGOffCenterPerspectiveCameraBase.inl>
-#include <OSGOffCenterPerspectiveCamera.inl>
+#include "OSGOffCenterPerspectiveCameraBase.inl"
+#include "OSGOffCenterPerspectiveCamera.inl"
 
 #define OSGOFFCENTERPERSPECTIVECAMERA_HEADER_CVSID "@(#)$Id: OSGOffCenterPerspectiveCamera.h,v 1.2 2008/11/03 14:33:44 pdaehne Exp $"
 

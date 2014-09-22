@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGNodeCore.h> // Parent
+#include "OSGNodeCore.h" // Parent
 
-#include <OSGStringFields.h> // Url type
-#include <OSGBoolFields.h> // Loaded type
+#include "OSGStringFields.h" // Url type
+#include "OSGBoolFields.h" // Loaded type
 
-#include <OSGInlineFields.h>
+#include "OSGInlineFields.h"
 
 OSG_BEGIN_NAMESPACE
 

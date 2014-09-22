@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGMemoryObject.h>
-#include <OSGGroupConnection.h>
-#include <OSGPointConnection.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGMemoryObject.h"
+#include "OSGGroupConnection.h"
+#include "OSGPointConnection.h"
 
 #include <vector>
 #include <map>

@@ -45,10 +45,10 @@
 #include <list>
 #include <map>
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGIDStringLink.h>
-#include <OSGImageFileType.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGIDStringLink.h"
+#include "OSGImageFileType.h"
 #include <iosfwd>
 
 

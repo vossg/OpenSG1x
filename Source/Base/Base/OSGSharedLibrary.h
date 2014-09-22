@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifndef OSG_DISABLE_DEPRECATED
 
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

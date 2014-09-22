@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGTerrainBase.h>
-#include <OSGSHLChunk.h>
-#include <OSGVertexProgramChunk.h>
-#include <OSGFragmentProgramChunk.h>
+#include "OSGConfig.h"
+#include "OSGTerrainBase.h"
+#include "OSGSHLChunk.h"
+#include "OSGVertexProgramChunk.h"
+#include "OSGFragmentProgramChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -151,8 +151,8 @@ typedef Terrain *TerrainP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTerrainBase.inl>
-#include <OSGTerrain.inl>
+#include "OSGTerrainBase.inl"
+#include "OSGTerrain.inl"
 
 #define OSGTERRAIN_HEADER_CVSID "@(#)$Id: OSGTerrain.h,v 1.2 2009/04/07 17:09:29 neumannc Exp $"
 

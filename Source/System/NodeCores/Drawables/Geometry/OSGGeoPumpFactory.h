@@ -43,9 +43,9 @@
 #endif
 
 #include <utility>
-#include <OSGBaseTypes.h>
-#include <OSGBaseFunctions.h>
-#include <OSGGeometry.h>
+#include "OSGBaseTypes.h"
+#include "OSGBaseFunctions.h"
+#include "OSGGeometry.h"
 
 OSG_BEGIN_NAMESPACE
 

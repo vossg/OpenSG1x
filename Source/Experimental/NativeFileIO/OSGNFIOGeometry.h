@@ -42,7 +42,7 @@
 #pragma once
 #endif
 
-#include <OSGGeometry.h>
+#include "OSGGeometry.h"
 
 #include "OSGNFIOBase.h"
 

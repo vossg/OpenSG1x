@@ -1,8 +1,8 @@
 #ifndef TXFFONT_H_
 #define TXFFONT_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
 #include "OSGFont.h"
 
@@ -58,6 +58,6 @@ class OSG_SYSTEMLIB_DLLMAPPING TXFFont : public virtual Font
 
 OSG_END_NAMESPACE 
 
-#include <OSGTXFFont.inl>
+#include "OSGTXFFont.inl"
 
 #endif // TXFFONT_H_

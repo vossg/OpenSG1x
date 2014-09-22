@@ -43,10 +43,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGStateSortingGroupBase.h>
-#include <OSGNodePtr.h>
-#include <OSGAction.h>
+#include "OSGConfig.h"
+#include "OSGStateSortingGroupBase.h"
+#include "OSGNodePtr.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -126,8 +126,8 @@ class OSG_SYSTEMLIB_DLLMAPPING StateSortingGroup : public StateSortingGroupBase
 
 OSG_END_NAMESPACE
 
-#include <OSGStateSortingGroupBase.inl>
-#include <OSGStateSortingGroup.inl>
+#include "OSGStateSortingGroupBase.inl"
+#include "OSGStateSortingGroup.inl"
 
 #define OSGSTATESORTINGGROUP_HEADER_CVSID "@(#)$Id: OSGStateSortingGroup.h,v 1.1 2005/04/06 09:35:00 a-m-z Exp $"
 

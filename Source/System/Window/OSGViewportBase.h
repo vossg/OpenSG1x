@@ -58,28 +58,28 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachmentContainer.h> // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
-#include <OSGReal32Fields.h> // Left type
-#include <OSGReal32Fields.h> // Right type
-#include <OSGReal32Fields.h> // Bottom type
-#include <OSGReal32Fields.h> // Top type
-#include <OSGWindowFields.h> // Parent type
-#include <OSGCameraFields.h> // Camera type
-#include <OSGNodeFields.h> // Root type
-#include <OSGBackgroundFields.h> // Background type
-#include <OSGForegroundFields.h> // Foregrounds type
-#include <OSGUInt32Fields.h> // TravMask type
-#include <OSGReal32Fields.h> // DrawTime type
+#include "OSGReal32Fields.h" // Left type
+#include "OSGReal32Fields.h" // Right type
+#include "OSGReal32Fields.h" // Bottom type
+#include "OSGReal32Fields.h" // Top type
+#include "OSGWindowFields.h" // Parent type
+#include "OSGCameraFields.h" // Camera type
+#include "OSGNodeFields.h" // Root type
+#include "OSGBackgroundFields.h" // Background type
+#include "OSGForegroundFields.h" // Foregrounds type
+#include "OSGUInt32Fields.h" // TravMask type
+#include "OSGReal32Fields.h" // DrawTime type
 
-#include <OSGViewportFields.h>
+#include "OSGViewportFields.h"
 
 OSG_BEGIN_NAMESPACE
 

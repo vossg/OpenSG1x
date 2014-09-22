@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGLineChunkBase.h>
+#include "OSGLineChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -158,8 +158,8 @@ typedef LineChunk *LineChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGLineChunkBase.inl>
-#include <OSGLineChunk.inl>
+#include "OSGLineChunkBase.inl"
+#include "OSGLineChunk.inl"
 
 #define OSGLINECHUNK_HEADER_CVSID "@(#)$Id: OSGLineChunk.h,v 1.1 2002/01/04 12:57:36 dirk Exp $"
 

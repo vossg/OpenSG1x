@@ -58,25 +58,25 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGDrawable.h> // Parent
+#include "OSGDrawable.h" // Parent
 
-#include <OSGCharacterModelFields.h> // Model type
-#include <OSGUInt32Fields.h> // CurrentAnimation type
-#include <OSGReal32Fields.h> // BlendTime type
-#include <OSGReal32Fields.h> // Delta type
-#include <OSGReal32Fields.h> // TimeScale type
-#include <OSGBoolFields.h> // DrawSkeleton type
-#include <OSGBoolFields.h> // UseShaderForGeometry type
-#include <OSGDynamicVolumeFields.h> // ModelVolume type
+#include "OSGCharacterModelFields.h" // Model type
+#include "OSGUInt32Fields.h" // CurrentAnimation type
+#include "OSGReal32Fields.h" // BlendTime type
+#include "OSGReal32Fields.h" // Delta type
+#include "OSGReal32Fields.h" // TimeScale type
+#include "OSGBoolFields.h" // DrawSkeleton type
+#include "OSGBoolFields.h" // UseShaderForGeometry type
+#include "OSGDynamicVolumeFields.h" // ModelVolume type
 
-#include <OSGCharacterFields.h>
+#include "OSGCharacterFields.h"
 
 OSG_BEGIN_NAMESPACE
 

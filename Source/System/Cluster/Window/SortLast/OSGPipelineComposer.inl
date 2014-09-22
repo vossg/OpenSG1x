@@ -46,7 +46,7 @@
 #include <lzf_d.cpp>
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -36,7 +36,7 @@
  *                                                                           *
 \*---------------------------------------------------------------------------*/
 
-#include <OSGSysFieldDataType.h>
+#include "OSGSysFieldDataType.h"
 
 #include <qlabel.h>
 #include <qlineedit.h>

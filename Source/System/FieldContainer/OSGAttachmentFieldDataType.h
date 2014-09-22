@@ -39,9 +39,9 @@
 #ifndef _OSG_ATTACHMENTFIELDDATATYPE_H_
 #define _OSG_ATTACHMENTFIELDDATATYPE_H_
 
-#include <OSGFieldDataType.h>
-#include <OSGNodePtr.h>
-#include <OSGFieldContainerPtrForward.h>
+#include "OSGFieldDataType.h"
+#include "OSGNodePtr.h"
+#include "OSGFieldContainerPtrForward.h"
 
 OSG_BEGIN_NAMESPACE
 

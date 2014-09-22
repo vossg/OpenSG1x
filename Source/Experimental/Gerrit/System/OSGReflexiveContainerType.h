@@ -46,12 +46,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGIDStringLink.h>
-#include <OSGIDString.h>
-//#include <OSGDataStorePtr.h>
-#include <OSGDataType.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGIDStringLink.h"
+#include "OSGIDString.h"
+//#include "OSGDataStorePtr.h"
+#include "OSGDataType.h"
 
 #include <map>
 

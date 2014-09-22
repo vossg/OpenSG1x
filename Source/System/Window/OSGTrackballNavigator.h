@@ -39,12 +39,12 @@
 #ifndef _OSG_TRACKBALLNAVIGATOR_H_
 #define _OSG_TRACKBALLNAVIGATOR_H_
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGVector.h>
-#include <OSGQuaternion.h>
-#include <OSGViewport.h>
+#include "OSGVector.h"
+#include "OSGQuaternion.h"
+#include "OSGViewport.h"
 
 OSG_BEGIN_NAMESPACE
 

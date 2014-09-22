@@ -46,10 +46,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBase.h>
-#include <OSGSocketException.h>
-#include <OSGSocketAddress.h>
-#include <OSGSocket.h>
+#include "OSGBase.h"
+#include "OSGSocketException.h"
+#include "OSGSocketAddress.h"
+#include "OSGSocket.h"
 
 OSG_BEGIN_NAMESPACE
 

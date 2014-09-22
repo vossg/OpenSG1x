@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGTileCameraDecoratorBase.h>
+#include "OSGTileCameraDecoratorBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -140,8 +140,8 @@ typedef TileCameraDecorator *TileCameraDecoratorP;
 
 OSG_END_NAMESPACE
 
-#include <OSGTileCameraDecoratorBase.inl>
-#include <OSGTileCameraDecorator.inl>
+#include "OSGTileCameraDecoratorBase.inl"
+#include "OSGTileCameraDecorator.inl"
 
 #define OSGTILECAMERADECORATOR_HEADER_CVSID "@(#)$Id: $"
 

@@ -1,9 +1,9 @@
 #ifndef FONT_H_
 #define FONT_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
+#include "OSGSystemDef.h"
 
 #include <string>
 #include <list>
@@ -49,6 +49,6 @@ class OSG_SYSTEMLIB_DLLMAPPING Font
 
 OSG_END_NAMESPACE 
 
-#include <OSGFont.inl>
+#include "OSGFont.inl"
 
 #endif // FONT_H_

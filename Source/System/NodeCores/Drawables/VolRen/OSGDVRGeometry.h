@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGDVRGeometryBase.h>
+#include "OSGDVRGeometryBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -116,8 +116,8 @@ typedef DVRGeometry *DVRGeometryP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRGeometry.inl>
-#include <OSGDVRGeometryBase.inl>
+#include "OSGDVRGeometry.inl"
+#include "OSGDVRGeometryBase.inl"
 
 #define OSGDVRGEOMETRY_HEADER_CVSID "@(#)$Id: $"
 

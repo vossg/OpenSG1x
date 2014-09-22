@@ -46,9 +46,9 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGReflexiveContainerType.h>
-#include <OSGVRMLBase.h>
+#include "OSGBaseTypes.h"
+#include "OSGReflexiveContainerType.h"
+#include "OSGVRMLBase.h"
 
 OSG_BEGIN_NAMESPACE
 

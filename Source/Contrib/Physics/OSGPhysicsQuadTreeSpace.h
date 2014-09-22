@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsQuadTreeSpaceBase.h>
+#include "OSGPhysicsQuadTreeSpaceBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -116,8 +116,8 @@ typedef PhysicsQuadTreeSpace *PhysicsQuadTreeSpaceP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsQuadTreeSpaceBase.inl>
-#include <OSGPhysicsQuadTreeSpace.inl>
+#include "OSGPhysicsQuadTreeSpaceBase.inl"
+#include "OSGPhysicsQuadTreeSpace.inl"
 
 #define OSGPHYSICSQUADTREESPACE_HEADER_CVSID "@(#)$Id: OSGPhysicsQuadTreeSpace.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

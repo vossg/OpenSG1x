@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGAction.h>
+#include "OSGConfig.h"
+#include "OSGAction.h"
 
-#include <OSGParticlesBase.h>
+#include "OSGParticlesBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -163,8 +163,8 @@ typedef Particles *ParticlesP;
 
 OSG_END_NAMESPACE
 
-#include <OSGParticlesBase.inl>
-#include <OSGParticles.inl>
+#include "OSGParticlesBase.inl"
+#include "OSGParticles.inl"
 
 #define OSGPARTICLES_HEADER_CVSID "@(#)$Id: OSGParticles.h,v 1.7 2002/06/01 10:37:24 vossg Exp $"
 

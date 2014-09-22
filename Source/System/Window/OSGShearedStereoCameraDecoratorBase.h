@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStereoCameraDecorator.h> // Parent
+#include "OSGStereoCameraDecorator.h" // Parent
 
-#include <OSGReal32Fields.h> // ZeroParallaxDistance type
-#include <OSGReal32Fields.h> // Overlap type
+#include "OSGReal32Fields.h" // ZeroParallaxDistance type
+#include "OSGReal32Fields.h" // Overlap type
 
-#include <OSGShearedStereoCameraDecoratorFields.h>
+#include "OSGShearedStereoCameraDecoratorFields.h"
 
 OSG_BEGIN_NAMESPACE
 

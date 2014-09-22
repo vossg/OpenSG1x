@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include <ode/ode.h>
 
-#include <OSGPhysicsWorldBase.h>
+#include "OSGPhysicsWorldBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -162,8 +162,8 @@ typedef PhysicsWorld *PhysicsWorldP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsWorldBase.inl>
-#include <OSGPhysicsWorld.inl>
+#include "OSGPhysicsWorldBase.inl"
+#include "OSGPhysicsWorld.inl"
 
 #define OSGPHYSICSWORLD_HEADER_CVSID "@(#)$Id: OSGPhysicsWorld.h,v 1.2 2006/08/19 00:21:47 dirk Exp $"
 

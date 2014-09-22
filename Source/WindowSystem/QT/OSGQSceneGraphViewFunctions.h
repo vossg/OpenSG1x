@@ -43,7 +43,7 @@
 #endif
 
 #include "OSGWindowQTDef.h"
-#include <OSGNode.h>
+#include "OSGNode.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -43,11 +43,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGTypedFunctors.h>
-#include <OSGAction.h>
-#include <OSGMaterialBase.h>
-#include <OSGState.h>
+#include "OSGConfig.h"
+#include "OSGTypedFunctors.h"
+#include "OSGAction.h"
+#include "OSGMaterialBase.h"
+#include "OSGState.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -188,8 +188,8 @@ extern OSG_SYSTEMLIB_DLLMAPPING MaterialPtr NullMaterial;
 
 OSG_END_NAMESPACE
 
-#include <OSGMaterialBase.inl>
-#include <OSGMaterial.inl>
+#include "OSGMaterialBase.inl"
+#include "OSGMaterial.inl"
 
 #define OSGMATERIAL_HEADER_CVSID "@(#)$Id:$"
 

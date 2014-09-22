@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGImageBase.h>
-#include <OSGGLEXT.h>
-#include <OSGReal16.h>
+#include "OSGConfig.h"
+#include "OSGImageBase.h"
+#include "OSGGLEXT.h"
+#include "OSGReal16.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -446,8 +446,8 @@ typedef Image *ImageP;
 
 OSG_END_NAMESPACE
 
-#include <OSGImageBase.inl>
-#include <OSGImage.inl>
+#include "OSGImageBase.inl"
+#include "OSGImage.inl"
 
 #define OSGIMAGE_HEADER_CVSID "@(#)$Id: $"
 

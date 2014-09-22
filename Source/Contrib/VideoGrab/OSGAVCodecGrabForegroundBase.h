@@ -58,24 +58,24 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGGrabForeground.h> // Parent
+#include "OSGGrabForeground.h" // Parent
 
-#include <OSGBoolFields.h> // Active type
-#include <OSGStringFields.h> // Name type
-#include <OSGUInt32Fields.h> // Kbit type
-#include <OSGUInt32Fields.h> // Fps type
-#include <OSGUInt32Fields.h> // Codecid type
-#include <OSGBoolFields.h> // Flip type
-#include <OSGBoolFields.h> // AutoWrite type
+#include "OSGBoolFields.h" // Active type
+#include "OSGStringFields.h" // Name type
+#include "OSGUInt32Fields.h" // Kbit type
+#include "OSGUInt32Fields.h" // Fps type
+#include "OSGUInt32Fields.h" // Codecid type
+#include "OSGBoolFields.h" // Flip type
+#include "OSGBoolFields.h" // AutoWrite type
 
-#include <OSGAVCodecGrabForegroundFields.h>
+#include "OSGAVCodecGrabForegroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

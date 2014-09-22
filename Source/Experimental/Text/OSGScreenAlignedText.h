@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGScreenAlignedTextBase.h>
+#include "OSGScreenAlignedTextBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -120,8 +120,8 @@ typedef ScreenAlignedText *ScreenAlignedTextP;
 
 OSG_END_NAMESPACE
 
-#include <OSGScreenAlignedTextBase.inl>
-#include <OSGScreenAlignedText.inl>
+#include "OSGScreenAlignedTextBase.inl"
+#include "OSGScreenAlignedText.inl"
 
 #define OSGSCREENALIGNEDTEXT_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

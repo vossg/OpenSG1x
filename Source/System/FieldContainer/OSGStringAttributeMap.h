@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGStringAttributeMapBase.h>
+#include "OSGStringAttributeMapBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -133,8 +133,8 @@ StringAttributeMapPtr stringAttributeMap(AttachmentContainerPtr container);
 
 OSG_END_NAMESPACE
 
-#include <OSGStringAttributeMapBase.inl>
-#include <OSGStringAttributeMap.inl>
+#include "OSGStringAttributeMapBase.inl"
+#include "OSGStringAttributeMap.inl"
 
 #define OSGSTRINGATTRIBUTEMAP_HEADER_CVSID "@(#)$Id: OSGStringAttributeMap.h,v 1.1 2005/09/25 23:00:54 dirk Exp $"
 

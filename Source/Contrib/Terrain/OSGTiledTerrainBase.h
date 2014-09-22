@@ -58,31 +58,31 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGMaterialGroup.h> // Parent
+#include "OSGMaterialGroup.h" // Parent
 
-#include <OSGImageFields.h> // HeightTiles type
-#include <OSGMaterialFields.h> // HeightTextures type
-#include <OSGUInt32Fields.h> // SizeX type
-#include <OSGUInt32Fields.h> // SizeY type
-#include <OSGReal32Fields.h> // HeightScale type
-#include <OSGReal32Fields.h> // VertexSpacing type
-#include <OSGBoolFields.h> // GeoMorphing type
-#include <OSGReal32Fields.h> // Detail type
-#include <OSGInt32Fields.h> // CurrentX type
-#include <OSGInt32Fields.h> // CurrentY type
-#include <OSGInt32Fields.h> // SizeROI type
-#include <OSGBoolFields.h> // Update type
-#include <OSGBoolFields.h> // UpdateTerrain type
-#include <OSGBoolFields.h> // PerPixelLighting type
+#include "OSGImageFields.h" // HeightTiles type
+#include "OSGMaterialFields.h" // HeightTextures type
+#include "OSGUInt32Fields.h" // SizeX type
+#include "OSGUInt32Fields.h" // SizeY type
+#include "OSGReal32Fields.h" // HeightScale type
+#include "OSGReal32Fields.h" // VertexSpacing type
+#include "OSGBoolFields.h" // GeoMorphing type
+#include "OSGReal32Fields.h" // Detail type
+#include "OSGInt32Fields.h" // CurrentX type
+#include "OSGInt32Fields.h" // CurrentY type
+#include "OSGInt32Fields.h" // SizeROI type
+#include "OSGBoolFields.h" // Update type
+#include "OSGBoolFields.h" // UpdateTerrain type
+#include "OSGBoolFields.h" // PerPixelLighting type
 
-#include <OSGTiledTerrainFields.h>
+#include "OSGTiledTerrainFields.h"
 
 OSG_BEGIN_NAMESPACE
 

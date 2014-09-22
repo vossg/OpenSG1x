@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGForeground.h> // Parent
+#include "OSGForeground.h" // Parent
 
-#include <OSGDisplayFilterFields.h> // Filter type
-#include <OSGStringFields.h> // Server type
+#include "OSGDisplayFilterFields.h" // Filter type
+#include "OSGStringFields.h" // Server type
 
-#include <OSGDisplayFilterForegroundFields.h>
+#include "OSGDisplayFilterForegroundFields.h"
 
 OSG_BEGIN_NAMESPACE
 

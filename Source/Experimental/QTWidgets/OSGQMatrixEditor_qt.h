@@ -43,8 +43,8 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGWindowQTDef.h>
+#include "OSGConfig.h"
+#include "OSGWindowQTDef.h"
 
 #include "OSGQAbstractValueEditor_qt.h"
 

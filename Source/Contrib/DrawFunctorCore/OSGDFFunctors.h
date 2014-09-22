@@ -47,15 +47,15 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGConfig.h>
-#include <OSGFieldType.h>
+#include "OSGConfig.h"
+#include "OSGFieldType.h"
 
-#include <OSGSField.h>
-#include <OSGMField.h>
+#include "OSGSField.h"
+#include "OSGMField.h"
 
-#include <OSGAction.h>
-#include <OSGVolume.h>
-#include <OSGTypedFunctors.h>
+#include "OSGAction.h"
+#include "OSGVolume.h"
+#include "OSGTypedFunctors.h"
 
 OSG_BEGIN_NAMESPACE
 

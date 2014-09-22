@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGPhysicsCCylinderGeomBase.h>
+#include "OSGPhysicsCCylinderGeomBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -134,8 +134,8 @@ typedef PhysicsCCylinderGeom *PhysicsCCylinderGeomP;
 
 OSG_END_NAMESPACE
 
-#include <OSGPhysicsCCylinderGeomBase.inl>
-#include <OSGPhysicsCCylinderGeom.inl>
+#include "OSGPhysicsCCylinderGeomBase.inl"
+#include "OSGPhysicsCCylinderGeom.inl"
 
 #define OSGPHYSICSCCYLINDERGEOM_HEADER_CVSID "@(#)$Id: OSGPhysicsCCylinderGeom.h,v 1.2 2006/08/19 00:21:46 dirk Exp $"
 

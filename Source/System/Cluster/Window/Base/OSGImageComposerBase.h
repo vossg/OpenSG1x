@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachmentContainer.h> // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
-#include <OSGBoolFields.h> // Enabled type
-#include <OSGBoolFields.h> // Statistics type
+#include "OSGBoolFields.h" // Enabled type
+#include "OSGBoolFields.h" // Statistics type
 
-#include <OSGImageComposerFields.h>
+#include "OSGImageComposerFields.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -39,12 +39,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGVector.h>
-#include <OSGColor.h>
-#include <OSGImage.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGVector.h"
+#include "OSGColor.h"
+#include "OSGImage.h"
 
 #include <vector>
 #include <string>
@@ -129,6 +129,6 @@ bool createNoise ( ImagePtr image,
 
 OSG_END_NAMESPACE
 
-#include <OSGImageFunctions.inl>
+#include "OSGImageFunctions.inl"
 
 #endif /* _OSGIMAGEFUNCTIONS_H_ */

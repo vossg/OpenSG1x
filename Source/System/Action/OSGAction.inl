@@ -46,8 +46,8 @@
 
 #include "OSGConfig.h"
 
-#include <OSGNode.h>
-#include <OSGNodeCore.h>
+#include "OSGNode.h"
+#include "OSGNodeCore.h"
 
 OSG_BEGIN_NAMESPACE
 

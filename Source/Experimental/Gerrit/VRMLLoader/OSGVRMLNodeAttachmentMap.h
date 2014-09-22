@@ -46,12 +46,12 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGVRMLBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
+#include "OSGVRMLBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGSField.h"
+#include "OSGMField.h"
 
-#include <OSGVRMLNodeAttachment.h>
+#include "OSGVRMLNodeAttachment.h"
 
 #include <map>
 

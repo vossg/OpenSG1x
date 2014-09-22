@@ -38,11 +38,11 @@
 #ifdef __sgi
 #pragma once
 #endif
-#include <OSGConfig.h>
-#include <OSGGeometry.h>
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGNode.h>
+#include "OSGConfig.h"
+#include "OSGGeometry.h"
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGNode.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -137,6 +137,6 @@ void                        separateProperties(GeometryPtr geo);
 
 OSG_END_NAMESPACE
 
-#include <OSGGeoFunctions.inl>
+#include "OSGGeoFunctions.inl"
 
 #endif /* _OSGGEOFUNCTIONS_H_ */

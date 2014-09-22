@@ -43,11 +43,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGClipPlaneBase.h>
-#include <OSGNodePtr.h>
-#include <OSGAction.h>
-#include <OSGSClipPlaneChunk.h>
+#include "OSGConfig.h"
+#include "OSGClipPlaneBase.h"
+#include "OSGNodePtr.h"
+#include "OSGAction.h"
+#include "OSGSClipPlaneChunk.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -138,8 +138,8 @@ class OSG_SYSTEMLIB_DLLMAPPING ClipPlane : public ClipPlaneBase
 
 OSG_END_NAMESPACE
 
-#include <OSGClipPlaneBase.inl>
-#include <OSGClipPlane.inl>
+#include "OSGClipPlaneBase.inl"
+#include "OSGClipPlane.inl"
 
 #define OSGCLIPPLANE_HEADER_CVSID "@(#)$Id: OSGClipPlane.h,v 1.1 2007/04/26 15:22:01 a-m-z Exp $"
 

@@ -58,20 +58,20 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGWindowWIN32Def.h>
+#include "OSGConfig.h"
+#include "OSGWindowWIN32Def.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGWindow.h> // Parent
+#include "OSGWindow.h" // Parent
 
-#include <OSGWIN32WindowDataFields.h> // Hwnd type
-#include <OSGWIN32WindowDataFields.h> // Hdc type
-#include <OSGWIN32WindowDataFields.h> // Hglrc type
+#include "OSGWIN32WindowDataFields.h" // Hwnd type
+#include "OSGWIN32WindowDataFields.h" // Hdc type
+#include "OSGWIN32WindowDataFields.h" // Hglrc type
 
-#include <OSGWIN32WindowFields.h>
+#include "OSGWIN32WindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

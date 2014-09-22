@@ -45,9 +45,9 @@
 #include <map>
 
 #include <opennurbs/opennurbs.h>
-#include <OSGNode.h>
-#include <OSGSimpleMaterial.h>
-#include <OSGSurface.h>
+#include "OSGNode.h"
+#include "OSGSimpleMaterial.h"
+#include "OSGSurface.h"
 
 class rhino2osb{
 public:

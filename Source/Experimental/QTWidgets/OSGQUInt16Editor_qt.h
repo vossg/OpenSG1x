@@ -42,12 +42,12 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindowQTDef.h>
+#include "OSGConfig.h"
+#include "OSGWindowQTDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGQAbstractValueEditor_qt.h>
-#include <OSGQScalarEditorHelper.h>
+#include "OSGBaseTypes.h"
+#include "OSGQAbstractValueEditor_qt.h"
+#include "OSGQScalarEditorHelper.h"
 
 OSG_BEGIN_NAMESPACE
 

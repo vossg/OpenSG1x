@@ -47,11 +47,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGFrustumVolume.h>
-#include <OSGStatCollector.h>
-#include <OSGStatElemTypes.h>
-#include <OSGAction.h>
+#include "OSGBaseTypes.h"
+#include "OSGFrustumVolume.h"
+#include "OSGStatCollector.h"
+#include "OSGStatElemTypes.h"
+#include "OSGAction.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -274,6 +274,6 @@ typedef DrawActionBase *DrawActionBaseP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDrawActionBase.inl>
+#include "OSGDrawActionBase.inl"
 
 #endif /* _OSGDRAWACTIONBASE_H_ */

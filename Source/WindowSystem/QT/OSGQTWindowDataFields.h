@@ -44,14 +44,14 @@
 #endif
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGWindowQTDef.h>
+#include "OSGWindowQTDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGFieldDataType.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
+#include "OSGBaseTypes.h"
+#include "OSGFieldDataType.h"
+#include "OSGSField.h"
+#include "OSGMField.h"
 
 #include "OSGQGLWidget_qt.h"
 

@@ -46,7 +46,7 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGFieldContainer.h>
+#include "OSGFieldContainer.h"
 
 //---------------------------------------------------------------------------
 //  Defines
@@ -65,8 +65,8 @@
 #define OSG_VRML_DLLTMPLMAPPING
 #endif
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

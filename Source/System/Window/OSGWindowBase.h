@@ -58,24 +58,24 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGAttachmentContainer.h> // Parent
+#include "OSGAttachmentContainer.h" // Parent
 
-#include <OSGUInt16Fields.h> // Width type
-#include <OSGUInt16Fields.h> // Height type
-#include <OSGViewportFields.h> // Port type
-#include <OSGBoolFields.h> // ResizePending type
-#include <OSGUInt32Fields.h> // GlObjectEventCounter type
-#include <OSGUInt32Fields.h> // GlObjectLastRefresh type
-#include <OSGUInt32Fields.h> // GlObjectLastReinitialize type
+#include "OSGUInt16Fields.h" // Width type
+#include "OSGUInt16Fields.h" // Height type
+#include "OSGViewportFields.h" // Port type
+#include "OSGBoolFields.h" // ResizePending type
+#include "OSGUInt32Fields.h" // GlObjectEventCounter type
+#include "OSGUInt32Fields.h" // GlObjectLastRefresh type
+#include "OSGUInt32Fields.h" // GlObjectLastReinitialize type
 
-#include <OSGWindowFields.h>
+#include "OSGWindowFields.h"
 
 OSG_BEGIN_NAMESPACE
 

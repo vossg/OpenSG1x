@@ -58,19 +58,19 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGMaterialDrawable.h> // Parent
+#include "OSGMaterialDrawable.h" // Parent
 
-#include <OSGVec3fFields.h> // Size type
-#include <OSGReal32Fields.h> // SliceDistance type
+#include "OSGVec3fFields.h" // Size type
+#include "OSGReal32Fields.h" // SliceDistance type
 
-#include <OSGSlicesFields.h>
+#include "OSGSlicesFields.h"
 
 OSG_BEGIN_NAMESPACE
 

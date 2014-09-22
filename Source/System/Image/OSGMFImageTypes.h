@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGMField.h>
-#include <OSGImage.h>
-#include <OSGImageFieldDataType.h>
+#include "OSGSystemDef.h"
+#include "OSGMField.h"
+#include "OSGImage.h"
+#include "OSGImageFieldDataType.h"
 
 #ifdef OSG_DOC_FILES_IN_MODULE
 /*! \file OSGMFImageTypes.h

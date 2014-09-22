@@ -42,9 +42,9 @@
 #pragma  once
 #endif
 
-#include <OSGBaseTypes.h>
+#include "OSGBaseTypes.h"
 
-#include <OSGSceneFileType.h>
+#include "OSGSceneFileType.h"
 
 #include <vector>
 

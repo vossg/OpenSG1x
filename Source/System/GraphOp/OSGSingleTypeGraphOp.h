@@ -43,10 +43,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
-#include <OSGGraphOp.h>
+#include "OSGSystemDef.h"
+#include "OSGGraphOp.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -101,6 +101,6 @@ private:
 
 OSG_END_NAMESPACE
 
-#include <OSGSingleTypeGraphOp.inl>
+#include "OSGSingleTypeGraphOp.inl"
 
 #endif /* _OSGSINGLETYPEGRAPHOP_H_ */

@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGGradientBackgroundBase.h>
+#include "OSGGradientBackgroundBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -149,8 +149,8 @@ typedef GradientBackground *GradientBackgroundP;
 
 OSG_END_NAMESPACE
 
-#include <OSGGradientBackgroundBase.inl>
-#include <OSGGradientBackground.inl>
+#include "OSGGradientBackgroundBase.inl"
+#include "OSGGradientBackground.inl"
 
 #define OSGGRADIENTBACKGROUND_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

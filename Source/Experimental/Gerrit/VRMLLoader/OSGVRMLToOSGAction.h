@@ -46,10 +46,10 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLAction.h>
-#include <OSGIDString.h>
-#include <OSGLight.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLAction.h"
+#include "OSGIDString.h"
+#include "OSGLight.h"
 
 #include <map>
 

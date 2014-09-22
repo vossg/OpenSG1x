@@ -6,13 +6,13 @@
 #endif
 
 // Headers
-#include <OSGConfig.h>
-#include <OSGContribDef.h>
-#include <OSGSimpleGeometry.h>
-#include <OSGBaseFunctions.h>
-#include <OSGTransform.h>
-#include <OSGAction.h>
-#include <OSGPhysicsHandler.h>
+#include "OSGConfig.h"
+#include "OSGContribDef.h"
+#include "OSGSimpleGeometry.h"
+#include "OSGBaseFunctions.h"
+#include "OSGTransform.h"
+#include "OSGAction.h"
+#include "OSGPhysicsHandler.h"
 
 OSG_BEGIN_NAMESPACE
 

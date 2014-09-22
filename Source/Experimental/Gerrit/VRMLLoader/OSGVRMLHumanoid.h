@@ -46,11 +46,11 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGVRMLTransform.h>
+#include "OSGBaseTypes.h"
+#include "OSGVRMLTransform.h"
 
-#include <OSGSFBaseTypes.h>
-#include <OSGMFBaseTypes.h>
+#include "OSGSFBaseTypes.h"
+#include "OSGMFBaseTypes.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGShaderBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGFieldDataType.h>
-#include <OSGSField.h>
-#include <OSGMField.h>
+#include "OSGShaderBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGFieldDataType.h"
+#include "OSGSField.h"
+#include "OSGMField.h"
 
 OSG_BEGIN_NAMESPACE
 

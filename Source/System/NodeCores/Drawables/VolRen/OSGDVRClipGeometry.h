@@ -42,13 +42,13 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGGeometry.h>
-#include <OSGPlane.h>
+#include "OSGConfig.h"
+#include "OSGGeometry.h"
+#include "OSGPlane.h"
 
-#include <OSGDVRClipGeometryBase.h>
-#include <OSGDVRVertex.h>
-#include <OSGDVRTriangle.h>
+#include "OSGDVRClipGeometryBase.h"
+#include "OSGDVRVertex.h"
+#include "OSGDVRTriangle.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -260,8 +260,8 @@ typedef DVRClipGeometry *DVRClipGeometryP;
 
 OSG_END_NAMESPACE
 
-#include <OSGDVRClipGeometryBase.inl>
-#include <OSGDVRClipGeometry.inl>
+#include "OSGDVRClipGeometryBase.inl"
+#include "OSGDVRClipGeometry.inl"
 
 #define OSGDVRCLIPGEOMETRY_HEADER_CVSID "@(#)$Id: $"
 

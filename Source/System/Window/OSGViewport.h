@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGViewportBase.h>
+#include "OSGViewportBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -159,8 +159,8 @@ typedef Viewport *ViewportP;
 
 OSG_END_NAMESPACE
 
-#include <OSGViewportBase.inl>
-#include <OSGViewport.inl>
+#include "OSGViewportBase.inl"
+#include "OSGViewport.inl"
 
 #define OSGVIEWPORT_HEADER_CVSID "@(#)$Id: FCTemplate_h.h,v 1.15 2002/06/01 10:37:25 vossg Exp $"
 

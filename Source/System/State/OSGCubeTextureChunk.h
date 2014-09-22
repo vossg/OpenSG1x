@@ -42,10 +42,10 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGWindow.h>
+#include "OSGConfig.h"
+#include "OSGWindow.h"
 
-#include <OSGCubeTextureChunkBase.h>
+#include "OSGCubeTextureChunkBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -179,8 +179,8 @@ typedef CubeTextureChunk *CubeTextureChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCubeTextureChunkBase.inl>
-#include <OSGCubeTextureChunk.inl>
+#include "OSGCubeTextureChunkBase.inl"
+#include "OSGCubeTextureChunk.inl"
 
 #define OSGCUBETEXTURECHUNK_HEADER_CVSID "@(#)$Id: $"
 

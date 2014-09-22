@@ -1,8 +1,8 @@
 #ifndef VECTORGLYPH_H_
 #define VECTORGLYPH_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
 #include <list>
 #include <vector>

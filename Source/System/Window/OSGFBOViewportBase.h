@@ -58,34 +58,34 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGViewport.h> // Parent
+#include "OSGViewport.h" // Parent
 
-#include <OSGBoolFields.h> // Enabled type
-#include <OSGNodeFields.h> // ExcludeNodes type
-#include <OSGNodeFields.h> // RenderNodes type
-#include <OSGTextureChunkFields.h> // Textures type
-#include <OSGBoolFields.h> // FboOn type
-#include <OSGInt32Fields.h> // StorageWidth type
-#include <OSGInt32Fields.h> // StorageHeight type
-#include <OSGBoolFields.h> // GenCubemaps type
-#include <OSGBoolFields.h> // GenDepthmaps type
-#include <OSGUInt32Fields.h> // FrameBufferIndex type
-#include <OSGUInt32Fields.h> // DepthBufferIndex type
-#include <OSGUInt32Fields.h> // StencilBufferIndex type
-#include <OSGBoolFields.h> // Dirty type
-#include <OSGBoolFields.h> // ReadBuffer type
-#include <OSGBoolFields.h> // IgnoreCameraDecorators type
-#include <OSGBoolFields.h> // FboOffIgnoreStorageSize type
-#include <OSGInt32Fields.h> // ZOffset type
+#include "OSGBoolFields.h" // Enabled type
+#include "OSGNodeFields.h" // ExcludeNodes type
+#include "OSGNodeFields.h" // RenderNodes type
+#include "OSGTextureChunkFields.h" // Textures type
+#include "OSGBoolFields.h" // FboOn type
+#include "OSGInt32Fields.h" // StorageWidth type
+#include "OSGInt32Fields.h" // StorageHeight type
+#include "OSGBoolFields.h" // GenCubemaps type
+#include "OSGBoolFields.h" // GenDepthmaps type
+#include "OSGUInt32Fields.h" // FrameBufferIndex type
+#include "OSGUInt32Fields.h" // DepthBufferIndex type
+#include "OSGUInt32Fields.h" // StencilBufferIndex type
+#include "OSGBoolFields.h" // Dirty type
+#include "OSGBoolFields.h" // ReadBuffer type
+#include "OSGBoolFields.h" // IgnoreCameraDecorators type
+#include "OSGBoolFields.h" // FboOffIgnoreStorageSize type
+#include "OSGInt32Fields.h" // ZOffset type
 
-#include <OSGFBOViewportFields.h>
+#include "OSGFBOViewportFields.h"
 
 OSG_BEGIN_NAMESPACE
 

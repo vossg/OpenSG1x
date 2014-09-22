@@ -43,9 +43,9 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
-#include <OSGBaseTypes.h>
-#include <OSGException.h>
+#include "OSGSystemDef.h"
+#include "OSGBaseTypes.h"
+#include "OSGException.h"
 
 OSG_BEGIN_NAMESPACE
 

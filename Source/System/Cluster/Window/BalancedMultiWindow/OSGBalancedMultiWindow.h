@@ -43,7 +43,7 @@
 #endif
 
 #include <vector>
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 #include "OSGNode.h"
 #include "OSGBalancedMultiWindowBase.h"
 

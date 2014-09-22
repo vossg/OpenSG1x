@@ -58,27 +58,27 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGStateChunk.h> // Parent
+#include "OSGStateChunk.h" // Parent
 
-#include <OSGColor4fFields.h> // Diffuse type
-#include <OSGColor4fFields.h> // Ambient type
-#include <OSGColor4fFields.h> // Specular type
-#include <OSGVec4fFields.h> // Position type
-#include <OSGVec3fFields.h> // Direction type
-#include <OSGReal32Fields.h> // Exponent type
-#include <OSGReal32Fields.h> // Cutoff type
-#include <OSGReal32Fields.h> // ConstantAttenuation type
-#include <OSGReal32Fields.h> // LinearAttenuation type
-#include <OSGReal32Fields.h> // QuadraticAttenuation type
+#include "OSGColor4fFields.h" // Diffuse type
+#include "OSGColor4fFields.h" // Ambient type
+#include "OSGColor4fFields.h" // Specular type
+#include "OSGVec4fFields.h" // Position type
+#include "OSGVec3fFields.h" // Direction type
+#include "OSGReal32Fields.h" // Exponent type
+#include "OSGReal32Fields.h" // Cutoff type
+#include "OSGReal32Fields.h" // ConstantAttenuation type
+#include "OSGReal32Fields.h" // LinearAttenuation type
+#include "OSGReal32Fields.h" // QuadraticAttenuation type
 
-#include <OSGLightChunkFields.h>
+#include "OSGLightChunkFields.h"
 
 OSG_BEGIN_NAMESPACE
 

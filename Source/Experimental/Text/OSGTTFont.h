@@ -1,8 +1,8 @@
 #ifndef TTFONT_H_
 #define TTFONT_H_
 
-#include <OSGConfig.h>
-#include <OSGBaseTypes.h>
+#include "OSGConfig.h"
+#include "OSGBaseTypes.h"
 
 #ifdef OSG_WITH_FREETYPE1
 #include "OSGFont.h"

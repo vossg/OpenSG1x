@@ -46,13 +46,13 @@
 #include <list>
 #include <map>
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
-#include <OSGSystemDef.h>
-#include <OSGGraphOp.h>
-#include <OSGAction.h>
-#include <OSGGeometry.h>
-#include <OSGMaterialGroup.h>
+#include "OSGSystemDef.h"
+#include "OSGGraphOp.h"
+#include "OSGAction.h"
+#include "OSGGeometry.h"
+#include "OSGMaterialGroup.h"
 
 OSG_BEGIN_NAMESPACE
 

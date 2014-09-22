@@ -44,7 +44,7 @@
 
 #include "OSGWindowQT4Def.h"
 
-#include <OSGNode.h>
+#include "OSGNode.h"
 
 #include <qwidget.h>
 //Added by qt3to4:

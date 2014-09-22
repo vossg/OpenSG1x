@@ -43,10 +43,10 @@
 #endif
 
 #include <typeinfo>
-#include <OSGBase.h>
-#include <OSGBaseTypes.h>
-#include <OSGFieldDataType.h>
-#include <OSGDataType.h>
+#include "OSGBase.h"
+#include "OSGBaseTypes.h"
+#include "OSGFieldDataType.h"
+#include "OSGDataType.h"
 
 OSG_BEGIN_NAMESPACE
 

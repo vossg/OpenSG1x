@@ -42,21 +42,21 @@
 #pragma once
 #endif
 
-#include <OSGSystemDef.h>
+#include "OSGSystemDef.h"
 
 #include <map>
 #include <stack>
 #include <vector>
 
-#include <OSGBaseTypes.h>
-#include <OSGScanParseSkel.h>
-#include <OSGScanParseFieldTypeMapper.h>
+#include "OSGBaseTypes.h"
+#include "OSGScanParseSkel.h"
+#include "OSGScanParseFieldTypeMapper.h"
 
-#include <OSGFieldContainerPtr.h>
-#include <OSGField.h>
-#include <OSGFieldContainer.h>
+#include "OSGFieldContainerPtr.h"
+#include "OSGField.h"
+#include "OSGFieldContainer.h"
 
-#include <OSGVRMLNodeFactory.h>
+#include "OSGVRMLNodeFactory.h"
 
 OSG_BEGIN_NAMESPACE
 

@@ -58,36 +58,36 @@
 #endif
 
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGBaseTypes.h>
-#include <OSGRefPtr.h>
-#include <OSGCoredNodePtr.h>
+#include "OSGBaseTypes.h"
+#include "OSGRefPtr.h"
+#include "OSGCoredNodePtr.h"
 
-#include <OSGNodeCore.h> // Parent
+#include "OSGNodeCore.h" // Parent
 
-#include <OSGDVRAppearanceFields.h> // Appearance type
-#include <OSGDVRGeometryFields.h> // Geometry type
-#include <OSGDVRShader.h> // Shader type
-#include <OSGStringFields.h> // FileName type
-#include <OSGReal32Fields.h> // Sampling type
-#include <OSGReal32Fields.h> // SamplingInteractive type
-#include <OSGReal32Fields.h> // BaseAlpha type
-#include <OSGBoolFields.h> // DoTextures type
-#include <OSGUInt32Fields.h> // BrickOverlap type
-#include <OSGQBit.h> // Textures2D type
-#include <OSGUInt16Fields.h> // BrickStaticMemoryMB type
-#include <OSGMaterialFields.h> // RenderMaterial type
-#include <OSGUInt16Fields.h> // BrickingMode type
-#include <OSGVec3fFields.h> // BrickStaticSubdivision type
-#include <OSGVec3fFields.h> // BrickMaxSize type
-#include <OSGBoolFields.h> // ShowBricks type
-#include <OSGUInt32Fields.h> // DrawStyle type
-#include <OSGStringFields.h> // DrawStyleNames type
-#include <OSGChunkMaterialFields.h> // TextureStorage type
+#include "OSGDVRAppearanceFields.h" // Appearance type
+#include "OSGDVRGeometryFields.h" // Geometry type
+#include "OSGDVRShader.h" // Shader type
+#include "OSGStringFields.h" // FileName type
+#include "OSGReal32Fields.h" // Sampling type
+#include "OSGReal32Fields.h" // SamplingInteractive type
+#include "OSGReal32Fields.h" // BaseAlpha type
+#include "OSGBoolFields.h" // DoTextures type
+#include "OSGUInt32Fields.h" // BrickOverlap type
+#include "OSGQBit.h" // Textures2D type
+#include "OSGUInt16Fields.h" // BrickStaticMemoryMB type
+#include "OSGMaterialFields.h" // RenderMaterial type
+#include "OSGUInt16Fields.h" // BrickingMode type
+#include "OSGVec3fFields.h" // BrickStaticSubdivision type
+#include "OSGVec3fFields.h" // BrickMaxSize type
+#include "OSGBoolFields.h" // ShowBricks type
+#include "OSGUInt32Fields.h" // DrawStyle type
+#include "OSGStringFields.h" // DrawStyleNames type
+#include "OSGChunkMaterialFields.h" // TextureStorage type
 
-#include <OSGDVRVolumeFields.h>
+#include "OSGDVRVolumeFields.h"
 
 OSG_BEGIN_NAMESPACE
 

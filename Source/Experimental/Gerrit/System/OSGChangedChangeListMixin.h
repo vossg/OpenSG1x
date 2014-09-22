@@ -46,8 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
-#include <OSGBaseTypes.h>
-#include <OSGMemoryObject.h>
+#include "OSGBaseTypes.h"
+#include "OSGMemoryObject.h"
 
 #include <vector>
 
@@ -213,6 +213,6 @@ OSG_END_NAMESPACE
 
 #define OSGCHANGEDCHANGELISTMIXIN_HEADER_CVSID "@(#)$Id: $"
 
-#include <OSGChangedChangeListMixin.inl>
+#include "OSGChangedChangeListMixin.inl"
 
 #endif /* _OSGCHANGEDCHANGELISTMIXIN_HPP_ */

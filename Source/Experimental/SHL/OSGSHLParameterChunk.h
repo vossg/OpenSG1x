@@ -42,9 +42,9 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
-#include <OSGDrawActionBase.h>
-#include <OSGWindow.h>
+#include "OSGConfig.h"
+#include "OSGDrawActionBase.h"
+#include "OSGWindow.h"
 
 #include "OSGSHLChunk.h"
 
@@ -164,8 +164,8 @@ typedef SHLParameterChunk *SHLParameterChunkP;
 
 OSG_END_NAMESPACE
 
-#include <OSGSHLParameterChunkBase.inl>
-#include <OSGSHLParameterChunk.inl>
+#include "OSGSHLParameterChunkBase.inl"
+#include "OSGSHLParameterChunk.inl"
 
 #define OSGSHLPARAMETERCHUNK_HEADER_CVSID "@(#)$Id: OSGSHLParameterChunk.h,v 1.3 2007/11/02 15:32:24 a-m-z Exp $"
 

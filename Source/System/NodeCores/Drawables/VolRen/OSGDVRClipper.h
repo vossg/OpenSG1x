@@ -1,9 +1,9 @@
 #ifndef OSGDVRCLIPPER_H
 #define OSGDVRCLIPPER_H
 
-#include <OSGGLU.h>
-#include <OSGDVRSlice.h>
-#include <OSGDVRRenderSlice.h>
+#include "OSGGLU.h"
+#include "OSGDVRSlice.h"
+#include "OSGDVRRenderSlice.h"
 
 OSG_BEGIN_NAMESPACE
 

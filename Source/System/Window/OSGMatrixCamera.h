@@ -96,11 +96,11 @@
 
 
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 
 
-#include <OSGMatrixCameraBase.h>
+#include "OSGMatrixCameraBase.h"
 
 
 
@@ -278,9 +278,9 @@ OSG_END_NAMESPACE
 
 
 
-#include <OSGMatrixCameraBase.inl>
+#include "OSGMatrixCameraBase.inl"
 
-#include <OSGMatrixCamera.inl>
+#include "OSGMatrixCamera.inl"
 
 
 

@@ -42,11 +42,11 @@
 #pragma once
 #endif
 
-#include <OSGConfig.h>
+#include "OSGConfig.h"
 
 #ifdef __APPLE__
 
-#include <OSGCoreGLWindowBase.h>
+#include "OSGCoreGLWindowBase.h"
 
 OSG_BEGIN_NAMESPACE
 
@@ -127,8 +127,8 @@ typedef CoreGLWindow *CoreGLWindowP;
 
 OSG_END_NAMESPACE
 
-#include <OSGCoreGLWindowBase.inl>
-#include <OSGCoreGLWindow.inl>
+#include "OSGCoreGLWindowBase.inl"
+#include "OSGCoreGLWindow.inl"
 
 #define OSGCOREGLWINDOW_HEADER_CVSID "@(#)$Id: OSGCoreGLWindow.h,v 1.1 2006/09/08 10:09:06 pdaehne Exp $"
 

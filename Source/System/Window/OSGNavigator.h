@@ -39,20 +39,20 @@
 #ifndef _OSG_NAVIGATOR_H_
 #define _OSG_NAVIGATOR_H_
 
-#include <OSGConfig.h>
-#include <OSGSystemDef.h>
+#include "OSGConfig.h"
+#include "OSGSystemDef.h"
 
-#include <OSGWindow.h>
-#include <OSGViewport.h>
-#include <OSGBaseTypes.h>
-#include <OSGLine.h>
-#include <OSGNode.h>
-#include <OSGVector.h>
-#include <OSGQuaternion.h>
-#include <OSGIntersectAction.h>
-#include <OSGTrackballNavigator.h>
-#include <OSGFlyNavigator.h>
-#include <OSGWalkNavigator.h>
+#include "OSGWindow.h"
+#include "OSGViewport.h"
+#include "OSGBaseTypes.h"
+#include "OSGLine.h"
+#include "OSGNode.h"
+#include "OSGVector.h"
+#include "OSGQuaternion.h"
+#include "OSGIntersectAction.h"
+#include "OSGTrackballNavigator.h"
+#include "OSGFlyNavigator.h"
+#include "OSGWalkNavigator.h"
 
 OSG_BEGIN_NAMESPACE
 
