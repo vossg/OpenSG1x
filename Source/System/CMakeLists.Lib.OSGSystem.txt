@@ -10,10 +10,6 @@ OSG_SELECT_PROJECT()
 SET(${PROJECT_NAME}_DEP_OSG_LIB OSGBase)
 SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGWindowGLUT)
 
-#                                     OSGGroup
-#                                     OSGState
-#                                     OSGUtil
-#                                     OSGWindowGLUT)
 #SET(${PROJECT_NAME}_DEP_UNITTEST_OSG_LIB OSGGroup)
 
 # dependencies - External
@@ -34,30 +30,14 @@ IF(WIN32 AND OSG_WITH_ZLIB)
                                    ZLIB_INCLUDE_DIR)
 ENDIF(WIN32 AND OSG_WITH_ZLIB)
 
-IF(OSG_WITH_CUDA)
-  SET(${PROJECT_NAME}_DEP_SYS_INCDIR ${${PROJECT_NAME}_DEP_SYS_INCDIR} 
-                                     CUDA_TOOLKIT_INCLUDE)
-  SET(${PROJECT_NAME}_DEP_LIB    ${${PROJECT_NAME}_DEP_LIB} 
-                                 CUDA_CUDART_LIBRARY)
-ENDIF(OSG_WITH_CUDA)
-
 # SET(${PROJECT_NAME}_DEP_TEST_LIB)
 # SET(${PROJECT_NAME}_DEP_TEST_LIBDIR)
 # SET(${PROJECT_NAME}_DEP_TEST_INCDIR OSG_GLUT_INC_DIR)
 
-IF(OSG_OGL_COREONLY AND NOT OSG_CHECK_COREONLY)
-  SET(_OSG_EX_RBBASE "${CMAKE_CURRENT_SOURCE_DIR}/RenderingBackend")
-
-  SET(${PROJECT_NAME}_EXCL_FILES 
-      ${_OSG_EX_RBBASE}/OSGOcclusionCullingTreeBuilder.h
-      ${_OSG_EX_RBBASE}/OSGOcclusionCullingTreeBuilder.inl
-      ${_OSG_EX_RBBASE}/OSGOcclusionCullingTreeBuilder.cpp)
-ENDIF()
-
 OSG_ADD_GLUTPACKAGE(TRUE)
 
 # dependencies - Additional
-SET(${PROJECT_NAME}_DEP_ADD_INCDIR ${CMAKE_SOURCE_DIR}/Source/External)
+#SET(${PROJECT_NAME}_DEP_ADD_INCDIR ${CMAKE_SOURCE_DIR}/Source/External)
 
 SET(${PROJECT_NAME}_CXXFLAGS ${OSG_ADD_CXX_FLAGS})
 
@@ -83,7 +63,7 @@ OSG_ADD_DIRECTORY("NodeCores/Drawables/Base")
 OSG_ADD_DIRECTORY("NodeCores/Drawables/Geometry")
 OSG_ADD_DIRECTORY("NodeCores/Drawables/Particles")
 OSG_ADD_DIRECTORY("NodeCores/Drawables/Misc")
-#OSG_ADD_DIRECTORY("NodeCores/Drawables/VolRen")
+OSG_ADD_DIRECTORY("NodeCores/Drawables/VolRen")
 OSG_ADD_DIRECTORY("RenderingBackend")
 OSG_ADD_DIRECTORY("State")
 OSG_ADD_DIRECTORY("Window")
@@ -121,17 +101,6 @@ OSG_ADD_DIRECTORY("../Experimental/ShadowViewport")
 OSG_ADD_DIRECTORY("../Experimental/Manipulators")
 OSG_ADD_DIRECTORY("../Experimental/WebInterface")
 
-#OSG_ADD_DIRECTORY("Source/System/Action/IntersectAction")
-#OSG_ADD_DIRECTORY("Source/System/Action/RenderAction")
-#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Attachments")
-#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Base")
-#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Mixins")
-#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Misc")
-#OSG_ADD_DIRECTORY("Source/System/FieldContainer/Field")
-#OSG_ADD_DIRECTORY("Source/System/FileIO/Base")
-#OSG_ADD_DIRECTORY("Source/System/FileIO/OSG")
-#OSG_ADD_DIRECTORY("Source/System/FileIO/ScanParseSkel")
-
 IF(NOT OSG_ENABLE_SCANPARSE_REGEN)
   IF(OSG_USE_OSG2_NAMESPACE)
     OSG_ADD_DIRECTORY("FileIO/ScanParseSkel/prebuildOSG2")
@@ -139,61 +108,6 @@ IF(NOT OSG_ENABLE_SCANPARSE_REGEN)
     OSG_ADD_DIRECTORY("FileIO/ScanParseSkel/prebuild")
   ENDIF()
 ENDIF(NOT OSG_ENABLE_SCANPARSE_REGEN)
-
-#OSG_ADD_DIRECTORY("Source/System/GraphOp/Base")
-#OSG_ADD_DIRECTORY("Source/System/Image")
-#OSG_ADD_DIRECTORY("Source/System/Image/Squish")
-#OSG_ADD_DIRECTORY("Source/System/Material/Base")
-#OSG_ADD_DIRECTORY("Source/System/NodeCores/Drawables/Base")
-#OSG_ADD_DIRECTORY("Source/System/NodeCores/Groups/Base")
-#OSG_ADD_DIRECTORY("Source/System/NodeCores/Drawables/Geometry/PropertiesBase")
-#OSG_ADD_DIRECTORY("Source/System/RenderingBackend")
-#OSG_ADD_DIRECTORY("Source/System/State/Base")
-#OSG_ADD_DIRECTORY("Source/System/State/Shader/Base")
-#OSG_ADD_DIRECTORY("Source/System/State/Shader/Chunks")
-#OSG_ADD_DIRECTORY("Source/System/State/Shader/SHL")
-#OSG_ADD_DIRECTORY("Source/System/State/Shader/Variables")
-#OSG_ADD_DIRECTORY("Source/System/Statistics/Base")
-#OSG_ADD_DIRECTORY("Source/System/Window/Base")
-#OSG_ADD_DIRECTORY("Source/System/Window/FrameBufferObjects")
-
-IF(OSGCOMPAT_ENABLE_DEPRECATED)
-#    OSG_ADD_DIRECTORY("Source/System/Depreciated")
-#    OSG_ADD_DIRECTORY("Source/System/Depreciated/State")
-
-    IF(NOT CMAKE_BUILD_TYPE STREQUAL "DebugGV" AND
-       NOT CMAKE_BUILD_TYPE STREQUAL "ReleaseGV" )
-
-#        OSG_ADD_DIRECTORY("Source/System/Depreciated/State/OpenGL")
-
-    ENDIF()
-
-#    OSG_ADD_DIRECTORY("Source/System/Depreciated/State/Shader")
-ENDIF(OSGCOMPAT_ENABLE_DEPRECATED)
-
-
-#IF(${OSG_CMAKE_PASS} STREQUAL "OSGCOLLECT")
-#    FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
-#        "LIST(APPEND ${PROJECT_NAME}_INC \"${CMAKE_SOURCE_DIR}/Source/External\")\n\n")
-
-#    FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
-#        "LIST(APPEND ${PROJECT_NAME}_HDR
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/dense_hash_map\"
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/dense_hash_set\"
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparse_hash_map\"
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparse_hash_set\"
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsetable\"
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsehash/config.h\"
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsehash/densehashtable.h\"
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsehash/hash_fun.h\"
-#            \"${CMAKE_SOURCE_DIR}/Source/External/google/sparsehash/sparsehashtable.h\")\n\n")
-
-#    IF(NOT OSG_ENABLE_SCANPARSE_REGEN)
-#      FILE(APPEND ${${PROJECT_NAME}_BUILD_FILE}
-#        "LIST(APPEND ${PROJECT_NAME}_HDR
-#            \"${CMAKE_SOURCE_DIR}/Source/System/FileIO/ScanParseSkel/prebuild/OSGScanParseSkelParser.hpp\")\n\n")
-#    ENDIF(NOT OSG_ENABLE_SCANPARSE_REGEN)
-#ENDIF(${OSG_CMAKE_PASS} STREQUAL "OSGCOLLECT")
 
 
 ##############################################################################
