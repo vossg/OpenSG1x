@@ -16,12 +16,12 @@ void thread1_fn (void*)
     while(true) 
     {
         fprintf(stderr, "Thread 1 try\n");
-        lock->aquire();
+        ::lock->aquire();
 
         fprintf(stderr, "Thread 1 sleep\n");
         OSG::osgsleep(1000);
 
-        lock->release();
+        ::lock->release();
         OSG::osgsleep(5);
     }
 }
@@ -36,12 +36,12 @@ void thread2_fn (void*)
 
         
         fprintf(stderr, "Thread 2 try\n");
-        lock->aquire();
+        ::lock->aquire();
 
         fprintf(stderr, "Thread 2 sleep\n");
         OSG::osgsleep(200);
 
-        lock->release();
+        ::lock->release();
         
         OSG::osgsleep(50);
     }
@@ -50,7 +50,7 @@ void thread2_fn (void*)
 int main (int argc, char **argv) 
 {
     osg::osgInit(argc, argv);
-    lock = osg::Lock::get("Lock");
+    ::lock = osg::Lock::get("Lock");
 
     thread1 = osg::Thread::get("Thread1");
     thread2 = osg::Thread::get("Thread2");

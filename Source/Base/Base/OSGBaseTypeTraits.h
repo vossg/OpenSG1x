@@ -675,7 +675,7 @@ struct TypeTraits<UInt64> : public TypeTraitsBase
     {
         Char8 buffer[25];
 #ifdef OSG_LINUX_TYPES
-        sprintf(buffer, "%"PRIu64, val );
+        sprintf(buffer, "%" PRIu64, val );
 #else
         sprintf(buffer, "%llu", val);
 #endif
@@ -766,7 +766,7 @@ struct TypeTraits<Int64> : public TypeTraitsBase
         Char8 buffer[25];
 
 #ifdef OSG_LINUX_TYPES
-        sprintf(buffer, "%"PRIi64, val);
+        sprintf(buffer, "%" PRIi64, val);
 #else
         sprintf(buffer, "%lli", val);
 #endif

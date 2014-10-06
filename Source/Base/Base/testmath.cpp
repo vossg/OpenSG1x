@@ -51,6 +51,7 @@ using OSG::Point;
 
 OSG_USING_NAMESPACE
 
+OSG_BEGIN_NAMESPACE
 template class Vector<Real32, 2>;
 template class Vector<Real32, 3>;
 template class Vector<Real32, 4>;
@@ -62,6 +63,8 @@ template class Vector<UInt16, 4>;
 template class Vector<UInt8, 2>;
 template class Vector<UInt8, 3>;
 template class Vector<UInt8, 4>;
+
+OSG_END_NAMESPACE
 
 //template class PointInterface<Real32, VecStorage2<Real32> >;
 //template class PointInterface<Real32, VecStorage3<Real32> >;

@@ -97,10 +97,12 @@ OSG_USING_NAMESPACE
  
  
 #ifndef __sgi
+OSG_BEGIN_NAMESPACE
 template OSG_SYSTEMLIB_DLLMAPPING
 class ScanParseFieldTypeMapper<ScanParseSkel>;
 template OSG_SYSTEMLIB_DLLMAPPING
 class VRMLNodeFactory<ScanParseFieldTypeMapper<ScanParseSkel> >;
+OSG_END_NAMESPACE
 #endif
 
 OSG::Time startTime = 0.;

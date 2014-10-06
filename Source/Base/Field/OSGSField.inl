@@ -161,7 +161,7 @@ template <class FieldTypeT, Int32 fieldNameSpace> inline
 void SField<FieldTypeT, fieldNameSpace>::pushValueByStr(const Char8 *str)
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
-                             FieldTraits ::FromStringConvertable), 
+                             FieldTraits ::FromStringConvertable) != 0x00, 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
@@ -173,7 +173,7 @@ std::string &SField<FieldTypeT,
                     fieldNameSpace>::getValueByStr(std::string &str) const
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
-                             FieldTraits ::ToStringConvertable), 
+                             FieldTraits ::ToStringConvertable) != 0x00, 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
@@ -189,7 +189,7 @@ std::string &SField<FieldTypeT,
                         StringConversionStateBase &state) const
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
-                             FieldTraits ::ToStringConvertable), 
+                             FieldTraits ::ToStringConvertable) != 0x00, 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
     
@@ -211,7 +211,7 @@ std::string &SField<FieldTypeT,
                                                    UInt32       index) const
 {
     typedef typename osgIF< (SFieldTraits::StringConvertable &
-                             FieldTraits ::ToStringConvertable), 
+                             FieldTraits ::ToStringConvertable) != 0x00, 
                             SFieldTraits, 
                             ErrorFromToString<FieldTypeT> >::_IRet Converter;
 
