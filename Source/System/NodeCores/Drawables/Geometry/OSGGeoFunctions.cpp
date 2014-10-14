@@ -3205,23 +3205,38 @@ UInt32 OSG::createTriangles (GeometryPtr geoPtr)
         }
         break;        
       case GL_TRIANGLE_STRIP:
-        for (UInt32 i = 0; i < (primI.getLength()-2); i++) {
-          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
-                                           multiIndexN, 
-                                           primI.getIndexIndex(i+0),
-                                           primI.getIndexIndex(i+1),
-                                           primI.getIndexIndex(i+2),
-                                           bool (i & 1) );
+        if(primI.getLength() > 2)
+        {
+            for (UInt32 i = 0; i < (primI.getLength()-2); i++) {
+                badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                                 multiIndexN, 
+                                                 primI.getIndexIndex(i+0),
+                                                 primI.getIndexIndex(i+1),
+                                                 primI.getIndexIndex(i+2),
+                                                 bool (i & 1) );
+            }
+        }
+        else
+        {
+            ++badTriN;
         }
         break;
       case GL_TRIANGLE_FAN:
-        for (UInt32 i = 0; i < (primI.getLength() - 2); i++) {
-          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
-                                           multiIndexN, 
-                                           primI.getIndexIndex(0),
-                                           primI.getIndexIndex(i+1),
-                                           primI.getIndexIndex(i+2) );
+        if(primI.getLength() > 2)
+        {
+            for (UInt32 i = 0; i < (primI.getLength() - 2); i++) {
+                badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                                 multiIndexN, 
+                                                 primI.getIndexIndex(0),
+                                                 primI.getIndexIndex(i+1),
+                                                 primI.getIndexIndex(i+2) );
+            }
         }
+        else
+        {
+            ++badTriN;
+        }
+        
         break;
       case GL_QUADS:
         for (UInt32 i = 0; i < (primI.getLength()); i += 4) {
@@ -3252,12 +3267,19 @@ UInt32 OSG::createTriangles (GeometryPtr geoPtr)
         }
         break;
       case GL_POLYGON:
-        for (UInt32 i = 0; i < (primI.getLength() - 2); i++) {
-          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
-                                           multiIndexN, 
-                                           primI.getIndexIndex(0),
-                                           primI.getIndexIndex(i+1),
-                                           primI.getIndexIndex(i+2) );
+        if(primI.getLength() > 2)
+        {
+            for (UInt32 i = 0; i < (primI.getLength() - 2); i++) {
+                badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                                 multiIndexN, 
+                                                 primI.getIndexIndex(0),
+                                                 primI.getIndexIndex(i+1),
+                                                 primI.getIndexIndex(i+2) );
+            }
+        }
+        else
+        {
+            ++badTriN;
         }
         break;
       case GL_POINTS:
