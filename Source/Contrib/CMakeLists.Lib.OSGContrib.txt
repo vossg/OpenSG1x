@@ -51,6 +51,7 @@ OSG_STORE_PROJECT_DEPENDENCIES()
 ##############################################################################
 
 OSG_ADD_DIRECTORY("Source/Contrib")
+OSG_ADD_DIRECTORY("Source/Contrib/CGChunk")
 OSG_ADD_DIRECTORY("Source/Contrib/CGFXMaterial2")
 
 #IF(COLLADA_FOUND)
