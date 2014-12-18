@@ -438,7 +438,9 @@ MACRO(OSG_INIT)
     SET(OSGEXCLUDE_EXAMPLES_ADVANCED "")
   ENDIF()
 
-  INCLUDE(OSGSetupPython)
+  IF(OSG2_PROJECT)
+    INCLUDE(OSGSetupPython)
+  ENDIF()
 
   MESSAGE("FOOOO ${CMAKE_PROJECT_NAME} ${CMAKE_BINARY_DIR}")
 
@@ -578,7 +580,9 @@ MACRO(_OSG_SETUP_BUILD)
   # Python
   ###############
 
-  SETUP_PYTHON_BUILD()
+  IF(OSG2_PROJECT)
+    SETUP_PYTHON_BUILD()
+  ENDIF()
 
   ###############
   #### Doxygen
