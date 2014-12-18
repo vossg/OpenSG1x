@@ -44,6 +44,10 @@
 
 #include <OSGConfig.h>
 
+#ifdef OSG_GL_INCLUDE_GLEW
+#include "GL/glew.h"
+#endif
+
 #ifdef OSG_NOGLSUBDIR
 #include <gl.h>
 #elif defined(__APPLE__)
