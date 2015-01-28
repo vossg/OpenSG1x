@@ -1,6 +1,10 @@
 #ifndef _OSGCONFIGURED_H_
 #define _OSGCONFIGURED_H_
 
+#ifndef OSG_BUILD_DLL
+# define OSG_BUILD_DLL
+#endif
+
 #cmakedefine OSG_USE_OSG2_NAMESPACE 1
 
 /* Disable interface that will go away in the future */
