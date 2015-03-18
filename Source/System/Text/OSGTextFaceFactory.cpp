@@ -98,7 +98,7 @@ TextFaceFactory::TextFaceFactory()
     _valid = true;
 #if defined(_WIN32)
     _backend = new TextWIN32Backend();
-#elif defined(__APPLE__)
+#elif 0 // defined(__APPLE__X) not more apply text
 # ifdef __LP64__ 
 #  if defined(FT2_LIB)
     _backend = new TextFT2Backend();

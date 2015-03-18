@@ -45,7 +45,7 @@
 #include <OSGBaseTypes.h>
 
 
-#if defined(__APPLE__) && !defined(__LP64__)
+#if 0 //defined(__APPLE__) && !defined(__LP64__) no more apple text 
 
 
 #include "OSGTextPixmapFace.h"
