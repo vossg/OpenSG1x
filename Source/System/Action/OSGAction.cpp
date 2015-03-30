@@ -535,6 +535,11 @@ Action::ResultE doCallLeave(NodePtr               node,
 
 OSG_END_NAMESPACE
 
+#ifdef __linux
+# pragma GCC push_options
+# pragma GCC optimize ("O0")
+#endif
+
 /*! Simple tree traversal function. Calls func for every node encountered
  */
 OSG_SYSTEMLIB_DLLMAPPING
@@ -633,3 +638,7 @@ Action::ResultE OSG::traverse(   NodePtr node,
                 
     return res;
 }
+
+#ifdef __linux
+# pragma GCC pop_options
+#endif
