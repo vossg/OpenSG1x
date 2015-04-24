@@ -95,12 +95,13 @@ Int32                   setIndexFromIndexedX3DData ( GeometryPtr geo,
 
 OSG_SYSTEMLIB_DLLMAPPING 
 Int32              createOptimizedPrimitives(GeometryPtr geo,
-                                             UInt32 iteration       = 1,
-                                             bool createStrips      = true,
-                                             bool createFans        = true,
-                                             UInt32 minFanEdgeCount = 16,
-                                             bool colorCode         = false,
-                                             bool stitchStrips      = false);
+                                             UInt32 iteration          = 1,
+                                             bool createStrips         = true,
+                                             bool createFans           = true,
+                                             UInt32 minFanEdgeCount    = 16,
+                                             bool colorCode            = false,
+                                             bool stitchStrips         = false,
+                                             bool stripifyIsolatedTris = false);
 
 OSG_SYSTEMLIB_DLLMAPPING 
 UInt32                     createTriangles (GeometryPtr geo);

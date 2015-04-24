@@ -209,7 +209,7 @@ class OSG_SYSTEMLIB_DLLMAPPING HalfEdgeGraph
     bool verify (bool verbose = false);
 
     UInt32 calcOptPrim(UInt32 iteration = 1, bool doStrip = true,
-                       bool doFan = true, UInt32 minFanTriangleCount = 16);
+                       bool doFan = true, UInt32 minFanTriangleCount = 16, bool stripifyIsolatedTris = false);
 
     inline UInt32 primitiveCount(void);
 
