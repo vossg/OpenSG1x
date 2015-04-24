@@ -406,6 +406,11 @@ bool HalfEdgeGraph::addTriangle(HalfEdgeGraph::IndexT v0,
             triangle->halfEdgeVec[0].setVertex(v0,v1);
             triangle->halfEdgeVec[1].setVertex(v1,v2);
             triangle->halfEdgeVec[2].setVertex(v2,v0);
+
+            triangle->halfEdgeVec[0].twin = 0;
+            triangle->halfEdgeVec[1].twin = 0;
+            triangle->halfEdgeVec[2].twin = 0;
+
             triangle->state = INVALID;
             _invalidTriangleBag.add(*triangle);
             return false;

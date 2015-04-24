@@ -2791,7 +2791,8 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
                                      bool createFans,
                                      UInt32 minFanEdgeCount,
                                      bool OSG_CHECK_ARG(colorCode),
-                                     bool stitchStrips)
+                                     bool stitchStrips,
+                                     bool stripifyIsolatedTris)
 {
     if (geoPtr == NullFC)
     {
@@ -2909,7 +2910,7 @@ Int32 OSG::createOptimizedPrimitives(GeometryPtr geoPtr,
     optimizeT = time;
     bestCost = triN * 3 + 1;
     worstCost = 0;
-    cost = graph.calcOptPrim(iteration, createStrips, createFans, minFanEdgeCount);
+    cost = graph.calcOptPrim(iteration, createStrips, createFans, minFanEdgeCount, stripifyIsolatedTris);
     if(cost)
     {
         if(cost < bestCost)

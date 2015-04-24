@@ -308,7 +308,7 @@ bool HalfEdgeGraph::verify (bool verbose)
 //----------------------------------------------------------------------
 UInt32 HalfEdgeGraph::calcOptPrim(UInt32 extIteration,
                                   bool doStrip, bool doFan,
-                                  UInt32 minFanTriangles)
+                                  UInt32 minFanTriangles, bool stripifyIsolatedTris)
 {
     Int32 iteration = extIteration;
     bool sample = iteration > 1 ? true : false;
@@ -327,6 +327,17 @@ UInt32 HalfEdgeGraph::calcOptPrim(UInt32 extIteration,
     Int32 mostDegree = 3;
     UInt32 triangleLeft = _trianglePool.countElem();
     srand(1);
+
+    // stripify everything? => put invalid triangles and isolated ones into same bag (degree 0)
+    if (stripifyIsolatedTris)
+    {
+        for (triangle = _invalidTriangleBag.first; triangle; triangle = triangle->next)
+        {
+            triangle->state = DEGREE_0;
+        }
+
+        _validTriangleBag.paste(_invalidTriangleBag);
+    }
 
     if(doFan)
     {
@@ -409,7 +420,7 @@ UInt32 HalfEdgeGraph::calcOptPrim(UInt32 extIteration,
                         stripCost = 0;
                         triangle = 0;
 
-                        for(lowDegree = 1; lowDegree < 4; ++lowDegree)
+                        for(lowDegree = stripifyIsolatedTris ? 0 : 1; lowDegree < 4; ++lowDegree)
                         {
                             if((degreeBag[lowDegree].empty() == false))
                             {
@@ -632,14 +643,19 @@ UInt32 HalfEdgeGraph::calcOptPrim(UInt32 extIteration,
              << endl;
     }
 
-    // collect isolated triangles  
-    degreeBag[0].paste(_invalidTriangleBag);  
-    triCost = degreeBag[0].countElem() * 3;
-    if(triCost)
+    // collect isolated and invalid triangles
+    if (!stripifyIsolatedTris)
     {
-        fList = new TriangleList;  
-        fList->paste(degreeBag[0]);
-        _triBag.push_back(Primitive(0,fList));
+        degreeBag[0].paste(_invalidTriangleBag);
+        triCost = degreeBag[0].countElem() * 3;
+
+        if(triCost)
+        {
+            fList = new TriangleList;
+            fList->paste(degreeBag[0]);
+
+            _triBag.push_back(Primitive(0,fList));
+        }
     }
 
     return (cost + fanCost + triCost);
