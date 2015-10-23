@@ -1,0 +1,87 @@
+
+OSG_ADD_PROJECT("OSGWindowQT4")
+
+#IF(APPLE)
+#    MESSAGE(STATUS "Qt4 is not supported on Apple systems.")
+#    SET(OSGBUILD_${PROJECT_NAME} OFF CACHE BOOL "" FORCE)
+#ENDIF(APPLE)
+
+IF(NOT QT4_FOUND AND NOT QT5_FOUND)
+    MESSAGE(STATUS "Dependency (Qt{4|5}) not found, can not build (${PROJECT_NAME}).\n")
+    SET(OSGBUILD_${PROJECT_NAME} OFF)
+ENDIF(NOT QT4_FOUND AND NOT QT5_FOUND)
+
+OSG_SELECT_PROJECT()
+
+##############################################################################
+# dependencies
+##############################################################################
+
+# dependencies - OpenSG
+SET(${PROJECT_NAME}_DEP_OSG_LIB OSGBase
+                                OSGSystem
+                                ${OSG_NATIVE_WINDOW})
+
+#SET(${PROJECT_NAME}_DEP_TEST_OSG_LIB OSGBase OSGSystem)
+
+# dependencies - External
+SET(${PROJECT_NAME}_DEP_LIB OSG_QT_LIBS)
+# SET(${PROJECT_NAME}_DEP_LIBDIR)
+SET(${PROJECT_NAME}_DEP_INCDIR OSG_QT_INC_DIR)
+
+# SET(${PROJECT_NAME}_DEP_TEST_LIB)
+# SET(${PROJECT_NAME}_DEP_TEST_LIBDIR)
+# SET(${PROJECT_NAME}_DEP_TEST_INCDIR)
+
+# dependencies - Additional
+# SET(${PROJECT_NAME}_DEP_ADD_INCDIR)
+SET(${PROJECT_NAME}_DEP_DEFS ${OSG_QT_DEFS})
+
+SET(${PROJECT_NAME}_CXXFLAGS ${OSG_ADD_CXX_FLAGS})
+
+SET(${PROJECT_NAME}_EXCL_FILES 
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldValueLabel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGWindowQT4Plugin_qt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4TypedFieldValueLabel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4NodeTreeView_qt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldEditor_qt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4MatrixFieldValueLabel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4PointFieldValueLabel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4GLManagedDesignerWidget_qt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldContainerView_qt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldView_qt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldLabelFactory.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4GLManagedWidget_qt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4SceneGraphView_qt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4SceneGraphViewFunctions.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldEditorFactory.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4VectorFieldValueLabel.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldContainerView_qt.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldEditor_qt.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4FieldView_qt.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4GLManagedDesignerWidget_qt.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4GLManagedWidget_qt.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4NodeTreeView_qt.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGQ4SceneGraphView_qt.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/OSGWindowQT4Plugin_qt.h
+#    ${CMAKE_CURRENT_SOURCE_DIR}/
+   )
+OSG_STORE_PROJECT_DEPENDENCIES()
+
+##############################################################################
+# collect sources
+##############################################################################
+
+OSG_ADD_DIRECTORY("Source/WindowSystem/QT4")
+
+##############################################################################
+# setup python bindings
+##############################################################################
+
+SET(${PROJECT_NAME}_NO_PYTHON TRUE)
+
+##############################################################################
+# setup build
+##############################################################################
+
+OSG_SETUP_PROJECT("OSG_COMPILEWINDOWQT4LIB")
