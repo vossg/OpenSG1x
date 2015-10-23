@@ -49,6 +49,7 @@
 
 #include "OSGQT4Window.h"
 
+#include <QtGui/QX11Info>
 
 OSG_USING_NAMESPACE
 
@@ -144,7 +145,7 @@ void QTWindow::init( void )
     XVisualInfo visInfo;
     memset(&visInfo, 0, sizeof(XVisualInfo));
     visInfo.visualid = XVisualIDFromVisual(
-                       ((Visual*)getGlWidget()->context()->device()->x11Visual()));
+                       ((Visual*)getGlWidget()->x11Info().visual()));
     int nvis;
     vi = XGetVisualInfo( getDisplay(), VisualIDMask, &visInfo, &nvis );
 

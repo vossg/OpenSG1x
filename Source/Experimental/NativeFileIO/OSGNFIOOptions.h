@@ -94,6 +94,8 @@ class NFIOOptions
     bool packIndices(void) const;
     bool unpack16BitIndices(void) const;
 
+    bool exportVolumes(void) const;
+
     /*! \}                                                                 */
     /*=========================  PROTECTED  ===============================*/
 protected:
@@ -114,6 +116,7 @@ private:
     UInt8       _quantizeTexCoords;
     bool        _packIndices;
     bool        _unpack16BitIndices;
+    bool        _exportVolumes;
 };
 
 OSG_END_NAMESPACE

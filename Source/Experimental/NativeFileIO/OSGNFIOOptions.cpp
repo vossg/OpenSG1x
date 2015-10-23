@@ -80,7 +80,8 @@ _quantizePositions(Quantizer::QRES_OFF),
 _quantizeNormals(Quantizer::QRES_OFF),
 _quantizeTexCoords(Quantizer::QRES_OFF),
 _packIndices(false),
-_unpack16BitIndices(true)
+_unpack16BitIndices(true),
+_exportVolumes(false)
 {
 }
 
@@ -163,6 +164,8 @@ void NFIOOptions::init(const std::string &options)
         _unpack16BitIndices = true;
     if(options.find("unpack16BitIndices=false") != std::string::npos)
         _unpack16BitIndices = false;
+    if(options.find("exportVolumes=true") != std::string::npos)
+        _exportVolumes = true;
 }
 
 /*------------------------------ options--- -------------------------------*/
@@ -210,6 +213,11 @@ bool NFIOOptions::packIndices(void) const
 bool NFIOOptions::unpack16BitIndices(void) const
 {
     return _unpack16BitIndices;
+}
+
+bool NFIOOptions::exportVolumes(void) const
+{
+    return _exportVolumes;
 }
 
 /*------------------------ helper functions ------------------------------*/

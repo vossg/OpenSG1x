@@ -40,12 +40,13 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include "OSGConfig.h"
+
 #ifdef OSG_WITH_QT
 
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "OSGConfig.h"
 
 #include "OSGQ4GLWidget_qt.h"
 
@@ -72,8 +73,12 @@ The class for QT-based windows. See \ref PageWindowQT for a description.
 
 
 OSGQGLWidget::OSGQGLWidget( QWidget *parent, const char *name, 
-                    const QGLWidget * shareWidget, Qt::WFlags f ) :
-    QGLWidget( parent, name, shareWidget, f ) 
+                            const QGLWidget * shareWidget, Qt::WFlags f ) :
+    QGLWidget(new QGLContext(QGLFormat::defaultFormat()), 
+              parent, 
+//              name, 
+              shareWidget, 
+              f          ) 
 {
 }
                     
@@ -81,7 +86,11 @@ OSGQGLWidget::OSGQGLWidget( const QGLFormat & format,
                   QWidget *parent, const char *name, 
                   const QGLWidget * shareWidget, Qt::WFlags f       
                 ) :
-    QGLWidget( format, parent, name, shareWidget, f ) 
+    QGLWidget(new QGLContext(format), 
+              parent, 
+//              name, 
+              shareWidget, 
+              f          ) 
 {
 }
 
@@ -115,16 +124,6 @@ void OSGQGLWidget::makeCurrent(void)
 void OSGQGLWidget::swapBuffers(void)
 {
 }
-
-#ifdef __sgi
-#pragma set woff 1375
-#endif
-
-#include "OSGQ4GLWidget_qt_moc.cpp"
-
-#ifdef __sgi
-#pragma reset woff 1375
-#endif
 
 /*-------------------------------------------------------------------------*/
 /*                              cvs id's                                   */

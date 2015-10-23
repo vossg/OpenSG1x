@@ -46,6 +46,8 @@
 //  Includes
 //---------------------------------------------------------------------------
 
+#include "OSGConfig.h"
+
 #ifdef OSG_WITH_QT
 
 #include <stdlib.h>
@@ -59,7 +61,8 @@
 #pragma warning (disable : 171)
 #endif
 
-#include <QGLWidget>
+#include <QtOpenGL/QGLWidget>
+#include <QtCore/QObject>
 
 #ifdef OSG_WIN32_ICL
 #pragma warning (default : 171)
@@ -69,11 +72,10 @@
 #pragma reset woff 1375
 #endif
 
-#include "OSGConfig.h"
 #include "OSGWindowQT4Def.h"
 #include <OSGBaseTypes.h>
 
-OSG_BEGIN_NAMESPACE
+namespace OSG {
 
 /*! \brief OSGQGL widget class. See \ref PageWindowQT for a description. */
 
@@ -137,7 +139,7 @@ class OSG_WINDOWQTLIB_DLLMAPPING OSGQGLWidget : public QGLWidget
 
 typedef OSGQGLWidget *OSGQGLWidgetP;
 
-OSG_END_NAMESPACE
+}
 
 #include <OSGQ4GLWidget_qt.inl>
 

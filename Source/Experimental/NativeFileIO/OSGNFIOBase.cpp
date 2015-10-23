@@ -622,7 +622,8 @@ void NFIOBase::getFCCount(const FieldContainerPtr &fc, UInt32 &count)
         {
             // ignore node volume
             if(fcType == Node::getClassType() &&
-               fDesc->getFieldMask() == Node::VolumeFieldMask)
+               fDesc->getFieldMask() == Node::VolumeFieldMask &&
+               _options.exportVolumes() == false)
             {
                 continue;
             }
@@ -753,7 +754,8 @@ void NFIOBase::writeFCFields(const FieldContainerPtr &fc,
         {
             // ignore node volume
             if(fcType == Node::getClassType() &&
-               fDesc->getFieldMask() == Node::VolumeFieldMask)
+               fDesc->getFieldMask() == Node::VolumeFieldMask &&
+               _options.exportVolumes() == false)
             {
                 continue;
             }
