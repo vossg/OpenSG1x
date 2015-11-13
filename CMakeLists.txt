@@ -1056,6 +1056,12 @@ IF(OSGBUILD_UNITTESTS)
 
     ADD_CUSTOM_TARGET(OSGAllUnitTests)
     ADD_DEPENDENCIES(OSGAll OSGAllUnitTests)
+ELSE()
+  IF(IGD_DAILYBUILD)
+    configure_file(CTestCustom.cmake ${CMAKE_BINARY_DIR}/CTestCustom.cmake COPYONLY)
+    include(CTestConfig.cmake)
+    include(CTest)
+  ENDIF()
 ENDIF(OSGBUILD_UNITTESTS)
 
 ###############
