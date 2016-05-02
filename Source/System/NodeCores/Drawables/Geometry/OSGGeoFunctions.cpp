@@ -3237,7 +3237,6 @@ UInt32 OSG::createTriangles (GeometryPtr geoPtr)
         {
             ++badTriN;
         }
-        
         break;
       case GL_QUADS:
         for (UInt32 i = 0; i < (primI.getLength()); i += 4) {
@@ -3254,17 +3253,24 @@ UInt32 OSG::createTriangles (GeometryPtr geoPtr)
         }
         break;
       case GL_QUAD_STRIP:
-        for (UInt32 i = 0; i < (primI.getLength()); i += 2) {
-          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
-                                           multiIndexN, 
-                                           primI.getIndexIndex(i+0),
-                                           primI.getIndexIndex(i+1),
-                                           primI.getIndexIndex(i+2) );
-          badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
-                                           multiIndexN, 
-                                           primI.getIndexIndex(i+0),
-                                           primI.getIndexIndex(i+2),
-                                           primI.getIndexIndex(i+3) );
+        if(primI.getLength() > 2)
+        {
+            for (UInt32 i = 0; i < (primI.getLength() - 2); i += 2) {
+                badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                                 multiIndexN, 
+                                                 primI.getIndexIndex(i+0),
+                                                 primI.getIndexIndex(i+1),
+                                                 primI.getIndexIndex(i+2) );
+                badTriN += !pushSingleTriangle ( indexPtr, destIndexPtr, 
+                                                 multiIndexN, 
+                                                 primI.getIndexIndex(i+1),
+                                                 primI.getIndexIndex(i+2),
+                                                 primI.getIndexIndex(i+3) );
+            }
+        }
+        else
+        {
+            ++badTriN;
         }
         break;
       case GL_POLYGON:
