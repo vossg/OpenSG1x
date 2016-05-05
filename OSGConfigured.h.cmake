@@ -121,6 +121,15 @@ namespace OSG
 
 #cmakedefine OSG_WITH_FT2 1
 
+#ifdef OSG_WITH_FT2
+# define FT2_LIB 1
+#endif
+
+#ifdef OSG_WITH_FONTCONFIG
+# define FONTCONFIG_LIB 1
+#endif
+
+
 /* Use elf tls with pthreads. */
 #cmakedefine OSG_PTHREAD_ELF_TLS 1
 #cmakedefine OSG_WIN32_ASPECT_USE_LOCALSTORAGE 1
