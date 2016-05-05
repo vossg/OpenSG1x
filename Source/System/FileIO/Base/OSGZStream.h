@@ -31,6 +31,8 @@ Altered by: Andreas Zieringer 2003
 #ifndef _OSGZSTREAM_H_
 #define _OSGZSTREAM_H_
 
+#include "OSGConfig.h"
+
 #undef OSG_ZSTREAM_SUPPORTED
 // The zlib is only linked into the OSGSystem lib when png support is enabled.
 // We should link it into the BaseLib and move this header file to Base and
@@ -47,8 +49,7 @@ Altered by: Andreas Zieringer 2003
 #include <iostream>
 #include <algorithm>
 
-#include <OSGConfig.h>
-#include <OSGLog.h>
+#include "OSGLog.h"
 
 OSG_BEGIN_NAMESPACE
 //! Helper function to check whether stream is compressed or not.
