@@ -158,8 +158,12 @@ class OSG_SYSTEMLIB_DLLMAPPING FBOViewport : public FBOViewportBase
 
     virtual ~FBOViewport(void); 
 
-    void onCreate(const FBOViewport *source = NULL);
+    void onCreate      (const FBOViewport    *source = NULL);
+    void onCreateAspect(const FieldContainer *aspect0, 
+                        const FieldContainer *source = NULL);
+
     void onDestroy(void);
+    void onDestroyAspect(UInt32 uiId, UInt32 uiAspect);
 
     /*! \}                                                                 */
     

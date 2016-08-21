@@ -359,7 +359,16 @@ void FBOViewport::onCreate(const FBOViewport *source)
                                  FBOViewport::DirtyFieldMask              |
                                  FBOViewport::StencilBufferIndexFieldMask |
                                  FBOViewport::DepthBufferIndexFieldMask );
-    
+   
+}
+
+void FBOViewport::onCreateAspect(const FieldContainer *aspect0, 
+                                 const FieldContainer *source)
+{
+    // if we're in startup this is the prototype ...
+    if (OSG::GlobalSystemState == OSG::Startup)
+        return;
+
     _tiledeco = TileCameraDecorator::create();
     addRefCP(_tiledeco);
     
@@ -371,6 +380,17 @@ void FBOViewport::onDestroy(void)
 {
     // TODO; delete buffers - but window is needed
     
+#if 0
+    subRefCP(_tiledeco);
+    _tiledeco = NullFC;
+    
+    subRefCP(_deco);
+    _deco = NullFC;
+#endif
+}
+
+void FBOViewport::onDestroyAspect(UInt32 uiId, UInt32 uiAspect)
+{
     subRefCP(_tiledeco);
     _tiledeco = NullFC;
     

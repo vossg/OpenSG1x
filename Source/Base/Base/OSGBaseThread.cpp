@@ -223,6 +223,10 @@ void BasePThreadBase::join(BasePThreadBase *pThread)
     if(pThread != NULL && pThread->_pThreadDesc != NULL)
     {
         pthread_join(*(pThread->_pThreadDesc), NULL);
+
+        delete pThread->_pThreadDesc;
+
+        pThread->_pThreadDesc = NULL;
     }
 }
 

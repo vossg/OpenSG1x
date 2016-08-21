@@ -84,7 +84,7 @@ BaseThread *ThreadManager::getAppThread(void)
 }
 
 
-void ThreadManager::setNumAspects(UInt32 OSG_CHECK_ARG(uiNumAspects))
+void ThreadManager::setNumAspects(UInt32 uiNumAspects)
 {
 #if defined(OSG_RUNTIME_NUM_ASPECTS)    
     if(_bNumAspectSet == false && uiNumAspects > 1)
@@ -107,6 +107,15 @@ void ThreadManager::setNumAspects(UInt32 OSG_CHECK_ARG(uiNumAspects))
         _uiNumAspects  = uiNumAspects;
         _bNumAspectSet = true;        
     }    
+    else
+    {
+        FFATAL(("changing to %d aspects failed, already set %d\n",
+                _uiNumAspects,
+                _bNumAspectSet));
+                
+    }
+#else
+    FFATAL(("trying to set aspects, but aspects are static\n"));
 #endif
 }
 
