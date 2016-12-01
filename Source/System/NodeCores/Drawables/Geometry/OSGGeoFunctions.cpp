@@ -3909,7 +3909,9 @@ OSG_SYSTEMLIB_DLLMAPPING Int32 OSG::createSingleIndex(GeometryPtr geoPtr)
     GeoPropertyArrayInterface *pP = 0;
     
     if(geoPtr != NullFC)
-    {
+    {        
+        geoPtr->unshareProperties();
+
         if(geoPtr->getPositions() != NullFC)
         {
             // check/create indexPtr

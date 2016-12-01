@@ -423,6 +423,131 @@ void Geometry::onDestroy(void)
     }
 }
 
+void Geometry::unshareProperties(void)
+{
+    GeometryPtr tmpPtr(*this);
+
+    if(_sfPositions.getValue()               != NullFC &&
+       _sfPositions.getValue().getRefCount() >  1        )
+    {
+        GeoPositionsPtr pProp = _sfPositions.getValue()->clone();
+
+        beginEditCP(tmpPtr, PositionsFieldMask);
+        this->setPositions(pProp);
+        endEditCP  (tmpPtr, PositionsFieldMask);
+    }
+
+    if(_sfNormals.getValue()               != NullFC &&
+       _sfNormals.getValue().getRefCount() >  1        )
+    {
+        GeoNormalsPtr pProp = _sfNormals.getValue()->clone();
+
+        beginEditCP(tmpPtr, NormalsFieldMask);
+        this->setNormals(pProp);
+        endEditCP  (tmpPtr, NormalsFieldMask);
+    }
+
+    if(_sfColors.getValue()               != NullFC &&
+       _sfColors.getValue().getRefCount() >  1        )
+    {
+        GeoColorsPtr pProp = _sfColors.getValue()->clone();
+
+        beginEditCP(tmpPtr, ColorsFieldMask);
+        this->setColors(pProp);
+        endEditCP  (tmpPtr, ColorsFieldMask);
+    }
+
+    if(_sfSecondaryColors.getValue()               != NullFC &&
+       _sfSecondaryColors.getValue().getRefCount() >  1        )
+    {
+        GeoColorsPtr pProp = _sfSecondaryColors.getValue()->clone();
+
+        beginEditCP(tmpPtr, SecondaryColorsFieldMask);
+        this->setSecondaryColors(pProp);
+        endEditCP  (tmpPtr, SecondaryColorsFieldMask);
+    }
+
+    if(_sfTexCoords.getValue()               != NullFC &&
+       _sfTexCoords.getValue().getRefCount() >  1        )
+    {
+        GeoTexCoordsPtr pProp = _sfTexCoords.getValue()->clone();
+
+        beginEditCP(tmpPtr, TexCoordsFieldMask);
+        this->setTexCoords(pProp);
+        endEditCP  (tmpPtr, TexCoordsFieldMask);
+    }
+
+    if(_sfTexCoords1.getValue()               != NullFC &&
+       _sfTexCoords1.getValue().getRefCount() >  1        )
+    {
+        GeoTexCoordsPtr pProp = _sfTexCoords1.getValue()->clone();
+
+        beginEditCP(tmpPtr, TexCoords1FieldMask);
+        this->setTexCoords1(pProp);
+        endEditCP  (tmpPtr, TexCoords1FieldMask);
+    }
+
+    if(_sfTexCoords2.getValue()               != NullFC &&
+       _sfTexCoords2.getValue().getRefCount() >  1        )
+    {
+        GeoTexCoordsPtr pProp = _sfTexCoords2.getValue()->clone();
+
+        beginEditCP(tmpPtr, TexCoords2FieldMask);
+        this->setTexCoords2(pProp);
+        endEditCP  (tmpPtr, TexCoords2FieldMask);
+    }
+
+    if(_sfTexCoords3.getValue()               != NullFC &&
+       _sfTexCoords3.getValue().getRefCount() >  1        )
+    {
+        GeoTexCoordsPtr pProp = _sfTexCoords3.getValue()->clone();
+
+        beginEditCP(tmpPtr, TexCoords3FieldMask);
+        this->setTexCoords3(pProp);
+        endEditCP  (tmpPtr, TexCoords3FieldMask);
+    }
+
+    if(_sfTexCoords4.getValue()               != NullFC &&
+       _sfTexCoords4.getValue().getRefCount() >  1        )
+    {
+        GeoTexCoordsPtr pProp = _sfTexCoords4.getValue()->clone();
+
+        beginEditCP(tmpPtr, TexCoords4FieldMask);
+        this->setTexCoords4(pProp);
+        endEditCP  (tmpPtr, TexCoords4FieldMask);
+    }
+
+    if(_sfTexCoords5.getValue()               != NullFC &&
+       _sfTexCoords5.getValue().getRefCount() >  1        )
+    {
+        GeoTexCoordsPtr pProp = _sfTexCoords5.getValue()->clone();
+
+        beginEditCP(tmpPtr, TexCoords5FieldMask);
+        this->setTexCoords5(pProp);
+        endEditCP  (tmpPtr, TexCoords5FieldMask);
+    }
+
+    if(_sfTexCoords6.getValue()               != NullFC &&
+       _sfTexCoords6.getValue().getRefCount() >  1        )
+    {
+        GeoTexCoordsPtr pProp = _sfTexCoords6.getValue()->clone();
+
+        beginEditCP(tmpPtr, TexCoords6FieldMask);
+        this->setTexCoords6(pProp);
+        endEditCP  (tmpPtr, TexCoords6FieldMask);
+    }
+
+    if(_sfTexCoords7.getValue()               != NullFC &&
+       _sfTexCoords7.getValue().getRefCount() >  1        )
+    {
+        GeoTexCoordsPtr pProp = _sfTexCoords7.getValue()->clone();
+
+        beginEditCP(tmpPtr, TexCoords7FieldMask);
+        this->setTexCoords7(pProp);
+        endEditCP  (tmpPtr, TexCoords7FieldMask);
+    }
+}
+
 /*------------------------------ access -----------------------------------*/
 
 void Geometry::adjustVolume(Volume & volume)
