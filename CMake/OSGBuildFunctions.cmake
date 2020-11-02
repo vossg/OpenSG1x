@@ -442,12 +442,18 @@ FUNCTION(OSG_STORE_PROJECT_DEPENDENCIES)
             # split that into library name and path
 
             IF(TARGET ${LIB})
-                GET_TARGET_PROPERTY(_LIB_LOCATION ${LIB} IMPORTED_LOCATION)
+                GET_TARGET_PROPERTY(_TTYPE ${LIB} TYPE)
 
-                OSG_EXTRACT_LIB_AND_LIBDIR("${_LIB_LOCATION}" _LIBS _LIBDIRS)
+                IF(NOT _TTYPE STREQUAL "INTERFACE_LIBRARY")
+                  GET_TARGET_PROPERTY(_LIB_LOCATION ${LIB} IMPORTED_LOCATION)
+ 
+                  OSG_EXTRACT_LIB_AND_LIBDIR("${_LIB_LOCATION}" _LIBS _LIBDIRS)
 
-                LIST(APPEND DEPLIBS    ${_LIBS})
-                LIST(APPEND DEPLIBDIRS ${_LIBDIRS})
+                  LIST(APPEND DEPLIBS    ${_LIBS})
+                  LIST(APPEND DEPLIBDIRS ${_LIBDIRS})
+                ELSE()
+                  LIST(APPEND DEPLIBS ${LIB})
+                ENDIF()
             ELSE(TARGET ${LIB})
                 LIST(APPEND DEPLIBS ${LIB})
             ENDIF(TARGET ${LIB})
